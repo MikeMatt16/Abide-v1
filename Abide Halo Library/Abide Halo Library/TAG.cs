@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace AbideHaloLibrary
+namespace Abide.HaloLibrary
 {
     /// <summary>
     /// Represents a Halo four-character code tag.

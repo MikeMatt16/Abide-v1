@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace AbideHaloLibrary
+namespace Abide.HaloLibrary
 {
     /// <summary>
     /// Represents a 32-bit halo map tag identifier.

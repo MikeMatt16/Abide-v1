@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace AbideHaloLibrary.IO
+namespace Abide.HaloLibrary.IO
 {
     /// <summary>
     /// Represents a fixed-length memory-mapped stream.

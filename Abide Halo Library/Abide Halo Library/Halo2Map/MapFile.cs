@@ -1,4 +1,4 @@
-﻿using AbideHaloLibrary.IO;
+﻿using Abide.HaloLibrary.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace AbideHaloLibrary.Halo2Map
+namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Represents a Halo 2 binary map file.

@@ -1,9 +1,9 @@
-﻿using AbideHaloLibrary.IO;
+﻿using Abide.HaloLibrary.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AbideHaloLibrary.Halo2Map
+namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Contains an enumeration of the Halo 2 raw data types.

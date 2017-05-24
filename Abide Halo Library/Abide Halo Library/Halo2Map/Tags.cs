@@ -1,4 +1,4 @@
-﻿namespace AbideHaloLibrary.Halo2Map
+﻿namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Contains all Halo 2 tags.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AbideHaloLibrary.Halo2Map
+namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Contains an enumeration of the Halo 2 string localizations.

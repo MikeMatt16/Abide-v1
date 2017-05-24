@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace AbideHaloLibrary.Halo2Map
+namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Represents a Halo 2 structure bsp tag data header.

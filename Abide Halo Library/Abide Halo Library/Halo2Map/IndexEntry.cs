@@ -1,7 +1,7 @@
-﻿using AbideHaloLibrary.IO;
+﻿using Abide.HaloLibrary.IO;
 using System;
 
-namespace AbideHaloLibrary.Halo2Map
+namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
     /// Represents a Halo 2 object index entry.

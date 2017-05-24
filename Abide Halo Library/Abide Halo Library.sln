@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide Halo Library", "Abide Halo Library\Abide Halo Library.csproj", "{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary", "Abide Halo Library\Abide.HaloLibrary.csproj", "{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "Abide.AddOnApi\Abide.AddOnApi.csproj", "{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

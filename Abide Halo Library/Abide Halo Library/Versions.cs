@@ -1,4 +1,4 @@
-﻿namespace AbideHaloLibrary
+﻿namespace Abide.HaloLibrary
 {
     /// <summary>
     /// Represents a Halo map version enumeration.

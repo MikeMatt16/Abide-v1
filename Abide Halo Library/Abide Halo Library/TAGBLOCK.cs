@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AbideHaloLibrary
+namespace Abide.HaloLibrary
 {
     /// <summary>
     /// Represents a 64-bit tag_block reference.
