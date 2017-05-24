@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abide.AddOnApi")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("YeloDebug")]
+[assembly: AssemblyDescription("Xbox Debug Communication Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Potential Software")]
-[assembly: AssemblyProduct("Abide.AddOnApi")]
-[assembly: AssemblyCopyright("Copyright © Potential Software 2017")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("YeloDebug")]
+[assembly: AssemblyCopyright("Copyright © 2009 Kornman00 Xbox7887")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ab0b3a93-6a5b-46ac-8c20-db7b92b221ce")]
+[assembly: Guid("4cf005b9-a58d-4f49-9e23-7a0110d65344")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
+// You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]

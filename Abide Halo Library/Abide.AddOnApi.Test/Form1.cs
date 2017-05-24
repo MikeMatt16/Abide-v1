@@ -81,8 +81,6 @@ namespace Abide.AddOnApi.Test
 
         private void button2_Click(object sender, EventArgs e)
         {
-            IHaloAddOn<MapFile, IndexEntry> addOn = new Halo2AddOnTest();
-            manager.Load(addOn);
         }
 
         private void tagTreeView_AfterSelect(object sender, TreeViewEventArgs e)

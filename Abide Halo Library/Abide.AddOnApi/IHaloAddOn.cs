@@ -3,11 +3,12 @@
 namespace Abide.AddOnApi
 {
     /// <summary>
-    /// Defines a generalized Halo AddOn that a class implements to communcate with a <see cref="IHost"/> instance.
+    /// Defines a generalized Halo AddOn that a class implements to communcate with a host application.
+    /// This type of AddOn recieves triggers from the host application when changes are made with a Halo Map.
     /// </summary>
-    /// <typeparam name="T1">The Map type to be used by the interface.</typeparam>
-    /// <typeparam name="T2">The Object Index Entry type to be used by the interface.</typeparam>
-    public interface IHaloAddOn<T1, T2> : IAddOn
+    /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
+    /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
+    public interface IHaloAddOn<TMap, TEntry> : IAddOn
     {
         /// <summary>
         /// When implemented, gets and returns the <see cref="MapVersion"/> this Halo AddOn instance is compatible with.
@@ -17,12 +18,12 @@ namespace Abide.AddOnApi
         /// When implemented, gets and returns the currently selected Halo Object Index Entry supplied from the <see cref="IHost"/> instance.
         /// This value can be null.
         /// </summary>
-        T2 SelectedEntry { get; }
+        TEntry SelectedEntry { get; }
         /// <summary>
         /// When implemented, gets and returns the current Halo map instance supplied from the <see cref="IHost"/> instance.
         /// This value should never be null.
         /// </summary>
-        T1 Map { get; }
+        TMap Map { get; }
         /// <summary>
         /// When implemented, will be called by the <see cref="IHost"/> instance when the Halo Map instance is either loaded, or reloaded.
         /// </summary>

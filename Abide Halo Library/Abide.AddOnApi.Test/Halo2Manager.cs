@@ -56,8 +56,8 @@ namespace Abide.AddOnApi.Test
             //Trigger Updates
             addOns.ForEach(a => a.OnSelectedEntryChanged());
         }
-
-        public object Request(string request, object[] args = null)
+        
+        public object Request(IAddOn sender, string request, params object[] args)
         {
             switch (request)
             {

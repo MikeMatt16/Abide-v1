@@ -51,10 +51,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Halo2AddOnTest.cs" />
     <Compile Include="Halo2Manager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolTest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolTest.Designer.cs">
+      <DependentUpon>ToolTest.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,13 +83,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abide Halo Library\Abide.HaloLibrary.csproj">
-      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
-      <Name>Abide.HaloLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Abide.AddOnApi\Abide.AddOnApi.csproj">
       <Project>{ab0b3a93-6a5b-46ac-8c20-db7b92b221ce}</Project>
       <Name>Abide.AddOnApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YeloDebug\YeloDebug.csproj">
+      <Project>{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}</Project>
+      <Name>YeloDebug</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

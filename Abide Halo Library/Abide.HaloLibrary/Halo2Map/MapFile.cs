@@ -29,13 +29,6 @@ namespace Abide.HaloLibrary.Halo2Map
             set { header.Name = value; }
         }
         /// <summary>
-        /// Gets and returns the Halo 2 map's build string.
-        /// </summary>
-        public string Build
-        {
-            get { return header.Build; }
-        }
-        /// <summary>
         /// Gets and returns the Halo 2 map's index entry list.
         /// </summary>
         public IndexEntryList IndexEntries
