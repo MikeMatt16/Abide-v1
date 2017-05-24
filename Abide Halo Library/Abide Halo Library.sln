@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary", "Abide 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "Abide.AddOnApi\Abide.AddOnApi.csproj", "{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi.Test", "Abide.AddOnApi.Test\Abide.AddOnApi.Test.csproj", "{313F4874-8DE9-4CAF-ACDF-93659B0A2761}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{313F4874-8DE9-4CAF-ACDF-93659B0A2761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{313F4874-8DE9-4CAF-ACDF-93659B0A2761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{313F4874-8DE9-4CAF-ACDF-93659B0A2761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{313F4874-8DE9-4CAF-ACDF-93659B0A2761}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
