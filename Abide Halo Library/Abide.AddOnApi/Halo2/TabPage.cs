@@ -1,23 +1,18 @@
-﻿using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using YeloDebug;
-using Abide.HaloLibrary;
-using System.Drawing;
 using System.ComponentModel;
+using System.Windows.Forms;
 
-namespace Abide.AddOnApi.Abide
+namespace Abide.AddOnApi.Halo2
 {
     /// <summary>
-    /// Provides an empty <see cref="Tool"/> AddOn conntrol which implements the <see cref="ITool{Map, Entry, Xbox}"/> interface.
+    /// Provides an empty <see cref="TabPage{TMap, TEntry, TXbox}"/> AddOn control which implements the <see cref="ITabPage{Map, Entry, Xbox}"/> interface.
     /// </summary>
     /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
     /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
     /// <typeparam name="TXbox">The Debug Xbox type to be used by the interface.</typeparam>
-    public class Tool<TMap, TEntry, TXbox> : UserControl, ITool<TMap, TEntry, TXbox>
+    public class TabPage<TMap, TEntry, TXbox> : UserControl, ITabPage<TMap, TEntry, TXbox>
     {
         /// <summary>
         /// Occurs when the AddOn instance is initialized.
@@ -65,15 +60,6 @@ namespace Abide.AddOnApi.Abide
             set { mapVersion = value; }
         }
         /// <summary>
-        /// Gets or sets the display name for the AddOn.
-        /// </summary>
-        [Category("Abide"), Description("The display name for the AddOn.")]
-        public string AddOnName
-        {
-            get { return name; }
-            set { name = value; }
-        }
-        /// <summary>
         /// Gets or sets the description of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The description of the AddOn.")]
@@ -92,13 +78,13 @@ namespace Abide.AddOnApi.Abide
             set { author = value; }
         }
         /// <summary>
-        /// Gets or sets the display icon of the AddOn.
+        /// Gets or sets the tag filter of the AddOn.
         /// </summary>
-        [Category("Abide"), Description("The display icon of the AddOn.")]
-        public Image Icon
+        [Category("Abide"), Description("The tag filter of the AddOn."), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<TAG> TagFilter
         {
-            get { return icon; }
-            set { icon = value; }
+            get { return tagFilter; }
+            set { tagFilter = value; }
         }
 
         /// <summary>
@@ -133,17 +119,16 @@ namespace Abide.AddOnApi.Abide
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
+        private List<TAG> tagFilter = new List<TAG>();
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string name;
         private string description;
         private string author;
-        private Image icon = null;
         private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="Tool"/> instance.
         /// </summary>
-        public Tool() { }
+        public TabPage() { }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
@@ -192,9 +177,13 @@ namespace Abide.AddOnApi.Abide
         {
             get { return description; }
         }
-        Image ITool<TMap, TEntry, TXbox>.Icon
+        Control ITabPage<TMap, TEntry, TXbox>.UserInterface
         {
-            get { return icon; }
+            get { return this; }
+        }
+        TAG[] ITagFilter.Filter
+        {
+            get { return tagFilter.ToArray(); }
         }
         TMap IHaloAddOn<TMap, TEntry>.Map
         {
@@ -202,7 +191,7 @@ namespace Abide.AddOnApi.Abide
         }
         string IAddOn.Name
         {
-            get { return name; }
+            get { return Name; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
@@ -216,7 +205,7 @@ namespace Abide.AddOnApi.Abide
         {
             get { return Xbox; }
         }
-
+        
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
             //Xbox Changed

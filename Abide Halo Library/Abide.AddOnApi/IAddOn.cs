@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Abide.AddOnApi
+﻿namespace Abide.AddOnApi
 {
     /// <summary>
     /// Defines a generalized AddOn that a class implements to extend the usage of a host application.

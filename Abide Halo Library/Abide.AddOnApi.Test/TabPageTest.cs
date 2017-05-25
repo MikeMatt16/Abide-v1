@@ -4,9 +4,9 @@ using YeloDebug;
 
 namespace Abide.AddOnApi.Test
 {
-    public partial class ToolTest : Tool<MapFile, IndexEntry, Xbox>
+    public partial class TabPageTest : TabPage<MapFile, IndexEntry, Xbox>
     {
-        public ToolTest()
+        public TabPageTest()
         {
             InitializeComponent();
         }

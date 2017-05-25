@@ -1,8 +1,8 @@
-﻿using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary;
+using Abide.HaloLibrary.Halo2Map;
 using System;
-using System.Windows.Forms;
 using System.Collections;
-using Abide.HaloLibrary;
+using System.Windows.Forms;
 
 namespace Abide.AddOnApi.Test
 {
