@@ -38,6 +38,9 @@
             this.tagPropertiesTabPage = new System.Windows.Forms.TabPage();
             this.tagPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolPanel = new System.Windows.Forms.Panel();
             this.tagPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tagSplitContainer)).BeginInit();
             this.tagSplitContainer.Panel1.SuspendLayout();
@@ -45,6 +48,7 @@
             this.tagSplitContainer.SuspendLayout();
             this.tagTabControl.SuspendLayout();
             this.tagPropertiesTabPage.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tagPanel
@@ -134,17 +138,47 @@
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton});
+            this.toolStrip1.Location = new System.Drawing.Point(263, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(521, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripDropDownButton
+            // 
+            this.toolStripDropDownButton.Image = global::Abide.Properties.Resources.Tools;
+            this.toolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton.Name = "toolStripDropDownButton";
+            this.toolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
+            this.toolStripDropDownButton.Text = "&Tools";
+            // 
+            // toolPanel
+            // 
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolPanel.Location = new System.Drawing.Point(263, 25);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(521, 486);
+            this.toolPanel.TabIndex = 3;
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 511);
+            this.Controls.Add(this.toolPanel);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.tagPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Editor";
             this.Text = "Halo 2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Halo2Editor_FormClosing);
+            this.Load += new System.EventHandler(this.Editor_Load);
             this.tagPanel.ResumeLayout(false);
             this.tagSplitContainer.Panel1.ResumeLayout(false);
             this.tagSplitContainer.Panel2.ResumeLayout(false);
@@ -152,7 +186,10 @@
             this.tagSplitContainer.ResumeLayout(false);
             this.tagTabControl.ResumeLayout(false);
             this.tagPropertiesTabPage.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -166,5 +203,8 @@
         private System.Windows.Forms.PropertyGrid tagPropertyGrid;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ImageList tagImageList;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton;
+        private System.Windows.Forms.Panel toolPanel;
     }
 }

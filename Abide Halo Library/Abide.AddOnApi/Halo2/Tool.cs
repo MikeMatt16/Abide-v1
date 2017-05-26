@@ -86,11 +86,11 @@ namespace Abide.AddOnApi.Halo2
             get { return icon; }
             set { icon = value; }
         }
-        [Category("Appearance"), Description("The title of the AddOn."), Browsable(true)]
-        public override string Text
+        [Category("Abide"), Description("The display name of the tool."), Browsable(true)]
+        public string ToolName
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get { return toolName; }
+            set { toolName = value; }
         }
 
         /// <summary>
@@ -126,15 +126,20 @@ namespace Abide.AddOnApi.Halo2
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string description;
-        private string author;
+        private string toolName = string.Empty;
+        private string description = string.Empty;
+        private string author = string.Empty;
         private Image icon = null;
         private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="Tool"/> instance.
         /// </summary>
-        public Tool() { }
+        public Tool()
+        {
+            //Initialize Name
+            toolName = Name;
+        }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
@@ -197,7 +202,7 @@ namespace Abide.AddOnApi.Halo2
         }
         string IAddOn.Name
         {
-            get { return Text; }
+            get { return toolName; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {

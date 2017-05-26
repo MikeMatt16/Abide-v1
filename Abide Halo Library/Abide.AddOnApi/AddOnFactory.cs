@@ -26,7 +26,14 @@ namespace Abide.AddOnApi
         {
             get { return addOns; }
         }
-
+        /// <summary>
+        /// Gets and returns an array of types found that implement the <see cref="IAddOn"/> interface.
+        /// </summary>
+        public Type[] AddOnTypes
+        {
+            get { return addOnTypes.ToArray(); }
+        }
+        private readonly List<Type> addOnTypes;
         private readonly Dictionary<string, string[]> addOns;
         private string addOnDirectory;
 
@@ -37,6 +44,7 @@ namespace Abide.AddOnApi
         {
             //Initialize
             addOns = new Dictionary<string, string[]>();
+            addOnTypes = new List<Type>();
 
             //Setup Events
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_Resolve;
@@ -127,7 +135,7 @@ namespace Abide.AddOnApi
                 try
                 {
                     if (type.GetInterface(typeof(IAddOn).Name) != null)
-                        addOnTypes.Add(type.FullName);
+                    { addOnTypes.Add(type.FullName); this.addOnTypes.Add(type); }
                 }
                 catch (AmbiguousMatchException) { }
 

@@ -3,6 +3,8 @@ using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using YeloDebug;
 
@@ -10,6 +12,9 @@ namespace Abide.Halo2
 {
     public partial class Editor : Form, IHost
     {
+        private const string AssemblyDemo = @"G:\Github\Abide\Abide\Abide.AddOnDemo\bin\Debug\Abide.AddOnDemo.dll";
+
+        private readonly Dictionary<string, AddOnFactory> factories;
         private readonly MapFile map;
         private IndexEntry selectedEntry;
         private Xbox xbox;
@@ -17,7 +22,10 @@ namespace Abide.Halo2
         private Editor()
         {
             InitializeComponent();
+
+            //Setup
             tagTree.TreeViewNodeSorter = new TagIdSorter();
+            factories = new Dictionary<string, AddOnFactory>();
         }
         public Editor(MapFile map) : this()
         {
@@ -101,6 +109,147 @@ namespace Abide.Halo2
             map.Close();
         }
 
+        private void ToolItem_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            ITool<MapFile, IndexEntry, Xbox> tool = null;
+
+            //Get Sender
+            if (sender is ToolStripMenuItem)
+            {
+                //Get
+                ToolStripMenuItem Sender = (ToolStripMenuItem)sender;
+                if(Sender.Tag is ITool<MapFile, IndexEntry, Xbox> )
+                    tool = (ITool<MapFile, IndexEntry, Xbox>)Sender.Tag;
+            }
+
+            //Check
+            if (tool != null && tool.UserInterface != null)
+            {
+                //Setup
+                tool.UserInterface.Dock = DockStyle.Fill;
+
+                //Begin
+                toolPanel.SuspendLayout();
+
+                //Set
+                toolPanel.Controls.Clear();
+                toolPanel.Controls.Add(tool.UserInterface);
+
+                //Resume
+                toolPanel.ResumeLayout();
+            }
+        }
+
+        private void MenuButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Editor_Load(object sender, EventArgs e)
+        {
+            //Load Demo
+            assembly_Load(AssemblyDemo);
+
+            //TODO: Implement mass-assembly loading for addon assemblies.
+
+            //Initialize AddOns
+            foreach (KeyValuePair<string, AddOnFactory> factory in factories)
+                addOns_FindInterfaces(factory.Value);
+        }
+
+        private void assembly_Load(string filename)
+        {
+            //Prepare
+            AddOnFactory factory = null;
+            string directory = Path.GetDirectoryName(filename);
+
+            //Create or get factory...
+            if (!factories.ContainsKey(directory))
+            {
+                //Create
+                factory = new AddOnFactory() { AddOnDirectory = directory };
+                factories.Add(directory, factory);
+            }
+            else factory = factories[directory];
+
+            //Load Assembly
+            try { factory.LoadAssembly(filename); }
+            catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
+        }
+
+        private void addOns_FindInterfaces(AddOnFactory factory)
+        {
+            //Check Types
+            foreach (Type type in factory.AddOnTypes)
+            {
+                //Prepare...
+                var halo = type.GetInterface(typeof(IHaloAddOn<MapFile, IndexEntry>).Name);
+                var tool = type.GetInterface(typeof(ITool<MapFile, IndexEntry, Xbox>).Name);
+                var menuButton = type.GetInterface(typeof(IMenuButton<MapFile, IndexEntry, Xbox>).Name);
+                var tabPage = type.GetInterface(typeof(ITabPage<MapFile, IndexEntry, Xbox>).Name);
+                var assemblyName = type.Assembly.GetName().Name;
+
+                //Check
+                if (halo != null && factory.CreateInstance<IHaloAddOn<MapFile, IndexEntry>>(assemblyName, type.FullName).Version == MapVersion.Halo2)
+                {
+                    //Initialize...
+                    if (tool != null) addOn_InitializeTool(factory, assemblyName, type.FullName);
+                    if (menuButton != null) addOn_InitializeMenuButton(factory, assemblyName, type.FullName);
+                    if (tabPage != null) addOn_InitializeTabPage(factory, assemblyName, type.FullName);
+                }
+            }
+        }
+
+        private void addOn_InitializeTool(AddOnFactory factory, string assemblyName, string typeFullName)
+        {
+            //Create Instance
+            ITool<MapFile, IndexEntry, Xbox> tool = factory.CreateInstance<ITool<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
+            if (tool != null)
+            {
+                //Initialize
+                tool.Initialize(this);
+
+                //Create Menu Item
+                ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon);
+                toolItem.Tag = tool;
+                toolItem.Click += ToolItem_Click;
+
+                //Add
+                toolStripDropDownButton.DropDownItems.Add(toolItem);
+            }
+        }
+
+        private void addOn_InitializeTabPage(AddOnFactory factory, string assemblyName, string typeFullName)
+        {
+            //Create Instance
+            ITabPage<MapFile, IndexEntry, Xbox> tabPage = factory.CreateInstance<ITabPage<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
+            if (tabPage != null)
+            {
+                //Initialize
+                tabPage.Initialize(this);
+            }
+        }
+
+        private void addOn_InitializeMenuButton(AddOnFactory factory, string assemblyName, string typeFullName)
+        {
+            //Create Instance
+            IMenuButton<MapFile, IndexEntry, Xbox> menuButton = factory.CreateInstance<IMenuButton<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
+            if (menuButton != null)
+            {
+                //Initialize
+                menuButton.Initialize(this);
+
+                //Create Menu Item
+                ToolStripButton toolButton = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                toolButton.Tag = menuButton;
+                toolButton.Click += MenuButton_Click;
+
+                //Add
+                toolStrip1.Items.Add(toolButton);
+            }
+        }
+        
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             //Handle Request

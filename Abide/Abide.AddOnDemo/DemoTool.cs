@@ -1,5 +1,6 @@
 ﻿using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary.Halo2Map;
+using System.Windows.Forms;
 using YeloDebug;
 
 namespace Abide.AddOnDemo
@@ -9,6 +10,11 @@ namespace Abide.AddOnDemo
         public DemoTool()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            MessageBox.Show(Map.Name);
         }
     }
 }
