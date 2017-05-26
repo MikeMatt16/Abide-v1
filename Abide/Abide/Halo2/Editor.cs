@@ -46,7 +46,7 @@ namespace Abide.Halo2
 
             //Load AddOns
             //TODO Load Addons Here!
-            container.AddAssembly(DemoAssembly);
+            container.AddAssemblySafe(DemoAssembly);
 
             //Initialize AddOns
             container.BeginInit(this);

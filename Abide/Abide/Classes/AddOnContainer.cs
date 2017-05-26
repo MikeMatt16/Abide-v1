@@ -70,9 +70,34 @@ namespace Abide.Classes
             return haloAddOns.ToArray();
         }
         /// <summary>
+        /// Adds an assembly to the instance without locking the source assembly file.
+        /// </summary>
+        /// <param name="filename">The file path to the assembly.</param>
+        public void AddAssemblySafe(string filename)
+        {
+            //Prepare
+            AddOnFactory factory = null;
+            string directory = Path.GetDirectoryName(filename);
+            if (Directory.Exists(directory))
+            {
+                //Create or get factory...
+                if (!factories.ContainsKey(directory))
+                {
+                    //Create
+                    factory = new AddOnFactory() { AddOnDirectory = directory };
+                    factories.Add(directory, factory);
+                }
+                else factory = factories[directory];
+
+                //Load Assembly
+                try { factory.LoadAssemblySafe(filename); }
+                catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
+            }
+        }
+        /// <summary>
         /// Adds an assembly to the instance.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">The file path to the assembly.</param>
         public void AddAssembly(string filename)
         {
             //Prepare
@@ -112,7 +137,7 @@ namespace Abide.Classes
         private void factory_FilterInterfaces(AddOnFactory factory, IHost host)
         {
             //Check Types
-            foreach (Type type in factory.AddOnTypes)
+            foreach (Type type in factory.GetAddOnTypes())
             {
                 //Prepare...
                 var halo = type.GetInterface(typeof(IHaloAddOn<TMap, TEntry>).Name);

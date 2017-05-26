@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace Abide.AddOnApi.Halo2
+namespace Abide.AddOnApi
 {
     /// <summary>
     /// Provides an empty <see cref="MenuButton{TMap, TEntry, TXbox}"/> AddOn which implements the <see cref="IMenuButton{TMap, TEntry, TXbox}"/> interface.
@@ -105,6 +105,15 @@ namespace Abide.AddOnApi.Halo2
             set { tagFilter = value; }
         }
         /// <summary>
+        /// Gets or sets whether to use the AddOn's tag filter.
+        /// </summary>
+        [Category("Abide"), Description("Sets the usabilty of the AddOn's tag filter.")]
+        public bool ApplyTagFilter
+        {
+            get { return applyTagFilter; }
+            set { applyTagFilter = value; }
+        }
+        /// <summary>
         /// Gets or sets the display icon of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The display icon of the AddOn.")]
@@ -149,6 +158,7 @@ namespace Abide.AddOnApi.Halo2
         private event EventHandler disposing;
         private event EventHandler<AddOnHostEventArgs> initialize;
         private List<TAG> tagFilter = new List<TAG>();
+        private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
         private string name;
         private string description;
@@ -215,6 +225,10 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return tagFilter.ToArray(); }
         }
+        bool ITagFilter.ApplyFilter
+        {
+            get { return applyTagFilter; }
+        }
         TMap IHaloAddOn<TMap, TEntry>.Map
         {
             get { return Map; }
@@ -239,7 +253,7 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return icon; }
         }
-
+        
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
             //Create Args

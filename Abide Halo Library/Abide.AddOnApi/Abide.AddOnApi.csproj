@@ -42,11 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddOnFactory.cs" />
-    <Compile Include="Halo2\MenuButton.cs" />
-    <Compile Include="Halo2\TabPage.cs">
+    <Compile Include="IContextMenuItem.cs" />
+    <Compile Include="MenuButton.cs" />
+    <Compile Include="TabPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Halo2\Tool.cs">
+    <Compile Include="Tool.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="IAddOn.cs" />

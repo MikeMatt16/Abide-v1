@@ -1,18 +1,18 @@
 ﻿using Abide.HaloLibrary;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
-namespace Abide.AddOnApi.Halo2
+namespace Abide.AddOnApi
 {
     /// <summary>
-    /// Provides an empty <see cref="Tool{TMap, TEntry, TXbox}"/> AddOn control which implements the <see cref="ITool{Map, Entry, Xbox}"/> interface.
+    /// Provides an empty <see cref="TabPage{TMap, TEntry, TXbox}"/> AddOn control which implements the <see cref="ITabPage{Map, Entry, Xbox}"/> interface.
     /// </summary>
     /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
     /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
     /// <typeparam name="TXbox">The Debug Xbox type to be used by the interface.</typeparam>
-    public class Tool<TMap, TEntry, TXbox> : UserControl, ITool<TMap, TEntry, TXbox>
+    public class TabPage<TMap, TEntry, TXbox> : UserControl, ITabPage<TMap, TEntry, TXbox>
     {
         /// <summary>
         /// Occurs when the AddOn instance is initialized.
@@ -78,20 +78,33 @@ namespace Abide.AddOnApi.Halo2
             set { author = value; }
         }
         /// <summary>
-        /// Gets or sets the display icon of the AddOn.
+        /// Gets or sets the tag filter of the AddOn.
         /// </summary>
-        [Category("Abide"), Description("The display icon of the AddOn.")]
-        public Image Icon
+        [Category("Abide"), Description("The tag filter of the AddOn."), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<TAG> TagFilter
         {
-            get { return icon; }
-            set { icon = value; }
+            get { return tagFilter; }
+            set { tagFilter = value; }
         }
-        [Category("Abide"), Description("The display name of the tool."), Browsable(true)]
-        public string ToolName
+        /// <summary>
+        /// Gets or sets whether to use the AddOn's tag filter.
+        /// </summary>
+        [Category("Abide"), Description("Sets the usabilty of the AddOn's tag filter.")]
+        public bool ApplyTagFilter
         {
-            get { return toolName; }
-            set { toolName = value; }
+            get { return applyTagFilter; }
+            set { applyTagFilter = value; }
         }
+        /// <summary>
+        /// Gets or sets the AddOn's tab page text.
+        /// </summary>
+        [Category("Abide"), Description("The display name of the tab page."), Browsable(true)]
+        public string TabPageText
+        {
+            get { return tabPageText; }
+            set { tabPageText = value; }
+        }
+
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
@@ -119,32 +132,25 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return (TXbox)host?.Request(this, "Xbox"); }
         }
-        /// <summary>
-        /// Gets and returns the current AddOn host.
-        /// </summary>
-        [Browsable(false)]
-        public IHost Host
-        {
-            get { return host; }
-        }
 
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
+        private List<TAG> tagFilter = new List<TAG>();
+        private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string toolName = string.Empty;
+        private string tabPageText = string.Empty;
         private string description = string.Empty;
         private string author = string.Empty;
-        private Image icon = null;
         private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="Tool"/> instance.
         /// </summary>
-        public Tool()
+        public TabPage()
         {
-            toolName = Name;
+            tabPageText = Name;
         }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
@@ -194,13 +200,17 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return description; }
         }
-        Control ITool<TMap, TEntry, TXbox>.UserInterface
+        Control ITabPage<TMap, TEntry, TXbox>.UserInterface
         {
             get { return this; }
         }
-        Image ITool<TMap, TEntry, TXbox>.Icon
+        TAG[] ITagFilter.Filter
         {
-            get { return icon; }
+            get { return tagFilter.ToArray(); }
+        }
+        bool ITagFilter.ApplyFilter
+        {
+            get { return applyTagFilter; }
         }
         TMap IHaloAddOn<TMap, TEntry>.Map
         {
@@ -208,7 +218,7 @@ namespace Abide.AddOnApi.Halo2
         }
         string IAddOn.Name
         {
-            get { return toolName; }
+            get { return tabPageText; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
@@ -222,7 +232,7 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return Xbox; }
         }
-
+        
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
             //Xbox Changed

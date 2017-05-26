@@ -47,7 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RegistrySettings.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
+    <Compile Include="Forms\AddOnManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddOnManager.Designer.cs">
+      <DependentUpon>AddOnManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Halo2\Editor.cs">
       <SubType>Form</SubType>
     </Compile>

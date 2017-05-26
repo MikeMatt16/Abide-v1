@@ -12,43 +12,36 @@ namespace Abide.AddOnApi
     public sealed class AddOnFactory : MarshalByRefObject
     {
         /// <summary>
-        /// Gets or sets the directory of the AddOn assemblies.
+        /// Gets or sets the AddOn base directory of this instance.
         /// </summary>
         public string AddOnDirectory
         {
             get { return addOnDirectory; }
             set { addOnDirectory = value; }
         }
-        /// <summary>
-        /// Gets and returns a dictionary whose Key is the assembly name, and value array contains the found <see cref="IAddOn"/>-containing types.
-        /// </summary>
-        public Dictionary<string, string[]> AddOns
-        {
-            get { return addOns; }
-        }
-        /// <summary>
-        /// Gets and returns an array of types found that implement the <see cref="IAddOn"/> interface.
-        /// </summary>
-        public Type[] AddOnTypes
-        {
-            get { return addOnTypes.ToArray(); }
-        }
-        private readonly List<Type> addOnTypes;
-        private readonly Dictionary<string, string[]> addOns;
-        private string addOnDirectory;
 
+        private string addOnDirectory = string.Empty;
+        private readonly List<Type> addOns;
+        
         /// <summary>
         /// Initializes a new <see cref="AddOnFactory"/> instance.
         /// </summary>
         public AddOnFactory()
         {
             //Initialize
-            addOns = new Dictionary<string, string[]>();
-            addOnTypes = new List<Type>();
+            addOns = new List<Type>();
 
             //Setup Events
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_Resolve;
             AppDomain.CurrentDomain.TypeResolve += CurrentDomain_Resolve;
+        }
+        /// <summary>
+        /// Returns all found types that implement the <see cref="IAddOn"/> interface.
+        /// </summary>
+        /// <returns>An array of <see cref="Type"/> instances.</returns>
+        public Type[] GetAddOnTypes()
+        {
+            return addOns.ToArray();
         }
         /// <summary>
         /// Attempts to load any <see cref="IAddOn"/> exported types from the specified assembly file name.
@@ -126,22 +119,31 @@ namespace Abide.AddOnApi
             //Check
             if (assembly == null) throw new ArgumentNullException(nameof(assembly));
 
-            //Prepare
-            List<string> addOnTypes = new List<string>();
-            string assemblyName = assembly.GetName().Name;
-
             //Loop
             foreach (Type type in assembly.GetExportedTypes())
                 try
                 {
                     if (type.GetInterface(typeof(IAddOn).Name) != null)
-                    { addOnTypes.Add(type.FullName); this.addOnTypes.Add(type); }
+                    { addOns.Add(type); }
                 }
                 catch (AmbiguousMatchException) { }
+        }
+        /// <summary>
+        /// Attempts to create an instance of a supplied type.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="IAddOn"/> based type to retrieve.</typeparam>
+        /// <param name="type">The type to instantiate.</param>
+        /// <returns>Null if the type cannot be created, else returns an instance of <typeparamref name="T"/>.</returns>
+        public T CreateInstance<T>(Type type) where T : class, IAddOn
+        {
+            //Prepare
+            T instance = null;
 
-            //Check
-            if (addOnTypes.Count > 0 && !addOns.ContainsKey(assemblyName))
-                addOns.Add(assemblyName, addOnTypes.ToArray());
+            try { instance = AppDomain.CurrentDomain.CreateInstance(type.Assembly.GetName().Name, type.FullName) as T; }
+            catch (Exception) { }
+
+            //Return
+            return instance;
         }
         /// <summary>
         /// Attempts to create an instance of a supplied type from the given assembly name and type.
@@ -154,7 +156,7 @@ namespace Abide.AddOnApi
         {
             //Prepare
             T instance = null;
-
+            
             try { instance = AppDomain.CurrentDomain.CreateInstance(assembly, type).Unwrap() as T; }
             catch (Exception) { }
 
