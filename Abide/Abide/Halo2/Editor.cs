@@ -1,43 +1,118 @@
 ﻿using Abide.AddOnApi;
+using Abide.Classes;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 using YeloDebug;
 
 namespace Abide.Halo2
 {
+    /// <summary>
+    /// Represents an editor for Halo 2 Map Files using the <see cref="MapFile"/> class.
+    /// </summary>
     public partial class Editor : Form, IHost
     {
-        private const string AssemblyDemo = @"G:\Github\Abide\Abide\Abide.AddOnDemo\bin\Debug\Abide.AddOnDemo.dll";
+        private const string DemoAssembly = @"G:\Github\Abide\Abide\Abide.AddOnDemo\bin\Debug\Abide.AddOnDemo.dll";
 
-        private readonly Dictionary<string, AddOnFactory> factories;
+        /// <summary>
+        /// Gets or sets the visibility of the Open toolstrip button.
+        /// </summary>
+        public bool OpenVisible
+        {
+            get { return openToolStripButton.Visible; }
+            set { openToolStripButton.Visible = value; }
+        }
+
+        private readonly AddOnContainer<MapFile, IndexEntry, Xbox> container;
+        private readonly Xbox xbox;
         private readonly MapFile map;
-        private IndexEntry selectedEntry;
-        private Xbox xbox;
 
+        private IndexEntry selectedEntry = null;
+        private string filename = string.Empty;
+        
+        /// <summary>
+        /// Initializes a new <see cref="Editor"/>.
+        /// </summary>
         private Editor()
         {
             InitializeComponent();
 
-            //Setup
+            //Initialize
             tagTree.TreeViewNodeSorter = new TagIdSorter();
-            factories = new Dictionary<string, AddOnFactory>();
+            container = new AddOnContainer<MapFile, IndexEntry, Xbox>(MapVersion.Halo2);
+            xbox = new Xbox(Application.StartupPath);
+
+            //Load AddOns
+            //TODO Load Addons Here!
+            container.AddAssembly(DemoAssembly);
+
+            //Initialize AddOns
+            container.BeginInit(this);
+
+            //Loop
+            foreach (var tool in container.GetTools())
+            {
+                //Create Item
+                ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon) { Tag = tool };
+                toolItem.Click += ToolItem_Click;
+
+                //Add
+                toolStripDropDownButton.DropDownItems.Add(toolItem);
+            }
         }
+        /// <summary>
+        /// Initializes a new <see cref="Editor"/> using the specified Halo map file.
+        /// </summary>
+        /// <param name="map">The <see cref="MapFile"/> to load into the editor.</param>
         public Editor(MapFile map) : this()
         {
             //Setup
             this.map = map;
-            xbox = new Xbox(Application.StartupPath);
+
+            //Send trigger
+            foreach (var addOn in container.GetHaloAddOns())
+                addOn.OnMapLoad();
         }
+        /// <summary>
+        /// Initializes a new <see cref="Editor"/> using the specified Halo map file name.
+        /// </summary>
+        /// <param name="filename">The file path to a Halo map file.</param>
         public Editor(string filename) : this(new MapFile())
         {
+            //Close
+            map_Close();
+
             //Load
             map.Load(filename);
+            this.filename = filename;
 
+            //Load
+            map_Load();
+        }
+        
+        private void map_Close()
+        {
+            //Close
+            map.Close();
+
+            //Begin
+            tagTree.BeginUpdate();
+            tagTree.Nodes.Clear();
+            tagTree.EndUpdate();
+
+            //Setup
+            Text = "Halo 2";
+            tagPropertyGrid.SelectedObject = null;
+
+            //Send trigger
+            foreach (var addOn in container.GetHaloAddOns())
+                addOn.OnMapLoad();
+        }
+
+        private void map_Load()
+        {
             //Begin
             tagTree.BeginUpdate();
             tagTree.Nodes.Clear();
@@ -54,7 +129,7 @@ namespace Abide.Halo2
             Text = $"Halo 2 - {map.Name}";
             tagPropertyGrid.SelectedObject = map;
         }
-        
+
         private void entry_BuildTagTree(IndexEntry entry)
         {
             //Get Path Parts
@@ -86,27 +161,75 @@ namespace Abide.Halo2
             collection.Add(node);
         }
 
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            //Save
+            map.Save(filename);
+        }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string filename = string.Empty;
+            bool open = false;
+
+            //Initialize
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Setup
+                openDlg.Filter = "Halo 2 Map Files (*.map)|*.map";
+                openDlg.Title = "Open Halo 2 Map...";
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = openDlg.FileName;
+                    open = true;
+                }
+            }
+
+            //Check
+            if (open)
+            {
+                //Close
+                map_Close();
+
+                //Load
+                map.Load(filename);
+
+                //Set
+                this.filename = filename;
+
+                //Send trigger
+                foreach (var addOn in container.GetHaloAddOns())
+                    addOn.OnMapLoad();
+
+                //Load
+                map_Load();
+            }
+        }
+
         private void tagTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Check
             if (e.Node.Tag is TAGID)
             {
+                //Setup
                 selectedEntry = map.IndexEntries[(TAGID)e.Node.Tag];
-                OnSelectedEntryChanged(map.IndexEntries[(TAGID)e.Node.Tag]);
                 tagPropertyGrid.SelectedObject = selectedEntry;
+
+                //Send trigger
+                foreach (var addOn in container.GetHaloAddOns())
+                    addOn.OnSelectedEntryChanged();
             }
             else tagPropertyGrid.SelectedObject = map;
         }
-
-        protected virtual void OnSelectedEntryChanged(IndexEntry indexEntry)
-        {
-            //Setup
-        }
-
+        
         private void Halo2Editor_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Close Map
-            map.Close();
+            map_Close();
+            
+            //Dispose
+            container.Dispose();
         }
 
         private void ToolItem_Click(object sender, EventArgs e)
@@ -143,113 +266,31 @@ namespace Abide.Halo2
 
         private void MenuButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //Prepare
+            IMenuButton<MapFile, IndexEntry, Xbox> menuButton = null;
+
+            //Get Sender
+            if (sender is ToolStripButton)
+            {
+                //Get
+                ToolStripButton Sender = (ToolStripButton)sender;
+                if (Sender.Tag is IMenuButton<MapFile, IndexEntry, Xbox>)
+                    menuButton = (IMenuButton<MapFile, IndexEntry, Xbox>)Sender.Tag;
+            }
+
+            //Click
+            menuButton?.OnClick();
         }
 
         private void Editor_Load(object sender, EventArgs e)
         {
-            //Load Demo
-            assembly_Load(AssemblyDemo);
-
-            //TODO: Implement mass-assembly loading for addon assemblies.
-
-            //Initialize AddOns
-            foreach (KeyValuePair<string, AddOnFactory> factory in factories)
-                addOns_FindInterfaces(factory.Value);
         }
 
-        private void assembly_Load(string filename)
+        bool IHost.InvokeRequired
         {
-            //Prepare
-            AddOnFactory factory = null;
-            string directory = Path.GetDirectoryName(filename);
-
-            //Create or get factory...
-            if (!factories.ContainsKey(directory))
-            {
-                //Create
-                factory = new AddOnFactory() { AddOnDirectory = directory };
-                factories.Add(directory, factory);
-            }
-            else factory = factories[directory];
-
-            //Load Assembly
-            try { factory.LoadAssembly(filename); }
-            catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
+            get { return InvokeRequired; }
         }
 
-        private void addOns_FindInterfaces(AddOnFactory factory)
-        {
-            //Check Types
-            foreach (Type type in factory.AddOnTypes)
-            {
-                //Prepare...
-                var halo = type.GetInterface(typeof(IHaloAddOn<MapFile, IndexEntry>).Name);
-                var tool = type.GetInterface(typeof(ITool<MapFile, IndexEntry, Xbox>).Name);
-                var menuButton = type.GetInterface(typeof(IMenuButton<MapFile, IndexEntry, Xbox>).Name);
-                var tabPage = type.GetInterface(typeof(ITabPage<MapFile, IndexEntry, Xbox>).Name);
-                var assemblyName = type.Assembly.GetName().Name;
-
-                //Check
-                if (halo != null && factory.CreateInstance<IHaloAddOn<MapFile, IndexEntry>>(assemblyName, type.FullName).Version == MapVersion.Halo2)
-                {
-                    //Initialize...
-                    if (tool != null) addOn_InitializeTool(factory, assemblyName, type.FullName);
-                    if (menuButton != null) addOn_InitializeMenuButton(factory, assemblyName, type.FullName);
-                    if (tabPage != null) addOn_InitializeTabPage(factory, assemblyName, type.FullName);
-                }
-            }
-        }
-
-        private void addOn_InitializeTool(AddOnFactory factory, string assemblyName, string typeFullName)
-        {
-            //Create Instance
-            ITool<MapFile, IndexEntry, Xbox> tool = factory.CreateInstance<ITool<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
-            if (tool != null)
-            {
-                //Initialize
-                tool.Initialize(this);
-
-                //Create Menu Item
-                ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon);
-                toolItem.Tag = tool;
-                toolItem.Click += ToolItem_Click;
-
-                //Add
-                toolStripDropDownButton.DropDownItems.Add(toolItem);
-            }
-        }
-
-        private void addOn_InitializeTabPage(AddOnFactory factory, string assemblyName, string typeFullName)
-        {
-            //Create Instance
-            ITabPage<MapFile, IndexEntry, Xbox> tabPage = factory.CreateInstance<ITabPage<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
-            if (tabPage != null)
-            {
-                //Initialize
-                tabPage.Initialize(this);
-            }
-        }
-
-        private void addOn_InitializeMenuButton(AddOnFactory factory, string assemblyName, string typeFullName)
-        {
-            //Create Instance
-            IMenuButton<MapFile, IndexEntry, Xbox> menuButton = factory.CreateInstance<IMenuButton<MapFile, IndexEntry, Xbox>>(assemblyName, typeFullName);
-            if (menuButton != null)
-            {
-                //Initialize
-                menuButton.Initialize(this);
-
-                //Create Menu Item
-                ToolStripButton toolButton = new ToolStripButton(menuButton.Name, menuButton.Icon);
-                toolButton.Tag = menuButton;
-                toolButton.Click += MenuButton_Click;
-
-                //Add
-                toolStrip1.Items.Add(toolButton);
-            }
-        }
-        
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             //Handle Request
@@ -263,6 +304,11 @@ namespace Abide.Halo2
             }
         }
 
+        object IHost.Invoke(Delegate method)
+        {
+            return Invoke(method);
+        }
+        
         private class TagIdSorter : IComparer
         {
             public int Compare(object x, object y)

@@ -86,6 +86,12 @@ namespace Abide.AddOnApi.Halo2
             get { return tagFilter; }
             set { tagFilter = value; }
         }
+        [Category("Abide"), Description("The display name of the tool."), Browsable(true)]
+        public string TabPageText
+        {
+            get { return tabPageText; }
+            set { tabPageText = value; }
+        }
 
         /// <summary>
         /// Gets and returns the current Halo Map.
@@ -121,14 +127,18 @@ namespace Abide.AddOnApi.Halo2
         private event EventHandler<AddOnHostEventArgs> initialize;
         private List<TAG> tagFilter = new List<TAG>();
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string description;
-        private string author;
+        private string tabPageText = string.Empty;
+        private string description = string.Empty;
+        private string author = string.Empty;
         private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="Tool"/> instance.
         /// </summary>
-        public TabPage() { }
+        public TabPage()
+        {
+            tabPageText = Name;
+        }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
@@ -191,7 +201,7 @@ namespace Abide.AddOnApi.Halo2
         }
         string IAddOn.Name
         {
-            get { return Name; }
+            get { return tabPageText; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
@@ -225,6 +235,11 @@ namespace Abide.AddOnApi.Halo2
         {
             //Selected Entry Changed
             OnSelectedEntryChanged(new EventArgs());
+        }
+        void IDisposable.Dispose()
+        {
+            //Dispose
+            Dispose(true);
         }
     }
 }

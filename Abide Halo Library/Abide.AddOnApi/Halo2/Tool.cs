@@ -92,7 +92,6 @@ namespace Abide.AddOnApi.Halo2
             get { return toolName; }
             set { toolName = value; }
         }
-
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
@@ -120,6 +119,14 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return (TXbox)host?.Request(this, "Xbox"); }
         }
+        /// <summary>
+        /// Gets and returns the current AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
@@ -137,7 +144,6 @@ namespace Abide.AddOnApi.Halo2
         /// </summary>
         public Tool()
         {
-            //Initialize Name
             toolName = Name;
         }
         /// <summary>
@@ -236,6 +242,11 @@ namespace Abide.AddOnApi.Halo2
         {
             //Selected Entry Changed
             OnSelectedEntryChanged(new EventArgs());
+        }
+        void IDisposable.Dispose()
+        {
+            //Dispose
+            Dispose(true);
         }
     }
 }

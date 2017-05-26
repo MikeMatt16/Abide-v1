@@ -41,6 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoMenuButton.cs" />
+    <Compile Include="DemoTabPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DemoTabPage.Designer.cs">
+      <DependentUpon>DemoTabPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="DemoTool.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,6 +76,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DemoTabPage.resx">
+      <DependentUpon>DemoTabPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DemoTool.resx">
       <DependentUpon>DemoTool.cs</DependentUpon>
     </EmbeddedResource>

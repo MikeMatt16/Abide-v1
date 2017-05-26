@@ -1,9 +1,11 @@
-﻿namespace Abide.AddOnApi
+﻿using System;
+
+namespace Abide.AddOnApi
 {
     /// <summary>
     /// Defines a generalized AddOn that a class implements to extend the usage of a host application.
     /// </summary>
-    public interface IAddOn
+    public interface IAddOn : IDisposable
     {
         /// <summary>
         /// When implemented, gets and returns the name of the AddOn.

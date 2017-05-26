@@ -146,6 +146,7 @@ namespace Abide.AddOnApi.Halo2
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
+        private event EventHandler disposing;
         private event EventHandler<AddOnHostEventArgs> initialize;
         private List<TAG> tagFilter = new List<TAG>();
         private MapVersion mapVersion = MapVersion.Halo2;
@@ -164,9 +165,6 @@ namespace Abide.AddOnApi.Halo2
         {
             //Set Host
             host = e.Host;
-
-            //Trigger
-            initialize?.Invoke(this, e);
         }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.
@@ -174,8 +172,6 @@ namespace Abide.AddOnApi.Halo2
         /// <param name="e">The Event arguments.</param>
         protected virtual void OnMapLoad(EventArgs e)
         {
-            //Invoke
-            mapLoad?.Invoke(this, e);
         }
         /// <summary>
         /// Occurs when the host instance changes its debug Xbox connection.
@@ -183,8 +179,6 @@ namespace Abide.AddOnApi.Halo2
         /// <param name="e">The Event Arguments.</param>
         protected virtual void OnXboxChanged(EventArgs e)
         {
-            //Invoke
-            xboxChanged?.Invoke(this, e);
         }
         /// <summary>
         /// Occurs when the host instance changes its selected Halo Index entry.
@@ -192,8 +186,6 @@ namespace Abide.AddOnApi.Halo2
         /// <param name="e">The Event Arguments.</param>
         protected virtual void OnSelectedEntryChanged(EventArgs e)
         {
-            //Invoke
-            selectedEntryChanged?.Invoke(this, e);
         }
         /// <summary>
         /// Occurs when the menu button is clicked.
@@ -201,8 +193,14 @@ namespace Abide.AddOnApi.Halo2
         /// <param name="e">The Event Arguments.</param>
         protected virtual void OnClick(EventArgs e)
         {
-            //Invoke
-            click?.Invoke(this, e);
+        }
+        /// <summary>
+        /// Occurs when the AddOn is being disposed.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected virtual void OnDispose(EventArgs e)
+        {
+
         }
 
         string IAddOn.Author
@@ -244,28 +242,69 @@ namespace Abide.AddOnApi.Halo2
 
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Xbox Changed
             OnXboxChanged(new EventArgs());
+            
+            //Invoke
+            xboxChanged?.Invoke(this, e);
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Create Args
+            var e = new AddOnHostEventArgs(host);
+
             //Initialize
-            OnIntialize(new AddOnHostEventArgs(host));
+            OnIntialize(e);
+
+            //Trigger
+            initialize?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnMapLoad()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Map Load
-            OnMapLoad(new EventArgs());
+            OnMapLoad(e);
+
+            //Invoke
+            mapLoad?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnSelectedEntryChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Selected Entry Changed
-            OnSelectedEntryChanged(new EventArgs());
+            OnSelectedEntryChanged(e);
+
+            //Invoke
+            selectedEntryChanged?.Invoke(this, e);
         }
         void IMenuButton<TMap, TEntry, TXbox>.OnClick()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Click
-            OnClick(new EventArgs());
+            OnClick(e);
+
+            //Invoke
+            click?.Invoke(this, e);
+        }
+        void IDisposable.Dispose()
+        {
+            //Create Args
+            var e = new EventArgs();
+
+            //Invoke Event
+            disposing?.Invoke(this, e);
+
+            //Dispose
+            OnDispose(e);
         }
     }
 }
