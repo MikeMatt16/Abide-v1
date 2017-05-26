@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddOnFactory.cs" />
+    <Compile Include="ContextMenuItem.cs" />
     <Compile Include="IContextMenuItem.cs" />
     <Compile Include="MenuButton.cs" />
     <Compile Include="TabPage.cs">
