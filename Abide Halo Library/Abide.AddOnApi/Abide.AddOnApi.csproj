@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOnFactory.cs" />
     <Compile Include="Halo2\MenuButton.cs" />
     <Compile Include="Halo2\TabPage.cs">
       <SubType>UserControl</SubType>
