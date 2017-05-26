@@ -86,6 +86,12 @@ namespace Abide.AddOnApi.Halo2
             get { return icon; }
             set { icon = value; }
         }
+        [Category("Appearance"), Description("The title of the AddOn."), Browsable(true)]
+        public override string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
 
         /// <summary>
         /// Gets and returns the current Halo Map.
@@ -191,7 +197,7 @@ namespace Abide.AddOnApi.Halo2
         }
         string IAddOn.Name
         {
-            get { return Name; }
+            get { return Text; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
