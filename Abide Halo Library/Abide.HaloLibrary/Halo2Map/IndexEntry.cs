@@ -1,5 +1,6 @@
 ﻿using Abide.HaloLibrary.IO;
 using System;
+using System.ComponentModel;
 
 namespace Abide.HaloLibrary.Halo2Map
 {
@@ -12,6 +13,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the root of the tag. 
         /// </summary>
+        [Category("Object Properties"), Description("The root tag of the object.")]
         public TAG Root
         {
             get { return tagHierarchy.Root; }
@@ -19,6 +21,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the ID of the object entry.
         /// </summary>
+        [Category("Object Properties"), Description("The Tag Identifier of the object.")]
         public TAGID ID
         {
             get { return objectEntry.ID; }
@@ -26,6 +29,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the offset of the object entry's tag data.
         /// </summary>
+        [Category("Object Properties"), Description("The offset of the the object tag data.")]
         public uint Offset
         {
             get { return objectEntry.Offset; }
@@ -33,6 +37,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the size of the object entry's tag data.
         /// </summary>
+        [Category("Object Properties"), Description("The length of the the object tag data.")]
         public int Size
         {
             get { return (int)objectEntry.Size; }
@@ -40,6 +45,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the filename of the index entry.
         /// </summary>
+        [Category("Entry Properties"), Description("The file name of the tag entry.")]
         public string Filename
         {
             get { return filename; }
@@ -48,6 +54,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the post-processed offset of this entry's tag data.
         /// </summary>
+        [Category("Post Processed Properties"), Description("The post-processed offset of the object tag data.")]
         public int PostProcessedOffset
         {
             get { return postProcessedOffset; }
@@ -56,6 +63,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the post-processed size of this entry's tag data.
         /// </summary>
+        [Category("Post Processed Properties"), Description("The post-processed length of the object tag data.")]
         public int PostProcessedSize
         {
             get { return postProcessedSize; }
@@ -64,6 +72,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the stream that contains this tag's data.
         /// </summary>
+        [Browsable(false)]
         public FixedMemoryMappedStream TagData
         {
             get { return tagData; }
@@ -72,6 +81,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of internal raw datas contained within this tag data. 
         /// </summary>
+        [Browsable(false)]
         public RawContainer Raws
         {
             get { return raws; }
@@ -79,6 +89,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of localized strings contained within this tag data.
         /// </summary>
+        [Browsable(false)]
         public StringContainer Strings
         {
             get { return strings; }
