@@ -50,7 +50,10 @@ namespace Abide
                 switch (arg)
                 {
                     case "-da":
-                        mainForm = Editor.DebugAssembly(args[i + 1]);
+                        switch (args[i + 1])
+                        {
+                            case "-h2": mainForm = Editor.DebugAssembly(args[i + 2]); break;
+                        }
                         break;
                 }
             }

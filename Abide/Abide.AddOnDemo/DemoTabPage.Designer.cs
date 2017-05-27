@@ -44,6 +44,7 @@
             // 
             // DemoTabPage
             // 
+            this.ApplyTagFilter = true;
             this.Author = "Click16";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

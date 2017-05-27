@@ -37,12 +37,12 @@
             this.tagTabControl = new System.Windows.Forms.TabControl();
             this.tagPropertiesTabPage = new System.Windows.Forms.TabPage();
             this.tagPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.mapToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolPanel = new System.Windows.Forms.Panel();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolPanel = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.tagPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tagSplitContainer)).BeginInit();
             this.tagSplitContainer.Panel1.SuspendLayout();
@@ -57,7 +57,7 @@
             // 
             this.tagPanel.Controls.Add(this.tagSplitContainer);
             this.tagPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tagPanel.Location = new System.Drawing.Point(3, 0);
+            this.tagPanel.Location = new System.Drawing.Point(0, 0);
             this.tagPanel.Name = "tagPanel";
             this.tagPanel.Size = new System.Drawing.Size(260, 511);
             this.tagPanel.TabIndex = 0;
@@ -132,14 +132,6 @@
             this.tagPropertyGrid.TabIndex = 0;
             this.tagPropertyGrid.ToolbarVisible = false;
             // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(0, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 511);
-            this.splitter1.TabIndex = 1;
-            this.splitter1.TabStop = false;
-            // 
             // mapToolStrip
             // 
             this.mapToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -160,14 +152,6 @@
             this.toolStripDropDownButton.Name = "toolStripDropDownButton";
             this.toolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
             this.toolStripDropDownButton.Text = "&Tools";
-            // 
-            // toolPanel
-            // 
-            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolPanel.Location = new System.Drawing.Point(263, 25);
-            this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(521, 486);
-            this.toolPanel.TabIndex = 3;
             // 
             // openToolStripButton
             // 
@@ -192,6 +176,22 @@
             this.saveToolStripButton.Text = "&Save";
             this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
+            // toolPanel
+            // 
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolPanel.Location = new System.Drawing.Point(263, 25);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(521, 486);
+            this.toolPanel.TabIndex = 3;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(260, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 511);
+            this.splitter1.TabIndex = 4;
+            this.splitter1.TabStop = false;
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,8 +199,8 @@
             this.ClientSize = new System.Drawing.Size(784, 511);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.mapToolStrip);
-            this.Controls.Add(this.tagPanel);
             this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.tagPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Editor";
             this.Text = "Halo 2";
@@ -228,12 +228,12 @@
         private System.Windows.Forms.TabControl tagTabControl;
         private System.Windows.Forms.TabPage tagPropertiesTabPage;
         private System.Windows.Forms.PropertyGrid tagPropertyGrid;
-        private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ImageList tagImageList;
         private System.Windows.Forms.ToolStrip mapToolStrip;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.Splitter splitter1;
     }
 }
