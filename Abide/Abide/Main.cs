@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Abide.Dialogs;
+using Abide.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -70,6 +73,51 @@ namespace Abide
         {
             //Exit
             Application.Exit();
+        }
+
+        private void createAddOnPackageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string filename = string.Empty;
+            bool open = false;
+
+            //Initialize
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Setup
+                openDlg.Filter = "AddOn Assemblies (*.dll;*.exe)|*.dll;*.exe";
+                openDlg.Title = "Open Assembly...";
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = openDlg.FileName;
+                    open = true;
+                }
+            }
+
+            //Check
+            if (open)
+            {
+                //Get Info
+                FileInfo info = new FileInfo(filename);
+
+                //Prepare
+                using(PackageAddOnDialog packDlg = new PackageAddOnDialog())
+                {
+                    //Setup
+                    packDlg.PrimaryAssembly = Path.GetFileName(filename);
+                    packDlg.PackageName = info.Name.Replace(".exe", string.Empty).Replace(".dll", string.Empty);
+                    packDlg.LoadDirectory(Path.GetDirectoryName(filename));
+
+                    //Create
+                    packDlg.ShowDialog();
+                }
+            }
+        }
+
+        private void addOnManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (AddOnManager manager = new AddOnManager())
+                manager.ShowDialog();
         }
     }
 }

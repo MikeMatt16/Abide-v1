@@ -47,6 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOnManifest.cs" />
+    <Compile Include="Dialogs\PackageAddOnDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\PackageAddOnDialog.Designer.cs">
+      <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistrySettings.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Forms\AddOnManager.cs">
@@ -70,6 +77,12 @@
     <Compile Include="MapHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\PackageAddOnDialog.resx">
+      <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddOnManager.resx">
+      <DependentUpon>AddOnManager.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Halo2\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>

@@ -3,6 +3,7 @@ using Abide.HaloLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace Abide.Classes
 {
@@ -36,6 +37,25 @@ namespace Abide.Classes
             menuButtons = new List<IMenuButton<TMap, TEntry, TXbox>>();
             tools = new List<ITool<TMap, TEntry, TXbox>>();
             factories = new Dictionary<string, AddOnFactory>();
+        }
+        /// <summary>
+        /// Retrieves all <see cref="AddOnFactory"/> instances within the container.
+        /// </summary>
+        /// <returns>An array of <see cref="AddOnFactory"/> loaded by the container.</returns>
+        public AddOnFactory[] GetFactories()
+        {
+            //Get Factories
+            AddOnFactory[] factories = new AddOnFactory[this.factories.Count];
+            this.factories.Values.CopyTo(factories, 0);
+            return factories;
+        }
+        /// <summary>
+        /// Retrieves all of the <see cref="IAddOn"/> instances within the container.
+        /// </summary>
+        /// <returns>An array of <see cref="IAddOn"/> instances loaded and initializded by the container.</returns>
+        public IAddOn[] GetAddOns()
+        {
+            return addOns.ToArray();
         }
         /// <summary>
         /// Retrieves all of the <see cref="ITool{TMap, TEntry, TXbox}"/> instances within the container.
@@ -115,6 +135,29 @@ namespace Abide.Classes
 
             //Load Assembly
             try { factory.LoadAssembly(filename); }
+            catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
+        }
+        /// <summary>
+        /// Adds an assembly to the instance.
+        /// </summary>
+        /// <param name="assembly">The assembly to add.</param>
+        /// <param name="directory">The directory of the assembly.</param>
+        public void AddAssembly(Assembly assembly, string directory)
+        {
+            //Prepare
+            AddOnFactory factory = null;
+
+            //Create or get factory...
+            if (!factories.ContainsKey(directory))
+            {
+                //Create
+                factory = new AddOnFactory() { AddOnDirectory = directory };
+                factories.Add(directory, factory);
+            }
+            else factory = factories[directory];
+
+            //Load Assembly
+            try { factory.LoadAssembly(assembly); }
             catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
         }
         /// <summary>

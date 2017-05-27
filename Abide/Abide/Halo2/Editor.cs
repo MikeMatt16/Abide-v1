@@ -4,6 +4,10 @@ using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using YeloDebug;
 
@@ -14,8 +18,6 @@ namespace Abide.Halo2
     /// </summary>
     public partial class Editor : Form, IHost
     {
-        private const string DemoAssembly = @"G:\Github\Abide\Abide\Abide.AddOnDemo\bin\Debug\Abide.AddOnDemo.dll";
-
         /// <summary>
         /// Gets or sets the visibility of the Open toolstrip button.
         /// </summary>
@@ -26,12 +28,80 @@ namespace Abide.Halo2
         }
 
         private readonly AddOnContainer<MapFile, IndexEntry, Xbox> container;
-        private readonly Xbox xbox;
         private readonly MapFile map;
+        private readonly Xbox xbox;
+
+        private List<TabPage> tabPages;
+        private List<ToolStripButton> menuButtons;
 
         private IndexEntry selectedEntry = null;
         private string filename = string.Empty;
         
+        /// <summary>
+        /// Initializes a new <see cref="Editor"/> instance with the assembly injected.
+        /// </summary>
+        /// <param name="assembly">The assembly to inject.</param>
+        private Editor(Assembly assembly, string directory)
+        {
+            InitializeComponent();
+
+            //Initialize
+            map = new MapFile();
+            tagTree.TreeViewNodeSorter = new TagIdSorter();
+            container = new AddOnContainer<MapFile, IndexEntry, Xbox>(MapVersion.Halo2);
+            xbox = new Xbox(Application.StartupPath);
+
+            //Load Assembly
+            container.AddAssembly(assembly, directory);
+
+            //Initialize AddOns
+            container.BeginInit(this);
+
+            //Load Tools
+            foreach (var tool in container.GetTools())
+            {
+                //Create Item
+                ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon) { Tag = tool };
+                toolItem.Click += ToolItem_Click;
+
+                //Add
+                toolStripDropDownButton.DropDownItems.Add(toolItem);
+            }
+
+            //Load Menu Items
+            menuButtons = new List<ToolStripButton>();
+            foreach (var menuButton in container.GetMenuButtons())
+            {
+                //Create Button
+                ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                button.Name = menuButton.Name;
+                button.Tag = menuButton;
+
+                //Add
+                menuButtons.Add(button);
+
+                //Check
+                if (!menuButton.ApplyFilter) mapToolStrip.Items.Add(button);
+            }
+
+            //Load Tab Pages
+            tabPages = new List<TabPage>();
+            foreach (var tabPage in container.GetTabPages())
+            {
+                //Create Tab Page
+                TabPage page = new TabPage(tabPage.Name);
+                tabPage.UserInterface.Dock = DockStyle.Fill;
+                page.Controls.Add(tabPage.UserInterface);
+                page.Name = tabPage.Name;
+                page.Tag = tabPage;
+
+                //Add
+                tabPages.Add(page);
+
+                //Check
+                if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
+            }
+        }
         /// <summary>
         /// Initializes a new <see cref="Editor"/>.
         /// </summary>
@@ -45,13 +115,21 @@ namespace Abide.Halo2
             xbox = new Xbox(Application.StartupPath);
 
             //Load AddOns
-            //TODO Load Addons Here!
-            container.AddAssemblySafe(DemoAssembly);
+            AddOnManifest manifest = new AddOnManifest();
+            foreach (string directory in Directory.EnumerateDirectories(RegistrySettings.AddOnsDirectory))
+            {
+                //Get Manifest Path
+                manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
+
+                //Load
+                string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
+                if (File.Exists(assemblyPath)) container.AddAssembly(assemblyPath);
+            }
 
             //Initialize AddOns
             container.BeginInit(this);
 
-            //Loop
+            //Load Tools
             foreach (var tool in container.GetTools())
             {
                 //Create Item
@@ -60,6 +138,40 @@ namespace Abide.Halo2
 
                 //Add
                 toolStripDropDownButton.DropDownItems.Add(toolItem);
+            }
+
+            //Load Menu Items
+            menuButtons = new List<ToolStripButton>();
+            foreach (var menuButton in container.GetMenuButtons())
+            {
+                //Create Button
+                ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                button.Name = menuButton.Name;
+                button.Tag = menuButton;
+                
+                //Add
+                menuButtons.Add(button);
+
+                //Check
+                if (!menuButton.ApplyFilter) mapToolStrip.Items.Add(button);
+            }
+
+            //Load Tab Pages
+            tabPages = new List<TabPage>();
+            foreach (var tabPage in container.GetTabPages())
+            {
+                //Create Tab Page
+                TabPage page = new TabPage(tabPage.Name);
+                tabPage.UserInterface.Dock = DockStyle.Fill;
+                page.Controls.Add(tabPage.UserInterface);
+                page.Name = tabPage.Name;
+                page.Tag = tabPage;
+                
+                //Add
+                tabPages.Add(page);
+
+                //Check
+                if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
             }
         }
         /// <summary>
@@ -91,7 +203,25 @@ namespace Abide.Halo2
             //Load
             map_Load();
         }
-        
+        /// <summary>
+        /// Creates a new <see cref="Editor"/> instance used for debugging a supplied assembly.
+        /// </summary>
+        /// <param name="filename">The file name of the assembly to debug.</param>
+        /// <returns>A new <see cref="Editor"/> instance.</returns>
+        public static Editor DebugAssembly(string filename)
+        {
+            //Check
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            if (!File.Exists(filename)) throw new FileNotFoundException("Unable to find supplied file.", filename);
+            
+            //Initialize            
+            Editor editor = new Editor(Assembly.LoadFile(filename), Path.GetDirectoryName(filename));
+            editor.OpenVisible = true;
+
+            //Return
+            return editor;
+        }
+
         private void map_Close()
         {
             //Close
@@ -219,6 +349,38 @@ namespace Abide.Halo2
                 //Send trigger
                 foreach (var addOn in container.GetHaloAddOns())
                     addOn.OnSelectedEntryChanged();
+
+                //Check Tab Pages
+                foreach (TabPage tabPage in tabPages)
+                {
+                    //Get ITabPage
+                    ITabPage<MapFile, IndexEntry, Xbox> page = (ITabPage<MapFile, IndexEntry, Xbox>)tabPage.Tag;
+
+                    //Check
+                    if (page.ApplyFilter)
+                        if (page.Filter.Contains(selectedEntry.Root))
+                        {
+                            if (!tagTabControl.TabPages.ContainsKey(tabPage.Name))
+                            { tagTabControl.TabPages.Add(tabPage); tagTabControl.SelectedTab = tabPage; }
+                        }
+                        else tagTabControl.TabPages.RemoveByKey(tabPage.Name);
+                }
+
+                //Check Menu Buttons
+                foreach (ToolStripButton menuButton in menuButtons)
+                {
+                    //Get ITabPage
+                    IMenuButton<MapFile, IndexEntry, Xbox> button = (IMenuButton<MapFile, IndexEntry, Xbox>)menuButton.Tag;
+
+                    //Check
+                    if (button.ApplyFilter)
+                        if (button.Filter.Contains(selectedEntry.Root))
+                        {
+                            if (!mapToolStrip.Items.ContainsKey(menuButton.Name))
+                                mapToolStrip.Items.Add(menuButton);
+                        }
+                        else mapToolStrip.Items.RemoveByKey(menuButton.Name);
+                }
             }
             else tagPropertyGrid.SelectedObject = map;
         }
