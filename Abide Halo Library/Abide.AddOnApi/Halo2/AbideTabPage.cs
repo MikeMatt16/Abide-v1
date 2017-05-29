@@ -119,7 +119,7 @@ namespace Abide.AddOnApi.Halo2
         [Browsable(false)]
         public MapFile Map
         {
-            get { return (TMap)host?.Request(this, "Map"); }
+            get { return (MapFile)host?.Request(this, "Map"); }
         }
         /// <summary>
         /// Gets and returns the currently selected Index Entry.
@@ -128,7 +128,7 @@ namespace Abide.AddOnApi.Halo2
         [Browsable(false)]
         public IndexEntry SelectedEntry
         {
-            get { return (TEntry)host?.Request(this, "SelectedEntry"); }
+            get { return (IndexEntry)host?.Request(this, "SelectedEntry"); }
         }
         /// <summary>
         /// Gets and returns the current Debug Xbox.
@@ -137,7 +137,7 @@ namespace Abide.AddOnApi.Halo2
         [Browsable(false)]
         public Xbox Xbox
         {
-            get { return (TXbox)host?.Request(this, "Xbox"); }
+            get { return (Xbox)host?.Request(this, "Xbox"); }
         }
 
         private event EventHandler mapLoad;

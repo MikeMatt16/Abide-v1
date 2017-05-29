@@ -9,11 +9,8 @@ using YeloDebug;
 namespace Abide.AddOnApi.Halo2
 {
     /// <summary>
-    /// Provides an empty <see cref="MenuButton{TMap, TEntry, TXbox}"/> AddOn which implements the <see cref="IMenuButton{TMap, TEntry, TXbox}"/> interface.
+    /// Provides an empty Halo 2 <see cref="AbideMenuButton"/> AddOn which implements the <see cref="IMenuButton{MapFile, IndexEntry, Xbox}"/> interface.
     /// </summary>
-    /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
-    /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
-    /// <typeparam name="TXbox">The Debug Xbox type to be used by the interface.</typeparam>
     public class AbideMenuButton : IMenuButton<MapFile, IndexEntry, Xbox>
     {
         /// <summary>
