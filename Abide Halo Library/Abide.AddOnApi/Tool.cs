@@ -1,18 +1,13 @@
-﻿using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using YeloDebug;
-using Abide.HaloLibrary;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace Abide.AddOnApi.Abide
+namespace Abide.AddOnApi
 {
     /// <summary>
-    /// Provides an empty <see cref="Tool"/> AddOn conntrol which implements the <see cref="ITool{Map, Entry, Xbox}"/> interface.
+    /// Provides an empty <see cref="Tool{TMap, TEntry, TXbox}"/> AddOn control which implements the <see cref="ITool{Map, Entry, Xbox}"/> interface.
     /// </summary>
     /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
     /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
@@ -65,15 +60,6 @@ namespace Abide.AddOnApi.Abide
             set { mapVersion = value; }
         }
         /// <summary>
-        /// Gets or sets the display name for the AddOn.
-        /// </summary>
-        [Category("Abide"), Description("The display name for the AddOn.")]
-        public string AddOnName
-        {
-            get { return name; }
-            set { name = value; }
-        }
-        /// <summary>
         /// Gets or sets the description of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The description of the AddOn.")]
@@ -100,7 +86,15 @@ namespace Abide.AddOnApi.Abide
             get { return icon; }
             set { icon = value; }
         }
-
+        /// <summary>
+        /// Gets or sets the name of the AddOn.
+        /// </summary>
+        [Category("Abide"), Description("The name of the AddOn."), Browsable(true)]
+        public string ToolName
+        {
+            get { return name; }
+            set { name = value; }
+        }
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
@@ -128,22 +122,33 @@ namespace Abide.AddOnApi.Abide
         {
             get { return (TXbox)host?.Request(this, "Xbox"); }
         }
+        /// <summary>
+        /// Gets and returns the AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string name;
-        private string description;
-        private string author;
+        private string name = string.Empty;
+        private string description = string.Empty;
+        private string author = string.Empty;
         private Image icon = null;
         private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="Tool"/> instance.
         /// </summary>
-        public Tool() { }
+        public Tool()
+        {
+            name = Name;
+        }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
@@ -192,6 +197,10 @@ namespace Abide.AddOnApi.Abide
         {
             get { return description; }
         }
+        Control ITool<TMap, TEntry, TXbox>.UserInterface
+        {
+            get { return this; }
+        }
         Image ITool<TMap, TEntry, TXbox>.Icon
         {
             get { return icon; }
@@ -219,23 +228,55 @@ namespace Abide.AddOnApi.Abide
 
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Xbox Changed
             OnXboxChanged(new EventArgs());
+
+            //Invoke
+            xboxChanged?.Invoke(this, e);
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Set
+            this.host = host;
+
+            //Create Args
+            var e = new AddOnHostEventArgs(host);
+
             //Initialize
-            OnIntialize(new AddOnHostEventArgs(host));
+            OnIntialize(e);
+
+            //Trigger
+            initialize?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnMapLoad()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Map Load
-            OnMapLoad(new EventArgs());
+            OnMapLoad(e);
+
+            //Invoke
+            mapLoad?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnSelectedEntryChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Selected Entry Changed
-            OnSelectedEntryChanged(new EventArgs());
+            OnSelectedEntryChanged(e);
+
+            //Invoke
+            selectedEntryChanged?.Invoke(this, e);
+        }
+        void IDisposable.Dispose()
+        {
+            //Dispose
+            Dispose();
         }
     }
 }

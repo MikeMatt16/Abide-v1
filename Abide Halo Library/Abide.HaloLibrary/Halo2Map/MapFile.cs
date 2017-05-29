@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the Halo 2 map's name.
         /// </summary>
+        [Category("Map Properties"), Description("The name of the Halo 2 map.")]
         public string Name
         {
             get { return header.Name; }
@@ -31,6 +33,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the Halo 2 map's index entry list.
         /// </summary>
+        [Browsable(false)]
         public IndexEntryList IndexEntries
         {
             get { return indexList; }
@@ -38,6 +41,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns the stream containing the tags' data.
         /// </summary>
+        [Browsable(false)]
         public FixedMemoryMappedStream TagDataStream
         {
             get { return tagData; }
@@ -45,6 +49,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of the Halo 2 map's string IDs.
         /// </summary>
+        [Category("Map Data"), Description("The Halo 2 map's string identifiers.")]
         public List<string> Strings
         {
             get { return strings; }
@@ -52,6 +57,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of the Halo 2 map's tag hierarchies.
         /// </summary>
+        [Browsable(false)]
         public TagHierarchyList Tags
         {
             get { return tags; }

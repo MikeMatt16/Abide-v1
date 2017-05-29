@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Abide.AddOnApi.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,13 +42,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abide\Tool.cs">
+    <Compile Include="AddOnFactory.cs" />
+    <Compile Include="ContextMenuItem.cs" />
+    <Compile Include="IContextMenuItem.cs" />
+    <Compile Include="ISettingsPage.cs" />
+    <Compile Include="MenuButton.cs" />
+    <Compile Include="SettingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tool.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="IAddOn.cs" />
     <Compile Include="IDebugXboxAddOn.cs" />
     <Compile Include="IHaloAddOn.cs" />
     <Compile Include="IHost.cs" />
+    <Compile Include="IMenuButton.cs" />
+    <Compile Include="ITabPage.cs" />
+    <Compile Include="ITagFilter.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
