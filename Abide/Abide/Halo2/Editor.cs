@@ -1,5 +1,6 @@
 ﻿using Abide.AddOnApi;
 using Abide.Classes;
+using Abide.Dialogs;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using System;
@@ -25,6 +26,14 @@ namespace Abide.Halo2
         {
             get { return openToolStripButton.Visible; }
             set { openToolStripButton.Visible = value; }
+        }
+        /// <summary>
+        /// Gets or sets the visibility of the Options toolstrip button.
+        /// </summary>
+        public bool OptionsVisible
+        {
+            get { return optionsToolStripButton.Visible; }
+            set { optionsToolStripButton.Visible = value; }
         }
 
         private readonly AddOnContainer<MapFile, IndexEntry, Xbox> container;
@@ -219,6 +228,7 @@ namespace Abide.Halo2
             //Initialize            
             Editor editor = new Editor(Assembly.LoadFile(filename), Path.GetDirectoryName(filename));
             editor.OpenVisible = true;
+            editor.OptionsVisible = true;
 
             //Return
             return editor;
@@ -339,6 +349,13 @@ namespace Abide.Halo2
             }
         }
 
+        private void optionsToolStripButton_Click(object sender, EventArgs e)
+        {
+            //Create Options Dialog
+            using (OptionsDialog optDlg = new OptionsDialog())
+                optDlg.ShowDialog();
+        }
+
         private void tagTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Check
@@ -445,11 +462,7 @@ namespace Abide.Halo2
             //Click
             menuButton?.OnClick();
         }
-
-        private void Editor_Load(object sender, EventArgs e)
-        {
-        }
-
+        
         bool IHost.InvokeRequired
         {
             get { return InvokeRequired; }

@@ -73,6 +73,16 @@ namespace Abide.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cogwheel {
+            get {
+                object obj = ResourceManager.GetObject("Cogwheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Folder16 {
             get {
                 object obj = ResourceManager.GetObject("Folder16", resourceCulture);

@@ -41,6 +41,7 @@
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolPanel = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.tagPanel.SuspendLayout();
@@ -137,8 +138,9 @@
             this.mapToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mapToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton,
+            this.saveToolStripButton,
             this.openToolStripButton,
-            this.saveToolStripButton});
+            this.optionsToolStripButton});
             this.mapToolStrip.Location = new System.Drawing.Point(263, 0);
             this.mapToolStrip.Name = "mapToolStrip";
             this.mapToolStrip.Size = new System.Drawing.Size(521, 25);
@@ -176,6 +178,18 @@
             this.saveToolStripButton.Text = "&Save";
             this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
+            // optionsToolStripButton
+            // 
+            this.optionsToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.optionsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.optionsToolStripButton.Image = global::Abide.Properties.Resources.Cogwheel;
+            this.optionsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.optionsToolStripButton.Name = "optionsToolStripButton";
+            this.optionsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.optionsToolStripButton.Text = "O&ptions";
+            this.optionsToolStripButton.Visible = false;
+            this.optionsToolStripButton.Click += new System.EventHandler(this.optionsToolStripButton_Click);
+            // 
             // toolPanel
             // 
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -205,7 +219,6 @@
             this.Name = "Editor";
             this.Text = "Halo 2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Halo2Editor_FormClosing);
-            this.Load += new System.EventHandler(this.Editor_Load);
             this.tagPanel.ResumeLayout(false);
             this.tagSplitContainer.Panel1.ResumeLayout(false);
             this.tagSplitContainer.Panel2.ResumeLayout(false);
@@ -235,5 +248,6 @@
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.ToolStripButton optionsToolStripButton;
     }
 }
