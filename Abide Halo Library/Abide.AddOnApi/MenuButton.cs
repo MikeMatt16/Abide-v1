@@ -171,47 +171,32 @@ namespace Abide.AddOnApi
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
         /// <param name="host">The AddOn host event arguments.</param>
-        protected virtual void OnIntialize(AddOnHostEventArgs e)
-        {
-            //Set Host
-            host = e.Host;
-        }
+        protected virtual void OnIntialize(AddOnHostEventArgs e) { }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.
         /// </summary>
         /// <param name="e">The Event arguments.</param>
-        protected virtual void OnMapLoad(EventArgs e)
-        {
-        }
+        protected virtual void OnMapLoad(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its debug Xbox connection.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnXboxChanged(EventArgs e)
-        {
-        }
+        protected virtual void OnXboxChanged(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its selected Halo Index entry.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnSelectedEntryChanged(EventArgs e)
-        {
-        }
+        protected virtual void OnSelectedEntryChanged(EventArgs e) { }
         /// <summary>
         /// Occurs when the menu button is clicked.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-        }
+        protected virtual void OnClick(EventArgs e) { }
         /// <summary>
         /// Occurs when the AddOn is being disposed.
         /// </summary>
         /// <param name="e">The event arguments.</param>
-        protected virtual void OnDispose(EventArgs e)
-        {
-
-        }
+        protected virtual void OnDispose(EventArgs e) { }
 
         string IAddOn.Author
         {
@@ -267,6 +252,9 @@ namespace Abide.AddOnApi
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Set
+            this.host = host;
+
             //Create Args
             var e = new AddOnHostEventArgs(host);
 

@@ -123,7 +123,7 @@ namespace Abide.AddOnApi
             get { return (TXbox)host?.Request(this, "Xbox"); }
         }
         /// <summary>
-        /// Gets and returns the current AddOn host.
+        /// Gets and returns the AddOn host.
         /// </summary>
         [Browsable(false)]
         public IHost Host
@@ -239,6 +239,9 @@ namespace Abide.AddOnApi
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Set
+            this.host = host;
+
             //Create Args
             var e = new AddOnHostEventArgs(host);
 

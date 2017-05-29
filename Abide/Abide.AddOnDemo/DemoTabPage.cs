@@ -14,6 +14,7 @@ namespace Abide.AddOnDemo
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+            object test = Host.Request(this, "SelectedEntry");
             MessageBox.Show(SelectedEntry.ToString());
         }
     }

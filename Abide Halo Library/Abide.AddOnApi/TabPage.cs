@@ -104,6 +104,14 @@ namespace Abide.AddOnApi
             get { return name; }
             set { name = value; }
         }
+        /// <summary>
+        /// Gets and returns the AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         /// <summary>
         /// Gets and returns the current Halo Map.
@@ -132,7 +140,7 @@ namespace Abide.AddOnApi
         {
             get { return (TXbox)host?.Request(this, "Xbox"); }
         }
-
+        
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
@@ -227,6 +235,9 @@ namespace Abide.AddOnApi
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Set
+            this.host = host;
+
             //Create Args
             var e = new AddOnHostEventArgs(host);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -48,16 +49,29 @@ namespace Abide.AddOnApi
             get { return name; }
             set { name = value; }
         }
+        /// <summary>
+        /// Gets and returns the AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         private event EventHandler<AddOnHostEventArgs> initialize;
         private string author = string.Empty;
         private string description = string.Empty;
         private string name = string.Empty;
+        private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="SettingsPage"/> instance.
         /// </summary>
-        public SettingsPage() { name = Name; }
+        public SettingsPage()
+        {
+            name = Name;
+            BackColor = SystemColors.ButtonHighlight;
+        }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
@@ -82,6 +96,9 @@ namespace Abide.AddOnApi
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Set
+            this.host = host;
+
             //Create Arguments
             AddOnHostEventArgs e = new AddOnHostEventArgs(host);
 
