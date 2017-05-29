@@ -98,11 +98,11 @@ namespace Abide.AddOnApi
         /// <summary>
         /// Gets or sets the AddOn's tab page text.
         /// </summary>
-        [Category("Abide"), Description("The display name of the tab page."), Browsable(true)]
+        [Category("Abide"), Description("The name of the AddOn."), Browsable(true)]
         public string TabPageText
         {
-            get { return tabPageText; }
-            set { tabPageText = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Abide.AddOnApi
         private List<TAG> tagFilter = new List<TAG>();
         private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string tabPageText = string.Empty;
+        private string name = string.Empty;
         private string description = string.Empty;
         private string author = string.Empty;
         private IHost host;
@@ -150,47 +150,28 @@ namespace Abide.AddOnApi
         /// </summary>
         public TabPage()
         {
-            tabPageText = Name;
+            name = Name;
         }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
         /// <param name="host">The AddOn host event arguments.</param>
-        protected virtual void OnIntialize(AddOnHostEventArgs e)
-        {
-            //Set Host
-            host = e.Host;
-
-            //Trigger
-            initialize?.Invoke(this, e);
-        }
+        protected virtual void OnIntialize(AddOnHostEventArgs e) { }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.
         /// </summary>
         /// <param name="e">The Event arguments.</param>
-        protected virtual void OnMapLoad(EventArgs e)
-        {
-            //Invoke
-            mapLoad?.Invoke(this, e);
-        }
+        protected virtual void OnMapLoad(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its debug Xbox connection.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnXboxChanged(EventArgs e)
-        {
-            //Invoke
-            xboxChanged?.Invoke(this, e);
-        }
+        protected virtual void OnXboxChanged(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its selected Halo Index entry.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnSelectedEntryChanged(EventArgs e)
-        {
-            //Invoke
-            selectedEntryChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedEntryChanged(EventArgs e) { }
 
         string IAddOn.Author
         {
@@ -218,7 +199,7 @@ namespace Abide.AddOnApi
         }
         string IAddOn.Name
         {
-            get { return tabPageText; }
+            get { return name; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
@@ -232,31 +213,55 @@ namespace Abide.AddOnApi
         {
             get { return Xbox; }
         }
-        
+
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Xbox Changed
             OnXboxChanged(new EventArgs());
+
+            //Invoke
+            xboxChanged?.Invoke(this, e);
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Create Args
+            var e = new AddOnHostEventArgs(host);
+
             //Initialize
-            OnIntialize(new AddOnHostEventArgs(host));
+            OnIntialize(e);
+
+            //Trigger
+            initialize?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnMapLoad()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Map Load
-            OnMapLoad(new EventArgs());
+            OnMapLoad(e);
+
+            //Invoke
+            mapLoad?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnSelectedEntryChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Selected Entry Changed
-            OnSelectedEntryChanged(new EventArgs());
+            OnSelectedEntryChanged(e);
+
+            //Invoke
+            selectedEntryChanged?.Invoke(this, e);
         }
         void IDisposable.Dispose()
         {
             //Dispose
-            Dispose(true);
+            Dispose();
         }
     }
 }

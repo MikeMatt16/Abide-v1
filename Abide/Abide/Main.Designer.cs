@@ -36,11 +36,13 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createAddOnPackageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOnManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addOnManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,6 +91,8 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem,
+            this.toolStripSeparator2,
             this.createAddOnPackageToolStripMenuItem,
             this.addOnManagerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -101,6 +105,13 @@
             this.createAddOnPackageToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.createAddOnPackageToolStripMenuItem.Text = "&Create AddOn Package";
             this.createAddOnPackageToolStripMenuItem.Click += new System.EventHandler(this.createAddOnPackageToolStripMenuItem_Click);
+            // 
+            // addOnManagerToolStripMenuItem
+            // 
+            this.addOnManagerToolStripMenuItem.Name = "addOnManagerToolStripMenuItem";
+            this.addOnManagerToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.addOnManagerToolStripMenuItem.Text = "&AddOn Manager";
+            this.addOnManagerToolStripMenuItem.Click += new System.EventHandler(this.addOnManagerToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
@@ -130,12 +141,17 @@
             this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             // 
-            // addOnManagerToolStripMenuItem
+            // optionsToolStripMenuItem
             // 
-            this.addOnManagerToolStripMenuItem.Name = "addOnManagerToolStripMenuItem";
-            this.addOnManagerToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.addOnManagerToolStripMenuItem.Text = "&AddOn Manager";
-            this.addOnManagerToolStripMenuItem.Click += new System.EventHandler(this.addOnManagerToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.optionsToolStripMenuItem.Text = "&Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
             // 
             // Main
             // 
@@ -170,6 +186,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createAddOnPackageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addOnManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

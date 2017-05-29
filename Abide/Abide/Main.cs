@@ -116,8 +116,16 @@ namespace Abide
 
         private void addOnManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Create Manager
             using (AddOnManager manager = new AddOnManager())
                 manager.ShowDialog();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create Options Dialog
+            using (OptionsDialog optDlg = new OptionsDialog())
+                optDlg.ShowDialog();
         }
     }
 }

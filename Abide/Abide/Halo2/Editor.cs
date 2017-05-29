@@ -160,9 +160,11 @@ namespace Abide.Halo2
             tabPages = new List<TabPage>();
             foreach (var tabPage in container.GetTabPages())
             {
+                //Prepare
+                tabPage.UserInterface.Dock = DockStyle.Fill;
+
                 //Create Tab Page
                 TabPage page = new TabPage(tabPage.Name);
-                tabPage.UserInterface.Dock = DockStyle.Fill;
                 page.Controls.Add(tabPage.UserInterface);
                 page.Name = tabPage.Name;
                 page.Tag = tabPage;

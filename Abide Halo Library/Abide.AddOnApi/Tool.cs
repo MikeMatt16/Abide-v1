@@ -86,11 +86,14 @@ namespace Abide.AddOnApi
             get { return icon; }
             set { icon = value; }
         }
-        [Category("Abide"), Description("The display name of the tool."), Browsable(true)]
+        /// <summary>
+        /// Gets or sets the name of the AddOn.
+        /// </summary>
+        [Category("Abide"), Description("The name of the AddOn."), Browsable(true)]
         public string ToolName
         {
-            get { return toolName; }
-            set { toolName = value; }
+            get { return name; }
+            set { name = value; }
         }
         /// <summary>
         /// Gets and returns the current Halo Map.
@@ -133,7 +136,7 @@ namespace Abide.AddOnApi
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
         private MapVersion mapVersion = MapVersion.Halo2;
-        private string toolName = string.Empty;
+        private string name = string.Empty;
         private string description = string.Empty;
         private string author = string.Empty;
         private Image icon = null;
@@ -144,7 +147,7 @@ namespace Abide.AddOnApi
         /// </summary>
         public Tool()
         {
-            toolName = Name;
+            name = Name;
         }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
@@ -208,7 +211,7 @@ namespace Abide.AddOnApi
         }
         string IAddOn.Name
         {
-            get { return toolName; }
+            get { return name; }
         }
         TEntry IHaloAddOn<TMap, TEntry>.SelectedEntry
         {
@@ -225,28 +228,52 @@ namespace Abide.AddOnApi
 
         void IDebugXboxAddOn<TXbox>.DebugXboxChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Xbox Changed
             OnXboxChanged(new EventArgs());
+
+            //Invoke
+            xboxChanged?.Invoke(this, e);
         }
         void IAddOn.Initialize(IHost host)
         {
+            //Create Args
+            var e = new AddOnHostEventArgs(host);
+
             //Initialize
-            OnIntialize(new AddOnHostEventArgs(host));
+            OnIntialize(e);
+
+            //Trigger
+            initialize?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnMapLoad()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Map Load
-            OnMapLoad(new EventArgs());
+            OnMapLoad(e);
+
+            //Invoke
+            mapLoad?.Invoke(this, e);
         }
         void IHaloAddOn<TMap, TEntry>.OnSelectedEntryChanged()
         {
+            //Create Args
+            var e = new EventArgs();
+
             //Selected Entry Changed
-            OnSelectedEntryChanged(new EventArgs());
+            OnSelectedEntryChanged(e);
+
+            //Invoke
+            selectedEntryChanged?.Invoke(this, e);
         }
         void IDisposable.Dispose()
         {
             //Dispose
-            Dispose(true);
+            Dispose();
         }
     }
 }

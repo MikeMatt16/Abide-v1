@@ -5,6 +5,7 @@
     /// </summary>
     public enum MapVersion
     {
+        None,
         HaloCE,
         HaloCEx,
         Halo2,

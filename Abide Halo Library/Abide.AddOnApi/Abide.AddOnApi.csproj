@@ -44,7 +44,11 @@
     <Compile Include="AddOnFactory.cs" />
     <Compile Include="ContextMenuItem.cs" />
     <Compile Include="IContextMenuItem.cs" />
+    <Compile Include="ISettingsPage.cs" />
     <Compile Include="MenuButton.cs" />
+    <Compile Include="SettingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TabPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
