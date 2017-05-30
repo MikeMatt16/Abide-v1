@@ -305,6 +305,19 @@ namespace Abide.Halo2
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
+            //Check
+            if (!File.Exists(filename) || string.IsNullOrEmpty(filename))
+                using (SaveFileDialog saveDlg = new SaveFileDialog())
+                {
+                    //Setup
+                    saveDlg.Filter = "Halo 2 Maps (*map)|*.map";
+                    saveDlg.FileName = filename;
+
+                    //Show
+                    if (saveDlg.ShowDialog() == DialogResult.OK)
+                        filename = saveDlg.FileName;
+                }
+
             //Save
             map.Save(filename);
         }
