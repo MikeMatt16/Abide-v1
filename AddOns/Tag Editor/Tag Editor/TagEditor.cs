@@ -6,15 +6,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Abide.HaloLibrary.Halo2Map;
-using YeloDebug;
-using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
 
-namespace Meta_Editor
+namespace Tag_Editor
 {
-    public partial class MetaEditor : Tool
+    public partial class TagEditor : AbideTool
     {
-        public MetaEditor()
+        public TagEditor()
         {
             InitializeComponent();
         }
