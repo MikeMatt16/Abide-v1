@@ -118,7 +118,43 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Bitmask" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\bitmask.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Editor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\editor.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Editor_Styles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\editor styles.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Enum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\enum.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EnumOption" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\enumoption.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Meta_Editor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Meta Editor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Reflexive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\reflexive.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Script" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\script.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="String" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\string.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="StringID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\stringid.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\tag.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Unicode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\unicode.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Value" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\tag editor\value.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

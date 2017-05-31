@@ -51,8 +51,8 @@
             // editorSplitter.Panel2
             // 
             this.editorSplitter.Panel2.Controls.Add(this.treeView1);
-            this.editorSplitter.Size = new System.Drawing.Size(536, 500);
-            this.editorSplitter.SplitterDistance = 300;
+            this.editorSplitter.Size = new System.Drawing.Size(550, 550);
+            this.editorSplitter.SplitterDistance = 314;
             this.editorSplitter.TabIndex = 0;
             // 
             // webBrowser1
@@ -61,7 +61,7 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(300, 500);
+            this.webBrowser1.Size = new System.Drawing.Size(314, 550);
             this.webBrowser1.TabIndex = 0;
             // 
             // treeView1
@@ -69,7 +69,7 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(232, 500);
+            this.treeView1.Size = new System.Drawing.Size(232, 550);
             this.treeView1.TabIndex = 0;
             // 
             // TagEditor
@@ -81,7 +81,7 @@
             this.Description = "Provides a user interface to edit tag data.";
             this.Icon = global::Tag_Editor.Properties.Resources.Meta_Editor;
             this.Name = "TagEditor";
-            this.Size = new System.Drawing.Size(536, 500);
+            this.Size = new System.Drawing.Size(550, 550);
             this.ToolName = "Tag Editor";
             this.editorSplitter.Panel1.ResumeLayout(false);
             this.editorSplitter.Panel2.ResumeLayout(false);
