@@ -16,7 +16,7 @@ namespace Abide.Ifp
             get
             {
                 int length = 0;
-                fields.ForEach(f => length += f.Offset + f.Length);
+                fields.ForEach(f => length += f.Length - f.Offset);
                 return length;
             }
         }
