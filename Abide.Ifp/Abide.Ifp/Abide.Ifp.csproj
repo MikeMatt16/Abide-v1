@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FieldSet.cs" />
     <Compile Include="IfpDocument.cs" />
     <Compile Include="IfpException.cs" />
     <Compile Include="IfpNode.cs" />

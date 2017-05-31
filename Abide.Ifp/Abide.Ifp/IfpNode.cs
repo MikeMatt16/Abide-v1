@@ -97,9 +97,17 @@ namespace Abide.Ifp
             get { return headerSize; }
             set { headerSize = value; }
         }
-
-        private bool inferOffset = true;
+        /// <summary>
+        /// Gets or sets the option value of the element.
+        /// </summary>
+        public int Value
+        {
+            get { return optionValue; }
+            set { optionValue = value; }
+        }
+        
         private readonly IfpNodeCollection nodes;
+        private bool inferOffset = true;
         private IfpNodeType type;
         private string name;
         private int length;
@@ -109,6 +117,7 @@ namespace Abide.Ifp
         private bool visible;
         private TAG @class;
         private int headerSize;
+        private int optionValue;
 
         /// <summary>
         /// Initializes a new <see cref="IfpNode"/> instance.
@@ -144,6 +153,7 @@ namespace Abide.Ifp
             int.TryParse(xmlNode.Attributes?["reflexiveSize"]?.InnerText, out node.tagBlockSize);
             int.TryParse(xmlNode.Attributes?["size"]?.InnerText, out node.length);
             int.TryParse(xmlNode.Attributes?["headersize"]?.InnerText, out node.headerSize);
+            int.TryParse(xmlNode.Attributes?["value"]?.InnerText, out node.optionValue);
             bool.TryParse(xmlNode.Attributes?["visible"]?.InnerText, out node.visible);
             node.@class = xmlNode.Attributes?["class"]?.InnerText ?? string.Empty;
 
