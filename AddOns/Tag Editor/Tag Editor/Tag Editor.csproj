@@ -68,6 +68,10 @@
       <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
       <Name>YeloDebug</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj">
+      <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
+      <Name>Abide.Ifp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
