@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace Abide.Ifp
 {
@@ -12,7 +9,24 @@ namespace Abide.Ifp
     /// </summary>
     public class IfpDocument
     {
-        private IfpNode[] nodes;
+        /// <summary>
+        /// Gets and returns the plugin node.
+        /// </summary>
+        public IfpNode Plugin
+        {
+            get { return main; }
+        }
+
+        private IfpNode main;
+
+        /// <summary>
+        /// Initializes a new <see cref="IfpDocument"/> instance.
+        /// </summary>
+        public IfpDocument()
+        {
+            //Setup
+            main = new IfpNode();
+        }
 
         /// <summary>
         /// Loads the IFP document from the specified URL.
@@ -26,7 +40,7 @@ namespace Abide.Ifp
             doc.Load(filename);
 
             //Read IFP
-            LoadDocument(doc);
+            LoadFromXmlDocument(doc);
         }
         /// <summary>
         /// Loads the IFP document from the specified stream.
@@ -39,7 +53,7 @@ namespace Abide.Ifp
             doc.Load(inStream);
 
             //Read IFP
-            LoadDocument(doc);
+            LoadFromXmlDocument(doc);
         }
         /// <summary>
         /// Loads the IFP document from the specified <see cref="TextReader"/>.
@@ -52,7 +66,7 @@ namespace Abide.Ifp
             doc.Load(txtReader);
 
             //Read IFP
-            LoadDocument(doc);
+            LoadFromXmlDocument(doc);
         }
         /// <summary>
         /// Loads the IFP document from the specified string.
@@ -64,68 +78,15 @@ namespace Abide.Ifp
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(ifp);
         }
-
-        private void LoadDocument(XmlDocument doc)
+        /// <summary>
+        /// Loads the IFP document from the specified <see cref="XmlDocument"/>.
+        /// </summary>
+        /// <param name="doc">The <see cref="XmlDocument"/> to load the <see cref="IfpDocument"/> from.</param>
+        private void LoadFromXmlDocument(XmlDocument doc)
         {
-        }
-    }
-
-    /// <summary>
-    /// Represents a single node in the IFP document.
-    /// </summary>
-    public class IfpNode : ICloneable, IEnumerable<IfpNode>, IXPathNavigable
-    {
-        public string Name
-        {
-            get { return name; }
-        }
-
-        public string name;
-        private IfpAttribute[] attributes;
-        private IfpNode[] nodes;
-
-        public object Clone()
-        {
-            return new IfpNode() { name = name, attributes = attributes, nodes = nodes };
-        }
-
-        public IEnumerator<IfpNode> GetEnumerator()
-        {
-            return (IEnumerator<IfpNode>)nodes.GetEnumerator();
-        }
-
-        public XPathNavigator CreateNavigator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return nodes.GetEnumerator();
-        }
-    }
-
-
-    public class IfpAttribute
-    {
-        public string Name
-        {
-            get { return name; }
-        }
-        public string Value
-        {
-            get { return value; }
-        }
-
-        private string name;
-        private string value;
-
-        public override string ToString()
-        {
-            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(value))
-                return string.Format("{0}: {1}", name, value);
-            else if (!string.IsNullOrEmpty(name)) return name;
-            else return base.ToString();
+            //Get Plugin
+            try { main = IfpNode.FromXmlNode(doc["plugin"]); }
+            catch(Exception ex) { throw new IfpException("An error occured while loading the plugin document.", ex); }
         }
     }
 }

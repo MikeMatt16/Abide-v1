@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="IfpDocument.cs" />
     <Compile Include="IfpException.cs" />
+    <Compile Include="IfpNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
