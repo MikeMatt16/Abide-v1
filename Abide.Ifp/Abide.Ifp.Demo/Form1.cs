@@ -38,8 +38,14 @@ namespace Abide.Ifp.Demo
             //Check
             if (open)
             {
+                //Load
                 IfpDocument doc = new IfpDocument();
                 doc.Load(filename);
+
+                //Create Field Set
+                FieldSet header = new FieldSet();
+                foreach (IfpNode node in doc.Plugin.Nodes)
+                    header.Add(node);
             }
         }
     }

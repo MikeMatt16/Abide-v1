@@ -7,7 +7,7 @@ namespace Abide.Ifp
     /// <summary>
     /// Represents an IFP document.
     /// </summary>
-    public class IfpDocument
+    public sealed class IfpDocument
     {
         /// <summary>
         /// Gets and returns the plugin node.

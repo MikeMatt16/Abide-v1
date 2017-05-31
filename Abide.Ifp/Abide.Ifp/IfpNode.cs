@@ -8,7 +8,7 @@ namespace Abide.Ifp
     /// <summary>
     /// Represents a single node in the IFP document.
     /// </summary>
-    public class IfpNode
+    public sealed class IfpNode
     {
         /// <summary>
         /// Gets or sets the name of the node.
@@ -325,7 +325,7 @@ namespace Abide.Ifp
     /// <summary>
     /// Represents an enumerator that contains the IronForgePlugin node types for an IronForgePlugin node.
     /// </summary>
-    public enum IfpNodeType
+    public enum IfpNodeType : byte
     {
         /// <summary>
         /// Represents an unspecified node type.
