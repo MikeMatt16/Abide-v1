@@ -9,9 +9,9 @@ namespace Abide
     internal static class Program
     {
         /// <summary>
-        /// Gets and returns the application's <see cref="AddOnManager"/>.
+        /// Gets and returns the application's <see cref="AddOnFactoryManager"/>.
         /// </summary>
-        public static AddOnManager Container
+        public static AddOnFactoryManager Container
         {
             get { return addOns; }
         }
@@ -23,7 +23,7 @@ namespace Abide
             get { return safeMode; }
         }
 
-        private static AddOnManager addOns;
+        private static AddOnFactoryManager addOns;
         private static Form mainForm;
         private static bool safeMode;
 
@@ -36,7 +36,7 @@ namespace Abide
             //Prepare
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            addOns = new AddOnManager();
+            addOns = new AddOnFactoryManager();
 
             //Load AddOns
             AddOnManifest manifest = new AddOnManifest();

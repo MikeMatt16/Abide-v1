@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Abide.Classes
 {
     /// <summary>
-    /// Represents a specialized Settings AddOn container.
+    /// Represents a generic AddOn container.
     /// </summary>
     public sealed class AddOnContainer : IDisposable
     {
@@ -39,7 +39,7 @@ namespace Abide.Classes
                 factory_FilterInterfaces(factory, host);
         }
         /// <summary>
-        /// Releases all resources used by this <see cref="SettingsAddOnContainer"/> instance.
+        /// Releases all resources used by this <see cref="AddOnContainer"/> instance.
         /// </summary>
         public void Dispose()
         {

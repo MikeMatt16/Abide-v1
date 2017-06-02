@@ -9,14 +9,14 @@ namespace Abide.Classes
     /// <summary>
     /// Represents an AddOn factory manager.
     /// </summary>
-    public sealed class AddOnManager
+    public sealed class AddOnFactoryManager
     {
         private readonly Dictionary<string, AddOnFactory> factories;
 
         /// <summary>
-        /// Initializes a new <see cref="AddOnManager"/>
+        /// Initializes a new <see cref="AddOnFactoryManager"/>
         /// </summary>
-        public AddOnManager()
+        public AddOnFactoryManager()
         {
             //Initialize
             factories = new Dictionary<string, AddOnFactory>();
