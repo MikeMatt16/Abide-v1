@@ -40,6 +40,9 @@ namespace Abide
             addOnAssemblies = new List<string>();
             addOns = new AddOnFactoryManager();
 
+            //Check
+            if (!Directory.Exists(RegistrySettings.AddOnsDirectory)) Directory.CreateDirectory(RegistrySettings.AddOnsDirectory);
+
             //Load AddOns
             AddOnManifest manifest = new AddOnManifest();
             foreach (string directory in Directory.EnumerateDirectories(RegistrySettings.AddOnsDirectory))

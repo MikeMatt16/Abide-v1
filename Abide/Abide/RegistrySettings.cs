@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using System;
+using System.IO;
 
 namespace Abide
 {
@@ -6,7 +8,7 @@ namespace Abide
     {
         public static string AddOnsDirectory
         {
-            get { return GetValue<string>("AddOns"); }
+            get { SetDefault("AddOns", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Abide", "AddOns")); return GetValue<string>("AddOns"); }
             set { SetValue("AddOns", value); }
         }
 
@@ -32,6 +34,17 @@ namespace Abide
         {
             using (RegistryKey key = abide.CreateSubKey(subkey))
                 key.SetValue(name, value);
+        }
+        private static void SetDefault(string name, object value)
+        {
+            if (abide.GetValue(name) == null)
+                abide.SetValue(name, value); 
+        }
+        private static void SetDefault(string subkey, string name, object value)
+        {
+            using (RegistryKey key = abide.CreateSubKey(subkey))
+                if (key.GetValue(name) == null)
+                    key.SetValue(name, value);
         }
     }
 }
