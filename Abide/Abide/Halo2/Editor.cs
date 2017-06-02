@@ -83,6 +83,7 @@ namespace Abide.Halo2
             {
                 //Create Button
                 ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                button.Click += MenuButton_Click;
                 button.Name = menuButton.Name;
                 button.Tag = menuButton;
 
@@ -476,11 +477,6 @@ namespace Abide.Halo2
             menuButton?.OnClick();
         }
         
-        bool IHost.InvokeRequired
-        {
-            get { return InvokeRequired; }
-        }
-
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             //Handle Request
@@ -489,14 +485,27 @@ namespace Abide.Halo2
                 case "Map": return map;
                 case "SelectedEntry": return selectedEntry;
                 case "Xbox": return xbox;
+                case "TagBrowserDialog":
+                    //Prepare
+                    TAGID selectedId = TAGID.Null;
+                    if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
+
+                    //Initialize Tag Browser Dialog
+                    using (TagBrowserDialog tagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
+                    {
+                        //Set
+                        tagDlg.SelectedID = selectedId;
+
+                        //Show
+                        if (tagDlg.ShowDialog() == DialogResult.OK)
+                            selectedId = tagDlg.SelectedID;
+                    }
+
+                    //Return
+                    return selectedId;
 
                 default: return null;
             }
-        }
-
-        object IHost.Invoke(Delegate method)
-        {
-            return Invoke(method);
         }
         
         private class TagIdSorter : IComparer

@@ -48,15 +48,7 @@ namespace Abide.Dialogs
                 settingsTabControl.TabPages.Add(page);
             }
         }
-
-        bool IHost.InvokeRequired
-        {
-            get { return InvokeRequired; }
-        }
-        object IHost.Invoke(Delegate method)
-        {
-            return Invoke(method);
-        }
+        
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             throw new NotImplementedException();

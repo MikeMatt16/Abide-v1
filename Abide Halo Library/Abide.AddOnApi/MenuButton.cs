@@ -122,6 +122,14 @@ namespace Abide.AddOnApi
             get { return icon; }
             set { icon = value; }
         }
+        /// <summary>
+        /// Gets and returns the AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         /// <summary>
         /// Gets and returns the current Halo Map.

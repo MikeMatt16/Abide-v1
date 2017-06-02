@@ -61,6 +61,12 @@
     <Compile Include="Dialogs\PackageAddOnDialog.Designer.cs">
       <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\TagBrowserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TagBrowserDialog.designer.cs">
+      <DependentUpon>TagBrowserDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistrySettings.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Forms\AddOnManager.cs">
@@ -90,6 +96,9 @@
     <EmbeddedResource Include="Dialogs\PackageAddOnDialog.resx">
       <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TagBrowserDialog.resx">
+      <DependentUpon>TagBrowserDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddOnManager.resx">
       <DependentUpon>AddOnManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +118,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

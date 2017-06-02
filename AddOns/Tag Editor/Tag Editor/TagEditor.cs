@@ -16,5 +16,9 @@ namespace Tag_Editor
         {
             InitializeComponent();
         }
+
+        private void TagEditor_SelectedEntryChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

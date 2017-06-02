@@ -1,11 +1,10 @@
-﻿using Abide.AddOnApi;
-using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.AddOnApi.Halo2;
+using Abide.HaloLibrary;
 using System;
-using YeloDebug;
 
 namespace Abide.AddOnDemo
 {
-    public class DemoMenuButton : MenuButton<MapFile, IndexEntry, Xbox>
+    public class DemoMenuButton : AbideMenuButton
     {
         public DemoMenuButton()
         {
@@ -16,7 +15,11 @@ namespace Abide.AddOnDemo
 
         private void DemoMenuButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //Prepare
+            TAGID selectedId = SelectedEntry?.ID ?? TAGID.Null;
+
+            //Check
+            selectedId = Host.BrowseTag(this, selectedId);
         }
     }
 }

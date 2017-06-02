@@ -149,6 +149,14 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return (Xbox)host?.Request(this, "Xbox"); }
         }
+        /// <summary>
+        /// Gets and returns the AddOn host.
+        /// </summary>
+        [Browsable(false)]
+        public IHost Host
+        {
+            get { return host; }
+        }
 
         private event EventHandler click;
         private event EventHandler mapLoad;

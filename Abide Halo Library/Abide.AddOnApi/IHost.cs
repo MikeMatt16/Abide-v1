@@ -1,21 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Abide.AddOnApi
 {
     /// <summary>
     /// Defines a generalized AddOn host that a class implements to communcate with <see cref="IAddOn"/> instances.
     /// </summary>
-    public interface IHost
+    public interface IHost : ISynchronizeInvoke
     {
-        /// <summary>
-        /// Gets a value indicating whether the caller must call an invoke method when making method calls to the host because the host is on a different thread than the caller is on.
-        /// </summary>
-        bool InvokeRequired { get; }
         /// <summary>
         /// Executes the specified delegate on the thread that owns the host's underlying window handle.
         /// </summary>
-        /// <param name="method">A delegate that contains a method to be called in the host's thread context. </param>
-        /// <returns>The return value from the delegate being invoked, or <see cref="null"/> if the delegate has no return value.</returns>
+        /// <param name="method">A delegate that contains a method to be called in the control's thread context.</param>
+        /// <returns>The return value from the delegate being invoked, or null if the delegate has no return value.</returns>
         object Invoke(Delegate method);
         /// <summary>
         /// When implemented, handles a request from an <see cref="IAddOn"/> instance using a specified request string and supplied arguments.
