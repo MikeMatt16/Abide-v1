@@ -185,73 +185,64 @@ namespace Abide.AddOnApi
         private Assembly CurrentDomain_Resolve(object sender, ResolveEventArgs args)
         {
             //Prepare
-            byte[] buffer = null;
             Assembly assembly = null;
-
+            
             //Get Assembly Locations...
             string libraryLocation = Path.Combine(addOnDirectory, $"{args.Name}.dll");
             string executableLocation = Path.Combine(addOnDirectory, $"{args.Name}.exe");
 
-            //Add library?
-            if (!assemblyLookup.ContainsKey(libraryLocation))
+            //Check
+            if (!assemblyLookup.ContainsKey(args.Name))
             {
-                //Check
-                assembly = null;
                 if (File.Exists(libraryLocation))
-                    if (safeMode)
-                    {
-                        //Open File
-                        using (FileStream fs = new FileStream(libraryLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
-                        {
-                            //Setup Buffer...
-                            buffer = new byte[fs.Length];
-
-                            //Read
-                            fs.Read(buffer, 0, buffer.Length);
-                        }
-
-                        //Create Assembly
-                        assembly = Assembly.Load(buffer);
-                    }
-                    else assembly = Assembly.LoadFile(libraryLocation);
-
-                //Set
-                assemblyLookup.Add(libraryLocation, assembly);
+                {
+                    if (safeMode) assemblyLookup.Add(args.Name, assembly_LoadFromSafe(libraryLocation));
+                    else assemblyLookup.Add(args.Name, assembly_LoadFrom(libraryLocation));
+                }
+                else if (File.Exists(executableLocation))
+                {
+                    if (safeMode) assemblyLookup.Add(args.Name, assembly_LoadFromSafe(executableLocation));
+                    else assemblyLookup.Add(args.Name, assembly_LoadFrom(executableLocation));
+                }
             }
 
-            //Add executable?
-            if (!assemblyLookup.ContainsKey(executableLocation))
-            {
-                //Check
-                assembly = null;
-                if (File.Exists(executableLocation))
-                    if (safeMode)
-                    {
-                        //Open File
-                        using (FileStream fs = new FileStream(executableLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
-                        {
-                            //Setup Buffer...
-                            buffer = new byte[fs.Length];
-
-                            //Read
-                            fs.Read(buffer, 0, buffer.Length);
-                        }
-
-                        //Create Assembly
-                        assembly = Assembly.Load(buffer);
-                    }
-                    else assembly = Assembly.LoadFile(executableLocation);
-
-                //Set
-                assemblyLookup.Add(executableLocation, assembly);
-            }
-
-            //Check...
-            assembly = assemblyLookup[libraryLocation];
-            if (assembly == null) assembly = assemblyLookup[executableLocation];
+            //Get
+            if (assemblyLookup.ContainsKey(args.Name))
+                assembly = assemblyLookup[args.Name];
 
             //Return
             return assembly;
+        }
+        private Assembly assembly_LoadFromSafe(string filename)
+        {
+            //Prepare
+            Assembly assembly = null;
+            byte[] buffer = null;
+
+            //Check
+            if (File.Exists(filename))
+                if (safeMode)
+                {
+                    //Open File
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        //Setup Buffer...
+                        buffer = new byte[fs.Length];
+
+                        //Read
+                        fs.Read(buffer, 0, buffer.Length);
+                    }
+
+                    //Create Assembly
+                    assembly = Assembly.Load(buffer);
+                }
+
+            //Return
+            return assembly;
+        }
+        private Assembly assembly_LoadFrom(string filename)
+        {
+            return Assembly.LoadFile(filename);
         }
     }
 }
