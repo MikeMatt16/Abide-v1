@@ -50,6 +50,7 @@
     <Compile Include="AddOnManifest.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Classes\AddOnFactoryManager.cs" />
+    <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\SettingsAddOnContainer.cs" />
     <Compile Include="Dialogs\OptionsDialog.cs">
       <SubType>Form</SubType>

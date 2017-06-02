@@ -1,4 +1,5 @@
 ﻿using Abide.AddOnApi;
+using Abide.Classes;
 using System;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace Abide.Forms
         public AddOnManager()
         {
             InitializeComponent();
+
+            //Check
+            if (!Security.IsAdmin()) Security.ElevateButton(deleteButton);
 
             //Loop
             foreach (var factory in Program.Container.GetFactories())
@@ -69,7 +73,15 @@ namespace Abide.Forms
                 Program.Container.RemoveDirectory(factory.AddOnDirectory);
 
             //Delete Directories?
+            bool failed = false;
+            try { foreach (AddOnFactory factory in factories) Directory.Delete(factory.AddOnDirectory, true); }
+            catch { failed |= true; }
 
+            //Check
+            if (failed) if (MessageBox.Show("The directories cannot be deleted. The application must be in safe-mode to delete." +
+                "Would you like to restart the program in safe mode?", "Restart required",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                { Security.RestartElevated("-s"); Application.Exit(); }
         }
     }
 }
