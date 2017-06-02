@@ -1,24 +1,30 @@
 ﻿using Abide.AddOnApi;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace Abide.Classes
 {
     /// <summary>
     /// Represents a specialized Settings AddOn container.
     /// </summary>
-    public sealed class AddOnContainer : IDisposable
+    public sealed class SettingsAddOnContainer : IDisposable
     {
         private readonly List<IAddOn> addOns;
+        private readonly List<ISettingsPage> settingsPages;
         private bool disposedValue = false;
 
         /// <summary>
-        /// Initializes a new <see cref="AddOnContainer"/>
+        /// Initializes a new <see cref="SettingsAddOnContainer"/>
         /// </summary>
-        public AddOnContainer()
+        public SettingsAddOnContainer()
         {
             //Initialize
             addOns = new List<IAddOn>();
+            settingsPages = new List<ISettingsPage>();
         }
         /// <summary>
         /// Retrieves all of the <see cref="IAddOn"/> instances within the container.
@@ -27,6 +33,14 @@ namespace Abide.Classes
         public IAddOn[] GetAddOns()
         {
             return addOns.ToArray();
+        }
+        /// <summary>
+        /// Retrieves all of the <see cref="ISettingsPage"/> instances within the container.
+        /// </summary>
+        /// <returns>An array of <see cref="ISettingsPage"/> instances loaded and initializded by the container.</returns>
+        public ISettingsPage[] GetSettingsPages()
+        {
+            return settingsPages.ToArray();
         }
         /// <summary>
         /// Begins the AddOn initialization process.
@@ -51,22 +65,23 @@ namespace Abide.Classes
             foreach (Type type in factory.GetAddOnTypes())
             {
                 //Prepare...
-                var addOn = type.GetInterface(typeof(IAddOn).Name);
+                var settingsPage = type.GetInterface(typeof(ISettingsPage).Name);
                 var assemblyName = type.Assembly.GetName().Name;
 
                 //Check Settings page
-                if (addOn != null)
-                    factory_InitializeAddOn(factory, assemblyName, type.FullName, host);
+                if (settingsPage != null)
+                    factory_InitializeSettingsPage(factory, assemblyName, type.FullName, host);
             }
         }
-        private void factory_InitializeAddOn(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void factory_InitializeSettingsPage(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
-            IAddOn addOn = factory.CreateInstance<IAddOn>(assemblyName, typeFullName);
-            addOn.Initialize(host);
+            ISettingsPage settingsPage = factory.CreateInstance<ISettingsPage>(assemblyName, typeFullName);
+            settingsPage.Initialize(host);
 
             //Add
-            addOns.Add(addOn);
+            addOns.Add(settingsPage);
+            settingsPages.Add(settingsPage);
         }
         private void Dispose(bool disposing)
         {
@@ -78,6 +93,7 @@ namespace Abide.Classes
 
                 //Clear
                 addOns.Clear();
+                settingsPages.Clear();
 
                 disposedValue = true;
             }

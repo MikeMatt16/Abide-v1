@@ -1,12 +1,10 @@
-﻿using Abide.AddOnApi;
-using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.AddOnApi.Halo2;
 using System;
 using System.Windows.Forms;
-using YeloDebug;
 
 namespace Abide.AddOnDemo
 {
-    public partial class DemoTool : Tool<MapFile, IndexEntry, Xbox>
+    public partial class DemoTool : AbideTool
     {
         public DemoTool()
         {

@@ -1,31 +1,60 @@
-﻿using Abide.Halo2;
-using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.Classes;
+using Abide.Halo2;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Abide
 {
-    static class Program
+    internal static class Program
     {
-        private static Form mainForm = null;
+        /// <summary>
+        /// Gets and returns the application's <see cref="AddOnManager"/>.
+        /// </summary>
+        public static AddOnManager Container
+        {
+            get { return addOns; }
+        }
+        /// <summary>
+        /// Gets and returns true if the application is to be run in safe mode.
+        /// </summary>
+        public static bool SafeMode
+        {
+            get { return safeMode; }
+        }
+
+        private static AddOnManager addOns;
+        private static Form mainForm;
+        private static bool safeMode;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(params string[] args)
+        private static void Main(params string[] args)
         {
             //Prepare
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            addOns = new AddOnManager();
+
+            //Load AddOns
+            AddOnManifest manifest = new AddOnManifest();
+            foreach (string directory in Directory.EnumerateDirectories(RegistrySettings.AddOnsDirectory))
+            {
+                //Get Manifest Path
+                manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
+
+                //Load
+                string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
+                if (File.Exists(assemblyPath)) addOns.AddAssembly(assemblyPath);
+            }
 
             //Handle Arguments
             if (Main_HandleArguments(args))
                 Main_Continue();
         }
-
+        
         private static void Main_Continue()
         {
             //Check Main Form
@@ -49,11 +78,12 @@ namespace Abide
                 //Check
                 switch (arg)
                 {
-                    case "-da":
-                        switch (args[i + 1])
-                        {
-                            case "-h2": mainForm = Editor.DebugAssembly(args[i + 2]); break;
-                        }
+                    case "-s":  //Safe Mode
+                        safeMode = true;
+                        break;
+
+                    case "-da": //Debug AddOn Assembly
+                        if (args.Length >= 2 && File.Exists(args[i + 1])) addOns.AddAssembly(args[i + 1]);
                         break;
                 }
             }

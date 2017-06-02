@@ -9,28 +9,14 @@ namespace Abide.Dialogs
 {
     public partial class OptionsDialog : Form, IHost
     {
-        private readonly SettingsPageContainer container;
+        private readonly SettingsAddOnContainer container;
 
         public OptionsDialog()
         {
             InitializeComponent();
 
-            //Initialize
-            container = new SettingsPageContainer();
-
-            //Load AddOns
-            AddOnManifest manifest = new AddOnManifest();
-            foreach (string directory in Directory.EnumerateDirectories(RegistrySettings.AddOnsDirectory))
-            {
-                //Get Manifest Path
-                manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
-
-                //Load
-                string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
-                if (File.Exists(assemblyPath)) container.AddAssembly(assemblyPath);
-            }
-
-            //Initialize AddOns
+            //Prepare Container
+            container = new SettingsAddOnContainer();
             container.BeginInit(this);
 
             //Load Settings Pages

@@ -36,7 +36,7 @@ namespace Abide.Halo2
             set { optionsToolStripButton.Visible = value; }
         }
 
-        private readonly AddOnContainer<MapFile, IndexEntry, Xbox> container;
+        private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
         private readonly MapFile map;
         private readonly Xbox xbox;
 
@@ -47,72 +47,6 @@ namespace Abide.Halo2
         private string filename = string.Empty;
         
         /// <summary>
-        /// Initializes a new <see cref="Editor"/> instance with the assembly injected.
-        /// </summary>
-        /// <param name="assembly">The assembly to inject.</param>
-        private Editor(Assembly assembly, string directory)
-        {
-            InitializeComponent();
-
-            //Initialize
-            map = new MapFile();
-            tagTree.TreeViewNodeSorter = new TagIdSorter();
-            container = new AddOnContainer<MapFile, IndexEntry, Xbox>(MapVersion.Halo2);
-            xbox = new Xbox(Application.StartupPath);
-
-            //Load Assembly
-            container.AddAssembly(assembly, directory);
-
-            //Initialize AddOns
-            container.BeginInit(this);
-
-            //Load Tools
-            foreach (var tool in container.GetTools())
-            {
-                //Create Item
-                ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon) { Tag = tool };
-                toolItem.Click += ToolItem_Click;
-
-                //Add
-                toolStripDropDownButton.DropDownItems.Add(toolItem);
-            }
-
-            //Load Menu Items
-            menuButtons = new List<ToolStripButton>();
-            foreach (var menuButton in container.GetMenuButtons())
-            {
-                //Create Button
-                ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
-                button.Click += MenuButton_Click;
-                button.Name = menuButton.Name;
-                button.Tag = menuButton;
-
-                //Add
-                menuButtons.Add(button);
-
-                //Check
-                if (!menuButton.ApplyFilter) mapToolStrip.Items.Add(button);
-            }
-
-            //Load Tab Pages
-            tabPages = new List<TabPage>();
-            foreach (var tabPage in container.GetTabPages())
-            {
-                //Create Tab Page
-                TabPage page = new TabPage(tabPage.Name);
-                tabPage.UserInterface.Dock = DockStyle.Fill;
-                page.Controls.Add(tabPage.UserInterface);
-                page.Name = tabPage.Name;
-                page.Tag = tabPage;
-
-                //Add
-                tabPages.Add(page);
-
-                //Check
-                if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
-            }
-        }
-        /// <summary>
         /// Initializes a new <see cref="Editor"/>.
         /// </summary>
         private Editor()
@@ -121,22 +55,11 @@ namespace Abide.Halo2
 
             //Initialize
             tagTree.TreeViewNodeSorter = new TagIdSorter();
-            container = new AddOnContainer<MapFile, IndexEntry, Xbox>(MapVersion.Halo2);
             xbox = new Xbox(Application.StartupPath);
+            map = new MapFile();
 
-            //Load AddOns
-            AddOnManifest manifest = new AddOnManifest();
-            foreach (string directory in Directory.EnumerateDirectories(RegistrySettings.AddOnsDirectory))
-            {
-                //Get Manifest Path
-                manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
-
-                //Load
-                string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
-                if (File.Exists(assemblyPath)) container.AddAssembly(assemblyPath);
-            }
-
-            //Initialize AddOns
+            //Prepare Container
+            container = new HaloAddOnContainer<MapFile, IndexEntry, Xbox>(MapVersion.Halo2);
             container.BeginInit(this);
 
             //Load Tools
@@ -214,25 +137,6 @@ namespace Abide.Halo2
 
             //Load
             map_Load();
-        }
-        /// <summary>
-        /// Creates a new <see cref="Editor"/> instance used for debugging a supplied assembly.
-        /// </summary>
-        /// <param name="filename">The file name of the assembly to debug.</param>
-        /// <returns>A new <see cref="Editor"/> instance.</returns>
-        public static Editor DebugAssembly(string filename)
-        {
-            //Check
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
-            if (!File.Exists(filename)) throw new FileNotFoundException("Unable to find supplied file.", filename);
-            
-            //Initialize            
-            Editor editor = new Editor(Assembly.LoadFile(filename), Path.GetDirectoryName(filename));
-            editor.OpenVisible = true;
-            editor.OptionsVisible = true;
-
-            //Return
-            return editor;
         }
 
         private void map_Close()
