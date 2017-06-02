@@ -47,7 +47,7 @@ namespace Abide.Classes
                 if (!factories.ContainsKey(directory))
                 {
                     //Create
-                    factory = new AddOnFactory() { AddOnDirectory = directory };
+                    factory = new AddOnFactory(Program.SafeMode) { AddOnDirectory = directory };
                     factories.Add(directory, factory);
                 }
                 else factory = factories[directory];
@@ -102,6 +102,16 @@ namespace Abide.Classes
             //Load Assembly
             try { factory.LoadAssembly(assembly); }
             catch (Exception ex) { Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace); }
+        }
+        /// <summary>
+        /// Removes a directory from the instance.
+        /// </summary>
+        /// <param name="directory">The directory of the AddOn.</param>
+        public void RemoveDirectory(string directory)
+        {
+            //Remove?
+            if (factories.ContainsKey(directory))
+                factories.Remove(directory);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Abide.Classes;
-using Abide.Halo2;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -23,6 +23,7 @@ namespace Abide
             get { return safeMode; }
         }
 
+        private static List<string> addOnAssemblies;
         private static AddOnFactoryManager addOns;
         private static Form mainForm;
         private static bool safeMode;
@@ -36,6 +37,7 @@ namespace Abide
             //Prepare
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            addOnAssemblies = new List<string>();
             addOns = new AddOnFactoryManager();
 
             //Load AddOns
@@ -47,7 +49,7 @@ namespace Abide
 
                 //Load
                 string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
-                if (File.Exists(assemblyPath)) addOns.AddAssembly(assemblyPath);
+                if (File.Exists(assemblyPath)) addOnAssemblies.Add(assemblyPath);
             }
 
             //Handle Arguments
@@ -57,6 +59,11 @@ namespace Abide
         
         private static void Main_Continue()
         {
+            //Load?
+            foreach (string assembly in addOnAssemblies)
+                if (safeMode) addOns.AddAssemblySafe(assembly);
+                else addOns.AddAssembly(assembly);
+
             //Check Main Form
             if (mainForm == null) mainForm = new Main();
 
@@ -83,7 +90,7 @@ namespace Abide
                         break;
 
                     case "-da": //Debug AddOn Assembly
-                        if (args.Length >= 2 && File.Exists(args[i + 1])) addOns.AddAssembly(args[i + 1]);
+                        if (args.Length >= 2 && File.Exists(args[i + 1])) addOnAssemblies.Add(args[i + 1]);
                         break;
                 }
             }

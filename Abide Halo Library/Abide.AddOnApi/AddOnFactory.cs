@@ -22,6 +22,8 @@ namespace Abide.AddOnApi
 
         private string addOnDirectory = string.Empty;
         private readonly List<Type> addOns;
+        private readonly Dictionary<string, Assembly> assemblyLookup;
+        private readonly bool safeMode = false;
         
         /// <summary>
         /// Initializes a new <see cref="AddOnFactory"/> instance.
@@ -30,6 +32,22 @@ namespace Abide.AddOnApi
         {
             //Initialize
             addOns = new List<Type>();
+            assemblyLookup = new Dictionary<string, Assembly>();
+
+            //Setup Events
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_Resolve;
+            AppDomain.CurrentDomain.TypeResolve += CurrentDomain_Resolve;
+        }
+        /// <summary>
+        /// Initializes a new AddOnFactory instance using the specified safe-mode value.
+        /// </summary>
+        /// <param name="safeMode">True to load assemblies safely (loading into memory) or not. False will lock the source files.</param>
+        public AddOnFactory(bool safeMode)
+        {
+            //Initialize
+            addOns = new List<Type>();
+            assemblyLookup = new Dictionary<string, Assembly>();
+            this.safeMode = safeMode;
 
             //Setup Events
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_Resolve;
@@ -166,17 +184,74 @@ namespace Abide.AddOnApi
 
         private Assembly CurrentDomain_Resolve(object sender, ResolveEventArgs args)
         {
-            //Check
-            if (!Directory.Exists(addOnDirectory)) return null;
+            //Prepare
+            byte[] buffer = null;
+            Assembly assembly = null;
 
             //Get Assembly Locations...
             string libraryLocation = Path.Combine(addOnDirectory, $"{args.Name}.dll");
             string executableLocation = Path.Combine(addOnDirectory, $"{args.Name}.exe");
 
-            //Check
-            if (File.Exists(libraryLocation)) return Assembly.LoadFrom(libraryLocation);
-            else if (File.Exists(executableLocation)) return Assembly.LoadFrom(executableLocation);
-            else return null;
+            //Add library?
+            if (!assemblyLookup.ContainsKey(libraryLocation))
+            {
+                //Check
+                assembly = null;
+                if (File.Exists(libraryLocation))
+                    if (safeMode)
+                    {
+                        //Open File
+                        using (FileStream fs = new FileStream(libraryLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            //Setup Buffer...
+                            buffer = new byte[fs.Length];
+
+                            //Read
+                            fs.Read(buffer, 0, buffer.Length);
+                        }
+
+                        //Create Assembly
+                        assembly = Assembly.Load(buffer);
+                    }
+                    else assembly = Assembly.LoadFile(libraryLocation);
+
+                //Set
+                assemblyLookup.Add(libraryLocation, assembly);
+            }
+
+            //Add executable?
+            if (!assemblyLookup.ContainsKey(executableLocation))
+            {
+                //Check
+                assembly = null;
+                if (File.Exists(executableLocation))
+                    if (safeMode)
+                    {
+                        //Open File
+                        using (FileStream fs = new FileStream(executableLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            //Setup Buffer...
+                            buffer = new byte[fs.Length];
+
+                            //Read
+                            fs.Read(buffer, 0, buffer.Length);
+                        }
+
+                        //Create Assembly
+                        assembly = Assembly.Load(buffer);
+                    }
+                    else assembly = Assembly.LoadFile(executableLocation);
+
+                //Set
+                assemblyLookup.Add(executableLocation, assembly);
+            }
+
+            //Check...
+            assembly = assemblyLookup[libraryLocation];
+            if (assembly == null) assembly = assemblyLookup[executableLocation];
+
+            //Return
+            return assembly;
         }
     }
 }

@@ -79,6 +79,7 @@ namespace Abide.Halo2
             {
                 //Create Button
                 ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                button.Click += MenuButton_Click;
                 button.Name = menuButton.Name;
                 button.Tag = menuButton;
                 

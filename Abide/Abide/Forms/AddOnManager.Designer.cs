@@ -32,6 +32,8 @@
             this.nameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typesHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.directoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addOnListView
@@ -47,10 +49,11 @@
             this.addOnListView.GridLines = true;
             this.addOnListView.Location = new System.Drawing.Point(12, 12);
             this.addOnListView.Name = "addOnListView";
-            this.addOnListView.Size = new System.Drawing.Size(654, 346);
+            this.addOnListView.Size = new System.Drawing.Size(654, 351);
             this.addOnListView.TabIndex = 0;
             this.addOnListView.UseCompatibleStateImageBehavior = false;
             this.addOnListView.View = System.Windows.Forms.View.Details;
+            this.addOnListView.SelectedIndexChanged += new System.EventHandler(this.addOnListView_SelectedIndexChanged);
             // 
             // nameHeader
             // 
@@ -67,11 +70,37 @@
             this.directoryHeader.Text = "Directory";
             this.directoryHeader.Width = 260;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Enabled = false;
+            this.deleteButton.Location = new System.Drawing.Point(12, 369);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteButton.TabIndex = 1;
+            this.deleteButton.Text = "&Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // closeButton
+            // 
+            this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.closeButton.Location = new System.Drawing.Point(591, 369);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(75, 23);
+            this.closeButton.TabIndex = 2;
+            this.closeButton.Text = "&Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
             // AddOnManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.closeButton;
             this.ClientSize = new System.Drawing.Size(678, 404);
+            this.Controls.Add(this.closeButton);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.addOnListView);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -88,5 +117,7 @@
         private System.Windows.Forms.ColumnHeader nameHeader;
         private System.Windows.Forms.ColumnHeader typesHeader;
         private System.Windows.Forms.ColumnHeader directoryHeader;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button closeButton;
     }
 }
