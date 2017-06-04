@@ -121,7 +121,6 @@ namespace Abide.AddOnApi.Halo2
             get { return icon; }
             set { icon = value; }
         }
-
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
@@ -173,6 +172,9 @@ namespace Abide.AddOnApi.Halo2
         private Image icon = null;
         private IHost host;
 
+        /// <summary>
+        /// Initializes a new <see cref="AbideMenuButton"/> instance.
+        /// </summary>
         public AbideMenuButton() { }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.

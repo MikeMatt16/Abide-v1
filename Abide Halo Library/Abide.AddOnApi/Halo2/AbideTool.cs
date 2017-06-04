@@ -155,41 +155,22 @@ namespace Abide.AddOnApi.Halo2
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
         /// <param name="host">The AddOn host event arguments.</param>
-        protected virtual void OnIntialize(AddOnHostEventArgs e)
-        {
-            //Set Host
-            host = e.Host;
-
-            //Trigger
-            initialize?.Invoke(this, e);
-        }
+        protected virtual void OnIntialize(AddOnHostEventArgs e) { }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.
         /// </summary>
         /// <param name="e">The Event arguments.</param>
-        protected virtual void OnMapLoad(EventArgs e)
-        {
-            //Invoke
-            mapLoad?.Invoke(this, e);
-        }
+        protected virtual void OnMapLoad(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its debug Xbox connection.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnXboxChanged(EventArgs e)
-        {
-            //Invoke
-            xboxChanged?.Invoke(this, e);
-        }
+        protected virtual void OnXboxChanged(EventArgs e) { }
         /// <summary>
         /// Occurs when the host instance changes its selected Halo Index entry.
         /// </summary>
         /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnSelectedEntryChanged(EventArgs e)
-        {
-            //Invoke
-            selectedEntryChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedEntryChanged(EventArgs e) { }
 
         string IAddOn.Author
         {

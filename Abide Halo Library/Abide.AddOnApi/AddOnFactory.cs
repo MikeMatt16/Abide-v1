@@ -6,7 +6,8 @@ using System.Reflection;
 namespace Abide.AddOnApi
 {
     /// <summary>
-    /// 
+    /// Represents a factory for creating and managing AddOn instances.
+    /// This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class AddOnFactory : MarshalByRefObject

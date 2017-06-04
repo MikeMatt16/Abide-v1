@@ -111,7 +111,6 @@ namespace Abide.AddOnApi.Halo2
         {
             get { return host; }
         }
-
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
