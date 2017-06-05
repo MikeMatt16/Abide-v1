@@ -18,6 +18,7 @@ namespace Abide.Classes
         private readonly List<ITabPage<TMap, TEntry, TXbox>> tabPages;
         private readonly List<IMenuButton<TMap, TEntry, TXbox>> menuButtons;
         private readonly List<ITool<TMap, TEntry, TXbox>> tools;
+        private readonly Dictionary<AddOnFactory, List<Exception>> errors;
         private readonly MapVersion version;
         private bool disposedValue = false;
 
@@ -33,6 +34,7 @@ namespace Abide.Classes
             tabPages = new List<ITabPage<TMap, TEntry, TXbox>>();
             menuButtons = new List<IMenuButton<TMap, TEntry, TXbox>>();
             tools = new List<ITool<TMap, TEntry, TXbox>>();
+            errors = new Dictionary<AddOnFactory, List<Exception>>();
         }
         /// <summary>
         /// Retrieves all of the <see cref="IAddOn"/> instances within the container.
@@ -102,6 +104,7 @@ namespace Abide.Classes
                 var menuButton = type.GetInterface(typeof(IMenuButton<TMap, TEntry, TXbox>).Name);
                 var tabPage = type.GetInterface(typeof(ITabPage<TMap, TEntry, TXbox>).Name);
                 var assemblyName = type.Assembly.GetName().Name;
+                errors.Add(factory, new List<Exception>());
 
                 //Check Halo based AddOns
                 if (halo != null)
@@ -109,9 +112,13 @@ namespace Abide.Classes
                         if (haloAddOn.Version == version)
                         {
                             //Initialize...
-                            if (tool != null) factory_InitializeTool(factory, assemblyName, type.FullName, host);
-                            if (menuButton != null) factory_InitializeMenuButton(factory, assemblyName, type.FullName, host);
-                            if (tabPage != null) factory_InitializeTabPage(factory, assemblyName, type.FullName, host);
+                            try
+                            {
+                                if (tool != null) factory_InitializeTool(factory, assemblyName, type.FullName, host);
+                                if (menuButton != null) factory_InitializeMenuButton(factory, assemblyName, type.FullName, host);
+                                if (tabPage != null) factory_InitializeTabPage(factory, assemblyName, type.FullName, host);
+                            }
+                            catch (Exception ex) { errors[factory].Add(ex); }
                         }
             }
         }
@@ -161,6 +168,7 @@ namespace Abide.Classes
                 tabPages.Clear();
                 menuButtons.Clear();
                 tools.Clear();
+                errors.Clear();
 
                 disposedValue = true;
             }

@@ -9,7 +9,7 @@ namespace Tag_Editor
     /// <summary>
     /// Represents a Halo Tag Data Wrapper
     /// </summary>
-    public sealed class TagDataWrapper : IList<TagDataObject>, ICollection<TagDataObject>, IEnumerable<TagDataObject>
+    public sealed class DataWrapper : IList<DataObject>, ICollection<DataObject>, IEnumerable<DataObject>
     {
         /// <summary>
         /// Gets the total object count in this instance.
@@ -18,7 +18,7 @@ namespace Tag_Editor
         {
             get
             {
-                return ((IList<TagDataObject>)metaObjects).Count;
+                return ((IList<DataObject>)metaObjects).Count;
             }
         }
         /// <summary>
@@ -28,16 +28,16 @@ namespace Tag_Editor
         {
             get
             {
-                return ((IList<TagDataObject>)metaObjects).IsReadOnly;
+                return ((IList<DataObject>)metaObjects).IsReadOnly;
             }
         }
         /// <summary>
-        /// Gets or sets a <see cref="TagDataObject"/> based on it's unique ID.
+        /// Gets or sets a <see cref="DataObject"/> based on it's unique ID.
         /// </summary>
         /// <param name="uniqueId">The unique ID to search for.</param>
-        /// <returns>A <see cref="TagDataObject"/> whose unique ID matches the provided value.
-        /// Returns null if a <see cref="TagDataObject"/> is not matched.</returns>
-        public TagDataObject this[int uniqueId]
+        /// <returns>A <see cref="DataObject"/> whose unique ID matches the provided value.
+        /// Returns null if a <see cref="DataObject"/> is not matched.</returns>
+        public DataObject this[int uniqueId]
         {
             get
             {
@@ -55,70 +55,70 @@ namespace Tag_Editor
             }
         }
 
-        private List<TagDataObject> metaObjects;
+        private List<DataObject> metaObjects;
 
         /// <summary>
-        /// Initializes a new <see cref="TagDataWrapper"/> instance.
+        /// Initializes a new <see cref="DataWrapper"/> instance.
         /// </summary>
-        public TagDataWrapper()
+        public DataWrapper()
         {
             //Setup
-            metaObjects = new List<TagDataObject>();
+            metaObjects = new List<DataObject>();
         }
         /// <summary>
-        /// Adds a <see cref="TagDataObject"/> instance to the wrapper.
+        /// Adds a <see cref="DataObject"/> instance to the wrapper.
         /// </summary>
-        /// <param name="item">The <see cref="TagDataObject"/> to add.</param>
-        public void Add(TagDataObject item)
+        /// <param name="item">The <see cref="DataObject"/> to add.</param>
+        public void Add(DataObject item)
         {
-            ((IList<TagDataObject>)metaObjects).Add(item);
+            ((IList<DataObject>)metaObjects).Add(item);
         }
         public void Clear()
         {
-            ((IList<TagDataObject>)metaObjects).Clear();
+            ((IList<DataObject>)metaObjects).Clear();
         }
-        public bool Contains(TagDataObject item)
+        public bool Contains(DataObject item)
         {
-            return ((IList<TagDataObject>)metaObjects).Contains(item);
+            return ((IList<DataObject>)metaObjects).Contains(item);
         }
-        public void CopyTo(TagDataObject[] array, int arrayIndex)
+        public void CopyTo(DataObject[] array, int arrayIndex)
         {
-            ((IList<TagDataObject>)metaObjects).CopyTo(array, arrayIndex);
+            ((IList<DataObject>)metaObjects).CopyTo(array, arrayIndex);
         }
-        public IEnumerator<TagDataObject> GetEnumerator()
+        public IEnumerator<DataObject> GetEnumerator()
         {
-            return ((IList<TagDataObject>)metaObjects).GetEnumerator();
+            return ((IList<DataObject>)metaObjects).GetEnumerator();
         }
-        public int IndexOf(TagDataObject item)
+        public int IndexOf(DataObject item)
         {
-            return ((IList<TagDataObject>)metaObjects).IndexOf(item);
+            return ((IList<DataObject>)metaObjects).IndexOf(item);
         }
-        public void Insert(int index, TagDataObject item)
+        public void Insert(int index, DataObject item)
         {
-            ((IList<TagDataObject>)metaObjects).Insert(index, item);
+            ((IList<DataObject>)metaObjects).Insert(index, item);
         }
-        public bool Remove(TagDataObject item)
+        public bool Remove(DataObject item)
         {
-            return ((IList<TagDataObject>)metaObjects).Remove(item);
+            return ((IList<DataObject>)metaObjects).Remove(item);
         }
         public void RemoveAt(int index)
         {
-            ((IList<TagDataObject>)metaObjects).RemoveAt(index);
+            ((IList<DataObject>)metaObjects).RemoveAt(index);
         }
-        public void OrderBy(Func<TagDataObject, object> func)
+        public void OrderBy(Func<DataObject, object> func)
         {
             metaObjects = metaObjects.OrderBy(func).ToList();
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IList<TagDataObject>)metaObjects).GetEnumerator();
+            return ((IList<DataObject>)metaObjects).GetEnumerator();
         }
     }
     
     /// <summary>
     /// Represents a Halo Tag Data Object.
     /// </summary>
-    public sealed class TagDataObject
+    public sealed class DataObject
     {
         /// <summary>
         /// The zero-based offset of the object.
@@ -163,25 +163,25 @@ namespace Tag_Editor
         private readonly IfpNode element;
         private readonly IfpNode parent;
 
-        public TagDataObject(IfpNode element, IfpNode parent, int uniqueId, long position) :
+        public DataObject(IfpNode element, IfpNode parent, int uniqueId, long position) :
             this(element, parent, uniqueId)
         {
             //Setup
             this.position = position;
         }
-        public TagDataObject(IfpNode element, IfpNode parent, int uniqueId) :
+        public DataObject(IfpNode element, IfpNode parent, int uniqueId) :
             this(element, uniqueId)
         {
             //Setup
             this.parent = parent;
         }
-        public TagDataObject(IfpNode element, int uniqueId, long position) :
+        public DataObject(IfpNode element, int uniqueId, long position) :
             this(element, uniqueId)
         {
             //Setup
             this.position = position;
         }
-        public TagDataObject(IfpNode element, int uniqueId)
+        public DataObject(IfpNode element, int uniqueId)
         {
             //Setup
             this.uniqueId = uniqueId;

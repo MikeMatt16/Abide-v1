@@ -15,6 +15,7 @@ namespace Abide.Classes
     {
         private readonly List<IAddOn> addOns;
         private readonly List<ISettingsPage> settingsPages;
+        private readonly Dictionary<AddOnFactory, List<Exception>> errors;
         private bool disposedValue = false;
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace Abide.Classes
             //Initialize
             addOns = new List<IAddOn>();
             settingsPages = new List<ISettingsPage>();
+            errors = new Dictionary<AddOnFactory, List<Exception>>();
         }
         /// <summary>
         /// Retrieves all of the <see cref="IAddOn"/> instances within the container.
@@ -67,10 +69,12 @@ namespace Abide.Classes
                 //Prepare...
                 var settingsPage = type.GetInterface(typeof(ISettingsPage).Name);
                 var assemblyName = type.Assembly.GetName().Name;
+                errors.Add(factory, new List<Exception>());
 
                 //Check Settings page
                 if (settingsPage != null)
-                    factory_InitializeSettingsPage(factory, assemblyName, type.FullName, host);
+                    try { factory_InitializeSettingsPage(factory, assemblyName, type.FullName, host); }
+                    catch(Exception ex) { errors[factory].Add(ex); }
             }
         }
         private void factory_InitializeSettingsPage(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)

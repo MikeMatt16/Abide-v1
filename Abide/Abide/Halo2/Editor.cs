@@ -285,8 +285,10 @@ namespace Abide.Halo2
                 tagPropertyGrid.SelectedObject = selectedEntry;
 
                 //Send trigger
+                List<Exception> errors = new List<Exception>();
                 foreach (var addOn in container.GetHaloAddOns())
-                    addOn.OnSelectedEntryChanged();
+                    try { addOn.OnSelectedEntryChanged(); }
+                    catch(Exception ex) { errors.Add(ex); }
 
                 //Check Tab Pages
                 foreach (TabPage tabPage in tabPages)
