@@ -3,6 +3,8 @@ using Abide.Forms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Abide
@@ -34,12 +36,11 @@ namespace Abide
                 //Set
                 recentHalo2MapsToolStripMenuItem.Visible = true;
                 fileToolStripSeparator2.Visible = true;
-
                 //Loop
                 for (int i = 0; i < RegistrySettings.Halo2RecentFiles.Length; i++)
                 {
                     //Create
-                    ToolStripMenuItem recentItem = new ToolStripMenuItem($"&{i + 1}: {RegistrySettings.Halo2RecentFiles[i]}");
+                    ToolStripMenuItem recentItem = new ToolStripMenuItem($"&{i + 1}: {RegistrySettings.Halo2RecentFiles[i].GetCompactPath(40)}");
                     recentItem.Tag = RegistrySettings.Halo2RecentFiles[i];
                     recentItem.Click += recentItem_Click;
 
@@ -123,7 +124,7 @@ namespace Abide
             //Check
             if (open) file_Open(filename);
         }
-        
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Exit
@@ -156,7 +157,7 @@ namespace Abide
                 FileInfo info = new FileInfo(filename);
 
                 //Prepare
-                using(PackageAddOnDialog packDlg = new PackageAddOnDialog())
+                using (PackageAddOnDialog packDlg = new PackageAddOnDialog())
                 {
                     //Setup
                     packDlg.PrimaryAssembly = Path.GetFileName(filename);

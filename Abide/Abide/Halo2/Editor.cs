@@ -6,11 +6,13 @@ using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using YeloDebug;
+using Abide.HaloLibrary.IO;
 
 namespace Abide.Halo2
 {
@@ -35,14 +37,14 @@ namespace Abide.Halo2
             get { return optionsToolStripButton.Visible; }
             set { optionsToolStripButton.Visible = value; }
         }
-
+        
+        private readonly List<TabPage> tabPages;
+        private readonly List<ToolStripButton> menuButtons;
         private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
+        private readonly Dictionary<TAGID, IndexEntryWrapper> entries;
         private readonly MapFile map;
         private readonly Xbox xbox;
-
-        private List<TabPage> tabPages;
-        private List<ToolStripButton> menuButtons;
-
+        
         private IndexEntry selectedEntry = null;
         private string filename = string.Empty;
         
@@ -55,6 +57,7 @@ namespace Abide.Halo2
 
             //Initialize
             tagTree.TreeViewNodeSorter = new TagIdSorter();
+            entries = new Dictionary<TAGID, IndexEntryWrapper>();
             xbox = new Xbox(Application.StartupPath);
             map = new MapFile();
 
@@ -144,6 +147,7 @@ namespace Abide.Halo2
         {
             //Close
             map.Close();
+            entries.Clear();
 
             //Begin
             tagTree.BeginUpdate();
@@ -164,6 +168,7 @@ namespace Abide.Halo2
             //Begin
             tagTree.BeginUpdate();
             tagTree.Nodes.Clear();
+            entries.Clear();
 
             //Load Entries
             foreach (IndexEntry entry in map.IndexEntries)
@@ -178,14 +183,22 @@ namespace Abide.Halo2
             tagPropertyGrid.SelectedObject = map;
         }
 
-        private void entry_BuildTagTree(IndexEntry entry)
+        private TreeNode entry_BuildTagTree(IndexEntry entry)
         {
+            //Prepare
+            TreeNodeCollection collection = null;
+            IndexEntryWrapper wrapper = null;
+            TreeNode node = null;
+
+            //Get or create wrapper...
+            if (entries.ContainsKey(entry.ID)) wrapper = entries[entry.ID];
+            else { wrapper = IndexEntryWrapper.FromEntry(entry); wrapper.FilenameChanged += Wrapper_FilenameChanged; entries.Add(entry.ID, wrapper); }
+
             //Get Path Parts
             string[] parts = entry.Filename.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
             //Prepare
-            TreeNodeCollection collection = tagTree.Nodes;
-            TreeNode node = null;
+            collection = tagTree.Nodes;
 
             //Loop
             for (int i = 0; i < parts.Length - 1; i++)
@@ -207,6 +220,56 @@ namespace Abide.Halo2
 
             //Add
             collection.Add(node);
+
+            //Return
+            return node;
+        }
+
+        private void Wrapper_FilenameChanged(object sender, EventArgs e)
+        {
+            //Prepare...
+            IndexEntryWrapper wrapper = sender as IndexEntryWrapper;
+            TreeNode node = tagTree.SelectedNode;
+
+            //Check
+            if (wrapper != null && node != null)
+            {
+                //Set filename...
+                map.IndexEntries[wrapper.ID].Filename = wrapper.Filename;
+
+                //Prepare
+                TreeNodeCollection collection = tagTree.Nodes;
+                TreeNode parent = null;
+
+                //Loop
+                while (node.Parent != null)
+                {
+                    //Get Parent
+                    parent = node.Parent;
+                    collection = parent.Nodes;
+
+                    //Remove
+                    if (node.Nodes.Count == 0) collection.Remove(node);
+
+                    //Set
+                    node = parent;
+                }
+
+                //Remove from tree...
+                if (node.Nodes.Count == 0) tagTree.Nodes.Remove(node);
+
+                //Build
+                node = entry_BuildTagTree(map.IndexEntries[wrapper.ID]);
+
+                //Re-sort...
+                tagTree.BeginUpdate();
+                tagTree.Sort();
+                tagTree.EndUpdate();
+
+                //Select
+                tagTree.SelectedNode = node;
+                node.EnsureVisible();
+            }
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
@@ -282,7 +345,7 @@ namespace Abide.Halo2
             {
                 //Setup
                 selectedEntry = map.IndexEntries[(TAGID)e.Node.Tag];
-                tagPropertyGrid.SelectedObject = selectedEntry;
+                tagPropertyGrid.SelectedObject = entries[selectedEntry.ID];
 
                 //Send trigger
                 List<Exception> errors = new List<Exception>();
@@ -430,6 +493,122 @@ namespace Abide.Halo2
                 else if (y.Tag is TAGID && x.Tag == null)
                     return -1;
                 else return x.Name.CompareTo(y.Name);
+            }
+        }
+        
+        /// <summary>
+        /// Represents a wrapper to an <see cref="IndexEntry"/> object.
+        /// </summary>
+        private class IndexEntryWrapper
+        {
+            /// <summary>
+            /// Occurs when the index entry's filename is changed.
+            /// </summary>
+            [Category("Property Changed Events"), Description("Occurs when the index entry's filename is changed.")]
+            public event EventHandler FilenameChanged
+            {
+                add { filenameChanged += value; }
+                remove { filenameChanged -= value; }
+            }
+            /// <summary>
+            /// Gets and returns the root of the index entry.
+            /// </summary>
+            [Category("Tag Properties"), Description("The root of the index entry.")]
+            public TAG Root
+            {
+                get { return root; }
+            }
+            /// <summary>
+            /// Gets or sets the filename of the index entry.
+            /// </summary>
+            [Category("Tag Properties"), Description("The filename of the index entry")]
+            public string Filename
+            {
+                get { return filename; }
+                set { filename = value; filenameChanged?.Invoke(this, new EventArgs()); }
+            }
+            /// <summary>
+            /// Gets and returns the ID of the index entry.
+            /// </summary>
+            [Category("Tag Properties"), Description("The ID of the index entry.")]
+            public TAGID ID
+            {
+                get { return id; }
+            }
+            /// <summary>
+            /// Gets and returns the offset at which the tag data begins within <see cref="TagData"/>.
+            /// </summary>
+            [Category("Tag Properties"), Description("")]
+            public uint Offset
+            {
+                get { return offset; }
+            }
+            /// <summary>
+            /// Gets and returns the length of the tag data.
+            /// </summary>
+            [Category("Tag Properties"), Description("The length of the tag data")]
+            public uint Size
+            {
+                get { return size; }
+            }
+            /// <summary>
+            /// Gets and returns the tag data stream of the index entry.
+            /// </summary>
+            [Browsable(false)]
+            public Stream TagData
+            {
+                get { return tagData; }
+            }
+
+            private event EventHandler filenameChanged;
+            
+            private string filename;
+            private readonly TAG root;
+            private readonly TAGID id;
+            private readonly uint offset;
+            private readonly uint size;
+            private readonly Stream tagData;
+            
+            /// <summary>
+            /// Initializes a new <see cref="IndexEntryWrapper"/> instance.
+            /// </summary>
+            /// <param name="root">The root of the entry.</param>
+            /// <param name="filename">The filename of the entry.</param>
+            /// <param name="id">The ID of the entry.</param>
+            /// <param name="tagData">The tag data stream of the entry.</param>
+            /// <param name="offset">The offset of the entry.</param>
+            /// <param name="size">The size of the entry.</param>
+            private IndexEntryWrapper(TAG root, string filename, TAGID id, FixedMemoryMappedStream tagData, uint offset, uint size)
+            {
+                //Setup
+                this.root = root;
+                this.filename = filename;
+                this.id = id;
+                this.tagData = tagData;
+                this.offset = offset;
+                this.size = size;
+            }
+            /// <summary>
+            /// Creates a new <see cref="IndexEntryWrapper"/> instance from a <see cref="IndexEntry"/> object.
+            /// </summary>
+            /// <param name="entry">The entry to wrap.</param>
+            /// <returns>A new <see cref="IndexEntryWrapper"/> whose values are referenced from the supplied entry.</returns>
+            public static IndexEntryWrapper FromEntry(IndexEntry entry)
+            {
+                //Get offset and size...
+                int offset = entry.PostProcessedOffset != 0 ? entry.PostProcessedOffset : (int)entry.Offset;
+                int size = entry.PostProcessedSize != 0 ? entry.PostProcessedSize : entry.Size;
+
+                //Return
+                return new IndexEntryWrapper(entry.Root, entry.Filename, entry.ID, entry.TagData, (uint)offset, (uint)size);
+            }
+            /// <summary>
+            /// Gets a string representation of the Index Entry.
+            /// </summary>
+            /// <returns>A string containing the full path of the entry.</returns>
+            public override string ToString()
+            {
+                return $"{filename}.{root}";
             }
         }
     }
