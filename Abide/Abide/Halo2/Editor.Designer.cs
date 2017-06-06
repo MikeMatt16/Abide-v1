@@ -39,8 +39,8 @@
             this.tagPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.mapToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolPanel = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -85,6 +85,8 @@
             // tagTree
             // 
             this.tagTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tagTree.FullRowSelect = true;
+            this.tagTree.HideSelection = false;
             this.tagTree.ImageIndex = 0;
             this.tagTree.ImageList = this.tagImageList;
             this.tagTree.Location = new System.Drawing.Point(0, 0);
@@ -155,6 +157,17 @@
             this.toolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
             this.toolStripDropDownButton.Text = "&Tools";
             // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
             // openToolStripButton
             // 
             this.openToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -166,17 +179,6 @@
             this.openToolStripButton.Text = "&Open";
             this.openToolStripButton.Visible = false;
             this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
-            // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // optionsToolStripButton
             // 

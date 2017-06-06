@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using YeloDebug;
 using Abide.HaloLibrary.IO;
+using System.Runtime.InteropServices;
 
 namespace Abide.Halo2
 {
@@ -54,6 +55,10 @@ namespace Abide.Halo2
         private Editor()
         {
             InitializeComponent();
+
+            //Setup
+            int result = SetWindowTheme(tagTree.Handle, "explorer", null).ToInt32();
+            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, tagTree.Handle);
 
             //Initialize
             tagTree.TreeViewNodeSorter = new TagIdSorter();
@@ -477,7 +482,10 @@ namespace Abide.Halo2
                 default: return null;
             }
         }
-        
+
+        [DllImport("Uxtheme.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdLIst);
+
         private class TagIdSorter : IComparer
         {
             public int Compare(object x, object y)
