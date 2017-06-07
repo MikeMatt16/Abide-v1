@@ -164,8 +164,10 @@ namespace Abide.Halo2
             tagPropertyGrid.SelectedObject = null;
 
             //Send trigger
+            List<Exception> errors = new List<Exception>();
             foreach (var addOn in container.GetHaloAddOns())
-                addOn.OnMapLoad();
+                try { addOn.OnMapLoad(); }
+                catch (Exception ex) { errors.Add(ex); }
         }
 
         private void map_Load()
@@ -186,6 +188,12 @@ namespace Abide.Halo2
             //Setup
             Text = $"Halo 2 - {map.Name}";
             tagPropertyGrid.SelectedObject = map;
+
+            //Send trigger
+            List<Exception> errors = new List<Exception>();
+            foreach (var addOn in container.GetHaloAddOns())
+                try { addOn.OnMapLoad(); }
+                catch (Exception ex) { errors.Add(ex); }
         }
 
         private TreeNode entry_BuildTagTree(IndexEntry entry)

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "..\Abide 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnDemo", "Abide.AddOnDemo\Abide.AddOnDemo.csproj", "{71E9B6C2-943F-498D-AA71-E68977D10DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Updater", "Abide.Updater\Abide.Updater.csproj", "{36B24498-B071-4383-92C0-D80E4D0647CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{71E9B6C2-943F-498D-AA71-E68977D10DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71E9B6C2-943F-498D-AA71-E68977D10DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71E9B6C2-943F-498D-AA71-E68977D10DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36B24498-B071-4383-92C0-D80E4D0647CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B24498-B071-4383-92C0-D80E4D0647CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B24498-B071-4383-92C0-D80E4D0647CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B24498-B071-4383-92C0-D80E4D0647CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
