@@ -1,6 +1,7 @@
 ﻿using Abide.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -88,6 +89,8 @@ namespace Abide
                 //Check
                 switch (arg)
                 {
+                    case "-d":  //Debug Mode
+                        Debugger.Launch(); break;
                     case "-s":  //Safe Mode
                         safeMode = true;
                         break;

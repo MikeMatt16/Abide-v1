@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -7,6 +8,7 @@ namespace Tag_Editor
 {
     internal static class Files
     {
+        private static readonly RegistryKey halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
         private static readonly string ExecutingCodeBase = Assembly.GetExecutingAssembly().CodeBase;
 
         public static string Editor
@@ -129,7 +131,12 @@ namespace Tag_Editor
                 return value;
             }
         }
-
+        public static string Halo2PluginsDirectory
+        {
+            get { SetDefault(halo2, "Paths", "Plugins", string.Empty); return (string)GetValue(halo2, "Paths", "Plugins"); }
+            set { SetValue(halo2, "Paths", "Plugins", value); }
+        }
+        
         public static Stream GetEditorStream()
         {
             return GetFileStream("Editor.html", Properties.Resources.Editor);
@@ -205,6 +212,21 @@ namespace Tag_Editor
         {
             string codeBase = new Uri(ExecutingCodeBase).LocalPath;
             return Path.Combine(Path.GetDirectoryName(codeBase), filePath);
+        }
+        private static void SetDefault(RegistryKey key, string subkey, string name, string value)
+        {
+            using (RegistryKey child = key.CreateSubKey(subkey))
+                if (child.GetValue(name) == null) child.SetValue(name, value);
+        }
+        private static void SetValue(RegistryKey key, string subkey, string name, object value)
+        {
+            using (RegistryKey child = key.CreateSubKey(subkey))
+                child.SetValue(name, value);
+        }
+        private static object GetValue(RegistryKey key, string subkey, string name)
+        {
+            using (RegistryKey child = key.CreateSubKey(subkey))
+                return child.GetValue(name);
         }
     }
 }

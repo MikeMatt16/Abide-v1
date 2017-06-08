@@ -187,29 +187,30 @@ namespace Abide.AddOnApi
         {
             //Prepare
             Assembly assembly = null;
-            
+            string name = new AssemblyName(args.Name).Name;
+
             //Get Assembly Locations...
-            string libraryLocation = Path.Combine(addOnDirectory, $"{args.Name}.dll");
-            string executableLocation = Path.Combine(addOnDirectory, $"{args.Name}.exe");
+            string libraryLocation = Path.Combine(addOnDirectory, $"{name}.dll");
+            string executableLocation = Path.Combine(addOnDirectory, $"{name}.exe");
 
             //Check
-            if (!assemblyLookup.ContainsKey(args.Name))
+            if (!assemblyLookup.ContainsKey(name))
             {
                 if (File.Exists(libraryLocation))
                 {
-                    if (safeMode) assemblyLookup.Add(args.Name, assembly_LoadFromSafe(libraryLocation));
-                    else assemblyLookup.Add(args.Name, assembly_LoadFrom(libraryLocation));
+                    if (safeMode) assemblyLookup.Add(name, assembly_LoadFromSafe(libraryLocation));
+                    else assemblyLookup.Add(name, assembly_LoadFrom(libraryLocation));
                 }
                 else if (File.Exists(executableLocation))
                 {
-                    if (safeMode) assemblyLookup.Add(args.Name, assembly_LoadFromSafe(executableLocation));
-                    else assemblyLookup.Add(args.Name, assembly_LoadFrom(executableLocation));
+                    if (safeMode) assemblyLookup.Add(name, assembly_LoadFromSafe(executableLocation));
+                    else assemblyLookup.Add(name, assembly_LoadFrom(executableLocation));
                 }
             }
 
             //Get
-            if (assemblyLookup.ContainsKey(args.Name))
-                assembly = assemblyLookup[args.Name];
+            if (assemblyLookup.ContainsKey(name))
+                assembly = assemblyLookup[name];
 
             //Return
             return assembly;

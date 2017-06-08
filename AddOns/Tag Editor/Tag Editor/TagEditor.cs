@@ -1,4 +1,6 @@
-﻿using Abide.AddOnApi.Halo2;
+﻿using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
+using Abide.Ifp;
 using System;
 using System.IO;
 
@@ -18,6 +20,11 @@ namespace Tag_Editor
         {
             //Check selected entry
             if (SelectedEntry == null) return;
+            IfpDocument doc = new IfpDocument();
+
+            //Get Plugin
+            string pluginName = Path.Combine(Files.Halo2PluginsDirectory, $"{SelectedEntry.Root.Tag.Replace('<', '_').Replace('>', '_')}.ent");
+            if (File.Exists(pluginName)) doc.Load(pluginName);
 
             //Clear
             wrapper.Clear();
