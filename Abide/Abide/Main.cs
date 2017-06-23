@@ -31,17 +31,17 @@ namespace Abide
             recentHalo2MapsToolStripMenuItem.DropDownItems.Add(recentHalo2MapsToolStripSeparator1);
 
             //Check
-            if (RegistrySettings.Halo2RecentFiles.Length > 0)
+            if (AbideRegistry.Halo2RecentFiles.Length > 0)
             {
                 //Set
                 recentHalo2MapsToolStripMenuItem.Visible = true;
                 fileToolStripSeparator2.Visible = true;
                 //Loop
-                for (int i = 0; i < RegistrySettings.Halo2RecentFiles.Length; i++)
+                for (int i = 0; i < AbideRegistry.Halo2RecentFiles.Length; i++)
                 {
                     //Create
-                    ToolStripMenuItem recentItem = new ToolStripMenuItem($"&{i + 1}: {RegistrySettings.Halo2RecentFiles[i].GetCompactPath(40)}");
-                    recentItem.Tag = RegistrySettings.Halo2RecentFiles[i];
+                    ToolStripMenuItem recentItem = new ToolStripMenuItem($"&{i + 1}: {AbideRegistry.Halo2RecentFiles[i].GetCompactPath(40)}");
+                    recentItem.Tag = AbideRegistry.Halo2RecentFiles[i];
                     recentItem.Click += recentItem_Click;
 
                     //Add
@@ -64,9 +64,9 @@ namespace Abide
                     break;
                 case HaloLibrary.MapVersion.Halo2:
                     //Add
-                    List<string> files = new List<string>(RegistrySettings.Halo2RecentFiles);
+                    List<string> files = new List<string>(AbideRegistry.Halo2RecentFiles);
                     files.Remove(filename); files.Insert(0, filename);
-                    RegistrySettings.Halo2RecentFiles = files.ToArray();
+                    AbideRegistry.Halo2RecentFiles = files.ToArray();
                     recentFiles_InitUiHalo2();
 
                     //Setup Editor
@@ -191,10 +191,16 @@ namespace Abide
             for (int i = 0; i < 10; i++) files[i] = string.Empty;
 
             //Set
-            RegistrySettings.Halo2RecentFiles = files;
+            AbideRegistry.Halo2RecentFiles = files;
 
             //Init
             recentFiles_InitUiHalo2();
+        }
+
+        private void registerFileTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!AbideRegistry.IsAaoRegistered) AbideRegistry.RegisterAao(Application.ExecutablePath);
+            else AbideRegistry.UnregisterAao();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Abide.AddOnDemo
             TAGID selectedId = id;
 
             //Check
-            if (host.InvokeRequired) host.Invoke(new BrowseTagInvoker(BrowseTag), new object[] { host, sender, id });
+            if (host.InvokeRequired) host.Invoke(new TagIdInvoker(BrowseTag), new object[] { host, sender, id });
             else
             {
                 object response = host.Request(sender, "TagBrowserDialog", selectedId);
@@ -22,7 +22,24 @@ namespace Abide.AddOnDemo
             //Return
             return selectedId;
         }
+        public static TAGID SelectEntry(this IHost host, IAddOn sender, TAGID id)
+        {
+            //Prepare
+            TAGID selectedId = id;
 
-        private delegate TAGID BrowseTagInvoker(IHost host, IAddOn sender, TAGID id);
+            //Check
+            if (host.InvokeRequired) host.Invoke(new TagIdInvoker(SelectEntry), new object[] { host, sender, id });
+            else
+            {
+                object response = host.Request(sender, "SelectEntry", selectedId);
+                if (response != null && response is TAGID)
+                    selectedId = (TAGID)response;
+            }
+
+            //Return
+            return selectedId;
+        }
+
+        private delegate TAGID TagIdInvoker(IHost host, IAddOn sender, TAGID id);
     }
 }

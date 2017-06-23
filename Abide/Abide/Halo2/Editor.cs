@@ -41,6 +41,7 @@ namespace Abide.Halo2
         
         private readonly List<TabPage> tabPages;
         private readonly List<ToolStripButton> menuButtons;
+        private readonly List<ToolStripMenuItem> contextMenuItems;
         private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
         private readonly Dictionary<TAGID, IndexEntryWrapper> entries;
         private readonly MapFile map;
@@ -96,6 +97,23 @@ namespace Abide.Halo2
 
                 //Check
                 if (!menuButton.ApplyFilter) mapToolStrip.Items.Add(button);
+            }
+
+            //Load Context Menu Items
+            contextMenuItems = new List<ToolStripMenuItem>();
+            foreach (var contextMenuItem in container.GetContextMenuItems())
+            {
+                //Create Button
+                ToolStripMenuItem item = new ToolStripMenuItem(contextMenuItem.Name, contextMenuItem.Icon);
+                item.Click += MenuButton_Click;
+                item.Name = contextMenuItem.Name;
+                item.Tag = contextMenuItem;
+
+                //Add
+                contextMenuItems.Add(item);
+
+                //Check
+                if (!contextMenuItem.ApplyFilter) tagContextMenu.Items.Add(item);
             }
 
             //Load Tab Pages
@@ -397,6 +415,22 @@ namespace Abide.Halo2
                         }
                         else mapToolStrip.Items.RemoveByKey(menuButton.Name);
                 }
+
+                //Check Context Menu Buttons
+                foreach (ToolStripMenuItem menuItem in contextMenuItems)
+                {
+                    //Get IContextMenu
+                    IContextMenuItem<MapFile, IndexEntry, Xbox> item = (IContextMenuItem<MapFile, IndexEntry, Xbox>)menuItem.Tag;
+
+                    //Check
+                    if (item.ApplyFilter)
+                        if (item.Filter.Contains(selectedEntry.Root))
+                        {
+                            if (!tagContextMenu.Items.ContainsKey(menuItem.Name))
+                                tagContextMenu.Items.Add(menuItem);
+                        }
+                        else tagContextMenu.Items.RemoveByKey(menuItem.Name);
+                }
             }
             else tagPropertyGrid.SelectedObject = map;
         }
@@ -445,23 +479,28 @@ namespace Abide.Halo2
         private void MenuButton_Click(object sender, EventArgs e)
         {
             //Prepare
-            IMenuButton<MapFile, IndexEntry, Xbox> menuButton = null;
+            IMenuButton<MapFile, IndexEntry, Xbox> menuItem = null;
+            IContextMenuItem<MapFile, IndexEntry, Xbox> contextMenuItem = null;
 
             //Get Sender
-            if (sender is ToolStripButton)
+            if (sender is ToolStripItem)
             {
                 //Get
-                ToolStripButton Sender = (ToolStripButton)sender;
-                if (Sender.Tag is IMenuButton<MapFile, IndexEntry, Xbox>)
-                    menuButton = (IMenuButton<MapFile, IndexEntry, Xbox>)Sender.Tag;
+                ToolStripItem Sender = (ToolStripItem)sender;
+                if (Sender.Tag is IMenuButton<MapFile, IndexEntry, Xbox>) menuItem = (IMenuButton<MapFile, IndexEntry, Xbox>)Sender.Tag;
+                if (Sender.Tag is IContextMenuItem<MapFile, IndexEntry, Xbox>) contextMenuItem = (IContextMenuItem<MapFile, IndexEntry, Xbox>)Sender.Tag;
             }
 
             //Click
-            menuButton?.OnClick();
+            menuItem?.OnClick();
+            contextMenuItem?.OnClick();
         }
         
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
+            //Prepare
+            TAGID selectedId = TAGID.Null;
+
             //Handle Request
             switch (request)
             {
@@ -470,7 +509,6 @@ namespace Abide.Halo2
                 case "Xbox": return xbox;
                 case "TagBrowserDialog":
                     //Prepare
-                    TAGID selectedId = TAGID.Null;
                     if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
 
                     //Initialize Tag Browser Dialog
@@ -486,6 +524,35 @@ namespace Abide.Halo2
 
                     //Return
                     return selectedId;
+                case "SelectEntry":
+                    //Prepare
+                    if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
+
+                    //Check ID...
+                    if (!selectedId.IsNull && entries.ContainsKey(selectedId))
+                    {
+                        //Select
+                        var wrapper = entries[selectedId];
+                        string[] parts = $"{wrapper.Filename}.{wrapper.Root}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                        TreeNodeCollection collection = tagTree.Nodes; TreeNode node = null;
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            //Get Node
+                            node = collection[parts[i]];
+
+                            //Check
+                            if (node != null) collection = node.Nodes;
+                        }
+
+                        //Check
+                        if(node != null)
+                        {
+                            //Select and goto
+                            tagTree.SelectedNode = node;
+                            node.EnsureVisible();
+                        }
+                    }
+                    return selectedEntry;
 
                 default: return null;
             }

@@ -19,7 +19,7 @@ namespace Abide.AddOnDemo
             TAGID selectedId = SelectedEntry?.ID ?? TAGID.Null;
 
             //Check
-            selectedId = Host.BrowseTag(this, selectedId);
+            Host.SelectEntry(this, Host.BrowseTag(this, selectedId));
         }
     }
 }

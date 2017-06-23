@@ -69,7 +69,7 @@ namespace Abide.Classes
                 //Prepare...
                 var settingsPage = type.GetInterface(typeof(ISettingsPage).Name);
                 var assemblyName = type.Assembly.GetName().Name;
-                errors.Add(factory, new List<Exception>());
+                if (!errors.ContainsKey(factory)) errors.Add(factory, new List<Exception>());
 
                 //Check Settings page
                 if (settingsPage != null)

@@ -33,6 +33,10 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.recentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearRecentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recentHalo2MapsToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.fileToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,10 +47,8 @@
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.clearRecentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recentHalo2MapsToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.registerFileTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,6 +89,34 @@
             this.fileToolStripSeparator1.Name = "fileToolStripSeparator1";
             this.fileToolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
+            // recentHalo2MapsToolStripMenuItem
+            // 
+            this.recentHalo2MapsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearRecentHalo2MapsToolStripMenuItem,
+            this.recentHalo2MapsToolStripSeparator1});
+            this.recentHalo2MapsToolStripMenuItem.Name = "recentHalo2MapsToolStripMenuItem";
+            this.recentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.recentHalo2MapsToolStripMenuItem.Text = "Recent Halo &2 Maps";
+            this.recentHalo2MapsToolStripMenuItem.Visible = false;
+            // 
+            // clearRecentHalo2MapsToolStripMenuItem
+            // 
+            this.clearRecentHalo2MapsToolStripMenuItem.Name = "clearRecentHalo2MapsToolStripMenuItem";
+            this.clearRecentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.clearRecentHalo2MapsToolStripMenuItem.Text = "&Clear Recent Maps";
+            this.clearRecentHalo2MapsToolStripMenuItem.Click += new System.EventHandler(this.clearRecentHalo2MapsToolStripMenuItem_Click);
+            // 
+            // recentHalo2MapsToolStripSeparator1
+            // 
+            this.recentHalo2MapsToolStripSeparator1.Name = "recentHalo2MapsToolStripSeparator1";
+            this.recentHalo2MapsToolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            // 
+            // fileToolStripSeparator2
+            // 
+            this.fileToolStripSeparator2.Name = "fileToolStripSeparator2";
+            this.fileToolStripSeparator2.Size = new System.Drawing.Size(176, 6);
+            this.fileToolStripSeparator2.Visible = false;
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -100,7 +130,9 @@
             this.optionsToolStripMenuItem,
             this.toolStripSeparator2,
             this.createAddOnPackageToolStripMenuItem,
-            this.addOnManagerToolStripMenuItem});
+            this.addOnManagerToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.registerFileTypesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -159,33 +191,17 @@
             this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             // 
-            // recentHalo2MapsToolStripMenuItem
+            // registerFileTypesToolStripMenuItem
             // 
-            this.recentHalo2MapsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearRecentHalo2MapsToolStripMenuItem,
-            this.recentHalo2MapsToolStripSeparator1});
-            this.recentHalo2MapsToolStripMenuItem.Name = "recentHalo2MapsToolStripMenuItem";
-            this.recentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.recentHalo2MapsToolStripMenuItem.Text = "Recent Halo &2 Maps";
-            this.recentHalo2MapsToolStripMenuItem.Visible = false;
+            this.registerFileTypesToolStripMenuItem.Name = "registerFileTypesToolStripMenuItem";
+            this.registerFileTypesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.registerFileTypesToolStripMenuItem.Text = "&Register File Types";
+            this.registerFileTypesToolStripMenuItem.Click += new System.EventHandler(this.registerFileTypesToolStripMenuItem_Click);
             // 
-            // fileToolStripSeparator2
+            // toolStripSeparator1
             // 
-            this.fileToolStripSeparator2.Name = "fileToolStripSeparator2";
-            this.fileToolStripSeparator2.Size = new System.Drawing.Size(176, 6);
-            this.fileToolStripSeparator2.Visible = false;
-            // 
-            // clearRecentHalo2MapsToolStripMenuItem
-            // 
-            this.clearRecentHalo2MapsToolStripMenuItem.Name = "clearRecentHalo2MapsToolStripMenuItem";
-            this.clearRecentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.clearRecentHalo2MapsToolStripMenuItem.Text = "&Clear Recent Maps";
-            this.clearRecentHalo2MapsToolStripMenuItem.Click += new System.EventHandler(this.clearRecentHalo2MapsToolStripMenuItem_Click);
-            // 
-            // recentHalo2MapsToolStripSeparator1
-            // 
-            this.recentHalo2MapsToolStripSeparator1.Name = "recentHalo2MapsToolStripSeparator1";
-            this.recentHalo2MapsToolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
             // 
             // Main
             // 
@@ -226,6 +242,8 @@
         private System.Windows.Forms.ToolStripMenuItem clearRecentHalo2MapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator fileToolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator recentHalo2MapsToolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem registerFileTypesToolStripMenuItem;
     }
 }
 

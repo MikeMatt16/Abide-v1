@@ -30,10 +30,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Abide.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Potential Software.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,8 +53,11 @@
     <Compile Include="AddOnManifest.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Classes\AddOnFactoryManager.cs" />
+    <Compile Include="AbideRegistry.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\SettingsAddOnContainer.cs" />
+    <Compile Include="Compression\AddOnPackage.cs" />
+    <Compile Include="Compression\Structures.cs" />
     <Compile Include="Dialogs\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,7 +77,6 @@
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="FileHelper.cs" />
-    <Compile Include="RegistrySettings.cs" />
     <Compile Include="Classes\HaloAddOnContainer.cs" />
     <Compile Include="Forms\AddOnManager.cs">
       <SubType>Form</SubType>
@@ -164,6 +169,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Cogwheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compression\AddOnPackageException.cs" />
+    <Content Include="Resources\Abide AddOn Package.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

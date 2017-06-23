@@ -5,8 +5,15 @@ using System.IO;
 
 namespace Abide
 {
-    public static class RegistrySettings
+    /// <summary>
+    /// Exposes functions for configuring Abide with the Windows Registry.
+    /// </summary>
+    internal static class AbideRegistry
     {
+        private static readonly RegistryKey classes = Registry.CurrentUser.CreateSubKey(@"Software\Classes");
+        private static readonly RegistryKey abide = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2\Abide");
+        private static readonly RegistryKey halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
+
         public static string AddOnsDirectory
         {
             get
@@ -16,7 +23,6 @@ namespace Abide
             }
             set { SetValue(abide, "AddOns", value); }
         }
-
         public static string[] Halo2RecentFiles
         {
             get
@@ -82,9 +88,53 @@ namespace Abide
             set
             { SetValue(halo2, "Paths", "MainMenu", value); }
         }
+        public static bool IsAaoRegistered
+        {
+            get
+            {
+                string progId = GetValue<string>(classes, ".aao", null);
+                return progId == "Abide.aao";
+            }
+        }
 
-        private static readonly RegistryKey abide = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2\Abide");
-        private static readonly RegistryKey halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
+        public static void UnregisterAao()
+        {
+            //Initialize
+            using (RegistryKey aao = classes.CreateSubKey(".aao"))
+            using (RegistryKey abideAao = classes.CreateSubKey("Abide.aao"))
+            {
+                //Set
+                SetValue(aao, null, string.Empty);
+
+                //Delete
+                classes.DeleteSubKeyTree("Abide.aao");
+            }
+        }
+        public static void RegisterAao(string executable)
+        {
+            //Initialize
+            using (RegistryKey aao = classes.CreateSubKey(".aao"))
+            using (RegistryKey abideAao = classes.CreateSubKey("Abide.aao"))
+            using (RegistryKey command = abideAao.CreateSubKey(@"shell\open\command"))
+            using (RegistryKey defaultIcon = abideAao.CreateSubKey("DefaultIcon"))
+            {
+                //Set ProgID
+                SetValue(aao, null, "Abide.aao");
+
+                //Set File Type
+                SetValue(abideAao, null, "Abide AddOn Package");
+
+                //Set icon as icon index 1 in executable.
+                SetValue(defaultIcon, null, $"{executable},2");
+
+                //Set command
+                SetValue(command, null, $"\"{executable}\" \"%1\"");
+            }
+        }
+        public static void RegisterAao()
+        {
+            RegisterAao(string.Empty);   
+        }
 
         private static T GetValue<T>(RegistryKey key, string name)
         {

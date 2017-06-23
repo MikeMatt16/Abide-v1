@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Abide/Abide/icon1.ico
+/Abide/Abide/resource.h

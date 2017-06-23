@@ -17,6 +17,7 @@ namespace Abide.Classes
         private readonly List<IHaloAddOn<TMap, TEntry>> haloAddOns;
         private readonly List<ITabPage<TMap, TEntry, TXbox>> tabPages;
         private readonly List<IMenuButton<TMap, TEntry, TXbox>> menuButtons;
+        private readonly List<IContextMenuItem<TMap, TEntry, TXbox>> contextMenuItems;
         private readonly List<ITool<TMap, TEntry, TXbox>> tools;
         private readonly Dictionary<AddOnFactory, List<Exception>> errors;
         private readonly MapVersion version;
@@ -33,6 +34,7 @@ namespace Abide.Classes
             haloAddOns = new List<IHaloAddOn<TMap, TEntry>>();
             tabPages = new List<ITabPage<TMap, TEntry, TXbox>>();
             menuButtons = new List<IMenuButton<TMap, TEntry, TXbox>>();
+            contextMenuItems = new List<IContextMenuItem<TMap, TEntry, TXbox>>();
             tools = new List<ITool<TMap, TEntry, TXbox>>();
             errors = new Dictionary<AddOnFactory, List<Exception>>();
         }
@@ -69,6 +71,14 @@ namespace Abide.Classes
             return menuButtons.ToArray();
         }
         /// <summary>
+        /// Retrieves all of the <see cref="IContextMenuItem{TMap, TEntry, TXbox}"/> instances within the container.
+        /// </summary>
+        /// <returns>An array of <see cref="IContextMenuItem{TMap, TEntry, TXbox}, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
+        public IContextMenuItem<TMap, TEntry, TXbox>[] GetContextMenuItems()
+        {
+            return contextMenuItems.ToArray();
+        }
+        /// <summary>
         /// Retrieves all of the <see cref="IHaloAddOn{TMap, TEntry}"/> instances within the container.
         /// </summary>
         /// <returns>An array of <see cref="IHaloAddOn{TMap, TEntry}"/> instances loaded and initializded by the container.</returns>
@@ -102,9 +112,10 @@ namespace Abide.Classes
                 var halo = type.GetInterface(typeof(IHaloAddOn<TMap, TEntry>).Name);
                 var tool = type.GetInterface(typeof(ITool<TMap, TEntry, TXbox>).Name);
                 var menuButton = type.GetInterface(typeof(IMenuButton<TMap, TEntry, TXbox>).Name);
+                var contextMenuItem = type.GetInterface(typeof(IContextMenuItem<TMap, TEntry, TXbox>).Name);
                 var tabPage = type.GetInterface(typeof(ITabPage<TMap, TEntry, TXbox>).Name);
                 var assemblyName = type.Assembly.GetName().Name;
-                errors.Add(factory, new List<Exception>());
+                if (!errors.ContainsKey(factory)) errors.Add(factory, new List<Exception>());
 
                 //Check Halo based AddOns
                 if (halo != null)
@@ -116,6 +127,7 @@ namespace Abide.Classes
                             {
                                 if (tool != null) factory_InitializeTool(factory, assemblyName, type.FullName, host);
                                 if (menuButton != null) factory_InitializeMenuButton(factory, assemblyName, type.FullName, host);
+                                if (contextMenuItem != null) factory_InitializeContextMenuItem(factory, assemblyName, type.FullName, host);
                                 if (tabPage != null) factory_InitializeTabPage(factory, assemblyName, type.FullName, host);
                             }
                             catch (Exception ex) { errors[factory].Add(ex); }
@@ -155,6 +167,17 @@ namespace Abide.Classes
             haloAddOns.Add(tabPage);
             tabPages.Add(tabPage);
         }
+        private void factory_InitializeContextMenuItem(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        {
+            //Create
+            IContextMenuItem<TMap, TEntry, TXbox> contextMenuItem = factory.CreateInstance<IContextMenuItem<TMap, TEntry, TXbox>>(assemblyName, typeFullName);
+            contextMenuItem.Initialize(host);
+
+            //Add
+            addOns.Add(contextMenuItem);
+            haloAddOns.Add(contextMenuItem);
+            contextMenuItems.Add(contextMenuItem);
+        }
         private void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -167,6 +190,7 @@ namespace Abide.Classes
                 addOns.Clear();
                 tabPages.Clear();
                 menuButtons.Clear();
+                contextMenuItems.Clear();
                 tools.Clear();
                 errors.Clear();
 

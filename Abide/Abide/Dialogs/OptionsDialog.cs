@@ -33,9 +33,9 @@ namespace Abide.Dialogs
             }
 
             //Load Settings
-            halo2SpSharedFilePathTextBox.Text = RegistrySettings.Halo2SpShared.GetCompactPath(35);
-            halo2SharedFilePathTextBox.Text = RegistrySettings.Halo2Shared.GetCompactPath(35);
-            halo2MainmenuFilePathTextBox.Text = RegistrySettings.Halo2Mainmenu.GetCompactPath(35);
+            halo2SpSharedFilePathTextBox.Text = AbideRegistry.Halo2SpShared.GetCompactPath(35);
+            halo2SharedFilePathTextBox.Text = AbideRegistry.Halo2Shared.GetCompactPath(35);
+            halo2MainmenuFilePathTextBox.Text = AbideRegistry.Halo2Mainmenu.GetCompactPath(35);
         }
 
         private void spSharedBrowseButton_Click(object sender, EventArgs e)
@@ -62,7 +62,7 @@ namespace Abide.Dialogs
             {
                 //Set...
                 halo2MainmenuFilePathTextBox.Text = filename.GetCompactPath(34);
-                RegistrySettings.Halo2SpShared = filename;
+                AbideRegistry.Halo2SpShared = filename;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Abide.Dialogs
             {
                 //Set...
                 halo2MainmenuFilePathTextBox.Text = filename.GetCompactPath(34);
-                RegistrySettings.Halo2Shared = filename;
+                AbideRegistry.Halo2Shared = filename;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Abide.Dialogs
             {
                 //Set...
                 halo2MainmenuFilePathTextBox.Text = filename.GetCompactPath(34);
-                RegistrySettings.Halo2Mainmenu = filename;
+                AbideRegistry.Halo2Mainmenu = filename;
             }
         }
 

@@ -33,6 +33,7 @@
             this.tagPanel = new System.Windows.Forms.Panel();
             this.tagSplitContainer = new System.Windows.Forms.SplitContainer();
             this.tagTree = new System.Windows.Forms.TreeView();
+            this.tagContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tagImageList = new System.Windows.Forms.ImageList(this.components);
             this.tagTabControl = new System.Windows.Forms.TabControl();
             this.tagPropertiesTabPage = new System.Windows.Forms.TabPage();
@@ -84,6 +85,7 @@
             // 
             // tagTree
             // 
+            this.tagTree.ContextMenuStrip = this.tagContextMenu;
             this.tagTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagTree.FullRowSelect = true;
             this.tagTree.HideSelection = false;
@@ -95,6 +97,11 @@
             this.tagTree.Size = new System.Drawing.Size(260, 226);
             this.tagTree.TabIndex = 0;
             this.tagTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tagTree_AfterSelect);
+            // 
+            // tagContextMenu
+            // 
+            this.tagContextMenu.Name = "tagContextMenu";
+            this.tagContextMenu.Size = new System.Drawing.Size(153, 26);
             // 
             // tagImageList
             // 
@@ -251,5 +258,6 @@
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ToolStripButton optionsToolStripButton;
+        private System.Windows.Forms.ContextMenuStrip tagContextMenu;
     }
 }

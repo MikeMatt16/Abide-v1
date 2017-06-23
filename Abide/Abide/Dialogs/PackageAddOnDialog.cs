@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Abide.Compression;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -115,8 +116,8 @@ namespace Abide.Dialogs
             if (!Directory.Exists(root)) return;
 
             //Prepare
-            string[] files = node_GetFiles(filesTreeView.Nodes);
             AddOnManifest manifest = new AddOnManifest();
+            string[] files = node_GetFiles(filesTreeView.Nodes);
             manifest.PrimaryAssemblyFile = primaryAssembly;
             manifest.Name = nameTextBox.Text;
             
@@ -128,8 +129,32 @@ namespace Abide.Dialogs
                 manifest.Add(string.Join("\\", parts));
             }
 
+            //Create Package
+            AddOnPackageFile package = new AddOnPackageFile();
+
             //Write
-            manifest.SaveXml(Path.Combine(root, "Manifest.xml"));
+            using (MemoryStream manifestStream = new MemoryStream())
+            {
+                //Save
+                manifest.SaveXml(manifestStream);
+
+                //Create Manifset Item
+                FileEntry manifestEntry = new FileEntry(manifestStream.GetBuffer());
+                manifestEntry.Filename = "Manifest.xml";
+                manifestEntry.Created = DateTime.Now;
+                manifestEntry.Modified = DateTime.Now;
+                manifestEntry.Accessed = DateTime.Now;
+                
+                //Add Manifest
+                package.Entries.Add(manifestEntry);
+            }
+
+            //Add
+            foreach (string targetFile in manifest)
+                package.AddFile(Path.Combine(root, targetFile), targetFile);
+
+            //Save
+            package.Save(Path.Combine(root, $"{manifest.Name}.aao"));
 
             //OK
             DialogResult = DialogResult.OK;
@@ -142,7 +167,7 @@ namespace Abide.Dialogs
 
             //Loop
             foreach (TreeNode node in collection)
-                if (node.Tag is string) files.Add((string)node.Tag);
+                if (node.Tag is string && node.Checked) files.Add((string)node.Tag);
                 else if (node.Tag == null) files.AddRange(node_GetFiles(node.Nodes));
 
             //Return

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -8,7 +9,7 @@ namespace Abide
     /// <summary>
     /// Represents an AddOn manifest.
     /// </summary>
-    public sealed class AddOnManifest
+    public sealed class AddOnManifest : IEnumerable<string>
     {
         /// <summary>
         /// Gets or sets the name of the AddOn.
@@ -178,6 +179,18 @@ namespace Abide
 
             //Remove
             return files.Remove(filename);
+        }
+        /// <summary>
+        /// Returns an enumerator that iterates through this instance.
+        /// </summary>
+        /// <returns>A <see cref="string"/> enumerator.</returns>
+        public IEnumerator<string> GetEnumerator()
+        {
+            return ((IEnumerable<string>)files).GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<string>)files).GetEnumerator();
         }
     }
 }

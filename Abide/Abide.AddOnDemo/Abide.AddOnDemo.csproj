@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoBitmapMenuItem.cs" />
     <Compile Include="DemoMenuButton.cs" />
     <Compile Include="DemoTabPage.cs">
       <SubType>UserControl</SubType>
