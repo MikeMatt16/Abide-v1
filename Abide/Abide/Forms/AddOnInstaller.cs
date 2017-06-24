@@ -80,6 +80,39 @@ namespace Abide.Forms
             catch (Exception) { }
         }
 
+        private void addOnsListBox_DragEnter(object sender, DragEventArgs e)
+        {
+            //File Drop?
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void addOnsListBox_DragDrop(object sender, DragEventArgs e)
+        {
+            //Prepare
+            AddOnPackageFile package = new AddOnPackageFile();
+            string[] files = null;
+            FileInfo info = null;
+
+            //Check
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //Get Files
+                files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                //Loop
+                foreach (string file in files)
+                {
+                    //Get Info
+                    info = new FileInfo(file);
+
+                    //Check
+                    if (info.Extension == ".aao")
+                        AddPackage(file);
+                }
+            }
+        }
+
         private void closeButton_Click(object sender, EventArgs e)
         {
             //Close

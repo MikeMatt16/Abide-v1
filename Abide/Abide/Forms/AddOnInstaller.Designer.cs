@@ -32,11 +32,11 @@
             this.installButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
             this.contentsPanel = new System.Windows.Forms.Panel();
+            this.addPackageButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.installLogRichTextBox = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.addOnsListBox = new System.Windows.Forms.CheckedListBox();
-            this.addPackageButton = new System.Windows.Forms.Button();
             this.controlsPanel.SuspendLayout();
             this.contentsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -87,6 +87,16 @@
             this.contentsPanel.Size = new System.Drawing.Size(584, 380);
             this.contentsPanel.TabIndex = 1;
             // 
+            // addPackageButton
+            // 
+            this.addPackageButton.Location = new System.Drawing.Point(12, 162);
+            this.addPackageButton.Name = "addPackageButton";
+            this.addPackageButton.Size = new System.Drawing.Size(92, 23);
+            this.addPackageButton.TabIndex = 4;
+            this.addPackageButton.Text = "&Add Package...";
+            this.addPackageButton.UseVisualStyleBackColor = true;
+            this.addPackageButton.Click += new System.EventHandler(this.addPackageButton_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -116,12 +126,13 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
+            this.label1.Size = new System.Drawing.Size(89, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "AddOns:";
+            this.label1.Text = "AddOns to install:";
             // 
             // addOnsListBox
             // 
+            this.addOnsListBox.AllowDrop = true;
             this.addOnsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addOnsListBox.FormattingEnabled = true;
@@ -130,16 +141,8 @@
             this.addOnsListBox.Name = "addOnsListBox";
             this.addOnsListBox.Size = new System.Drawing.Size(560, 131);
             this.addOnsListBox.TabIndex = 0;
-            // 
-            // addPackageButton
-            // 
-            this.addPackageButton.Location = new System.Drawing.Point(12, 162);
-            this.addPackageButton.Name = "addPackageButton";
-            this.addPackageButton.Size = new System.Drawing.Size(92, 23);
-            this.addPackageButton.TabIndex = 4;
-            this.addPackageButton.Text = "&Add Package...";
-            this.addPackageButton.UseVisualStyleBackColor = true;
-            this.addPackageButton.Click += new System.EventHandler(this.addPackageButton_Click);
+            this.addOnsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.addOnsListBox_DragDrop);
+            this.addOnsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.addOnsListBox_DragEnter);
             // 
             // AddOnInstaller
             // 
