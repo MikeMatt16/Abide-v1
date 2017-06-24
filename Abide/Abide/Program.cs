@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Windows.Forms;
 
 namespace Abide
@@ -79,8 +80,11 @@ namespace Abide
                 info = new FileInfo(filename);
                 if(info.Extension == ".aao")    //Check Extension
                 {
-                    //Load Package...
+                    //Prepare...
                     AddOnPackageFile package = new AddOnPackageFile();
+                    package.DecompressData += Package_DecompressData;
+
+                    //Load
                     try { package.Load(filename); } catch { }
 
                     //Extract
@@ -132,6 +136,29 @@ namespace Abide
 
             //Run Main App
             Application.Run(mainForm);
+        }
+
+        private static byte[] Package_DecompressData(byte[] data, string compressionFourCc)
+        {
+            //Prepare
+            byte[] decompressed = null;
+
+            //Create
+            using (MemoryStream dataStream = new MemoryStream(data))
+                switch (compressionFourCc)
+                {
+                    case "GZIP":
+                        using (GZipStream zipStream = new GZipStream(dataStream, CompressionMode.Decompress))
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            zipStream.CopyTo(ms);
+                            decompressed = ms.ToArray();
+                        }
+                        break;
+                }
+
+            //Return
+            return decompressed;
         }
 
         private static bool Main_HandleArguments(string[] args)

@@ -114,11 +114,14 @@ namespace Abide.Compression
                             inStream.Seek(fileEntries[i].Offset + header.DataOffset, SeekOrigin.Begin);
 
                             //Read
-                            byte[] data = reader.ReadBytes((int)fileEntries[i].Length);
+                            byte[] data = reader.ReadBytes(fileEntries[i].Length);
 
                             //Decompress?
-                            if (fileEntries[i].Compression != FOURCC.Zero) fileEntries[i].Data = decompressData.Invoke(data, this.fileEntries[i].Compression);
+                            if (fileEntries[i].Compression != FOURCC.Zero) fileEntries[i].Data = decompressData?.Invoke(data, fileEntries[i].Compression);
                             else fileEntries[i].Data = data;
+
+                            //Set Length
+                            fileEntries[i].Length = fileEntries[i].Data.Length;
                         }
 
                         //Setup
@@ -150,9 +153,9 @@ namespace Abide.Compression
         /// <summary>
         /// Saves this Abide AddOn package file to the specified stream.
         /// </summary>
-        /// <param name="stream">The stream where the package will be saved.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="stream"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="stream"/> does not support seeking.</exception>
+        /// <param name="outStream">The stream where the package will be saved.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="outStream"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="outStream"/> does not support seeking.</exception>
         /// <exception cref="AbideAddOnPackageException">A write error occured.</exception>
         public void Save(Stream outStream)
         {
@@ -173,7 +176,7 @@ namespace Abide.Compression
                 for (int i = 0; i < header.EntryCount; i++)
                 {
                     //Get Data...
-                    if (fileEntries[i].Compression != FOURCC.Zero) data = compressData.Invoke(fileEntries[i].Data, fileEntries[i].Compression);
+                    if (fileEntries[i].Compression != FOURCC.Zero) data = compressData?.Invoke(fileEntries[i].Data, fileEntries[i].Compression);
                     else data = fileEntries[i].Data;
 
                     //Check...
@@ -186,6 +189,7 @@ namespace Abide.Compression
                         entries[i].Created = fileEntries[i].Created;
                         entries[i].Modified = fileEntries[i].Modified;
                         entries[i].Accessed = fileEntries[i].Accessed;
+                        entries[i].Compression = fileEntries[i].Compression;
 
                         //Write
                         writer.Write(data);
@@ -280,6 +284,50 @@ namespace Abide.Compression
                 entry.Created = info.CreationTime;
                 entry.Modified = info.LastWriteTime;
                 entry.Accessed = info.LastAccessTime;
+
+                //Add
+                fileEntries.Add(entry);
+            }
+        }
+        /// <summary>
+        /// Adds a file to the AddOn package.
+        /// </summary>
+        /// <param name="filename">The name of the file.</param>
+        public void AddFile(string filename, string targetFileName, string compressionFourCc)
+        {
+            //Prepare
+            byte[] buffer = null;
+            FileInfo info = null;
+
+            //Check
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            if (targetFileName == null) throw new ArgumentNullException(nameof(targetFileName));
+            if (!File.Exists(filename)) throw new FileNotFoundException("Unable to find file.", filename);
+
+            //Load
+            try
+            {
+                //Load Info
+                info = new FileInfo(filename);
+
+                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    //Prepare
+                    buffer = new byte[fs.Length];
+                    fs.Read(buffer, 0, buffer.Length);
+                }
+            }
+            catch (Exception) { }
+
+            //Create file entry
+            if (buffer != null && info != null)
+            {
+                //Create Entry
+                FileEntry entry = new FileEntry(buffer) { Filename = targetFileName };
+                entry.Created = info.CreationTime;
+                entry.Modified = info.LastWriteTime;
+                entry.Accessed = info.LastAccessTime;
+                entry.Compression = compressionFourCc;
 
                 //Add
                 fileEntries.Add(entry);
@@ -516,7 +564,7 @@ namespace Abide.Compression
             created = entry.Created.Ticks;
             modified = entry.Modified.Ticks;
             accessed = entry.Accessed.Ticks;
-            compression = FOURCC.Zero;
+            compression = entry.Compression;
             data = new byte[0];
         }
         public override string ToString()

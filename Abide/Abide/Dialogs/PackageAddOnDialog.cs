@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Windows.Forms;
 
 namespace Abide.Dialogs
@@ -27,7 +28,7 @@ namespace Abide.Dialogs
             get { return primaryAssembly; }
             set { primaryAssembly = value; }
         }
-
+        
         private string primaryAssembly = string.Empty;
         private string root = string.Empty;
 
@@ -87,7 +88,6 @@ namespace Abide.Dialogs
             //End
             filesTreeView.EndUpdate();
         }
-
         private string[] directory_GetFiles(string directory)
         {
             //Check
@@ -131,6 +131,7 @@ namespace Abide.Dialogs
 
             //Create Package
             AddOnPackageFile package = new AddOnPackageFile();
+            package.CompressData += Package_CompressData;
 
             //Write
             using (MemoryStream manifestStream = new MemoryStream())
@@ -138,20 +139,21 @@ namespace Abide.Dialogs
                 //Save
                 manifest.SaveXml(manifestStream);
 
-                //Create Manifset Item
-                FileEntry manifestEntry = new FileEntry(manifestStream.GetBuffer());
+                //Create File Entry
+                FileEntry manifestEntry = new FileEntry(manifestStream.ToArray());
+                manifestEntry.Compression = "GZIP";
                 manifestEntry.Filename = "Manifest.xml";
                 manifestEntry.Created = DateTime.Now;
                 manifestEntry.Modified = DateTime.Now;
                 manifestEntry.Accessed = DateTime.Now;
-                
+
                 //Add Manifest
                 package.Entries.Add(manifestEntry);
             }
 
             //Add
             foreach (string targetFile in manifest)
-                package.AddFile(Path.Combine(root, targetFile), targetFile);
+                package.AddFile(Path.Combine(root, targetFile), targetFile, "GZIP");
 
             //Save
             package.Save(Path.Combine(root, $"{manifest.Name}.aao"));
@@ -159,7 +161,6 @@ namespace Abide.Dialogs
             //OK
             DialogResult = DialogResult.OK;
         }
-
         private string[] node_GetFiles(TreeNodeCollection collection)
         {
             //Prepare
@@ -172,6 +173,29 @@ namespace Abide.Dialogs
 
             //Return
             return files.ToArray();
+        }
+        private byte[] Package_CompressData(byte[] data, string compressionFourCc)
+        {
+            //Prepare
+            byte[] compressed = null;
+
+            //Create
+            using (MemoryStream ms = new MemoryStream())
+                switch (compressionFourCc)
+                {
+                    case "GZIP":
+                        //Create Zip Stream
+                        using (GZipStream zipStream = new GZipStream(ms, CompressionMode.Compress))
+                            zipStream.Write(data, 0, data.Length);
+
+                        //Set
+                        compressed = ms.ToArray();
+                        break;
+                    default: throw new NotImplementedException("Compression format is not supported.");
+                }
+
+            //Return
+            return compressed;
         }
     }
 }

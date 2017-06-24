@@ -81,7 +81,7 @@ namespace Abide
             settings.Indent = true;
 
             //Create
-            using(XmlWriter writer = XmlWriter.Create(outStream))
+            using(XmlWriter writer = XmlWriter.Create(outStream, settings))
             {
                 //Write Header
                 writer.WriteStartDocument();
