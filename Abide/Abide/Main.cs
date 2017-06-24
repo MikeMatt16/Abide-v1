@@ -200,7 +200,7 @@ namespace Abide
         private void registerFileTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Get Message
-            string message = !AbideRegistry.IsAaoRegistered ? "Abide has been unregistered." : "Abide has been registered.";
+            string message = AbideRegistry.IsAaoRegistered ? "Abide has been unregistered." : "Abide has been registered.";
 
             //Register / Unregister
             if (!AbideRegistry.IsAaoRegistered) AbideRegistry.RegisterAao(Application.ExecutablePath);

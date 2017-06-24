@@ -125,7 +125,7 @@ namespace Abide
                 SetValue(abideAao, null, "Abide AddOn Package");
 
                 //Set icon as icon index 1 in executable.
-                SetValue(defaultIcon, null, $"{executable},2");
+                SetValue(defaultIcon, null, $"{executable},1");
 
                 //Set command
                 SetValue(command, null, $"\"{executable}\" \"%1\"");

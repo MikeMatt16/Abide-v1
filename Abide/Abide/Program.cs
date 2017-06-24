@@ -1,5 +1,6 @@
 ﻿using Abide.Classes;
 using Abide.Compression;
+using Abide.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -69,16 +70,19 @@ namespace Abide
             if (Main_HandleArguments(args))
                 Main_Continue();
         }
-        
+
         private static void Main_Continue()
         {
-            //Install AddOn(s)?
+            //Prepare
+            AddOnInstaller addOnInstaller = null;
             FileInfo info = null;
+
+            //Loop through files
             foreach (string filename in files)
             {
                 //Initialize
                 info = new FileInfo(filename);
-                if(info.Extension == ".aao")    //Check Extension
+                if (info.Extension == ".aao")    //Check Extension
                 {
                     //Prepare...
                     AddOnPackageFile package = new AddOnPackageFile();
@@ -92,44 +96,28 @@ namespace Abide
                     {
                         if (package.Entries.Count > 0 && package.Entries.ContainsFilename("Manifest.xml"))
                         {
+                            //Create?
+                            if (addOnInstaller == null) addOnInstaller = new AddOnInstaller();
+
                             //Load Manifest
                             AddOnManifest manifest = new AddOnManifest();
                             manifest.LoadXml(package.LoadFile("Manifest.xml"));
 
-                            //Extract...
-                            string targetDirectory = Path.Combine(AbideRegistry.AddOnsDirectory, manifest.Name);
-
-                            //Create
-                            if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
-
-                            //Loop
-                            string target = string.Empty;
-                            foreach (var entry in package.Entries)
-                            {
-                                //Get target filename
-                                target = Path.Combine(targetDirectory, entry.Filename);
-
-                                //Create Directory
-                                if (!Directory.Exists(Path.GetDirectoryName(target))) Directory.CreateDirectory(Path.GetDirectoryName(target));
-
-                                //Create File
-                                using (FileStream fs = new FileStream(target,
-                                    FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
-                                    fs.Write(entry.Data, 0, entry.Length);
-                            }
-
-                            //Done
-                            MessageBox.Show($"{manifest.Name} has been installed.", "AddOn Installed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //Add
+                            addOnInstaller.AddPackage(package, manifest);
                         }
                     }
                     catch (Exception) { }
                 }
             }
 
-            //Load?
-            foreach (string assembly in addOnAssemblies)
-                if (safeMode) addOns.AddAssemblySafe(assembly);
-                else addOns.AddAssembly(assembly);
+            //Check...
+            if (addOnInstaller != null)
+                mainForm = addOnInstaller;
+            else
+                foreach (string assembly in addOnAssemblies)
+                    if (safeMode) addOns.AddAssemblySafe(assembly);
+                    else addOns.AddAssembly(assembly);
 
             //Check Main Form
             if (mainForm == null) mainForm = new Main();
@@ -138,7 +126,7 @@ namespace Abide
             Application.Run(mainForm);
         }
 
-        private static byte[] Package_DecompressData(byte[] data, string compressionFourCc)
+        internal static byte[] Package_DecompressData(byte[] data, string compressionFourCc)
         {
             //Prepare
             byte[] decompressed = null;
