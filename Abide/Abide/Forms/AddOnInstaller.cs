@@ -154,12 +154,15 @@ namespace Abide.Forms
                                 using (FileStream fs = new FileStream(Path.Combine(root, "Manifest.xml"), FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                                     packageFileStream.CopyTo(fs);
                             }
-                            catch (Exception ex) { failed = true; Log("Failed to write file Manifest.xml. \r\n\t{0}", ex.Message); }
+                            catch (Exception ex) { failed = true; Log("Failed to write AddOn Manifest. \r\n\t{0}", ex.Message); }
 
                         //Log
                         if (!failed) Log("Extracting AddOn Manifest...");
                     }
                 }
+
+            //Done
+            Log($"Complete. Click \'Close\' to exit.");
         }
 
         private void addPackageButton_Click(object sender, EventArgs e)
