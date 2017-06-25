@@ -17,7 +17,7 @@ namespace Abide.Compression
         private static readonly FOURCC AaoFourCc = "AAO";
 
         /// <summary>
-        /// Occurs when data has to be decompressed.
+        /// Occurs when data needs to be decompressed.
         /// </summary>
         public event DataModifyEventHandler DecompressData
         {
@@ -25,7 +25,7 @@ namespace Abide.Compression
             remove { decompressData -= value; }
         }
         /// <summary>
-        /// Occurs when data has to be compressed.
+        /// Occurs when data needs to be compressed.
         /// </summary>
         public event DataModifyEventHandler CompressData
         {
@@ -641,10 +641,10 @@ namespace Abide.Compression
     }
 
     /// <summary>
-    /// Represents a method containing 
+    /// Represents a method containing data modification events.
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="compressionFourCc"></param>
-    /// <returns></returns>
+    /// <param name="data">The data to be modified.</param>
+    /// <param name="compressionFourCc">The compression four-character code string.</param>
+    /// <returns>A modified byte array.</returns>
     public delegate byte[] DataModifyEventHandler(byte[] data, string compressionFourCc);
 }
