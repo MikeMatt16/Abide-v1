@@ -72,6 +72,7 @@
             // 
             // deleteButton
             // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteButton.Enabled = false;
             this.deleteButton.Location = new System.Drawing.Point(12, 369);
             this.deleteButton.Name = "deleteButton";

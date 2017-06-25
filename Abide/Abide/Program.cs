@@ -59,11 +59,14 @@ namespace Abide
             foreach (string directory in Directory.EnumerateDirectories(AbideRegistry.AddOnsDirectory))
             {
                 //Get Manifest Path
-                manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
+                if (File.Exists(Path.Combine(directory, "Manifest.xml")))
+                {
+                    manifest.LoadXml(Path.Combine(directory, "Manifest.xml"));
 
-                //Load
-                string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
-                if (File.Exists(assemblyPath)) addOnAssemblies.Add(assemblyPath);
+                    //Load
+                    string assemblyPath = Path.Combine(directory, manifest.PrimaryAssemblyFile);
+                    if (File.Exists(assemblyPath)) addOnAssemblies.Add(assemblyPath);
+                }
             }
 
             //Handle Arguments
