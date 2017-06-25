@@ -8,7 +8,6 @@ namespace Abide.Compression
     /// </summary>
     internal struct HEADER
     {
-        
         /// <summary>
         /// Gets the runtime size of the <see cref="HEADER"/> structure in bytes.
         /// </summary>

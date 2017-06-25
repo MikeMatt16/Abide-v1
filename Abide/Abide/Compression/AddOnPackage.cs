@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Abide.Compression
 {
@@ -351,21 +350,45 @@ namespace Abide.Compression
             return ms;
         }
 
+        /// <summary>
+        /// Represents a AddOn Package File Entry list.
+        /// </summary>
         public sealed class FileEntryList : IEnumerable<FileEntry>, ICollection<FileEntry>, IList<FileEntry>
         {
+            /// <summary>
+            /// Gets and returns a <see cref="FileEntry"/> instance from the supplied file name.
+            /// </summary>
+            /// <param name="filename">The name of the file.</param>
+            /// <returns>null if the file is not found, else returns a <see cref="FileEntry"/> instance.</returns>
             public FileEntry this[string filename]
             {
-                get { return entries[entryLookup[filename]]; }
+                get
+                {
+                    if (entryLookup.ContainsKey(filename))
+                        return entries[entryLookup[filename]];
+                    else return null;
+                }
             }
+            /// <summary>
+            /// Gets or sets a <see cref="FileEntry"/> instance at a specified index in the list.
+            /// </summary>
+            /// <param name="index">The index to get or set the <see cref="FileEntry"/> instance.</param>
+            /// <returns>A <see cref="FileEntry"/> instance located at <paramref name="index"/> within the list.</returns>
             public FileEntry this[int index]
             {
                 get { return entries[index]; }
                 set { entries[index] = value; }
             }
+            /// <summary>
+            /// Gets and returns the number of <see cref="FileEntry"/> instances within the list.
+            /// </summary>
             public int Count
             {
                 get { return entries.Count; }
             }
+            /// <summary>
+            /// Gets and returns false.
+            /// </summary>
             public bool IsReadOnly
             {
                 get { return false; }
@@ -393,6 +416,10 @@ namespace Abide.Compression
                     if(!entryLookup.ContainsKey(entry.Filename))
                     { this.entries.Add(entry); entryLookup.Add(entry.Filename, this.entries.IndexOf(entry)); }
             }
+            /// <summary>
+            /// Adds a file entry the list.
+            /// </summary>
+            /// <param name="item">The file entry to add.</param>
             public void Add(FileEntry item)
             {
                 //Check
@@ -402,30 +429,62 @@ namespace Abide.Compression
                     RebuildLookup();
                 }
             }
+            /// <summary>
+            /// Clears all file entries from the list.
+            /// </summary>
             public void Clear()
             {
                 entries.Clear();
             }
+            /// <summary>
+            /// Returns whether a specific file entry exists within the list.
+            /// </summary>
+            /// <param name="item">The file entry to check for.</param>
+            /// <returns>true if the list contains <paramref name="item"/>, false if not.</returns>
             public bool Contains(FileEntry item)
             {
                 return entries.Contains(item);
             }
+            /// <summary>
+            /// Returns whether a specific file with a specified file name exists within the list.
+            /// </summary>
+            /// <param name="filename">The name of the file to check for.</param>
+            /// <returns>true if the list contains a file with filename <paramref name="filename"/>, false if not.</returns>
             public bool ContainsFilename(string filename)
             {
                 return entryLookup.ContainsKey(filename);
             }
+            /// <summary>
+            /// Copies the contents of the file entry list to a specified array at a given index.
+            /// </summary>
+            /// <param name="array">The destination array.</param>
+            /// <param name="arrayIndex">The index within the destination array to begin copying the file entries.</param>
             public void CopyTo(FileEntry[] array, int arrayIndex)
             {
                 entries.CopyTo(array, arrayIndex);
             }
+            /// <summary>
+            /// Returns an enumerator that iterates through this list.
+            /// </summary>
+            /// <returns>An enumerator.</returns>
             public IEnumerator<FileEntry> GetEnumerator()
             {
                 return ((IEnumerable<FileEntry>)entries).GetEnumerator();
             }
+            /// <summary>
+            /// Returns the index of a specified file entry.
+            /// </summary>
+            /// <param name="item">The file entry whose index is to be retrieved.</param>
+            /// <returns>-1 if the file entry is not found, otherwise the index of <paramref name="item"/>.</returns>
             public int IndexOf(FileEntry item)
             {
                 return entries.IndexOf(item);
             }
+            /// <summary>
+            /// Inserts a file entry into the list at a supplied index.
+            /// </summary>
+            /// <param name="index">The index to insert at.</param>
+            /// <param name="item">The item to add.</param>
             public void Insert(int index, FileEntry item)
             {
                 //Check
@@ -435,12 +494,21 @@ namespace Abide.Compression
                     RebuildLookup();
                 }
             }
+            /// <summary>
+            /// Attempts to remove a file entry from the list.
+            /// </summary>
+            /// <param name="item">The item to remove.</param>
+            /// <returns>true if the file entry was found and removed, otherwise false.</returns>
             public bool Remove(FileEntry item)
             {
                 bool removed = entries.Remove(item);
                 if (removed) RebuildLookup();
                 return removed;
             }
+            /// <summary>
+            /// Removes a file entry from the list at a given index.
+            /// </summary>
+            /// <param name="index">The index to remove a file entry.</param>
             public void RemoveAt(int index)
             {
                 entries.RemoveAt(index);
@@ -455,7 +523,6 @@ namespace Abide.Compression
                 entryLookup.Clear();
                 foreach (FileEntry entry in entries) entryLookup.Add(entry.Filename, entries.IndexOf(entry));
             }
-
             internal void Add(object manifestEntry)
             {
                 throw new NotImplementedException();
