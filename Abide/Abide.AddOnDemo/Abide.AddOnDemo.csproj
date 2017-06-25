@@ -43,18 +43,6 @@
   <ItemGroup>
     <Compile Include="DemoBitmapMenuItem.cs" />
     <Compile Include="DemoMenuButton.cs" />
-    <Compile Include="DemoTabPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DemoTabPage.Designer.cs">
-      <DependentUpon>DemoTabPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DemoTabPageTwo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DemoTabPageTwo.Designer.cs">
-      <DependentUpon>DemoTabPageTwo.cs</DependentUpon>
-    </Compile>
     <Compile Include="DemoTool.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,12 +83,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DemoTabPage.resx">
-      <DependentUpon>DemoTabPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DemoTabPageTwo.resx">
-      <DependentUpon>DemoTabPageTwo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DemoTool.resx">
       <DependentUpon>DemoTool.cs</DependentUpon>
     </EmbeddedResource>
