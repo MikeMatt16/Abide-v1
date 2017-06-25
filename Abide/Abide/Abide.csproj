@@ -62,6 +62,12 @@
     <Compile Include="Classes\SettingsAddOnContainer.cs" />
     <Compile Include="Compression\AddOnPackage.cs" />
     <Compile Include="Compression\Structures.cs" />
+    <Compile Include="Dialogs\FileTypeRegistrationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FileTypeRegistrationDialog.Designer.cs">
+      <DependentUpon>FileTypeRegistrationDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     <Compile Include="MapHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\FileTypeRegistrationDialog.resx">
+      <DependentUpon>FileTypeRegistrationDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>

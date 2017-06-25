@@ -2,6 +2,7 @@
 using Abide.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -199,15 +200,22 @@ namespace Abide
 
         private void registerFileTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Get Message
-            string message = AbideRegistry.IsAaoRegistered ? "Abide has been unregistered." : "Abide has been registered.";
+            //Show Registration Dialog
+            using (FileTypeRegistrationDialog regDlg = new FileTypeRegistrationDialog())
+                if (regDlg.ShowDialog() == DialogResult.Yes)
+                    if (MessageBox.Show("It is recommended that Windows Explorer is restarted. Would you like to restart now?",
+                        "Restart?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        //Get Explorer Process
+                        string filename = null;
 
-            //Register / Unregister
-            if (!AbideRegistry.IsAaoRegistered) AbideRegistry.RegisterAao(Application.ExecutablePath);
-            else AbideRegistry.UnregisterAao();
-
-            //Show
-            MessageBox.Show(message, "Abide Registration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //Loop through processes
+                        foreach (Process process in Process.GetProcessesByName("explorer"))
+                        {
+                            try { filename = process.MainModule.FileName; process.Kill(); }
+                            catch { }
+                        }
+                    }
         }
     }
 }

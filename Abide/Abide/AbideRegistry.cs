@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Abide
 {
@@ -96,6 +97,14 @@ namespace Abide
                 return progId == "Abide.aao";
             }
         }
+        public static bool IsMapRegistered
+        {
+            get
+            {
+                string progId = GetValue<string>(classes, ".map", null);
+                return progId == "Abide.map";
+            }
+        }
 
         public static void UnregisterAao()
         {
@@ -108,6 +117,19 @@ namespace Abide
 
                 //Delete
                 classes.DeleteSubKeyTree("Abide.aao");
+            }
+        }
+        public static void UnregisterMap()
+        {
+            //Initialize
+            using (RegistryKey map = classes.CreateSubKey(".map"))
+            using (RegistryKey abideMap = classes.CreateSubKey("Abide.map"))
+            {
+                //Set
+                SetValue(map, null, string.Empty);
+
+                //Delete
+                classes.DeleteSubKeyTree("Abide.map");
             }
         }
         public static void RegisterAao(string executable)
@@ -133,7 +155,34 @@ namespace Abide
         }
         public static void RegisterAao()
         {
-            RegisterAao(string.Empty);   
+            //Register
+            RegisterAao(Application.ExecutablePath);
+        }
+        public static void RegisterMap(string executable)
+        {
+            //Initialize
+            using (RegistryKey map = classes.CreateSubKey(".map"))
+            using (RegistryKey abideMap = classes.CreateSubKey("Abide.map"))
+            using (RegistryKey command = abideMap.CreateSubKey(@"shell\open\command"))
+            using (RegistryKey defaultIcon = abideMap.CreateSubKey("DefaultIcon"))
+            {
+                //Set ProgID
+                SetValue(map, null, "Abide.map");
+
+                //Set File Type
+                SetValue(abideMap, null, "Halo Map File");
+
+                //Set icon as icon index 1 in executable.
+                SetValue(defaultIcon, null, $"{executable},2");
+
+                //Set command
+                SetValue(command, null, $"\"{executable}\" \"%1\"");
+            }
+        }
+        public static void RegisterMap()
+        {
+            //Register
+            RegisterMap(Application.ExecutablePath);
         }
 
         private static T GetValue<T>(RegistryKey key, string name)
