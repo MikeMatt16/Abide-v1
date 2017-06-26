@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Abide
 {
@@ -17,7 +19,7 @@ namespace Abide
             InitializeComponent();
             recentFiles_InitUiHalo2();
         }
-
+        
         private void recentFiles_InitUiHalo2()
         {
             //Hide
@@ -88,6 +90,14 @@ namespace Abide
                 case HaloLibrary.MapVersion.HaloReach:
                     break;
             }
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            //Check
+            if (Program.UpdateManifest != null && main_CheckForUpdate(Program.UpdateManifest) || Program.ForceUpdate)
+                using (UpdateDialog updateDlg = new UpdateDialog(Program.UpdateManifest))
+                    if (updateDlg.ShowDialog() == DialogResult.OK) Application.Exit();
         }
 
         private void recentItem_Click(object sender, EventArgs e)
@@ -216,6 +226,62 @@ namespace Abide
                             catch { }
                         }
                     }
+        }
+
+        private bool main_CheckForUpdate(UpdateManifest manifest)
+        {
+            //Prepare
+            string root = Application.StartupPath;
+            AssemblyName assemblyName = null;
+            bool update = false;
+
+            //Loop
+            foreach (var info in Program.UpdateManifest)
+            {
+                //Check
+                if (!File.Exists(Path.Combine(root, info.Filename))) update |= true;
+                else if (info.AssemblyName != null)
+                {
+                    //Get Name
+                    assemblyName = AssemblyName.GetAssemblyName(Path.Combine(root, info.Filename));
+                    update |= info.AssemblyName.Version > assemblyName.Version;
+                }
+
+                //Check
+                if (update) break;
+            }
+
+            //Return
+            return update;
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            XmlDocument manifestDocument = new XmlDocument();
+            UpdateManifest manifest = null;
+            bool update = Program.ForceUpdate;
+
+            try
+            {
+                //Load XML Document
+                manifestDocument.Load(Program.UpdateManifestUrl);
+
+                //Get Update Manifest
+                manifest = new UpdateManifest(manifestDocument);
+
+                //Check
+                update |= main_CheckForUpdate(manifest);
+            }
+            catch { update = false; }
+
+            //Check
+            if (update)
+            {
+                using (UpdateDialog updateDlg = new UpdateDialog(manifest))
+                    if (updateDlg.ShowDialog() == DialogResult.OK) Application.Exit();
+            }
+            else MessageBox.Show("Abide is up to date.", "Up to date", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

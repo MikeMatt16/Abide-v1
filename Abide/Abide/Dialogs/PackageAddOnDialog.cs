@@ -141,8 +141,8 @@ namespace Abide.Dialogs
 
                 //Create File Entry
                 FileEntry manifestEntry = new FileEntry(manifestStream.ToArray());
-                manifestEntry.Compression = "GZIP";
                 manifestEntry.Filename = "Manifest.xml";
+                manifestEntry.Compression = "GZIP";
                 manifestEntry.Created = DateTime.Now;
                 manifestEntry.Modified = DateTime.Now;
                 manifestEntry.Accessed = DateTime.Now;
@@ -156,8 +156,17 @@ namespace Abide.Dialogs
                 package.AddFile(Path.Combine(root, targetFile), targetFile, "GZIP");
 
             //Save
-            package.Save(Path.Combine(root, $"{manifest.Name}.aao"));
+            using(SaveFileDialog saveDlg = new SaveFileDialog())
+            {
+                //Setup
+                saveDlg.Filter = "Abide AddOn Package Files (*.aao)|*.aao";
+                saveDlg.FileName = manifest.Name;
 
+                //Show
+                if(saveDlg.ShowDialog() == DialogResult.OK)
+                    package.Save(saveDlg.FileName);
+            }
+            
             //OK
             DialogResult = DialogResult.OK;
         }

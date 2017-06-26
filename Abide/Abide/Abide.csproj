@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Abide.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddOnManifest.cs" />
+    <Compile Include="AddOnPackageManifest.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Classes\AddOnFactoryManager.cs" />
     <Compile Include="AbideRegistry.cs" />
@@ -86,6 +88,12 @@
     <Compile Include="Dialogs\TagBrowserDialog.designer.cs">
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\UpdateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\UpdateDialog.Designer.cs">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileHelper.cs" />
     <Compile Include="Classes\HaloAddOnContainer.cs" />
     <Compile Include="Forms\AddOnInstaller.cs">
@@ -99,6 +107,12 @@
     </Compile>
     <Compile Include="Forms\AddOnManager.Designer.cs">
       <DependentUpon>AddOnManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddOnPackageManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddOnPackageManager.Designer.cs">
+      <DependentUpon>AddOnPackageManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Halo2\Editor.cs">
       <SubType>Form</SubType>
@@ -115,6 +129,7 @@
     <Compile Include="MapHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateManifest.cs" />
     <EmbeddedResource Include="Dialogs\FileTypeRegistrationDialog.resx">
       <DependentUpon>FileTypeRegistrationDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,11 +142,17 @@
     <EmbeddedResource Include="Dialogs\TagBrowserDialog.resx">
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\UpdateDialog.resx">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddOnInstaller.resx">
       <DependentUpon>AddOnInstaller.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddOnManager.resx">
       <DependentUpon>AddOnManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddOnPackageManager.resx">
+      <DependentUpon>AddOnPackageManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Halo2\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
@@ -196,6 +217,10 @@
   <ItemGroup>
     <Compile Include="Compression\AddOnPackageException.cs" />
     <Content Include="Resources\Abide AddOn Package.ico" />
+    <None Include="Resources\Update Background.png" />
+    <None Include="Resources\RemoveFiles.png" />
+    <None Include="Resources\ExtractFiles.png" />
+    <None Include="Resources\AddFiles.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

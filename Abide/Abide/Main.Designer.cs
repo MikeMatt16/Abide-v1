@@ -43,12 +43,14 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.createAddOnPackageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addOnManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.registerFileTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.registerFileTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +59,8 @@
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.windowToolStripMenuItem});
+            this.windowToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowToolStripMenuItem;
             this.mainMenuStrip.Name = "mainMenuStrip";
@@ -163,6 +166,18 @@
             this.addOnManagerToolStripMenuItem.Text = "&AddOn Manager";
             this.addOnManagerToolStripMenuItem.Click += new System.EventHandler(this.addOnManagerToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+            // 
+            // registerFileTypesToolStripMenuItem
+            // 
+            this.registerFileTypesToolStripMenuItem.Name = "registerFileTypesToolStripMenuItem";
+            this.registerFileTypesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.registerFileTypesToolStripMenuItem.Text = "&Register File Types";
+            this.registerFileTypesToolStripMenuItem.Click += new System.EventHandler(this.registerFileTypesToolStripMenuItem_Click);
+            // 
             // windowToolStripMenuItem
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -191,17 +206,20 @@
             this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             // 
-            // registerFileTypesToolStripMenuItem
+            // helpToolStripMenuItem
             // 
-            this.registerFileTypesToolStripMenuItem.Name = "registerFileTypesToolStripMenuItem";
-            this.registerFileTypesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.registerFileTypesToolStripMenuItem.Text = "&Register File Types";
-            this.registerFileTypesToolStripMenuItem.Click += new System.EventHandler(this.registerFileTypesToolStripMenuItem_Click);
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkForUpdatesToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
             // 
-            // toolStripSeparator1
+            // checkForUpdatesToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "&Check For Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -215,6 +233,7 @@
             this.Name = "Main";
             this.Text = "Abide Halo Map Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -244,6 +263,8 @@
         private System.Windows.Forms.ToolStripSeparator recentHalo2MapsToolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem registerFileTypesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }
 

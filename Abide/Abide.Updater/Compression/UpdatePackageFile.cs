@@ -4,34 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Abide.Compression
+namespace Abide.Updater.Compression
 {
     /// <summary>
-    /// Represents an Abide AddOn Package file.
+    /// Represents an Abide Update Package file.
     /// </summary>
-    public sealed class AddOnPackageFile
+    public sealed class UpdatePackageFile
     {
         /// <summary>
-        /// Represents a four-character code 'AAO' string.
+        /// Represents a four-character code 'AUP' string.
         /// </summary>
-        private static readonly FOURCC AaoFourCc = "AAO";
-
-        /// <summary>
-        /// Occurs when data needs to be decompressed.
-        /// </summary>
-        public event DataModifyEventHandler DecompressData
-        {
-            add { decompressData += value; }
-            remove { decompressData -= value; }
-        }
-        /// <summary>
-        /// Occurs when data needs to be compressed.
-        /// </summary>
-        public event DataModifyEventHandler CompressData
-        {
-            add { compressData += value; }
-            remove { compressData -= value; }
-        }
+        private static readonly FOURCC AupFourCc = "AUP";
+        
         /// <summary>
         /// Gets and returns the package file entry list.
         /// </summary>
@@ -39,28 +23,26 @@ namespace Abide.Compression
         {
             get { return fileEntries; }
         }
-
-        private event DataModifyEventHandler compressData;
-        private event DataModifyEventHandler decompressData;
+        
         private FileEntryList fileEntries;
         private HEADER header;
 
         /// <summary>
-        /// Initializes a new <see cref="AddOnPackageFile"/> instance.
+        /// Initializes a new <see cref="UpdatePackageFile"/> instance.
         /// </summary>
-        public AddOnPackageFile()
+        public UpdatePackageFile()
         {
             //Prepare
             fileEntries = new FileEntryList();
         }
 
         /// <summary>
-        /// Loads an Abide AddOn package file from a specified file path.
+        /// Loads an Abide Update package file from a specified file path.
         /// </summary>
-        /// <param name="filename">A relative or absolute path for the Abide AddOn package.</param>
+        /// <param name="filename">A relative or absolute path for the Abide Update package.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="AbideAddOnPackageException"></exception>
+        /// <exception cref="AbideUpdatePackageException"></exception>
         public void Load(string filename)
         {
             //Check...
@@ -75,17 +57,17 @@ namespace Abide.Compression
                 using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     Load(fs);
             }
-            catch (Exception ex) { throw new AbideAddOnPackageException(ex); }
+            catch (Exception ex) { throw new AbideUpdatePackageException(ex); }
         }
         /// <summary>
-        /// Loads an Abide AddOn package file from the specified stream.
+        /// Loads an Abide Update package file from the specified stream.
         /// </summary>
-        /// <param name="inStream">The stream containing the Abide AddOn package.</param>
-        /// <exception cref="AbideAddOnPackageException"></exception>
+        /// <param name="inStream">The stream containing the Abide Update package.</param>
+        /// <exception cref="AbideUpdatePackageException"></exception>
         public void Load(Stream inStream)
         {
             //Check file...
-            if (inStream.Length < 32) throw new AbideAddOnPackageException("Invalid AddOn package file.");
+            if (inStream.Length < 32) throw new AbideUpdatePackageException("Invalid AddOn package file.");
 
             //Prepare
             FileEntry[] fileEntries = null;
@@ -97,7 +79,7 @@ namespace Abide.Compression
                 {
                     //Read Header
                     header = reader.ReadStructure<HEADER>();
-                    if (header.AaoTag == AaoFourCc)  //Quick sanity check...
+                    if (header.AupTag == AupFourCc)  //Quick sanity check...
                     {
                         fileEntries = new FileEntry[header.EntryCount];
                         for (uint i = 0; i < header.EntryCount; i++) fileEntries[i] = new FileEntry(reader.ReadStructure<ENTRY>());
@@ -113,11 +95,7 @@ namespace Abide.Compression
                             inStream.Seek(fileEntries[i].Offset + header.DataOffset, SeekOrigin.Begin);
 
                             //Read
-                            byte[] data = reader.ReadBytes(fileEntries[i].Length);
-
-                            //Decompress?
-                            if (fileEntries[i].Compression != FOURCC.Zero) fileEntries[i].Data = decompressData?.Invoke(data, fileEntries[i].Compression);
-                            else fileEntries[i].Data = data;
+                            fileEntries[i].Data = reader.ReadBytes(fileEntries[i].Length);
 
                             //Set Length
                             fileEntries[i].Length = fileEntries[i].Data.Length;
@@ -126,19 +104,19 @@ namespace Abide.Compression
                         //Setup
                         this.fileEntries = new FileEntryList(fileEntries);
                     }
-                    else throw new AbideAddOnPackageException("Invalid file header.");
+                    else throw new AbideUpdatePackageException("Invalid file header.");
                 }
             }
-            catch (Exception ex) { throw new AbideAddOnPackageException(ex); }
+            catch (Exception ex) { throw new AbideUpdatePackageException(ex); }
         }
         /// <summary>
-        /// Saves this Abide AddOn package file to the specfied file or stream.
+        /// Saves this Abide Update package file to the specfied file or stream.
         /// </summary>
         /// <param name="filename">A string that contains the name of the file to which to save this package.</param>
         /// <exception cref="ArgumentNullException"><paramref name="filename"/> is null.</exception>
         /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="IOException"></exception>
-        /// <exception cref="AbideAddOnPackageException"></exception>
+        /// <exception cref="AbideUpdatePackageException"></exception>
         public void Save(string filename)
         {
             //Check
@@ -150,16 +128,16 @@ namespace Abide.Compression
                 Save(fs);
         }
         /// <summary>
-        /// Saves this Abide AddOn package file to the specified stream.
+        /// Saves this Abide Update package file to the specified stream.
         /// </summary>
         /// <param name="outStream">The stream where the package will be saved.</param>
         /// <exception cref="ArgumentNullException"><paramref name="outStream"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="outStream"/> does not support seeking.</exception>
-        /// <exception cref="AbideAddOnPackageException">A write error occured.</exception>
+        /// <exception cref="AbideUpdatePackageException">A write error occured.</exception>
         public void Save(Stream outStream)
         {
             //Setup Header
-            header.AaoTag = AaoFourCc;
+            header.AupTag = AupFourCc;
             header.EntryCount = (uint)fileEntries.Count;
 
             //Prepare
@@ -175,8 +153,7 @@ namespace Abide.Compression
                 for (int i = 0; i < header.EntryCount; i++)
                 {
                     //Get Data...
-                    if (fileEntries[i].Compression != FOURCC.Zero) data = compressData?.Invoke(fileEntries[i].Data, fileEntries[i].Compression);
-                    else data = fileEntries[i].Data;
+                    data = fileEntries[i].Data;
 
                     //Check...
                     if (data != null)
@@ -188,7 +165,6 @@ namespace Abide.Compression
                         entries[i].Created = fileEntries[i].Created;
                         entries[i].Modified = fileEntries[i].Modified;
                         entries[i].Accessed = fileEntries[i].Accessed;
-                        entries[i].Compression = fileEntries[i].Compression;
 
                         //Write
                         writer.Write(data);
@@ -246,53 +222,10 @@ namespace Abide.Compression
             }
         }
         /// <summary>
-        /// Adds a file to the AddOn package.
+        /// Adds a file to the package.
         /// </summary>
         /// <param name="filename">The name of the file.</param>
         public void AddFile(string filename, string targetFileName)
-        {
-            //Prepare
-            byte[] buffer = null;
-            FileInfo info = null;
-
-            //Check
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
-            if (targetFileName == null) throw new ArgumentNullException(nameof(targetFileName));
-            if (!File.Exists(filename)) throw new FileNotFoundException("Unable to find file.", filename);
-
-            //Load
-            try
-            {
-                //Load Info
-                info = new FileInfo(filename);
-
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    //Prepare
-                    buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                }
-            }
-            catch (Exception) { }
-
-            //Create file entry
-            if(buffer != null && info != null)
-            {
-                //Create Entry
-                FileEntry entry = new FileEntry(buffer) { Filename = targetFileName };
-                entry.Created = info.CreationTime;
-                entry.Modified = info.LastWriteTime;
-                entry.Accessed = info.LastAccessTime;
-
-                //Add
-                fileEntries.Add(entry);
-            }
-        }
-        /// <summary>
-        /// Adds a file to the AddOn package.
-        /// </summary>
-        /// <param name="filename">The name of the file.</param>
-        public void AddFile(string filename, string targetFileName, string compressionFourCc)
         {
             //Prepare
             byte[] buffer = null;
@@ -326,7 +259,6 @@ namespace Abide.Compression
                 entry.Created = info.CreationTime;
                 entry.Modified = info.LastWriteTime;
                 entry.Accessed = info.LastAccessTime;
-                entry.Compression = compressionFourCc;
 
                 //Add
                 fileEntries.Add(entry);
@@ -351,7 +283,7 @@ namespace Abide.Compression
         }
 
         /// <summary>
-        /// Represents an Abide AddOn Package File Entry list.
+        /// Represents an Abide Update Package File Entry list.
         /// </summary>
         public sealed class FileEntryList : IEnumerable<FileEntry>, ICollection<FileEntry>, IList<FileEntry>
         {
@@ -413,7 +345,7 @@ namespace Abide.Compression
             {
                 //Loop
                 foreach (FileEntry entry in entries)
-                    if(!entryLookup.ContainsKey(entry.Filename))
+                    if (!entryLookup.ContainsKey(entry.Filename))
                     { this.entries.Add(entry); entryLookup.Add(entry.Filename, this.entries.IndexOf(entry)); }
             }
             /// <summary>
@@ -531,7 +463,7 @@ namespace Abide.Compression
     }
 
     /// <summary>
-    /// Represents a file entry within an AddOn Package file.
+    /// Represents a file entry within an Abide Update package file.
     /// </summary>
     public sealed class FileEntry
     {
@@ -591,16 +523,7 @@ namespace Abide.Compression
             get { return new DateTime(accessed); }
             set { accessed = value.Ticks; }
         }
-        /// <summary>
-        /// Gets or sets the compression four-character code string.
-        /// </summary>
-        public string Compression
-        {
-            get { return compression; }
-            set { compression = value; }
-        }
-
-        private FOURCC compression;
+        
         private int offset, length;
         private long created, modified, accessed;
         private string filename;
@@ -631,7 +554,6 @@ namespace Abide.Compression
             created = entry.Created.Ticks;
             modified = entry.Modified.Ticks;
             accessed = entry.Accessed.Ticks;
-            compression = entry.Compression;
             data = new byte[0];
         }
         public override string ToString()
@@ -641,10 +563,34 @@ namespace Abide.Compression
     }
 
     /// <summary>
-    /// Represents a method containing data modification events.
+    /// Represents an error that occurs while handling an Abide Update Package file.
     /// </summary>
-    /// <param name="data">The data to be modified.</param>
-    /// <param name="compressionFourCc">The compression four-character code string.</param>
-    /// <returns>A modified byte array.</returns>
-    public delegate byte[] DataModifyEventHandler(byte[] data, string compressionFourCc);
+    public sealed class AbideUpdatePackageException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbideUpdatePackageException"/>.
+        /// </summary>
+        public AbideUpdatePackageException() : base()
+        { }
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbideUpdatePackageException"/> using the provided exception message.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        public AbideUpdatePackageException(string message) :
+            base(message)
+        { }
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbideUpdatePackageException"/> using the provided inner exception.
+        /// </summary>
+        /// <param name="innerException">The inner exception that triggered the <see cref="AbideUpdatePackageException"/>.</param>
+        public AbideUpdatePackageException(Exception innerException) : base(innerException.Message, innerException)
+        { }
+        /// <summary>
+        /// Initializes a new instance of <see cref="AbideUpdatePackageException"/> using the provided exception message and inner exception.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
+        /// <param name="innerException">The inner exception that triggered the <see cref="AbideUpdatePackageException"/>.</param>
+        public AbideUpdatePackageException(string message, Exception innerException) : base(message, innerException)
+        { }
+    }
 }
