@@ -105,6 +105,14 @@ namespace Abide
                 return progId == "Abide.map";
             }
         }
+        public static bool IsAtagRegistered
+        {
+            get
+            {
+                string progId = GetValue<string>(classes, ".atag", null);
+                return progId == "Abide.atag";
+            }
+        }
 
         public static void UnregisterAao()
         {
@@ -130,6 +138,19 @@ namespace Abide
 
                 //Delete
                 classes.DeleteSubKeyTree("Abide.map");
+            }
+        }
+        public static void UnregisterAtag()
+        {
+            //Initialize
+            using (RegistryKey map = classes.CreateSubKey(".atag"))
+            using (RegistryKey abideMap = classes.CreateSubKey("Abide.atag"))
+            {
+                //Set
+                SetValue(map, null, string.Empty);
+
+                //Delete
+                classes.DeleteSubKeyTree("Abide.atag");
             }
         }
         public static void RegisterAao(string executable)
@@ -183,6 +204,32 @@ namespace Abide
         {
             //Register
             RegisterMap(Application.ExecutablePath);
+        }
+        public static void RegisterAtag(string executable)
+        {
+            //Initialize
+            using (RegistryKey atag = classes.CreateSubKey(".atag"))
+            using (RegistryKey abideAtag = classes.CreateSubKey("Abide.atag"))
+            using (RegistryKey command = abideAtag.CreateSubKey(@"shell\open\command"))
+            using (RegistryKey defaultIcon = abideAtag.CreateSubKey("DefaultIcon"))
+            {
+                //Set ProgID
+                SetValue(atag, null, "Abide.atag");
+
+                //Set File Type
+                SetValue(abideAtag, null, "Abide Halo Tag File");
+
+                //Set icon as icon index 1 in executable.
+                SetValue(defaultIcon, null, $"{executable},3");
+
+                //Set command
+                SetValue(command, null, $"\"{executable}\" \"%1\"");
+            }
+        }
+        public static void RegisterAtag()
+        {
+            //Register
+            RegisterAtag(Application.ExecutablePath);
         }
 
         private static T GetValue<T>(RegistryKey key, string name)

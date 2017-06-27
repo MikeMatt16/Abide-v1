@@ -5,16 +5,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using YeloDebug;
 
 namespace Abide
 {
     public partial class Main : Form
     {
+        /// <summary>
+        /// Gets and returns the primary Debug Xbox connection.
+        /// </summary>
+        public Xbox DebugXbox
+        {
+            get { return debugXbox;}
+        }
+
+        private readonly Xbox debugXbox = new Xbox(Application.StartupPath);
+
         public Main()
         {
             InitializeComponent();
@@ -232,33 +240,6 @@ namespace Abide
                     }
         }
 
-        private bool main_CheckForUpdate(UpdateManifest manifest)
-        {
-            //Prepare
-            string root = Application.StartupPath;
-            AssemblyName assemblyName = null;
-            bool update = false;
-
-            //Loop
-            foreach (var info in Program.UpdateManifest)
-            {
-                //Check
-                if (!File.Exists(Path.Combine(root, info.Filename))) update |= true;
-                else if (info.AssemblyName != null)
-                {
-                    //Get Name
-                    assemblyName = AssemblyName.GetAssemblyName(Path.Combine(root, info.Filename));
-                    update |= info.AssemblyName.Version > assemblyName.Version;
-                }
-
-                //Check
-                if (update) break;
-            }
-
-            //Return
-            return update;
-        }
-
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Prepare
@@ -286,6 +267,45 @@ namespace Abide
                     if (updateDlg.ShowDialog() == DialogResult.OK) { Application.Exit(); }
             }
             else MessageBox.Show("Abide is up to date.", "Up to date", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void quickConnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Connect/Disconnect...
+            if (debugXbox.Connected) debugXbox.Disconnect();
+            else try { debugXbox.Connect(); }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+            //Set Text
+            if (debugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect {debugXbox.DebugName}";
+            else quickConnectToolStripMenuItem.Text = "Quick Connect";
+        }
+
+        private bool main_CheckForUpdate(UpdateManifest manifest)
+        {
+            //Prepare
+            string root = Application.StartupPath;
+            AssemblyName assemblyName = null;
+            bool update = false;
+
+            //Loop
+            foreach (var info in Program.UpdateManifest)
+            {
+                //Check
+                if (!File.Exists(Path.Combine(root, info.Filename))) update |= true;
+                else if (info.AssemblyName != null)
+                {
+                    //Get Name
+                    assemblyName = AssemblyName.GetAssemblyName(Path.Combine(root, info.Filename));
+                    update |= info.AssemblyName.Version > assemblyName.Version;
+                }
+
+                //Check
+                if (update) break;
+            }
+
+            //Return
+            return update;
         }
     }
 }

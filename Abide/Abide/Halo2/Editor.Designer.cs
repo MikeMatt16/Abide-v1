@@ -34,6 +34,7 @@
             this.tagSplitContainer = new System.Windows.Forms.SplitContainer();
             this.tagTree = new System.Windows.Forms.TreeView();
             this.tagContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.saveTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tagImageList = new System.Windows.Forms.ImageList(this.components);
             this.tagTabControl = new System.Windows.Forms.TabControl();
             this.tagPropertiesTabPage = new System.Windows.Forms.TabPage();
@@ -50,6 +51,7 @@
             this.tagSplitContainer.Panel1.SuspendLayout();
             this.tagSplitContainer.Panel2.SuspendLayout();
             this.tagSplitContainer.SuspendLayout();
+            this.tagContextMenu.SuspendLayout();
             this.tagTabControl.SuspendLayout();
             this.tagPropertiesTabPage.SuspendLayout();
             this.mapToolStrip.SuspendLayout();
@@ -85,6 +87,7 @@
             // 
             // tagTree
             // 
+            this.tagTree.AllowDrop = true;
             this.tagTree.ContextMenuStrip = this.tagContextMenu;
             this.tagTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagTree.FullRowSelect = true;
@@ -97,11 +100,22 @@
             this.tagTree.Size = new System.Drawing.Size(260, 226);
             this.tagTree.TabIndex = 0;
             this.tagTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tagTree_AfterSelect);
+            this.tagTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.tagTree_DragDrop);
+            this.tagTree.DragEnter += new System.Windows.Forms.DragEventHandler(this.tagTree_DragEnter);
             // 
             // tagContextMenu
             // 
+            this.tagContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveTagToolStripMenuItem});
             this.tagContextMenu.Name = "tagContextMenu";
-            this.tagContextMenu.Size = new System.Drawing.Size(153, 26);
+            this.tagContextMenu.Size = new System.Drawing.Size(121, 26);
+            // 
+            // saveTagToolStripMenuItem
+            // 
+            this.saveTagToolStripMenuItem.Name = "saveTagToolStripMenuItem";
+            this.saveTagToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.saveTagToolStripMenuItem.Text = "&Save Tag";
+            this.saveTagToolStripMenuItem.Click += new System.EventHandler(this.saveTagToolStripMenuItem_Click);
             // 
             // tagImageList
             // 
@@ -233,6 +247,7 @@
             this.tagSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tagSplitContainer)).EndInit();
             this.tagSplitContainer.ResumeLayout(false);
+            this.tagContextMenu.ResumeLayout(false);
             this.tagTabControl.ResumeLayout(false);
             this.tagPropertiesTabPage.ResumeLayout(false);
             this.mapToolStrip.ResumeLayout(false);
@@ -259,5 +274,6 @@
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ToolStripButton optionsToolStripButton;
         private System.Windows.Forms.ContextMenuStrip tagContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem saveTagToolStripMenuItem;
     }
 }

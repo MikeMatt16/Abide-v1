@@ -52,6 +52,9 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quickConnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,6 +64,7 @@
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.windowToolStripMenuItem,
+            this.xboxToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowToolStripMenuItem;
@@ -230,6 +234,28 @@
             this.versionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.versionToolStripMenuItem.Text = "version";
             // 
+            // xboxToolStripMenuItem
+            // 
+            this.xboxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quickConnectToolStripMenuItem,
+            this.toolStripSeparator3});
+            this.xboxToolStripMenuItem.Name = "xboxToolStripMenuItem";
+            this.xboxToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.xboxToolStripMenuItem.Text = "&Xbox";
+            // 
+            // quickConnectToolStripMenuItem
+            // 
+            this.quickConnectToolStripMenuItem.Name = "quickConnectToolStripMenuItem";
+            this.quickConnectToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.quickConnectToolStripMenuItem.Text = "&Quick Connect";
+            this.quickConnectToolStripMenuItem.Click += new System.EventHandler(this.quickConnectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator3.Visible = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,6 +301,9 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem xboxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quickConnectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

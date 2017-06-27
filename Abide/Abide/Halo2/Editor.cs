@@ -3,17 +3,16 @@ using Abide.Classes;
 using Abide.Dialogs;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using YeloDebug;
-using Abide.HaloLibrary.IO;
-using System.Runtime.InteropServices;
 
 namespace Abide.Halo2
 {
@@ -38,14 +37,20 @@ namespace Abide.Halo2
             get { return optionsToolStripButton.Visible; }
             set { optionsToolStripButton.Visible = value; }
         }
-        
+        /// <summary>
+        /// Gets the primary debug Xbox.
+        /// </summary>
+        private Xbox DebugXbox
+        {
+            get { if (ParentForm is Main) return ((Main)ParentForm).DebugXbox; return null; }
+        }
+
         private readonly List<TabPage> tabPages;
         private readonly List<ToolStripButton> menuButtons;
         private readonly List<ToolStripMenuItem> contextMenuItems;
         private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
         private readonly Dictionary<TAGID, IndexEntryWrapper> entries;
         private readonly MapFile map;
-        private readonly Xbox xbox;
         
         private IndexEntry selectedEntry = null;
         private string filename = string.Empty;
@@ -64,7 +69,6 @@ namespace Abide.Halo2
             //Initialize
             tagTree.TreeViewNodeSorter = new TagIdSorter();
             entries = new Dictionary<TAGID, IndexEntryWrapper>();
-            xbox = new Xbox(Application.StartupPath);
             map = new MapFile();
 
             //Prepare Container
@@ -303,6 +307,34 @@ namespace Abide.Halo2
             }
         }
 
+        private void tagTree_DragEnter(object sender, DragEventArgs e)
+        {
+            //Check
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void tagTree_DragDrop(object sender, DragEventArgs e)
+        {
+            //Prepare
+            AbideTagFile tag = new AbideTagFile();
+            FileInfo info = null;
+
+            //Get Files...
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+                foreach (string filename in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    //Get File Info
+                    info = new FileInfo(filename);
+
+                    //Check
+                    if(info.Extension == ".atag" && info.Length > 16)
+                    {
+                        //Load Atag
+                        tag.Load(info.FullName);
+                    }
+                }
+        }
+
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             //Check
@@ -444,6 +476,41 @@ namespace Abide.Halo2
             container.Dispose();
         }
 
+        private void saveTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Check
+            if (selectedEntry == null) return;
+
+            //Prepare
+            AbideTagFile tagFile = new AbideTagFile();
+            string filename = string.Empty;
+            bool save = false;
+
+            //Initialize
+            using (SaveFileDialog saveDlg = new SaveFileDialog())
+            {
+                //Setup
+                saveDlg.Filter = "Abide Tag Files (*.atag)|*.atag";
+                saveDlg.Title = "Save tag as...";
+                saveDlg.FileName = $"{selectedEntry.Filename.Split('\\').Last()}.{selectedEntry.Root}";
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = saveDlg.FileName;
+                    save = true;
+                }
+            }
+
+            //Check
+            if (save)
+            {
+                //Load from entry...
+                tagFile.LoadEntry(selectedEntry);
+
+                //Save
+                tagFile.Save(filename);
+            }
+        }
+
         private void ToolItem_Click(object sender, EventArgs e)
         {
             //Prepare
@@ -506,7 +573,7 @@ namespace Abide.Halo2
             {
                 case "Map": return map;
                 case "SelectedEntry": return selectedEntry;
-                case "Xbox": return xbox;
+                case "Xbox": return DebugXbox;
                 case "TagBrowserDialog":
                     //Prepare
                     if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
@@ -558,9 +625,19 @@ namespace Abide.Halo2
             }
         }
 
+        /// <summary>
+        /// Causes a window to use a different set of visual style information than its class normally uses.
+        /// </summary>
+        /// <param name="hwnd">Handle to the window whose visual style information is to be changed.</param>
+        /// <param name="pszSubAppName">A string that contains the application name to use in place of the calling application's name. If this parameter is null, the calling application's name is used.</param>
+        /// <param name="pszSubIdList">A string that contains a semicolon-separated list of CLSID names to use in place of the actual list passed by the window's class. If this parameter is null, the ID list from the calling class is used.</param>
+        /// <returns>If this function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
         [DllImport("Uxtheme.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdLIst);
+        private static extern IntPtr SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
 
+        /// <summary>
+        /// Represents a Tag ID Sorter.
+        /// </summary>
         private class TagIdSorter : IComparer
         {
             public int Compare(object x, object y)
@@ -621,7 +698,7 @@ namespace Abide.Halo2
             /// <summary>
             /// Gets and returns the offset at which the tag data begins within <see cref="TagData"/>.
             /// </summary>
-            [Category("Tag Properties"), Description("")]
+            [Category("Tag Properties"), Description("The offset where the tag data begins.")]
             public uint Offset
             {
                 get { return offset; }
