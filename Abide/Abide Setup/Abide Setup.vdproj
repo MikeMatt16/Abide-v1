@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
+        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,7 +100,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
+        "OwnerKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -128,6 +128,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -217,11 +225,6 @@
             "AssemblyAsmDisplayName" = "8:Abide.HaloLibrary, Version=1.0.6386.36836, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_91F6103F767C632207144F65360DC07E"
-                    {
-                    "Name" = "8:Abide.HaloLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Abide.HaloLibrary.dll"
             "TargetName" = "8:"
@@ -308,11 +311,6 @@
             "AssemblyAsmDisplayName" = "8:YeloDebug, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E93CC5D394FDA5E9F7F129EAADD41E32"
-                    {
-                    "Name" = "8:YeloDebug.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:YeloDebug.dll"
             "TargetName" = "8:"
@@ -339,11 +337,6 @@
             "AssemblyAsmDisplayName" = "8:Abide.AddOnApi, Version=1.3.6386.36837, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_FE5E105EACAB52322BC163A9F12063A2"
-                    {
-                    "Name" = "8:Abide.AddOnApi.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Abide.AddOnApi.dll"
             "TargetName" = "8:"
@@ -452,15 +445,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Abide Halo Map Editor"
-        "ProductCode" = "8:{FB72745A-114B-439A-8369-DD779BD83BA6}"
-        "PackageCode" = "8:{105E0C24-3FE3-451F-BF88-67651E012942}"
+        "ProductCode" = "8:{CF753DE8-3C2B-42B6-8E9D-E26CFD64BA27}"
+        "PackageCode" = "8:{3F4445AD-3160-4321-AA45-5315D8417F50}"
         "UpgradeCode" = "8:{46296D3C-B623-4E97-BCEF-8651E2F65422}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.1"
+        "ProductVersion" = "8:1.2.2"
         "Manufacturer" = "8:Potential Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/MikeMatt16/abide"
