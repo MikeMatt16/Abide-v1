@@ -19,6 +19,7 @@ namespace Abide.Updater
             if(Settings.Default.RequiresUpgrade)
             {
                 Settings.Default.Upgrade();
+                Settings.Default.RequiresUpgrade = false;
                 Settings.Default.Save();
             }
 
