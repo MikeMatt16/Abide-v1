@@ -61,7 +61,8 @@ namespace Abide.Updater
             launch = true;
 
             //Done
-            Log("Update complete. Press Press Close to open Abide.");
+            Log("Update complete. Click 'Start Abide' to launch Abide.");
+            closeButton.Text = "Start Abide";
         }
 
         private void closeButton_Click(object sender, EventArgs e)

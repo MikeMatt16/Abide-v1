@@ -83,6 +83,7 @@
             this.Name = "TagEditor";
             this.Size = new System.Drawing.Size(550, 550);
             this.ToolName = "Tag Editor";
+            this.Initialize += new System.EventHandler<Abide.AddOnApi.AddOnHostEventArgs>(this.TagEditor_Initialize);
             this.SelectedEntryChanged += new System.EventHandler(this.TagEditor_SelectedEntryChanged);
             this.editorSplitter.Panel1.ResumeLayout(false);
             this.editorSplitter.Panel2.ResumeLayout(false);

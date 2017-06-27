@@ -34,5 +34,9 @@ namespace Tag_Editor
             {
             }
         }
+
+        private void TagEditor_Initialize(object sender, AddOnHostEventArgs e)
+        {
+        }
     }
 }

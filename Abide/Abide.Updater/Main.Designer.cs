@@ -57,7 +57,7 @@
             this.installLogRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.installLogRichTextBox.Size = new System.Drawing.Size(460, 192);
             this.installLogRichTextBox.TabIndex = 4;
-            this.installLogRichTextBox.Text = "";
+            this.installLogRichTextBox.Text = "Click \'Install\' to begin update.\n";
             this.installLogRichTextBox.WordWrap = false;
             // 
             // controlsPanel
@@ -73,9 +73,9 @@
             // installButton
             // 
             this.installButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.installButton.Location = new System.Drawing.Point(397, 6);
+            this.installButton.Location = new System.Drawing.Point(392, 6);
             this.installButton.Name = "installButton";
-            this.installButton.Size = new System.Drawing.Size(75, 23);
+            this.installButton.Size = new System.Drawing.Size(80, 23);
             this.installButton.TabIndex = 1;
             this.installButton.Text = "&Install";
             this.installButton.UseVisualStyleBackColor = true;
@@ -86,7 +86,7 @@
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Location = new System.Drawing.Point(12, 6);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(75, 23);
+            this.closeButton.Size = new System.Drawing.Size(80, 23);
             this.closeButton.TabIndex = 0;
             this.closeButton.Text = "&Close";
             this.closeButton.UseVisualStyleBackColor = true;
