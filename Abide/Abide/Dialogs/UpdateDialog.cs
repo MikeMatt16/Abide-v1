@@ -51,14 +51,29 @@ namespace Abide.Dialogs
 
         private void Client_DownloadPackageCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            //Get Web Client...
-            WebClient client = (WebClient)sender;
-            client.DownloadFileCompleted -= Client_DownloadPackageCompleted;
-            client.DownloadFileCompleted += Client_DownloadUpdaterCompleted;
-            downloadingName = "Updater Application";
+            //Check
+            if (e.Error != null)
+            {
+                //Done
+                downloadButton.Enabled = true;
+                closeButton.Enabled = true;
+                working = false;
 
-            //Download Updater
-            client.DownloadFileAsync(new Uri(manifest.UpdaterUrl), updaterFilename);
+                //Throw error...
+                downloadProgressBar.Value = 0;
+                downloadProgressLabel.Text = e.Error.Message;
+            }
+            else
+            {
+                //Get Web Client...
+                WebClient client = (WebClient)sender;
+                client.DownloadFileCompleted -= Client_DownloadPackageCompleted;
+                client.DownloadFileCompleted += Client_DownloadUpdaterCompleted;
+                downloadingName = "Updater Application";
+
+                //Download Updater
+                client.DownloadFileAsync(new Uri(manifest.UpdaterUrl), updaterFilename);
+            }
         }
 
         private void Client_DownloadUpdaterCompleted(object sender, AsyncCompletedEventArgs e)
@@ -81,12 +96,14 @@ namespace Abide.Dialogs
                 downloadProgressBar.Value = 100;
                 downloadProgressLabel.Text = "Done";
 
-                //Launch
-                Security.ExecuteElevated(updaterFilename, Path.GetTempPath(), new string[] { "-u", Application.ExecutablePath, Application.StartupPath, packageFilename });
-
                 //Close
                 WebClient client = (WebClient)sender;
                 client.Dispose();
+
+                //Update?
+                if (Security.ExecuteElevated(updaterFilename, Path.GetTempPath(),
+                    new string[] { "-u", Application.ExecutablePath, Application.StartupPath, packageFilename }))
+                    DialogResult = DialogResult.OK;
             }
         }
 

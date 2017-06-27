@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -279,7 +280,7 @@ namespace Abide
             if (update)
             {
                 using (UpdateDialog updateDlg = new UpdateDialog(manifest))
-                    if (updateDlg.ShowDialog() == DialogResult.OK) Application.Exit();
+                    if (updateDlg.ShowDialog() == DialogResult.OK) { Application.Exit(); }
             }
             else MessageBox.Show("Abide is up to date.", "Up to date", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

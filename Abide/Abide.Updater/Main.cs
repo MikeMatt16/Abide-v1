@@ -25,6 +25,9 @@ namespace Abide.Updater
             abideDirectory = directory;
             applicationFilename = filename;
             package.Load(packageFilename);
+
+            //Delete Package File
+            try { File.Delete(packageFilename); } catch { }
         }
 
         private void installButton_Click(object sender, EventArgs e)
@@ -53,7 +56,7 @@ namespace Abide.Updater
                     Log("Writing {0}", entry.Filename);
                 }
             }
-
+            
             //Launch on close...
             launch = true;
 
