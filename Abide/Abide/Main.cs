@@ -95,6 +95,9 @@ namespace Abide
 
         private void Main_Load(object sender, EventArgs e)
         {
+            //Get Version string...
+            versionToolStripMenuItem.Text = typeof(Main).Assembly.GetName().Version.ToString();
+
             //Check
             if (Program.UpdateManifest != null && main_CheckForUpdate(Program.UpdateManifest) || Program.ForceUpdate)
                 using (UpdateDialog updateDlg = new UpdateDialog(Program.UpdateManifest))
