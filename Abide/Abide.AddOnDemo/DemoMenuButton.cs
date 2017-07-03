@@ -16,7 +16,7 @@ namespace Abide.AddOnDemo
         private void DemoMenuButton_Click(object sender, EventArgs e)
         {
             //Prepare
-            TAGID selectedId = SelectedEntry?.ID ?? TAGID.Null;
+            TagId selectedId = SelectedEntry?.ID ?? TagId.Null;
 
             //Check
             Host.SelectEntry(this, Host.BrowseTag(this, selectedId));

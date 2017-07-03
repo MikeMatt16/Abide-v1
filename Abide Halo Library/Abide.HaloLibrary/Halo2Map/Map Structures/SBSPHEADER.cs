@@ -10,15 +10,15 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 structure bsp tag data header.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct SBSPHEADER
+    public struct SbspHeader
     {
         /// <summary>
-        /// Represents the length of a <see cref="SBSPHEADER"/> structure in bytes.
+        /// Represents the length of a <see cref="SbspHeader"/> structure in bytes.
         /// This value is constant.
         /// </summary>
         public const int Length = 28;
 
-        public TAG Tag
+        public Tag Tag
         {
             get { return tag; }
             set { tag = value; }
@@ -37,8 +37,8 @@ namespace Abide.HaloLibrary.Halo2Map
         private int dataLength;
         private int uhh;
         private int lightmapOffset;
-        private TAG tag;
-        private TAGID id;
+        private Tag tag;
+        private TagId id;
         private int uhh2;
         private int uhh3;
     }

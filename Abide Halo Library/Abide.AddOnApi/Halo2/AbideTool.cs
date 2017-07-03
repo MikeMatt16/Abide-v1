@@ -11,9 +11,6 @@ namespace Abide.AddOnApi.Halo2
     /// <summary>
     /// Provides an empty Halo 2 <see cref="AbideTool"/> control that implements the <see cref="ITool{TMap, TEntry, TXbox}"/> interface.
     /// </summary>
-    /// <typeparam name="TMap">The Halo Map type to be used by the interface.</typeparam>
-    /// <typeparam name="TEntry">The Object Index Entry type to be used by the interface.</typeparam>
-    /// <typeparam name="TXbox">The Debug Xbox type to be used by the interface.</typeparam>
     public class AbideTool : UserControl, ITool<MapFile, IndexEntry, Xbox>
     {
         /// <summary>
@@ -154,7 +151,7 @@ namespace Abide.AddOnApi.Halo2
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
-        /// <param name="host">The AddOn host event arguments.</param>
+        /// <param name="e">The AddOn host event arguments.</param>
         protected virtual void OnIntialize(AddOnHostEventArgs e) { }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.

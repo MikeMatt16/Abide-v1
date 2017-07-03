@@ -7,12 +7,12 @@ namespace Abide.HaloLibrary
     /// Represents a 64-bit tag_block reference.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAGBLOCK : IComparable<TAGBLOCK>, IComparable<long>, IComparable<ulong>, IEquatable<TAGBLOCK>, IEquatable<long>, IEquatable<ulong>
+    public struct TagBlock : IComparable<TagBlock>, IComparable<long>, IComparable<ulong>, IEquatable<TagBlock>, IEquatable<long>, IEquatable<ulong>
     {
         /// <summary>
-        /// Represents a zero-valued <see cref="TAGBLOCK"/> structure.
+        /// Represents a zero-valued <see cref="TagBlock"/> structure.
         /// </summary>
-        public static readonly TAGBLOCK Zero = new TAGBLOCK() { count = 0, offset = 0 };
+        public static readonly TagBlock Zero = new TagBlock() { count = 0, offset = 0 };
         /// <summary>
         /// Gets or sets the array length.
         /// </summary>
@@ -51,11 +51,11 @@ namespace Abide.HaloLibrary
         private int offset;
 
         /// <summary>
-        /// Initializes a new <see cref="TAGBLOCK"/> structure with the specified count and pointer values.
+        /// Initializes a new <see cref="TagBlock"/> structure with the specified count and pointer values.
         /// </summary>
         /// <param name="count">The amount of blocks in the array.</param>
         /// <param name="pointer">The pointer to the array.</param>
-        public TAGBLOCK(int count, int pointer)
+        public TagBlock(int count, int pointer)
         {
             this.count = count;
             this.offset = pointer;
@@ -78,7 +78,7 @@ namespace Abide.HaloLibrary
         {
             return Qword.CompareTo((ulong)other);
         }
-        public int CompareTo(TAGBLOCK other)
+        public int CompareTo(TagBlock other)
         {
             return Qword.CompareTo(other.Qword);
         }
@@ -91,7 +91,7 @@ namespace Abide.HaloLibrary
         {
             return Qword.Equals((ulong)other);
         }
-        public bool Equals(TAGBLOCK other)
+        public bool Equals(TagBlock other)
         {
             return Qword.Equals(other.Qword);
         }
@@ -101,25 +101,25 @@ namespace Abide.HaloLibrary
             return string.Format("Count: {0} Pointer: {1}", count, offset);
         }
 
-        public static implicit operator ulong(TAGBLOCK reference)
+        public static implicit operator ulong(TagBlock reference)
         {
             return reference.Qword;
         }
-        public static implicit operator long(TAGBLOCK reference)
+        public static implicit operator long(TagBlock reference)
         {
             return (long)reference.Qword;
         }
-        public static implicit operator TAGBLOCK(ulong value)
+        public static implicit operator TagBlock(ulong value)
         {
             int count = (int)(value & 0xFFFFFFFF);
             int pointer = (int)((value >> 32) & 0xFFFFFFFF);
-            return new TAGBLOCK() { count = count, offset = pointer };
+            return new TagBlock() { count = count, offset = pointer };
         }
-        public static implicit operator TAGBLOCK(long value)
+        public static implicit operator TagBlock(long value)
         {
             int count = (int)(value & 0xFFFFFFFF);
             int pointer = (int)((value >> 32) & 0xFFFFFFFF);
-            return new TAGBLOCK() { count = count, offset = pointer };
+            return new TagBlock() { count = count, offset = pointer };
         }
     }
 }

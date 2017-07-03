@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbideToolStripRenderer.cs" />
     <Compile Include="AddOnManifest.cs" />
     <Compile Include="AddOnPackageManifest.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />

@@ -81,7 +81,7 @@ namespace Abide.AddOnApi
         /// Gets or sets the tag filter of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The tag filter of the AddOn."), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<TAG> TagFilter
+        public List<Tag> TagFilter
         {
             get { return tagFilter; }
             set { tagFilter = value; }
@@ -145,7 +145,7 @@ namespace Abide.AddOnApi
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
-        private List<TAG> tagFilter = new List<TAG>();
+        private List<Tag> tagFilter = new List<Tag>();
         private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
         private string name = string.Empty;
@@ -154,7 +154,7 @@ namespace Abide.AddOnApi
         private IHost host;
 
         /// <summary>
-        /// Initializes a new <see cref="Tool"/> instance.
+        /// Initializes a new <see cref="TabPage{TMap, TEntry, TXbox}"/> instance.
         /// </summary>
         public TabPage()
         {
@@ -163,7 +163,7 @@ namespace Abide.AddOnApi
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
-        /// <param name="host">The AddOn host event arguments.</param>
+        /// <param name="e">The AddOn host event arguments.</param>
         protected virtual void OnIntialize(AddOnHostEventArgs e) { }
         /// <summary>
         /// Occurs when the host instance loads or reloads its Halo Map instance.
@@ -193,7 +193,7 @@ namespace Abide.AddOnApi
         {
             get { return this; }
         }
-        TAG[] ITagFilter.Filter
+        Tag[] ITagFilter.Filter
         {
             get { return tagFilter.ToArray(); }
         }

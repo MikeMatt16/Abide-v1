@@ -7,12 +7,12 @@ namespace Abide.HaloLibrary
     /// Represents a 32-bit Halo Map string identifier.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct STRINGID : IComparable<STRINGID>, IComparable<int>, IComparable<uint>, IEquatable<STRINGID>, IEquatable<int>, IEquatable<uint>
+    public struct StringId : IComparable<StringId>, IComparable<int>, IComparable<uint>, IEquatable<StringId>, IEquatable<int>, IEquatable<uint>
     {
         /// <summary>
         /// Represents an zero (or empty) string identifier.
         /// </summary>
-        public static readonly STRINGID Zero = new STRINGID() { sid = 0x0 };
+        public static readonly StringId Zero = new StringId() { sid = 0x0 };
 
         /// <summary>
         /// Gets and returns this instance as a 32-bit unsigned integer value.
@@ -41,33 +41,33 @@ namespace Abide.HaloLibrary
         private uint sid;
 
         /// <summary>
-        /// Initializes a <see cref="STRINGID"/> structure using the supplied value.
+        /// Initializes a <see cref="StringId"/> structure using the supplied value.
         /// </summary>
         /// <param name="sid">The 32-bit unsigned string ID value.</param>
-        public STRINGID(uint sid)
+        public StringId(uint sid)
         {
             this.sid = sid;
         }
         /// <summary>
-        /// Initializes a <see cref="STRINGID"/> structure using the supplied string index and string length values.
+        /// Initializes a <see cref="StringId"/> structure using the supplied string index and string length values.
         /// </summary>
         /// <param name="index">The index of the string in the string table.</param>
         /// <param name="length">The length of the string.</param>
-        public STRINGID(ushort index, byte length)
+        public StringId(ushort index, byte length)
         {
             sid = Convert.ToUInt32(length << 24 | index);
         }
 
         /// <summary>
-        /// Creates a new <see cref="STRINGID"/> structure from a supplied string and index.
+        /// Creates a new <see cref="StringId"/> structure from a supplied string and index.
         /// </summary>
         /// <param name="value">The string to use as reference.</param>
         /// <param name="index">The index of the string identifier.</param>
-        /// <returns>A new <see cref="STRINGID"/> structure containing the supplied string length and index.</returns>
+        /// <returns>A new <see cref="StringId"/> structure containing the supplied string length and index.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="index"/> it outside of valid range.</exception>
         /// <exception cref="ArgumentException"><paramref name="value"/> length is outside of valid range.</exception>
-        public static STRINGID FromString(string value, int index)
+        public static StringId FromString(string value, int index)
         {
             //Check
             if (value == null)
@@ -78,7 +78,7 @@ namespace Abide.HaloLibrary
                 throw new ArgumentException("String length is out of possible range.", "value");
 
             //Prepare SID
-            STRINGID sid = Zero;
+            StringId sid = Zero;
             sid.Index = (ushort)(index & ushort.MaxValue);
             sid.Length = (byte)(value.Length & byte.MaxValue);
             return sid;
@@ -101,10 +101,10 @@ namespace Abide.HaloLibrary
             return CompareTo((uint)other);
         }
         /// <summary>
-        /// Compares this instance to a 32-bit <see cref="STRINGID"/> structure and returns an indication of their relative values.
+        /// Compares this instance to a 32-bit <see cref="StringId"/> structure and returns an indication of their relative values.
         /// </summary>
-        /// <param name="other">A 32-bit <see cref="STRINGID"/> to comapre to.</param>
-        public int CompareTo(STRINGID other)
+        /// <param name="other">A 32-bit <see cref="StringId"/> to comapre to.</param>
+        public int CompareTo(StringId other)
         {
             return CompareTo(other.sid);
         }
@@ -127,11 +127,11 @@ namespace Abide.HaloLibrary
             return Equals((uint)other);
         }
         /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified <see cref="STRINGID"/>.
+        /// Returns a value indicating whether this instance is equal to a specified <see cref="StringId"/>.
         /// </summary>
-        /// <param name="other">A 32-bit <see cref="STRINGID"/> to compare to this instance.</param>
+        /// <param name="other">A 32-bit <see cref="StringId"/> to compare to this instance.</param>
         /// <returns>True if the relative values are equal, otherwise returns false.</returns>
-        public bool Equals(STRINGID other)
+        public bool Equals(StringId other)
         {
             return Equals(other.sid);
         }
@@ -143,21 +143,21 @@ namespace Abide.HaloLibrary
             return string.Format("string[{0}] Length: {1}", Index, Length);
         }
 
-        public static implicit operator uint(STRINGID tagId)
+        public static implicit operator uint(StringId tagId)
         {
             return tagId.sid;
         }
-        public static implicit operator int(STRINGID tagId)
+        public static implicit operator int(StringId tagId)
         {
             return (int)(tagId.sid);
         }
-        public static implicit operator STRINGID(uint sid)
+        public static implicit operator StringId(uint sid)
         {
-            return new STRINGID() { sid = sid };
+            return new StringId() { sid = sid };
         }
-        public static implicit operator STRINGID(int sid)
+        public static implicit operator StringId(int sid)
         {
-            return new STRINGID() { sid = (uint)(sid) };
+            return new StringId() { sid = (uint)(sid) };
         }
     }
 }

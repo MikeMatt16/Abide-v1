@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 namespace Abide.HaloLibrary.Halo2Map
 {
     /// <summary>
-    /// Represents a 32-byte length Halo 2 Map <see cref="INDEX"/> structure.
+    /// Represents a 32-byte length Halo 2 Map <see cref="Index"/> structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Length), Serializable]
-    public struct INDEX
+    public struct Index
     {
         /// <summary>
-        /// Represents the length of an <see cref="INDEX"/> structure in bytes.
+        /// Represents the length of an <see cref="Index"/> structure in bytes.
         /// </summary>
         public const int Length = 32;
         /// <summary>
@@ -51,7 +51,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the scenario id.
         /// </summary>
-        public TAGID ScenarioID
+        public TagId ScenarioID
         {
             get { return scenarioId; }
             set { scenarioId = value; }
@@ -59,7 +59,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the match globals id.
         /// </summary>
-        public TAGID GlobalsID
+        public TagId GlobalsID
         {
             get { return globalsId; }
             set { globalsId = value; }
@@ -75,7 +75,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets or sets the tags four-character code string.
         /// </summary>
-        public TAG Tags
+        public Tag Tags
         {
             get { return tags; }
             set { tags = value; }
@@ -84,20 +84,20 @@ namespace Abide.HaloLibrary.Halo2Map
         private int indexAddress;
         private int tagCount;
         private int objectOffset;
-        private TAGID scenarioId;
-        private TAGID globalsId;
-        private TAGID secondaryId;
+        private TagId scenarioId;
+        private TagId globalsId;
+        private TagId secondaryId;
         private int objectCount;
-        private TAG tags;
+        private Tag tags;
         
         /// <summary>
-        /// Creates a new <see cref="INDEX"/> structure.
+        /// Creates a new <see cref="Index"/> structure.
         /// </summary>
-        /// <returns>A new <see cref="INDEX"/> structure.</returns>
-        public static INDEX Create()
+        /// <returns>A new <see cref="Index"/> structure.</returns>
+        public static Index Create()
         {
             //Create
-            INDEX index = new INDEX();
+            Index index = new Index();
 
             //Setup
             index.indexAddress = IndexMemoryAddress;

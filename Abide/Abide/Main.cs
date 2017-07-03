@@ -117,7 +117,7 @@ namespace Abide
             //Prepare
             string filename = null;
 
-            //Get File name from tag...
+            //Get File name from Tag...
             if (sender is ToolStripMenuItem && ((ToolStripMenuItem)sender).Tag is string)
                 filename = (string)((ToolStripMenuItem)sender).Tag;
 
@@ -178,6 +178,9 @@ namespace Abide
             {
                 //Get Info
                 FileInfo info = new FileInfo(filename);
+
+                //Create
+                AddOnPackageManifest manifest = new AddOnPackageManifest(filename);
 
                 //Prepare
                 using (PackageAddOnDialog packDlg = new PackageAddOnDialog())

@@ -143,7 +143,7 @@ namespace Abide.AddOnApi
         private IHost host;
 
         /// <summary>
-        /// Initializes a new <see cref="Tool"/> instance.
+        /// Initializes a new <see cref="Tool{TMap, TEntry, TXbox}"/> instance.
         /// </summary>
         public Tool()
         {
@@ -152,7 +152,7 @@ namespace Abide.AddOnApi
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
-        /// <param name="host">The AddOn host event arguments.</param>
+        /// <param name="e">The AddOn host event arguments.</param>
         protected virtual void OnIntialize(AddOnHostEventArgs e)
         {
             //Set Host

@@ -8,19 +8,19 @@ namespace Abide.HaloLibrary
     /// Represents a 32-bit halo map tag identifier.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct TAGID : IComparable<TAGID>, IComparable<int>, IComparable<uint>, IEquatable<TAGID>, IEquatable<int>, IEquatable<uint>
+    public struct TagId : IComparable<TagId>, IComparable<int>, IComparable<uint>, IEquatable<TagId>, IEquatable<int>, IEquatable<uint>
     {
         /// <summary>
         /// Represents a nulled (or empty) tag identifier.
         /// </summary>
-        public static readonly TAGID Null = 0xFFFFFFFF;
+        public static readonly TagId Null = 0xFFFFFFFF;
         /// <summary>
         /// Represents the first tag identifier in a Halo map.
         /// </summary>
-        public static readonly TAGID First = 0xE1740000;
+        public static readonly TagId First = 0xE1740000;
 
         /// <summary>
-        /// Returns <see cref="true"/> if the identifier is <see cref="null"/> or <see cref="false"/> if it is not.
+        /// Returns true if the identifier is null (-1) or false if it is not.
         /// </summary>
         public bool IsNull
         {
@@ -62,7 +62,7 @@ namespace Abide.HaloLibrary
         private uint id;
 
         /// <summary>
-        /// Converts the string representation of a <see cref="TAGID"/> in <see cref="NumberStyles.HexNumber"/> style to it's <see cref="TAGID"/> equivalent.
+        /// Converts the string representation of a <see cref="TagId"/> in <see cref="NumberStyles.HexNumber"/> style to it's <see cref="TagId"/> equivalent.
         /// </summary>
         /// <param name="s">A string that represents the <see cref="NumberStyles.HexNumber"/> to convert.</param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace Abide.HaloLibrary
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="FormatException"></exception>
         /// <exception cref="OverflowException"></exception>
-        public static TAGID Parse(string s)
+        public static TagId Parse(string s)
         {
             return uint.Parse(s, NumberStyles.HexNumber);
         }
@@ -150,10 +150,10 @@ namespace Abide.HaloLibrary
             return CompareTo((uint)other);
         }
         /// <summary>
-        /// Compares this instance to a 32-bit <see cref="TAGID"/> structure and returns an indication of their relative values.
+        /// Compares this instance to a 32-bit <see cref="TagId"/> structure and returns an indication of their relative values.
         /// </summary>
-        /// <param name="other">A 32-bit <see cref="TAGID"/> to comapre to.</param>
-        public int CompareTo(TAGID other)
+        /// <param name="other">A 32-bit <see cref="TagId"/> to comapre to.</param>
+        public int CompareTo(TagId other)
         {
             return CompareTo(other.id);
         }
@@ -176,11 +176,11 @@ namespace Abide.HaloLibrary
             return Equals((uint)other);
         }
         /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified <see cref="TAGID"/>.
+        /// Returns a value indicating whether this instance is equal to a specified <see cref="TagId"/>.
         /// </summary>
-        /// <param name="other">A 32-bit <see cref="TAGID"/> to compare to this instance.</param>
+        /// <param name="other">A 32-bit <see cref="TagId"/> to compare to this instance.</param>
         /// <returns>True if the relative values are equal, otherwise returns false.</returns>
-        public bool Equals(TAGID other)
+        public bool Equals(TagId other)
         {
             return Equals(other.id);
         }
@@ -192,21 +192,21 @@ namespace Abide.HaloLibrary
             return id.ToString("X8");
         }
 
-        public static implicit operator uint(TAGID tagId)
+        public static implicit operator uint(TagId tagId)
         {
             return tagId.id;
         }
-        public static implicit operator int(TAGID tagId)
+        public static implicit operator int(TagId tagId)
         {
             return (int)(tagId.id);
         }
-        public static implicit operator TAGID(uint id)
+        public static implicit operator TagId(uint id)
         {
-            return new TAGID() { id = id };
+            return new TagId() { id = id };
         }
-        public static implicit operator TAGID(int id)
+        public static implicit operator TagId(int id)
         {
-            return new TAGID() { id = (uint)(id) };
+            return new TagId() { id = (uint)(id) };
         }
     }
 }

@@ -35,7 +35,7 @@
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.fileTypeToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.registerAtagCheckBox = new System.Windows.Forms.CheckBox();
+            this.registerATagCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -95,16 +95,16 @@
             // 
             this.fileTypeToolTip.ToolTipTitle = "Register File Type";
             // 
-            // registerAtagCheckBox
+            // registerATagCheckBox
             // 
-            this.registerAtagCheckBox.AutoSize = true;
-            this.registerAtagCheckBox.Location = new System.Drawing.Point(128, 38);
-            this.registerAtagCheckBox.Name = "registerAtagCheckBox";
-            this.registerAtagCheckBox.Size = new System.Drawing.Size(54, 17);
-            this.registerAtagCheckBox.TabIndex = 2;
-            this.registerAtagCheckBox.Text = "*.atag";
-            this.fileTypeToolTip.SetToolTip(this.registerAtagCheckBox, "Register the Abide Halo Tag file type with Abide.");
-            this.registerAtagCheckBox.UseVisualStyleBackColor = true;
+            this.registerATagCheckBox.AutoSize = true;
+            this.registerATagCheckBox.Location = new System.Drawing.Point(128, 38);
+            this.registerATagCheckBox.Name = "registerATagCheckBox";
+            this.registerATagCheckBox.Size = new System.Drawing.Size(54, 17);
+            this.registerATagCheckBox.TabIndex = 2;
+            this.registerATagCheckBox.Text = "*.aTag";
+            this.fileTypeToolTip.SetToolTip(this.registerATagCheckBox, "Register the Abide Halo Tag file type with Abide.");
+            this.registerATagCheckBox.UseVisualStyleBackColor = true;
             // 
             // FileTypeRegistrationDialog
             // 
@@ -113,7 +113,7 @@
             this.ClientSize = new System.Drawing.Size(314, 112);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.registerAtagCheckBox);
+            this.Controls.Add(this.registerATagCheckBox);
             this.Controls.Add(this.registerMapCheckBox);
             this.Controls.Add(this.registerAaoCheckBox);
             this.Controls.Add(this.label1);
@@ -137,6 +137,6 @@
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.ToolTip fileTypeToolTip;
-        private System.Windows.Forms.CheckBox registerAtagCheckBox;
+        private System.Windows.Forms.CheckBox registerATagCheckBox;
     }
 }

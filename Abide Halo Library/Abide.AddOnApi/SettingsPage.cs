@@ -75,7 +75,7 @@ namespace Abide.AddOnApi
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
-        /// <param name="host">The AddOn host event arguments.</param>
+        /// <param name="e">The AddOn host event arguments.</param>
         protected virtual void OnInitialize(AddOnHostEventArgs e) { }
 
         string IAddOn.Author

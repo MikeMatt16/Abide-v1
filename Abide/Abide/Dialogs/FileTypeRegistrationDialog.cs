@@ -12,7 +12,7 @@ namespace Abide.Dialogs
             InitializeComponent();
             registerAaoCheckBox.Checked = AbideRegistry.IsAaoRegistered;
             registerMapCheckBox.Checked = AbideRegistry.IsMapRegistered;
-            registerAtagCheckBox.Checked = AbideRegistry.IsAtagRegistered;
+            registerATagCheckBox.Checked = AbideRegistry.IsATagRegistered;
         }
 
         private void okButton_Click(object sender, System.EventArgs e)
@@ -25,8 +25,8 @@ namespace Abide.Dialogs
             else if (!registerMapCheckBox.Checked && AbideRegistry.IsMapRegistered) { AbideRegistry.UnregisterMap(); result = DialogResult.Yes; }
             if (registerAaoCheckBox.Checked && !AbideRegistry.IsAaoRegistered) { AbideRegistry.RegisterAao(Application.ExecutablePath); result = DialogResult.Yes; }
             else if (!registerAaoCheckBox.Checked && AbideRegistry.IsAaoRegistered) { AbideRegistry.UnregisterAao(); result = DialogResult.Yes; }
-            if (registerAtagCheckBox.Checked && !AbideRegistry.IsAtagRegistered) { AbideRegistry.RegisterAtag(Application.ExecutablePath); result = DialogResult.Yes; }
-            else if (!registerAtagCheckBox.Checked && AbideRegistry.IsAtagRegistered) { AbideRegistry.UnregisterAtag(); result = DialogResult.Yes; }
+            if (registerATagCheckBox.Checked && !AbideRegistry.IsATagRegistered) { AbideRegistry.RegisterATag(Application.ExecutablePath); result = DialogResult.Yes; }
+            else if (!registerATagCheckBox.Checked && AbideRegistry.IsATagRegistered) { AbideRegistry.UnregisterATag(); result = DialogResult.Yes; }
 
             //Set
             DialogResult = result;

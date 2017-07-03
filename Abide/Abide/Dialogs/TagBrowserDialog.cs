@@ -11,17 +11,17 @@ namespace Abide.Dialogs
 {
     public partial class TagBrowserDialog : Form
     {
-        public TAGID SelectedID
+        public TagId SelectedID
         {
             get { return selectedId; }
             set { OnSelectedIdChanged(value); }
         }
 
         private readonly FileSystemItem filesRoot;
-        private Dictionary<TAGID, FileSystemItem> itemIndex;
+        private Dictionary<TagId, FileSystemItem> itemIndex;
         private FileSystemItem currentDirectory = null;
         private ListViewItem currentListItem = null;
-        private TAGID selectedId = TAGID.Null;
+        private TagId selectedId = TagId.Null;
 
         private TagBrowserDialog()
         {
@@ -32,8 +32,8 @@ namespace Abide.Dialogs
         {
             //Init
             InitializeComponent();
-            tagList.ListViewItemSorter = new TagSorter();
-            itemIndex = new Dictionary<TAGID, FileSystemItem>();
+            TagList.ListViewItemSorter = new TagSorter();
+            itemIndex = new Dictionary<TagId, FileSystemItem>();
             filesRoot = new FileSystemItem() { Name = mapName };
 
             //Loop
@@ -41,25 +41,25 @@ namespace Abide.Dialogs
                 filesRoot_CreateEntry(entry.Filename, entry.Root, entry.Size == 0 ? entry.PostProcessedSize : entry.Size, entry.ID);
 
             //Begin Update
-            tagList.BeginUpdate();
-            tagList.Items.Clear();
+            TagList.BeginUpdate();
+            TagList.Items.Clear();
 
             //Load Path
-            tagList_LoadPath(filesRoot);
+            TagList_LoadPath(filesRoot);
 
             //Sort
-            tagList.Sort();
+            TagList.Sort();
 
             //End Update
-            tagList.EndUpdate();
+            TagList.EndUpdate();
         }
 
         private void TagBrowserDialog_Load(object sender, EventArgs e)
         {
             //Setup
-            int result = SetWindowTheme(tagList.Handle, "explorer", null).ToInt32();
-            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, tagList.Handle);
-            tagList.View = Settings.Default.TagBrowserView;
+            int result = SetWindowTheme(TagList.Handle, "explorer", null).ToInt32();
+            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, TagList.Handle);
+            TagList.View = Settings.Default.TagBrowserView;
             Size = Settings.Default.TagBrowserWindowSize;
 
             //Check...
@@ -78,7 +78,7 @@ namespace Abide.Dialogs
             }
         }
 
-        private void filesRoot_CreateEntry(string filename, string root, long length, TAGID id)
+        private void filesRoot_CreateEntry(string filename, string root, long length, TagId id)
         {
             //Split
             string[] parts = $"{filename}.{root}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
@@ -98,11 +98,11 @@ namespace Abide.Dialogs
             itemIndex.Add(item.ID, item);
         }
 
-        private void tagList_LoadPath(FileSystemItem directory)
+        private void TagList_LoadPath(FileSystemItem directory)
         {
             //Set
             currentDirectory = directory;
-            selectedId = TAGID.Null;
+            selectedId = TagId.Null;
 
             //Build Directory Path
             directoryBox.Text = string.Empty;
@@ -113,7 +113,7 @@ namespace Abide.Dialogs
 
             //Check
             if (directory.Parent != null)
-                tagList.Items.Add(new ListViewItem("...") { Tag = directory.Parent, ImageIndex = 0 });
+                TagList.Items.Add(new ListViewItem("...") { Tag = directory.Parent, ImageIndex = 0 });
 
             //Loop
             foreach (FileSystemItem item in directory.Children)
@@ -157,11 +157,11 @@ namespace Abide.Dialogs
                 listItem.Tag = item;
 
                 //Add
-                tagList.Items.Add(listItem);
+                TagList.Items.Add(listItem);
             }
         }
 
-        private void tagList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void TagList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             //Set Current Item
             currentListItem = e.Item;
@@ -174,7 +174,7 @@ namespace Abide.Dialogs
                 selectedId = item.ID;
         }
 
-        private void tagList_ItemActivate(object sender, EventArgs e)
+        private void TagList_ItemActivate(object sender, EventArgs e)
         {
             //Check
             if (currentListItem == null) return;
@@ -186,17 +186,17 @@ namespace Abide.Dialogs
             if (item != null && item.ID == 0)
             {
                 //Begin Update
-                tagList.BeginUpdate();
-                tagList.Items.Clear();
+                TagList.BeginUpdate();
+                TagList.Items.Clear();
 
                 //Load Path
-                tagList_LoadPath(item);
+                TagList_LoadPath(item);
 
                 //Sort
-                tagList.Sort();
+                TagList.Sort();
 
                 //End Update
-                tagList.EndUpdate();
+                TagList.EndUpdate();
             }
             else if (item != null)
             {
@@ -218,17 +218,17 @@ namespace Abide.Dialogs
             if(item.ID == 0)
             {
                 //Begin Update
-                tagList.BeginUpdate();
-                tagList.Items.Clear();
+                TagList.BeginUpdate();
+                TagList.Items.Clear();
 
                 //Load Path
-                tagList_LoadPath(item);
+                TagList_LoadPath(item);
 
                 //Sort
-                tagList.Sort();
+                TagList.Sort();
 
                 //End Update
-                tagList.EndUpdate();
+                TagList.EndUpdate();
             }
             else if (item != null)
             {
@@ -240,7 +240,7 @@ namespace Abide.Dialogs
 
         private void nullButton_Click(object sender, EventArgs e)
         {
-            selectedId = TAGID.Null;
+            selectedId = TagId.Null;
             DialogResult = DialogResult.OK;
         }
 
@@ -250,7 +250,7 @@ namespace Abide.Dialogs
             Settings.Default.TagBrowserWindowSize = Size;
         }
 
-        private void tagListViewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TagListViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Check...
             largeIconToolStripMenuItem.Checked = false;
@@ -265,31 +265,31 @@ namespace Abide.Dialogs
             else if (sender == detailsToolStripMenuItem) { Settings.Default.TagBrowserView = View.Details; detailsToolStripMenuItem.Checked = true; }
 
             //Set
-            tagList.View = Settings.Default.TagBrowserView;
+            TagList.View = Settings.Default.TagBrowserView;
         }
 
-        protected virtual void OnSelectedIdChanged(TAGID value)
+        protected virtual void OnSelectedIdChanged(TagId value)
         {
             //Check
             if (!itemIndex.ContainsKey(value)) return;
 
             //Begin Update
-            tagList.BeginUpdate();
-            tagList.Items.Clear();
+            TagList.BeginUpdate();
+            TagList.Items.Clear();
 
             //Load Path
-            tagList_LoadPath(itemIndex[value].Parent);
+            TagList_LoadPath(itemIndex[value].Parent);
 
             //Sort
-            tagList.Sort();
+            TagList.Sort();
 
             //Select
-            foreach (ListViewItem item in tagList.Items)
+            foreach (ListViewItem item in TagList.Items)
                 if (item.Tag is FileSystemItem && ((FileSystemItem)item.Tag).ID == value)
-                { item.Selected = true; tagList.EnsureVisible(item.Index); break; }
+                { item.Selected = true; TagList.EnsureVisible(item.Index); break; }
 
             //End Update
-            tagList.EndUpdate();
+            TagList.EndUpdate();
         }
 
         [DllImport("Uxtheme.dll", CharSet = CharSet.Auto)]
@@ -374,7 +374,7 @@ namespace Abide.Dialogs
                 get { return length; }
                 set { length = value; }
             }
-            public TAGID ID
+            public TagId ID
             {
                 get { return id; }
                 set { id = value; }
@@ -388,7 +388,7 @@ namespace Abide.Dialogs
             private string type = string.Empty;
             private bool isFolder = true;
             private long length = 0;
-            private TAGID id = 0;
+            private TagId id = 0;
 
             public FileSystemItem()
             {

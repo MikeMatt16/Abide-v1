@@ -8,12 +8,12 @@ using System.IO;
 namespace Abide.Halo2
 {
     /// <summary>
-    /// Represents an Abide Halo 2 tag file.
+    /// Represents an Abide Halo 2 Tag file.
     /// </summary>
     public sealed class AbideTagFile
     {
         /// <summary>
-        /// Gets or sets the Halo tag type string.
+        /// Gets or sets the Halo Tag type string.
         /// </summary>
         public string Tag
         {
@@ -21,7 +21,7 @@ namespace Abide.Halo2
             set { header.TagType = value; }
         }
         /// <summary>
-        /// Gets or sets the memory address of the Halo tag.
+        /// Gets or sets the memory address of the Halo Tag.
         /// </summary>
         public long MemoryAddress
         {
@@ -29,14 +29,14 @@ namespace Abide.Halo2
             set { header.MemoryAddress = (uint)value; }
         }
         /// <summary>
-        /// Gets and returns the Halo tag data.
+        /// Gets and returns the Halo Tag data stream.
         /// </summary>
         public FixedMemoryMappedStream TagData
         {
             get { return data; }
         }
 
-        private HEADER header;
+        private Header header;
         private FixedMemoryMappedStream data;
 
         /// <summary>
@@ -45,13 +45,36 @@ namespace Abide.Halo2
         public AbideTagFile()
         {
             //Setup
-            header = new HEADER();
+            header = new Header() { ATagTag = "ATag" };
             data = new FixedMemoryMappedStream(new byte[0]);
         }
         /// <summary>
-        /// Loads an Abide Halo 2 tag file from the specified file name.
+        /// Loads an Abide Halo 2 Tag file from the specified Halo 2 Index Entry.
         /// </summary>
-        /// <param name="filename">The filename of the Abide Halo 2 tag file.</param>
+        /// <param name="entry">The Halo 2 Index entry to load the Tag from.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="entry"/> is null.</exception>
+        public void LoadEntry(IndexEntry entry)
+        {
+            //Check
+            if (entry == null) throw new ArgumentNullException(nameof(entry));
+
+            //Setup
+            header.TagType = entry.Root;
+            header.MemoryAddress = entry.Offset;
+
+            //Read
+            byte[] buffer = new byte[entry.Size];
+            entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
+            entry.TagData.Read(buffer, 0, buffer.Length);
+
+            //Create
+            if (data != null) data.Dispose();
+            data = new FixedMemoryMappedStream(buffer, entry.Offset);
+        }
+        /// <summary>
+        /// Loads an Abide Halo 2 Tag file from the specified file name.
+        /// </summary>
+        /// <param name="filename">The filename of the Abide Halo 2 Tag file.</param>
         /// <exception cref="ArgumentNullException"><paramref name="filename"/> is null.</exception>
         /// <exception cref="FileNotFoundException"><paramref name="filename"/> is not a valid filename.</exception>
         /// <exception cref="AbideTagFileException">File failed to open.</exception>
@@ -66,9 +89,9 @@ namespace Abide.Halo2
                 try { Load(fs); } catch(Exception ex) { throw new AbideTagFileException("Abide Tag file failed to open.", ex); }
         }
         /// <summary>
-        /// Loads an Abide Halo 2 tag file from the specified stream.
+        /// Loads an Abide Halo 2 Tag file from the specified stream.
         /// </summary>
-        /// <param name="inStream">The stream that contains the Abide Halo 2 tag file.</param>
+        /// <param name="inStream">The stream that contains the Abide Halo 2 Tag file.</param>
         /// <exception cref="ArgumentNullException"><paramref name="inStream"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="inStream"/> does not support seeking or reading.</exception>
         /// <exception cref="AbideTagFileException">File failed to open.</exception>
@@ -84,7 +107,7 @@ namespace Abide.Halo2
                 using(BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read
-                    header = reader.ReadStructure<HEADER>();
+                    header = reader.ReadStructure<Header>();
 
                     //Load Data
                     byte[] buffer = new byte[header.DataLength];
@@ -94,12 +117,12 @@ namespace Abide.Halo2
                     if (data != null) data.Dispose();
                     data = new FixedMemoryMappedStream(buffer, header.MemoryAddress);
                 }
-            else throw new AbideTagFileException("Invalid Abide tag file.");
+            else throw new AbideTagFileException("Invalid Abide Tag file.");
         }
         /// <summary>
-        /// Saves the Abide Halo 2 tag file to the specified file name.
+        /// Saves the Abide Halo 2 Tag file to the specified file name.
         /// </summary>
-        /// <param name="filename">The filename to save the Abide Halo 2 tag file.</param>
+        /// <param name="filename">The filename to save the Abide Halo 2 Tag file.</param>
         public void Save(string filename)
         {
             //Check
@@ -110,13 +133,13 @@ namespace Abide.Halo2
                 try { Save(fs); } catch(Exception ex) { throw new AbideTagFileException("Abide Tag file failed to save.", ex); }
         }
         /// <summary>
-        /// Saves the Abide Halo 2 tag file to the specified stream.
+        /// Saves the Abide Halo 2 Tag file to the specified stream.
         /// </summary>
-        /// <param name="outStream">The stream to write the Abide Halo 2 tag file to.</param>
+        /// <param name="outStream">The stream to write the Abide Halo 2 Tag file to.</param>
         public void Save(Stream outStream)
         {
             //Setup Header
-            header.AtagTag = "ATAG";
+            header.ATagTag = "ATag";
             header.DataLength = (uint)data.Length;
 
             //Check
@@ -132,41 +155,22 @@ namespace Abide.Halo2
                 writer.Write(data.GetBuffer());
             }
         }
+        
         /// <summary>
-        /// Loads an Abide Halo 2 tag file from the specified Halo 2 Index Entry.
+        /// Represents an Abide Halo 2 Tag File header.
         /// </summary>
-        /// <param name="entry">The Halo 2 Index entry to load the tag from.</param>
-        public void LoadEntry(IndexEntry entry)
-        {
-            //Setup
-            header.TagType = entry.Root;
-            header.MemoryAddress = entry.Offset;
-
-            //Read
-            byte[] buffer = new byte[entry.Size];
-            entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
-            entry.TagData.Read(buffer, 0, buffer.Length);
-
-            //Create
-            if (data != null) data.Dispose();
-            data = new FixedMemoryMappedStream(buffer, entry.Offset);
-        }
-
-        /// <summary>
-        /// Represents an Abide Halo 2 tag File header.
-        /// </summary>
-        private struct HEADER
+        private struct Header
         {
             /// <summary>
             /// Gets or sets the four-character-code string for the file header.
             /// </summary>
-            public string AtagTag
+            public string ATagTag
             {
-                get { return atagTag; }
-                set { atagTag = value; }
+                get { return aTagTag; }
+                set { aTagTag = value; }
             }
             /// <summary>
-            /// Gets or sets the four-character-code Halo tag string.
+            /// Gets or sets the four-character-code Halo Tag string.
             /// </summary>
             public string TagType
             {
@@ -174,7 +178,7 @@ namespace Abide.Halo2
                 set { tagType = value; }
             }
             /// <summary>
-            /// Gets or sets the length of the tag data in bytes.
+            /// Gets or sets the length of the Tag data in bytes.
             /// </summary>
             public uint DataLength
             {
@@ -182,7 +186,7 @@ namespace Abide.Halo2
                 set { dataLength = value; }
             }
             /// <summary>
-            /// Gets or sets the memory address of the tag data.
+            /// Gets or sets the memory address of the Tag data.
             /// </summary>
             public uint MemoryAddress
             {
@@ -190,8 +194,8 @@ namespace Abide.Halo2
                 set { memoryAddress = value; }
             }
 
-            private FOURCC atagTag;
-            private TAG tagType;
+            private FourCc aTagTag;
+            private Tag tagType;
             private uint dataLength;
             private uint memoryAddress;
         }

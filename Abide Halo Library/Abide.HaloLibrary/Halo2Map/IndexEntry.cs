@@ -14,7 +14,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Gets and returns the root of the tag. 
         /// </summary>
         [Category("Object Properties"), Description("The root tag of the object.")]
-        public TAG Root
+        public Tag Root
         {
             get { return tagHierarchy.Root; }
         }
@@ -22,7 +22,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Gets and returns the ID of the object entry.
         /// </summary>
         [Category("Object Properties"), Description("The Tag Identifier of the object.")]
-        public TAGID ID
+        public TagId ID
         {
             get { return objectEntry.ID; }
         }
@@ -98,8 +98,8 @@ namespace Abide.HaloLibrary.Halo2Map
         private FixedMemoryMappedStream tagData;
         private readonly StringContainer strings;
         private readonly RawContainer raws;
-        private readonly TAGHIERARCHY tagHierarchy;
-        private readonly OBJECT objectEntry;
+        private readonly TagHierarchy tagHierarchy;
+        private readonly Object objectEntry;
         private int postProcessedOffset;
         private int postProcessedSize;
         private string filename;
@@ -110,7 +110,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <param name="objectEntry">The object entry for this index entry.</param>
         /// <param name="filename">The file path of this index entry.</param>
         /// <param name="tagHierarchy">The tag hierarchy for this index entry.</param>
-        public IndexEntry(OBJECT objectEntry, string filename, TAGHIERARCHY tagHierarchy)
+        public IndexEntry(Object objectEntry, string filename, TagHierarchy tagHierarchy)
         {
             //Setup
             this.tagHierarchy = tagHierarchy;
@@ -123,7 +123,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Returns this index entry's index object entry.
         /// </summary>
         /// <returns>This index entry's object entry.</returns>
-        public OBJECT GetObjectEntry()
+        public Object GetObjectEntry()
         {
             return objectEntry;
         }
@@ -131,7 +131,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Returns this index entry's tag hierarchy.
         /// </summary>
         /// <returns>This index entry's tag hierarchy.</returns>
-        public TAGHIERARCHY GetTagHierarchy()
+        public TagHierarchy GetTagHierarchy()
         {
             return tagHierarchy;
         }

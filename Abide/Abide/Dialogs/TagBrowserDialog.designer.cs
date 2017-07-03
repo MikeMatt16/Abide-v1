@@ -34,7 +34,7 @@
             this.okButton = new System.Windows.Forms.Button();
             this.nullButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.tagList = new System.Windows.Forms.ListView();
+            this.TagList = new System.Windows.Forms.ListView();
             this.nameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lengthHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -90,32 +90,32 @@
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // tagList
+            // TagList
             // 
-            this.tagList.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-            this.tagList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.TagList.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+            this.TagList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.TagList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameHeader,
             this.typeHeader,
             this.lengthHeader,
             this.idHeader});
-            this.tagList.ContextMenuStrip = this.viewMenu;
-            this.tagList.FullRowSelect = true;
-            this.tagList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.tagList.HideSelection = false;
-            this.tagList.LargeImageList = this.largeImageList;
-            this.tagList.Location = new System.Drawing.Point(12, 38);
-            this.tagList.MultiSelect = false;
-            this.tagList.Name = "tagList";
-            this.tagList.Size = new System.Drawing.Size(640, 422);
-            this.tagList.SmallImageList = this.smallImageList;
-            this.tagList.TabIndex = 0;
-            this.tagList.UseCompatibleStateImageBehavior = false;
-            this.tagList.View = System.Windows.Forms.View.Tile;
-            this.tagList.ItemActivate += new System.EventHandler(this.tagList_ItemActivate);
-            this.tagList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.tagList_ItemSelectionChanged);
+            this.TagList.ContextMenuStrip = this.viewMenu;
+            this.TagList.FullRowSelect = true;
+            this.TagList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.TagList.HideSelection = false;
+            this.TagList.LargeImageList = this.largeImageList;
+            this.TagList.Location = new System.Drawing.Point(12, 38);
+            this.TagList.MultiSelect = false;
+            this.TagList.Name = "TagList";
+            this.TagList.Size = new System.Drawing.Size(640, 422);
+            this.TagList.SmallImageList = this.smallImageList;
+            this.TagList.TabIndex = 0;
+            this.TagList.UseCompatibleStateImageBehavior = false;
+            this.TagList.View = System.Windows.Forms.View.Tile;
+            this.TagList.ItemActivate += new System.EventHandler(this.TagList_ItemActivate);
+            this.TagList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.TagList_ItemSelectionChanged);
             // 
             // nameHeader
             // 
@@ -153,35 +153,35 @@
             this.largeIconToolStripMenuItem.Name = "largeIconToolStripMenuItem";
             this.largeIconToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.largeIconToolStripMenuItem.Text = "&Large Icon";
-            this.largeIconToolStripMenuItem.Click += new System.EventHandler(this.tagListViewToolStripMenuItem_Click);
+            this.largeIconToolStripMenuItem.Click += new System.EventHandler(this.TagListViewToolStripMenuItem_Click);
             // 
             // smallIconToolStripMenuItem
             // 
             this.smallIconToolStripMenuItem.Name = "smallIconToolStripMenuItem";
             this.smallIconToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.smallIconToolStripMenuItem.Text = "&Small Icon";
-            this.smallIconToolStripMenuItem.Click += new System.EventHandler(this.tagListViewToolStripMenuItem_Click);
+            this.smallIconToolStripMenuItem.Click += new System.EventHandler(this.TagListViewToolStripMenuItem_Click);
             // 
             // tileToolStripMenuItem
             // 
             this.tileToolStripMenuItem.Name = "tileToolStripMenuItem";
             this.tileToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.tileToolStripMenuItem.Text = "&Tile";
-            this.tileToolStripMenuItem.Click += new System.EventHandler(this.tagListViewToolStripMenuItem_Click);
+            this.tileToolStripMenuItem.Click += new System.EventHandler(this.TagListViewToolStripMenuItem_Click);
             // 
             // listToolStripMenuItem
             // 
             this.listToolStripMenuItem.Name = "listToolStripMenuItem";
             this.listToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.listToolStripMenuItem.Text = "L&ist";
-            this.listToolStripMenuItem.Click += new System.EventHandler(this.tagListViewToolStripMenuItem_Click);
+            this.listToolStripMenuItem.Click += new System.EventHandler(this.TagListViewToolStripMenuItem_Click);
             // 
             // detailsToolStripMenuItem
             // 
             this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
             this.detailsToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.detailsToolStripMenuItem.Text = "&Details";
-            this.detailsToolStripMenuItem.Click += new System.EventHandler(this.tagListViewToolStripMenuItem_Click);
+            this.detailsToolStripMenuItem.Click += new System.EventHandler(this.TagListViewToolStripMenuItem_Click);
             // 
             // smallImageList
             // 
@@ -210,7 +210,7 @@
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(664, 501);
             this.Controls.Add(this.directoryBox);
-            this.Controls.Add(this.tagList);
+            this.Controls.Add(this.TagList);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.nullButton);
             this.Controls.Add(this.okButton);
@@ -234,7 +234,7 @@
         private System.Windows.Forms.Button nullButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.ImageList largeImageList;
-        private System.Windows.Forms.ListView tagList;
+        private System.Windows.Forms.ListView TagList;
         private System.Windows.Forms.ImageList smallImageList;
         private System.Windows.Forms.ColumnHeader nameHeader;
         private System.Windows.Forms.ColumnHeader lengthHeader;

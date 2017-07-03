@@ -7,10 +7,10 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a 2048-byte length Halo 2 Map Header.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Length), Serializable]
-    public struct HEADER
+    public struct Header
     {
         /// <summary>
-        /// Represents the length of a <see cref="HEADER"/> structure in bytes.
+        /// Represents the length of a <see cref="Header"/> structure in bytes.
         /// This value is constant.
         /// </summary>
         public const int Length = 2048;
@@ -25,7 +25,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         public const string Halo2MapBuild = "02.09.27.09809";
 
-        public TAG HeaderTag
+        public Tag HeaderTag
         {
             get { return headerTag; }
         }
@@ -163,12 +163,12 @@ namespace Abide.HaloLibrary.Halo2Map
             get { return signature; }
             set { signature = value; }
         }
-        public TAG FooterTag
+        public Tag FooterTag
         {
             get { return footerTag; }
         }
         
-        private TAG headerTag;
+        private Tag headerTag;
         private int version;
         private int fileLength;
         private int zero_1;
@@ -205,16 +205,16 @@ namespace Abide.HaloLibrary.Halo2Map
         private int signature;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1320)]
         private byte[] zero_4;
-        private TAG footerTag;
+        private Tag footerTag;
 
         /// <summary>
         /// Creates a generic Halo 2 map header structure.
         /// </summary>
         /// <returns>A generic Halo 2 map header.</returns>
-        public static HEADER Create()
+        public static Header Create()
         {
             //Create
-            HEADER head = new HEADER();
+            Header head = new Header();
             head.headerTag = HaloTags.head;
             head.origin = new char[256];
             head.build = new char[32];

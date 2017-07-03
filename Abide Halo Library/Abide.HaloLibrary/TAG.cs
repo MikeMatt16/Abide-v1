@@ -7,12 +7,12 @@ namespace Abide.HaloLibrary
     /// Represents a Halo four-character code tag.
     /// </summary>
     [Serializable]
-    public struct TAG : IEquatable<TAG>, IEquatable<string>, IComparable<TAG>, IComparable<string>
+    public struct Tag : IEquatable<Tag>, IEquatable<string>, IComparable<Tag>, IComparable<string>
     {
         /// <summary>
         /// Gets or sets the four-character code text string.
         /// </summary>
-        public string Tag
+        public string TagFourCc
         {
             get { return new string(new char[] { a, b, c, d }).Trim('\0').Trim('\xff').Reverse(); }
             set
@@ -34,10 +34,10 @@ namespace Abide.HaloLibrary
         private char a, b, c, d;
 
         /// <summary>
-        /// Creates a new <see cref="TAG"/> structure using the supplied tag string.
+        /// Creates a new <see cref="HaloLibrary.Tag"/> structure using the supplied tag string.
         /// </summary>
         /// <param name="tagFourcc">The four-character code of the tag.</param>
-        public TAG(string tagFourcc)
+        public Tag(string tagFourcc)
         {
             //Get four-cc
             char[] fourcc = new char[4];
@@ -59,7 +59,7 @@ namespace Abide.HaloLibrary
         /// <returns></returns>
         public bool Equals(string other)
         {
-            return Tag.Equals(other);
+            return TagFourCc.Equals(other);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Abide.HaloLibrary
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(TAG other)
+        public bool Equals(Tag other)
         {
             return a.Equals(other.a) && b.Equals(other.b) && c.Equals(other.c) && d.Equals(other.d);
         }
@@ -78,27 +78,27 @@ namespace Abide.HaloLibrary
         /// <returns>The tag as a four-character code.</returns>
         public override string ToString()
         {
-            return Tag;
+            return TagFourCc;
         }
 
         /// <summary>
-        /// Creates a <see cref="TAG"/> structure using the supplied tag four-character code.
+        /// Creates a <see cref="HaloLibrary.Tag"/> structure using the supplied tag four-character code.
         /// </summary>
         /// <param name="tagFourcc">The four-character code of the tag.</param>
-        /// <returns>A <see cref="TAG"/> structure.</returns>
-        public static TAG StringToTag(string tagFourcc)
+        /// <returns>A <see cref="HaloLibrary.Tag"/> structure.</returns>
+        public static Tag StringToTag(string tagFourcc)
         {
-            return new TAG(tagFourcc);
+            return new Tag(tagFourcc);
         }
 
         /// <summary>
-        /// Compares this instance with a specified <see cref="TAG"/> object and indicates whether this instance preceeds, follows, or appears in the same position in the sort order as the specified <see cref="TAG"/>. 
+        /// Compares this instance with a specified <see cref="HaloLibrary.Tag"/> object and indicates whether this instance preceeds, follows, or appears in the same position in the sort order as the specified <see cref="HaloLibrary.Tag"/>. 
         /// </summary>
-        /// <param name="tag">The <see cref="TAG"/> to compare with this instance.</param>
+        /// <param name="tag">The <see cref="HaloLibrary.Tag"/> to compare with this instance.</param>
         /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="tag"/> parameter.</returns>
-        public int CompareTo(TAG tag)
+        public int CompareTo(Tag tag)
         {
-            return Tag.CompareTo(tag.Tag);
+            return TagFourCc.CompareTo(tag.TagFourCc);
         }
 
         /// <summary>
@@ -108,16 +108,16 @@ namespace Abide.HaloLibrary
         /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="str"/> parameter.</returns>
         public int CompareTo(string str)
         {
-            return Tag.CompareTo(str);
+            return TagFourCc.CompareTo(str);
         }
 
-        public static implicit operator TAG (string tagFourcc)
+        public static implicit operator Tag (string tagFourcc)
         {
-            return new TAG(tagFourcc);
+            return new Tag(tagFourcc);
         }
-        public static implicit operator string(TAG tag)
+        public static implicit operator string(Tag tag)
         {
-            return tag.Tag;
+            return tag.TagFourCc;
         }
     }
 }

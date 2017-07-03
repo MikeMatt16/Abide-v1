@@ -6,12 +6,12 @@ namespace Abide.Compression
     /// <summary>
     /// Represents an Abide AddOn Package file header.
     /// </summary>
-    internal struct HEADER
+    internal struct Header
     {
         /// <summary>
-        /// Gets the runtime size of the <see cref="HEADER"/> structure in bytes.
+        /// Gets the runtime size of the <see cref="Header"/> structure in bytes.
         /// </summary>
-        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(HEADER));
+        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(Header));
 
         /// <summary>
         /// Gets or sets the four-character code string for the package.
@@ -70,7 +70,7 @@ namespace Abide.Compression
             set { entryCount = value; }
         }
 
-        private FOURCC aaoTag;
+        private FourCc aaoTag;
         private uint version;
         private uint length;
         private uint dataOffset;
@@ -83,12 +83,12 @@ namespace Abide.Compression
     /// <summary>
     /// Represents an Abide AddOn Package File Entry object.
     /// </summary>
-    internal struct ENTRY
+    internal struct Entry
     {
         /// <summary>
-        /// Gets the runtime size of the <see cref="ENTRY"/> structure in bytes.
+        /// Gets the runtime size of the <see cref="Entry"/> structure in bytes.
         /// </summary>
-        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(ENTRY));
+        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(Entry));
 
         /// <summary>
         /// Gets or sets the length of the data.
@@ -144,22 +144,22 @@ namespace Abide.Compression
         private long created;
         private long modified;
         private long accessed;
-        private FOURCC compressionFourCc;
+        private FourCc compressionFourCc;
     }
 
     /// <summary>
     /// Represents a four-character code.
     /// </summary>
-    internal struct FOURCC : IComparable<string>, IEquatable<string>, IEquatable<FOURCC>, IComparable<FOURCC>
+    internal struct FourCc : IComparable<string>, IEquatable<string>, IEquatable<FourCc>, IComparable<FourCc>
     {
         /// <summary>
-        /// Represents the runtime size of the <see cref="FOURCC"/> structure in bytes.
+        /// Represents the runtime size of the <see cref="FourCc"/> structure in bytes.
         /// </summary>
-        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(FOURCC));
+        public static readonly int RuntimeSize = Marshal.SizeOf(typeof(FourCc));
         /// <summary>
-        /// Represents a zero-value <see cref="FOURCC"/> structure.
+        /// Represents a zero-value <see cref="FourCc"/> structure.
         /// </summary>
-        public static readonly FOURCC Zero = 0;
+        public static readonly FourCc Zero = 0;
 
         /// <summary>
         /// Gets or sets the four-character code string.
@@ -207,10 +207,10 @@ namespace Abide.Compression
         private byte c0, c1, c2, c3;
 
         /// <summary>
-        /// Initializes a new <see cref="FOURCC"/> structure using the supplied unsigned integer.
+        /// Initializes a new <see cref="FourCc"/> structure using the supplied unsigned integer.
         /// </summary>
         /// <param name="dword">The unsigned 32-bit integer to set the four-cc as.</param>
-        public FOURCC(uint dword)
+        public FourCc(uint dword)
         {
             //Get Buffer
             byte[] buffer = BitConverter.GetBytes(dword);
@@ -222,10 +222,10 @@ namespace Abide.Compression
             c3 = buffer[3];
         }
         /// <summary>
-        /// Initializes a new <see cref="FOURCC"/> structure using the supplied four-character code string.
+        /// Initializes a new <see cref="FourCc"/> structure using the supplied four-character code string.
         /// </summary>
         /// <param name="fourcc">The four-cc string to set as.</param>
-        public FOURCC(string fourcc)
+        public FourCc(string fourcc)
         {
             //Get FourCC
             char[] fourCc = new char[4];
@@ -239,7 +239,7 @@ namespace Abide.Compression
             c3 = (byte)fourCc[3];
         }
         /// <summary>
-        /// Converts the <see cref="FOURCC"/> structure to its string representation.
+        /// Converts the <see cref="FourCc"/> structure to its string representation.
         /// </summary>
         /// <returns>A string containing the four-character code string.</returns>
         public override string ToString()
@@ -269,7 +269,7 @@ namespace Abide.Compression
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(FOURCC other)
+        public bool Equals(FourCc other)
         {
             return Dword.Equals(other.Dword);
         }
@@ -278,24 +278,24 @@ namespace Abide.Compression
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public int CompareTo(FOURCC other)
+        public int CompareTo(FourCc other)
         {
             return Dword.CompareTo(other.Dword);
         }
 
-        public static implicit operator FOURCC(string fourcc)
+        public static implicit operator FourCc(string fourcc)
         {
-            return new FOURCC(fourcc);
+            return new FourCc(fourcc);
         }
-        public static implicit operator string(FOURCC fourcc)
+        public static implicit operator string(FourCc fourcc)
         {
             return fourcc.String;
         }
-        public static implicit operator FOURCC(uint dword)
+        public static implicit operator FourCc(uint dword)
         {
-            return new FOURCC(dword);
+            return new FourCc(dword);
         }
-        public static implicit operator uint(FOURCC fourcc)
+        public static implicit operator uint(FourCc fourcc)
         {
             return fourcc.Dword;
         }

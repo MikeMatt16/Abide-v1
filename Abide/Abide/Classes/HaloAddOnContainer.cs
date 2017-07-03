@@ -57,7 +57,7 @@ namespace Abide.Classes
         /// <summary>
         /// Retrieves all of the <see cref="ITabPage{TMap, TEntry, TXbox}"/> instances within the container.
         /// </summary>
-        /// <returns>An array of <see cref="ITabPage{TMap, TEntry, TXbox}, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
+        /// <returns>An array of <see cref="ITabPage{TMap, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
         public ITabPage<TMap, TEntry, TXbox>[] GetTabPages()
         {
             return tabPages.ToArray();

@@ -14,7 +14,7 @@ namespace Abide.Compression
         /// <summary>
         /// Represents a four-character code 'AAO' string.
         /// </summary>
-        private static readonly FOURCC AaoFourCc = "AAO";
+        private static readonly FourCc AaoFourCc = "AAO";
 
         /// <summary>
         /// Occurs when data needs to be decompressed.
@@ -43,7 +43,7 @@ namespace Abide.Compression
         private event DataModifyEventHandler compressData;
         private event DataModifyEventHandler decompressData;
         private FileEntryList fileEntries;
-        private HEADER header;
+        private Header header;
 
         /// <summary>
         /// Initializes a new <see cref="AddOnPackageFile"/> instance.
@@ -96,11 +96,11 @@ namespace Abide.Compression
                 using (BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read Header
-                    header = reader.ReadStructure<HEADER>();
+                    header = reader.ReadStructure<Header>();
                     if (header.AaoTag == AaoFourCc)  //Quick sanity check...
                     {
                         fileEntries = new FileEntry[header.EntryCount];
-                        for (uint i = 0; i < header.EntryCount; i++) fileEntries[i] = new FileEntry(reader.ReadStructure<ENTRY>());
+                        for (uint i = 0; i < header.EntryCount; i++) fileEntries[i] = new FileEntry(reader.ReadStructure<Entry>());
                         string[] filenames = reader.ReadUTF8StringTable(header.FileNamesOffset, header.FileIndexOffset, (int)header.EntryCount);
 
                         //Loop
@@ -116,7 +116,7 @@ namespace Abide.Compression
                             byte[] data = reader.ReadBytes(fileEntries[i].Length);
 
                             //Decompress?
-                            if (fileEntries[i].Compression != FOURCC.Zero) fileEntries[i].Data = decompressData?.Invoke(data, fileEntries[i].Compression);
+                            if (fileEntries[i].Compression != FourCc.Zero) fileEntries[i].Data = decompressData?.Invoke(data, fileEntries[i].Compression);
                             else fileEntries[i].Data = data;
 
                             //Set Length
@@ -163,7 +163,7 @@ namespace Abide.Compression
             header.EntryCount = (uint)fileEntries.Count;
 
             //Prepare
-            ENTRY[] entries = new ENTRY[header.EntryCount];
+            Entry[] entries = new Entry[header.EntryCount];
             byte[] data = null;
             uint length = 0;
 
@@ -175,14 +175,14 @@ namespace Abide.Compression
                 for (int i = 0; i < header.EntryCount; i++)
                 {
                     //Get Data...
-                    if (fileEntries[i].Compression != FOURCC.Zero) data = compressData?.Invoke(fileEntries[i].Data, fileEntries[i].Compression);
+                    if (fileEntries[i].Compression != FourCc.Zero) data = compressData?.Invoke(fileEntries[i].Data, fileEntries[i].Compression);
                     else data = fileEntries[i].Data;
 
                     //Check...
                     if (data != null)
                     {
                         //Setup
-                        entries[i] = new ENTRY();
+                        entries[i] = new Entry();
                         entries[i].Length = (uint)data.Length;
                         entries[i].Offset = (uint)ms.Position;
                         entries[i].Created = fileEntries[i].Created;
@@ -208,10 +208,10 @@ namespace Abide.Compression
             using (BinaryWriter writer = new BinaryWriter(outStream))
             {
                 //Goto entries start...
-                outStream.Seek(HEADER.RuntimeSize, SeekOrigin.Begin);
+                outStream.Seek(Header.RuntimeSize, SeekOrigin.Begin);
 
                 //Get File index offset...
-                header.FileIndexOffset = (uint)outStream.Seek(ENTRY.RuntimeSize * entries.Length, SeekOrigin.Current);
+                header.FileIndexOffset = (uint)outStream.Seek(Entry.RuntimeSize * entries.Length, SeekOrigin.Current);
 
                 //Get File names offset...
                 header.FileNamesOffset = (uint)outStream.Seek(header.EntryCount * 4L, SeekOrigin.Current);
@@ -237,7 +237,7 @@ namespace Abide.Compression
                 writer.Write(header);
 
                 //Write Entries
-                foreach (ENTRY entry in entries)
+                foreach (Entry entry in entries)
                     writer.Write(entry);
 
                 //Write Data
@@ -600,7 +600,7 @@ namespace Abide.Compression
             set { compression = value; }
         }
 
-        private FOURCC compression;
+        private FourCc compression;
         private int offset, length;
         private long created, modified, accessed;
         private string filename;
@@ -609,21 +609,21 @@ namespace Abide.Compression
         /// <summary>
         /// Initializes a new <see cref="FileEntry"/> instance.
         /// </summary>
-        public FileEntry() : this(new ENTRY()) { }
+        public FileEntry() : this(new Entry()) { }
         /// <summary>
         /// Initializes a new <see cref="FileEntry"/> instance using the supplied data buffer.
         /// </summary>
         /// <param name="data">The data buffer for the entry.</param>
-        public FileEntry(byte[] data) : this(new ENTRY())
+        public FileEntry(byte[] data) : this(new Entry())
         {
             this.data = data;
             length = data.Length;
         }
         /// <summary>
-        /// Initializes a new <see cref="FileEntry"/> instance using the supplied <see cref="ENTRY"/> object.
+        /// Initializes a new <see cref="FileEntry"/> instance using the supplied <see cref="Entry"/> object.
         /// </summary>
         /// <param name="entry">The entry object.</param>
-        internal FileEntry(ENTRY entry)
+        internal FileEntry(Entry entry)
         {
             filename = string.Empty;
             offset = (int)entry.Offset;

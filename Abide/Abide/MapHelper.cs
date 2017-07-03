@@ -29,12 +29,12 @@ namespace Abide
             using(BinaryReader reader = new BinaryReader(inStream))
             {
                 //Read
-                TAG tag = new string(reader.ReadChars(4));
-                if(tag == "head")
+                Tag Tag = new string(reader.ReadChars(4));
+                if(Tag == "head")
                 {
                     //Heh?
                 }
-                else if(tag == "daeh")
+                else if(Tag == "daeh")
                 {
                     //Read Version
                     inStream.Seek(4, SeekOrigin.Begin);

@@ -99,7 +99,7 @@ namespace Abide.AddOnApi
         /// Gets or sets the tag filter of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The tag filter of the AddOn."), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<TAG> TagFilter
+        public List<Tag> TagFilter
         {
             get { return tagFilter; }
             set { tagFilter = value; }
@@ -157,7 +157,7 @@ namespace Abide.AddOnApi
         private event EventHandler xboxChanged;
         private event EventHandler disposing;
         private event EventHandler<AddOnHostEventArgs> initialize;
-        private List<TAG> tagFilter = new List<TAG>();
+        private List<Tag> tagFilter = new List<Tag>();
         private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
         private string name;
@@ -166,11 +166,14 @@ namespace Abide.AddOnApi
         private Image icon = null;
         private IHost host;
 
+        /// <summary>
+        /// Initializes a new <see cref="ContextMenuItem{TMap, TEntry, TXbox}"/> instance.
+        /// </summary>
         public ContextMenuItem() { }
         /// <summary>
         /// Occurs when the AddOn instance is being initialized.
         /// </summary>
-        /// <param name="host">The AddOn host event arguments.</param>
+        /// <param name="e">The AddOn host event arguments.</param>
         protected virtual void OnIntialize(AddOnHostEventArgs e)
         {
             //Set Host
@@ -221,7 +224,7 @@ namespace Abide.AddOnApi
         {
             get { return description; }
         }
-        TAG[] ITagFilter.Filter
+        Tag[] ITagFilter.Filter
         {
             get { return tagFilter.ToArray(); }
         }

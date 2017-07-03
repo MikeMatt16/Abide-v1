@@ -8,10 +8,10 @@ namespace Abide.AddOnApi
     public interface ITagFilter
     {
         /// <summary>
-        /// When implemented, gets and returns an array of <see cref="TAG"/> structures to filter Object Index Entry tag roots.
+        /// When implemented, gets and returns an array of <see cref="Tag"/> structures to filter Object Index Entry tag roots.
         /// This value can not be null.
         /// </summary>
-        TAG[] Filter { get; }
+        Tag[] Filter { get; }
         /// <summary>
         /// When implemented, gets and returns true if the tag filter should be used, otherwise the tag filter will be ignored.
         /// </summary>

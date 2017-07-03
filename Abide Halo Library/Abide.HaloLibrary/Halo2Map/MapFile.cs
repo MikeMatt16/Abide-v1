@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2Map
     {
         /// <summary>
         /// Represents the minimum length of a Halo 2 map file.
-        /// This value is the sum of the length of a <see cref="HEADER"/> structure, and the minimum length of the index table.
+        /// This value is the sum of the length of a <see cref="Header"/> structure, and the minimum length of the index table.
         /// </summary>
         private const int MinLength = 6144;
 
@@ -63,15 +63,15 @@ namespace Abide.HaloLibrary.Halo2Map
             get { return tags; }
         }
 
-        private HEADER header;
+        private Header header;
         private FixedMemoryMappedStream[] sbspTagDatas;
         private List<string> strings;
         private FixedMemoryMappedStream crazyData;
-        private INDEX index;
+        private Index index;
         private TagHierarchyList tags;
         private FixedMemoryMappedStream tagData;
         private IndexEntryList indexList;
-        private Dictionary<TAGID, int> bspIndexLookup;
+        private Dictionary<TagId, int> bspIndexLookup;
 
         /// <summary>
         /// Initializes a new Halo 2 map file instance.
@@ -79,15 +79,15 @@ namespace Abide.HaloLibrary.Halo2Map
         public MapFile()
         {
             //Initialize
-            header = HEADER.Create();
-            index = INDEX.Create();
+            header = Header.Create();
+            index = Index.Create();
             sbspTagDatas = new FixedMemoryMappedStream[0];
             strings = new List<string>();
             crazyData = FixedMemoryMappedStream.Empty;
             tags = new TagHierarchyList();
             indexList = new IndexEntryList();
             tagData = FixedMemoryMappedStream.Empty;
-            bspIndexLookup = new Dictionary<TAGID, int>();
+            bspIndexLookup = new Dictionary<TagId, int>();
         }
         /// <summary>
         /// Loads a Halo 2 map file from a specified file path.
@@ -129,7 +129,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 using (BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read Header
-                    header = reader.ReadStructure<HEADER>();
+                    header = reader.ReadStructure<Header>();
                     if (header.HeaderTag == HaloTags.head && header.FooterTag == HaloTags.foot)    //Quick sanity check...
                     {
                         //Read File Names
@@ -140,20 +140,20 @@ namespace Abide.HaloLibrary.Halo2Map
 
                         //Read Index
                         inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
-                        index = reader.ReadStructure<INDEX>();
+                        index = reader.ReadStructure<Index>();
 
                         //Read Tags
-                        TAGHIERARCHY[] tags = new TAGHIERARCHY[index.TagCount];
+                        TagHierarchy[] tags = new TagHierarchy[index.TagCount];
                         for (int i = 0; i < index.TagCount; i++)
-                            tags[i] = reader.ReadStructure<TAGHIERARCHY>();
+                            tags[i] = reader.ReadStructure<TagHierarchy>();
                         this.tags = new TagHierarchyList(tags);
 
                         //Read Objects
-                        inStream.Seek((index.ObjectOffset - index.IndexAddress) + (header.IndexOffset + INDEX.Length), SeekOrigin.Begin);
-                        OBJECT objectEntry = new OBJECT(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
+                        inStream.Seek((index.ObjectOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
+                        Object objectEntry = new Object(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
                         for (int i = 0; i < index.ObjectCount; i++)
                         {
-                            objectEntry = reader.ReadStructure<OBJECT>();
+                            objectEntry = reader.ReadStructure<Object>();
                             indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
                         }
 
@@ -231,7 +231,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         {
                             //Goto
                             inStream.Seek(indexList[index.ScenarioID].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
-                            TAGBLOCK structureBsps = reader.ReadUInt64();
+                            TagBlock structureBsps = reader.ReadUInt64();
                             sbspTagDatas = new FixedMemoryMappedStream[structureBsps.Count];
                             for (int i = 0; i < structureBsps.Count; i++)
                             {
@@ -242,10 +242,10 @@ namespace Abide.HaloLibrary.Halo2Map
                                 int bspMagic = reader.ReadInt32();
                                 int bspFileMagic = bspMagic - sbspOffset;
                                 inStream.Seek(4, SeekOrigin.Current);
-                                TAG sbspTag = reader.ReadStructure<TAG>();
-                                TAGID sbspId = reader.ReadStructure<TAGID>();
-                                TAG ltmpTag = reader.ReadStructure<TAG>();
-                                TAGID ltmpId = reader.ReadStructure<TAGID>();
+                                Tag sbspTag = reader.ReadStructure<Tag>();
+                                TagId sbspId = reader.ReadStructure<TagId>();
+                                Tag ltmpTag = reader.ReadStructure<Tag>();
+                                TagId ltmpId = reader.ReadStructure<TagId>();
 
                                 //Add
                                 bspIndexLookup.Add(sbspId, i);
@@ -253,9 +253,9 @@ namespace Abide.HaloLibrary.Halo2Map
                                 //Goto
                                 inStream.Seek(sbspOffset, SeekOrigin.Begin);
                                 sbspTagDatas[i] = new FixedMemoryMappedStream(reader.ReadBytes(sbspSize), (uint)bspMagic);
-                                SBSPHEADER sbspHeader = new SBSPHEADER();
+                                SbspHeader sbspHeader = new SbspHeader();
                                 using (BinaryReader bspHeaderReader = new BinaryReader(sbspTagDatas[i]))
-                                    sbspHeader = bspHeaderReader.ReadStructure<SBSPHEADER>();
+                                    sbspHeader = bspHeaderReader.ReadStructure<SbspHeader>();
 
                                 //Setup SBSP and Lightmap
                                 if (indexList.ContainsID(sbspId))
@@ -906,6 +906,8 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         /// <param name="inStream">The Halo 2 cached map file stream.</param>
         /// <param name="reader">The reader for the map stream.</param>
+        /// <param name="globals">The globals object index entry.</param>
+        /// <param name="memoryFileAddress">The memory address of the tag data.</param>
         /// <param name="offset">The globals-based offset to a strings info data section.</param>
         /// <param name="table">The string entry list to read the strings into.</param>
         private void ReadStringTable(Stream inStream, BinaryReader reader, IndexEntry globals, uint memoryFileAddress, uint offset, out StringEntry[] table)
@@ -918,14 +920,14 @@ namespace Abide.HaloLibrary.Halo2Map
             int tableOffset = reader.ReadInt32();
 
             //Prepare
-            STRINGOBJECT[] stringObjects = new STRINGOBJECT[count];
+            StringObject[] stringObjects = new StringObject[count];
             table = new StringEntry[count];
 
             //Read Index
             inStream.Seek(indexOffset, SeekOrigin.Begin);
             for (int i = 0; i < count; i++)
             {
-                stringObjects[i] = reader.ReadStructure<STRINGOBJECT>();
+                stringObjects[i] = reader.ReadStructure<StringObject>();
                 table[i] = new StringEntry() { ID = strings[stringObjects[i].StringID.Index] };
             }
 
@@ -1213,7 +1215,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         tagData.Seek(sbspsOffset + (i * 68), SeekOrigin.Begin);
                         metaWriter.Write(offset);
                         metaWriter.Write((int)sbspTagDatas[i].Length);
-                        metaWriter.Write(INDEX.IndexMemoryAddress + (index.Length - INDEX.Length));
+                        metaWriter.Write(Index.IndexMemoryAddress + (index.Length - Index.Length));
                         writer.Write(sbspTagDatas[i].GetBuffer());
                         if (sbspTagDatas[i].Length > bspLength)
                             bspLength = sbspTagDatas[i].IntLength;
@@ -1515,6 +1517,89 @@ namespace Abide.HaloLibrary.Halo2Map
             }
         }
         /// <summary>
+        /// Swaps the tag data stream buffer with the supplied buffer.
+        /// </summary>
+        /// <param name="dataBuffer">The data buffer to swap the tag data stream with.</param>
+        public void SwapTagBuffer(byte[] dataBuffer)
+        {
+            //Dispose?
+            if (tagData != null) tagData.Dispose();
+            tagData = new FixedMemoryMappedStream((byte[])dataBuffer.Clone(), Index.IndexMemoryAddress + header.IndexLength);
+        }
+        /// <summary>
+        /// Returns the map's name.
+        /// </summary>
+        /// <returns>The map's name.</returns>
+        public override string ToString()
+        {
+            return header.Name;
+        }
+        /// <summary>
+        /// Closes the map file, clearing all used buffers.
+        /// </summary>
+        public void Close()
+        {
+            //Dispose
+            foreach (var entry in indexList)
+                entry.Dispose();
+            foreach (var data in sbspTagDatas)
+                if (data != null)
+                    data.Dispose();
+            if (crazyData != null)
+                crazyData.Dispose();
+            if (tagData != null)
+                tagData.Dispose();
+
+            //Setup
+            header = Header.Create();
+            index = Index.Create();
+            sbspTagDatas = new FixedMemoryMappedStream[0];
+            strings = new List<string>();
+            crazyData = FixedMemoryMappedStream.Empty;
+            tags = new TagHierarchyList();
+            indexList = new IndexEntryList();
+            tagData = FixedMemoryMappedStream.Empty;
+            bspIndexLookup = new Dictionary<TagId, int>();
+
+            //Collect
+            GC.Collect();
+        }
+        /// <summary>
+        /// Clears all buffers and releases all resources used by this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            //Close
+            Close();
+
+            //Null buffers
+            sbspTagDatas = null;
+            strings = null;
+            tags = null;
+            bspIndexLookup = null;
+            indexList = null;
+            tagData = null;
+        }
+        /// <summary>
+        /// Adds a new string identifier to the map.
+        /// </summary>
+        /// <param name="stringId">The string identifier.</param>
+        public StringId AddStringId(string stringId)
+        {
+            //Prepare
+            int index = -1;
+
+            //Add
+            if (!strings.Contains(stringId))
+                strings.Add(stringId);
+
+            //Get
+            index = strings.IndexOf(stringId);
+
+            //Return
+            return StringId.FromString(stringId, index);
+        }
+        /// <summary>
         /// Creates a padded index table for the current Halo 2 map.
         /// </summary>
         /// <returns>A Halo 2 index table containing the index, tags, and object entries present in this instance.</returns>
@@ -1523,11 +1608,11 @@ namespace Abide.HaloLibrary.Halo2Map
             //Edit Index
             index.ObjectCount = indexList.Count;
             index.TagCount = tags.Count;
-            index.ObjectOffset = tags.Count * TAGHIERARCHY.Length + INDEX.IndexMemoryAddress;
-            index.IndexAddress = INDEX.IndexMemoryAddress;
+            index.ObjectOffset = tags.Count * TagHierarchy.Length + Index.IndexMemoryAddress;
+            index.IndexAddress = Index.IndexMemoryAddress;
 
             //Calculate minimum length...
-            int length = (INDEX.Length + (TAGHIERARCHY.Length * tags.Count) + (OBJECT.Length * indexList.Count)).PadTo(4096);
+            int length = (Index.Length + (TagHierarchy.Length * tags.Count) + (Object.Length * indexList.Count)).PadTo(4096);
 
             //Check
             if (length > header.IndexLength)
@@ -1540,7 +1625,7 @@ namespace Abide.HaloLibrary.Halo2Map
             using (BinaryWriter writer = new BinaryWriter(ms))
             {
                 writer.Write(index);                    //Write index header
-                foreach (TAGHIERARCHY tag in tags)      //Write tags
+                foreach (TagHierarchy tag in tags)      //Write tags
                     writer.Write(tag);
                 foreach (IndexEntry entry in indexList) //Write object entries
                     writer.Write(entry.GetObjectEntry());
@@ -1585,7 +1670,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 for (int i = 0; i < stringTable.Count; i++)
                 {
                     //Write
-                    writer.Write(STRINGID.FromString(stringTable[i].ID, strings.IndexOf(stringTable[i].ID)));
+                    writer.Write(StringId.FromString(stringTable[i].ID, strings.IndexOf(stringTable[i].ID)));
                     writer.Write(offset);
 
                     //Increment
@@ -1593,85 +1678,12 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
             return index;
         }
-        /// <summary>
-        /// Returns the map's name.
-        /// </summary>
-        /// <returns>The map's name.</returns>
-        public override string ToString()
-        {
-            return header.Name;
-        }
-        /// <summary>
-        /// Closes the map file, clearing any buffers used.
-        /// </summary>
-        public void Close()
-        {
-            //Dispose
-            foreach (var entry in indexList)
-                entry.Dispose();
-            foreach (var data in sbspTagDatas)
-                if (data != null)
-                    data.Dispose();
-            if (crazyData != null)
-                crazyData.Dispose();
-            if (tagData != null)
-                tagData.Dispose();
-
-            //Setup
-            header = HEADER.Create();
-            index = INDEX.Create();
-            sbspTagDatas = new FixedMemoryMappedStream[0];
-            strings = new List<string>();
-            crazyData = FixedMemoryMappedStream.Empty;
-            tags = new TagHierarchyList();
-            indexList = new IndexEntryList();
-            tagData = FixedMemoryMappedStream.Empty;
-            bspIndexLookup = new Dictionary<TAGID, int>();
-
-            //Collect
-            GC.Collect();
-        }
-        /// <summary>
-        /// Clears all buffers and releases all resources used by this instance.
-        /// </summary>
-        public void Dispose()
-        {
-            //Close
-            Close();
-
-            //Null buffers
-            sbspTagDatas = null;
-            strings = null;
-            tags = null;
-            bspIndexLookup = null;
-            indexList = null;
-            tagData = null;
-        }
-        /// <summary>
-        /// Adds a new string identifier to the map.
-        /// </summary>
-        /// <param name="stringId">The string identifier.</param>
-        public STRINGID AddStringId(string stringId)
-        {
-            //Prepare
-            int index = -1;
-
-            //Add
-            if (!strings.Contains(stringId))
-                strings.Add(stringId);
-
-            //Get
-            index = strings.IndexOf(stringId);
-
-            //Return
-            return STRINGID.FromString(stringId, index);
-        }
 
         /// <summary>
         /// Represents a Halo 2 tag heirarchy list.
         /// </summary>
         [Serializable]
-        public sealed class TagHierarchyList : IEnumerable<TAGHIERARCHY>
+        public sealed class TagHierarchyList : IEnumerable<TagHierarchy>
         {
             /// <summary>
             /// Gets the number of tag hierarchy structures this list contains.
@@ -1681,19 +1693,19 @@ namespace Abide.HaloLibrary.Halo2Map
                 get { return tags.Count; }
             }
 
-            private readonly Dictionary<TAG, TAGHIERARCHY> tags;
+            private readonly Dictionary<Tag, TagHierarchy> tags;
 
             /// <summary>
-            /// Initializes the <see cref="TagHierarchyList"/> using the supplied <see cref="TAGHIERARCHY"/> array.
+            /// Initializes the <see cref="TagHierarchyList"/> using the supplied <see cref="TagHierarchy"/> array.
             /// </summary>
-            /// <param name="tagHierarchies">The <see cref="TAGHIERARCHY"/> array to copy into the new list.</param>
-            public TagHierarchyList(TAGHIERARCHY[] tagHierarchies)
+            /// <param name="tagHierarchies">The <see cref="TagHierarchy"/> array to copy into the new list.</param>
+            public TagHierarchyList(TagHierarchy[] tagHierarchies)
             {
                 //Prepare
-                tags = new Dictionary<TAG, TAGHIERARCHY>();
+                tags = new Dictionary<Tag, TagHierarchy>();
 
                 //Add
-                foreach (TAGHIERARCHY tagHierarchy in tagHierarchies)
+                foreach (TagHierarchy tagHierarchy in tagHierarchies)
                     tags.Add(tagHierarchy.Root, tagHierarchy);
             }
             /// <summary>
@@ -1701,15 +1713,15 @@ namespace Abide.HaloLibrary.Halo2Map
             /// </summary>
             public TagHierarchyList()
             {
-                tags = new Dictionary<TAG, TAGHIERARCHY>();
+                tags = new Dictionary<Tag, TagHierarchy>();
             }
             /// <summary>
-            /// Gets and returns the <see cref="TAGHIERARCHY"/> whose root is the specified <see cref="TAG"/>.
+            /// Gets and returns the <see cref="TagHierarchy"/> whose root is the specified <see cref="Tag"/>.
             /// </summary>
-            /// <param name="tag">The root of the <see cref="TAGHIERARCHY"/> to get.</param>
-            /// <returns>A <see cref="TAGHIERARCHY"/> structure whose <see cref="TAGHIERARCHY.Root"/> value is the specified <see cref="TAG"/> value.</returns>
+            /// <param name="tag">The root of the <see cref="TagHierarchy"/> to get.</param>
+            /// <returns>A <see cref="TagHierarchy"/> structure whose <see cref="TagHierarchy.Root"/> value is the specified <see cref="Tag"/> value.</returns>
             /// <exception cref="ArgumentException">Occurs when the specified tag root is not found.</exception>
-            public TAGHIERARCHY this[TAG tag]
+            public TagHierarchy this[Tag tag]
             {
                 get
                 {
@@ -1722,7 +1734,7 @@ namespace Abide.HaloLibrary.Halo2Map
             /// </summary>
             /// <param name="tag">The ID to check.</param>
             /// <returns>True if the list contains an tag hierarchy whose root matches the supplied tag, false if not.</returns>
-            public bool ContainsTag(TAG tag)
+            public bool ContainsTag(Tag tag)
             {
                 return tags.ContainsKey(tag);
             }
@@ -1730,7 +1742,7 @@ namespace Abide.HaloLibrary.Halo2Map
             /// Returns an enumerator that iterates through the <see cref="TagHierarchyList"/>.
             /// </summary>
             /// <returns>An enumerator.</returns>
-            public IEnumerator<TAGHIERARCHY> GetEnumerator()
+            public IEnumerator<TagHierarchy> GetEnumerator()
             {
                 return tags.Values.GetEnumerator();
             }
@@ -1787,11 +1799,11 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
             }
             /// <summary>
-            /// Gets and returns the index entry object by its <see cref="TAGID"/>.
+            /// Gets and returns the index entry object by its <see cref="TagId"/>.
             /// </summary>
-            /// <param name="id">The <see cref="TAGID"/> of the index entry object.</param>
-            /// <returns>An <see cref="IndexEntry"/> whose ID matches the supplied <see cref="TAGID"/>.</returns>
-            public IndexEntry this[TAGID id]
+            /// <param name="id">The <see cref="TagId"/> of the index entry object.</param>
+            /// <returns>An <see cref="IndexEntry"/> whose ID matches the supplied <see cref="TagId"/>.</returns>
+            public IndexEntry this[TagId id]
             {
                 get
                 {
@@ -1813,8 +1825,8 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
             }
 
-            private readonly Dictionary<TAGID, IndexEntry> entries;
-            private readonly Dictionary<int, TAGID> indexLookup;
+            private readonly Dictionary<TagId, IndexEntry> entries;
+            private readonly Dictionary<int, TagId> indexLookup;
 
             /// <summary>
             /// Intializes a new <see cref="IndexEntryList"/> copying the supplied <see cref="IndexEntry"/> array into the list.
@@ -1823,8 +1835,8 @@ namespace Abide.HaloLibrary.Halo2Map
             public IndexEntryList(IndexEntry[] indexEntries)
             {
                 //Setup
-                entries = new Dictionary<TAGID, IndexEntry>();
-                indexLookup = new Dictionary<int, TAGID>();
+                entries = new Dictionary<TagId, IndexEntry>();
+                indexLookup = new Dictionary<int, TagId>();
 
                 //Add
                 for (int i = 0; i < indexEntries.Length; i++)
@@ -1839,15 +1851,15 @@ namespace Abide.HaloLibrary.Halo2Map
             public IndexEntryList()
             {
                 //Setup
-                entries = new Dictionary<TAGID, IndexEntry>();
-                indexLookup = new Dictionary<int, TAGID>();
+                entries = new Dictionary<TagId, IndexEntry>();
+                indexLookup = new Dictionary<int, TagId>();
             }
             /// <summary>
             /// Checks if the list contains an index entry whose ID matches the supplied ID.
             /// </summary>
             /// <param name="id">The ID to check.</param>
             /// <returns>True if the list contains an index entry whose ID is the supplied ID, false if not.</returns>
-            public bool ContainsID(TAGID id)
+            public bool ContainsID(TagId id)
             {
                 return entries.ContainsKey(id);
             }

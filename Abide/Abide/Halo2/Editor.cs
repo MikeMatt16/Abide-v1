@@ -49,7 +49,7 @@ namespace Abide.Halo2
         private readonly List<ToolStripButton> menuButtons;
         private readonly List<ToolStripMenuItem> contextMenuItems;
         private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
-        private readonly Dictionary<TAGID, IndexEntryWrapper> entries;
+        private readonly Dictionary<TagId, IndexEntryWrapper> entries;
         private readonly MapFile map;
         
         private IndexEntry selectedEntry = null;
@@ -63,12 +63,12 @@ namespace Abide.Halo2
             InitializeComponent();
 
             //Setup
-            int result = SetWindowTheme(tagTree.Handle, "explorer", null).ToInt32();
-            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, tagTree.Handle);
+            int result = SetWindowTheme(TagTree.Handle, "explorer", null).ToInt32();
+            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, TagTree.Handle);
 
             //Initialize
-            tagTree.TreeViewNodeSorter = new TagIdSorter();
-            entries = new Dictionary<TAGID, IndexEntryWrapper>();
+            TagTree.TreeViewNodeSorter = new TagIdSorter();
+            entries = new Dictionary<TagId, IndexEntryWrapper>();
             map = new MapFile();
 
             //Prepare Container
@@ -117,7 +117,7 @@ namespace Abide.Halo2
                 contextMenuItems.Add(item);
 
                 //Check
-                if (!contextMenuItem.ApplyFilter) tagContextMenu.Items.Add(item);
+                if (!contextMenuItem.ApplyFilter) TagContextMenu.Items.Add(item);
             }
 
             //Load Tab Pages
@@ -137,7 +137,7 @@ namespace Abide.Halo2
                 tabPages.Add(page);
 
                 //Check
-                if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
+                if (!tabPage.ApplyFilter) TagTabControl.TabPages.Add(page);
             }
         }
         /// <summary>
@@ -177,13 +177,13 @@ namespace Abide.Halo2
             entries.Clear();
 
             //Begin
-            tagTree.BeginUpdate();
-            tagTree.Nodes.Clear();
-            tagTree.EndUpdate();
+            TagTree.BeginUpdate();
+            TagTree.Nodes.Clear();
+            TagTree.EndUpdate();
 
             //Setup
             Text = "Halo 2";
-            tagPropertyGrid.SelectedObject = null;
+            TagPropertyGrid.SelectedObject = null;
 
             //Send trigger
             List<Exception> errors = new List<Exception>();
@@ -195,8 +195,8 @@ namespace Abide.Halo2
         private void map_Load()
         {
             //Begin
-            tagTree.BeginUpdate();
-            tagTree.Nodes.Clear();
+            TagTree.BeginUpdate();
+            TagTree.Nodes.Clear();
             entries.Clear();
 
             //Load Entries
@@ -204,12 +204,12 @@ namespace Abide.Halo2
                 entry_BuildTagTree(entry);
 
             //End
-            tagTree.Sort();
-            tagTree.EndUpdate();
+            TagTree.Sort();
+            TagTree.EndUpdate();
 
             //Setup
             Text = $"Halo 2 - {map.Name}";
-            tagPropertyGrid.SelectedObject = map;
+            TagPropertyGrid.SelectedObject = map;
 
             //Send trigger
             List<Exception> errors = new List<Exception>();
@@ -233,7 +233,7 @@ namespace Abide.Halo2
             string[] parts = entry.Filename.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
             //Prepare
-            collection = tagTree.Nodes;
+            collection = TagTree.Nodes;
 
             //Loop
             for (int i = 0; i < parts.Length - 1; i++)
@@ -264,7 +264,7 @@ namespace Abide.Halo2
         {
             //Prepare...
             IndexEntryWrapper wrapper = sender as IndexEntryWrapper;
-            TreeNode node = tagTree.SelectedNode;
+            TreeNode node = TagTree.SelectedNode;
 
             //Check
             if (wrapper != null && node != null)
@@ -273,7 +273,7 @@ namespace Abide.Halo2
                 map.IndexEntries[wrapper.ID].Filename = wrapper.Filename;
 
                 //Prepare
-                TreeNodeCollection collection = tagTree.Nodes;
+                TreeNodeCollection collection = TagTree.Nodes;
                 TreeNode parent = null;
 
                 //Loop
@@ -291,32 +291,32 @@ namespace Abide.Halo2
                 }
 
                 //Remove from tree...
-                if (node.Nodes.Count == 0) tagTree.Nodes.Remove(node);
+                if (node.Nodes.Count == 0) TagTree.Nodes.Remove(node);
 
                 //Build
                 node = entry_BuildTagTree(map.IndexEntries[wrapper.ID]);
 
                 //Re-sort...
-                tagTree.BeginUpdate();
-                tagTree.Sort();
-                tagTree.EndUpdate();
+                TagTree.BeginUpdate();
+                TagTree.Sort();
+                TagTree.EndUpdate();
 
                 //Select
-                tagTree.SelectedNode = node;
+                TagTree.SelectedNode = node;
                 node.EnsureVisible();
             }
         }
 
-        private void tagTree_DragEnter(object sender, DragEventArgs e)
+        private void TagTree_DragEnter(object sender, DragEventArgs e)
         {
             //Check
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        private void tagTree_DragDrop(object sender, DragEventArgs e)
+        private void TagTree_DragDrop(object sender, DragEventArgs e)
         {
             //Prepare
-            AbideTagFile tag = new AbideTagFile();
+            AbideTagFile Tag = new AbideTagFile();
             FileInfo info = null;
 
             //Get Files...
@@ -327,10 +327,10 @@ namespace Abide.Halo2
                     info = new FileInfo(filename);
 
                     //Check
-                    if(info.Extension == ".atag" && info.Length > 16)
+                    if(info.Extension == ".aTag" && info.Length > 16)
                     {
-                        //Load Atag
-                        tag.Load(info.FullName);
+                        //Load ATag
+                        Tag.Load(info.FullName);
                     }
                 }
         }
@@ -401,14 +401,14 @@ namespace Abide.Halo2
                 optDlg.ShowDialog();
         }
 
-        private void tagTree_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TagTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Check
-            if (e.Node.Tag is TAGID)
+            if (e.Node.Tag is TagId)
             {
                 //Setup
-                selectedEntry = map.IndexEntries[(TAGID)e.Node.Tag];
-                tagPropertyGrid.SelectedObject = entries[selectedEntry.ID];
+                selectedEntry = map.IndexEntries[(TagId)e.Node.Tag];
+                TagPropertyGrid.SelectedObject = entries[selectedEntry.ID];
 
                 //Send trigger
                 List<Exception> errors = new List<Exception>();
@@ -426,10 +426,10 @@ namespace Abide.Halo2
                     if (page.ApplyFilter)
                         if (page.Filter.Contains(selectedEntry.Root))
                         {
-                            if (!tagTabControl.TabPages.ContainsKey(tabPage.Name))
-                            { tagTabControl.TabPages.Add(tabPage); tagTabControl.SelectedTab = tabPage; }
+                            if (!TagTabControl.TabPages.ContainsKey(tabPage.Name))
+                            { TagTabControl.TabPages.Add(tabPage); TagTabControl.SelectedTab = tabPage; }
                         }
-                        else tagTabControl.TabPages.RemoveByKey(tabPage.Name);
+                        else TagTabControl.TabPages.RemoveByKey(tabPage.Name);
                 }
 
                 //Check Menu Buttons
@@ -458,13 +458,13 @@ namespace Abide.Halo2
                     if (item.ApplyFilter)
                         if (item.Filter.Contains(selectedEntry.Root))
                         {
-                            if (!tagContextMenu.Items.ContainsKey(menuItem.Name))
-                                tagContextMenu.Items.Add(menuItem);
+                            if (!TagContextMenu.Items.ContainsKey(menuItem.Name))
+                                TagContextMenu.Items.Add(menuItem);
                         }
-                        else tagContextMenu.Items.RemoveByKey(menuItem.Name);
+                        else TagContextMenu.Items.RemoveByKey(menuItem.Name);
                 }
             }
-            else tagPropertyGrid.SelectedObject = map;
+            else TagPropertyGrid.SelectedObject = map;
         }
         
         private void Halo2Editor_FormClosing(object sender, FormClosingEventArgs e)
@@ -482,7 +482,7 @@ namespace Abide.Halo2
             if (selectedEntry == null) return;
 
             //Prepare
-            AbideTagFile tagFile = new AbideTagFile();
+            AbideTagFile TagFile = new AbideTagFile();
             string filename = string.Empty;
             bool save = false;
 
@@ -490,8 +490,8 @@ namespace Abide.Halo2
             using (SaveFileDialog saveDlg = new SaveFileDialog())
             {
                 //Setup
-                saveDlg.Filter = "Abide Tag Files (*.atag)|*.atag";
-                saveDlg.Title = "Save tag as...";
+                saveDlg.Filter = "Abide Tag Files (*.aTag)|*.aTag";
+                saveDlg.Title = "Save Tag as...";
                 saveDlg.FileName = $"{selectedEntry.Filename.Split('\\').Last()}.{selectedEntry.Root}";
                 if (saveDlg.ShowDialog() == DialogResult.OK)
                 {
@@ -504,10 +504,10 @@ namespace Abide.Halo2
             if (save)
             {
                 //Load from entry...
-                tagFile.LoadEntry(selectedEntry);
+                TagFile.LoadEntry(selectedEntry);
 
                 //Save
-                tagFile.Save(filename);
+                TagFile.Save(filename);
             }
         }
 
@@ -566,7 +566,11 @@ namespace Abide.Halo2
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             //Prepare
-            TAGID selectedId = TAGID.Null;
+            int value = 0;
+            RawSection section = 0;
+            TagId id = TagId.Null;
+            Stream dataStream = null;
+            IndexEntry entry = null;
 
             //Handle Request
             switch (request)
@@ -576,32 +580,32 @@ namespace Abide.Halo2
                 case "Xbox": return DebugXbox;
                 case "TagBrowserDialog":
                     //Prepare
-                    if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
+                    if (args.Length > 0 && args[0] is TagId) id = (TagId)args[0];
 
                     //Initialize Tag Browser Dialog
-                    using (TagBrowserDialog tagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
+                    using (TagBrowserDialog TagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
                     {
                         //Set
-                        tagDlg.SelectedID = selectedId;
+                        TagDlg.SelectedID = id;
 
                         //Show
-                        if (tagDlg.ShowDialog() == DialogResult.OK)
-                            selectedId = tagDlg.SelectedID;
+                        if (TagDlg.ShowDialog() == DialogResult.OK)
+                            id = TagDlg.SelectedID;
                     }
 
                     //Return
-                    return selectedId;
+                    return id;
                 case "SelectEntry":
                     //Prepare
-                    if (args.Length > 0 && args[0] is TAGID) selectedId = (TAGID)args[0];
+                    if (args.Length > 0 && args[0] is TagId) id = (TagId)args[0];
 
                     //Check ID...
-                    if (!selectedId.IsNull && entries.ContainsKey(selectedId))
+                    if (!id.IsNull && entries.ContainsKey(id))
                     {
                         //Select
-                        var wrapper = entries[selectedId];
+                        var wrapper = entries[id];
                         string[] parts = $"{wrapper.Filename}.{wrapper.Root}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                        TreeNodeCollection collection = tagTree.Nodes; TreeNode node = null;
+                        TreeNodeCollection collection = TagTree.Nodes; TreeNode node = null;
                         for (int i = 0; i < parts.Length; i++)
                         {
                             //Get Node
@@ -615,12 +619,32 @@ namespace Abide.Halo2
                         if(node != null)
                         {
                             //Select and goto
-                            tagTree.SelectedNode = node;
+                            TagTree.SelectedNode = node;
                             node.EnsureVisible();
                         }
                     }
                     return selectedEntry;
+                case "RawDataStream":
+                    //Check Parameters
+                    if (args.Length > 2 && (args[0] is IndexEntry || args[0] is TagId) && args[1] is RawSection && args[2] is int)
+                    {
+                        //Get Parameters
+                        if (args[0] is IndexEntry) entry = (IndexEntry)args[0];
+                        else entry = map.IndexEntries[(TagId)args[0]];
+                        section = (RawSection)args[1];
+                        value = (int)args[2];
 
+                        //Check
+                        if (entry != null)
+                            switch (value & 0xC0000000 >> 29)
+                            {
+                                case 0: if (entry.Raws[section].ContainsRawOffset(value)) dataStream = (Stream)entry.Raws[section][value].Clone(); break;
+                                case 1: break;
+                                case 2: break;
+                                case 3: break;
+                            }
+                    }
+                    return dataStream;
                 default: return null;
             }
         }
@@ -648,9 +672,9 @@ namespace Abide.Halo2
             }
             public int Compare(TreeNode x, TreeNode y)
             {
-                if (x.Tag is TAGID && y.Tag == null)
+                if (x.Tag is TagId && y.Tag == null)
                     return 1;
-                else if (y.Tag is TAGID && x.Tag == null)
+                else if (y.Tag is TagId && x.Tag == null)
                     return -1;
                 else return x.Name.CompareTo(y.Name);
             }
@@ -674,7 +698,7 @@ namespace Abide.Halo2
             /// Gets and returns the root of the index entry.
             /// </summary>
             [Category("Tag Properties"), Description("The root of the index entry.")]
-            public TAG Root
+            public Tag Root
             {
                 get { return root; }
             }
@@ -691,28 +715,28 @@ namespace Abide.Halo2
             /// Gets and returns the ID of the index entry.
             /// </summary>
             [Category("Tag Properties"), Description("The ID of the index entry.")]
-            public TAGID ID
+            public TagId ID
             {
                 get { return id; }
             }
             /// <summary>
-            /// Gets and returns the offset at which the tag data begins within <see cref="TagData"/>.
+            /// Gets and returns the offset at which the Tag data begins within <see cref="TagData"/>.
             /// </summary>
-            [Category("Tag Properties"), Description("The offset where the tag data begins.")]
+            [Category("Tag Properties"), Description("The offset where the Tag data begins.")]
             public uint Offset
             {
                 get { return offset; }
             }
             /// <summary>
-            /// Gets and returns the length of the tag data.
+            /// Gets and returns the length of the Tag data.
             /// </summary>
-            [Category("Tag Properties"), Description("The length of the tag data")]
+            [Category("Tag Properties"), Description("The length of the Tag data")]
             public uint Size
             {
                 get { return size; }
             }
             /// <summary>
-            /// Gets and returns the tag data stream of the index entry.
+            /// Gets and returns the Tag data stream of the index entry.
             /// </summary>
             [Browsable(false)]
             public Stream TagData
@@ -723,8 +747,8 @@ namespace Abide.Halo2
             private event EventHandler filenameChanged;
             
             private string filename;
-            private readonly TAG root;
-            private readonly TAGID id;
+            private readonly Tag root;
+            private readonly TagId id;
             private readonly uint offset;
             private readonly uint size;
             private readonly Stream tagData;
@@ -735,10 +759,10 @@ namespace Abide.Halo2
             /// <param name="root">The root of the entry.</param>
             /// <param name="filename">The filename of the entry.</param>
             /// <param name="id">The ID of the entry.</param>
-            /// <param name="tagData">The tag data stream of the entry.</param>
+            /// <param name="TagData">The Tag data stream of the entry.</param>
             /// <param name="offset">The offset of the entry.</param>
             /// <param name="size">The size of the entry.</param>
-            private IndexEntryWrapper(TAG root, string filename, TAGID id, FixedMemoryMappedStream tagData, uint offset, uint size)
+            private IndexEntryWrapper(Tag root, string filename, TagId id, FixedMemoryMappedStream tagData, uint offset, uint size)
             {
                 //Setup
                 this.root = root;

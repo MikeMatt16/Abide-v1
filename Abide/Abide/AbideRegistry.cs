@@ -105,12 +105,12 @@ namespace Abide
                 return progId == "Abide.map";
             }
         }
-        public static bool IsAtagRegistered
+        public static bool IsATagRegistered
         {
             get
             {
-                string progId = GetValue<string>(classes, ".atag", null);
-                return progId == "Abide.atag";
+                string progId = GetValue<string>(classes, ".aTag", null);
+                return progId == "Abide.aTag";
             }
         }
 
@@ -140,17 +140,17 @@ namespace Abide
                 classes.DeleteSubKeyTree("Abide.map");
             }
         }
-        public static void UnregisterAtag()
+        public static void UnregisterATag()
         {
             //Initialize
-            using (RegistryKey map = classes.CreateSubKey(".atag"))
-            using (RegistryKey abideMap = classes.CreateSubKey("Abide.atag"))
+            using (RegistryKey map = classes.CreateSubKey(".aTag"))
+            using (RegistryKey abideMap = classes.CreateSubKey("Abide.aTag"))
             {
                 //Set
                 SetValue(map, null, string.Empty);
 
                 //Delete
-                classes.DeleteSubKeyTree("Abide.atag");
+                classes.DeleteSubKeyTree("Abide.aTag");
             }
         }
         public static void RegisterAao(string executable)
@@ -205,19 +205,19 @@ namespace Abide
             //Register
             RegisterMap(Application.ExecutablePath);
         }
-        public static void RegisterAtag(string executable)
+        public static void RegisterATag(string executable)
         {
             //Initialize
-            using (RegistryKey atag = classes.CreateSubKey(".atag"))
-            using (RegistryKey abideAtag = classes.CreateSubKey("Abide.atag"))
-            using (RegistryKey command = abideAtag.CreateSubKey(@"shell\open\command"))
-            using (RegistryKey defaultIcon = abideAtag.CreateSubKey("DefaultIcon"))
+            using (RegistryKey aTag = classes.CreateSubKey(".aTag"))
+            using (RegistryKey abideATag = classes.CreateSubKey("Abide.aTag"))
+            using (RegistryKey command = abideATag.CreateSubKey(@"shell\open\command"))
+            using (RegistryKey defaultIcon = abideATag.CreateSubKey("DefaultIcon"))
             {
                 //Set ProgID
-                SetValue(atag, null, "Abide.atag");
+                SetValue(aTag, null, "Abide.aTag");
 
                 //Set File Type
-                SetValue(abideAtag, null, "Abide Halo Tag File");
+                SetValue(abideATag, null, "Abide Halo Tag File");
 
                 //Set icon as icon index 1 in executable.
                 SetValue(defaultIcon, null, $"{executable},3");
@@ -226,10 +226,10 @@ namespace Abide
                 SetValue(command, null, $"\"{executable}\" \"%1\"");
             }
         }
-        public static void RegisterAtag()
+        public static void RegisterATag()
         {
             //Register
-            RegisterAtag(Application.ExecutablePath);
+            RegisterATag(Application.ExecutablePath);
         }
 
         private static T GetValue<T>(RegistryKey key, string name)

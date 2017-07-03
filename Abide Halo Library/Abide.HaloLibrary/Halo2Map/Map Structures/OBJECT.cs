@@ -7,22 +7,22 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a 16-byte length Halo 2 Object Entry.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Length), Serializable]
-    public struct OBJECT
+    public struct Object
     {
         /// <summary>
-        /// Represents the length of an <see cref="OBJECT"/> structure in bytes.
+        /// Represents the length of an <see cref="Object"/> structure in bytes.
         /// This value is constant.
         /// </summary>
         public const int Length = 16;
         /// <summary>
-        /// Represents an empty <see cref="OBJECT"/> structure.
+        /// Represents an empty <see cref="Object"/> structure.
         /// </summary>
-        public static readonly OBJECT Empty = new OBJECT() { tag = new TAG(), id = 0, offset = 0, length = 0 };
+        public static readonly Object Empty = new Object() { tag = new Tag(), id = 0, offset = 0, length = 0 };
 
         /// <summary>
         /// The object's tag.
         /// </summary>
-        public TAG Tag
+        public Tag Tag
         {
             get { return tag; }
             set { tag = value; }
@@ -30,7 +30,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// The object's tag identifier.
         /// </summary>
-        public TAGID ID
+        public TagId ID
         {
             get { return id; }
             set { id = value; }
@@ -52,8 +52,8 @@ namespace Abide.HaloLibrary.Halo2Map
             set { length = value; }
         }
         
-        private TAG tag;
-        private TAGID id;
+        private Tag tag;
+        private TagId id;
         private uint offset;
         private uint length;
 
