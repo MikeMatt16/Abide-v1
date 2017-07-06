@@ -82,12 +82,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -101,6 +95,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -222,7 +222,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Abide.HaloLibrary, Version=1.0.6386.36836, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Abide.HaloLibrary, Version=1.0.6393.26291, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                 }
@@ -334,7 +334,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Abide.AddOnApi, Version=1.3.6386.36837, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Abide.AddOnApi, Version=1.3.6393.26291, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                 }
@@ -445,15 +445,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Abide Halo Map Editor"
-        "ProductCode" = "8:{CF753DE8-3C2B-42B6-8E9D-E26CFD64BA27}"
-        "PackageCode" = "8:{3F4445AD-3160-4321-AA45-5315D8417F50}"
+        "ProductCode" = "8:{A72ED9C5-6202-4FFE-A744-20BF25DF2BCA}"
+        "PackageCode" = "8:{0225AF01-9374-4D3F-A6F2-B1E423FB3B03}"
         "UpgradeCode" = "8:{46296D3C-B623-4E97-BCEF-8651E2F65422}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.2"
+        "ProductVersion" = "8:1.4.0"
         "Manufacturer" = "8:Potential Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/MikeMatt16/abide"
@@ -1033,7 +1033,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_44143C6F3E5E458D8A5CF2C078189A49"
             {
-            "SourcePath" = "8:..\\Abide\\bin\\Release\\Abide.XML"
+            "SourcePath" = "8:..\\Abide\\bin\\Debug\\Abide.XML"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
@@ -1117,7 +1117,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E184653F5DBA47089724CA6AD32EFD54"
             {
-            "SourcePath" = "8:..\\Abide\\obj\\Release\\Abide.exe"
+            "SourcePath" = "8:..\\Abide\\obj\\Debug\\Abide.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"

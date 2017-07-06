@@ -69,7 +69,6 @@
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowToolStripMenuItem;
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Renderer = new AbideToolStripRenderer();
             this.mainMenuStrip.Size = new System.Drawing.Size(784, 24);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";

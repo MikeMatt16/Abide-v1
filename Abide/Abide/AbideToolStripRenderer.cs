@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace Abide
 {
     /// <summary>
-    /// Handles the painting for Abide's Tool Strip painting.
+    /// Handles the painting for Abide's Tool Strip.
     /// </summary>
     internal sealed class AbideToolStripRenderer : ToolStripRenderer
     {
@@ -19,7 +19,7 @@ namespace Abide
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
             base.OnRenderToolStripBackground(e);
-            e.Graphics.Clear(Color.White);
+
         }
 
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
