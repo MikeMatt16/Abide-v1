@@ -33,25 +33,25 @@
             this.TagPanel = new System.Windows.Forms.Panel();
             this.TagSplitContainer = new System.Windows.Forms.SplitContainer();
             this.TagTree = new System.Windows.Forms.TreeView();
-            this.TagContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tagContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TagImageList = new System.Windows.Forms.ImageList(this.components);
             this.TagTabControl = new System.Windows.Forms.TabControl();
             this.TagPropertiesTabPage = new System.Windows.Forms.TabPage();
             this.TagPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.toolPanel = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.mapToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolPanel = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.TagPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TagSplitContainer)).BeginInit();
             this.TagSplitContainer.Panel1.SuspendLayout();
             this.TagSplitContainer.Panel2.SuspendLayout();
             this.TagSplitContainer.SuspendLayout();
-            this.TagContextMenu.SuspendLayout();
+            this.tagContextMenu.SuspendLayout();
             this.TagTabControl.SuspendLayout();
             this.TagPropertiesTabPage.SuspendLayout();
             this.mapToolStrip.SuspendLayout();
@@ -88,7 +88,7 @@
             // TagTree
             // 
             this.TagTree.AllowDrop = true;
-            this.TagTree.ContextMenuStrip = this.TagContextMenu;
+            this.TagTree.ContextMenuStrip = this.tagContextMenu;
             this.TagTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TagTree.FullRowSelect = true;
             this.TagTree.HideSelection = false;
@@ -103,12 +103,12 @@
             this.TagTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.TagTree_DragDrop);
             this.TagTree.DragEnter += new System.Windows.Forms.DragEventHandler(this.TagTree_DragEnter);
             // 
-            // TagContextMenu
+            // tagContextMenu
             // 
-            this.TagContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveTagToolStripMenuItem});
-            this.TagContextMenu.Name = "TagContextMenu";
-            this.TagContextMenu.Size = new System.Drawing.Size(121, 26);
+            this.tagContextMenu.Name = "TagContextMenu";
+            this.tagContextMenu.Size = new System.Drawing.Size(121, 26);
             // 
             // saveTagToolStripMenuItem
             // 
@@ -155,6 +155,22 @@
             this.TagPropertyGrid.Size = new System.Drawing.Size(246, 249);
             this.TagPropertyGrid.TabIndex = 0;
             this.TagPropertyGrid.ToolbarVisible = false;
+            // 
+            // toolPanel
+            // 
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolPanel.Location = new System.Drawing.Point(263, 25);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(521, 486);
+            this.toolPanel.TabIndex = 3;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(260, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 511);
+            this.splitter1.TabIndex = 4;
+            this.splitter1.TabStop = false;
             // 
             // mapToolStrip
             // 
@@ -211,22 +227,6 @@
             this.optionsToolStripButton.Visible = false;
             this.optionsToolStripButton.Click += new System.EventHandler(this.optionsToolStripButton_Click);
             // 
-            // toolPanel
-            // 
-            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolPanel.Location = new System.Drawing.Point(263, 25);
-            this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(521, 486);
-            this.toolPanel.TabIndex = 3;
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(260, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 511);
-            this.splitter1.TabIndex = 4;
-            this.splitter1.TabStop = false;
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,7 +244,7 @@
             this.TagSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TagSplitContainer)).EndInit();
             this.TagSplitContainer.ResumeLayout(false);
-            this.TagContextMenu.ResumeLayout(false);
+            this.tagContextMenu.ResumeLayout(false);
             this.TagTabControl.ResumeLayout(false);
             this.TagPropertiesTabPage.ResumeLayout(false);
             this.mapToolStrip.ResumeLayout(false);
@@ -270,7 +270,7 @@
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ToolStripButton optionsToolStripButton;
-        private System.Windows.Forms.ContextMenuStrip TagContextMenu;
+        private System.Windows.Forms.ContextMenuStrip tagContextMenu;
         private System.Windows.Forms.ToolStripMenuItem saveTagToolStripMenuItem;
     }
 }

@@ -80,6 +80,7 @@ namespace Abide.Halo2
             {
                 //Create Item
                 ToolStripMenuItem toolItem = new ToolStripMenuItem(tool.Name, tool.Icon) { Tag = tool };
+                toolItem.ToolTipText = $"{tool.Name} by {tool.Author}{Environment.NewLine}{tool.Description}";
                 toolItem.Click += ToolItem_Click;
 
                 //Add
@@ -92,6 +93,7 @@ namespace Abide.Halo2
             {
                 //Create Button
                 ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
+                button.ToolTipText = $"{menuButton.Name} by {menuButton.Author}{Environment.NewLine}{menuButton.Description}";
                 button.Click += MenuButton_Click;
                 button.Name = menuButton.Name;
                 button.Tag = menuButton;
@@ -109,6 +111,7 @@ namespace Abide.Halo2
             {
                 //Create Button
                 ToolStripMenuItem item = new ToolStripMenuItem(contextMenuItem.Name, contextMenuItem.Icon);
+                item.ToolTipText = $"{contextMenuItem.Name} by {contextMenuItem.Author}{Environment.NewLine}{contextMenuItem.Description}";
                 item.Click += MenuButton_Click;
                 item.Name = contextMenuItem.Name;
                 item.Tag = contextMenuItem;
@@ -117,7 +120,7 @@ namespace Abide.Halo2
                 contextMenuItems.Add(item);
 
                 //Check
-                if (!contextMenuItem.ApplyFilter) TagContextMenu.Items.Add(item);
+                if (!contextMenuItem.ApplyFilter) tagContextMenu.Items.Add(item);
             }
 
             //Load Tab Pages
@@ -129,6 +132,7 @@ namespace Abide.Halo2
 
                 //Create Tab Page
                 TabPage page = new TabPage(tabPage.Name);
+                page.ToolTipText = $"{tabPage.Name} by {tabPage.Author}{Environment.NewLine}{tabPage.Description}";
                 page.Controls.Add(tabPage.UserInterface);
                 page.Name = tabPage.Name;
                 page.Tag = tabPage;
@@ -458,10 +462,10 @@ namespace Abide.Halo2
                     if (item.ApplyFilter)
                         if (item.Filter.Contains(selectedEntry.Root))
                         {
-                            if (!TagContextMenu.Items.ContainsKey(menuItem.Name))
-                                TagContextMenu.Items.Add(menuItem);
+                            if (!tagContextMenu.Items.ContainsKey(menuItem.Name))
+                                tagContextMenu.Items.Add(menuItem);
                         }
-                        else TagContextMenu.Items.RemoveByKey(menuItem.Name);
+                        else tagContextMenu.Items.RemoveByKey(menuItem.Name);
                 }
             }
             else TagPropertyGrid.SelectedObject = map;

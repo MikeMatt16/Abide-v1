@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Abide
@@ -11,7 +7,7 @@ namespace Abide
     /// <summary>
     /// Handles the painting for Abide's Tool Strip.
     /// </summary>
-    internal sealed class AbideToolStripRenderer : ToolStripRenderer
+    internal sealed class AbideToolStripRenderer : ToolStripProfessionalRenderer
     {
         private static readonly Color Abide1 = Color.FromArgb(213, 221, 229);
         private static readonly Color Abide2 = Color.FromArgb(186, 203, 219);
@@ -19,18 +15,21 @@ namespace Abide
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
             base.OnRenderToolStripBackground(e);
-
+            using (Brush b = new LinearGradientBrush(e.AffectedBounds, Color.White, Abide1, LinearGradientMode.Vertical))
+                e.Graphics.FillRectangle(b, e.AffectedBounds);
         }
 
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle, e.TextColor, TextFormatFlags.Left);
+            TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle, e.Item.ForeColor, e.TextFormat);
         }
 
-        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+        protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
         {
-            base.OnRenderMenuItemBackground(e);
-            
+            base.OnRenderImageMargin(e);
+            using (Brush b = new LinearGradientBrush(e.AffectedBounds, Abide1, Abide2, LinearGradientMode.Vertical))
+                e.Graphics.FillRectangle(b, e.AffectedBounds);
+            e.Graphics.DrawRectangle(Pens.LightGray, e.AffectedBounds);
         }
     }
 }

@@ -318,6 +318,10 @@ namespace Abide
 
         private bool main_ExtendFrame()
         {
+            //Return
+            return false;
+            //TODO implement AeroToolStripRenderer.
+
             //Prepare
             bool success = false;
 
