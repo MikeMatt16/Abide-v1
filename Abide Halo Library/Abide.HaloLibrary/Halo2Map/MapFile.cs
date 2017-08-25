@@ -31,6 +31,14 @@ namespace Abide.HaloLibrary.Halo2Map
             set { header.Name = value; }
         }
         /// <summary>
+        /// Gets and returns the Halo 2 map's build string.
+        /// </summary>
+        [Browsable(false)]
+        public string Build
+        {
+            get { return header.Build; }
+        }
+        /// <summary>
         /// Gets and returns the Halo 2 map's index entry list.
         /// </summary>
         [Browsable(false)]
@@ -49,8 +57,8 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of the Halo 2 map's string IDs.
         /// </summary>
-        [Category("Map Data"), Description("The Halo 2 map's string identifiers.")]
-        public List<string> Strings
+        [Category("Map Data"), Description("The Halo 2 map's strings.")]
+        public StringList Strings
         {
             get { return strings; }
         }
@@ -62,16 +70,26 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             get { return tags; }
         }
+        /// <summary>
+        /// Gets or sets the Halo 2 map's scenario.
+        /// </summary>
+        [Browsable(false)]
+        public IndexEntry Scenario
+        {
+            get { return scenario; }
+            set { scenario = value; }
+        }
 
         private Header header;
         private FixedMemoryMappedStream[] sbspTagDatas;
-        private List<string> strings;
+        private StringList strings;
         private FixedMemoryMappedStream crazyData;
         private Index index;
         private TagHierarchyList tags;
         private FixedMemoryMappedStream tagData;
         private IndexEntryList indexList;
         private Dictionary<TagId, int> bspIndexLookup;
+        private IndexEntry scenario;
 
         /// <summary>
         /// Initializes a new Halo 2 map file instance.
@@ -82,7 +100,7 @@ namespace Abide.HaloLibrary.Halo2Map
             header = Header.Create();
             index = Index.Create();
             sbspTagDatas = new FixedMemoryMappedStream[0];
-            strings = new List<string>();
+            strings = new StringList();
             crazyData = FixedMemoryMappedStream.Empty;
             tags = new TagHierarchyList();
             indexList = new IndexEntryList();
@@ -93,32 +111,39 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Loads a Halo 2 map file from a specified file path.
         /// </summary>
         /// <param name="filename">A relative or absolute path for the map file.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="MapFileExcption"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="filename"/> is null.</exception>
+        /// <exception cref="FileNotFoundException"><paramref name="filename"/> does not exist.</exception>
+        /// <exception cref="MapFileExcption">Exception occured while loading the map.</exception>
         public void Load(string filename)
         {
-            //Check...
-            if (filename == null)
-                throw new ArgumentNullException("fileName");
-            else if (!File.Exists(filename))
-                throw new FileNotFoundException("Unable to find the specified file.", filename);
+            //Prepare
+            FileStream fs = null;
 
-            //Load...?
-            try
-            {
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    Load(fs);
-            }
+            //Check...
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            else if (!File.Exists(filename)) throw new FileNotFoundException("Unable to find the specified file.", filename);
+
+            //Open Stream...?
+            try { fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read); }
             catch (Exception ex) { throw new MapFileExcption(ex); }
+
+            //Check
+            if (fs != null) { Load(fs); fs.Close(); fs.Dispose(); }
         }
         /// <summary>
         /// Loads a Halo 2 map file from the specified stream.
         /// </summary>
         /// <param name="inStream">The stream containing the Halo 2 map.</param>
-        /// <exception cref="MapFileExcption"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="inStream"/> is null.</exception>
+        /// <exception cref="ArgumentException">Exception occured while handling <paramref name="inStream"/>.</exception>
+        /// <exception cref="MapFileExcption">Exception occured while loading map.</exception>
         public void Load(Stream inStream)
         {
+            //Check
+            if (inStream == null) throw new ArgumentNullException(nameof(inStream));
+            if (!inStream.CanRead) throw new ArgumentException("Stream does not support reading.", nameof(inStream));
+            if (!inStream.CanSeek) throw new ArgumentException("Stream does not support seeking.", nameof(inStream));
+
             //Check file...
             if (inStream.Length < 6144)
                 throw new MapFileExcption("Invalid map file.");
@@ -130,216 +155,220 @@ namespace Abide.HaloLibrary.Halo2Map
                 {
                     //Read Header
                     header = reader.ReadStructure<Header>();
-                    if (header.HeaderTag == HaloTags.head && header.FooterTag == HaloTags.foot)    //Quick sanity check...
+
+                    //Check...
+                    if (header.HeaderTag != HaloTags.head || header.FooterTag != HaloTags.foot)    //Quick sanity check...
+                        throw new MapFileExcption("Invalid map header.");
+
+                    //Read File Names
+                    string[] files = reader.ReadUTF8StringTable(header.FilesOffset, header.FilesIndex, header.FileCount);
+
+                    //Read Strings
+                    strings = new StringList(reader.ReadUTF8StringTable(header.StringsOffset, header.StringsIndexOffset, header.StringCount));
+
+                    //Read Index
+                    inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
+                    index = reader.ReadStructure<Index>();
+
+                    //Read Tags
+                    TagHierarchy[] tags = new TagHierarchy[index.TagCount];
+                    for (int i = 0; i < index.TagCount; i++)
+                        tags[i] = reader.ReadStructure<TagHierarchy>();
+                    this.tags = new TagHierarchyList(tags);
+
+                    //Read Objects
+                    inStream.Seek((index.ObjectOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
+                    Object objectEntry = new Object(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
+                    for (int i = 0; i < index.ObjectCount; i++)
                     {
-                        //Read File Names
-                        string[] files = reader.ReadUTF8StringTable(header.FilesOffset, header.FilesIndex, header.FileCount);
+                        objectEntry = reader.ReadStructure<Object>();
+                        indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
+                    }
 
-                        //Read Strings
-                        strings = new List<string>(reader.ReadUTF8StringTable(header.StringsOffset, header.StringsIndexOffset, header.StringCount));
+                    //Setup Index List
+                    indexList = new IndexEntryList(indexEntries);
 
-                        //Read Index
-                        inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
-                        index = reader.ReadStructure<Index>();
+                    //Check
+                    if (indexList.Last.Root != HaloTags.ugh_)
+                        throw new MapFileExcption("Final tag is not coconuts");
 
-                        //Read Tags
-                        TagHierarchy[] tags = new TagHierarchy[index.TagCount];
-                        for (int i = 0; i < index.TagCount; i++)
-                            tags[i] = reader.ReadStructure<TagHierarchy>();
-                        this.tags = new TagHierarchyList(tags);
+                    //Read Crazy
+                    inStream.Seek(header.CrazyOffset, SeekOrigin.Begin);
+                    crazyData = new FixedMemoryMappedStream(reader.ReadBytes(header.CrazyLength));
 
-                        //Read Objects
-                        inStream.Seek((index.ObjectOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
-                        Object objectEntry = new Object(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
-                        for (int i = 0; i < index.ObjectCount; i++)
+                    //Get Meta Memory-file address
+                    uint metaFileMemoryAddress = 0, metaMemoryAddress = 0;
+                    if (index.ObjectCount > 0)
+                    {
+                        metaFileMemoryAddress = (uint)(indexList[0].Offset - (header.IndexOffset + header.IndexLength));
+                        metaMemoryAddress = (uint)indexList[0].Offset;
+                    }
+
+                    //Read Meta
+                    inStream.Seek(header.IndexOffset + header.IndexLength, SeekOrigin.Begin);
+                    tagData = new FixedMemoryMappedStream(reader.ReadBytes(header.TagDataLength), metaMemoryAddress);
+
+                    //Loop
+                    foreach (IndexEntry entry in indexList)
+                        if (entry.Offset != 0)
+                            entry.TagData = tagData;
+
+                    //Prepare BSP start...
+                    int bspStart = header.Strings128Offset;
+
+                    //Prepare
+                    StringEntry[] en = null, jp = null, nl = null, fr = null, es = null, it = null, kr = null, zh = null, pr = null;
+
+                    //Read Strings
+                    foreach (var indexEntry in indexList)
+                        if (indexEntry.ID == index.GlobalsID)
                         {
-                            objectEntry = reader.ReadStructure<Object>();
-                            indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
+                            //Read English Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 400, out en);
+
+                            //Read Japanese Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 428, out jp);
+
+                            //Read Dutch Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 456, out nl);
+
+                            //Read French Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 484, out fr);
+
+                            //Read Spanish Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 512, out es);
+
+                            //Read Italian Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 540, out it);
+
+                            //Read Korean Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 568, out kr);
+
+                            //Read Chinese Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 596, out zh);
+
+                            //Read Portuguese Strings
+                            ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 624, out pr);
+
+                            //Break
+                            break;
                         }
 
-                        //Setup Index List
-                        indexList = new IndexEntryList(indexEntries);
-
-                        //Check
-                        if (indexList.Last.Root != HaloTags.ugh_)
-                            throw new MapFileExcption("Final tag is not coconuts");
-
-                        //Read Crazy
-                        inStream.Seek(header.CrazyOffset, SeekOrigin.Begin);
-                        crazyData = new FixedMemoryMappedStream(reader.ReadBytes(header.CrazyLength));
-
-                        //Get Meta Memory-file address
-                        uint metaFileMemoryAddress = 0, metaMemoryAddress = 0;
-                        if (index.ObjectCount > 0)
-                        {
-                            metaFileMemoryAddress = (uint)(indexList[0].Offset - (header.IndexOffset + header.IndexLength));
-                            metaMemoryAddress = (uint)indexList[0].Offset;
-                        }
-
-                        //Read Meta
-                        inStream.Seek(header.IndexOffset + header.IndexLength, SeekOrigin.Begin);
-                        tagData = new FixedMemoryMappedStream(reader.ReadBytes(header.MetaLength), metaMemoryAddress);
-
-                        //Loop
-                        foreach (IndexEntry entry in indexList)
-                            if (entry.Offset != 0)
-                                entry.TagData = tagData;
-
-                        //Prepare BSP start...
-                        int bspStart = header.Strings128Offset;
-
-                        //Prepare
-                        StringEntry[] en = null, jp = null, nl = null, fr = null, es = null, it = null, kr = null, zh = null, pr = null;
-
-                        //Read Strings
-                        foreach (var indexEntry in indexList)
-                            if (indexEntry.ID == index.GlobalsID)
-                            {
-                                //Read English Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 400, out en);
-
-                                //Read Japanese Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 428, out jp);
-
-                                //Read Dutch Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 456, out nl);
-
-                                //Read French Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 484, out fr);
-
-                                //Read Spanish Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 512, out es);
-
-                                //Read Italian Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 540, out it);
-
-                                //Read Korean Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 568, out kr);
-
-                                //Read Chinese Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 596, out zh);
-
-                                //Read Portuguese Strings
-                                ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 624, out pr);
-
-                                //Break
-                                break;
-                            }
-
-                        //Read BSP Meta
-                        if (indexList.ContainsID(index.ScenarioID))
+                    //Read BSP Meta
+                    if (indexList.ContainsID(index.ScenarioID))
+                    {
+                        //Goto
+                        inStream.Seek(indexList[index.ScenarioID].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
+                        TagBlock structureBsps = reader.ReadUInt64();
+                        sbspTagDatas = new FixedMemoryMappedStream[structureBsps.Count];
+                        for (int i = 0; i < structureBsps.Count; i++)
                         {
                             //Goto
-                            inStream.Seek(indexList[index.ScenarioID].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
-                            TagBlock structureBsps = reader.ReadUInt64();
-                            sbspTagDatas = new FixedMemoryMappedStream[structureBsps.Count];
-                            for (int i = 0; i < structureBsps.Count; i++)
+                            inStream.Seek(structureBsps.Offset + (i * 68), metaFileMemoryAddress, SeekOrigin.Begin);
+                            int sbspOffset = reader.ReadInt32();
+                            int sbspSize = reader.ReadInt32();
+                            int bspMagic = reader.ReadInt32();
+                            int bspFileMagic = bspMagic - sbspOffset;
+                            inStream.Seek(4, SeekOrigin.Current);
+                            Tag sbspTag = reader.ReadStructure<Tag>();
+                            TagId sbspId = reader.ReadStructure<TagId>();
+                            Tag ltmpTag = reader.ReadStructure<Tag>();
+                            TagId ltmpId = reader.ReadStructure<TagId>();
+
+                            //Add
+                            bspIndexLookup.Add(sbspId, i);
+
+                            //Goto
+                            inStream.Seek(sbspOffset, SeekOrigin.Begin);
+                            sbspTagDatas[i] = new FixedMemoryMappedStream(reader.ReadBytes(sbspSize), (uint)bspMagic);
+                            SbspHeader sbspHeader = new SbspHeader();
+                            using (BinaryReader bspHeaderReader = new BinaryReader(sbspTagDatas[i]))
+                                sbspHeader = bspHeaderReader.ReadStructure<SbspHeader>();
+
+                            //Setup SBSP and Lightmap
+                            if (indexList.ContainsID(sbspId))
                             {
-                                //Goto
-                                inStream.Seek(structureBsps.Offset + (i * 68), metaFileMemoryAddress, SeekOrigin.Begin);
-                                int sbspOffset = reader.ReadInt32();
-                                int sbspSize = reader.ReadInt32();
-                                int bspMagic = reader.ReadInt32();
-                                int bspFileMagic = bspMagic - sbspOffset;
-                                inStream.Seek(4, SeekOrigin.Current);
-                                Tag sbspTag = reader.ReadStructure<Tag>();
-                                TagId sbspId = reader.ReadStructure<TagId>();
-                                Tag ltmpTag = reader.ReadStructure<Tag>();
-                                TagId ltmpId = reader.ReadStructure<TagId>();
-
-                                //Add
-                                bspIndexLookup.Add(sbspId, i);
-
-                                //Goto
-                                inStream.Seek(sbspOffset, SeekOrigin.Begin);
-                                sbspTagDatas[i] = new FixedMemoryMappedStream(reader.ReadBytes(sbspSize), (uint)bspMagic);
-                                SbspHeader sbspHeader = new SbspHeader();
-                                using (BinaryReader bspHeaderReader = new BinaryReader(sbspTagDatas[i]))
-                                    sbspHeader = bspHeaderReader.ReadStructure<SbspHeader>();
-
-                                //Setup SBSP and Lightmap
-                                if (indexList.ContainsID(sbspId))
-                                {
-                                    indexList[sbspId].TagData = sbspTagDatas[i];
-                                    indexList[sbspId].PostProcessedOffset = bspMagic;
-                                    indexList[sbspId].PostProcessedSize = sbspSize;
-                                }
-                                if (indexList.ContainsID(ltmpId))
-                                {
-                                    indexList[ltmpId].TagData = sbspTagDatas[i];
-                                    indexList[ltmpId].PostProcessedOffset = sbspHeader.LightmapOffset;
-                                    indexList[ltmpId].PostProcessedSize = sbspHeader.DataLength - (sbspHeader.LightmapOffset - bspMagic);
-                                }
-
-                                //Check
-                                if (sbspOffset < bspStart)
-                                    bspStart = sbspOffset;
+                                indexList[sbspId].TagData = sbspTagDatas[i];
+                                indexList[sbspId].PostProcessedOffset = bspMagic;
+                                indexList[sbspId].PostProcessedSize = sbspSize;
                             }
+                            if (indexList.ContainsID(ltmpId))
+                            {
+                                indexList[ltmpId].TagData = sbspTagDatas[i];
+                                indexList[ltmpId].PostProcessedOffset = sbspHeader.LightmapOffset;
+                                indexList[ltmpId].PostProcessedSize = sbspHeader.DataLength - (sbspHeader.LightmapOffset - bspMagic);
+                            }
+
+                            //Check
+                            if (sbspOffset < bspStart)
+                                bspStart = sbspOffset;
+                        }
+                    }
+
+                    //Read Strings into unicode tags
+                    foreach (var unicode in indexList.Where(e => e.Root == HaloTags.unic))
+                        using (BinaryReader metaReader = new BinaryReader(unicode.TagData))
+                        {
+                            //Prepare
+                            ushort offset, count;
+                            unicode.TagData.Seek(unicode.Offset + 16, SeekOrigin.Begin);
+
+                            //Read English
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.English.AddRange(en.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Japanese
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Japanese.AddRange(jp.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read German
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.German.AddRange(nl.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read French
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.French.AddRange(fr.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Spanish
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Spanish.AddRange(es.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Italian
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Italian.AddRange(it.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Korean
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Korean.AddRange(kr.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Chinese
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Chinese.AddRange(zh.Where((s, i) => i >= offset && i < offset + count));
+
+                            //Read Portuguese
+                            offset = metaReader.ReadUInt16();
+                            count = metaReader.ReadUInt16();
+                            unicode.Strings.Portuguese.AddRange(pr.Where((s, i) => i >= offset && i < offset + count));
                         }
 
-                        //Read Strings into unicode tags
-                        foreach (var unicode in indexList.Where(e => e.Root == HaloTags.unic))
-                            using (BinaryReader metaReader = new BinaryReader(unicode.TagData))
-                            {
-                                //Prepare
-                                ushort offset, count;
-                                unicode.TagData.Seek(unicode.Offset + 16, SeekOrigin.Begin);
+                    //Zero-out variables
+                    header.FileLength = 0;
+                    header.NonRawLength = 0;
+                    index.ObjectOffset = 0;
 
-                                //Read English
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.English.AddRange(en.Where((s, i) => i >= offset && i < offset + count));
+                    //Read Raws
+                    ReadRaws(inStream, reader);
 
-                                //Read Japanese
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Japanese.AddRange(jp.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read German
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.German.AddRange(nl.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read French
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.French.AddRange(fr.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read Spanish
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Spanish.AddRange(es.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read Italian
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Italian.AddRange(it.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read Korean
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Korean.AddRange(kr.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read Chinese
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Chinese.AddRange(zh.Where((s, i) => i >= offset && i < offset + count));
-
-                                //Read Portuguese
-                                offset = metaReader.ReadUInt16();
-                                count = metaReader.ReadUInt16();
-                                unicode.Strings.Portuguese.AddRange(pr.Where((s, i) => i >= offset && i < offset + count));
-                            }
-
-                        //Zero-out variables
-                        header.FileLength = 0;
-                        header.NonRawLength = 0;
-                        index.ObjectOffset = 0;
-
-                        //Read Raws
-                        ReadRaws(inStream, reader);
-                    }
-                    else throw new MapFileExcption("Invalid map header.");
+                    //Get Scenario
+                    scenario = indexList[index.ScenarioID];
                 }
             }
             catch (Exception ex) { throw new MapFileExcption(ex); }
@@ -349,7 +378,6 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         /// <param name="inStream">The Halo 2 cached map file stream.</param>
         /// <param name="reader">The reader for the map stream.</param>
-        /// <param name="tagReader">The reader for the tag data stream.</param>
         private void ReadRaws(Stream inStream, BinaryReader reader)
         {
             //Null
@@ -943,8 +971,9 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         /// <param name="filename">A string that contains the name of the file to which to save this Halo 2 map.</param>
         /// <exception cref="ArgumentNullException"><paramref name="filename"/> is null.</exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
+        /// <exception cref="DirectoryNotFoundException">Directory containing <paramref name="filename"/> is not found.</exception>
+        /// <exception cref="IOException">A generic I/O exception occured.</exception>
+        /// <exception cref="MapFileExcption">Exception occured while saving the map file.</exception>
         public void Save(string filename)
         {
             //Check
@@ -971,13 +1000,17 @@ namespace Abide.HaloLibrary.Halo2Map
             if (!stream.CanRead) throw new ArgumentException("Stream does not support reading.", "stream");
 
             //Check map
+            if (scenario != null) throw new MapFileExcption("Map does not have a scenario assigned.");
             if (!indexList.ContainsID(index.GlobalsID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain globals tag group."));
             if (!indexList.ContainsID(index.ScenarioID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain scenario tag group."));
             if (indexList.Last.Root != HaloTags.ugh_) throw new MapFileExcption(new InvalidOperationException("Final tag group is not coconuts."));
 
+            //Setup
+            index.ScenarioID = scenario.ID;
+            header.ScenarioPath = scenario.Filename;
+
             //Find
             IndexEntry globals = indexList[index.GlobalsID];
-            IndexEntry scenario = indexList[index.ScenarioID];
             IndexEntry coconuts = indexList.Last;
 
             //Prepare
@@ -1031,7 +1064,6 @@ namespace Abide.HaloLibrary.Halo2Map
                 byte[] index = CreateIndex();
 
                 //Prepare Header
-                int oldNonRawLength = header.NonRawLength;
                 header.NonRawLength = index.Length;
                 header.IndexLength = index.Length;
 
@@ -1492,9 +1524,9 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
 
                 //Write Meta
-                header.MetaLength = tagData.IntLength;
+                header.TagDataLength = tagData.IntLength;
                 writer.Write(tagData.GetBuffer());
-                header.NonRawLength += header.MetaLength;
+                header.NonRawLength += header.TagDataLength;
 
                 //Pad File
                 stream.Seek(stream.Position.PadTo(1024), SeekOrigin.Begin);
@@ -1520,8 +1552,12 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Swaps the tag data stream buffer with the supplied buffer.
         /// </summary>
         /// <param name="dataBuffer">The data buffer to swap the tag data stream with.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="dataBuffer"/> is null.</exception>
         public void SwapTagBuffer(byte[] dataBuffer)
         {
+            //Check
+            if (dataBuffer == null) throw new ArgumentNullException(nameof(dataBuffer));
+
             //Dispose?
             if (tagData != null) tagData.Dispose();
             tagData = new FixedMemoryMappedStream((byte[])dataBuffer.Clone(), Index.IndexMemoryAddress + header.IndexLength);
@@ -1554,12 +1590,13 @@ namespace Abide.HaloLibrary.Halo2Map
             header = Header.Create();
             index = Index.Create();
             sbspTagDatas = new FixedMemoryMappedStream[0];
-            strings = new List<string>();
+            strings = new StringList();
             crazyData = FixedMemoryMappedStream.Empty;
             tags = new TagHierarchyList();
             indexList = new IndexEntryList();
             tagData = FixedMemoryMappedStream.Empty;
             bspIndexLookup = new Dictionary<TagId, int>();
+            scenario = null;
 
             //Collect
             GC.Collect();
@@ -1584,8 +1621,12 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Adds a new string identifier to the map.
         /// </summary>
         /// <param name="stringId">The string identifier.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="stringId"/> is null.</exception>
         public StringId AddStringId(string stringId)
         {
+            //Check
+            if (stringId == null) throw new ArgumentNullException(nameof(stringId));
+
             //Prepare
             int index = -1;
 
@@ -1615,8 +1656,7 @@ namespace Abide.HaloLibrary.Halo2Map
             int length = (Index.Length + (TagHierarchy.Length * tags.Count) + (Object.Length * indexList.Count)).PadTo(4096);
 
             //Check
-            if (length > header.IndexLength)
-                throw new MapFileExcption("Unable to save map. Index length is larger than expected.");
+            if (length > header.IndexLength) throw new MapFileExcption("Unable to save map. Index length is larger than expected.");
             else length = header.IndexLength;
 
             //Write
@@ -1630,6 +1670,8 @@ namespace Abide.HaloLibrary.Halo2Map
                 foreach (IndexEntry entry in indexList) //Write object entries
                     writer.Write(entry.GetObjectEntry());
             }
+
+            //Return
             return indexTable;
         }
         /// <summary>
@@ -1637,7 +1679,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         /// <param name="stringList">The strings in the table.</param>
         /// <returns>A byte array containing a 512-byte padded string table.</returns>
-        private byte[] CreateStringTable(List<StringEntry> stringList)
+        private byte[] CreateStringTable(IList<StringEntry> stringList)
         {
             int length = 0;
             for (int i = 0; i < stringList.Count; i++)
@@ -1652,12 +1694,11 @@ namespace Abide.HaloLibrary.Halo2Map
             return stringTable;
         }
         /// <summary>
-        /// Creates a strings index table.
+        /// Creates a string table index.
         /// </summary>
         /// <param name="stringTable">The strings in the table.</param>
-        /// <param name="ids">The string IDs the strings are assigned to.</param>
         /// <returns>A byte array containing a 512-byte padded string index.</returns>
-        private byte[] CreateStringIndex(List<StringEntry> stringTable)
+        private byte[] CreateStringIndex(IList<StringEntry> stringTable)
         {
             //Prepare
             int offset = 0;
@@ -1759,7 +1800,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 return tags.Values.GetEnumerator();
             }
         }
-        
+
         /// <summary>
         /// Represents a Halo 2 index entry list.
         /// </summary>
@@ -1814,7 +1855,7 @@ namespace Abide.HaloLibrary.Halo2Map
             /// <summary>
             /// Gets and returns the index entry object at a given index.
             /// </summary>
-            /// <param name="id">The index of the index entry object.</param>
+            /// <param name="index">The index of the index entry object.</param>
             /// <returns>An <see cref="IndexEntry"/> at the given index.</returns>
             public IndexEntry this[int index]
             {
@@ -1884,6 +1925,227 @@ namespace Abide.HaloLibrary.Halo2Map
                 return entries.Values.GetEnumerator();
             }
         }
+
+        /// <summary>
+        /// Represents a Halo 2 string list.
+        /// </summary>
+        public sealed class StringList : IEnumerable<string>, ICollection<string>
+        {
+            /// <summary>
+            /// Gets and returns the number of strings in the list.
+            /// </summary>
+            public int Count
+            {
+                get { return strings.Count; }
+            }
+            /// <summary>
+            /// Gets and returns a a string's ID from the given string within the list.
+            /// </summary>
+            /// <param name="sid">The string whose ID is to be retrieved.</param>
+            /// <returns><see cref="StringId.Zero"/> if the string does not exist, otherwise returns a valid <see cref="StringId"/> value.</returns>
+            public StringId this[string sid]
+            {
+                get
+                {
+                    //Check
+                    if (sid == null) throw new ArgumentNullException(nameof(sid));
+
+                    //Return zero for non-existing strings.
+                    if (!Contains(sid)) return StringId.Zero;
+                    else return StringId.FromString(sid, strings.IndexOf(sid));
+                }
+            }
+            /// <summary>
+            /// Gets or sets a string's value at a given index within the list.
+            /// </summary>
+            /// <param name="index">The index of the string.</param>
+            /// <returns>A string value.</returns>
+            /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is outside of the valid range.</exception>
+            /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+            public string this[int index]
+            {
+                get
+                {
+                    //Check
+                    if (index < 0 || index >= strings.Count) throw new ArgumentOutOfRangeException(nameof(index));
+
+                    //Return
+                    return strings[index];
+                }
+                set
+                {
+                    //Check
+                    if (index < 0 || index >= strings.Count) throw new ArgumentOutOfRangeException(nameof(index));
+                    if (value == null) throw new ArgumentNullException(nameof(value));
+
+                    //Set
+                    strings[index] = value;
+                }
+            }
+
+            private readonly List<string> strings;
+
+            /// <summary>
+            /// Initializes a new <see cref="StringList"/> instance.
+            /// </summary>
+            public StringList() : this(new string[0]) { }
+            /// <summary>
+            /// Initializes a new <see cref="StringList"/> instance using the supplied string array.
+            /// </summary>
+            /// <param name="strings">The string array to populate the list with.</param>
+            /// <exception cref="ArgumentNullException"><paramref name="strings"/> is null.</exception>
+            public StringList(string[] strings)
+            {
+                //Check
+                if (strings == null) throw new ArgumentNullException(nameof(strings));
+
+                //Intialize
+                this.strings = new List<string>(strings);
+            }
+            /// <summary>
+            /// Attempts to add a string value to the list.
+            /// </summary>
+            /// <param name="value">The string to add.</param>
+            /// <returns>true if the string does not exist, and the string is added successfully; othewise false and the string was not added.</returns>
+            /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+            public bool Add(string value)
+            {
+                //Check
+                if (value == null) throw new ArgumentNullException(nameof(value));
+
+                //Add?
+                bool contains = strings.Contains(value);
+                if (!contains) strings.Add(value);
+
+                //Return
+                return contains;
+            }
+            /// <summary>
+            /// Attempts to add a string value to the list, and retrieve its identifier.
+            /// </summary>
+            /// <param name="value">The string value.</param>
+            /// <param name="id">The target string id.</param>
+            /// <returns>true if the string does not exist, and the string is added successfully; othewise false and the string was not added.</returns>
+            /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+            public bool Add(string value, out StringId id)
+            {
+                //Check
+                if (value == null) throw new ArgumentNullException(nameof(value));
+
+                //Add?
+                bool contains = strings.Contains(value);
+                if (!contains) strings.Add(value);
+
+                //Get ID
+                id = StringId.FromString(value, strings.IndexOf(value));
+
+                //Return
+                return contains;
+            }
+            /// <summary>
+            /// Determines if a string value exists within the list.
+            /// </summary>
+            /// <param name="value">The string to check for.</param>
+            /// <returns>true if the string exists in the list; otherwise false.</returns>
+            /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+            public bool Contains(string value)
+            {
+                //Check
+                if (value == null) throw new ArgumentNullException(nameof(value));
+
+                //Return
+                return strings.Contains(value);
+            }
+            /// <summary>
+            /// Attempts to remove a string value from the list.
+            /// </summary>
+            /// <param name="value">The string to remove.</param>
+            /// <returns>true if the string is found and removed; otherwise false.</returns>
+            /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+            public bool Remove(string value)
+            {
+                //Check
+                if (value == null) throw new ArgumentNullException(nameof(value));
+
+                //Return
+                return strings.Remove(value);
+            }
+            /// <summary>
+            /// Reset's the map's strings table, leaving the zero-string.
+            /// </summary>
+            public void Reset()
+            {
+                //Clear
+                strings.Clear();
+                strings.Add(string.Empty);
+            }
+            /// <summary>
+            /// Gets the zero-based index of the string within the list.
+            /// </summary>
+            /// <param name="value">The string to retrieve the index of.</param>
+            /// <returns>-1 if the specified string was not found, otherwise returns a valid index.</returns>
+            public int IndexOf(string value)
+            {
+                //Check
+                if (value == null) throw new ArgumentNullException(nameof(value));
+
+                //Return
+                return strings.IndexOf(value);
+            }
+            /// <summary>
+            /// Gets and returns an enumerator that iterates the instance.
+            /// </summary>
+            /// <returns>An enumerator.</returns>
+            public IEnumerator<string> GetEnumerator()
+            {
+                return strings.GetEnumerator();
+            }
+            /// <summary>
+            /// Returns a string representation of this list.
+            /// </summary>
+            /// <returns>A string.</returns>
+            public override string ToString()
+            {
+                return $"Count: {strings.Count}";
+            }
+
+            int ICollection<string>.Count
+            {
+                get { return strings.Count; }
+            }
+            bool ICollection<string>.IsReadOnly
+            {
+                get { return false; }
+            }
+            void ICollection<string>.Add(string item)
+            {
+                Add(item);
+            }
+            void ICollection<string>.Clear()
+            {
+                Reset();
+            }
+            bool ICollection<string>.Contains(string item)
+            {
+                return strings.Contains(item);
+            }
+            void ICollection<string>.CopyTo(string[] array, int arrayIndex)
+            {
+                strings.CopyTo(array, arrayIndex);
+            }
+            bool ICollection<string>.Remove(string item)
+            {
+                return strings.Remove(item);
+            }
+            IEnumerator<string> IEnumerable<string>.GetEnumerator()
+            {
+                return strings.GetEnumerator();
+            }
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return strings.GetEnumerator();
+            }
+        }
     }
 
     /// <summary>
@@ -1896,7 +2158,6 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         public MapFileExcption() : base()
         { }
-
         /// <summary>
         /// Initializes a new instance of <see cref="MapFileExcption"/> using the provided exception message.
         /// </summary>
@@ -1904,14 +2165,12 @@ namespace Abide.HaloLibrary.Halo2Map
         public MapFileExcption(string message) :
             base(message)
         { }
-
         /// <summary>
         /// Initializes a new instance of <see cref="MapFileExcption"/> using the provided inner exception.
         /// </summary>
         /// <param name="innerException">The inner exception that triggered the <see cref="MapFileExcption"/>.</param>
         public MapFileExcption(Exception innerException) : base(innerException.Message, innerException)
         { }
-
         /// <summary>
         /// Initializes a new instance of <see cref="MapFileExcption"/> using the provided exception message and inner exception.
         /// </summary>

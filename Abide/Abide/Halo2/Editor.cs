@@ -8,6 +8,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -51,7 +53,8 @@ namespace Abide.Halo2
         private readonly HaloAddOnContainer<MapFile, IndexEntry, Xbox> container;
         private readonly Dictionary<TagId, IndexEntryWrapper> entries;
         private readonly MapFile map;
-        
+
+        private MapFileWrapper mapWrapper;
         private IndexEntry selectedEntry = null;
         private string filename = string.Empty;
         
@@ -65,8 +68,7 @@ namespace Abide.Halo2
             //Setup
             int result = SetWindowTheme(TagTree.Handle, "explorer", null).ToInt32();
             if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, TagTree.Handle);
-
-            //Initialize
+            
             TagTree.TreeViewNodeSorter = new TagIdSorter();
             entries = new Dictionary<TagId, IndexEntryWrapper>();
             map = new MapFile();
@@ -207,13 +209,16 @@ namespace Abide.Halo2
             foreach (IndexEntry entry in map.IndexEntries)
                 entry_BuildTagTree(entry);
 
+            //Load Map Wrapper
+            mapWrapper = new MapFileWrapper(map.Name, map.Strings, entries[map.Scenario.ID]);
+
             //End
             TagTree.Sort();
             TagTree.EndUpdate();
 
             //Setup
             Text = $"Halo 2 - {map.Name}";
-            TagPropertyGrid.SelectedObject = map;
+            TagPropertyGrid.SelectedObject = mapWrapper;
 
             //Send trigger
             List<Exception> errors = new List<Exception>();
@@ -231,37 +236,43 @@ namespace Abide.Halo2
 
             //Get or create wrapper...
             if (entries.ContainsKey(entry.ID)) wrapper = entries[entry.ID];
-            else { wrapper = IndexEntryWrapper.FromEntry(entry); wrapper.FilenameChanged += Wrapper_FilenameChanged; entries.Add(entry.ID, wrapper); }
+            else { wrapper = IndexEntryWrapper.FromEntry(entry, map); wrapper.FilenameChanged += Wrapper_FilenameChanged; entries.Add(entry.ID, wrapper); }
 
             //Get Path Parts
             string[] parts = entry.Filename.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string last = parts[parts.Length - 1];
 
-            //Prepare
-            collection = TagTree.Nodes;
-
-            //Loop
-            for (int i = 0; i < parts.Length - 1; i++)
+            //Check...
+            if ((!string.IsNullOrEmpty(tagSearchBox.Text) && string.Join(".", last, entry.Root).ToLower().Contains(tagSearchBox.Text.ToLower())) || string.IsNullOrEmpty(tagSearchBox.Text))
             {
-                //Create or get node
-                if (collection.ContainsKey(parts[i])) node = collection[parts[i]];
-                else node = collection.Add(parts[i], parts[i]);
+                //Prepare
+                collection = TagTree.Nodes;
 
-                //Setup...
-                node.ImageIndex = 0; node.SelectedImageIndex = 0;
-                collection = node.Nodes;
+                //Loop
+                for (int i = 0; i < parts.Length - 1; i++)
+                {
+                    //Create or get node
+                    if (collection.ContainsKey(parts[i])) node = collection[parts[i]];
+                    else node = collection.Add(parts[i], parts[i]);
+
+                    //Setup...
+                    node.ImageIndex = 0; node.SelectedImageIndex = 0;
+                    collection = node.Nodes;
+                }
+
+                //Create Node
+                string name = $"{parts[parts.Length - 1]}.{entry.Root}";
+                node = new TreeNode(name, 1, 1);
+                node.Name = name;
+                node.Tag = entry.ID;
+
+                //Add
+                collection.Add(node);
+
+                //Return
+                return node;
             }
-
-            //Create Node
-            string name = $"{parts[parts.Length - 1]}.{entry.Root}";
-            node = new TreeNode(name, 1, 1);
-            node.Name = name;
-            node.Tag = entry.ID;
-
-            //Add
-            collection.Add(node);
-
-            //Return
-            return node;
+            else return null;
         }
 
         private void Wrapper_FilenameChanged(object sender, EventArgs e)
@@ -468,7 +479,7 @@ namespace Abide.Halo2
                         else tagContextMenu.Items.RemoveByKey(menuItem.Name);
                 }
             }
-            else TagPropertyGrid.SelectedObject = map;
+            else TagPropertyGrid.SelectedObject = mapWrapper;
         }
         
         private void Halo2Editor_FormClosing(object sender, FormClosingEventArgs e)
@@ -512,6 +523,49 @@ namespace Abide.Halo2
 
                 //Save
                 TagFile.Save(filename);
+            }
+        }
+
+        private void tagSearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Check for return...
+            if (e.KeyCode == Keys.Return)
+            {
+                //Begin
+                TagTree.BeginUpdate();
+                TagTree.Nodes.Clear();
+                entries.Clear();
+
+                //Load Entries
+                foreach (IndexEntry entry in map.IndexEntries)
+                    entry_BuildTagTree(entry);
+
+                //End
+                TagTree.Sort();
+                TagTree.EndUpdate();
+
+                //Expand?
+                if (!string.IsNullOrEmpty(tagSearchBox.Text)) TagTree.ExpandAll();
+            }
+
+            //Check for escape...
+            if (e.KeyCode == Keys.Escape)
+            {
+                //Clear
+                tagSearchBox.Text = string.Empty;
+
+                //Begin
+                TagTree.BeginUpdate();
+                TagTree.Nodes.Clear();
+                entries.Clear();
+
+                //Load Entries
+                foreach (IndexEntry entry in map.IndexEntries)
+                    entry_BuildTagTree(entry);
+
+                //End
+                TagTree.Sort();
+                TagTree.EndUpdate();
             }
         }
 
@@ -683,7 +737,67 @@ namespace Abide.Halo2
                 else return x.Name.CompareTo(y.Name);
             }
         }
-        
+
+        /// <summary>
+        /// Represents a wraper to a <see cref="MapFile"/> object.
+        /// </summary>
+        private class MapFileWrapper
+        {
+            /// <summary>
+            /// Gets or sets the name of the map.
+            /// </summary>
+            [Category("Map Properties"), Description("The name of the map.")]
+            public string Name
+            {
+                get { return name; }
+                set { name = value; }
+            }
+            /// <summary>
+            /// Gets or sets the map's scenario.
+            /// </summary>
+            [Category("Map Properties"), Description("The map's scenario.")]
+            [Editor(typeof(IndexEntryWrapper.IndexEntryWrapperEditor), typeof(UITypeEditor))]
+            public IndexEntryWrapper Scenario
+            {
+                get { return scenario; }
+                set { scenario = value; }
+            }
+            /// <summary>
+            /// Gets and returns the map's string list.
+            /// </summary>
+            [Category("Map Properties"), Description("The map's string list.")]
+            [Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
+            public MapFile.StringList Strings
+            {
+                get { return strings; }
+            }
+            
+            private string name;
+            private IndexEntryWrapper scenario;
+            private readonly MapFile.StringList strings;
+
+            /// <summary>
+            /// Initializes a new <see cref="MapFileWrapper"/> instance.
+            /// </summary>
+            /// <param name="mapName">The name of the map.</param>
+            /// <param name="strings">The map's strings.</param>
+            /// <param name="scenario">The map's scenario ID.</param>
+            public MapFileWrapper(string mapName, MapFile.StringList strings, IndexEntryWrapper scenario)
+            {
+                this.name = mapName;
+                this.strings = strings;
+                this.scenario = scenario;
+            }
+            /// <summary>
+            /// Returns the name of the map.
+            /// </summary>
+            /// <returns>The map name.</returns>
+            public override string ToString()
+            {
+                return name;
+            }
+        }
+
         /// <summary>
         /// Represents a wrapper to an <see cref="IndexEntry"/> object.
         /// </summary>
@@ -756,19 +870,22 @@ namespace Abide.Halo2
             private readonly uint offset;
             private readonly uint size;
             private readonly Stream tagData;
-            
+            private readonly MapFile mapFile;
+
             /// <summary>
             /// Initializes a new <see cref="IndexEntryWrapper"/> instance.
             /// </summary>
+            /// <param name="mapFile">The map file that contains this entry.</param>
             /// <param name="root">The root of the entry.</param>
             /// <param name="filename">The filename of the entry.</param>
             /// <param name="id">The ID of the entry.</param>
-            /// <param name="TagData">The Tag data stream of the entry.</param>
+            /// <param name="tagData">The Tag data stream of the entry.</param>
             /// <param name="offset">The offset of the entry.</param>
             /// <param name="size">The size of the entry.</param>
-            private IndexEntryWrapper(Tag root, string filename, TagId id, FixedMemoryMappedStream tagData, uint offset, uint size)
+            private IndexEntryWrapper(MapFile mapFile, Tag root, string filename, TagId id, FixedMemoryMappedStream tagData, uint offset, uint size)
             {
                 //Setup
+                this.mapFile = mapFile;
                 this.root = root;
                 this.filename = filename;
                 this.id = id;
@@ -777,18 +894,19 @@ namespace Abide.Halo2
                 this.size = size;
             }
             /// <summary>
-            /// Creates a new <see cref="IndexEntryWrapper"/> instance from a <see cref="IndexEntry"/> object.
+            /// Creates a new <see cref="IndexEntryWrapper"/> instance from a <see cref="IndexEntry"/> object and <see cref="MapFile"/>.
             /// </summary>
             /// <param name="entry">The entry to wrap.</param>
+            /// <param name="mapFile">The map that owns the entry.</param>
             /// <returns>A new <see cref="IndexEntryWrapper"/> whose values are referenced from the supplied entry.</returns>
-            public static IndexEntryWrapper FromEntry(IndexEntry entry)
+            public static IndexEntryWrapper FromEntry(IndexEntry entry, MapFile mapFile)
             {
                 //Get offset and size...
                 int offset = entry.PostProcessedOffset != 0 ? entry.PostProcessedOffset : (int)entry.Offset;
                 int size = entry.PostProcessedSize != 0 ? entry.PostProcessedSize : entry.Size;
 
                 //Return
-                return new IndexEntryWrapper(entry.Root, entry.Filename, entry.ID, entry.TagData, (uint)offset, (uint)size);
+                return new IndexEntryWrapper(mapFile, entry.Root, entry.Filename, entry.ID, entry.TagData, (uint)offset, (uint)size);
             }
             /// <summary>
             /// Gets a string representation of the Index Entry.
@@ -797,6 +915,73 @@ namespace Abide.Halo2
             public override string ToString()
             {
                 return $"{filename}.{root}";
+            }
+
+            /// <summary>
+            /// Represents an Index Entry wrapper design-time type editor.
+            /// </summary>
+            public class IndexEntryWrapperEditor : UITypeEditor
+            {
+                /// <summary>
+                /// Gets the editor style used by the <see cref="EditValue(ITypeDescriptorContext, IServiceProvider, object)"/> method.
+                /// </summary>
+                /// <param name="context">The context to get additional information.</param>
+                /// <returns>The editor style.</returns>
+                public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+                {
+                    return UITypeEditorEditStyle.Modal;
+                }
+
+                /// <summary>
+                /// 
+                /// </summary>
+                /// <param name="context"></param>
+                /// <param name="provider"></param>
+                /// <param name="value"></param>
+                /// <returns></returns>
+                public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+                {
+                    //Prepare
+                    IndexEntryWrapper wrappedEntry;
+                    IndexEntry entry;
+
+                    //Check
+                    if (value is IndexEntryWrapper)
+                    {
+                        //Get Entry
+                        wrappedEntry = (IndexEntryWrapper)value;
+
+                        //Get Index Entry
+                        entry = SelectEntry(wrappedEntry.mapFile, wrappedEntry.mapFile.IndexEntries[wrappedEntry.id]);
+
+                        //Create Wrapper
+                        return new IndexEntryWrapper(wrappedEntry.mapFile, entry.Root, entry.Filename, entry.ID, entry.TagData, entry.Offset, (uint)entry.Size);
+                    }
+
+                    //Return
+                    return value;
+                }
+
+                protected virtual IndexEntry SelectEntry(MapFile map, IndexEntry entry)
+                {
+                    //Prepare
+                    IndexEntry result = entry;
+
+                    //Create Dialog
+                    using (TagBrowserDialog tagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
+                    {
+                        //Setup
+                        tagDlg.AllowNull = false;
+                        tagDlg.SelectedID = entry.ID;
+
+                        //Show
+                        if (tagDlg.ShowDialog() == DialogResult.OK)
+                            result = map.IndexEntries[tagDlg.SelectedID];
+                    }
+
+                    //Return
+                    return entry;
+                }
             }
         }
     }

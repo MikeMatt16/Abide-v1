@@ -48,6 +48,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,6 +70,9 @@
     <Compile Include="Classes\SettingsAddOnContainer.cs" />
     <Compile Include="Compression\AddOnPackage.cs" />
     <Compile Include="Compression\Structures.cs" />
+    <Compile Include="Controls\CueTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Dialogs\FileTypeRegistrationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +129,7 @@
     <Compile Include="Forms\XboxForm.Designer.cs">
       <DependentUpon>XboxForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Halo2\PatchFile.cs" />
     <Compile Include="Halo2\Editor.cs">
       <SubType>Form</SubType>
     </Compile>

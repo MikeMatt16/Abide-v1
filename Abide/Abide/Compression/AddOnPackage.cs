@@ -249,6 +249,7 @@ namespace Abide.Compression
         /// Adds a file to the AddOn package.
         /// </summary>
         /// <param name="filename">The name of the file.</param>
+        /// <param name="targetFileName">The target file name.</param>
         public void AddFile(string filename, string targetFileName)
         {
             //Prepare
@@ -292,6 +293,8 @@ namespace Abide.Compression
         /// Adds a file to the AddOn package.
         /// </summary>
         /// <param name="filename">The name of the file.</param>
+        /// <param name="targetFileName">The target file name.</param>
+        /// <param name="compressionFourCc">The file compression format.</param>
         public void AddFile(string filename, string targetFileName, string compressionFourCc)
         {
             //Prepare
@@ -634,6 +637,10 @@ namespace Abide.Compression
             compression = entry.Compression;
             data = new byte[0];
         }
+        /// <summary>
+        /// Converts this instance to a string representation.
+        /// </summary>
+        /// <returns>A string containing the file name and length.</returns>
         public override string ToString()
         {
             return $"{filename} Length: {length}";

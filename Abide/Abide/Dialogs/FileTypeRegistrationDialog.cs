@@ -2,7 +2,7 @@
 
 namespace Abide.Dialogs
 {
-    public partial class FileTypeRegistrationDialog : Form
+    internal partial class FileTypeRegistrationDialog : Form
     {
         /// <summary>
         /// Initializes a new <see cref="FileTypeRegistrationDialog"/> instance.

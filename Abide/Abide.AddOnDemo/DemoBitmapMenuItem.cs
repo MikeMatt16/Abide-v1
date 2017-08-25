@@ -1,7 +1,5 @@
 ﻿using Abide.AddOnApi;
-using Abide.HaloLibrary.Halo2Map;
 using System.Windows.Forms;
-using YeloDebug;
 
 namespace Abide.AddOnDemo
 {

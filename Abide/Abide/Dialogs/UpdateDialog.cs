@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Abide.Dialogs
 {
-    public partial class UpdateDialog : Form
+    internal partial class UpdateDialog : Form
     {
         private readonly UpdateManifest manifest;
         private volatile string updaterFilename = string.Empty;

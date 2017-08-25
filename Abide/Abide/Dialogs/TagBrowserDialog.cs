@@ -9,12 +9,17 @@ using System.Windows.Forms;
 
 namespace Abide.Dialogs
 {
-    public partial class TagBrowserDialog : Form
+    internal partial class TagBrowserDialog : Form
     {
         public TagId SelectedID
         {
             get { return selectedId; }
             set { OnSelectedIdChanged(value); }
+        }
+        public bool AllowNull
+        {
+            get { return nullButton.Visible; }
+            set { nullButton.Visible = value; }
         }
 
         private readonly FileSystemItem filesRoot;

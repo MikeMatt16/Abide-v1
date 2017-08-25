@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Abide.Forms
 {
-    public partial class XboxForm : Form
+    internal partial class XboxForm : Form
     {
         public XboxForm()
         {

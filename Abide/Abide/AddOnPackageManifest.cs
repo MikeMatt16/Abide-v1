@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Abide
 {
-    public sealed class AddOnPackageManifest
+    internal sealed class AddOnPackageManifest
     {
-        private string name;
-        private string[] filenames;
-        private int primaryAssemblyFileIndex;
-
         public AddOnPackageManifest(string primaryFile)
         {
             //Check

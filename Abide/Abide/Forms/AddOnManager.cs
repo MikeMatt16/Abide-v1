@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Abide.Forms
 {
-    public partial class AddOnManager : Form
+    internal partial class AddOnManager : Form
     {
         public AddOnManager()
         {

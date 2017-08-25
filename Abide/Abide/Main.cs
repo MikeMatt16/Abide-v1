@@ -12,7 +12,7 @@ using YeloDebug;
 
 namespace Abide
 {
-    public partial class Main : Form
+    internal partial class Main : Form
     {
         /// <summary>
         /// Gets and returns the primary Debug Xbox connection.

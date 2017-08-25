@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Abide
 {
-    public sealed class UpdateManifest : IEnumerable<AssemblyInformation>
+    internal sealed class UpdateManifest : IEnumerable<AssemblyInformation>
     {
         private const string AbideUpdaterUrl = @"http://zaidware.com/michael.mattera/PotentialSoftware/Abide2/Updater.exe";
 
@@ -133,7 +133,7 @@ namespace Abide
         }
     }
 
-    public struct AssemblyInformation
+    internal struct AssemblyInformation
     {
         public string Filename
         {

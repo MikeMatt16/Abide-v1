@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace Abide.HaloLibrary
 {
     /// <summary>
-    /// Represents a 32-bit halo map tag identifier.
+    /// Represents a 32-bit Halo map tag identifier.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
     public struct TagId : IComparable<TagId>, IComparable<int>, IComparable<uint>, IEquatable<TagId>, IEquatable<int>, IEquatable<uint>
@@ -192,18 +192,34 @@ namespace Abide.HaloLibrary
             return id.ToString("X8");
         }
 
+        /// <summary>
+        /// Converts a <see cref="TagId"/> to an unsigned 32-bit integer value.
+        /// </summary>
+        /// <param name="tagId">The tag id.</param>
         public static implicit operator uint(TagId tagId)
         {
             return tagId.id;
         }
+        /// <summary>
+        /// Converts a <see cref="TagId"/> to a signed 32-bit integer value.
+        /// </summary>
+        /// <param name="tagId">The tag id.</param>
         public static implicit operator int(TagId tagId)
         {
             return (int)(tagId.id);
         }
+        /// <summary>
+        /// Converts an unsigned 32-bit integer value to a <see cref="TagId"/>.
+        /// </summary>
+        /// <param name="id">The tag id.</param>
         public static implicit operator TagId(uint id)
         {
             return new TagId() { id = id };
         }
+        /// <summary>
+        /// Converts a signed 32-bit integer value to a <see cref="TagId"/>.
+        /// </summary>
+        /// <param name="id">The tag id.</param>
         public static implicit operator TagId(int id)
         {
             return new TagId() { id = (uint)(id) };

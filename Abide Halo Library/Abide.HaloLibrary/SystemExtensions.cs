@@ -291,7 +291,6 @@ namespace System.IO
         /// Reads a null-terminated string from the underlying stream using the supplied encoding.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
-        /// <param name="length">The length of the data to be read.</param>
         /// /// <param name="encoding">The encoding to use to decode the text.</param>
         /// <returns>The ASCII-Encoded string.</returns>
         public static string ReadStringNullTerminated(this BinaryReader In, Encoding encoding)
@@ -330,7 +329,6 @@ namespace System.IO
         /// Reads a null-terminated UTF-8-Encoded string from the underlying stream.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
-        /// <param name="length">The length of the data to be read.</param>
         /// <returns>The UTF-8-Encoded string.</returns>
         public static string ReadUTF8NullTerminated(this BinaryReader In)
         {
@@ -349,7 +347,6 @@ namespace System.IO
         /// Reads a null-terminated ASCII-Encoded string from the underlying stream.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
-        /// <param name="length">The length of the data to be read.</param>
         /// <returns>The ASCII-Encoded string.</returns>
         public static string ReadASCIINullTerminated(this BinaryReader In)
         {
@@ -368,7 +365,6 @@ namespace System.IO
         /// Reads a null-terminated Unicode-Encoded string from the underlying stream.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
-        /// <param name="length">The length of the data to be read.</param>
         /// <returns>The Unicode-Encoded string.</returns>
         public static string ReadUnicodeNullTerminated(this BinaryReader In)
         {
@@ -379,6 +375,7 @@ namespace System.IO
         /// </summary>
         /// <param name="Out">The System.IO.BinaryWriter instance.</param>
         /// <param name="text">The string to be written</param>
+        /// <param name="encoding">The encoding to use to encode the string.</param>
         public static void WriteStringData(this BinaryWriter Out, string text, Encoding encoding)
         {
             Out.Write(encoding.GetBytes(text));
@@ -388,6 +385,7 @@ namespace System.IO
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
         /// <param name="length">The length of the data to be read.</param>
+        /// <param name="encoding">The encoding used to decode the string.</param>
         /// <returns>The UTF-8-Encoded string.</returns>
         public static string ReadStringData(this BinaryReader In, int length, Encoding encoding)
         {

@@ -69,20 +69,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
-      <Project>{ab0b3a93-6a5b-46ac-8c20-db7b92b221ce}</Project>
-      <Name>Abide.AddOnApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
-      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
-      <Name>Abide.HaloLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
-      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
-      <Name>YeloDebug</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="DemoTool.resx">
       <DependentUpon>DemoTool.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +87,20 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\Key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
+      <Project>{ab0b3a93-6a5b-46ac-8c20-db7b92b221ce}</Project>
+      <Name>Abide.AddOnApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
+      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
+      <Name>YeloDebug</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -36,6 +36,7 @@
             this.tagContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TagImageList = new System.Windows.Forms.ImageList(this.components);
+            this.tagSearchBox = new Abide.Controls.CueTextBox();
             this.TagTabControl = new System.Windows.Forms.TabControl();
             this.TagPropertiesTabPage = new System.Windows.Forms.TabPage();
             this.TagPropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -77,6 +78,7 @@
             // TagSplitContainer.Panel1
             // 
             this.TagSplitContainer.Panel1.Controls.Add(this.TagTree);
+            this.TagSplitContainer.Panel1.Controls.Add(this.tagSearchBox);
             // 
             // TagSplitContainer.Panel2
             // 
@@ -94,10 +96,10 @@
             this.TagTree.HideSelection = false;
             this.TagTree.ImageIndex = 0;
             this.TagTree.ImageList = this.TagImageList;
-            this.TagTree.Location = new System.Drawing.Point(0, 0);
+            this.TagTree.Location = new System.Drawing.Point(0, 20);
             this.TagTree.Name = "TagTree";
             this.TagTree.SelectedImageIndex = 0;
-            this.TagTree.Size = new System.Drawing.Size(260, 226);
+            this.TagTree.Size = new System.Drawing.Size(260, 206);
             this.TagTree.TabIndex = 0;
             this.TagTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TagTree_AfterSelect);
             this.TagTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.TagTree_DragDrop);
@@ -123,6 +125,17 @@
             this.TagImageList.TransparentColor = System.Drawing.Color.Transparent;
             this.TagImageList.Images.SetKeyName(0, "Folder16.png");
             this.TagImageList.Images.SetKeyName(1, "Reference16.png");
+            // 
+            // tagSearchBox
+            // 
+            this.tagSearchBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tagSearchBox.Cue = "Search Tags";
+            this.tagSearchBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tagSearchBox.Location = new System.Drawing.Point(0, 0);
+            this.tagSearchBox.Name = "tagSearchBox";
+            this.tagSearchBox.Size = new System.Drawing.Size(260, 20);
+            this.tagSearchBox.TabIndex = 1;
+            this.tagSearchBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tagSearchBox_KeyDown);
             // 
             // TagTabControl
             // 
@@ -236,11 +249,13 @@
             this.Controls.Add(this.mapToolStrip);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.TagPanel);
+            this.Icon = global::Abide.Properties.Resources.Halo_2_Map;
             this.Name = "Editor";
             this.Text = "Halo 2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Halo2Editor_FormClosing);
             this.TagPanel.ResumeLayout(false);
             this.TagSplitContainer.Panel1.ResumeLayout(false);
+            this.TagSplitContainer.Panel1.PerformLayout();
             this.TagSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TagSplitContainer)).EndInit();
             this.TagSplitContainer.ResumeLayout(false);
@@ -272,5 +287,6 @@
         private System.Windows.Forms.ToolStripButton optionsToolStripButton;
         private System.Windows.Forms.ContextMenuStrip tagContextMenu;
         private System.Windows.Forms.ToolStripMenuItem saveTagToolStripMenuItem;
+        private Controls.CueTextBox tagSearchBox;
     }
 }

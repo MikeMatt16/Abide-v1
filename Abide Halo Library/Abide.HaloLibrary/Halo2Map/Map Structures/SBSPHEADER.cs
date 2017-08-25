@@ -18,16 +18,25 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         public const int Length = 28;
 
+        /// <summary>
+        /// Gets or sets the header's tag.
+        /// </summary>
         public Tag Tag
         {
             get { return tag; }
             set { tag = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's data length.
+        /// </summary>
         public int DataLength
         {
             get { return dataLength; }
             set { dataLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's lightmap offset.
+        /// </summary>
         public int LightmapOffset
         {
             get { return lightmapOffset; }
@@ -35,11 +44,11 @@ namespace Abide.HaloLibrary.Halo2Map
         }
         
         private int dataLength;
-        private int uhh;
+        private int unknown1;
         private int lightmapOffset;
         private Tag tag;
         private TagId id;
-        private int uhh2;
-        private int uhh3;
+        private int unknown2;
+        private int unknown3;
     }
 }

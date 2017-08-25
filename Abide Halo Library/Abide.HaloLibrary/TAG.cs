@@ -51,7 +51,6 @@ namespace Abide.HaloLibrary
             c = fourcc[2];
             d = fourcc[3];
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -61,7 +60,6 @@ namespace Abide.HaloLibrary
         {
             return TagFourCc.Equals(other);
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -71,7 +69,6 @@ namespace Abide.HaloLibrary
         {
             return a.Equals(other.a) && b.Equals(other.b) && c.Equals(other.c) && d.Equals(other.d);
         }
-
         /// <summary>
         /// Returns a string representation of this tag.
         /// </summary>
@@ -80,7 +77,6 @@ namespace Abide.HaloLibrary
         {
             return TagFourCc;
         }
-
         /// <summary>
         /// Creates a <see cref="HaloLibrary.Tag"/> structure using the supplied tag four-character code.
         /// </summary>
@@ -90,7 +86,6 @@ namespace Abide.HaloLibrary
         {
             return new Tag(tagFourcc);
         }
-
         /// <summary>
         /// Compares this instance with a specified <see cref="HaloLibrary.Tag"/> object and indicates whether this instance preceeds, follows, or appears in the same position in the sort order as the specified <see cref="HaloLibrary.Tag"/>. 
         /// </summary>
@@ -100,7 +95,6 @@ namespace Abide.HaloLibrary
         {
             return TagFourCc.CompareTo(tag.TagFourCc);
         }
-
         /// <summary>
         /// Compares this instance with a specified <see cref="string"/> and indicates whether this instance preceeds, follows, or appears in the same position in the sort order as the specified <see cref="string"/>.
         /// </summary>
@@ -111,10 +105,18 @@ namespace Abide.HaloLibrary
             return TagFourCc.CompareTo(str);
         }
 
+        /// <summary>
+        /// Converts a string value to a <see cref="Tag"/> value.
+        /// </summary>
+        /// <param name="tagFourcc">The string containing the tag's four-character code.</param>
         public static implicit operator Tag (string tagFourcc)
         {
             return new Tag(tagFourcc);
         }
+        /// <summary>
+        /// Converts a <see cref="Tag"/> value to a <see cref="string"/> value.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
         public static implicit operator string(Tag tag)
         {
             return tag.TagFourCc;

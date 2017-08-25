@@ -65,7 +65,7 @@ namespace Abide.Classes
         /// <summary>
         /// Retrieves all of the <see cref="IMenuButton{TMap, TEntry, TXbox}"/> instances within the container.
         /// </summary>
-        /// <returns>An array of <see cref="IMenuButton{TMap, TEntry, TXbox}, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
+        /// <returns>An array of <see cref="IMenuButton{TMap, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
         public IMenuButton<TMap, TEntry, TXbox>[] GetMenuButtons()
         {
             return menuButtons.ToArray();
@@ -73,7 +73,7 @@ namespace Abide.Classes
         /// <summary>
         /// Retrieves all of the <see cref="IContextMenuItem{TMap, TEntry, TXbox}"/> instances within the container.
         /// </summary>
-        /// <returns>An array of <see cref="IContextMenuItem{TMap, TEntry, TXbox}, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
+        /// <returns>An array of <see cref="IContextMenuItem{TMap, TEntry, TXbox}"/> instances loaded and initializded by the container.</returns>
         public IContextMenuItem<TMap, TEntry, TXbox>[] GetContextMenuItems()
         {
             return contextMenuItems.ToArray();

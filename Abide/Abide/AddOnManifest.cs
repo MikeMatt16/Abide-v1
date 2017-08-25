@@ -27,17 +27,15 @@ namespace Abide
             get { return primaryAssemblyFile; }
             set { primaryAssemblyFile = value; }
         }
+        /// <summary>
+        /// Gets or sets a file name at a specified index.
+        /// </summary>
+        /// <param name="index">The index of the file.</param>
+        /// <returns>A file name string.</returns>
         public string this[int index]
         {
-            get
-            {
-                return files[index];
-            }
-
-            set
-            {
-                files[index] = value;
-            }
+            get { return files[index]; }
+            set { files[index] = value; }
         }
 
         private string name;

@@ -25,40 +25,64 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         public const string Halo2MapBuild = "02.09.27.09809";
 
+        /// <summary>
+        /// Gets and returns the header's header tag.
+        /// </summary>
         public Tag HeaderTag
         {
             get { return headerTag; }
         }
+        /// <summary>
+        /// Gets and returns the header's version value.
+        /// </summary>
         public int Version
         {
             get { return version; }
             private set { version = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's file length value.
+        /// </summary>
         public int FileLength
         {
             get { return fileLength; }
             set { fileLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's index table offset.
+        /// </summary>
         public int IndexOffset
         {
             get { return indexOffset; }
             set { indexOffset = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's index length value.
+        /// </summary>
         public int IndexLength
         {
             get { return indexLength; }
             set { indexLength = value; }
         }
-        public int MetaLength
+        /// <summary>
+        /// Gets or sets the header's tag data length value.
+        /// </summary>
+        public int TagDataLength
         {
             get { return metaLength; }
             set { metaLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the non-raw data length value.
+        /// </summary>
         public int NonRawLength
         {
             get { return nonRawLength; }
             set { nonRawLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's map origin string.
+        /// </summary>
         public string Origin
         {
             get { return new string(origin).Trim('\0'); }
@@ -70,6 +94,9 @@ namespace Abide.HaloLibrary.Halo2Map
                 this.origin = origin;
             }
         }
+        /// <summary>
+        /// Gets and returns the header's build string.
+        /// </summary>
         public string Build
         {
             get { return new string(build).Trim('\0'); }
@@ -81,41 +108,65 @@ namespace Abide.HaloLibrary.Halo2Map
                 this.build = build;
             }
         }
+        /// <summary>
+        /// Gets or sets the headers's crazy offset.
+        /// </summary>
         public int CrazyOffset
         {
             get { return crazyOffset; }
             set { crazyOffset = value; }
         }
+        /// <summary>
+        /// Gets or sets the headers's crazy length.
+        /// </summary>
         public int CrazyLength
         {
             get { return crazyLength; }
             set { crazyLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's 128-length strings offset.
+        /// </summary>
         public int Strings128Offset
         {
             get { return strings128Offset; }
             set { strings128Offset = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's string count.
+        /// </summary>
         public int StringCount
         {
             get { return stringCount; }
             set { stringCount = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's string table length.
+        /// </summary>
         public int StringsLength
         {
             get { return stringsLength; }
             set { stringsLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's string index offset.
+        /// </summary>
         public int StringsIndexOffset
         {
             get { return stringsIndexOffset; }
             set { stringsIndexOffset = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's string table offset.
+        /// </summary>
         public int StringsOffset
         {
             get { return stringsOffset; }
             set { stringsOffset = value; }
         }
+        /// <summary>
+        /// Gets or sets the map's name.
+        /// </summary>
         public string Name
         {
             get { return new string(name).Trim('\0'); }
@@ -127,6 +178,9 @@ namespace Abide.HaloLibrary.Halo2Map
                 this.name = name;
             }
         }
+        /// <summary>
+        /// Gets or sets the map's scenario path.
+        /// </summary>
         public string ScenarioPath
         {
             get { return new string(scenarioPath).Trim('\0'); }
@@ -138,31 +192,49 @@ namespace Abide.HaloLibrary.Halo2Map
                 this.scenarioPath = scenarioPath;
             }
         }
+        /// <summary>
+        /// Gets or sets the file count.
+        /// </summary>
         public int FileCount
         {
             get { return fileCount; }
             set { fileCount = value; }
         }
+        /// <summary>
+        /// Gets or sets the file table offset.
+        /// </summary>
         public int FilesOffset
         {
             get { return filesOffset; }
             set { filesOffset = value; }
         }
+        /// <summary>
+        /// Gets or sets the file table index offset.
+        /// </summary>
         public int FilesIndex
         {
             get { return filesIndex; }
             set { filesIndex = value; }
         }
+        /// <summary>
+        /// Gets or sets the file table length.
+        /// </summary>
         public int FilesLength
         {
             get { return fileLength; }
             set { filesLength = value; }
         }
+        /// <summary>
+        /// Gets or sets the header's signature.
+        /// </summary>
         public int Signature
         {
             get { return signature; }
             set { signature = value; }
         }
+        /// <summary>
+        /// Gets and returns the header's footer tag.
+        /// </summary>
         public Tag FooterTag
         {
             get { return footerTag; }

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Abide.Dialogs
 {
-    public partial class OptionsDialog : Form, IHost
+    internal partial class OptionsDialog : Form, IHost
     {
         private readonly SettingsAddOnContainer container;
 
