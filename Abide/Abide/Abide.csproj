@@ -235,6 +235,7 @@
     <Compile Include="Compression\AddOnPackageException.cs" />
     <Content Include="Resources\Abide AddOn Package.ico" />
     <Content Include="Resources\Abide Reference.ico" />
+    <None Include="Resources\Save.png" />
     <None Include="Resources\Update Background.png" />
     <None Include="Resources\RemoveFiles.png" />
     <None Include="Resources\ExtractFiles.png" />

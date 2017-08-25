@@ -64,7 +64,7 @@
             this.TagPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.TagPanel.Location = new System.Drawing.Point(0, 0);
             this.TagPanel.Name = "TagPanel";
-            this.TagPanel.Size = new System.Drawing.Size(260, 511);
+            this.TagPanel.Size = new System.Drawing.Size(260, 681);
             this.TagPanel.TabIndex = 0;
             // 
             // TagSplitContainer
@@ -83,8 +83,8 @@
             // TagSplitContainer.Panel2
             // 
             this.TagSplitContainer.Panel2.Controls.Add(this.TagTabControl);
-            this.TagSplitContainer.Size = new System.Drawing.Size(260, 511);
-            this.TagSplitContainer.SplitterDistance = 226;
+            this.TagSplitContainer.Size = new System.Drawing.Size(260, 681);
+            this.TagSplitContainer.SplitterDistance = 396;
             this.TagSplitContainer.TabIndex = 0;
             // 
             // TagTree
@@ -99,7 +99,7 @@
             this.TagTree.Location = new System.Drawing.Point(0, 20);
             this.TagTree.Name = "TagTree";
             this.TagTree.SelectedImageIndex = 0;
-            this.TagTree.Size = new System.Drawing.Size(260, 206);
+            this.TagTree.Size = new System.Drawing.Size(260, 376);
             this.TagTree.TabIndex = 0;
             this.TagTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TagTree_AfterSelect);
             this.TagTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.TagTree_DragDrop);
@@ -135,7 +135,7 @@
             this.tagSearchBox.Name = "tagSearchBox";
             this.tagSearchBox.Size = new System.Drawing.Size(260, 20);
             this.tagSearchBox.TabIndex = 1;
-            this.tagSearchBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tagSearchBox_KeyDown);
+            this.tagSearchBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tagSearchBox_PreviewKeyDown);
             // 
             // TagTabControl
             // 
@@ -174,14 +174,14 @@
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolPanel.Location = new System.Drawing.Point(263, 25);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(521, 486);
+            this.toolPanel.Size = new System.Drawing.Size(571, 656);
             this.toolPanel.TabIndex = 3;
             // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(260, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 511);
+            this.splitter1.Size = new System.Drawing.Size(3, 681);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
@@ -195,7 +195,7 @@
             this.optionsToolStripButton});
             this.mapToolStrip.Location = new System.Drawing.Point(263, 0);
             this.mapToolStrip.Name = "mapToolStrip";
-            this.mapToolStrip.Size = new System.Drawing.Size(521, 25);
+            this.mapToolStrip.Size = new System.Drawing.Size(571, 25);
             this.mapToolStrip.TabIndex = 2;
             this.mapToolStrip.Text = "toolStrip1";
             // 
@@ -211,6 +211,7 @@
             // 
             this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = global::Abide.Properties.Resources.Save;
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
@@ -221,6 +222,7 @@
             // 
             this.openToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = global::Abide.Properties.Resources.Folder16;
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
@@ -244,7 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 511);
+            this.ClientSize = new System.Drawing.Size(834, 681);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.mapToolStrip);
             this.Controls.Add(this.splitter1);

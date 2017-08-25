@@ -526,7 +526,7 @@ namespace Abide.Halo2
             }
         }
 
-        private void tagSearchBox_KeyDown(object sender, KeyEventArgs e)
+        private void tagSearchBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //Check for return...
             if (e.KeyCode == Keys.Return)
