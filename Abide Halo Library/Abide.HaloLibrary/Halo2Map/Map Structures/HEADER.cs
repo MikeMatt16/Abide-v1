@@ -7,7 +7,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a 2048-byte length Halo 2 Map Header.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Length), Serializable]
-    public struct Header
+    internal struct Header
     {
         /// <summary>
         /// Represents the length of a <see cref="Header"/> structure in bytes.

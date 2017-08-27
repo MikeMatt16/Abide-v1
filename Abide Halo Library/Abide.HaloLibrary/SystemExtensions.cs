@@ -273,26 +273,33 @@ namespace System.IO
         /// <exception cref="IOException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static T ReadStructure<T>(this BinaryReader reader)
+        public static T ReadStructure<T>(this BinaryReader reader) where T : new()
         {
             //Prepare
-            T obj = default(T);
             GCHandle handle = new GCHandle();
+            T structure = new T();
             byte[] data = null;
 
-            //Get data...
-            data = reader.ReadBytes(Marshal.SizeOf(typeof(T)));
+            //Read Data
+            try { data = reader.ReadBytes(Marshal.SizeOf(typeof(T))); }
+            catch(Exception ex) { throw new IOException("Unable to read structure.", ex); }
 
             //Check
             if (data != null)
             {
-                handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-                obj = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
-                handle.Free();
+                try
+                {
+                    handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                    structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                }
+                finally
+                {
+                    if (handle.IsAllocated) handle.Free();
+                }
             }
 
             //Return
-            return obj;
+            return structure;
         }
         /// <summary>
         /// Writes the specified structure to the underlying stream and advances the current position of the stream by the length of the structure.

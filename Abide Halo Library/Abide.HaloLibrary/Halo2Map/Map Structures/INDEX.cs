@@ -7,7 +7,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a 32-byte length Halo 2 Map <see cref="Index"/> structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Length), Serializable]
-    public struct Index
+    internal struct Index
     {
         /// <summary>
         /// Represents the length of an <see cref="Index"/> structure in bytes.

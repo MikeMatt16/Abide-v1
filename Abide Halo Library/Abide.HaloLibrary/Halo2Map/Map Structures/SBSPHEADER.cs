@@ -10,7 +10,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 structure bsp tag data header.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct SbspHeader
+    internal struct SbspHeader
     {
         /// <summary>
         /// Represents the length of a <see cref="SbspHeader"/> structure in bytes.

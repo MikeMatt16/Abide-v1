@@ -35,7 +35,7 @@ namespace Abide.HaloLibrary
         private char a, b, c, d;
 
         /// <summary>
-        /// Creates a new <see cref="HaloLibrary.Tag"/> structure using the supplied tag string.
+        /// Initializes a new <see cref="Tag"/> structure using the supplied tag string.
         /// </summary>
         /// <param name="tagFourcc">The four-character code of the tag.</param>
         public Tag(string tagFourcc)

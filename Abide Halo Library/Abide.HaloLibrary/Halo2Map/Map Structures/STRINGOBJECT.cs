@@ -7,7 +7,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a 64-bit Halo Map string object.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct StringObject
+    internal struct StringObject
     {
         /// <summary>
         /// Represents the length of a <see cref="StringObject"/> structure in bytes.

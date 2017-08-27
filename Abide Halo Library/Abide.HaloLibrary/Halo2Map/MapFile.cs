@@ -97,7 +97,7 @@ namespace Abide.HaloLibrary.Halo2Map
         public MapFile()
         {
             //Initialize
-            header = Header.Create();
+            header = Header.CreateDefault();
             index = Index.Create();
             sbspTagDatas = new FixedMemoryMappedStream[0];
             strings = new StringList();
@@ -155,6 +155,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 {
                     //Read Header
                     header = reader.ReadStructure<Header>();
+                    Console.WriteLine(header.Name);
                     
                     //Check...
                     if (header.HeaderTag != HaloTags.head || header.FooterTag != HaloTags.foot)    //Quick sanity check...
@@ -1589,7 +1590,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 tagData.Dispose();
 
             //Setup
-            header = Header.Create();
+            header = Header.CreateDefault();
             index = Index.Create();
             sbspTagDatas = new FixedMemoryMappedStream[0];
             strings = new StringList();
