@@ -218,13 +218,13 @@ namespace Bitmap_Editor.Halo2
                             switch (rawLocation)
                             {
                                 case RawLocation.Mainmenu:
-                                    filelocation = Halo2Settings.MainmenuPath;
+                                    filelocation = HaloSettings.MainmenuPath;
                                     break;
                                 case RawLocation.Shared:
-                                    filelocation = Halo2Settings.SharedPath;
+                                    filelocation = HaloSettings.SharedPath;
                                     break;
                                 case RawLocation.SinglePlayerShared:
-                                    filelocation = Halo2Settings.SingleplayerSharedPath;
+                                    filelocation = HaloSettings.SingleplayerSharedPath;
                                     break;
                             }
 
@@ -1092,7 +1092,7 @@ namespace Bitmap_Editor.Halo2
         /// <summary>
         /// Represents the location of the raw.
         /// </summary>
-        private enum RawLocation : uint
+        public enum RawLocation : uint
         {
             Local = 0,
             LocalMask = ~SinglePlayerShared,

@@ -155,7 +155,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 {
                     //Read Header
                     header = reader.ReadStructure<Header>();
-
+                    
                     //Check...
                     if (header.HeaderTag != HaloTags.head || header.FooterTag != HaloTags.foot)    //Quick sanity check...
                         throw new MapFileExcption("Invalid map header.");
@@ -183,6 +183,8 @@ namespace Abide.HaloLibrary.Halo2Map
                     {
                         objectEntry = reader.ReadStructure<Object>();
                         indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
+                        indexEntries[i].PostProcessedOffset = (int)objectEntry.Offset;
+                        indexEntries[i].PostProcessedSize = (int)objectEntry.Size;
                     }
 
                     //Setup Index List
@@ -201,7 +203,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     if (index.ObjectCount > 0)
                     {
                         metaFileMemoryAddress = (uint)(indexList[0].Offset - (header.IndexOffset + header.IndexLength));
-                        metaMemoryAddress = (uint)indexList[0].Offset;
+                        metaMemoryAddress = indexList[0].Offset;
                     }
 
                     //Read Meta
@@ -221,7 +223,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Read Strings
                     foreach (var indexEntry in indexList)
-                        if (indexEntry.ID == index.GlobalsID)
+                        if (indexEntry.Id == index.GlobalsID)
                         {
                             //Read English Strings
                             ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 400, out en);
@@ -1000,13 +1002,13 @@ namespace Abide.HaloLibrary.Halo2Map
             if (!stream.CanRead) throw new ArgumentException("Stream does not support reading.", "stream");
 
             //Check map
-            if (scenario != null) throw new MapFileExcption("Map does not have a scenario assigned.");
+            if (scenario == null) throw new MapFileExcption("Map does not have a scenario assigned.");
             if (!indexList.ContainsID(index.GlobalsID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain globals tag group."));
             if (!indexList.ContainsID(index.ScenarioID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain scenario tag group."));
             if (indexList.Last.Root != HaloTags.ugh_) throw new MapFileExcption(new InvalidOperationException("Final tag group is not coconuts."));
 
             //Setup
-            index.ScenarioID = scenario.ID;
+            index.ScenarioID = scenario.Id;
             header.ScenarioPath = scenario.Filename;
 
             //Find
@@ -1048,7 +1050,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 {
                     case HaloTags.ugh_: soundDatas.AddRange(entry.Raws[RawSection.Sound]); lipSyncDatas.AddRange(entry.Raws[RawSection.LipSync]); break;
                     case HaloTags.mode: modelDatas.AddRange(entry.Raws[RawSection.Model]); break;
-                    case HaloTags.sbsp: sbspDatas[bspIndexLookup[entry.ID]].AddRange(entry.Raws[RawSection.BSP]); break;
+                    case HaloTags.sbsp: sbspDatas[bspIndexLookup[entry.Id]].AddRange(entry.Raws[RawSection.BSP]); break;
                     case HaloTags.weat: weatherDatas.AddRange(entry.Raws[RawSection.Weather]); break;
                     case HaloTags.DECR: decoratorDatas.AddRange(entry.Raws[RawSection.Decorator]); break;
                     case HaloTags.PRTM: particleModelDatas.AddRange(entry.Raws[RawSection.ParticleModel]); break;
@@ -1719,7 +1721,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
             return index;
         }
-
+        
         /// <summary>
         /// Represents a Halo 2 tag heirarchy list.
         /// </summary>
@@ -1882,8 +1884,8 @@ namespace Abide.HaloLibrary.Halo2Map
                 //Add
                 for (int i = 0; i < indexEntries.Length; i++)
                 {
-                    entries.Add(indexEntries[i].ID, indexEntries[i]);
-                    indexLookup.Add(i, indexEntries[i].ID);
+                    entries.Add(indexEntries[i].Id, indexEntries[i]);
+                    indexLookup.Add(i, indexEntries[i].Id);
                 }
             }
             /// <summary>

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Abide.HaloLibrary
 {
     /// <summary>
     /// Represents a Halo four-character code tag.
     /// </summary>
-    [Serializable]
+    [Serializable, StructLayout(LayoutKind.Sequential)]
     public struct Tag : IEquatable<Tag>, IEquatable<string>, IComparable<Tag>, IComparable<string>
     {
         /// <summary>

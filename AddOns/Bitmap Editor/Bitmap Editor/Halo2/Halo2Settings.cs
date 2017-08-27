@@ -2,7 +2,7 @@
 
 namespace Bitmap_Editor.Halo2
 {
-    internal static class Halo2Settings
+    internal static class HaloSettings
     {
         private readonly static RegistryKey Halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
         private readonly static RegistryKey Paths = Halo2.CreateSubKey("Paths");

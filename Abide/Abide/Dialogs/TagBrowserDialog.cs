@@ -43,7 +43,7 @@ namespace Abide.Dialogs
 
             //Loop
             foreach (IndexEntry entry in entries)
-                filesRoot_CreateEntry(entry.Filename, entry.Root, entry.Size == 0 ? entry.PostProcessedSize : entry.Size, entry.ID);
+                filesRoot_CreateEntry(entry.Filename, entry.Root, entry.Size == 0 ? entry.PostProcessedSize : entry.Size, entry.Id);
 
             //Begin Update
             TagList.BeginUpdate();

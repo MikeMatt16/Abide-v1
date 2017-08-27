@@ -210,7 +210,7 @@ namespace Abide.Halo2
                 entry_BuildTagTree(entry);
 
             //Load Map Wrapper
-            mapWrapper = new MapFileWrapper(map.Name, map.Strings, entries[map.Scenario.ID]);
+            mapWrapper = new MapFileWrapper(map.Name, map.Strings, entries[map.Scenario.Id]);
 
             //End
             TagTree.Sort();
@@ -235,8 +235,8 @@ namespace Abide.Halo2
             TreeNode node = null;
 
             //Get or create wrapper...
-            if (entries.ContainsKey(entry.ID)) wrapper = entries[entry.ID];
-            else { wrapper = IndexEntryWrapper.FromEntry(entry, map); wrapper.FilenameChanged += Wrapper_FilenameChanged; entries.Add(entry.ID, wrapper); }
+            if (entries.ContainsKey(entry.Id)) wrapper = entries[entry.Id];
+            else { wrapper = IndexEntryWrapper.FromEntry(entry, map); wrapper.FilenameChanged += Wrapper_FilenameChanged; entries.Add(entry.Id, wrapper); }
 
             //Get Path Parts
             string[] parts = entry.Filename.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
@@ -264,7 +264,7 @@ namespace Abide.Halo2
                 string name = $"{parts[parts.Length - 1]}.{entry.Root}";
                 node = new TreeNode(name, 1, 1);
                 node.Name = name;
-                node.Tag = entry.ID;
+                node.Tag = entry.Id;
 
                 //Add
                 collection.Add(node);
@@ -423,7 +423,7 @@ namespace Abide.Halo2
             {
                 //Setup
                 selectedEntry = map.IndexEntries[(TagId)e.Node.Tag];
-                TagPropertyGrid.SelectedObject = entries[selectedEntry.ID];
+                TagPropertyGrid.SelectedObject = entries[selectedEntry.Id];
 
                 //Send trigger
                 List<Exception> errors = new List<Exception>();
@@ -906,7 +906,7 @@ namespace Abide.Halo2
                 int size = entry.PostProcessedSize != 0 ? entry.PostProcessedSize : entry.Size;
 
                 //Return
-                return new IndexEntryWrapper(mapFile, entry.Root, entry.Filename, entry.ID, entry.TagData, (uint)offset, (uint)size);
+                return new IndexEntryWrapper(mapFile, entry.Root, entry.Filename, entry.Id, entry.TagData, (uint)offset, (uint)size);
             }
             /// <summary>
             /// Gets a string representation of the Index Entry.
@@ -955,7 +955,7 @@ namespace Abide.Halo2
                         entry = SelectEntry(wrappedEntry.mapFile, wrappedEntry.mapFile.IndexEntries[wrappedEntry.id]);
 
                         //Create Wrapper
-                        return new IndexEntryWrapper(wrappedEntry.mapFile, entry.Root, entry.Filename, entry.ID, entry.TagData, entry.Offset, (uint)entry.Size);
+                        return new IndexEntryWrapper(wrappedEntry.mapFile, entry.Root, entry.Filename, entry.Id, entry.TagData, entry.Offset, (uint)entry.Size);
                     }
 
                     //Return
@@ -972,7 +972,7 @@ namespace Abide.Halo2
                     {
                         //Setup
                         tagDlg.AllowNull = false;
-                        tagDlg.SelectedID = entry.ID;
+                        tagDlg.SelectedID = entry.Id;
 
                         //Show
                         if (tagDlg.ShowDialog() == DialogResult.OK)

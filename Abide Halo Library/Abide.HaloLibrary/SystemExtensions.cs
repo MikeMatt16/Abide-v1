@@ -6,7 +6,7 @@ namespace System
     /// <summary>
     /// Provides extension and helper functions for the System namespace.
     /// </summary>
-    internal static class SystemExtensions
+    internal static unsafe class SystemExtensions
     {
         /// <summary>
         /// Reverses a given string.
@@ -75,6 +75,57 @@ namespace System
             if (remainder == 0)
                 return number;
             else return number + (length - remainder);
+        }
+        /// <summary>
+        /// Gets a string from a fixed byte buffer using the specifed encoding and buffer length.
+        /// </summary>
+        /// <param name="source">The fixed-length byte buffer.</param>
+        /// <param name="length">The length of the buffer.</param>
+        /// <param name="encoding">The encoding to use to decode the string.</param>
+        /// <returns>A string.</returns>
+        internal static string GetStringFromFixedBuffer(byte* source, int length, Encoding encoding)
+        {
+            //Prepare
+            byte[] data = new byte[length];
+            byte* ps = source;
+
+            //Loop
+            for (int i = 0; i < length; i++)
+            {
+                data[i] = *ps;
+                ps++;
+            }
+
+            //Return
+            return encoding.GetString(data, 0, length);
+        }
+        /// <summary>
+        /// Sets a string to a fixed byte buffer using the specifed encoding and buffer length. 
+        /// </summary>
+        /// <param name="target">The fixed-length byte buffer.</param>
+        /// <param name="length">The length of the buffer.</param>
+        /// <param name="encoding">The encoding to use to decode the string.</param>
+        /// <param name="value">The string value to set.</param>
+        internal static void SetStringToFixedBuffer(byte* target, int length, Encoding encoding, string value)
+        {
+            //Prepare
+            byte[] data = encoding.GetBytes(value.PadRight(length, '\0'));
+            byte[] test = new byte[length];
+            byte* pt = target;
+
+            //Loop
+            fixed (byte* testTarget = test)
+            {
+                byte* ptt = testTarget;
+
+                for (int i = 0; i < length; i++)
+                {
+                    *pt = data[i];
+                    *ptt = data[i];
+                    ptt++;
+                    pt++;
+                }
+            }
         }
     }
 }

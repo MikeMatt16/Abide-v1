@@ -1,6 +1,6 @@
 ﻿namespace Bitmap_Editor.Halo2
 {
-    partial class BitmapEditor
+    partial class TextureEditor
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BitmapEditor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureEditor));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -141,6 +141,7 @@
             this.bitmapBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.bitmapBox.BackgroundImage = global::Bitmap_Editor.Properties.Resources.Transparency_4;
             this.bitmapBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bitmapBox.Location = new System.Drawing.Point(12, 38);
             this.bitmapBox.Name = "bitmapBox";
@@ -212,6 +213,7 @@
             this.importToolStripButton.Name = "importToolStripButton";
             this.importToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.importToolStripButton.Text = "&Import";
+            this.importToolStripButton.Click += new System.EventHandler(this.importToolStripButton_Click);
             // 
             // exportToolStripButton
             // 
@@ -221,6 +223,7 @@
             this.exportToolStripButton.Name = "exportToolStripButton";
             this.exportToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.exportToolStripButton.Text = "&Export";
+            this.exportToolStripButton.Click += new System.EventHandler(this.exportToolStripButton_Click);
             // 
             // formatLabel
             // 
@@ -245,19 +248,23 @@
             this.dumpTexturesToolStripButton.Size = new System.Drawing.Size(61, 22);
             this.dumpTexturesToolStripButton.Text = "&Export All";
             this.dumpTexturesToolStripButton.ToolTipText = "Export All Textures";
+            this.dumpTexturesToolStripButton.Click += new System.EventHandler(this.dumpTexturesToolStripButton_Click);
             // 
-            // BitmapEditor
+            // TextureEditor
             // 
+            this.AllowDrop = true;
             this.Author = "Click16";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Description = "Allows bitmap texture tag manipulation.";
             this.Icon = global::Bitmap_Editor.Properties.Resources.texture_edit;
-            this.Name = "BitmapEditor";
+            this.Name = "TextureEditor";
             this.Size = new System.Drawing.Size(500, 500);
             this.ToolName = "Texture Editor";
             this.SelectedEntryChanged += new System.EventHandler(this.BitmapEditor_SelectedEntryChanged);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextureEditor_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TextureEditor_DragEnter);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

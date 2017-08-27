@@ -44,6 +44,10 @@ namespace Abide.HaloLibrary.Halo2Map
             set { @class = value; }
         }
 
+        private Tag root;
+        private Tag parent;
+        private Tag @class;
+
         /// <summary>
         /// Initializes a <see cref="TagHierarchy"/> structure with the supplied class, root, and parent values.
         /// </summary>
@@ -57,11 +61,6 @@ namespace Abide.HaloLibrary.Halo2Map
             this.@class = @class;
             this.parent = parent;
         }
-        
-        private Tag root;
-        private Tag parent;
-        private Tag @class;
-
         /// <summary>
         /// Returns the string representation of the tag hierarchy.
         /// </summary>
@@ -70,7 +69,6 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             return string.Concat(@class, " > ", parent, " > ", root);
         }
-
         /// <summary>
         /// Determines whether the specified <see cref="TagHierarchy"/> is equal to the current <see cref="TagHierarchy"/>.  
         /// </summary>

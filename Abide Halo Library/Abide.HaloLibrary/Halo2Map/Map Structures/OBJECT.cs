@@ -20,7 +20,7 @@ namespace Abide.HaloLibrary.Halo2Map
         public static readonly Object Empty = new Object() { tag = new Tag(), id = 0, offset = 0, length = 0 };
 
         /// <summary>
-        /// The object's tag.
+        /// Gets or sets the object's tag.
         /// </summary>
         public Tag Tag
         {
@@ -28,15 +28,15 @@ namespace Abide.HaloLibrary.Halo2Map
             set { tag = value; }
         }
         /// <summary>
-        /// The object's tag identifier.
+        /// Gets or sets the object's tag identifier.
         /// </summary>
-        public TagId ID
+        public TagId Id
         {
             get { return id; }
             set { id = value; }
         }
         /// <summary>
-        /// The object's offset.
+        /// Gets or sets the object's offset.
         /// </summary>
         public uint Offset
         {
@@ -44,7 +44,7 @@ namespace Abide.HaloLibrary.Halo2Map
             set { offset = value; }
         }
         /// <summary>
-        /// The object's size.
+        /// Gets or sets the object's size.
         /// </summary>
         public uint Size
         {
@@ -58,9 +58,9 @@ namespace Abide.HaloLibrary.Halo2Map
         private uint length;
 
         /// <summary>
-        /// Returns a string representation of this structure.
+        /// Converts this instance to it's string representation..
         /// </summary>
-        /// <returns>A string representation of the structure.</returns>
+        /// <returns>A string.</returns>
         public override string ToString()
         {
             return string.Format("{0} 0x{1:X8}", Tag, id);

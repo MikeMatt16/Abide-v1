@@ -26,19 +26,20 @@ namespace Abide.HaloLibrary.Halo2Map
         public const string Halo2MapBuild = "02.09.27.09809";
 
         /// <summary>
-        /// Gets and returns the header's header tag.
+        /// Gets or sets the header's header tag.
         /// </summary>
         public Tag HeaderTag
         {
             get { return headerTag; }
+            set { headerTag = value; }
         }
         /// <summary>
-        /// Gets and returns the header's version value.
+        /// Gets or sets the header's version value.
         /// </summary>
         public int Version
         {
             get { return version; }
-            private set { version = value; }
+            set { version = value; }
         }
         /// <summary>
         /// Gets or sets the header's file length value.
@@ -86,27 +87,15 @@ namespace Abide.HaloLibrary.Halo2Map
         public string Origin
         {
             get { return new string(origin).Trim('\0'); }
-            set
-            {
-                char[] origin = new char[256];
-                for (int i = 0; i < Math.Min(origin.Length, value.Length); i++)
-                    origin[i] = value[i];
-                this.origin = origin;
-            }
+            set { value.PadRight(256, '\0').CopyTo(0, origin, 0, 256); }
         }
         /// <summary>
-        /// Gets and returns the header's build string.
+        /// Gets or sets the header's build string.
         /// </summary>
         public string Build
         {
             get { return new string(build).Trim('\0'); }
-            private set
-            {
-                char[] build = new char[32];
-                for (int i = 0; i < Math.Min(build.Length, value.Length); i++)
-                    build[i] = value[i];
-                this.build = build;
-            }
+            set { value.PadRight(32, '\0').CopyTo(0, build, 0, 32); }
         }
         /// <summary>
         /// Gets or sets the headers's crazy offset.
@@ -170,13 +159,7 @@ namespace Abide.HaloLibrary.Halo2Map
         public string Name
         {
             get { return new string(name).Trim('\0'); }
-            set
-            {
-                char[] name = new char[32];
-                for (int i = 0; i < Math.Min(name.Length, value.Length); i++)
-                    name[i] = value[i];
-                this.name = name;
-            }
+            set { value.PadRight(32, '\0').CopyTo(0, name, 0, 32); }
         }
         /// <summary>
         /// Gets or sets the map's scenario path.
@@ -184,13 +167,7 @@ namespace Abide.HaloLibrary.Halo2Map
         public string ScenarioPath
         {
             get { return new string(scenarioPath).Trim('\0'); }
-            set
-            {
-                char[] scenarioPath = new char[256];
-                for (int i = 0; i < Math.Min(scenarioPath.Length, value.Length); i++)
-                    scenarioPath[i] = value[i];
-                this.scenarioPath = scenarioPath;
-            }
+            set { value.PadRight(256, '\0').CopyTo(0, scenarioPath, 0, 256); }
         }
         /// <summary>
         /// Gets or sets the file count.
@@ -233,11 +210,12 @@ namespace Abide.HaloLibrary.Halo2Map
             set { signature = value; }
         }
         /// <summary>
-        /// Gets and returns the header's footer tag.
+        /// Gets or sets the header's footer tag.
         /// </summary>
         public Tag FooterTag
         {
             get { return footerTag; }
+            set { footerTag = value; }
         }
         
         private Tag headerTag;

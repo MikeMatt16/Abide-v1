@@ -22,9 +22,9 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Gets and returns the ID of the object entry.
         /// </summary>
         [Category("Object Properties"), Description("The Tag Identifier of the object.")]
-        public TagId ID
+        public TagId Id
         {
-            get { return objectEntry.ID; }
+            get { return objectEntry.Id; }
         }
         /// <summary>
         /// Gets and returns the offset of the object entry's tag data.
@@ -141,7 +141,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <returns>A string representation of the index entry.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2} {3}", filename, tagHierarchy.Root, tagHierarchy, objectEntry.ID);
+            return string.Format("{0}.{1} {2} {3}", filename, tagHierarchy.Root, tagHierarchy, objectEntry.Id);
         }
         /// <summary>
         /// Releases any resources used by the index entry.
