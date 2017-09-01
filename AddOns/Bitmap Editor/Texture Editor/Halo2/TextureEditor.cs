@@ -1,14 +1,14 @@
 ﻿using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
-using Bitmap_Editor.Halo2.Dialogs;
+using Texture_Editor.Halo2.Dialogs;
 using Bitmap_Library.DirectDraw;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Bitmap_Editor.Halo2
+namespace Texture_Editor.Halo2
 {
     public partial class TextureEditor : AbideTool
     {

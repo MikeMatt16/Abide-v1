@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Bitmap_Editor.Halo2
+namespace Texture_Editor.Halo2
 {
     internal static class HaloSettings
     {

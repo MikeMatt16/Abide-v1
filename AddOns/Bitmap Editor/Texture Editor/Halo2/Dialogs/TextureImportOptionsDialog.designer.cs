@@ -1,4 +1,4 @@
-﻿namespace Bitmap_Editor.Halo2.Dialogs
+﻿namespace Texture_Editor.Halo2.Dialogs
 {
     partial class TextureImportOptionsDialog
     {

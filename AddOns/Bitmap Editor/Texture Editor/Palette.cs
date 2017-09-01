@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Bitmap_Editor
+namespace Texture_Editor
 {
     /// <summary>
     /// Provides functions and tools for bitmap palette manipulation.

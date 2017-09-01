@@ -1,4 +1,4 @@
-﻿namespace Bitmap_Editor
+﻿namespace Texture_Editor
 {
     internal static class Swizzler
     {

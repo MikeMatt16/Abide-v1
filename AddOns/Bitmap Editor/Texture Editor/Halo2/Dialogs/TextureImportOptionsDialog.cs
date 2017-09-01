@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Bitmap_Editor.Halo2.Dialogs
+namespace Texture_Editor.Halo2.Dialogs
 {
     public partial class TextureImportOptionsDialog : Form
     {

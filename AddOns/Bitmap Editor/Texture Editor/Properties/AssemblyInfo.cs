@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Bitmap Editor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Texture Editor")]
+[assembly: AssemblyDescription("Texture Editor AddOn for Abide.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Bitmap Editor")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Potential Software")]
+[assembly: AssemblyProduct("Texture Editor")]
+[assembly: AssemblyCopyright("Copyright © Potential Software 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

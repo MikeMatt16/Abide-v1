@@ -1,4 +1,4 @@
-﻿namespace Bitmap_Editor.Halo2
+﻿namespace Texture_Editor.Halo2
 {
     partial class TextureEditor
     {
@@ -141,7 +141,7 @@
             this.bitmapBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.bitmapBox.BackgroundImage = global::Bitmap_Editor.Properties.Resources.Transparency_4;
+            this.bitmapBox.BackgroundImage = global::Texture_Editor.Properties.Resources.Transparency_4;
             this.bitmapBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bitmapBox.Location = new System.Drawing.Point(12, 38);
             this.bitmapBox.Name = "bitmapBox";
@@ -260,7 +260,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Description = "Allows bitmap texture tag manipulation.";
-            this.Icon = global::Bitmap_Editor.Properties.Resources.texture_edit;
+            this.Icon = global::Texture_Editor.Properties.Resources.texture_edit;
             this.Name = "TextureEditor";
             this.Size = new System.Drawing.Size(500, 500);
             this.ToolName = "Texture Editor";

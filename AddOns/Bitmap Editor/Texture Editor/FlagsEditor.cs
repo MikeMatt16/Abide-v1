@@ -4,7 +4,7 @@ using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace Bitmap_Editor
+namespace Texture_Editor
 {
     /// <summary>
     /// Provides an editor for flag enumerators.

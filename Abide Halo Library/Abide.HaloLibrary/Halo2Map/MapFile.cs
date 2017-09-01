@@ -1529,7 +1529,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 //Write Meta
                 header.TagDataLength = (uint)tagData.IntLength;
                 writer.Write(tagData.GetBuffer());
-                header.MapDataLength += (uint)header.TagDataLength;
+                header.MapDataLength += header.TagDataLength;
 
                 //Pad File
                 stream.Seek(stream.Position.PadTo(1024), SeekOrigin.Begin);

@@ -7,8 +7,8 @@
     <ProjectGuid>{4AE8C470-9A40-4168-95FA-459CBC807CDB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bitmap_Editor</RootNamespace>
-    <AssemblyName>Bitmap Editor</AssemblyName>
+    <RootNamespace>Texture_Editor</RootNamespace>
+    <AssemblyName>Texture Editor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
