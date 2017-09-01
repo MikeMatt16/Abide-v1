@@ -1,4 +1,5 @@
 ﻿using Abide.AddOnApi.Halo2;
+using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using Bitmap_Editor.Halo2.Dialogs;
 using Bitmap_Library.DirectDraw;

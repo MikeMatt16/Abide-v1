@@ -177,6 +177,7 @@
             this.importProperties.Size = new System.Drawing.Size(250, 209);
             this.importProperties.TabIndex = 0;
             this.importProperties.ToolbarVisible = false;
+            this.importProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);
             // 
             // bitmapProperties
             // 
@@ -189,6 +190,7 @@
             this.bitmapProperties.Size = new System.Drawing.Size(246, 209);
             this.bitmapProperties.TabIndex = 2;
             this.bitmapProperties.ToolbarVisible = false;
+            this.bitmapProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);
             // 
             // toolStrip1
             // 

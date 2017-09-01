@@ -191,6 +191,22 @@ namespace System.IO
             return stream.Seek(offset - (int)translator, origin);
         }
         /// <summary>
+        /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
+        /// </summary>
+        /// <param name="stream">The stream to seek within.</param>
+        /// <param name="offset">The translator-addressed to seek to.</param>
+        /// <param name="translator">The value to translate the address.</param>
+        /// <param name="origin">The reference point used to obtain the new position.</param>
+        /// <returns>The new position of the current stream.</returns>
+        /// <exception cref="IOException"></exception> 
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="OverflowException"></exception>
+        public static long Seek(this Stream stream, long offset, long translator, SeekOrigin origin)
+        {
+            return stream.Seek(offset - translator, origin);
+        }
+        /// <summary>
         /// Reads a generic string-table with a null-separated string list, and index table using a specified encoding.
         /// </summary>
         /// <param name="reader">The <see cref="BinaryReader"/> instance to read from the underlying stream.</param>

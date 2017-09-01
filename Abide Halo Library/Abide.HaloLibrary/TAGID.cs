@@ -5,29 +5,25 @@ using System.Runtime.InteropServices;
 namespace Abide.HaloLibrary
 {
     /// <summary>
-    /// Represents a 32-bit Halo map tag identifier.
+    /// Represents a 32-bit tag ID number.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct TagId : IComparable<TagId>, IComparable<int>, IComparable<uint>, IEquatable<TagId>, IEquatable<int>, IEquatable<uint>
+    public struct TagId : IComparable<int>, IComparable<uint>, IComparable<TagId>, IEquatable<int>, IEquatable<uint>, IEquatable<TagId>
     {
         /// <summary>
-        /// Represents a nulled (or empty) tag identifier.
+        /// Represents a null tag id.
         /// </summary>
-        public static readonly TagId Null = 0xFFFFFFFF;
-        /// <summary>
-        /// Represents the first tag identifier in a Halo map.
-        /// </summary>
-        public static readonly TagId First = 0xE1740000;
+        public static readonly TagId Null = new TagId(-1);
 
         /// <summary>
-        /// Returns true if the identifier is null (-1) or false if it is not.
+        /// Gets and returns the ID as a signed 32-bit integer.
         /// </summary>
-        public bool IsNull
+        public int Id
         {
-            get { return id == 0xffffffff; }
+            get { return (int)id; }
+            set { id = (uint)value; }
         }
         /// <summary>
-        /// Gets or sets the identifier as a 32-bit unsigned integer value.
+        /// Gets and returns the ID as an unsigned 32-bit integer.
         /// </summary>
         public uint Dword
         {
@@ -35,194 +31,140 @@ namespace Abide.HaloLibrary
             set { id = value; }
         }
         /// <summary>
-        /// Gets or sets the identifier as a 32-bit signed integer value.
+        /// Gets or sets the low 16-bit unsigned integer.
         /// </summary>
-        public int ID
+        public ushort LoWord
         {
-            get { return (int)id; }
-            set { id = (uint)value; }
+            get { return (ushort)(id & 0xFFFF); }
+            set { id = (id & 0x0000FFFF) | value; }
         }
         /// <summary>
-        /// Gets or sets the low 16-bit integer value of this instance.
+        /// Gets or sets the high 16-bit unsigned integer.
         /// </summary>
-        public ushort LowWord
+        public ushort HiWord
         {
-            get { return Convert.ToUInt16(id & 0xFFFF); }
-            set { id = Convert.ToUInt32((HighWord << 16 | value) & uint.MaxValue); }
+            get { return (ushort)(id << 16 & 0xFFFF); }
+            set { id = (id & 0xFFFF) | (uint)(value) >> 16; }
         }
         /// <summary>
-        /// Gets or sets the high 16-bit integer value of this instance;
+        /// Gets and returns true if the ID is null, otherwise, false.
         /// </summary>
-        public ushort HighWord
+        public bool IsNull
         {
-            get { return Convert.ToUInt16(id >> 16 & 0xFFFF); }
-            set { id = Convert.ToUInt32((value << 16 | LowWord) & uint.MaxValue); }
+            get { return id == uint.MaxValue; }
         }
 
         private uint id;
 
         /// <summary>
-        /// Converts the string representation of a <see cref="TagId"/> in <see cref="NumberStyles.HexNumber"/> style to it's <see cref="TagId"/> equivalent.
+        /// Initializes a new <see cref="TagId"/> instance using the supplied ID.
         /// </summary>
-        /// <param name="s">A string that represents the <see cref="NumberStyles.HexNumber"/> to convert.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="FormatException"></exception>
-        /// <exception cref="OverflowException"></exception>
-        public static TagId Parse(string s)
+        /// <param name="id">The 32-bit unsigned integer ID.</param>
+        public TagId(uint id)
         {
-            return uint.Parse(s, NumberStyles.HexNumber);
+            this.id = id;
         }
         /// <summary>
-        /// Increments the tag identifier of this structure by 1.
+        /// Initializes a new <see cref="TagId"/> instance using the supplied ID.
         /// </summary>
-        public void Increment()
+        /// <param name="id">The 32-bit signed integer ID.</param>
+        public TagId(int id)
         {
-            Increment(1);
+            this.id = (uint)id;
         }
         /// <summary>
-        /// Decrements the tag identifier of this structure by 1.
+        /// Compares this instance with a specified <see cref="int"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified id.
         /// </summary>
-        public void Decrement()
+        /// <param name="id">The id to compare with this instance.</param>
+        /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="id"/> parameter.</returns>
+        public int CompareTo(int id)
         {
-            Decrement(1);
+            return ((int)this.id).CompareTo(id);
         }
         /// <summary>
-        /// Increments the tag identifier of this structure by a specified amount.
+        /// Compares this instance with a specified <see cref="uint"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified id.
         /// </summary>
-        /// <param name="value">The amount to increment.</param>
-        /// <exception cref="InvalidOperationException"></exception>
-        public void Increment(int value)
+        /// <param name="id">The id to compare with this instance.</param>
+        /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="id"/> parameter.</returns>
+        public int CompareTo(uint id)
         {
-            //Get high and low values
-            uint high = HighWord;
-            uint low = LowWord;
-            high += Convert.ToUInt32(value);
-            low += Convert.ToUInt32(value);
-
-            //Check...
-            if (high > ushort.MaxValue || high < ushort.MinValue)
-                throw new InvalidOperationException();
-            else if (low > ushort.MaxValue || low < ushort.MinValue)
-                throw new InvalidOperationException();
-
-            //Set ID
-            id = Convert.ToUInt32((high << 16 | low) & uint.MaxValue);
+            return this.id.CompareTo(id);
         }
         /// <summary>
-        /// Decrements the tag identifier of this structure by a specified amount.
+        /// Compares this instance with a specified <see cref="TagId"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified id.
         /// </summary>
-        /// <param name="value">The amount to decrement.</param>
-        /// <exception cref="InvalidOperationException"></exception>
-        public void Decrement(int value)
+        /// <param name="id">The id to compare with this instance.</param>
+        /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="id"/> parameter.</returns>
+        public int CompareTo(TagId id)
         {
-            //Get high and low values
-            uint high = HighWord;
-            uint low = LowWord;
-            high -= Convert.ToUInt32(value);
-            low -= Convert.ToUInt32(value);
-
-            //Check...
-            if (high > ushort.MaxValue || high < ushort.MinValue)
-                throw new InvalidOperationException();
-            else if (low > ushort.MaxValue || low < ushort.MinValue)
-                throw new InvalidOperationException();
-
-            //Set ID
-            id = Convert.ToUInt32((high << 16 | low) & uint.MaxValue);
+            return id.CompareTo(id);
         }
         /// <summary>
-        /// Compares this instance to a 32-bit unsigned integer and returns an indication of their relative values.
+        /// Determines whether this instance and another specified <see cref="int"/> value have the same value.
         /// </summary>
-        /// <param name="other">A 32-bit unsigned integer to comapre to.</param>
-        /// <returns></returns>
-        public int CompareTo(uint other)
+        /// <param name="id">The id to compare to this instance.</param>
+        /// <returns>true if the value of the <paramref name="id"/> parameter is the same as the value of this instance; otherwise, false.</returns>
+        public bool Equals(int id)
         {
-            return id.CompareTo(other);
+            return ((int)this.id).Equals(id);
         }
         /// <summary>
-        /// Compares this instance to a 32-bit signed integer and returns an indication of their relative values.
+        /// Determines whether this instance and another specified <see cref="uint"/> value have the same value.
         /// </summary>
-        /// <param name="other">A 32-bit signed integer to comapre to.</param>
-        public int CompareTo(int other)
+        /// <param name="id">The id to compare to this instance.</param>
+        /// <returns>true if the value of the <paramref name="id"/> parameter is the same as the value of this instance; otherwise, false.</returns>
+        public bool Equals(uint id)
         {
-            return CompareTo((uint)other);
+            return this.id.Equals(id);
         }
         /// <summary>
-        /// Compares this instance to a 32-bit <see cref="TagId"/> structure and returns an indication of their relative values.
+        /// Determines whether this instance and another specified <see cref="TagId"/> value have the same value.
         /// </summary>
-        /// <param name="other">A 32-bit <see cref="TagId"/> to comapre to.</param>
-        public int CompareTo(TagId other)
+        /// <param name="id">The id to compare to this instance.</param>
+        /// <returns>true if the value of the <paramref name="id"/> parameter is the same as the value of this instance; otherwise, false.</returns>
+        public bool Equals(TagId id)
         {
-            return CompareTo(other.id);
+            return id.Equals(id.id);
         }
         /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified <see cref="uint"/>.
+        /// Gets a string representation of this instance.
         /// </summary>
-        /// <param name="other">A 32-bit unsigned integer to compare to this instance.</param>
-        /// <returns>True if the relative values are equal, otherwise returns false.</returns>
-        public bool Equals(uint other)
-        {
-            return id.Equals(other);
-        }
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified <see cref="int"/>.
-        /// </summary>
-        /// <param name="other">A 32-bit signed integer to compare to this instance.</param>
-        /// <returns>True if the relative values are equal, otherwise returns false.</returns>
-        public bool Equals(int other)
-        {
-            return Equals((uint)other);
-        }
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified <see cref="TagId"/>.
-        /// </summary>
-        /// <param name="other">A 32-bit <see cref="TagId"/> to compare to this instance.</param>
-        /// <returns>True if the relative values are equal, otherwise returns false.</returns>
-        public bool Equals(TagId other)
-        {
-            return Equals(other.id);
-        }
-        /// <summary>
-        /// Converts the value of this instance to its equivalent string representation.
-        /// </summary>
+        /// <returns>A 8-digit hex tag ID.</returns>
         public override string ToString()
         {
-            return id.ToString("X8");
+            return $"{id:X8}";
         }
-
         /// <summary>
-        /// Converts a <see cref="TagId"/> to an unsigned 32-bit integer value.
+        /// Converts a <see cref="TagId"/> to an unsigned 32-bit integer.
         /// </summary>
-        /// <param name="tagId">The tag id.</param>
-        public static implicit operator uint(TagId tagId)
+        /// <param name="id">The <see cref="TagId"/> object.</param>
+        public static implicit operator uint(TagId id)
         {
-            return tagId.id;
+            return id.id;
         }
         /// <summary>
-        /// Converts a <see cref="TagId"/> to a signed 32-bit integer value.
+        /// Converts a unsigned 32-bit integer to a <see cref="TagId"/> instance.
         /// </summary>
-        /// <param name="tagId">The tag id.</param>
-        public static implicit operator int(TagId tagId)
-        {
-            return (int)(tagId.id);
-        }
-        /// <summary>
-        /// Converts an unsigned 32-bit integer value to a <see cref="TagId"/>.
-        /// </summary>
-        /// <param name="id">The tag id.</param>
+        /// <param name="id">The <see cref="uint"/> object.</param>
         public static implicit operator TagId(uint id)
         {
-            return new TagId() { id = id };
+            return new TagId(id);
         }
         /// <summary>
-        /// Converts a signed 32-bit integer value to a <see cref="TagId"/>.
+        /// Converts a <see cref="TagId"/> to a signed 32-bit integer.
         /// </summary>
-        /// <param name="id">The tag id.</param>
+        /// <param name="id">The <see cref="TagId"/> object.</param>
+        public static implicit operator int(TagId id)
+        {
+            return (int)id.id;
+        }
+        /// <summary>
+        /// Converts a signed 32-bit integer to to a <see cref="TagId"/> instance.
+        /// </summary>
+        /// <param name="id">The <see cref="int"/> object.</param>
         public static implicit operator TagId(int id)
         {
-            return new TagId() { id = (uint)(id) };
+            return new TagId(id);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Abide.HaloLibrary
         /// <summary>
         /// Gets or sets the array length.
         /// </summary>
-        public int Count
+        public uint Count
         {
             get { return count; }
             set { count = value; }
@@ -24,7 +24,7 @@ namespace Abide.HaloLibrary
         /// <summary>
         /// Gets or sets the offset to the array.
         /// </summary>
-        public int Offset
+        public uint Offset
         {
             get { return offset; }
             set { offset = value; }
@@ -42,23 +42,23 @@ namespace Abide.HaloLibrary
             }
             set
             {
-                count = (int)(value & 0xFFFFFFFF);
-                offset = (int)((value >> 32) & 0xFFFFFFFF);
+                count = (uint)(value & 0xFFFFFFFF);
+                offset = (uint)((value >> 32) & 0xFFFFFFFF);
             }
         }
 
-        private int count;
-        private int offset;
+        private uint count;
+        private uint offset;
 
         /// <summary>
         /// Initializes a new <see cref="TagBlock"/> structure with the specified count and pointer values.
         /// </summary>
         /// <param name="count">The amount of blocks in the array.</param>
-        /// <param name="pointer">The pointer to the array.</param>
-        public TagBlock(int count, int pointer)
+        /// <param name="offset">The offset to the array.</param>
+        public TagBlock(uint count, uint offset)
         {
             this.count = count;
-            this.offset = pointer;
+            this.offset = offset;
         }
 
         /// <summary>
@@ -143,14 +143,14 @@ namespace Abide.HaloLibrary
         }
         public static implicit operator TagBlock(ulong value)
         {
-            int count = (int)(value & 0xFFFFFFFF);
-            int pointer = (int)((value >> 32) & 0xFFFFFFFF);
+            uint count = (uint)(value & 0xFFFFFFFF);
+            uint pointer = (uint)((value >> 32) & 0xFFFFFFFF);
             return new TagBlock() { count = count, offset = pointer };
         }
         public static implicit operator TagBlock(long value)
         {
-            int count = (int)(value & 0xFFFFFFFF);
-            int pointer = (int)((value >> 32) & 0xFFFFFFFF);
+            uint count = (uint)(value & 0xFFFFFFFF);
+            uint pointer = (uint)((value >> 32) & 0xFFFFFFFF);
             return new TagBlock() { count = count, offset = pointer };
         }
     }

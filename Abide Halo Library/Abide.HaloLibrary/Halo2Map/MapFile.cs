@@ -98,7 +98,7 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             //Initialize
             header = Header.CreateDefault();
-            index = Index.Create();
+            index = Index.CreateDefault();
             sbspTagDatas = new FixedMemoryMappedStream[0];
             strings = new StringList();
             crazyData = FixedMemoryMappedStream.Empty;
@@ -154,18 +154,18 @@ namespace Abide.HaloLibrary.Halo2Map
                 using (BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read Header
+                    inStream.Seek(0, SeekOrigin.Begin);
                     header = reader.ReadStructure<Header>();
-                    Console.WriteLine(header.Name);
-                    
+
                     //Check...
-                    if (header.HeaderTag != HaloTags.head || header.FooterTag != HaloTags.foot)    //Quick sanity check...
+                    if (header.Head != HaloTags.head || header.Foot != HaloTags.foot)    //Quick sanity check...
                         throw new MapFileExcption("Invalid map header.");
 
                     //Read File Names
-                    string[] files = reader.ReadUTF8StringTable(header.FilesOffset, header.FilesIndex, header.FileCount);
+                    string[] files = reader.ReadUTF8StringTable(header.FileNamesOffset, header.FileNamesIndexOffset, (int)header.FileNameCount);
 
                     //Read Strings
-                    strings = new StringList(reader.ReadUTF8StringTable(header.StringsOffset, header.StringsIndexOffset, header.StringCount));
+                    strings = new StringList(reader.ReadUTF8StringTable(header.StringsOffset, header.StringsIndexOffset, (int)header.StringCount));
 
                     //Read Index
                     inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
@@ -178,11 +178,11 @@ namespace Abide.HaloLibrary.Halo2Map
                     this.tags = new TagHierarchyList(tags);
 
                     //Read Objects
-                    inStream.Seek((index.ObjectOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
-                    Object objectEntry = new Object(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
+                    inStream.Seek((index.ObjectsOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
+                    ObjectEntry objectEntry = new ObjectEntry(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
                     for (int i = 0; i < index.ObjectCount; i++)
                     {
-                        objectEntry = reader.ReadStructure<Object>();
+                        objectEntry = reader.ReadStructure<ObjectEntry>();
                         indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
                         indexEntries[i].PostProcessedOffset = (int)objectEntry.Offset;
                         indexEntries[i].PostProcessedSize = (int)objectEntry.Size;
@@ -197,7 +197,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Read Crazy
                     inStream.Seek(header.CrazyOffset, SeekOrigin.Begin);
-                    crazyData = new FixedMemoryMappedStream(reader.ReadBytes(header.CrazyLength));
+                    crazyData = new FixedMemoryMappedStream(reader.ReadBytes((int)header.CrazyLength));
 
                     //Get Meta Memory-file address
                     uint metaFileMemoryAddress = 0, metaMemoryAddress = 0;
@@ -209,7 +209,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Read Meta
                     inStream.Seek(header.IndexOffset + header.IndexLength, SeekOrigin.Begin);
-                    tagData = new FixedMemoryMappedStream(reader.ReadBytes(header.TagDataLength), metaMemoryAddress);
+                    tagData = new FixedMemoryMappedStream(reader.ReadBytes((int)header.TagDataLength), metaMemoryAddress);
 
                     //Loop
                     foreach (IndexEntry entry in indexList)
@@ -217,14 +217,14 @@ namespace Abide.HaloLibrary.Halo2Map
                             entry.TagData = tagData;
 
                     //Prepare BSP start...
-                    int bspStart = header.Strings128Offset;
+                    int bspStart = (int)header.Strings128Offset;
 
                     //Prepare
                     StringEntry[] en = null, jp = null, nl = null, fr = null, es = null, it = null, kr = null, zh = null, pr = null;
 
                     //Read Strings
                     foreach (var indexEntry in indexList)
-                        if (indexEntry.Id == index.GlobalsID)
+                        if (indexEntry.Id == index.GlobalsId)
                         {
                             //Read English Strings
                             ReadStringTable(inStream, reader, indexEntry, metaFileMemoryAddress, 400, out en);
@@ -258,10 +258,10 @@ namespace Abide.HaloLibrary.Halo2Map
                         }
 
                     //Read BSP Meta
-                    if (indexList.ContainsID(index.ScenarioID))
+                    if (indexList.ContainsID(index.ScenarioId))
                     {
                         //Goto
-                        inStream.Seek(indexList[index.ScenarioID].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
+                        inStream.Seek(indexList[index.ScenarioId].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
                         TagBlock structureBsps = reader.ReadUInt64();
                         sbspTagDatas = new FixedMemoryMappedStream[structureBsps.Count];
                         for (int i = 0; i < structureBsps.Count; i++)
@@ -364,14 +364,14 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Zero-out variables
                     header.FileLength = 0;
-                    header.NonRawLength = 0;
-                    index.ObjectOffset = 0;
+                    header.MapDataLength = 0;
+                    index.ObjectsOffset = 0;
 
                     //Read Raws
                     ReadRaws(inStream, reader);
 
                     //Get Scenario
-                    scenario = indexList[index.ScenarioID];
+                    scenario = indexList[index.ScenarioId];
                 }
             }
             catch (Exception ex) { throw new MapFileExcption(ex); }
@@ -1004,16 +1004,16 @@ namespace Abide.HaloLibrary.Halo2Map
 
             //Check map
             if (scenario == null) throw new MapFileExcption("Map does not have a scenario assigned.");
-            if (!indexList.ContainsID(index.GlobalsID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain globals tag group."));
-            if (!indexList.ContainsID(index.ScenarioID)) throw new MapFileExcption(new InvalidOperationException("Map does not contain scenario tag group."));
+            if (!indexList.ContainsID(index.GlobalsId)) throw new MapFileExcption(new InvalidOperationException("Map does not contain globals tag group."));
+            if (!indexList.ContainsID(index.ScenarioId)) throw new MapFileExcption(new InvalidOperationException("Map does not contain scenario tag group."));
             if (indexList.Last.Root != HaloTags.ugh_) throw new MapFileExcption(new InvalidOperationException("Final tag group is not coconuts."));
 
             //Setup
-            index.ScenarioID = scenario.Id;
+            index.ScenarioId = scenario.Id;
             header.ScenarioPath = scenario.Filename;
 
             //Find
-            IndexEntry globals = indexList[index.GlobalsID];
+            IndexEntry globals = indexList[index.GlobalsId];
             IndexEntry coconuts = indexList.Last;
 
             //Prepare
@@ -1067,8 +1067,8 @@ namespace Abide.HaloLibrary.Halo2Map
                 byte[] index = CreateIndex();
 
                 //Prepare Header
-                header.NonRawLength = index.Length;
-                header.IndexLength = index.Length;
+                header.MapDataLength = (uint)index.Length;
+                header.IndexLength = (uint)index.Length;
 
                 //Write Raws
                 stream.Seek(2048, SeekOrigin.Begin);
@@ -1255,11 +1255,11 @@ namespace Abide.HaloLibrary.Halo2Map
                         if (sbspTagDatas[i].Length > bspLength)
                             bspLength = sbspTagDatas[i].IntLength;
                     }
-                    header.NonRawLength += bspLength;
+                    header.MapDataLength += (uint)bspLength;
 
                     //Write Strings 128
-                    header.StringCount = strings.Count;
-                    header.Strings128Offset = (int)stream.Position.PadTo(512);
+                    header.StringCount = (uint)strings.Count;
+                    header.Strings128Offset = (uint)stream.Position.PadTo(512);
                     foreach (string stringId in strings)
                     {
                         string128Buffer = new char[128];
@@ -1270,7 +1270,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Write String Index
                     offset = 0;
-                    header.StringsIndexOffset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.StringsIndexOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     foreach (string stringId in strings)
                     {
                         writer.Write(offset);
@@ -1278,20 +1278,20 @@ namespace Abide.HaloLibrary.Halo2Map
                     }
 
                     //Write String IDs
-                    header.StringsOffset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.StringsOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     foreach (string stringId in strings)
                         writer.WriteUTF8NullTerminated(stringId);
-                    header.FilesOffset = (int)stream.Position.PadTo(512);
-                    stream.Seek(header.FilesOffset, SeekOrigin.Begin);
+                    header.FileNamesOffset = (uint)stream.Position.PadTo(512);
+                    stream.Seek(header.FileNamesOffset, SeekOrigin.Begin);
 
                     //Write Files
-                    header.FilesOffset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.FileNamesOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     foreach (var indexEntry in indexList)
                         writer.WriteUTF8NullTerminated(indexEntry.Filename);
 
                     //Write Files Index
                     offset = 0;
-                    header.FilesIndex = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.FileNamesIndexOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     foreach (var indexEntry in indexList)
                     {
                         writer.Write(offset);
@@ -1434,8 +1434,8 @@ namespace Abide.HaloLibrary.Halo2Map
                     prSize = table.Length;
 
                     //Write Crazy
-                    header.CrazyLength = crazyData.IntLength;
-                    header.CrazyOffset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.CrazyLength = (uint)crazyData.IntLength;
+                    header.CrazyOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     writer.Write(crazyData.GetBuffer());
 
                     //Write Bitmaps and fix addresses
@@ -1459,7 +1459,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     }
 
                     //Write Index
-                    header.IndexOffset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
+                    header.IndexOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     writer.Write(index);
 
                     //Write English to globals
@@ -1527,21 +1527,21 @@ namespace Abide.HaloLibrary.Halo2Map
                 }
 
                 //Write Meta
-                header.TagDataLength = tagData.IntLength;
+                header.TagDataLength = (uint)tagData.IntLength;
                 writer.Write(tagData.GetBuffer());
-                header.NonRawLength += header.TagDataLength;
+                header.MapDataLength += (uint)header.TagDataLength;
 
                 //Pad File
                 stream.Seek(stream.Position.PadTo(1024), SeekOrigin.Begin);
 
                 //Set
-                header.FileLength = (int)stream.Length;
+                header.FileLength = (uint)stream.Length;
 
                 //Sign
-                header.Signature = 0;
+                header.Checksum = 0;
                 stream.Seek(2048, SeekOrigin.Begin);
                 for (int i = 0; i < (header.FileLength - 2048) / 4; i++)
-                    header.Signature ^= reader.ReadInt32();
+                    header.Checksum ^= reader.ReadUInt32();
 
                 //Write header
                 stream.Seek(0, SeekOrigin.Begin);
@@ -1591,7 +1591,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
             //Setup
             header = Header.CreateDefault();
-            index = Index.Create();
+            index = Index.CreateDefault();
             sbspTagDatas = new FixedMemoryMappedStream[0];
             strings = new StringList();
             crazyData = FixedMemoryMappedStream.Empty;
@@ -1619,6 +1619,37 @@ namespace Abide.HaloLibrary.Halo2Map
             bspIndexLookup = null;
             indexList = null;
             tagData = null;
+        }
+        /// <summary>
+        /// Retrieves information about a supplied tag block.
+        /// </summary>
+        /// <param name="tagBlock">The tag block to retrieve information about.</param>
+        /// <param name="isValid">True if the supplied tag block is valid, false if it is not.</param>
+        /// <returns>An instance of <see cref="TagBlockInformation"/> that, if valid, contains information about <paramref name="tagBlock"/>.</returns>
+        public TagBlockInformation GetTagBlockInfo(TagBlock tagBlock, out bool isValid)
+        {
+            //Prepare
+            TagBlockInformation info = null;
+            bool valid = true;
+
+            //Get Map Info
+            int tagDataStart = (int)(header.IndexOffset + header.IndexLength);
+            uint blockOffset = tagBlock.Offset - Index.IndexMemoryAddress;
+
+            //Check for valid pointer...
+            valid &= tagBlock != TagBlock.Zero;
+            valid &= tagBlock.Count > 0;
+            valid &= blockOffset > 0 && tagData.Length > blockOffset;
+
+            //Check
+            if (valid) foreach (var entry in
+                    indexList.Where(e => e.PostProcessedOffset < tagBlock.Offset && e.PostProcessedOffset + e.PostProcessedSize >= tagBlock.Offset))
+                    info = new TagBlockInformation(entry, tagBlock);
+
+
+            //Return
+            isValid = valid;
+            return info;
         }
         /// <summary>
         /// Adds a new string identifier to the map.
@@ -1650,17 +1681,17 @@ namespace Abide.HaloLibrary.Halo2Map
         private byte[] CreateIndex()
         {
             //Edit Index
-            index.ObjectCount = indexList.Count;
-            index.TagCount = tags.Count;
-            index.ObjectOffset = tags.Count * TagHierarchy.Length + Index.IndexMemoryAddress;
+            index.ObjectCount = (uint)indexList.Count;
+            index.TagCount = (uint)tags.Count;
+            index.ObjectsOffset = (uint)(tags.Count * TagHierarchy.Length + Index.IndexMemoryAddress);
             index.IndexAddress = Index.IndexMemoryAddress;
 
             //Calculate minimum length...
-            int length = (Index.Length + (TagHierarchy.Length * tags.Count) + (Object.Length * indexList.Count)).PadTo(4096);
+            int length = (Index.Length + (TagHierarchy.Length * tags.Count) + (ObjectEntry.Length * indexList.Count)).PadTo(4096);
 
             //Check
             if (length > header.IndexLength) throw new MapFileExcption("Unable to save map. Index length is larger than expected.");
-            else length = header.IndexLength;
+            else length = (int)header.IndexLength;
 
             //Write
             byte[] indexTable = new byte[length];
@@ -1723,6 +1754,42 @@ namespace Abide.HaloLibrary.Halo2Map
             return index;
         }
         
+        /// <summary>
+        /// Represents a Halo 2 Tag Block information container.
+        /// </summary>
+        [Serializable]
+        public sealed class TagBlockInformation
+        {
+            /// <summary>
+            /// Gets and returns the index entry that owns this tag block.
+            /// </summary>
+            public IndexEntry Owner
+            {
+                get { return owner; }
+            }
+            /// <summary>
+            /// Gets and returns the tag block.
+            /// </summary>
+            public TagBlock TagBlock
+            {
+                get { return tagBlock; }
+            }
+
+            private readonly IndexEntry owner;
+            private readonly TagBlock tagBlock;
+
+            /// <summary>
+            /// Initializes a new <see cref="TagBlockInformation"/> instance using the supplied index entry and tag block.
+            /// </summary>
+            /// <param name="owner">The <see cref="IndexEntry"/> that owns <paramref name="tagBlock"/>.</param>
+            /// <param name="tagBlock">The <see cref="HaloLibrary.TagBlock"/>.</param>
+            public TagBlockInformation(IndexEntry owner, TagBlock tagBlock)
+            {
+                this.owner = owner;
+                this.tagBlock = tagBlock;
+            }
+        }
+
         /// <summary>
         /// Represents a Halo 2 tag heirarchy list.
         /// </summary>

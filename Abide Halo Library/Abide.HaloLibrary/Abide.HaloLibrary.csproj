@@ -47,15 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Halo2Map\IndexEntry.cs" />
-    <Compile Include="Halo2Map\Map Structures\Header.cs" />
-    <Compile Include="Halo2Map\Map Structures\Index.cs" />
-    <Compile Include="Halo2Map\Map Structures\Object.cs" />
-    <Compile Include="Halo2Map\Map Structures\SbspHeader.cs" />
-    <Compile Include="Halo2Map\Map Structures\StringObject.cs" />
-    <Compile Include="Halo2Map\Map Structures\TagHierarchy.cs" />
     <Compile Include="Halo2Map\MapFile.cs" />
     <Compile Include="Halo2Map\RawContainer.cs" />
     <Compile Include="Halo2Map\StringContainer.cs" />
+    <Compile Include="Halo2Map\Structures.cs" />
     <Compile Include="Halo2Map\Tags.cs" />
     <Compile Include="IO\FixedMemoryMappedStream.cs" />
     <Compile Include="IO\MemoryIO.cs" />

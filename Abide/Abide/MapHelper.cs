@@ -32,10 +32,6 @@ namespace Abide
                 Tag Tag = new string(reader.ReadChars(4));
                 if(Tag == "head")
                 {
-                    //Heh?
-                }
-                else if(Tag == "daeh")
-                {
                     //Read Version
                     inStream.Seek(4, SeekOrigin.Begin);
                     mapVersion = reader.ReadInt32();

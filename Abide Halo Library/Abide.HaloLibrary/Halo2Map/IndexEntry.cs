@@ -94,12 +94,12 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             get { return strings; }
         }
-
+        
         private FixedMemoryMappedStream tagData;
         private readonly StringContainer strings;
         private readonly RawContainer raws;
         private readonly TagHierarchy tagHierarchy;
-        private readonly Object objectEntry;
+        private readonly ObjectEntry objectEntry;
         private int postProcessedOffset;
         private int postProcessedSize;
         private string filename;
@@ -110,7 +110,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <param name="objectEntry">The object entry for this index entry.</param>
         /// <param name="filename">The file path of this index entry.</param>
         /// <param name="tagHierarchy">The tag hierarchy for this index entry.</param>
-        public IndexEntry(Object objectEntry, string filename, TagHierarchy tagHierarchy)
+        public IndexEntry(ObjectEntry objectEntry, string filename, TagHierarchy tagHierarchy)
         {
             //Setup
             this.tagHierarchy = tagHierarchy;
@@ -123,7 +123,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Returns this index entry's index object entry.
         /// </summary>
         /// <returns>This index entry's object entry.</returns>
-        public Object GetObjectEntry()
+        public ObjectEntry GetObjectEntry()
         {
             return objectEntry;
         }
@@ -151,6 +151,7 @@ namespace Abide.HaloLibrary.Halo2Map
             //Dispose
             raws.Dispose();
             strings.Dispose();
+            tagData = null;
         }
     }
 }
