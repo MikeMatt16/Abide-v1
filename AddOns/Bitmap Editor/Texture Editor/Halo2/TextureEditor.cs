@@ -380,10 +380,10 @@ namespace Texture_Editor.Halo2
             bitmapProperties.SelectedObject = bitmap.Bitmaps[bitmapIndex];
 
             //Set
-            if (bitmapBox.Image != null)
-                bitmapBox.Image.Dispose();
-            bitmapBox.Image = fullMap;
-            bitmapBox.Refresh();
+            if (textureBox.Texture != null)
+                textureBox.Texture.Dispose();
+            textureBox.Texture = fullMap;
+            textureBox.Refresh();
         }
 
         private bool bitmap_ImportImage(Image image, int bitmapIndex)

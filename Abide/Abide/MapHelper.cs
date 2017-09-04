@@ -30,7 +30,7 @@ namespace Abide
             {
                 //Read
                 Tag Tag = new string(reader.ReadChars(4));
-                if(Tag == "head")
+                if(Tag == "daeh")
                 {
                     //Read Version
                     inStream.Seek(4, SeekOrigin.Begin);

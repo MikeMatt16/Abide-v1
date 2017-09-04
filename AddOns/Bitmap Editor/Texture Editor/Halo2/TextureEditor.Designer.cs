@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureEditor));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textureBox = new Texture_Editor.Controls.TextureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lodUpDown = new System.Windows.Forms.NumericUpDown();
             this.bitmapUpDown = new System.Windows.Forms.NumericUpDown();
-            this.bitmapBox = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.importProperties = new System.Windows.Forms.PropertyGrid();
             this.bitmapProperties = new System.Windows.Forms.PropertyGrid();
@@ -50,7 +50,6 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lodUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bitmapUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bitmapBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -68,11 +67,11 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.textureBox);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.lodUpDown);
             this.splitContainer1.Panel1.Controls.Add(this.bitmapUpDown);
-            this.splitContainer1.Panel1.Controls.Add(this.bitmapBox);
             // 
             // splitContainer1.Panel2
             // 
@@ -81,6 +80,20 @@
             this.splitContainer1.Size = new System.Drawing.Size(500, 500);
             this.splitContainer1.SplitterDistance = 262;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // textureBox
+            // 
+            this.textureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textureBox.BackgroundImage = global::Texture_Editor.Properties.Resources.Transparency_4;
+            this.textureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textureBox.Location = new System.Drawing.Point(3, 38);
+            this.textureBox.MinimumSize = new System.Drawing.Size(2, 2);
+            this.textureBox.Name = "textureBox";
+            this.textureBox.Size = new System.Drawing.Size(494, 221);
+            this.textureBox.TabIndex = 3;
+            this.textureBox.Texture = null;
             // 
             // label2
             // 
@@ -135,19 +148,6 @@
             this.bitmapUpDown.Size = new System.Drawing.Size(80, 20);
             this.bitmapUpDown.TabIndex = 0;
             this.bitmapUpDown.ValueChanged += new System.EventHandler(this.indexUpDown_ValueChanged);
-            // 
-            // bitmapBox
-            // 
-            this.bitmapBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bitmapBox.BackgroundImage = global::Texture_Editor.Properties.Resources.Transparency_4;
-            this.bitmapBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bitmapBox.Location = new System.Drawing.Point(12, 38);
-            this.bitmapBox.Name = "bitmapBox";
-            this.bitmapBox.Size = new System.Drawing.Size(476, 221);
-            this.bitmapBox.TabIndex = 1;
-            this.bitmapBox.TabStop = false;
             // 
             // splitContainer2
             // 
@@ -275,7 +275,6 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lodUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bitmapUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bitmapBox)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -293,7 +292,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown lodUpDown;
         private System.Windows.Forms.NumericUpDown bitmapUpDown;
-        private System.Windows.Forms.PictureBox bitmapBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.PropertyGrid importProperties;
         private System.Windows.Forms.PropertyGrid bitmapProperties;
@@ -303,5 +301,6 @@
         private System.Windows.Forms.ToolStripLabel formatLabel;
         private System.Windows.Forms.ToolStripLabel locationLabel;
         private System.Windows.Forms.ToolStripButton dumpTexturesToolStripButton;
+        private Controls.TextureBox textureBox;
     }
 }

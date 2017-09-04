@@ -19,10 +19,10 @@ namespace Abide.HaloLibrary
             set
             {
                 string pad = value.PadRight(4, '\0');
-                d = (sbyte)pad[0];
-                c = (sbyte)pad[1];
-                b = (sbyte)pad[2];
-                a = (sbyte)pad[3];
+                a = (sbyte)pad[0];
+                b = (sbyte)pad[1];
+                c = (sbyte)pad[2];
+                d = (sbyte)pad[3];
             }
         }
 
@@ -35,10 +35,10 @@ namespace Abide.HaloLibrary
         public Tag(string fourCc)
         {
             string pad = fourCc.PadRight(4, '\0');
-            d = (sbyte)pad[0];
-            c = (sbyte)pad[1];
-            b = (sbyte)pad[2];
-            a = (sbyte)pad[3];
+            a = (sbyte)pad[0];
+            b = (sbyte)pad[1];
+            c = (sbyte)pad[2];
+            d = (sbyte)pad[3];
         }
         /// <summary>
         /// Compares this instance with a specified <see cref="Tag"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified tag.
