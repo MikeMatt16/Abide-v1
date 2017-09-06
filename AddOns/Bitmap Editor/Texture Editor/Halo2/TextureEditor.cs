@@ -17,6 +17,11 @@ namespace Texture_Editor.Halo2
         public TextureEditor()
         {
             InitializeComponent();
+            using (BitmapSheet sheet = new BitmapSheet(Properties.Resources.numbers_1))
+            using (Image img = sheet.GetBitmap(0))
+            {
+
+            }
         }
 
         private void BitmapEditor_SelectedEntryChanged(object sender, EventArgs e)
@@ -32,7 +37,7 @@ namespace Texture_Editor.Halo2
                 //Reset
                 lodUpDown.Value = 1;
                 bitmapUpDown.Value = 0;
-                bitmapUpDown.Maximum = bitmap.BitmapCount;
+                bitmapUpDown.Maximum = (bitmap.BitmapCount - 1);
 
                 //Load
                 if (bitmap.BitmapCount > 0) bitmap_Load(0, 0);

@@ -626,7 +626,8 @@ namespace Abide.Halo2
             //Prepare
             int value = 0;
             RawSection section = 0;
-            TagId id = TagId.Null;
+            StringId stringId = StringId.Zero;
+            TagId tagId = TagId.Null;
             Stream dataStream = null;
             IndexEntry entry = null;
 
@@ -636,32 +637,49 @@ namespace Abide.Halo2
                 case "Map": return map;
                 case "SelectedEntry": return selectedEntry;
                 case "Xbox": return DebugXbox;
-                case "TagBrowserDialog":
+                case "StringBrowserDialog":
                     //Prepare
-                    if (args.Length > 0 && args[0] is TagId) id = (TagId)args[0];
+                    if (args.Length > 0 && args[0] is StringId) stringId = (StringId)args[0];
 
                     //Initialize Tag Browser Dialog
-                    using (TagBrowserDialog TagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
+                    using (StringSelectDialog stringDlg = new StringSelectDialog(map.Strings.ToList()))
                     {
                         //Set
-                        TagDlg.SelectedID = id;
+                        stringDlg.SelectedString = stringId;
 
                         //Show
-                        if (TagDlg.ShowDialog() == DialogResult.OK)
-                            id = TagDlg.SelectedID;
+                        if (stringDlg.ShowDialog() == DialogResult.OK)
+                            stringId = stringDlg.SelectedString;
                     }
 
                     //Return
-                    return id;
+                    return stringId;
+                case "TagBrowserDialog":
+                    //Prepare
+                    if (args.Length > 0 && args[0] is TagId) tagId = (TagId)args[0];
+
+                    //Initialize Tag Browser Dialog
+                    using (TagBrowserDialog tagDlg = new TagBrowserDialog(map.IndexEntries, map.Name))
+                    {
+                        //Set
+                        tagDlg.SelectedID = tagId;
+
+                        //Show
+                        if (tagDlg.ShowDialog() == DialogResult.OK)
+                            tagId = tagDlg.SelectedID;
+                    }
+
+                    //Return
+                    return tagId;
                 case "SelectEntry":
                     //Prepare
-                    if (args.Length > 0 && args[0] is TagId) id = (TagId)args[0];
+                    if (args.Length > 0 && args[0] is TagId) tagId = (TagId)args[0];
 
                     //Check ID...
-                    if (!id.IsNull && entries.ContainsKey(id))
+                    if (!tagId.IsNull && entries.ContainsKey(tagId))
                     {
                         //Select
-                        var wrapper = entries[id];
+                        var wrapper = entries[tagId];
                         string[] parts = $"{wrapper.Filename}.{wrapper.Root}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
                         TreeNodeCollection collection = TagTree.Nodes; TreeNode node = null;
                         for (int i = 0; i < parts.Length; i++)

@@ -91,6 +91,12 @@
     <Compile Include="Dialogs\PackageAddOnDialog.Designer.cs">
       <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\StringSelectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\StringSelectDialog.designer.cs">
+      <DependentUpon>StringSelectDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\TagBrowserDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\PackageAddOnDialog.resx">
       <DependentUpon>PackageAddOnDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\StringSelectDialog.resx">
+      <DependentUpon>StringSelectDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\TagBrowserDialog.resx">
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>

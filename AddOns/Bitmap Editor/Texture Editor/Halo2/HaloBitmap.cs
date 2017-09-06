@@ -452,7 +452,7 @@ namespace Texture_Editor.Halo2
                             }
 
                             //Draw into cropped image
-                            maps[k][l][mapIndex] = new Bitmap(bitmap.width, bitmap.height, bitmapFormat);
+                            maps[k][l][mapIndex] = new Bitmap(mapWidth, mapHeight, bitmapFormat);
                             using (Graphics g = Graphics.FromImage(maps[k][l][mapIndex])) g.DrawImage(map, Point.Empty);
                         }
                     }
