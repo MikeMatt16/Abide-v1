@@ -31,6 +31,7 @@
             this.nameLabel = new System.Windows.Forms.Label();
             this.typeLabel = new System.Windows.Forms.Label();
             this.tagSelectBox = new System.Windows.Forms.Button();
+            this.goToButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -61,12 +62,23 @@
             this.tagSelectBox.UseVisualStyleBackColor = true;
             this.tagSelectBox.Click += new System.EventHandler(this.tagSelectBox_Click);
             // 
+            // goToButton
+            // 
+            this.goToButton.Location = new System.Drawing.Point(62, 3);
+            this.goToButton.Name = "goToButton";
+            this.goToButton.Size = new System.Drawing.Size(49, 23);
+            this.goToButton.TabIndex = 8;
+            this.goToButton.Text = "Go To";
+            this.goToButton.UseVisualStyleBackColor = true;
+            this.goToButton.Click += new System.EventHandler(this.goToButton_Click);
+            // 
             // TagControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.goToButton);
             this.Controls.Add(this.tagSelectBox);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.typeLabel);
@@ -82,5 +94,6 @@
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Label typeLabel;
         private System.Windows.Forms.Button tagSelectBox;
+        private System.Windows.Forms.Button goToButton;
     }
 }

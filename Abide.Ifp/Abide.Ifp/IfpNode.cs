@@ -84,7 +84,7 @@ namespace Abide.Ifp
         /// <summary>
         /// Gets or sets the class of the element.
         /// </summary>
-        public TAG Class
+        public Tag Class
         {
             get { return @class; }
             set { @class = value; }
@@ -115,7 +115,7 @@ namespace Abide.Ifp
         private int tagBlockOffset;
         private int tagBlockSize;
         private bool visible;
-        private TAG @class;
+        private Tag @class;
         private int headerSize;
         private int optionValue;
 

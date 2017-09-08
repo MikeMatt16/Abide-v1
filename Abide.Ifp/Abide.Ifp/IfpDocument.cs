@@ -5,7 +5,7 @@ using System.Xml;
 namespace Abide.Ifp
 {
     /// <summary>
-    /// Represents an IFP document.
+    /// Represents an IronForgePlugin document.
     /// </summary>
     public sealed class IfpDocument
     {

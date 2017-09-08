@@ -1,20 +1,17 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.Xml;
 
 namespace Tag_Data_Editor.Controls
 {
-    [TypeDescriptionProvider(typeof(AbstractControlDescriptionProvider<MetaControl, UserControl>))]
-    public abstract class MetaControl : UserControl
+    public class MetaControl : UserControl
     {
         public int FieldOffset
         {
             get
             {
                 int offset = 0;
-                if (int.TryParse(PluginElement?.Attributes["offset"]?.Value, out offset))
-                    return offset;
+                if (int.TryParse(PluginElement?.Attributes["offset"]?.Value, out offset)) return offset;
                 else return -1;
             }
         }
@@ -23,8 +20,7 @@ namespace Tag_Data_Editor.Controls
             get
             {
                 int size = 0;
-                if (int.TryParse(PluginElement?.Attributes["size"]?.Value, out size))
-                    return size;
+                if (int.TryParse(PluginElement?.Attributes["size"]?.Value, out size)) return size;
                 else return -1;
             }
         }
@@ -32,13 +28,14 @@ namespace Tag_Data_Editor.Controls
         public LabelReference Label
         {
             get { return labelRef; }
+            set { labelRef = value; }
         }
-        public abstract string ControlName { get; set; }
-        public abstract string Type { get; set; }
+        public virtual string ControlName { get; set; }
+        public virtual string Type { get; set; }
         public XmlNode PluginElement { get; set; }
         public long Address { get; set; }
-        
-        private readonly LabelReference labelRef = new LabelReference();
+
+        private LabelReference labelRef = new LabelReference();
         
         public MetaControl() { }
 
@@ -49,24 +46,52 @@ namespace Tag_Data_Editor.Controls
         }
     }
 
-    internal class AbstractControlDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
+    public class LabelReference : IEquatable<LabelReference>, IComparable<LabelReference>, IEquatable<string>, IComparable<string>
     {
-        public AbstractControlDescriptionProvider() : base(TypeDescriptor.GetProvider(typeof(TAbstract))) { }
-
-        public override Type GetReflectionType(Type objectType, object instance)
+        public event EventHandler TextUpdated
         {
-            if (objectType == typeof(TAbstract))
-                return typeof(TBase);
-
-            return base.GetReflectionType(objectType, instance);
+            add { textUpdated += value; }
+            remove { textUpdated -= value; }
+        }
+        public string Text
+        {
+            get { return text; }
+            set { text = value; OnTextUpdated(new EventArgs()); }
         }
 
-        public override object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
-        {
-            if (objectType == typeof(TAbstract))
-                objectType = typeof(TBase);
+        private string text = string.Empty;
+        private event EventHandler textUpdated;
 
-            return base.CreateInstance(provider, objectType, argTypes, args);
+        public LabelReference() { }
+        public LabelReference(string text)
+        {
+            this.text = text;
+        }
+        public bool Equals(LabelReference other)
+        {
+            return text.Equals(other.text);
+        }
+        public bool Equals(string other)
+        {
+            return text.Equals(other);
+        }
+        public int CompareTo(LabelReference other)
+        {
+            return text.CompareTo(other.text);
+        }
+        public int CompareTo(string other)
+        {
+            return text.CompareTo(other);
+        }
+        public override string ToString()
+        {
+            if (text != null) return text;
+            return "null";
+        }
+        protected virtual void OnTextUpdated(EventArgs e)
+        {
+            //Invoke
+            textUpdated?.Invoke(this, e);
         }
     }
 }

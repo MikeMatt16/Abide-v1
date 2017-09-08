@@ -177,7 +177,27 @@ namespace Abide.AddOnApi
             T instance = null;
             
             try { instance = AppDomain.CurrentDomain.CreateInstance(assembly, type).Unwrap() as T; }
-            catch (Exception) { }
+            catch (Exception ex) {  }
+
+            //Return
+            return instance;
+        }
+        /// <summary>
+        /// Attempts to create an instance of a supplied type from the given assembly name and type.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="IAddOn"/> based type to retrieve.</typeparam>
+        /// <param name="assembly">The assembly name that the type resides in.</param>
+        /// <param name="type">The type's full name.</param>
+        /// <param name="exception">The exception that occurs while creating an instance.</param>
+        /// <returns>Null if the type cannot be created, else returns an instance of <typeparamref name="T"/>.</returns>
+        public T CreateInstance<T>(string assembly, string type, out Exception exception) where T : class, IAddOn
+        {
+            //Prepare
+            T instance = null;
+            exception = null;
+
+            try { instance = AppDomain.CurrentDomain.CreateInstance(assembly, type).Unwrap() as T; }
+            catch (Exception ex) { exception = ex; }
 
             //Return
             return instance;

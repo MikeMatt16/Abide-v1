@@ -47,7 +47,6 @@
             this.nestedPanel.Name = "nestedPanel";
             this.nestedPanel.Size = new System.Drawing.Size(4, 4);
             this.nestedPanel.TabIndex = 0;
-            this.nestedPanel.Visible = false;
             this.nestedPanel.WrapContents = false;
             // 
             // nameLabel

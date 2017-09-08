@@ -23,7 +23,7 @@ namespace Tag_Data_Editor.Controls
         public string SelectedString
         {
             get { return sid; }
-            set { sid = value; }
+            set { sid = value; Label.Text = value; }
         }
         public string StringLabel
         {

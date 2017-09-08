@@ -5,6 +5,11 @@ namespace Tag_Data_Editor.Controls
 {
     public partial class TagControl : MetaControl
     {
+        public EventHandler<TagButtonEventArgs> GoToButtonClick
+        {
+            get { return goToButtonClick; }
+            set { goToButtonClick = value; }
+        }
         public EventHandler<TagButtonEventArgs> TagButtonClick
         {
             get { return tagButtonClick; }
@@ -31,6 +36,7 @@ namespace Tag_Data_Editor.Controls
             set { tagSelectBox.Text = value; }
         }
 
+        private EventHandler<TagButtonEventArgs> goToButtonClick;
         private EventHandler<TagButtonEventArgs> tagButtonClick;
         private IndexEntry selectedEntry = null;
 
@@ -43,6 +49,11 @@ namespace Tag_Data_Editor.Controls
         {
             tagButtonClick?.Invoke(this, new TagButtonEventArgs(selectedEntry));
             Label.Text = tagSelectBox.Text;
+        }
+
+        private void goToButton_Click(object sender, EventArgs e)
+        {
+            goToButtonClick?.Invoke(this, new TagButtonEventArgs(selectedEntry));
         }
     }
 

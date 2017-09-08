@@ -31,8 +31,6 @@ namespace Tag_Data_Editor.Controls
             {
                 if (indexSelectBox.Items.Contains(value))
                     indexSelectBox.SelectedItem = value;
-                else AddOption(value);
-                indexSelectBox.SelectedItem = value;
             }
         }
 
@@ -40,21 +38,28 @@ namespace Tag_Data_Editor.Controls
 
         public void Clear()
         {
-            indexSelectBox.Items.Clear();
+            //Reset
+            indexSelectBox.DataSource = null;
+            indexSelectBox.DisplayMember = null;
+
+            //Disable
             indexSelectBox.Enabled = false;
             nestedPanel.Enabled = false;
         }
-        public BlockOption AddOption(uint pointer, int index, int length, string name)
+        public void SetBlocks(BlockOption[] options)
         {
-            return AddOption(new BlockOption(pointer, index, length, name));
-        }
-        public BlockOption AddOption(BlockOption option)
-        {
-            if (!indexSelectBox.Items.Contains(option))
-                indexSelectBox.Items.Add(option);
-            indexSelectBox.Enabled = true;
-            nestedPanel.Enabled = true;
-            return option;
+            //Check
+            if (options.Length > 0)
+            {
+                //Create Data binding
+                indexSelectBox.DataSource = options;
+                indexSelectBox.DisplayMember = "Display";
+
+                //Enable
+                indexSelectBox.Enabled = true;
+                nestedPanel.Enabled = true;
+            }
+            else Clear();
         }
         public TagBlockControl()
         {
@@ -85,6 +90,10 @@ namespace Tag_Data_Editor.Controls
 
     public class BlockOption : IComparable<BlockOption>, IEquatable<BlockOption>
     {
+        public string Display
+        {
+            get { return ToString(); }
+        }
         public LabelReference Label
         {
             get { return labelReference; }
@@ -143,8 +152,7 @@ namespace Tag_Data_Editor.Controls
         }
         public override string ToString()
         {
-            if (labelReference != null)
-                return $"{index}: {labelReference}";
+            if (labelReference != null) return $"{index}: {labelReference}";
             else return $"{index}: {name}";
         }
         
@@ -164,38 +172,6 @@ namespace Tag_Data_Editor.Controls
         public static implicit operator int(BlockOption option)
         {
             return option.index;
-        }
-    }
-
-    public class LabelReference : IEquatable<LabelReference>, IComparable<LabelReference>
-    {
-        public string Text
-        {
-            get { return text; }
-            set { text = value; }
-        }
-
-        private string text;
-
-        public LabelReference() : this(string.Empty)
-        {
-        }
-        public LabelReference(string text)
-        {
-            this.text = text;
-        }
-        public bool Equals(LabelReference other)
-        {
-            return text.Equals(other.text);
-        }
-        public int CompareTo(LabelReference other)
-        {
-            return text.CompareTo(other.text);
-        }
-        public override string ToString()
-        {
-            if (text != null) return text;
-            return "null";
         }
     }
 }
