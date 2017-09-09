@@ -16,7 +16,7 @@ namespace Tag_Data_Editor
             //Initialize
             body.Clear();
         }
-        public override void AddBitmask(int uniqueId, string metaType, int bitCount, string name)
+        public override void AddBitField(int uniqueId, string metaType, int bitCount, string name)
         {
             //Append
             body.AppendFormat(Files.Bitmask, uniqueId, metaType, bitCount, name);
@@ -26,7 +26,7 @@ namespace Tag_Data_Editor
             //Append
             body.AppendFormat(Files.Enum, uniqueId, metaType, options, name);
         }
-        public override void AddReflexive(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent)
+        public override void AddTagBlock(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent)
         {
             //Append
             body.AppendFormat(Files.Reflexive, uniqueId, translation, length, name, chunkOptions, childContent);
@@ -41,7 +41,7 @@ namespace Tag_Data_Editor
             //Append
             body.AppendFormat(Files.StringID, uniqueId, typeName, name);
         }
-        public override void AddTag(int uniqueId, string typeName, string name)
+        public override void AddTagId(int uniqueId, string typeName, string name)
         {
             //Append
             body.AppendFormat(Files.Tag, uniqueId, typeName, name);
@@ -77,7 +77,7 @@ namespace Tag_Data_Editor
             //Initialize
             content.Clear();
         }
-        public override void AddBitmask(int uniqueId, string metaType, int bitCount, string name)
+        public override void AddBitField(int uniqueId, string metaType, int bitCount, string name)
         {
             //Append
             content.AppendFormat(Files.Bitmask, uniqueId, metaType, bitCount, name);
@@ -87,7 +87,7 @@ namespace Tag_Data_Editor
             //Append
             content.AppendFormat(Files.Enum, uniqueId, metaType, options, name);
         }
-        public override void AddReflexive(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent)
+        public override void AddTagBlock(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent)
         {
             //Append
             content.AppendFormat(Files.Reflexive, uniqueId, translation, length, name, chunkOptions, childContent);
@@ -102,7 +102,7 @@ namespace Tag_Data_Editor
             //Append
             content.AppendFormat(Files.StringID, uniqueId, typeName, name);
         }
-        public override void AddTag(int uniqueId, string typeName, string name)
+        public override void AddTagId(int uniqueId, string typeName, string name)
         {
             //Append
             content.AppendFormat(Files.Tag, uniqueId, typeName, name);
@@ -132,12 +132,12 @@ namespace Tag_Data_Editor
         }
 
         public abstract void Clear();
-        public abstract void AddBitmask(int uniqueId, string metaType, int bitCount, string name);
+        public abstract void AddBitField(int uniqueId, string metaType, int bitCount, string name);
         public abstract void AddEnum(int uniqueId, string metaType, string options, string name);
-        public abstract void AddReflexive(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent);
+        public abstract void AddTagBlock(int uniqueId, long translation, int length, string name, string chunkOptions, string childContent);
         public abstract void AddString(int uniqueId, int stringLength, string typeName, string name);
         public abstract void AddStringId(int uniqueId, string typeName, string name);
-        public abstract void AddTag(int uniqueId, string typeName, string name);
+        public abstract void AddTagId(int uniqueId, string typeName, string name);
         public abstract void AddUnicode(int uniqueId, int stringLength, string typeName, string name);
         public abstract void AddValue(int uniqueId, string metaType, string name);
     }

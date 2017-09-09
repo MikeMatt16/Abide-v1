@@ -49,73 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbideRegistry.cs" />
-    <Compile Include="Controls\BitflagsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BitflagsControl.designer.cs">
-      <DependentUpon>BitflagsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EnumControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EnumControl.designer.cs">
-      <DependentUpon>EnumControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MetaControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StringControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StringControl.designer.cs">
-      <DependentUpon>StringControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StringIDControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StringIDControl.designer.cs">
-      <DependentUpon>StringIDControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TagBlockControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TagBlockControl.designer.cs">
-      <DependentUpon>TagBlockControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TagControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TagControl.designer.cs">
-      <DependentUpon>TagControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ValueControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ValueControl.designer.cs">
-      <DependentUpon>ValueControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Files.cs" />
     <Compile Include="Formatter.cs" />
-    <Compile Include="Halo2\PopoutEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Halo2\PopoutEditor.Designer.cs">
-      <DependentUpon>PopoutEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Halo2\TagDataEditor.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Halo2\TagData.cs" />
     <Compile Include="Halo2\TagEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Halo2\TagEditor.Designer.cs">
       <DependentUpon>TagEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Halo2\TagEditor2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Halo2\TagEditor2.Designer.cs">
-      <DependentUpon>TagEditor2.cs</DependentUpon>
+    <Compile Include="Halo2\TagEditorWebBrowser.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -149,35 +93,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\BitflagsControl.resx">
-      <DependentUpon>BitflagsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\EnumControl.resx">
-      <DependentUpon>EnumControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StringControl.resx">
-      <DependentUpon>StringControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StringIDControl.resx">
-      <DependentUpon>StringIDControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TagBlockControl.resx">
-      <DependentUpon>TagBlockControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TagControl.resx">
-      <DependentUpon>TagControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ValueControl.resx">
-      <DependentUpon>ValueControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Halo2\PopoutEditor.resx">
-      <DependentUpon>PopoutEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Halo2\TagEditor.resx">
       <DependentUpon>TagEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Halo2\TagEditor2.resx">
-      <DependentUpon>TagEditor2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -192,6 +109,7 @@
     <None Include="Resources\Meta Editor.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Poke.png" />
     <Content Include="Tag Editor\Bitmask.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

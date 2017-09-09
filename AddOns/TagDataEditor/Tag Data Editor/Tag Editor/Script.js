@@ -1,13 +1,8 @@
-﻿function setElementEnabled(id, enabled) {
-    $("#" + id).prop('disabled', !enabled);
-    $("#" + id + " *").prop('disabled', !enabled);
-}
-
-function valueChanged(id) {
+﻿function valueChanged(id) {
     var Element = document.getElementById(id);
     var uid = Element.getAttribute("uid");
     var value = document.getElementById("valueInput" + uid).value;
-    window.external.SetValue(Element.getAttribute("metatype"), uid, value);
+    window.external.SetValue(uid, value);
 }
 
 function setValue(id, value) {
@@ -21,7 +16,7 @@ function enumChanged(id) {
     var uid = Element.getAttribute("uid");
     var select = document.getElementById("enumSelect" + uid);
     var value = select.options[select.selectedIndex].getAttribute("value");
-    window.external.SetEnum(Element.getAttribute("metatype"), uid, value);
+    window.external.SetEnum(uid, value);
 }
 
 function setReflexive(id, reflexiveName, count) {
@@ -89,9 +84,10 @@ function addEnum(id, value, name) {
 
 function sortSelect(id) {
 }
+
 function tagButtonPress(id) {
     var Element = document.getElementById(id);
-    window.external.TagButtonClick(Element.getAttribute("ident"), Element.getAttribute("uid"));
+    window.external.TagButtonClick(Element.getAttribute("uid"), Element.getAttribute("ident"));
 }
 
 function tagAssignIdent(id, ident, tagClass, tagPath) {
@@ -111,7 +107,7 @@ function bitmaskChanged(bitmaskId) {
         if (document.getElementById("bit" + i + "-" + uid).checked)
             Value |= Math.pow(2, i);
     }
-    window.external.SetBitmask(Element.getAttribute("metatype"), uid, Value);
+    window.external.SetBitmask(uid, Value);
 }
 
 function checkBit(uid, bit, checked) {
@@ -138,7 +134,7 @@ function revealBit(bitmaskId, bit, bits) {
 
 function stringIdButtonPress(id) {
     var Element = document.getElementById(id);
-    window.external.StringIDButtonClick(Element.getAttribute("sid"), Element.getAttribute("uid"));
+    window.external.StringIDButtonClick(Element.getAttribute("uid"), Element.getAttribute("sid"));
 }
 
 function stringIdAssignID(id, sid, stringName) {
@@ -157,13 +153,13 @@ function stringAssign(id, string) {
 function stringChanged(id) {
     var uid = document.getElementById(id).getAttribute("uid");
     var stringInputId = "stringInput" + uid;
-    window.external.SetString(uid, document.getElementById(stringInputId).innerText, document.getElementById(id).getAttribute("stringlength"));
+    window.external.SetString(uid, document.getElementById(stringInputId).innerText);
 }
 
 function unicodeChanged(id) {
     var uid = document.getElementById(id).getAttribute("uid");
     var stringInputId = "unicodeInput" + uid;
-    window.external.SetUnicode(uid, document.getElementById(stringInputId).innerText, document.getElementById(id).getAttribute("stringlength"));
+    window.external.SetUnicode(uid, document.getElementById(stringInputId).innerText);
 }
 
 function reflexiveChunkChanged(id) {

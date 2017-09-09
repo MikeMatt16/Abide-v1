@@ -29,23 +29,114 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TagEditor));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tagDataSplitter = new System.Windows.Forms.SplitContainer();
+            this.structureView = new System.Windows.Forms.TreeView();
+            this.tagEditorToolStrip = new System.Windows.Forms.ToolStrip();
+            this.pokeToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.tagBlockIndexToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.xboxConnectionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.tagDataWebBrowser = new Tag_Data_Editor.Halo2.TagEditorWebBrowser();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.container = new System.Windows.Forms.Panel();
-            this.tagDataEditor = new Tag_Data_Editor.Halo2.TagDataEditor();
-            this.toolStrip1.SuspendLayout();
-            this.container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tagDataSplitter)).BeginInit();
+            this.tagDataSplitter.Panel1.SuspendLayout();
+            this.tagDataSplitter.Panel2.SuspendLayout();
+            this.tagDataSplitter.SuspendLayout();
+            this.tagEditorToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // tagDataSplitter
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagDataSplitter.BackColor = System.Drawing.SystemColors.Control;
+            this.tagDataSplitter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tagDataSplitter.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.tagDataSplitter.Location = new System.Drawing.Point(0, 0);
+            this.tagDataSplitter.Name = "tagDataSplitter";
+            this.tagDataSplitter.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // tagDataSplitter.Panel1
+            // 
+            this.tagDataSplitter.Panel1.Controls.Add(this.structureView);
+            this.tagDataSplitter.Panel1.Controls.Add(this.tagEditorToolStrip);
+            // 
+            // tagDataSplitter.Panel2
+            // 
+            this.tagDataSplitter.Panel2.Controls.Add(this.tagDataWebBrowser);
+            this.tagDataSplitter.Size = new System.Drawing.Size(600, 500);
+            this.tagDataSplitter.SplitterDistance = 200;
+            this.tagDataSplitter.TabIndex = 1;
+            // 
+            // structureView
+            // 
+            this.structureView.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.structureView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.structureView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.structureView.HideSelection = false;
+            this.structureView.Location = new System.Drawing.Point(0, 0);
+            this.structureView.Name = "structureView";
+            this.structureView.Size = new System.Drawing.Size(600, 175);
+            this.structureView.TabIndex = 1;
+            this.structureView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.structureView_AfterSelect);
+            // 
+            // tagEditorToolStrip
+            // 
+            this.tagEditorToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tagEditorToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.tagEditorToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pokeToolStripButton,
+            this.tagBlockIndexToolStripComboBox,
+            this.xboxConnectionToolStripLabel,
             this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(150, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.tagEditorToolStrip.Location = new System.Drawing.Point(0, 175);
+            this.tagEditorToolStrip.Name = "tagEditorToolStrip";
+            this.tagEditorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.tagEditorToolStrip.Size = new System.Drawing.Size(600, 25);
+            this.tagEditorToolStrip.TabIndex = 0;
+            this.tagEditorToolStrip.Text = "toolStrip1";
+            // 
+            // pokeToolStripButton
+            // 
+            this.pokeToolStripButton.Enabled = false;
+            this.pokeToolStripButton.Image = global::Tag_Data_Editor.Properties.Resources.Poke;
+            this.pokeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pokeToolStripButton.Name = "pokeToolStripButton";
+            this.pokeToolStripButton.Size = new System.Drawing.Size(102, 22);
+            this.pokeToolStripButton.Text = "&Poke Changes";
+            this.pokeToolStripButton.Click += new System.EventHandler(this.pokeToolStripButton_Click);
+            // 
+            // tagBlockIndexToolStripComboBox
+            // 
+            this.tagBlockIndexToolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tagBlockIndexToolStripComboBox.DropDownWidth = 200;
+            this.tagBlockIndexToolStripComboBox.Name = "tagBlockIndexToolStripComboBox";
+            this.tagBlockIndexToolStripComboBox.Size = new System.Drawing.Size(200, 25);
+            this.tagBlockIndexToolStripComboBox.Visible = false;
+            this.tagBlockIndexToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.tagBlockIndexToolStripComboBox_SelectedIndexChanged);
+            // 
+            // xboxConnectionToolStripLabel
+            // 
+            this.xboxConnectionToolStripLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.xboxConnectionToolStripLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.xboxConnectionToolStripLabel.Image = ((System.Drawing.Image)(resources.GetObject("xboxConnectionToolStripLabel.Image")));
+            this.xboxConnectionToolStripLabel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.xboxConnectionToolStripLabel.Name = "xboxConnectionToolStripLabel";
+            this.xboxConnectionToolStripLabel.Size = new System.Drawing.Size(88, 22);
+            this.xboxConnectionToolStripLabel.Text = "Not Connected";
+            // 
+            // tagDataWebBrowser
+            // 
+            this.tagDataWebBrowser.BitmaskSetCallback = null;
+            this.tagDataWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tagDataWebBrowser.EnumSetCallback = null;
+            this.tagDataWebBrowser.Location = new System.Drawing.Point(0, 0);
+            this.tagDataWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.tagDataWebBrowser.Name = "tagDataWebBrowser";
+            this.tagDataWebBrowser.Size = new System.Drawing.Size(600, 296);
+            this.tagDataWebBrowser.StringIdButtonClickCallback = null;
+            this.tagDataWebBrowser.StringSetCallback = null;
+            this.tagDataWebBrowser.TabIndex = 0;
+            this.tagDataWebBrowser.TagButtonClickCallback = null;
+            this.tagDataWebBrowser.UnicodeSetCallback = null;
+            this.tagDataWebBrowser.ValueSetCallback = null;
             // 
             // toolStripButton1
             // 
@@ -57,58 +148,39 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // container
-            // 
-            this.container.AutoScroll = true;
-            this.container.Controls.Add(this.tagDataEditor);
-            this.container.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.container.Location = new System.Drawing.Point(0, 25);
-            this.container.Name = "container";
-            this.container.Size = new System.Drawing.Size(150, 125);
-            this.container.TabIndex = 1;
-            // 
-            // tagDataEditor
-            // 
-            this.tagDataEditor.AutoSize = true;
-            this.tagDataEditor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tagDataEditor.Entry = null;
-            this.tagDataEditor.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.tagDataEditor.Location = new System.Drawing.Point(0, 0);
-            this.tagDataEditor.Map = null;
-            this.tagDataEditor.Name = "tagDataEditor";
-            this.tagDataEditor.Owner = null;
-            this.tagDataEditor.Size = new System.Drawing.Size(0, 0);
-            this.tagDataEditor.TabIndex = 0;
-            this.tagDataEditor.WrapContents = false;
-            // 
             // TagEditor
             // 
             this.Author = "Click16";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.container);
-            this.Controls.Add(this.toolStrip1);
-            this.Description = "Controls to edit tag properties.";
+            this.Controls.Add(this.tagDataSplitter);
+            this.Description = "GUI based tag editor.";
             this.Icon = global::Tag_Data_Editor.Properties.Resources.Meta_Editor;
             this.Name = "TagEditor";
+            this.Size = new System.Drawing.Size(600, 500);
             this.ToolName = "Tag Editor";
-            this.Initialize += new System.EventHandler<Abide.AddOnApi.AddOnHostEventArgs>(this.TagEditor_Initialize);
-            this.MapLoad += new System.EventHandler(this.TagEditor_MapLoad);
             this.SelectedEntryChanged += new System.EventHandler(this.TagEditor_SelectedEntryChanged);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.container.ResumeLayout(false);
-            this.container.PerformLayout();
+            this.XboxChanged += new System.EventHandler(this.TagEditor_XboxChanged);
+            this.tagDataSplitter.Panel1.ResumeLayout(false);
+            this.tagDataSplitter.Panel1.PerformLayout();
+            this.tagDataSplitter.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tagDataSplitter)).EndInit();
+            this.tagDataSplitter.ResumeLayout(false);
+            this.tagEditorToolStrip.ResumeLayout(false);
+            this.tagEditorToolStrip.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.SplitContainer tagDataSplitter;
+        private System.Windows.Forms.TreeView structureView;
+        private System.Windows.Forms.ToolStrip tagEditorToolStrip;
+        private Tag_Data_Editor.Halo2.TagEditorWebBrowser tagDataWebBrowser;
+        private System.Windows.Forms.ToolStripComboBox tagBlockIndexToolStripComboBox;
+        private System.Windows.Forms.ToolStripButton pokeToolStripButton;
+        private System.Windows.Forms.ToolStripLabel xboxConnectionToolStripLabel;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.Panel container;
-        private TagDataEditor tagDataEditor;
     }
 }

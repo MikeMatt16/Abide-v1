@@ -148,7 +148,7 @@ namespace Tag_Data_Editor.Properties {
         ///   Looks up a localized string similar to &lt;div id=&quot;select{0}&quot; class=&quot;block&quot; uid=&quot;{0}&quot; metatype=&quot;{1}&quot;&gt;
         ///    &lt;div class=&quot;typeDiv&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;/label&gt;&lt;/div&gt;
         ///    &lt;select id=&quot;enumSelect{0}&quot; class=&quot;select&quot; onchange=&quot;enumChanged(&apos;select{0}&apos;)&quot;&gt;
-        ///        {2}
+        ///{2}
         ///    &lt;/select&gt;
         ///    &lt;label class=&quot;label2&quot;&gt;{3}&lt;/label&gt;
         ///&lt;/div&gt;.
@@ -179,6 +179,16 @@ namespace Tag_Data_Editor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Poke {
+            get {
+                object obj = ResourceManager.GetObject("Poke", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;div id=&quot;reflexive{0}&quot; class=&quot;reflexive-block&quot; uid=&quot;{0}&quot; metatype=&quot;reflexive&quot; translation=&quot;{1}&quot; length=&quot;{2}&quot;&gt;
         ///    &lt;div class=&quot;typeDiv&quot;&gt;
         ///        &lt;label class=&quot;label&quot;&gt;&lt;b&gt;{3}&lt;/b&gt;&lt;/label&gt;
@@ -196,21 +206,22 @@ namespace Tag_Data_Editor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function setElementEnabled(id, enabled) {
-        ///    $(&quot;#&quot; + id).prop(&apos;disabled&apos;, !enabled);
-        ///    $(&quot;#&quot; + id + &quot; *&quot;).prop(&apos;disabled&apos;, !enabled);
-        ///}
-        ///
-        ///function valueChanged(id) {
+        ///   Looks up a localized string similar to function valueChanged(id) {
         ///    var Element = document.getElementById(id);
         ///    var uid = Element.getAttribute(&quot;uid&quot;);
         ///    var value = document.getElementById(&quot;valueInput&quot; + uid).value;
-        ///    window.external.SetValue(Element.getAttribute(&quot;metatype&quot;), uid, value);
+        ///    window.external.SetValue(uid, value);
         ///}
         ///
         ///function setValue(id, value) {
         ///    var Element = document.getElementById(id);
-        ///    var uid = El [rest of string was truncated]&quot;;.
+        ///    var uid = Element.getAttribute(&quot;uid&quot;);
+        ///    document.getElementById(&quot;valueInput&quot; + uid).value = value;
+        ///}
+        ///
+        ///function enumChanged(id) {
+        ///    var Element = document.getElementById(id);
+        ///    va [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Script {
             get {
