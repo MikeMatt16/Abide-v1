@@ -233,7 +233,10 @@ namespace Tag_Data_Editor.Halo2
 
                 //Loop
                 foreach (DataObject childObject in dataObject)
+                {
                     Wrap(childObject, childOffset);
+                    if (childObject.SelectedIndex >= block.Count) childObject.SelectedIndex = 0;
+                }
             }
         }
 
@@ -346,6 +349,13 @@ namespace Tag_Data_Editor.Halo2
                 if (node == null) return false;
                 return node.Type == IfpNodeType.TagBlock;
             }
+        }
+        /// <summary>
+        /// Gets and returns true if the object is a block index value.
+        /// </summary>
+        public bool IsBlockIndex
+        {
+            get { return !string.IsNullOrEmpty(node.Layer) && node.TagBlockOffset >= 0 && node.TagBlockSize >= 0; }
         }
 
         private int uid = -1;
@@ -516,6 +526,21 @@ namespace Tag_Data_Editor.Halo2
         /// <returns>An ID string.</returns>
         public string GetHtmlId()
         {
+            //Check
+            if (IsBlockIndex)
+                switch (node.Type)
+                {
+                    case IfpNodeType.Byte:
+                    case IfpNodeType.SignedByte:
+                    case IfpNodeType.Short:
+                    case IfpNodeType.UnsignedShort:
+                    case IfpNodeType.Int:
+                    case IfpNodeType.UnsignedInt:
+                    case IfpNodeType.Long:
+                    case IfpNodeType.UnsignedLong:
+                        return $"valueSelect{uid}";
+                }
+
             //Handle
             switch (node.Type)
             {

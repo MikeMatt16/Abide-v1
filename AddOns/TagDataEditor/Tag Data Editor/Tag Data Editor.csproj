@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbideRegistry.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Halo2\TagData.cs" />
@@ -117,6 +118,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tag Editor\Editor.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tag Editor\BlockSelect.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tag Editor\Enum.html">

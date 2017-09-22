@@ -25,8 +25,7 @@ namespace Tag_Data_Editor.Halo2
             formatter = new TagDocumentFormatter();
             InitializeComponent();
 
-            //Set document
-            tagDataWebBrowser.DocumentText = formatter.GetHtml();
+            //Setup browser
             tagDataWebBrowser.TagButtonClickCallback = tagButton_Click;
             tagDataWebBrowser.StringIdButtonClickCallback = stringIdButton_Click;
             tagDataWebBrowser.ValueSetCallback = value_Set;
@@ -265,55 +264,109 @@ namespace Tag_Data_Editor.Halo2
         private void tagEditor_BuildHtml(IEnumerable<DataObject> dataObjects)
         {
             //Prepare
+            TagBlock block = TagBlock.Zero;
             StringBuilder options = null;
             string typeLabel = null;
             formatter.Clear();
 
             //Loop
             foreach (DataObject dataObject in dataObjects) {
+                if (!dataObject.IsValid) continue;
                 typeLabel = Enum.GetName(typeof(IfpNodeType), dataObject.Node.Type);
-                switch (dataObject.Node.Type)
+
+                //Get block level
+                if (!string.IsNullOrEmpty(dataObject.Node.Layer))
                 {
-                    case IfpNodeType.Byte:
-                    case IfpNodeType.SignedByte:
-                    case IfpNodeType.Short:
-                    case IfpNodeType.UnsignedShort:
-                    case IfpNodeType.Int:
-                    case IfpNodeType.UnsignedInt:
-                    case IfpNodeType.Long:
-                    case IfpNodeType.UnsignedLong:
-                    case IfpNodeType.Single:
-                    case IfpNodeType.Double:
-                        formatter.AddValue(dataObject.UniqueId, typeLabel, dataObject.Node.Name);
-                        break;
-
-                    case IfpNodeType.Enumerator8:
-                    case IfpNodeType.Enumerator16:
-                    case IfpNodeType.Enumerator32:
-                    case IfpNodeType.Enumerator64:
-                        options = new StringBuilder();
-                        foreach (IfpNode option in dataObject.Node.Nodes)
-                            options.AppendLine(TagDataFormatter.CreateOption(option.Value, option.Name));
-                        formatter.AddEnum(dataObject.UniqueId, typeLabel, options.ToString(), dataObject.Node.Name);
-                        break;
-
-                    case IfpNodeType.Bitfield8: formatter.AddBitField(dataObject.UniqueId, typeLabel, 8, dataObject.Node.Name); break;
-                    case IfpNodeType.Bitfield16: formatter.AddBitField(dataObject.UniqueId, typeLabel, 16, dataObject.Node.Name); break;
-                    case IfpNodeType.Bitfield32: formatter.AddBitField(dataObject.UniqueId, typeLabel, 32, dataObject.Node.Name); break;
-                    case IfpNodeType.Bitfield64: formatter.AddBitField(dataObject.UniqueId, typeLabel, 64, dataObject.Node.Name); break;
-
-                    case IfpNodeType.String32: formatter.AddString(dataObject.UniqueId, 32, typeLabel, dataObject.Node.Name); break;
-                    case IfpNodeType.String64: formatter.AddString(dataObject.UniqueId, 64, typeLabel, dataObject.Node.Name); break;
-                    case IfpNodeType.Unicode128: formatter.AddString(dataObject.UniqueId, 128, typeLabel, dataObject.Node.Name); break;
-                    case IfpNodeType.Unicode256: formatter.AddString(dataObject.UniqueId, 256, typeLabel, dataObject.Node.Name); break;
-
-                    case IfpNodeType.TagId: formatter.AddTagId(dataObject.UniqueId, typeLabel, dataObject.Node.Name); break;
-                    case IfpNodeType.StringId: formatter.AddStringId(dataObject.UniqueId, typeLabel, dataObject.Node.Name); break;
+                    //Prepare
+                    options = new StringBuilder();
+                    options.AppendLine(TagDataFormatter.CreateOption(-1, "Null"));
+                    switch (dataObject.Node.Layer)
+                    {
+                        case "root":
+                            dataObject.DataStream.Seek(SelectedEntry.Offset + dataObject.Node.TagBlockOffset, SeekOrigin.Begin);
+                            using (BinaryReader reader = new BinaryReader(dataObject.DataStream))
+                                block = reader.ReadInt64();
+                            for (int i = 0; i < block.Count; i++)
+                                options.AppendLine(TagDataFormatter.CreateOption(i, $"{i}: {value_GetLabel(dataObject.Node.ItemType, dataObject.DataStream, block.Offset + (dataObject.Node.TagBlockSize * i) + dataObject.Node.ItemOffset)}"));
+                            formatter.AddBlockSelect(dataObject.UniqueId, typeLabel, options.ToString(), dataObject.Node.Name);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else
+                    switch (dataObject.Node.Type)
+                    {
+                        case IfpNodeType.Byte:
+                        case IfpNodeType.SignedByte:
+                        case IfpNodeType.Short:
+                        case IfpNodeType.UnsignedShort:
+                        case IfpNodeType.Int:
+                        case IfpNodeType.UnsignedInt:
+                        case IfpNodeType.Long:
+                        case IfpNodeType.UnsignedLong:
+                        case IfpNodeType.Single:
+                        case IfpNodeType.Double:
+                            formatter.AddValue(dataObject.UniqueId, typeLabel, dataObject.Node.Name);
+                            break;
+
+                        case IfpNodeType.Enumerator8:
+                        case IfpNodeType.Enumerator16:
+                        case IfpNodeType.Enumerator32:
+                        case IfpNodeType.Enumerator64:
+                            options = new StringBuilder();
+                            foreach (IfpNode option in dataObject.Node.Nodes)
+                                options.AppendLine(TagDataFormatter.CreateOption(option.Value, option.Name));
+                            formatter.AddEnum(dataObject.UniqueId, typeLabel, options.ToString(), dataObject.Node.Name);
+                            break;
+
+                        case IfpNodeType.Bitfield8: formatter.AddBitField(dataObject.UniqueId, typeLabel, 8, dataObject.Node.Name); break;
+                        case IfpNodeType.Bitfield16: formatter.AddBitField(dataObject.UniqueId, typeLabel, 16, dataObject.Node.Name); break;
+                        case IfpNodeType.Bitfield32: formatter.AddBitField(dataObject.UniqueId, typeLabel, 32, dataObject.Node.Name); break;
+                        case IfpNodeType.Bitfield64: formatter.AddBitField(dataObject.UniqueId, typeLabel, 64, dataObject.Node.Name); break;
+
+                        case IfpNodeType.String32: formatter.AddString(dataObject.UniqueId, 32, typeLabel, dataObject.Node.Name); break;
+                        case IfpNodeType.String64: formatter.AddString(dataObject.UniqueId, 64, typeLabel, dataObject.Node.Name); break;
+                        case IfpNodeType.Unicode128: formatter.AddString(dataObject.UniqueId, 128, typeLabel, dataObject.Node.Name); break;
+                        case IfpNodeType.Unicode256: formatter.AddString(dataObject.UniqueId, 256, typeLabel, dataObject.Node.Name); break;
+
+                        case IfpNodeType.TagId: formatter.AddTagId(dataObject.UniqueId, typeLabel, dataObject.Node.Name); break;
+                        case IfpNodeType.StringId: formatter.AddStringId(dataObject.UniqueId, typeLabel, dataObject.Node.Name); break;
+                    }
             }
 
             //Set
             tagDataWebBrowser.DocumentText = formatter.GetHtml();
+        }
+
+        private string value_GetLabel(IfpNodeType itemType, Stream dataStream, long address)
+        {
+            //Goto
+            dataStream.Seek(address, SeekOrigin.Begin);
+            using (BinaryReader reader = new BinaryReader(dataStream))
+                switch (itemType)
+                {
+                    case IfpNodeType.Byte: return reader.ReadByte().ToString();
+                    case IfpNodeType.SignedByte: return reader.ReadSByte().ToString();
+                    case IfpNodeType.Short: return reader.ReadInt16().ToString();
+                    case IfpNodeType.UnsignedShort: return reader.ReadUInt16().ToString();
+                    case IfpNodeType.Int: return reader.ReadInt32().ToString();
+                    case IfpNodeType.UnsignedInt: return reader.ReadUInt32().ToString();
+                    case IfpNodeType.Long: return reader.ReadInt64().ToString();
+                    case IfpNodeType.UnsignedLong: return reader.ReadUInt64().ToString();
+                    case IfpNodeType.Single: return reader.ReadSingle().ToString();
+                    case IfpNodeType.Double: return reader.ReadDouble().ToString();
+                    case IfpNodeType.String32: return reader.ReadUTF8(32).Trim('\0');
+                    case IfpNodeType.String64: return reader.ReadUTF8(64).Trim('\0');
+                    case IfpNodeType.Unicode128: return reader.ReadUTF8(128).Trim('\0');
+                    case IfpNodeType.Unicode256: return reader.ReadUTF8(256).Trim('\0');
+                    case IfpNodeType.TagId:
+                        IndexEntry entry = Map.IndexEntries[reader.ReadStructure<TagId>()];
+                        if (entry == null) return "Null";
+                        else return $"{entry.Filename}.{entry.Root}";
+                    case IfpNodeType.StringId: return Map.Strings[reader.ReadStructure<StringId>().Index];
+                }
+            return string.Empty;
         }
 
         private void tagEditor_SetValues(IEnumerable<DataObject> dataObjects)
@@ -327,77 +380,98 @@ namespace Tag_Data_Editor.Halo2
             //Loop
             foreach (DataObject dataObject in dataObjects)
                 if (dataObject.IsValid)
-                    switch (dataObject.Node.Type)
-                    {
-                        case IfpNodeType.Byte:
-                        case IfpNodeType.SignedByte:
-                        case IfpNodeType.Short:
-                        case IfpNodeType.UnsignedShort:
-                        case IfpNodeType.Int:
-                        case IfpNodeType.UnsignedInt:
-                        case IfpNodeType.Long:
-                        case IfpNodeType.UnsignedLong:
-                        case IfpNodeType.Single:
-                        case IfpNodeType.Double:
-                            args = new object[] { dataObject.GetHtmlId(), dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("setValue", args); break;
+                    if (dataObject.IsBlockIndex)
+                        switch (dataObject.Node.Type)
+                        {
+                            case IfpNodeType.Byte:
+                            case IfpNodeType.SignedByte:
+                                args = new object[] { dataObject.GetHtmlId(), Convert.ToSByte(dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("selectBlock", args); break;
+                            case IfpNodeType.Short:
+                            case IfpNodeType.UnsignedShort:
+                                args = new object[] { dataObject.GetHtmlId(), Convert.ToInt16(dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("selectBlock", args); break;
+                            case IfpNodeType.Int:
+                            case IfpNodeType.UnsignedInt:
+                                args = new object[] { dataObject.GetHtmlId(), Convert.ToInt32(dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("selectBlock", args); break;
+                            case IfpNodeType.Long:
+                            case IfpNodeType.UnsignedLong:
+                                args = new object[] { dataObject.GetHtmlId(), Convert.ToInt64(dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("selectBlock", args); break;
+                        }
+                    else
+                        switch (dataObject.Node.Type)
+                        {
+                            case IfpNodeType.Byte:
+                            case IfpNodeType.SignedByte:
+                            case IfpNodeType.Short:
+                            case IfpNodeType.UnsignedShort:
+                            case IfpNodeType.Int:
+                            case IfpNodeType.UnsignedInt:
+                            case IfpNodeType.Long:
+                            case IfpNodeType.UnsignedLong:
+                            case IfpNodeType.Single:
+                            case IfpNodeType.Double:
+                                args = new object[] { dataObject.GetHtmlId(), dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("setValue", args); break;
 
-                        case IfpNodeType.Enumerator8:
-                            args = new object[] { dataObject.GetHtmlId(), (byte)dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
-                        case IfpNodeType.Enumerator16:
-                            args = new object[] { dataObject.GetHtmlId(), (ushort)dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
-                        case IfpNodeType.Enumerator32:
-                            args = new object[] { dataObject.GetHtmlId(), (uint)dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
-                        case IfpNodeType.Enumerator64:
-                            args = new object[] { dataObject.GetHtmlId(), (ulong)dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
+                            case IfpNodeType.Enumerator8:
+                                args = new object[] { dataObject.GetHtmlId(), (byte)dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
+                            case IfpNodeType.Enumerator16:
+                                args = new object[] { dataObject.GetHtmlId(), (ushort)dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
+                            case IfpNodeType.Enumerator32:
+                                args = new object[] { dataObject.GetHtmlId(), (uint)dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
+                            case IfpNodeType.Enumerator64:
+                                args = new object[] { dataObject.GetHtmlId(), (ulong)dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("selectEnum", args); break;
 
-                        case IfpNodeType.Bitfield8:
-                            byte bit8 = (byte)dataObject.Value;
-                            for (int i = 0; i < 8; i++)
-                            {
-                                args = new object[] { dataObject.UniqueId, i, bit8 % 2 != 0 };
-                                tagDataWebBrowser.Document.InvokeScript("checkBit", args);
-                                bit8 /= 2;
-                            }
-                            break;
-                        case IfpNodeType.Bitfield16:
-                            ushort bit16 = (ushort)dataObject.Value;
-                            for (int i = 0; i < 16; i++)
-                            {
-                                args = new object[] { dataObject.UniqueId, i, bit16 % 2 != 0 };
-                                tagDataWebBrowser.Document.InvokeScript("checkBit", args);
-                                bit16 /= 2;
-                            }
-                            break;
-                        case IfpNodeType.Bitfield32:
-                            uint bit32 = (uint)dataObject.Value;
-                            for (int i = 0; i < 32; i++)
-                            {
-                                args = new object[] { dataObject.UniqueId, i, bit32 % 2 != 0 };
-                                tagDataWebBrowser.Document.InvokeScript("checkBit", args);
-                                bit32 /= 2;
-                            }
-                            break;
+                            case IfpNodeType.Bitfield8:
+                                byte bit8 = (byte)dataObject.Value;
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    args = new object[] { dataObject.UniqueId, i, bit8 % 2 != 0 };
+                                    tagDataWebBrowser.Document.InvokeScript("checkBit", args);
+                                    bit8 /= 2;
+                                }
+                                break;
+                            case IfpNodeType.Bitfield16:
+                                ushort bit16 = (ushort)dataObject.Value;
+                                for (int i = 0; i < 16; i++)
+                                {
+                                    args = new object[] { dataObject.UniqueId, i, bit16 % 2 != 0 };
+                                    tagDataWebBrowser.Document.InvokeScript("checkBit", args);
+                                    bit16 /= 2;
+                                }
+                                break;
+                            case IfpNodeType.Bitfield32:
+                                uint bit32 = (uint)dataObject.Value;
+                                for (int i = 0; i < 32; i++)
+                                {
+                                    args = new object[] { dataObject.UniqueId, i, bit32 % 2 != 0 };
+                                    tagDataWebBrowser.Document.InvokeScript("checkBit", args);
+                                    bit32 /= 2;
+                                }
+                                break;
 
-                        case IfpNodeType.String32:
-                        case IfpNodeType.String64:
-                        case IfpNodeType.Unicode128:
-                        case IfpNodeType.Unicode256:
-                            args = new object[] { dataObject.GetHtmlId(), (string)dataObject.Value };
-                            tagDataWebBrowser.Document.InvokeScript("stringAssign", args); break;
+                            case IfpNodeType.String32:
+                            case IfpNodeType.String64:
+                            case IfpNodeType.Unicode128:
+                            case IfpNodeType.Unicode256:
+                                args = new object[] { dataObject.GetHtmlId(), (string)dataObject.Value };
+                                tagDataWebBrowser.Document.InvokeScript("stringAssign", args); break;
 
-                        case IfpNodeType.TagId: //function tagAssignIdent(id, ident, tagClass, tagPath)
-                            args = new object[] { dataObject.GetHtmlId(), ((TagId)dataObject.Value).Id, tagId_GetPath((TagId)dataObject.Value), tagId_GetRoot((TagId)dataObject.Value) };
-                            tagDataWebBrowser.Document.InvokeScript("tagAssignIdent", args); break;
+                            case IfpNodeType.TagId: //function tagAssignIdent(id, ident, tagClass, tagPath)
+                                args = new object[] { dataObject.GetHtmlId(), ((TagId)dataObject.Value).Id, tagId_GetPath((TagId)dataObject.Value), tagId_GetRoot((TagId)dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("tagAssignIdent", args); break;
 
-                        case IfpNodeType.StringId: //function stringIdAssignID(id, sid, stringName)
-                            args = new object[] { dataObject.GetHtmlId(), ((StringId)dataObject.Value).ID, stringid_GetString((StringId)dataObject.Value) };
-                            tagDataWebBrowser.Document.InvokeScript("stringIdAssignID", args); break;
-                    }
+                            case IfpNodeType.StringId: //function stringIdAssignID(id, sid, stringName)
+                                args = new object[] { dataObject.GetHtmlId(), ((StringId)dataObject.Value).ID, stringid_GetString((StringId)dataObject.Value) };
+                                tagDataWebBrowser.Document.InvokeScript("stringIdAssignID", args); break;
+                        }
         }
 
         private string stringid_GetString(StringId value)
@@ -638,7 +712,7 @@ namespace Tag_Data_Editor.Halo2
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void connectXboxToolStripButton_Click(object sender, EventArgs e)
         {
             if (Xbox.Connected) Xbox.Disconnect();
             else Xbox.Connect();

@@ -75,6 +75,21 @@ namespace Tag_Data_Editor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;div id=&quot;select{0}&quot; class=&quot;block&quot; uid=&quot;{0}&quot; metatype=&quot;{1}&quot;&gt;
+        ///    &lt;div class=&quot;typeDiv&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;/label&gt;&lt;/div&gt;
+        ///    &lt;select id=&quot;enumSelect{0}&quot; class=&quot;select&quot; onchange=&quot;enumChanged(&apos;select{0}&apos;)&quot;&gt;
+        ///{2}
+        ///    &lt;/select&gt;
+        ///    &lt;label class=&quot;label2&quot;&gt;{3}&lt;/label&gt;
+        ///&lt;/div&gt;.
+        /// </summary>
+        internal static string BlockSelect {
+            get {
+                return ResourceManager.GetString("BlockSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///
         ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; class=&quot;document&quot;&gt;
@@ -292,7 +307,8 @@ namespace Tag_Data_Editor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div id=&quot;value{0}&quot; class=&quot;block&quot; uid=&quot;{0}&quot; metatype=&quot;{1}&quot;&gt;
+        ///   Looks up a localized string similar to 
+        ///&lt;div id=&quot;value{0}&quot; class=&quot;block&quot; uid=&quot;{0}&quot; metatype=&quot;{1}&quot;&gt;
         ///    &lt;div class=&quot;typeDiv&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;/label&gt;&lt;/div&gt;
         ///    &lt;input id=&quot;valueInput{0}&quot; type=&quot;number&quot; class=&quot;input&quot; value=&quot;0&quot; onkeyup=&quot;valueChanged(&apos;value{0}&apos;)&quot;
         ///           onfocus=&quot;this.className=&apos;inputFocus&apos;&quot;

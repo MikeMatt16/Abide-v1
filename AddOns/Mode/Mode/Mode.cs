@@ -18,9 +18,11 @@ namespace Mode
             alphaBox.Image = new Bitmap(150, 150);
             betaBox.Image = new Bitmap(150, 150);
             gammaBox.Image = new Bitmap(150, 150);
+            Normal16 test = 0.8f;
+            Console.WriteLine(test);
         }
 
-        private void vector_ValueChanged(object sender, EventArgs e)
+        private void Vector_ValueChanged(object sender, EventArgs e)
         {
             //Setup Vector
             vec.Magnitude = magnitudeTrackBar.Value / 150f * 100f;

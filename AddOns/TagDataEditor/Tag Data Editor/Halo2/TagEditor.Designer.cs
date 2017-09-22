@@ -35,8 +35,8 @@
             this.pokeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tagBlockIndexToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.xboxConnectionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.connectXboxToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tagDataWebBrowser = new Tag_Data_Editor.Halo2.TagEditorWebBrowser();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.tagDataSplitter)).BeginInit();
             this.tagDataSplitter.Panel1.SuspendLayout();
             this.tagDataSplitter.Panel2.SuspendLayout();
@@ -85,7 +85,7 @@
             this.pokeToolStripButton,
             this.tagBlockIndexToolStripComboBox,
             this.xboxConnectionToolStripLabel,
-            this.toolStripButton1});
+            this.connectXboxToolStripButton});
             this.tagEditorToolStrip.Location = new System.Drawing.Point(0, 175);
             this.tagEditorToolStrip.Name = "tagEditorToolStrip";
             this.tagEditorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -122,6 +122,16 @@
             this.xboxConnectionToolStripLabel.Size = new System.Drawing.Size(88, 22);
             this.xboxConnectionToolStripLabel.Text = "Not Connected";
             // 
+            // connectXboxToolStripButton
+            // 
+            this.connectXboxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.connectXboxToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("connectXboxToolStripButton.Image")));
+            this.connectXboxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.connectXboxToolStripButton.Name = "connectXboxToolStripButton";
+            this.connectXboxToolStripButton.Size = new System.Drawing.Size(118, 22);
+            this.connectXboxToolStripButton.Text = "Connect Xbox HEHE";
+            this.connectXboxToolStripButton.Click += new System.EventHandler(this.connectXboxToolStripButton_Click);
+            // 
             // tagDataWebBrowser
             // 
             this.tagDataWebBrowser.BitmaskSetCallback = null;
@@ -136,17 +146,9 @@
             this.tagDataWebBrowser.TabIndex = 0;
             this.tagDataWebBrowser.TagButtonClickCallback = null;
             this.tagDataWebBrowser.UnicodeSetCallback = null;
+            this.tagDataWebBrowser.Url = new System.Uri("http://zaidware.com/michael.mattera/PotentialSoftware/Abide2/TagEditor/Index.html" +
+        "", System.UriKind.Absolute);
             this.tagDataWebBrowser.ValueSetCallback = null;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // TagEditor
             // 
@@ -181,6 +183,6 @@
         private System.Windows.Forms.ToolStripComboBox tagBlockIndexToolStripComboBox;
         private System.Windows.Forms.ToolStripButton pokeToolStripButton;
         private System.Windows.Forms.ToolStripLabel xboxConnectionToolStripLabel;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton connectXboxToolStripButton;
     }
 }

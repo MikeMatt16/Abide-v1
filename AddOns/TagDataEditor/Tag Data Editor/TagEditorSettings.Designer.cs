@@ -49,15 +49,15 @@
             this.h2PluginsPathBox.Location = new System.Drawing.Point(87, 5);
             this.h2PluginsPathBox.Name = "h2PluginsPathBox";
             this.h2PluginsPathBox.ReadOnly = true;
-            this.h2PluginsPathBox.Size = new System.Drawing.Size(216, 20);
+            this.h2PluginsPathBox.Size = new System.Drawing.Size(260, 20);
             this.h2PluginsPathBox.TabIndex = 1;
             // 
             // h2PluginsBrowseButton
             // 
             this.h2PluginsBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.h2PluginsBrowseButton.Location = new System.Drawing.Point(309, 3);
+            this.h2PluginsBrowseButton.Location = new System.Drawing.Point(353, 3);
             this.h2PluginsBrowseButton.Name = "h2PluginsBrowseButton";
-            this.h2PluginsBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.h2PluginsBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.h2PluginsBrowseButton.TabIndex = 2;
             this.h2PluginsBrowseButton.Text = "...";
             this.h2PluginsBrowseButton.UseVisualStyleBackColor = true;

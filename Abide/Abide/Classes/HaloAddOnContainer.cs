@@ -13,6 +13,14 @@ namespace Abide.Classes
     /// <typeparam name="TXbox">The Xbox type.</typeparam>
     public sealed class HaloAddOnContainer<TMap, TEntry, TXbox> : IDisposable
     {
+        /// <summary>
+        /// Gets and returns true if the container has been disposed; otherwise false.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get { return isDisposed; }
+        }
+
         private readonly List<IAddOn> addOns;
         private readonly List<IHaloAddOn<TMap, TEntry>> haloAddOns;
         private readonly List<ITabPage<TMap, TEntry, TXbox>> tabPages;
@@ -21,7 +29,7 @@ namespace Abide.Classes
         private readonly List<ITool<TMap, TEntry, TXbox>> tools;
         private readonly Dictionary<AddOnFactory, List<Exception>> errors;
         private readonly MapVersion version;
-        private bool disposedValue = false;
+        private bool isDisposed = false;
 
         /// <summary>
         /// Initializes a new <see cref="HaloAddOnContainer{TMap, TEntry, TXbox}"/>
@@ -94,16 +102,31 @@ namespace Abide.Classes
         {
             //Loop
             foreach (AddOnFactory factory in Program.Container.GetFactories())
-                factory_FilterInterfaces(factory, host);
+                Factory_FilterInterfaces(factory, host);
         }
         /// <summary>
         /// Releases all resources used by this <see cref="HaloAddOnContainer{TMap, TEntry, TXbox}"/> instance.
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            //Check
+            if (isDisposed) return;
+
+            //Dispose children
+            addOns.ForEach(a => a.Dispose());
+
+            //Clear
+            addOns.Clear();
+            tabPages.Clear();
+            menuButtons.Clear();
+            contextMenuItems.Clear();
+            tools.Clear();
+            errors.Clear();
+
+            //Set
+            isDisposed = true;
         }
-        private void factory_FilterInterfaces(AddOnFactory factory, IHost host)
+        private void Factory_FilterInterfaces(AddOnFactory factory, IHost host)
         {
             //Check Types
             foreach (Type type in factory.GetAddOnTypes())
@@ -120,21 +143,21 @@ namespace Abide.Classes
                 //Check Halo based AddOns
                 if (halo != null)
                     using (var haloAddOn = factory.CreateInstance<IHaloAddOn<TMap, TEntry>>(assemblyName, type.FullName))
-                        if (haloAddOn.Version == version)
+                        if (haloAddOn != null && haloAddOn.Version == version)
                         {
                             //Initialize...
                             try
                             {
-                                if (tool != null) factory_InitializeTool(factory, assemblyName, type.FullName, host);
-                                if (menuButton != null) factory_InitializeMenuButton(factory, assemblyName, type.FullName, host);
-                                if (contextMenuItem != null) factory_InitializeContextMenuItem(factory, assemblyName, type.FullName, host);
-                                if (tabPage != null) factory_InitializeTabPage(factory, assemblyName, type.FullName, host);
+                                if (tool != null) Factory_InitializeTool(factory, assemblyName, type.FullName, host);
+                                if (menuButton != null) Factory_InitializeMenuButton(factory, assemblyName, type.FullName, host);
+                                if (contextMenuItem != null) Factory_InitializeContextMenuItem(factory, assemblyName, type.FullName, host);
+                                if (tabPage != null) Factory_InitializeTabPage(factory, assemblyName, type.FullName, host);
                             }
                             catch (Exception ex) { errors[factory].Add(ex); }
                         }
             }
         }
-        private void factory_InitializeTool(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void Factory_InitializeTool(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
             ITool<TMap, TEntry, TXbox> tool = factory.CreateInstance<ITool<TMap, TEntry, TXbox>>(assemblyName, typeFullName);
@@ -145,7 +168,7 @@ namespace Abide.Classes
             haloAddOns.Add(tool);
             tools.Add(tool);
         }
-        private void factory_InitializeMenuButton(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void Factory_InitializeMenuButton(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
             IMenuButton<TMap, TEntry, TXbox> menuButton = factory.CreateInstance<IMenuButton<TMap, TEntry, TXbox>>(assemblyName, typeFullName);
@@ -156,7 +179,7 @@ namespace Abide.Classes
             haloAddOns.Add(menuButton);
             menuButtons.Add(menuButton);
         }
-        private void factory_InitializeTabPage(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void Factory_InitializeTabPage(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
             ITabPage<TMap, TEntry, TXbox> tabPage = factory.CreateInstance<ITabPage<TMap, TEntry, TXbox>>(assemblyName, typeFullName);
@@ -167,7 +190,7 @@ namespace Abide.Classes
             haloAddOns.Add(tabPage);
             tabPages.Add(tabPage);
         }
-        private void factory_InitializeContextMenuItem(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void Factory_InitializeContextMenuItem(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
             IContextMenuItem<TMap, TEntry, TXbox> contextMenuItem = factory.CreateInstance<IContextMenuItem<TMap, TEntry, TXbox>>(assemblyName, typeFullName);
@@ -177,25 +200,6 @@ namespace Abide.Classes
             addOns.Add(contextMenuItem);
             haloAddOns.Add(contextMenuItem);
             contextMenuItems.Add(contextMenuItem);
-        }
-        private void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                //Dispose
-                if (disposing)
-                    addOns.ForEach(a => a.Dispose());
-
-                //Clear
-                addOns.Clear();
-                tabPages.Clear();
-                menuButtons.Clear();
-                contextMenuItems.Clear();
-                tools.Clear();
-                errors.Clear();
-
-                disposedValue = true;
-            }
         }
     }
 }

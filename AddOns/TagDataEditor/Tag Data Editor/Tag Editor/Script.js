@@ -11,6 +11,14 @@ function setValue(id, value) {
     document.getElementById("valueInput" + uid).value = value;
 }
 
+function blockChanged(id) {
+    var Element = document.getElementById(id);
+    var uid = Element.getAttribute("uid");
+    var select = document.getElementById("valueSelect" + uid);
+    var value = select.options[select.selectedIndex].getAttribute("value");
+    window.external.SetValue(uid, value);
+}
+
 function enumChanged(id) {
     var Element = document.getElementById(id);
     var uid = Element.getAttribute("uid");
@@ -37,6 +45,27 @@ function setReflexive(id, reflexiveName, count) {
 
 function setReflexiveName(id, name, index) {
     document.getElementById(id).options[index].text = name;
+}
+
+function selectBlock(id, value) {
+    var Element = document.getElementById(id);
+    var success = false;
+    for (var i = 0; i < Element.length; i++) {
+        if (Element.options[i].value == value) {
+            Element.selectedIndex = i;
+            success = true;
+            break;
+        }
+    }
+
+    if (!success) {
+        var newOption = document.createElement("option");
+        newOption.value = value;
+        newOption.text = value + ": Value too large or too small to be the indexer";
+        Element.appendChild(newOption);
+    }
+
+    sortSelect(id);
 }
 
 function selectEnum(id, value) {

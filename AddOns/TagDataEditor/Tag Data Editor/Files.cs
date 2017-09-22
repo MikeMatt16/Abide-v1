@@ -39,6 +39,16 @@ namespace Tag_Data_Editor
                 return value;
             }
         }
+        public static string BlockSelect
+        {
+            get
+            {
+                string value = string.Empty;
+                using (StreamReader reader = new StreamReader(GetBlockSelectStream()))
+                    value = reader.ReadToEnd();
+                return value;
+            }
+        }
         public static string Reflexive
         {
             get
@@ -149,6 +159,10 @@ namespace Tag_Data_Editor
         public static Stream GetEnumStream()
         {
             return GetFileStream("Enum.html", Properties.Resources.Enum);
+        }
+        public static Stream GetBlockSelectStream()
+        {
+            return GetFileStream("BlockSelect.html", Properties.Resources.BlockSelect);
         }
         public static Stream GetReflexiveStream()
         {

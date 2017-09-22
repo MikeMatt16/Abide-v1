@@ -19,6 +19,30 @@ namespace Abide.Ifp
             set { name = value; }
         }
         /// <summary>
+        /// Gets or sets the tag block level of the node.
+        /// </summary>
+        public string Layer
+        {
+            get { return layer; }
+            set { layer = value; }
+        }
+        /// <summary>
+        /// Gets or sets the tag block label of the node.
+        /// </summary>
+        public string Label
+        {
+            get { return label; }
+            set { label = value; }
+        }
+        /// <summary>
+        /// Gets or sets the item type for the block selector.
+        /// </summary>
+        public IfpNodeType ItemType
+        {
+            get { return itemType; }
+            set { itemType = value; }
+        }
+        /// <summary>
         /// Gets or sets the type of the node.
         /// </summary>
         public IfpNodeType Type
@@ -58,7 +82,7 @@ namespace Abide.Ifp
             set { inferOffset = !value; }
         }
         /// <summary>
-        /// Gets or sets the offset of the tag block reference.
+        /// Gets or sets the offset of the tag block index.
         /// </summary>
         public int TagBlockOffset
         {
@@ -66,12 +90,20 @@ namespace Abide.Ifp
             set { tagBlockOffset = value; }
         }
         /// <summary>
-        /// Gets or sets the size of the tag block reference.
+        /// Gets or sets the size of the tag block index.
         /// </summary>
         public int TagBlockSize
         {
             get { return tagBlockSize; }
             set { tagBlockSize = value; }
+        }
+        /// <summary>
+        /// Gets or sets the offset of the item for a tag block index.
+        /// </summary>
+        public int ItemOffset
+        {
+            get { return itemOffset; }
+            set { itemOffset = value; }
         }
         /// <summary>
         /// Gets or sets the visiblity of the element.
@@ -110,10 +142,14 @@ namespace Abide.Ifp
         private bool inferOffset = true;
         private IfpNodeType type;
         private string name;
+        private string layer;
+        private string label;
+        private IfpNodeType itemType;
         private int length;
         private int fieldOffset;
         private int tagBlockOffset;
         private int tagBlockSize;
+        private int itemOffset;
         private bool visible;
         private Tag @class;
         private int headerSize;
@@ -150,12 +186,16 @@ namespace Abide.Ifp
             node.name = xmlNode.Attributes?["name"]?.InnerText;
             node.inferOffset = !int.TryParse(xmlNode.Attributes?["offset"]?.InnerText, out node.fieldOffset);
             int.TryParse(xmlNode.Attributes?["reflexiveoffset"]?.InnerText, out node.tagBlockOffset);
-            int.TryParse(xmlNode.Attributes?["reflexiveSize"]?.InnerText, out node.tagBlockSize);
+            int.TryParse(xmlNode.Attributes?["reflexivesize"]?.InnerText, out node.tagBlockSize);
+            int.TryParse(xmlNode.Attributes?["itemoffset"]?.InnerText, out node.itemOffset);
             int.TryParse(xmlNode.Attributes?["size"]?.InnerText, out node.length);
             int.TryParse(xmlNode.Attributes?["headersize"]?.InnerText, out node.headerSize);
             int.TryParse(xmlNode.Attributes?["value"]?.InnerText, out node.optionValue);
             bool.TryParse(xmlNode.Attributes?["visible"]?.InnerText, out node.visible);
             node.@class = xmlNode.Attributes?["class"]?.InnerText ?? string.Empty;
+            node.layer = xmlNode.Attributes?["layer"]?.InnerText ?? string.Empty;
+            node.label = xmlNode.Attributes?["label"]?.InnerText ?? string.Empty;
+            node.itemType = string_GetType(xmlNode.Attributes?["itemtype"]?.InnerText ?? string.Empty);
 
             //Load Children
             if (xmlNode.ChildNodes != null)
@@ -172,10 +212,19 @@ namespace Abide.Ifp
         /// Returns an <see cref="IfpNodeType"/> from a supplied <see cref="XmlNode"/>.
         /// </summary>
         /// <param name="xmlNode">The XML node.</param>
-        /// <returns>An <see cref="IfpNodeType"/>.</returns>
+        /// <returns>An <see cref="IfpNodeType"/> value.</returns>
         private static IfpNodeType xmlNode_GetType(XmlNode xmlNode)
         {
-            switch (xmlNode.Name)
+            return string_GetType(xmlNode.Name);
+        }
+        /// <summary>
+        /// Returns an <see cref="IfpNodeType"/> from a string type.
+        /// </summary>
+        /// <param name="type">The type string.</param>
+        /// <returns>An <see cref="IfpNodeType"/> value.</returns>
+        private static IfpNodeType string_GetType(string type)
+        {
+            switch (type)
             {
                 case "option": return IfpNodeType.Option;
                 case "struct": return IfpNodeType.TagBlock;
@@ -199,6 +248,7 @@ namespace Abide.Ifp
                 case "bitmask32": return IfpNodeType.Bitfield32;
                 case "bitmask64": return IfpNodeType.Bitfield64;
                 case "tag": return IfpNodeType.Tag;
+                case "ident":
                 case "id": return IfpNodeType.TagId;
                 case "stringid": return IfpNodeType.StringId;
                 case "string32": return IfpNodeType.String32;
@@ -238,6 +288,15 @@ namespace Abide.Ifp
         {
             get { return nodes[index]; }
             set { nodes[index] = value; }
+        }
+        /// <summary>
+        /// Gets and returns an <see cref="IfpNode"/> with a given name.
+        /// </summary>
+        /// <param name="name">The name of the node.</param>
+        /// <returns>An <see cref="IfpNode"/> instance if a node was found; otherwise null.</returns>
+        public IfpNode this[string name]
+        {
+            get { return nodes.Find(n => n.Name == name); }
         }
 
         private readonly List<IfpNode> nodes;

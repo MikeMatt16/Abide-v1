@@ -1,5 +1,4 @@
 ﻿using Abide.AddOnApi.Halo2;
-using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections.Generic;
@@ -30,37 +29,37 @@ namespace HUD_Editor.Halo2
         {
             //Setup
             if (SelectedEntry != null && SelectedEntry.Root == "nhdt")
-                tag_Load(SelectedEntry);
+                Tag_Load(SelectedEntry);
         }
 
-        private void widgetPropertyGrid_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
+        private void WidgetPropertyGrid_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
         {
             //Redraw
-            hudBox_DrawHud();
+            HudBox_DrawHud();
         }
 
-        private void widgetComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void WidgetComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Set
             widgetPropertyGrid.SelectedObject = widgetComboBox.SelectedItem;
 
             //Redraw
-            hudBox_DrawHud();
+            HudBox_DrawHud();
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             //Save
             if (hud != null) hud.Write();
         }
 
-        private void resetButton_Click(object sender, EventArgs e)
+        private void ResetButton_Click(object sender, EventArgs e)
         {
             //Reload
-            tag_Reload();
+            Tag_Reload();
         }
 
-        private void hudBox_MouseMove(object sender, MouseEventArgs e)
+        private void HudBox_MouseMove(object sender, MouseEventArgs e)
         {
             //Check
             if (widgetComboBox.SelectedItem != null && widgetComboBox.SelectedItem is HaloHud.BitmapWidgetProperties)
@@ -69,8 +68,8 @@ namespace HUD_Editor.Halo2
                 HaloHud.BitmapWidgetProperties widget = (HaloHud.BitmapWidgetProperties)widgetComboBox.SelectedItem;
 
                 //Check
-                Point widgetLocation = widget_GetFullscreenLocation(hudBitmaps[widget], widget);
-                Size widgetSize = widget_GetSize(hudBitmaps[widget], widget);
+                Point widgetLocation = Widget_GetFullscreenLocation(hudBitmaps[widget], widget);
+                Size widgetSize = Widget_GetSize(hudBitmaps[widget], widget);
 
                 //Check
                 if (e.X >= widgetLocation.X && e.X < widgetLocation.X + widgetSize.Width && e.Y >= widgetLocation.Y && e.Y < widgetLocation.Y + widgetSize.Height)
@@ -84,7 +83,7 @@ namespace HUD_Editor.Halo2
                         Point newPoint = new Point(e.X - previousMouseLocation.X, e.Y - previousMouseLocation.Y);
                         Point widgetPoint = new Point(widget.FullscreenPositionOffset.X + newPoint.X, widget.FullscreenPositionOffset.Y + newPoint.Y);
                         widget.FullscreenPositionOffset = widgetPoint;
-                        hudBox_DrawHud();
+                        HudBox_DrawHud();
                     }
                 }
                 else hudBox.Cursor = Cursors.Default;
@@ -94,7 +93,7 @@ namespace HUD_Editor.Halo2
             previousMouseLocation = e.Location;
         }
 
-        private void tag_Reload()
+        private void Tag_Reload()
         {
             //Check
             if (hud != null) hud.Dispose();
@@ -105,7 +104,7 @@ namespace HUD_Editor.Halo2
 
             //Load Bitmaps
             foreach (var widget in hud.BitmapWidgets)
-                bitmapWidget_LoadBitmap(widget);
+                BitmapWidget_LoadBitmap(widget);
 
             //Add
             widgetComboBox.BeginUpdate();
@@ -122,10 +121,10 @@ namespace HUD_Editor.Halo2
             if (widgetComboBox.Items.Count > 0) widgetComboBox.SelectedIndex = 0;
 
             //Draw
-            hudBox_DrawHud();
+            HudBox_DrawHud();
         }
 
-        private void tag_Load(IndexEntry entry)
+        private void Tag_Load(IndexEntry entry)
         {
             //Check
             if (entry == null) return;
@@ -143,7 +142,7 @@ namespace HUD_Editor.Halo2
 
             //Load Bitmaps
             foreach (var widget in hud.BitmapWidgets)
-                bitmapWidget_LoadBitmap(widget);
+                BitmapWidget_LoadBitmap(widget);
 
             //Add
             widgetComboBox.BeginUpdate();
@@ -160,10 +159,10 @@ namespace HUD_Editor.Halo2
             if (widgetComboBox.Items.Count > 0) widgetComboBox.SelectedIndex = 0;
 
             //Draw
-            hudBox_DrawHud();
+            HudBox_DrawHud();
         }
 
-        private void bitmapWidget_LoadBitmap(HaloHud.BitmapWidgetProperties widget)
+        private void BitmapWidget_LoadBitmap(HaloHud.BitmapWidgetProperties widget)
         {
             //Prepare
             Bitmap map = null;
@@ -187,7 +186,7 @@ namespace HUD_Editor.Halo2
             hudBitmaps.Add(widget, map);
         }
 
-        private void hudBox_DrawHud()
+        private void HudBox_DrawHud()
         {
             //Create Graphics
             if (fullscreenPreview == null) return;
@@ -199,10 +198,10 @@ namespace HUD_Editor.Halo2
                 //Loop
                 foreach (HaloHud.BitmapWidgetProperties widgetProperties in hud.BitmapWidgets)
                     if (hudBitmaps.ContainsKey(widgetProperties) && hudBitmaps[widgetProperties] != null)
-                        using (Bitmap bitmap = widget_CreateBitmap(hudBitmaps[widgetProperties], widgetProperties.Flags))
+                        using (Bitmap bitmap = Widget_CreateBitmap(hudBitmaps[widgetProperties], widgetProperties.Flags))
                         {
                             //Get Point
-                            Point location = widget_GetFullscreenLocation(hudBitmaps[widgetProperties], widgetProperties);
+                            Point location = Widget_GetFullscreenLocation(hudBitmaps[widgetProperties], widgetProperties);
 
                             //Draw
                             g.DrawImage(bitmap, location);
@@ -223,26 +222,26 @@ namespace HUD_Editor.Halo2
             hudBox.Refresh();
         }
 
-        private Bitmap widget_CreateBitmap(Bitmap widget, DrawFlags flags)
+        private Bitmap Widget_CreateBitmap(Bitmap widget, DrawFlags flags)
         {
             //Check
             Bitmap map = (Bitmap)widget.Clone();
 
             //Prepare bitmap
             if (flags.HasFlag(DrawFlags.MirrorX))
-                map = widget_MirrorX(map);
+                map = Widget_MirrorX(map);
             if (flags.HasFlag(DrawFlags.MirrorY))
-                map = widget_MirrorY(map);
+                map = Widget_MirrorY(map);
             if (flags.HasFlag(DrawFlags.FlipX))
-                map = widget_FlipX(map);
+                map = Widget_FlipX(map);
             if (flags.HasFlag(DrawFlags.FlipY))
-                map = widget_FlipY(map);
+                map = Widget_FlipY(map);
 
             //Return
             return map;
         }
 
-        private Bitmap widget_FlipY(Bitmap widget)
+        private Bitmap Widget_FlipY(Bitmap widget)
         {
             //Create Bitmap
             Bitmap map = new Bitmap(widget.Width, widget.Height);
@@ -263,7 +262,7 @@ namespace HUD_Editor.Halo2
             return map;
         }
 
-        private Bitmap widget_FlipX(Bitmap widget)
+        private Bitmap Widget_FlipX(Bitmap widget)
         {
             //Create Bitmap
             Bitmap map = new Bitmap(widget.Width, widget.Height);
@@ -284,7 +283,7 @@ namespace HUD_Editor.Halo2
             return map;
         }
 
-        private Bitmap widget_MirrorY(Bitmap widget)
+        private Bitmap Widget_MirrorY(Bitmap widget)
         {
             //Create Bitmap
             Bitmap map = new Bitmap(widget.Width, widget.Height * 2);
@@ -306,7 +305,7 @@ namespace HUD_Editor.Halo2
             return map;
         }
 
-        private Bitmap widget_MirrorX(Bitmap widget)
+        private Bitmap Widget_MirrorX(Bitmap widget)
         {
             //Create Bitmap
             Bitmap map = new Bitmap(widget.Width * 2, widget.Height);
@@ -328,7 +327,7 @@ namespace HUD_Editor.Halo2
             return map;
         }
 
-        private Size widget_GetSize(Bitmap bitmap, HaloHud.BitmapWidgetProperties widgetProperties)
+        private Size Widget_GetSize(Bitmap bitmap, HaloHud.BitmapWidgetProperties widgetProperties)
         {
             //Get width and height
             int cx = bitmap.Width, cy = bitmap.Height;
@@ -341,7 +340,7 @@ namespace HUD_Editor.Halo2
             return new Size(cx, cy);
         }
 
-        private Point widget_GetFullscreenLocation(Bitmap bitmap, HaloHud.BitmapWidgetProperties widgetProperties)
+        private Point Widget_GetFullscreenLocation(Bitmap bitmap, HaloHud.BitmapWidgetProperties widgetProperties)
         {
             //Initialize
             int x = widgetProperties.FullscreenPositionOffset.X, y = widgetProperties.FullscreenPositionOffset.Y;

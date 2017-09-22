@@ -82,6 +82,19 @@ namespace Mode
                 y = (float)Math.Sin(value) * magnitude;
             }
         }
+        /// <summary>
+        /// Gets or sets the γ-rotation of this vector.
+        /// </summary>
+        public double Gamma
+        {
+            get { return Math.Atan2(y, x); }
+            set
+            {
+                float magnitude = Magnitude;
+                x = (float)Math.Cos(value) * magnitude;
+                y = (float)Math.Sin(value) * magnitude;
+            }
+        }
 
         private float x, y;
 
@@ -100,7 +113,7 @@ namespace Mode
         /// </summary>
         /// <param name="magnitude">The magnitude of the vector.</param>
         /// <param name="direction">The direction of the vector.</param>
-        public Vector2(float magnitude, double direction)
+        public Vector2(double magnitude, double direction)
         {
             x = (float)(Math.Cos(direction) * magnitude);
             y = (float)(Math.Sin(direction) * magnitude);
@@ -282,7 +295,7 @@ namespace Mode
             get { return Math.Atan2(z, x); }
             set
             {
-                float magnitude = (float)Math.Sqrt((x * x) + (y * y) * (z * z));
+                float magnitude = Magnitude;
                 x = (float)Math.Cos(value) * magnitude;
                 z = (float)Math.Sin(value) * magnitude;
             }
@@ -295,7 +308,7 @@ namespace Mode
             get { return Math.Atan2(z, y);}
             set
             {
-                float magnitude = (float)Math.Sqrt((z * z) + (y * y) * (z * z));
+                float magnitude = Magnitude;
                 y = (float)Math.Cos(value) * magnitude;
                 z = (float)Math.Sin(value) * magnitude;
             }
@@ -308,7 +321,7 @@ namespace Mode
             get { return Math.Atan2(y, x); }
             set
             {
-                float magnitude = (float)Math.Sqrt((x * x) + (y * y) * (z * z));
+                float magnitude = Magnitude;
                 x = (float)Math.Cos(value) * magnitude;
                 y = (float)Math.Sin(value) * magnitude;
             }
@@ -317,10 +330,11 @@ namespace Mode
         private float x, y, z;
 
         /// <summary>
-        /// Initializes a new <see cref="Vector3"/> structure with the specified <paramref name="x"/> and <paramref name="y"/> component values.
+        /// Initializes a new <see cref="Vector3"/> structure with the specified <paramref name="x"/>, <paramref name="y"/>, and <paramref name="z"/> component values.
         /// </summary>
         /// <param name="x">The X component of the vector.</param>
         /// <param name="y">The Y component of the vector.</param>
+        /// <param name="z">The Z component of the vector.</param>
         public Vector3(float x, float y, float z)
         {
             this.x = x;

@@ -48,7 +48,7 @@
             this.hudBox.Size = new System.Drawing.Size(640, 480);
             this.hudBox.TabIndex = 0;
             this.hudBox.TabStop = false;
-            this.hudBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.hudBox_MouseMove);
+            this.hudBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HudBox_MouseMove);
             // 
             // propertiesPanel
             // 
@@ -71,7 +71,7 @@
             this.resetButton.TabIndex = 1;
             this.resetButton.Text = "&Reset";
             this.resetButton.UseVisualStyleBackColor = true;
-            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // saveButton
             // 
@@ -81,7 +81,7 @@
             this.saveButton.TabIndex = 0;
             this.saveButton.Text = "&Save";
             this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // widgetPropertyGrid
             // 
@@ -96,7 +96,7 @@
             this.widgetPropertyGrid.Size = new System.Drawing.Size(323, 463);
             this.widgetPropertyGrid.TabIndex = 3;
             this.widgetPropertyGrid.ToolbarVisible = false;
-            this.widgetPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.widgetPropertyGrid_PropertyValueChanged);
+            this.widgetPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.WidgetPropertyGrid_PropertyValueChanged);
             // 
             // widgetComboBox
             // 
@@ -108,7 +108,7 @@
             this.widgetComboBox.Name = "widgetComboBox";
             this.widgetComboBox.Size = new System.Drawing.Size(222, 21);
             this.widgetComboBox.TabIndex = 2;
-            this.widgetComboBox.SelectedIndexChanged += new System.EventHandler(this.widgetComboBox_SelectedIndexChanged);
+            this.widgetComboBox.SelectedIndexChanged += new System.EventHandler(this.WidgetComboBox_SelectedIndexChanged);
             // 
             // propertiesSplitter
             // 

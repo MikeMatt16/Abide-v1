@@ -86,7 +86,7 @@
             this.magnitudeTrackBar.TabIndex = 1;
             this.magnitudeTrackBar.TickFrequency = 5;
             this.magnitudeTrackBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.magnitudeTrackBar.ValueChanged += new System.EventHandler(this.vector_ValueChanged);
+            this.magnitudeTrackBar.ValueChanged += new System.EventHandler(this.Vector_ValueChanged);
             // 
             // alphaTrackBar
             // 
@@ -98,7 +98,7 @@
             this.alphaTrackBar.TabIndex = 1;
             this.alphaTrackBar.TickFrequency = 5;
             this.alphaTrackBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.alphaTrackBar.ValueChanged += new System.EventHandler(this.vector_ValueChanged);
+            this.alphaTrackBar.ValueChanged += new System.EventHandler(this.Vector_ValueChanged);
             // 
             // betaTrackBar
             // 
@@ -110,7 +110,7 @@
             this.betaTrackBar.TabIndex = 1;
             this.betaTrackBar.TickFrequency = 5;
             this.betaTrackBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.betaTrackBar.ValueChanged += new System.EventHandler(this.vector_ValueChanged);
+            this.betaTrackBar.ValueChanged += new System.EventHandler(this.Vector_ValueChanged);
             // 
             // gammaTrackBar
             // 
@@ -122,7 +122,7 @@
             this.gammaTrackBar.TabIndex = 1;
             this.gammaTrackBar.TickFrequency = 5;
             this.gammaTrackBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.gammaTrackBar.ValueChanged += new System.EventHandler(this.vector_ValueChanged);
+            this.gammaTrackBar.ValueChanged += new System.EventHandler(this.Vector_ValueChanged);
             // 
             // label1
             // 

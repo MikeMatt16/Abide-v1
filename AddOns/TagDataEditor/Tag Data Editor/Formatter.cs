@@ -56,6 +56,11 @@ namespace Tag_Data_Editor
             //Append
             body.AppendFormat(Files.Value, uniqueId, metaType, name);
         }
+        public override void AddBlockSelect(int uniqueId, string metaType, string options, string name)
+        {
+            //Append
+            body.AppendFormat(Files.BlockSelect, uniqueId, metaType, options, name);
+        }
         public string GetHtml()
         {
             string html = string.Format(Files.Editor, Files.Script, Files.EditorStyles, body.ToString());
@@ -117,6 +122,11 @@ namespace Tag_Data_Editor
             //Append
             content.AppendFormat(Files.Value, uniqueId, metaType, name);
         }
+        public override void AddBlockSelect(int uniqueId, string metaType, string options, string name)
+        {
+            //Append
+            content.AppendFormat(Files.BlockSelect, uniqueId, metaType, options, name);
+        }
         public string GetContent()
         {
             return content.ToString();
@@ -140,5 +150,6 @@ namespace Tag_Data_Editor
         public abstract void AddTagId(int uniqueId, string typeName, string name);
         public abstract void AddUnicode(int uniqueId, int stringLength, string typeName, string name);
         public abstract void AddValue(int uniqueId, string metaType, string name);
+        public abstract void AddBlockSelect(int uniqueId, string metaType, string options, string name);
     }
 }

@@ -36,7 +36,7 @@ namespace Abide.Classes
         {
             //Loop
             foreach (AddOnFactory factory in Program.Container.GetFactories())
-                factory_FilterInterfaces(factory, host);
+                Factory_FilterInterfaces(factory, host);
         }
         /// <summary>
         /// Releases all resources used by this <see cref="AddOnContainer"/> instance.
@@ -45,7 +45,7 @@ namespace Abide.Classes
         {
             Dispose(true);
         }
-        private void factory_FilterInterfaces(AddOnFactory factory, IHost host)
+        private void Factory_FilterInterfaces(AddOnFactory factory, IHost host)
         {
             //Check Types
             foreach (Type type in factory.GetAddOnTypes())
@@ -56,10 +56,10 @@ namespace Abide.Classes
 
                 //Check Settings page
                 if (addOn != null)
-                    factory_InitializeAddOn(factory, assemblyName, type.FullName, host);
+                    Factory_InitializeAddOn(factory, assemblyName, type.FullName, host);
             }
         }
-        private void factory_InitializeAddOn(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
+        private void Factory_InitializeAddOn(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
         {
             //Create
             IAddOn addOn = factory.CreateInstance<IAddOn>(assemblyName, typeFullName);

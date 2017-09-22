@@ -177,7 +177,7 @@ namespace Abide.AddOnApi
             T instance = null;
             
             try { instance = AppDomain.CurrentDomain.CreateInstance(assembly, type).Unwrap() as T; }
-            catch (Exception ex) {  }
+            catch (Exception ex) { throw new AddOnException(ex); }
 
             //Return
             return instance;
@@ -218,13 +218,13 @@ namespace Abide.AddOnApi
             {
                 if (File.Exists(libraryLocation))
                 {
-                    if (safeMode) assemblyLookup.Add(name, assembly_LoadFromSafe(libraryLocation));
-                    else assemblyLookup.Add(name, assembly_LoadFrom(libraryLocation));
+                    if (safeMode) assemblyLookup.Add(name, Assembly_LoadFromSafe(libraryLocation));
+                    else assemblyLookup.Add(name, Assembly_LoadFrom(libraryLocation));
                 }
                 else if (File.Exists(executableLocation))
                 {
-                    if (safeMode) assemblyLookup.Add(name, assembly_LoadFromSafe(executableLocation));
-                    else assemblyLookup.Add(name, assembly_LoadFrom(executableLocation));
+                    if (safeMode) assemblyLookup.Add(name, Assembly_LoadFromSafe(executableLocation));
+                    else assemblyLookup.Add(name, Assembly_LoadFrom(executableLocation));
                 }
             }
 
@@ -235,7 +235,7 @@ namespace Abide.AddOnApi
             //Return
             return assembly;
         }
-        private Assembly assembly_LoadFromSafe(string filename)
+        private Assembly Assembly_LoadFromSafe(string filename)
         {
             //Prepare
             Assembly assembly = null;
@@ -262,9 +262,41 @@ namespace Abide.AddOnApi
             //Return
             return assembly;
         }
-        private Assembly assembly_LoadFrom(string filename)
+        private Assembly Assembly_LoadFrom(string filename)
         {
             return Assembly.LoadFile(filename);
         }
+    }
+
+    /// <summary>
+    /// Represents an error that can occur while loading an AddOn.
+    /// </summary>
+    public class AddOnException : Exception
+    {
+        /// <summary>
+        /// The standard message for an <see cref="AddOnException"/>.
+        /// </summary>
+        private const string StandardMessage = "An unexpected error occured while loading an AddOn.";
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="AddOnException"/> class.
+        /// </summary>
+        public AddOnException() { }
+        /// <summary>
+        /// Creats a new instance of the <see cref="AddOnException"/> class using the supplied message.
+        /// </summary>
+        /// <param name="message">The exception message.</param>
+        public AddOnException(string message) : base(message) { }
+        /// <summary>
+        /// Creates a new instance of the <see cref="AddOnException"/> class using the supplied inner exception.
+        /// </summary>
+        /// <param name="innerException">The exception used to trigger this exception.</param>
+        public AddOnException(Exception innerException) : base(StandardMessage, innerException) { }
+        /// <summary>
+        /// Creats a new instance of the <see cref="AddOnException"/> class using the supplied message and inner exception.
+        /// </summary>
+        /// <param name="message">The exception message.</param>
+        /// <param name="innerException">The exception used to trigger this exception.</param>
+        public AddOnException(string message, Exception innerException) : base(message, innerException) { }
     }
 }
