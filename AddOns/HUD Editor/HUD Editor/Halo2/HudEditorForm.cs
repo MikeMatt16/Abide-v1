@@ -4,32 +4,50 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using YeloDebug;
 
 namespace HUD_Editor.Halo2
 {
-    public partial class HudEditor : AbideTool
+    public partial class HudEditorForm : Form
     {
+        public MapFile Map
+        {
+            get { return owner?.Map; }
+        }
+        public IndexEntry SelectedEntry
+        {
+            get { return owner?.SelectedEntry; }
+        }
+        public Xbox Xbox
+        {
+            get { return owner?.Xbox; }
+        }
+        
+        private readonly HudEditorButton owner;
         private Point previousMouseLocation = Point.Empty;
         private readonly Bitmap fullscreenPreview = new Bitmap(640, 480);
         private Dictionary<HaloHud.BitmapWidgetProperties, Bitmap> hudBitmaps = new Dictionary<HaloHud.BitmapWidgetProperties, Bitmap>();
         private HaloHud hud;
 
-        public HudEditor()
+        private HudEditorForm()
         {
             InitializeComponent();
         }
+        public HudEditorForm (HudEditorButton owner) : this()
+        {
+            //
+            // this
+            //
+            this.owner = owner;
+        }
 
-        private void HudEditor_Load(object sender, EventArgs e)
+        private void HudEditorForm_Load(object sender, EventArgs e)
         {
             //Setup
             hudBox.Image = fullscreenPreview;
-        }
 
-        private void HudEditor_TagSelected(object sender, EventArgs e)
-        {
-            //Setup
-            if (SelectedEntry != null && SelectedEntry.Root == "nhdt")
-                Tag_Load(SelectedEntry);
+            //Load?
+            if (SelectedEntry?.Root == "nhdt") Tag_Load(SelectedEntry);
         }
 
         private void WidgetPropertyGrid_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
@@ -380,6 +398,55 @@ namespace HUD_Editor.Halo2
 
             //Return
             return new Point(x, y);
+        }
+
+        /// <summary>
+        /// Represents the HUD Editor menu button.
+        /// </summary>
+        public sealed class HudEditorButton : AbideMenuButton
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="HudEditorButton"/> class.
+            /// </summary>
+            public HudEditorButton() : base()
+            {
+                //
+                // this
+                //
+                MapVersion = Abide.HaloLibrary.MapVersion.Halo2;
+                Author = "Click16";
+                Name = "HUD Editor";
+                Icon = Properties.Resources.HUD_Editor;
+                TagFilter.Add("nhdt");
+                ApplyTagFilter = true;
+                Click += HudEditorButton_Click;
+            }
+            /// <summary>
+            /// Occurs when the button is clicked.
+            /// </summary>
+            /// <param name="sender">The object that sent the event.</param>
+            /// <param name="e">The event args.</param>
+            private void HudEditorButton_Click(object sender, EventArgs e)
+            {
+                //Create
+                HudEditorForm editor = new HudEditorForm(this);
+
+                //Closed
+                editor.FormClosed += Editor_FormClosed;
+
+                //Show
+                editor.Show();
+            }
+            /// <summary>
+            /// Occurs when the HUD editor form is closed.
+            /// </summary>
+            /// <param name="sender">The editor form.</param>
+            /// <param name="e">The form closed event args.</param>
+            private void Editor_FormClosed(object sender, FormClosedEventArgs e)
+            {
+                //Dispose
+                if (sender is IDisposable) ((IDisposable)sender).Dispose();
+            }
         }
     }
 }

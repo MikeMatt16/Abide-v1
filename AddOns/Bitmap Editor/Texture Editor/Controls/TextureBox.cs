@@ -31,6 +31,7 @@ namespace Texture_Editor.Controls
             }
         }
 
+        private ContextMenuStrip contextMenu;
         private Point previousPoint = Point.Empty;
         private Point originTranslation = Point.Empty;
         private float zoomLevel = 1f;
@@ -43,12 +44,53 @@ namespace Texture_Editor.Controls
         /// </summary>
         public TextureBox() : base()
         {
-            //Prepare
+            //
+            // contextMenu
+            //
+            contextMenu = new ContextMenuStrip();
+            contextMenu.Items.Add("&Reset", null, ResetToolStripMenuItem_Click);
+            ToolStripMenuItem scaleToolStripItem = (ToolStripMenuItem)contextMenu.Items.Add("Scale");
+            scaleToolStripItem.DropDownItems.Add("100%", null, Scale100ToolStripItem_Click);
+            scaleToolStripItem.DropDownItems.Add("200%", null, Scale200ToolStripItem_Click);
+            scaleToolStripItem.DropDownItems.Add("300%", null, Scale300ToolStripItem_Click);
+            ToolStripMenuItem translateToolStripItem = (ToolStripMenuItem)contextMenu.Items.Add("Translation");
+            translateToolStripItem.DropDownItems.Add("Fix to Top Left", null, TopLeftToolStripItem_Click);
+            //
+            // this
+            //
+            ContextMenuStrip = contextMenu;
             DoubleBuffered = true;
             BorderStyle = BorderStyle.FixedSingle;
             MinimumSize = new Size(1, 1);
             Width = 150;
             Height = 150;
+        }
+
+        private void TopLeftToolStripItem_Click(object sender, EventArgs e)
+        {
+            originTranslation = Point.Empty;
+            Refresh();
+        }
+        private void Scale300ToolStripItem_Click(object sender, EventArgs e)
+        {
+            zoomLevel = 3f;
+            Refresh();
+        }
+        private void Scale200ToolStripItem_Click(object sender, EventArgs e)
+        {
+            zoomLevel = 2f;
+            Refresh();
+        }
+        private void Scale100ToolStripItem_Click(object sender, EventArgs e)
+        {
+            zoomLevel = 1f;
+            Refresh();
+        }
+        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            originTranslation = Point.Empty;
+            zoomLevel = 1f;
+            Refresh();
         }
 
         /// <summary>
@@ -66,9 +108,11 @@ namespace Texture_Editor.Controls
         /// <param name="e">A <see cref="MouseEventArgs"/> that contains the event data.</param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
+            //Float zoom Amnt
+            zoomLevel += e.Delta / 1200f;
+
             //Zoom
-            zoomLevel += zoomFactor * e.Delta;
-            if (zoomLevel <= 0) zoomLevel = float.Epsilon;
+            if(float.IsInfinity(zoomLevel) || zoomLevel <= 0) zoomLevel = 0.1f;
             Refresh();
 
             //Invoke MouseWheel event...
@@ -115,7 +159,7 @@ namespace Texture_Editor.Controls
             }
 
             //Draw Information
-            TextRenderer.DrawText(e.Graphics, $"{zoomLevel * 100f}%", Font, e.ClipRectangle, ForeColor, (TextFormatFlags.Bottom | TextFormatFlags.Left));
+            TextRenderer.DrawText(e.Graphics, $"{Math.Round(zoomLevel * 100f)}%", Font, e.ClipRectangle, ForeColor, (TextFormatFlags.Bottom | TextFormatFlags.Left));
             TextRenderer.DrawText(e.Graphics, $"({originTranslation.X}, {originTranslation.Y})", Font, e.ClipRectangle, ForeColor, (TextFormatFlags.Bottom | TextFormatFlags.Right));
 
             //Invoke Paint event...

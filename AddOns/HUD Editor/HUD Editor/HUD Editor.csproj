@@ -73,11 +73,11 @@
     </Compile>
     <Compile Include="Halo2\HaloBitmap.cs" />
     <Compile Include="Halo2\HaloHud.cs" />
-    <Compile Include="Halo2\HudEditor.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Halo2\HudEditorForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Halo2\HudEditor.Designer.cs">
-      <DependentUpon>HudEditor.cs</DependentUpon>
+    <Compile Include="Halo2\HudEditorForm.Designer.cs">
+      <DependentUpon>HudEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Halo2\MapContainer.cs" />
     <Compile Include="Palette.cs" />
@@ -117,8 +117,8 @@
     <EmbeddedResource Include="Forms\HudBitmapWidgetEffectEditor.resx">
       <DependentUpon>HudBitmapWidgetEffectEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Halo2\HudEditor.resx">
-      <DependentUpon>HudEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Halo2\HudEditorForm.resx">
+      <DependentUpon>HudEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
