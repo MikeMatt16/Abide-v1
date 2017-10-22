@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Abide.Guerilla.Managed
 {
@@ -29,6 +30,7 @@ namespace Abide.Guerilla.Managed
         public string Name
         {
             get { return name; }
+            internal set { name = value; }
         }
         /// <summary>
         /// Gets and returns this tag block definition's display name.
@@ -36,6 +38,7 @@ namespace Abide.Guerilla.Managed
         public string DisplayName
         {
             get { return displayName; }
+            internal set { displayName = value; }
         }
         /// <summary>
         /// Gets and returns this tag block definition's maximum element count string.
@@ -141,6 +144,108 @@ namespace Abide.Guerilla.Managed
             displayName = definition.DisplayName;
             name = definition.Name;
             maximumElementCountString = definition.MaximumElementCountString;
+        }
+        /// <summary>
+        /// Returns a string that represents this tag block definition.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            return $"{name} \"{displayName}\" Max Count: {maximumElementCountStringAddress} Field Sets: {fieldSetCount}";
+        }
+        /// <summary>
+        /// Retrieves the field set of this block at a given index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the field set.</param>
+        /// <returns>A <see cref="TagFieldSet"/> instance.</returns>
+        public TagFieldSet GetFieldSet(int index)
+        {
+            //Check
+            if (index < 0 || index > fieldSetCount) throw new ArgumentOutOfRangeException(nameof(index));
+            return tagFieldSets[index];
+        }
+        /// <summary>
+        /// Retrieves an array of fields for a field set of this block at a given index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the field set.</param>
+        /// <returns>A <see cref="TagFieldDefinition"/> array.</returns>
+        public TagFieldDefinition[] GetFieldDefinitions(int index)
+        {
+            //Check
+            if (index < 0 || index > fieldSetCount) throw new ArgumentOutOfRangeException(nameof(index));
+            return tagFields[index].ToArray();
+        }
+        /// <summary>
+        /// Retrieves the field set with the closest layout to Halo 2 Xbox.
+        /// </summary>
+        /// <returns>A <see cref="TagFieldSet"/> instance.</returns>
+        public TagFieldSet GetFieldSetH2Xbox()
+        {
+            //Get index...
+            int setIndex = tagFieldSetLatestIndex;
+            switch (name)
+            {
+                case "materials_block":
+                    setIndex = 0;
+                    if (tagFields[setIndex].Count == 5)
+                        name = "phmo_materials_block";
+                    break;
+                case "hud_globals_block":
+                case "global_new_hud_globals_struct_block":
+                case "sound_gestalt_promotions_block":
+                case "sound_block":
+                case "tag_block_index_struct_block":
+                case "vertex_shader_classification_block":
+                    setIndex = 0;
+                    break;
+                case "model_block":
+                case "instantaneous_response_damage_effect_marker_struct_block":
+                case "instantaneous_response_damage_effect_struct_block":
+                    setIndex = 1;
+                    break;
+                case "animation_pool_block":
+                    setIndex = 4;
+                    break;
+            }
+
+            //Return
+            return GetFieldSet(setIndex);
+        }
+        /// <summary>
+        /// Retrieves an array of fields for a field set with the closest layout to Halo 2 Xbox.
+        /// </summary>
+        /// <returns>An array of <see cref="TagFieldDefinition"/> elements.</returns>
+        public TagFieldDefinition[] GetFieldDefinitionsH2Xbox()
+        {
+            //Get index...
+            int setIndex = tagFieldSetLatestIndex;
+            switch (name)
+            {
+                case "materials_block":
+                    setIndex = 0;
+                    if (tagFields[setIndex].Count == 5)
+                        name = "phmo_materials_block";
+                    break;
+                case "hud_globals_block":
+                case "global_new_hud_globals_struct_block":
+                case "sound_gestalt_promotions_block":
+                case "sound_block":
+                case "tag_block_index_struct_block":
+                case "vertex_shader_classification_block":
+                    setIndex = 0;
+                    break;
+                case "model_block":
+                case "instantaneous_response_damage_effect_marker_struct_block":
+                case "instantaneous_response_damage_effect_struct_block":
+                    setIndex = 1;
+                    break;
+                case "animation_pool_block":
+                    setIndex = 4;
+                    break;
+            }
+
+            //Return
+            return GetFieldDefinitions(setIndex);
         }
     }
 }

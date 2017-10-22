@@ -1,9 +1,5 @@
-﻿using Abide.Guerilla.Managed;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Abide.Guerilla.Ui
@@ -11,18 +7,20 @@ namespace Abide.Guerilla.Ui
     static class Program
     {
         /// <summary>
-        /// Gets and returns the path of the 'H2Guerilla.exe' file.
+        /// Gets or sets the path of the 'H2Guerilla.exe' file.
         /// </summary>
         public static string H2GuerillaPath
         {
             get { return h2GuerillaPath; }
+            set { h2GuerillaPath = value; }
         }
         /// <summary>
-        /// Gets and returns the path of the 'H2alang.dll' file.
+        /// Gets or sets the path of the 'H2alang.dll' file.
         /// </summary>
         public static string H2alangPath
         {
             get { return h2alangPath; }
+            set { h2alangPath = value; }
         }
 
         private static string h2GuerillaPath;
@@ -35,6 +33,8 @@ namespace Abide.Guerilla.Ui
         static void Main()
         {
             //Prepare
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(true);
             h2alangPath = Path.Combine(Application.StartupPath, "Guerilla", "H2alang.dll");
             h2GuerillaPath = Path.Combine(Application.StartupPath, "Guerilla", "H2Guerilla.exe");
 
@@ -60,8 +60,8 @@ namespace Abide.Guerilla.Ui
                     else return;
                 }
 
-            //Err?
-            GuerillaReader reader = new GuerillaReader(h2GuerillaPath, h2alangPath);
+            //Begin
+            Application.Run(new Main());
         }
     }
 }

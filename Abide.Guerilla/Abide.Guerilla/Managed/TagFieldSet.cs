@@ -6,6 +6,13 @@
     public sealed class TagFieldSet
     {
         /// <summary>
+        /// Gets and returns the field set's alignment.
+        /// </summary>
+        public int Alignment
+        {
+            get { return alignmentBit != 0 ? (1 << alignmentBit) : 4; }
+        }
+        /// <summary>
         /// Gets and returns the tag field set's size string.
         /// </summary>
         public string SizeString

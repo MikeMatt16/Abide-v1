@@ -81,5 +81,13 @@ namespace Abide.Guerilla.Managed
             defaultTagPathAddress = tagGroup.DefaultTagPathAddress;
             name = tagGroup.Name;
         }
+        /// <summary>
+        /// Returns a string that represents this tag group definition.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            return $"{parentGroupTag}.{groupTag} {name}";
+        }
     }
 }

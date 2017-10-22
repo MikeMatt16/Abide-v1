@@ -69,7 +69,7 @@
 #pragma warning restore CS1591
 
         /// <summary>
-        /// Used to get count of types.
+        /// Used to get count of field types.
         /// </summary>
         /// <example>FieldType[] types = new FieldType[(int)FieldType.TypeCount]; // types.Count = 60.</example>
         TypeCount,

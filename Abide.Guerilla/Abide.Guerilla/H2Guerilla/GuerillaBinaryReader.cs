@@ -211,7 +211,7 @@ namespace Abide.Guerilla.H2Guerilla
 
             //Check
             if (num < Guerilla.BaseAddress)
-                s = localizationLibrary.LoadString(num);
+                try { s = localizationLibrary.LoadString(num); } catch { }
             else if (num > Guerilla.BaseAddress && (num - Guerilla.BaseAddress) < BaseStream.Length)
             {
                 BaseStream.Seek(num - Guerilla.BaseAddress, SeekOrigin.Begin);

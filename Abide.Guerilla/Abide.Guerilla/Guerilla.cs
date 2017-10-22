@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Abide.Guerilla
+﻿namespace Abide.Guerilla
 {
     /// <summary>
-    /// 
+    /// Me want banana.
     /// </summary>
     public static class Guerilla
     {

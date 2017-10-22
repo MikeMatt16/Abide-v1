@@ -8,6 +8,13 @@ namespace Abide.Guerilla.Managed
     public sealed class TagDataDefinition : TagFieldDefinition
     {
         /// <summary>
+        /// Gets and returns the field's alignment.
+        /// </summary>
+        public int Alignment
+        {
+            get { return alignmentBit != 0 ? (1 << alignmentBit) : 4; }
+        }
+        /// <summary>
         /// Gets and returns the field's definition name.
         /// </summary>
         public string DefinitionName

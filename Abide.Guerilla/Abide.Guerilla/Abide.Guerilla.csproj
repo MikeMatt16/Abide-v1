@@ -54,11 +54,13 @@
     <Compile Include="FieldTypes.cs" />
     <Compile Include="Guerilla.cs" />
     <Compile Include="H2Guerilla\GuerillaBinaryReader.cs" />
+    <Compile Include="Managed\BlockIndexCustomSearchDefinition.cs" />
+    <Compile Include="Managed\EnumDefinition.cs" />
+    <Compile Include="Managed\ExplanationDefinition.cs" />
     <Compile Include="Managed\GuerillaReader.cs" />
     <Compile Include="H2Guerilla\Library.cs" />
-    <Compile Include="H2Guerilla\TagGroups.cs" />
+    <Compile Include="H2Guerilla\Structures.cs" />
     <Compile Include="Managed\TagBlockDefinition.cs" />
-    <Compile Include="H2Guerilla\TagField.cs" />
     <Compile Include="Managed\TagDataDefinition.cs" />
     <Compile Include="Managed\TagField.cs" />
     <Compile Include="Managed\TagFieldSet.cs" />

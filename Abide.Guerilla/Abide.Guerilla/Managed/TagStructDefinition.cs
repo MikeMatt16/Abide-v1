@@ -9,11 +9,18 @@ namespace Abide.Guerilla.Managed
     public sealed class TagStructDefinition : TagFieldDefinition
     {
         /// <summary>
-        /// Gets and returns the field's name address.
+        /// Gets and returns the field's structure name.
         /// </summary>
-        public new int NameAddress
+        public string StructName
         {
-            get { return nameAddress; }
+            get { return name; }
+        }
+        /// <summary>
+        /// Gets and returns the field's display name.
+        /// </summary>
+        public string DisplayName
+        {
+            get { return displayName; }
         }
         /// <summary>
         /// Gets and returns the field's group tag.
@@ -21,13 +28,6 @@ namespace Abide.Guerilla.Managed
         public new Tag GroupTag
         {
             get { return groupTag; }
-        }
-        /// <summary>
-        /// Gets and returns the field's display name address.
-        /// </summary>
-        public int DisplayNameAddress
-        {
-            get { return displayNameAddress; }
         }
         /// <summary>
         /// Gets and returns the field's block definition address.
@@ -41,6 +41,8 @@ namespace Abide.Guerilla.Managed
         private Tag groupTag;
         private int displayNameAddress;
         private int blockDefinitionAddress;
+        private string name;
+        private string displayName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagStructDefinition"/> class.
@@ -63,6 +65,10 @@ namespace Abide.Guerilla.Managed
             groupTag = reader.ReadTag();
             displayNameAddress = reader.ReadInt32();
             blockDefinitionAddress = reader.ReadInt32();
+
+            //Read strings
+            name = reader.ReadLocalizedString(nameAddress);
+            displayName = reader.ReadLocalizedString(displayNameAddress);
         }
     }
 }

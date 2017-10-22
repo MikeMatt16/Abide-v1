@@ -1,35 +1,78 @@
 ﻿using Abide.HaloLibrary.Halo2Map;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Abide.Guerilla.Managed
 {
     /// <summary>
     /// Represents a H2 Guerilla Reader.
     /// </summary>
-    public sealed class GuerillaReader
+    public sealed class GuerillaReader : IEnumerable<TagBlockDefinition>
     {
         /// <summary>
-        /// Gets and returns a dictionary of tag block definitions indexed by their addresses.
+        /// Gets and returns a tag block definition at the given index.
         /// </summary>
-        public Dictionary<int, TagBlockDefinition> TagBlockDefinitions
+        /// <param name="index">The zero-based index of the tag block definition.</param>
+        /// <returns>A tag block definition instance.</returns>
+        public TagBlockDefinition this[int index]
         {
-            get { return tagBlockDefinitions; }
+            get
+            {
+                if (index < 0 || index >= tagBlocks.Count) throw new ArgumentOutOfRangeException(nameof(index));
+                return tagBlocks[index];
+            }
+        }
+        /// <summary>
+        /// Gets and returns the number of tag groups.
+        /// </summary>
+        public int TagGroupCount
+        {
+            get { return tagGroups.Count; }
+        }
+        /// <summary>
+        /// Gets and returns the number of tag blocks.
+        /// </summary>
+        public int TagBlockCount
+        {
+            get { return tagBlocks.Count; }
         }
 
-        private readonly Dictionary<int, TagBlockDefinition> tagBlockDefinitions;
-        private readonly TagGroupDefinition[] tagGroups;
+        private readonly List<TagBlockDefinition> tagBlocks;
+        private readonly Dictionary<string, int> nameLookup;
+        private readonly Dictionary<int, int> addressLookup;
+        private readonly List<TagGroupDefinition> tagGroups;
 
         /// <summary>
-        /// Initializes a new  instance of the <see cref="GuerillaReader"/> class using the supplied guerilla executable file name and language library file name.
+        /// Initializes a new instance of the <see cref="GuerillaReader"/> class.
+        /// </summary>
+        public GuerillaReader()
+        {
+            //Prepare
+            tagBlocks = new List<TagBlockDefinition>();
+            addressLookup = new Dictionary<int, int>();
+            nameLookup = new Dictionary<string, int>();
+            tagGroups = new List<TagGroupDefinition>(Guerilla.NumberOfTagLayouts);
+        }
+        /// <summary>
+        /// Processes the supplied guerilla executable and language library retrieving all tag group and tag block definitions. 
         /// </summary>
         /// <param name="guerillaFileName">The path of the H2Guerilla executable.</param>
         /// <param name="languageFileName">The path of the H2alang dynamic link library.</param>
-        public GuerillaReader(string guerillaFileName, string languageFileName)
+        public void Process(string guerillaFileName, string languageFileName)
         {
-            //Prepare
-            tagBlockDefinitions = new Dictionary<int, TagBlockDefinition>();
-            tagGroups = new TagGroupDefinition[Guerilla.NumberOfTagLayouts];
+            //Clear
+            tagBlocks.Clear();
+            nameLookup.Clear();
+            addressLookup.Clear();
+            tagGroups.Clear();
+
+            //Write
+            Console.WriteLine("Processing Guerilla...");
+            Console.WriteLine("Guerilla path: {0}", guerillaFileName);
+            Console.WriteLine("Library path: {0}", languageFileName);
 
             //Initialize stream
             using (FileStream fs = new FileStream(guerillaFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -44,14 +87,30 @@ namespace Abide.Guerilla.Managed
 
                     //Goto
                     fs.Seek(layoutAddress - Guerilla.BaseAddress, SeekOrigin.Begin);
-                    tagGroups[i] = new TagGroupDefinition(reader.ReadTagGroup());   //Read Tag group
+                    tagGroups.Add(new TagGroupDefinition(reader.ReadTagGroup()));   //Read Tag group
+
+                    //Read
+                    Console.WriteLine("Reading tag_group {0}...", tagGroups[i].GroupTag);
+                    Console.WriteLine("Processing...");
 
                     //Read tag block definition
                     ReadTagBlockDefinition(fs, reader, tagGroups[i].DefinitionAddress, tagGroups[i].GroupTag == HaloTags.snd_, null);
 
                     //Set
-                    tagBlockDefinitions[tagGroups[i].DefinitionAddress].IsTagGroup = true;
+                    tagBlocks[addressLookup[tagGroups[i].DefinitionAddress]].IsTagGroup = true;
                 }
+            }
+        }
+        /// <summary>
+        /// Post-processes the definitions.
+        /// This function PascalCases all tag blocks and changes the display names to Capital First Letters With Spaces.
+        /// </summary>
+        public void PostProcess()
+        {
+            foreach (TagBlockDefinition block in tagBlocks)
+            {
+                block.Name = ConvertToPascalCase(block.Name);
+                block.DisplayName = ConvertDisplayName(block.DisplayName);
             }
         }
         /// <summary>
@@ -65,7 +124,7 @@ namespace Abide.Guerilla.Managed
         private void ReadTagBlockDefinition(Stream input, H2Guerilla.GuerillaBinaryReader reader, int address, bool isSound, TagBlockDefinition parent)
         {
             //Check
-            if (tagBlockDefinitions.ContainsKey(address)) return;
+            if (addressLookup.ContainsKey(address)) return;
 
             //Goto
             input.Seek(address - Guerilla.BaseAddress, SeekOrigin.Begin);
@@ -86,7 +145,12 @@ namespace Abide.Guerilla.Managed
             definition.tagFields = new List<TagFieldDefinition>[definition.FieldSetCount];
 
             //Add
-            tagBlockDefinitions.Add(address, definition);
+            if (!nameLookup.ContainsKey(definition.Name)) nameLookup.Add(definition.Name, tagBlocks.Count);
+            addressLookup.Add(address, tagBlocks.Count);
+            tagBlocks.Add(definition);
+
+            //Processing
+            Console.WriteLine("Processing tag_block {0}", definition.Name);
 
             //Loop through each field set
             for (int i = 0; i < definition.FieldSetCount; i++)
@@ -136,64 +200,150 @@ namespace Abide.Guerilla.Managed
                     input.Seek(definition.FieldSetsAddress + (i * 76) - Guerilla.BaseAddress, SeekOrigin.Begin);
                     definition.tagFieldSets[i] = new TagFieldSet();
                     definition.tagFieldSets[i].Read(reader);
-
-                    //Check
-                    if (definition.FieldSetLatestAddress == definition.tagFieldSets[i].Address)
-                        definition.TagFieldSetLatestIndex = i;
-
-                    //Initialize the tag fields list
-                    definition.tagFields[i] = new List<TagFieldDefinition>();
-
-                    //Goto
-                    input.Seek(definition.tagFieldSets[i].FieldsAddress - Guerilla.BaseAddress, SeekOrigin.Begin);
-
-                    //Loop
-                    TagFieldDefinition field = new TagFieldDefinition();
-                    do
-                    {
-                        //Store address
-                        long fieldAddress = input.Position;
-
-                        //Read the field type
-                        switch ((FieldType)reader.ReadInt16())
-                        {
-                            case FieldType.FieldTagReference: field = new TagReferenceDefinition(); break;
-                            case FieldType.FieldStruct: field = new TagStructDefinition(); break;
-                            case FieldType.FieldData: field = new TagDataDefinition(); break;
-                            default: field = new TagFieldDefinition(); break;
-                        }
-
-                        //Goto field
-                        input.Seek(fieldAddress, SeekOrigin.Begin);
-                        field.Read(reader);
-
-                        //Add
-                        definition.tagFields[i].Add(field);
-
-                        //Handle special field type
-                        switch (field.Type)
-                        {
-                            case FieldType.FieldByteBlockFlags:
-                            case FieldType.FieldWordBlockFlags:
-                            case FieldType.FieldLongBlockFlags:
-                            case FieldType.FieldCharInteger:
-                            case FieldType.FieldShortInteger:
-                            case FieldType.FieldLongInteger:
-                            case FieldType.FieldBlock:
-                                if (field.DefinitionAddress != 0)
-                                    ReadTagBlockDefinition(input, reader, field.DefinitionAddress, false, definition);
-                                break;
-                            case FieldType.FieldStruct:
-                                ReadTagBlockDefinition(input, reader, ((TagStructDefinition)field).BlockDefinitionAddresss, false, definition);
-                                break;
-                        }
-
-                        //Goto next field
-                        input.Seek(fieldAddress + 16, SeekOrigin.Begin);
-                    }
-                    while (field.Type != FieldType.FieldTerminator);
                 }
+
+                //Check
+                if (definition.FieldSetLatestAddress == definition.tagFieldSets[i].Address)
+                    definition.TagFieldSetLatestIndex = i;
+
+                //Initialize the tag fields list
+                definition.tagFields[i] = new List<TagFieldDefinition>();
+
+                //Goto
+                input.Seek(definition.tagFieldSets[i].FieldsAddress - Guerilla.BaseAddress, SeekOrigin.Begin);
+
+                //Loop
+                TagFieldDefinition field = new TagFieldDefinition();
+                do
+                {
+                    //Store address
+                    long fieldAddress = input.Position;
+
+                    //Read the field type
+                    switch ((FieldType)reader.ReadInt16())
+                    {
+                        case FieldType.FieldTagReference: field = new TagReferenceDefinition(); break;
+                        case FieldType.FieldStruct: field = new TagStructDefinition(); break;
+                        case FieldType.FieldData: field = new TagDataDefinition(); break;
+                        case FieldType.FieldByteFlags:
+                        case FieldType.FieldLongFlags:
+                        case FieldType.FieldWordFlags:
+                        case FieldType.FieldCharEnum:
+                        case FieldType.FieldEnum:
+                        case FieldType.FieldLongEnum: field = new EnumDefinition(); break;
+                        case FieldType.FieldCharBlockIndex2:
+                        case FieldType.FieldShortBlockIndex2:
+                        case FieldType.FieldLongBlockIndex2: field = new BlockIndexCustomSearchDefinition(); break;
+                        case FieldType.FieldExplanation: field = new ExplanationDefinition(); break;
+                        default: field = new TagFieldDefinition(); break;
+                    }
+
+                    //Goto field
+                    input.Seek(fieldAddress, SeekOrigin.Begin);
+                    field.Read(reader);
+                    
+                    //Add
+                    definition.tagFields[i].Add(field);
+
+                    //Handle special field type
+                    switch (field.Type)
+                    {
+                        case FieldType.FieldByteBlockFlags:
+                        case FieldType.FieldWordBlockFlags:
+                        case FieldType.FieldLongBlockFlags:
+                        case FieldType.FieldCharInteger:
+                        case FieldType.FieldShortInteger:
+                        case FieldType.FieldLongInteger:
+                        case FieldType.FieldBlock:
+                            if (field.DefinitionAddress != 0)
+                                ReadTagBlockDefinition(input, reader, field.DefinitionAddress, false, definition);
+                            break;
+                        case FieldType.FieldStruct:
+                            ReadTagBlockDefinition(input, reader, ((TagStructDefinition)field).BlockDefinitionAddresss, false, definition);
+                            break;
+                    }
+
+                    //Goto next field
+                    input.Seek(fieldAddress + 16, SeekOrigin.Begin);
+                }
+                while (field.Type != FieldType.FieldTerminator);
             }
+        }
+        /// <summary>
+        /// Converts an underscore separated name to a pascal cased string.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>A PascalCasedString.</returns>
+        private string ConvertToPascalCase(string name)
+        {
+            StringBuilder builder = new StringBuilder();
+            string[] parts = name.Split('_');
+            foreach (string part in parts)
+            {
+                StringBuilder partBuilder = new StringBuilder(part);
+                partBuilder[0] = part.ToUpper()[0];
+                builder.Append(partBuilder.ToString());
+            }
+            return builder.ToString();
+        }
+        /// <summary>
+        /// Converts an underscore separated name to a display name string.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>A Display Name String.</returns>
+        private string ConvertDisplayName(string name)
+        {
+            StringBuilder builder = new StringBuilder();
+            string[] parts = name.Split('_');
+            foreach (string part in parts)
+            {
+                StringBuilder partBuilder = new StringBuilder(part);
+                partBuilder[0] = part.ToUpper()[0];
+                builder.Append(partBuilder.ToString() + " ");
+            }
+            return builder.ToString().Trim();
+        }
+        /// <summary>
+        /// Returns an array of the tag groups currently loaded into this instance.
+        /// </summary>
+        /// <returns>An array of <see cref="TagGroupDefinition"/> elements.</returns>
+        public TagGroupDefinition[] GetTagGroups()
+        {
+            return tagGroups.ToArray();
+        }
+        /// <summary>
+        /// Searches the tag block list for a tag block with the specified address.
+        /// </summary>
+        /// <param name="address">The address of the tag block.</param>
+        /// <returns>A tag block instance if one is found; otherwise null.</returns>
+        public TagBlockDefinition Search(int address)
+        {
+            //Return
+            if (addressLookup.ContainsKey(address)) return tagBlocks[addressLookup[address]];
+            return null;
+        }
+        /// <summary>
+        /// Searches the tag block list for a tag block with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the tag block.</param>
+        /// <returns>A tag block instance if one is found; otherwise null.</returns>
+        public TagBlockDefinition Search(string name)
+        {
+            //Return
+            if (nameLookup.ContainsKey(name)) return tagBlocks[nameLookup[name]];
+            return null;
+        }
+        /// <summary>
+        /// Gets an enumerator that iterates this instance.
+        /// </summary>
+        /// <returns>An enumerator.</returns>
+        public IEnumerator<TagBlockDefinition> GetEnumerator()
+        {
+            return tagBlocks.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return tagBlocks.GetEnumerator();
         }
     }
 }
