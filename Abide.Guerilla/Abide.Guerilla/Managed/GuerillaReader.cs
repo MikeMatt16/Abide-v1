@@ -41,10 +41,12 @@ namespace Abide.Guerilla.Managed
         }
 
         private readonly List<TagBlockDefinition> tagBlocks;
-        private readonly Dictionary<string, int> nameLookup;
-        private readonly Dictionary<int, int> addressLookup;
+        private readonly Dictionary<string, int> blockNameLookup;
+        private readonly Dictionary<string, int> groupTagLookup;
+        private readonly Dictionary<int, int> blockAddressLookup;
+        private readonly Dictionary<int, int> groupAddressLookup;
         private readonly List<TagGroupDefinition> tagGroups;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="GuerillaReader"/> class.
         /// </summary>
@@ -52,8 +54,10 @@ namespace Abide.Guerilla.Managed
         {
             //Prepare
             tagBlocks = new List<TagBlockDefinition>();
-            addressLookup = new Dictionary<int, int>();
-            nameLookup = new Dictionary<string, int>();
+            blockNameLookup = new Dictionary<string, int>();
+            groupTagLookup = new Dictionary<string, int>();
+            blockAddressLookup = new Dictionary<int, int>();
+            groupAddressLookup = new Dictionary<int, int>();
             tagGroups = new List<TagGroupDefinition>(Guerilla.NumberOfTagLayouts);
         }
         /// <summary>
@@ -65,8 +69,8 @@ namespace Abide.Guerilla.Managed
         {
             //Clear
             tagBlocks.Clear();
-            nameLookup.Clear();
-            addressLookup.Clear();
+            blockNameLookup.Clear();
+            blockAddressLookup.Clear();
             tagGroups.Clear();
 
             //Write
@@ -93,11 +97,17 @@ namespace Abide.Guerilla.Managed
                     Console.WriteLine("Reading tag_group {0}...", tagGroups[i].GroupTag);
                     Console.WriteLine("Processing...");
 
+                    //Add
+                    if (!groupAddressLookup.ContainsKey(tagGroups[i].DefinitionAddress))
+                        groupAddressLookup.Add(tagGroups[i].DefinitionAddress, i);
+                    if (!groupTagLookup.ContainsKey(tagGroups[i].GroupTag))
+                        groupTagLookup.Add(tagGroups[i].GroupTag, i);
+
                     //Read tag block definition
                     ReadTagBlockDefinition(fs, reader, tagGroups[i].DefinitionAddress, tagGroups[i].GroupTag == HaloTags.snd_, null);
 
                     //Set
-                    tagBlocks[addressLookup[tagGroups[i].DefinitionAddress]].IsTagGroup = true;
+                    tagBlocks[blockAddressLookup[tagGroups[i].DefinitionAddress]].IsTagGroup = true;
                 }
             }
         }
@@ -107,10 +117,18 @@ namespace Abide.Guerilla.Managed
         /// </summary>
         public void PostProcess()
         {
-            foreach (TagBlockDefinition block in tagBlocks)
+            //Clear
+            blockNameLookup.Clear();
+
+            //Loop
+            for (int i = 0; i < tagBlocks.Count; i++)
             {
-                block.Name = ConvertToPascalCase(block.Name);
-                block.DisplayName = ConvertDisplayName(block.DisplayName);
+                //Process Name
+                tagBlocks[i].Name = ConvertToPascalCase(tagBlocks[i].Name);
+                tagBlocks[i].DisplayName = ConvertDisplayName(tagBlocks[i].DisplayName);
+
+                //Add to lookup
+                if (!blockNameLookup.ContainsKey(tagBlocks[i].Name)) blockNameLookup.Add(tagBlocks[i].Name, i);
             }
         }
         /// <summary>
@@ -124,7 +142,7 @@ namespace Abide.Guerilla.Managed
         private void ReadTagBlockDefinition(Stream input, H2Guerilla.GuerillaBinaryReader reader, int address, bool isSound, TagBlockDefinition parent)
         {
             //Check
-            if (addressLookup.ContainsKey(address)) return;
+            if (blockAddressLookup.ContainsKey(address)) return;
 
             //Goto
             input.Seek(address - Guerilla.BaseAddress, SeekOrigin.Begin);
@@ -145,8 +163,8 @@ namespace Abide.Guerilla.Managed
             definition.tagFields = new List<TagFieldDefinition>[definition.FieldSetCount];
 
             //Add
-            if (!nameLookup.ContainsKey(definition.Name)) nameLookup.Add(definition.Name, tagBlocks.Count);
-            addressLookup.Add(address, tagBlocks.Count);
+            if (!blockNameLookup.ContainsKey(definition.Name)) blockNameLookup.Add(definition.Name, tagBlocks.Count);
+            blockAddressLookup.Add(address, tagBlocks.Count);
             tagBlocks.Add(definition);
 
             //Processing
@@ -277,7 +295,7 @@ namespace Abide.Guerilla.Managed
         private string ConvertToPascalCase(string name)
         {
             StringBuilder builder = new StringBuilder();
-            string[] parts = name.Split('_');
+            string[] parts = name.Split('_', ' ');
             foreach (string part in parts)
             {
                 StringBuilder partBuilder = new StringBuilder(part);
@@ -294,7 +312,7 @@ namespace Abide.Guerilla.Managed
         private string ConvertDisplayName(string name)
         {
             StringBuilder builder = new StringBuilder();
-            string[] parts = name.Split('_');
+            string[] parts = name.Split('_', ' ');
             foreach (string part in parts)
             {
                 StringBuilder partBuilder = new StringBuilder(part);
@@ -312,14 +330,36 @@ namespace Abide.Guerilla.Managed
             return tagGroups.ToArray();
         }
         /// <summary>
+        /// Searches the tag group list for a tag group with the specified address.
+        /// </summary>
+        /// <param name="address">The address of the tag group.</param>
+        /// <returns>A tag group instance if one is found; otherwise null.</returns>
+        public TagGroupDefinition SearchTagGroups(int address)
+        {
+            //Return
+            if (groupAddressLookup.ContainsKey(address)) return tagGroups[groupAddressLookup[address]];
+            return null;
+        }
+        /// <summary>
+        /// Searches the tag group list for a tag group with the specified tag group.
+        /// </summary>
+        /// <param name="tagGroup">The tag group string.</param>
+        /// <returns>A tag group instance if one is found; otherwise null.</returns>
+        public TagGroupDefinition SearchTagGroups(string tagGroup)
+        {
+            //Return
+            if (groupTagLookup.ContainsKey(tagGroup)) return tagGroups[groupTagLookup[tagGroup]];
+            return null;
+        }
+        /// <summary>
         /// Searches the tag block list for a tag block with the specified address.
         /// </summary>
         /// <param name="address">The address of the tag block.</param>
         /// <returns>A tag block instance if one is found; otherwise null.</returns>
-        public TagBlockDefinition Search(int address)
+        public TagBlockDefinition SearchTagBlocks(int address)
         {
             //Return
-            if (addressLookup.ContainsKey(address)) return tagBlocks[addressLookup[address]];
+            if (blockAddressLookup.ContainsKey(address)) return tagBlocks[blockAddressLookup[address]];
             return null;
         }
         /// <summary>
@@ -327,10 +367,10 @@ namespace Abide.Guerilla.Managed
         /// </summary>
         /// <param name="name">The name of the tag block.</param>
         /// <returns>A tag block instance if one is found; otherwise null.</returns>
-        public TagBlockDefinition Search(string name)
+        public TagBlockDefinition SearchTagBlocks(string name)
         {
             //Return
-            if (nameLookup.ContainsKey(name)) return tagBlocks[nameLookup[name]];
+            if (blockNameLookup.ContainsKey(name)) return tagBlocks[blockNameLookup[name]];
             return null;
         }
         /// <summary>

@@ -68,6 +68,7 @@
     <Compile Include="Managed\TagReferenceDefinition.cs" />
     <Compile Include="Managed\TagStructDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\String.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">

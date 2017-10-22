@@ -63,6 +63,13 @@ namespace Abide.Guerilla.Managed
             get { return flags; }
         }
         /// <summary>
+        /// Gets and returns this tag block definition's maximum element count.
+        /// </summary>
+        public int MaximumElementCount
+        {
+            get { return maximumElementCount; }
+        }
+        /// <summary>
         /// Gets and returns this tag block definition's field sets address.
         /// </summary>
         public int FieldSetsAddress
