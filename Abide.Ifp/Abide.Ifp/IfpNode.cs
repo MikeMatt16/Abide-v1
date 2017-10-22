@@ -19,6 +19,14 @@ namespace Abide.Ifp
             set { name = value; }
         }
         /// <summary>
+        /// Gets or sets the author of the element.
+        /// </summary>
+        public string Author
+        {
+            get { return author; }
+            set { author = value; }
+        }
+        /// <summary>
         /// Gets or sets the tag block level of the node.
         /// </summary>
         public string Layer
@@ -106,6 +114,22 @@ namespace Abide.Ifp
             set { itemOffset = value; }
         }
         /// <summary>
+        /// Gets or sets the tag block offset multiple alignment.
+        /// </summary>
+        public int Alignment
+        {
+            get { return alignment; }
+            set { alignment = value; }
+        }
+        /// <summary>
+        /// Gets or sets the maximum number of blocks in the tag block array.
+        /// </summary>
+        public int MaxElements
+        {
+            get { return maxElements; }
+            set { maxElements = value; }
+        }
+        /// <summary>
         /// Gets or sets the visiblity of the element.
         /// </summary>
         public bool Visible
@@ -142,8 +166,11 @@ namespace Abide.Ifp
         private bool inferOffset = true;
         private IfpNodeType type;
         private string name;
+        private string author;
         private string layer;
         private string label;
+        private int maxElements;
+        private int alignment = 2;
         private IfpNodeType itemType;
         private int length;
         private int fieldOffset;
@@ -183,7 +210,7 @@ namespace Abide.Ifp
             IfpNode node = new IfpNode();
 
             //Setup
-            node.name = xmlNode.Attributes?["name"]?.InnerText;
+            node.itemType = string_GetType(xmlNode.Attributes?["itemtype"]?.InnerText ?? string.Empty);
             node.inferOffset = !int.TryParse(xmlNode.Attributes?["offset"]?.InnerText, out node.fieldOffset);
             int.TryParse(xmlNode.Attributes?["reflexiveoffset"]?.InnerText, out node.tagBlockOffset);
             int.TryParse(xmlNode.Attributes?["reflexivesize"]?.InnerText, out node.tagBlockSize);
@@ -191,11 +218,14 @@ namespace Abide.Ifp
             int.TryParse(xmlNode.Attributes?["size"]?.InnerText, out node.length);
             int.TryParse(xmlNode.Attributes?["headersize"]?.InnerText, out node.headerSize);
             int.TryParse(xmlNode.Attributes?["value"]?.InnerText, out node.optionValue);
+            int.TryParse(xmlNode.Attributes?["padalign"]?.InnerText, out node.alignment);
+            int.TryParse(xmlNode.Attributes?["maxelements"]?.InnerText, out node.maxElements);
             bool.TryParse(xmlNode.Attributes?["visible"]?.InnerText, out node.visible);
+            node.name = xmlNode.Attributes?["name"]?.InnerText ?? string.Empty;
             node.@class = xmlNode.Attributes?["class"]?.InnerText ?? string.Empty;
+            node.author = xmlNode.Attributes?["author"]?.InnerText ?? string.Empty;
             node.layer = xmlNode.Attributes?["layer"]?.InnerText ?? string.Empty;
             node.label = xmlNode.Attributes?["label"]?.InnerText ?? string.Empty;
-            node.itemType = string_GetType(xmlNode.Attributes?["itemtype"]?.InnerText ?? string.Empty);
 
             //Load Children
             if (xmlNode.ChildNodes != null)

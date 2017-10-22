@@ -63,7 +63,7 @@ namespace Abide
             }
         }
 
-        private void file_Open(string filename)
+        private void mapFile_Open(string filename)
         {
             //Check
             if (!File.Exists(filename)) return;
@@ -115,6 +115,55 @@ namespace Abide
             if (Program.UpdateManifest != null && main_CheckForUpdate(Program.UpdateManifest) || Program.ForceUpdate)
                 using (UpdateDialog updateDlg = new UpdateDialog(Program.UpdateManifest))
                     if (updateDlg.ShowDialog() == DialogResult.OK) Application.Exit();
+
+            //Load Files
+            FileInfo info = null;
+            foreach (string filename in Program.Files)
+            {
+                //Initialize
+                try
+                {
+                    info = new FileInfo(filename);
+                    switch (info.Extension)
+                    {
+                        case ".map": mapFile_Open(filename); break;
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            //Check for file
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            //Check for file
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //Get Files
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                //Loop
+                FileInfo info = null;
+                foreach (string filename in files)
+                {
+                    //Initialize
+                    try
+                    {
+                        info = new FileInfo(filename);
+                        switch (info.Extension)
+                        {
+                            case ".map": mapFile_Open(filename); break;
+                        }
+                    }
+                    catch { }
+                }
+            }
         }
 
         private void recentItem_Click(object sender, EventArgs e)
@@ -127,7 +176,7 @@ namespace Abide
                 filename = (string)((ToolStripMenuItem)sender).Tag;
 
             //Check
-            if (!string.IsNullOrEmpty(filename)) file_Open(filename);
+            if (!string.IsNullOrEmpty(filename)) mapFile_Open(filename);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,7 +199,7 @@ namespace Abide
             }
 
             //Check
-            if (open) file_Open(filename);
+            if (open) mapFile_Open(filename);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -288,7 +337,7 @@ namespace Abide
             if (debugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect {debugXbox.DebugName}";
             else quickConnectToolStripMenuItem.Text = "Quick Connect";
         }
-
+        
         private bool main_CheckForUpdate(UpdateManifest manifest)
         {
             //Prepare

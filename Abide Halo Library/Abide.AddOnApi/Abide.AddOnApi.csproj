@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AddOnFactory.cs" />
     <Compile Include="ContextMenuItem.cs" />
+    <Compile Include="Halo2\AbideContextMenuButton.cs" />
     <Compile Include="Halo2\AbideTabPage.cs">
       <SubType>UserControl</SubType>
     </Compile>

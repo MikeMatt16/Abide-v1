@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_097FAC821E42A75F8D2F0BB722F8F6BE"
+        "OwnerKey" = "8:_44143C6F3E5E458D8A5CF2C078189A49"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_114718134C0ED56422F12116AC27BFFC"
+        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_118B1CDB911445DD93EDC62C05A187C4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -27,13 +39,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_91F6103F767C632207144F65360DC07E"
-        "OwnerKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
+        "MsmKey" = "8:_7132BC45E8BE16F2F297B456D10908F2"
+        "OwnerKey" = "8:_114718134C0ED56422F12116AC27BFFC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_91F6103F767C632207144F65360DC07E"
+        "MsmKey" = "8:_7132BC45E8BE16F2F297B456D10908F2"
         "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -45,13 +57,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AAEE218B01F8B6C81614D4305B1229ED"
+        "MsmKey" = "8:_A08E290C8EB6C5EE151CAE7D9C3313AB"
         "OwnerKey" = "8:_44143C6F3E5E458D8A5CF2C078189A49"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DA494052AFC0AF0563108C72DE077CBB"
+        "MsmKey" = "8:_B4C2C4CE0CCAD9BD2AC5AA249940D077"
+        "OwnerKey" = "8:_114718134C0ED56422F12116AC27BFFC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B4C2C4CE0CCAD9BD2AC5AA249940D077"
+        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9B62CE7DE335428D8D0BF666ACD27BD"
         "OwnerKey" = "8:_44143C6F3E5E458D8A5CF2C078189A49"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -63,24 +87,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
-        "OwnerKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
-        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
-        "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E184653F5DBA47089724CA6AD32EFD54"
         "MsmSig" = "8:_UNDEFINED"
@@ -88,19 +94,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FE5E105EACAB52322BC163A9F12063A2"
+        "OwnerKey" = "8:_7132BC45E8BE16F2F297B456D10908F2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E93CC5D394FDA5E9F7F129EAADD41E32"
+        "OwnerKey" = "8:_B4C2C4CE0CCAD9BD2AC5AA249940D077"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_91F6103F767C632207144F65360DC07E"
+        "OwnerKey" = "8:_114718134C0ED56422F12116AC27BFFC"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -198,6 +204,52 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_097FAC821E42A75F8D2F0BB722F8F6BE"
+            {
+            "SourcePath" = "8:Abide.AddOnApi.xml"
+            "TargetName" = "8:Abide.AddOnApi.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_114718134C0ED56422F12116AC27BFFC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Abide.AddOnApi, Version=1.4.6495.27103, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                }
+            "SourcePath" = "8:Abide.AddOnApi.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_118B1CDB911445DD93EDC62C05A187C4"
             {
             "SourcePath" = "8:G:\\XBox\\Original\\Games\\Halo 2\\Modding\\Programming\\Tools and Classes\\YeloDebug\\YeloDebugSettings.xml"
@@ -218,18 +270,13 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_91F6103F767C632207144F65360DC07E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7132BC45E8BE16F2F297B456D10908F2"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Abide.HaloLibrary, Version=1.1.6484.27549, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Abide.HaloLibrary, Version=1.1.6494.29829, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_91F6103F767C632207144F65360DC07E"
-                    {
-                    "Name" = "8:Abide.HaloLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Abide.HaloLibrary.dll"
             "TargetName" = "8:"
@@ -269,10 +316,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AAEE218B01F8B6C81614D4305B1229ED"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A08E290C8EB6C5EE151CAE7D9C3313AB"
             {
-            "SourcePath" = "8:Abide.HaloLibrary.xml"
-            "TargetName" = "8:Abide.HaloLibrary.xml"
+            "SourcePath" = "8:YeloDebug.xml"
+            "TargetName" = "8:YeloDebug.xml"
             "Tag" = "8:"
             "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
             "Condition" = "8:"
@@ -289,38 +336,13 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DA494052AFC0AF0563108C72DE077CBB"
-            {
-            "SourcePath" = "8:Abide.AddOnApi.xml"
-            "TargetName" = "8:Abide.AddOnApi.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E93CC5D394FDA5E9F7F129EAADD41E32"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B4C2C4CE0CCAD9BD2AC5AA249940D077"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:YeloDebug, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E93CC5D394FDA5E9F7F129EAADD41E32"
-                    {
-                    "Name" = "8:YeloDebug.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:YeloDebug.dll"
             "TargetName" = "8:"
@@ -340,21 +362,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FE5E105EACAB52322BC163A9F12063A2"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D9B62CE7DE335428D8D0BF666ACD27BD"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Abide.AddOnApi, Version=1.4.6484.27550, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FE5E105EACAB52322BC163A9F12063A2"
-                    {
-                    "Name" = "8:Abide.AddOnApi.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Abide.AddOnApi.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:Abide.HaloLibrary.xml"
+            "TargetName" = "8:Abide.HaloLibrary.xml"
             "Tag" = "8:"
             "Folder" = "8:_30E89EDF749F459B93516685E018E8E7"
             "Condition" = "8:"
@@ -460,15 +471,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Abide Halo Map Editor"
-        "ProductCode" = "8:{B5BE5CA2-9FCA-4AB1-A803-9A33A5BA38D7}"
-        "PackageCode" = "8:{A72A184E-4F33-48FF-B826-0EFB2DB9DE39}"
+        "ProductCode" = "8:{3B9663FA-084C-4062-A475-055E5C92E687}"
+        "PackageCode" = "8:{2A5FB82C-B0FA-4274-BE91-E33D4B8C7984}"
         "UpgradeCode" = "8:{46296D3C-B623-4E97-BCEF-8651E2F65422}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.6.0"
+        "ProductVersion" = "8:1.7.0"
         "Manufacturer" = "8:Potential Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/MikeMatt16/abide"
