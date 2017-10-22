@@ -54,6 +54,9 @@ namespace Abide.Guerilla.Ui
 
         private void LoadGuerilla()
         {
+            //Err
+            string dir = @"G:\Abide.Guerilla.Tags";
+
             //Check
             if (File.Exists(Program.H2GuerillaPath) && File.Exists(Program.H2alangPath))
             {
@@ -80,6 +83,30 @@ namespace Abide.Guerilla.Ui
 
                     //Add Node
                     tagGroupTreeView.Nodes.Add(groupNode);
+
+                    //Create
+                    using (CsWriter writer = new CsWriter(Path.Combine(dir, $"{tagGroup.Name}.cs")))
+                    {
+                        //Write Usings and namespace
+                        writer.WriteUsing("Abide.Guerilla.Types");
+                        writer.WriteUsing("Abide.HaloLibrary");
+                        writer.WriteStartNamespace("Abide.Guerilla.Tags");
+
+                        //Suppress
+                        writer.WriteUnIndented("#pragma warning disable CS1591");
+
+                        //Write C#
+                        GenerateCs(writer, block);
+
+                        //End
+                        writer.WriteEndNamespace();
+
+                        //Unsuppress
+                        writer.WriteUnIndented("#pragma warning restore CS1591");
+
+                        //Close
+                        writer.Close();
+                    }
                 }
 
                 //End
@@ -123,30 +150,49 @@ namespace Abide.Guerilla.Ui
 
         private void TagGroupTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //Prepare
-            StringBuilder xmlBuilder = new StringBuilder();
-            XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
-
-            //Initialize
-            using (XmlWriter writer = XmlWriter.Create(xmlBuilder, settings))
+            //Check
+            if (e.Node.Tag is TagBlockDefinition block)
             {
+                //Prepare
+                StringBuilder xmlBuilder = new StringBuilder();
+                XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
 
-                //Write Start
-                writer.WriteStartDocument();
+                //Initialize
+                using (XmlWriter xmlWriter = XmlWriter.Create(xmlBuilder, settings))
+                {
+                    //Write Start
+                    xmlWriter.WriteStartDocument();
 
-                //Get Tag Block
-                if (e.Node.Tag is TagBlockDefinition block)
-                    GenerateXml(writer, block);
+                    //Write XML
+                    GenerateXml(xmlWriter, block);
 
-                //End
-                writer.WriteEndDocument();
-                writer.Flush();
-                writer.Close();
+                    //End
+                    xmlWriter.WriteEndDocument();
+                    xmlWriter.Flush();
+                    xmlWriter.Close();
+                }
+
+                //Clear
+                xmlRichTextBox.Clear();
+                xmlRichTextBox.AppendText(xmlBuilder.ToString());
+
+                //Write CS file
+                using (CsWriter csWriter = new CsWriter(@"G:\Abide.Guerilla.Tag.cs"))
+                {
+                    //Write Usings and namespace
+                    csWriter.WriteUsing("Abide.Guerilla.Types");
+                    csWriter.WriteStartNamespace("Abide.Guerilla.Tags");
+
+                    //Write C#
+                    GenerateCs(csWriter, block);
+
+                    //End
+                    csWriter.WriteEndNamespace();
+
+                    //Close
+                    csWriter.Close();
+                }
             }
-
-            //Clear
-            xmlRichTextBox.Clear();
-            xmlRichTextBox.AppendText(xmlBuilder.ToString());
         }
         
         private void GenerateXml(XmlWriter writer, TagBlockDefinition tagBlock)
@@ -205,7 +251,6 @@ namespace Abide.Guerilla.Ui
             //Write End
             if (tagBlock.IsTagGroup) writer.WriteEndElement();
         }
-
         private void CreateXmlElement(XmlWriter writer, TagFieldDefinition tagField, ref int offset)
         {
             //Prepare
@@ -836,6 +881,292 @@ namespace Abide.Guerilla.Ui
 
                 default: throw new NotImplementedException(Enum.GetName(typeof(FieldType), tagField.Type));
             }
+        }
+
+        private void GenerateCs(CsWriter csWriter, TagBlockDefinition tagBlock)
+        {
+            //Prepare
+            TagFieldSet fieldSet = null, childFieldSet = null;
+            TagBlockDefinition childBlock = null;
+            TagFieldDefinition[] fields = null;
+            EnumDefinition enumDefinition = null;
+            TagDataDefinition dataDefinition = null;
+
+            //Get Data
+            fieldSet = tagBlock.GetFieldSetH2Xbox();
+            fields = tagBlock.GetFieldDefinitionsH2Xbox();
+
+            //Check
+            if (tagBlock.IsTagGroup)
+            {
+                //Lookup tag group
+                TagGroupDefinition tagGroup = guerilla.SearchTagGroups(tagBlock.Address);
+
+                //Write Tag Group attribute
+                csWriter.WriteAttribute("TagGroup", $"\"{tagGroup.Name}\"", $"\"{tagGroup.GroupTag}\"", $"\"{tagGroup.ParentGroupTag}\"", $"typeof({tagBlock.Name})");
+            }
+            
+            //Write Field set attribute
+            csWriter.WriteAttribute("FieldSet", fieldSet.Size, fieldSet.Alignment);
+
+            //Write Block Struct
+            csWriter.WriteStartStruct(tagBlock.Name, "public", "unsafe");
+
+            //Generate types
+            foreach (var field in fields)
+                switch (field.Type)
+                {
+                    case FieldType.FieldCharEnum:
+                    case FieldType.FieldEnum:
+                    case FieldType.FieldLongEnum:
+                        enumDefinition = (EnumDefinition)field;
+                        csWriter.WriteStartEnum($"{PascalFormat(enumDefinition.Name)}Options", "public");
+                        for (int i = 0; i < enumDefinition.OptionCount; i++)
+                            csWriter.Write($"{PascalFormat(enumDefinition.Options[i])}_{i} = {i},");
+                        csWriter.WriteEndEnum();
+                        break;
+                    case FieldType.FieldByteFlags:
+                    case FieldType.FieldWordFlags:
+                    case FieldType.FieldLongFlags:
+                        enumDefinition = (EnumDefinition)field;
+                        csWriter.WriteStartEnum($"{PascalFormat(enumDefinition.Name)}Options", "public");
+                        for (int i = 0; i < enumDefinition.OptionCount; i++)
+                            csWriter.Write($"{PascalFormat(enumDefinition.Options[i])}_{i} = {1 << i},");
+                        csWriter.WriteEndEnum();
+                        break;
+                    case FieldType.FieldBlock:
+                        //Get Block
+                        childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
+                        GenerateCs(csWriter, childBlock);
+                        break;
+                }
+
+            //Write field set
+            int index = 0;
+            foreach (var field in fields)
+            {
+                string fieldName = CsWriter.GetSafeString(field.Name, CsWriter.NameType.Field);
+
+                switch (field.Type)
+                {
+                    case FieldType.FieldString:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("String", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldLongString:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("LongString", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldStringId:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("StringId", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldCharInteger:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("int", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldShortInteger:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("short", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldLongInteger:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("int", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldAngle:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("float", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldTag:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Tag", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldByteFlags:
+                    case FieldType.FieldCharEnum:
+                        enumDefinition = (EnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", $"typeof({PascalFormat(enumDefinition.Name)}Options)");
+                        csWriter.WriteField("byte", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldWordFlags:
+                    case FieldType.FieldEnum:
+                        enumDefinition = (EnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", $"typeof({PascalFormat(enumDefinition.Name)}Options)");
+                        csWriter.WriteField("short", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldLongFlags:
+                    case FieldType.FieldLongEnum:
+                        enumDefinition = (EnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", $"typeof({PascalFormat(enumDefinition.Name)}Options)");
+                        csWriter.WriteField("int", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldPoint2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector2", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRectangle2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Rectangle2", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRgbColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorRgb", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldArgbColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorArgb", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldReal:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("float", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealFraction:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("float", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealPoint2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector2", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealPoint3D:
+                        csWriter.WriteField("Vector3", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealVector2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector2", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealVector3D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector3", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldQuaternion:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Quaternion", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldEulerAngles2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector2", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldEulerAngles3D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Vector3", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealPlane2D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Plane2", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealPlane3D:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("Plane3", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealRgbColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorFRgb", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealArgbColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorArgbF", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealHsvColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorHsvF", $"{fieldName}_{index}", "public");
+                        break;
+                    case FieldType.FieldRealAhsvColor:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("ColorAhsvF", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldRealShortBounds:
+                    case FieldType.FieldRealAngleBounds:
+                    case FieldType.FieldRealBounds:
+                    case FieldType.FieldRealFractionBounds:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("FloatBounds", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldTagReference:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.WriteField("TagReference", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldBlock:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
+                        csWriter.WriteAttribute("Block", $"\"{childBlock.DisplayName}\"", childBlock.MaximumElementCount, $"typeof({childBlock.Name})");
+                        csWriter.WriteField("TagBlock", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldCharBlockIndex1:
+                    case FieldType.FieldCharBlockIndex2:
+                        break;
+                    case FieldType.FieldShortBlockIndex1:
+                    case FieldType.FieldShortBlockIndex2:
+                        break;
+                    case FieldType.FieldLongBlockIndex1:
+                    case FieldType.FieldLongBlockIndex2:
+                        break;
+
+                    case FieldType.FieldData:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        dataDefinition = (TagDataDefinition)field;
+                        csWriter.WriteAttribute("Data", dataDefinition.MaximumSize);
+                        csWriter.WriteField("TagBlock", $"{fieldName}_{index}", "public");
+                        break;
+
+                    case FieldType.FieldPad:
+                    case FieldType.FieldUselessPad:
+                    case FieldType.FieldSkip:
+                        csWriter.WriteAttribute("Field", $"\"{field.Name}\"", "null");
+                        csWriter.Write($"public fixed byte {fieldName}_{index}[{field.DefinitionAddress}];");
+                        break;
+
+                    case FieldType.FieldStruct:
+                        break;
+                }
+
+                //Increment
+                index++;
+            }
+
+            //Write End
+            csWriter.WriteEndStruct();
+        }
+
+        private static string PascalFormat(string str)
+        {
+            //Check
+            if (string.IsNullOrEmpty(str)) return "_";
+            string fixedString = CsWriter.GetSafeString(str, CsWriter.NameType.Class);
+
+            //Prepare
+            StringBuilder builder = new StringBuilder();
+
+            //Split
+            string[] parts = str.Split('-', '.', ' ', '_', ')', '(', '[', ']', '{', '}');
+            foreach (string part in parts)
+            {
+                if (string.IsNullOrEmpty(part)) continue;
+                StringBuilder partBuilder = new StringBuilder(part);
+                partBuilder[0] = part.ToUpper()[0];
+                builder.Append(partBuilder.ToString());
+            }
+
+            //Convert
+            return CsWriter.GetSafeString(builder.ToString().Trim(), CsWriter.NameType.Class);
         }
     }
 }

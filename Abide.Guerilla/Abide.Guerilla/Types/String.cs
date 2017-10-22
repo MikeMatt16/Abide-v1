@@ -47,7 +47,7 @@ namespace Abide.Guerilla.Types
             }
         }
         
-        private fixed sbyte str[32];
+        private fixed sbyte str[Size];
         /// <summary>
         /// Gets a value that determines if this string value and another specified <see cref="string"/> object have the same value. 
         /// </summary>
@@ -139,7 +139,7 @@ namespace Abide.Guerilla.Types
             }
         }
 
-        private fixed sbyte str[256];
+        private fixed sbyte str[Size];
         /// <summary>
         /// Gets a value that determines if this string value and another specified <see cref="string"/> object have the same value. 
         /// </summary>

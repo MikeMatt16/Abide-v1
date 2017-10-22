@@ -68,7 +68,15 @@
     <Compile Include="Managed\TagReferenceDefinition.cs" />
     <Compile Include="Managed\TagStructDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags\Attributes.cs" />
+    <Compile Include="Tags\Generated\bitmap.cs" />
+    <Compile Include="Types\FloatBounds.cs" />
+    <Compile Include="Types\Quaternion.cs" />
+    <Compile Include="Types\Rectangle2.cs" />
     <Compile Include="Types\String.cs" />
+    <Compile Include="Types\TagReference.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
@@ -76,5 +84,6 @@
       <Name>Abide.HaloLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
