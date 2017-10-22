@@ -36,7 +36,7 @@ namespace Abide.Guerilla.Tags
 			Embm_7 = 7,
 			HeightMapA8L8_8 = 8,
 			HeightMapG8B8_9 = 9,
-			HeightMapG8B8W_Alpha_10 = 10,
+			HeightMapG8B8WAlpha_10 = 10,
 		}
 		public enum FlagsOptions
 		{
@@ -46,7 +46,7 @@ namespace Abide.Guerilla.Tags
 			FilthySpriteBugFix_3 = 8,
 			UseSharpBumpFilter_4 = 16,
 			UNUSED_5 = 32,
-			UseClamped_MirroredBumpFilter_6 = 64,
+			UseClampedMirroredBumpFilter_6 = 64,
 			InvertDetailFade_7 = 128,
 			SwapXYVectorComponents_8 = 256,
 			ConvertFromSigned_9 = 512,
@@ -65,8 +65,8 @@ namespace Abide.Guerilla.Tags
 		}
 		public enum SpriteUsageOptions
 		{
-			Blend_Add_Subtract_Max_0 = 0,
-			Multiply_Min_1 = 1,
+			BlendAddSubtractMax_0 = 0,
+			MultiplyMin_1 = 1,
 			DoubleMultiply_2 = 2,
 		}
 		public enum ForceFormatOptions
@@ -86,33 +86,33 @@ namespace Abide.Guerilla.Tags
 			public unsafe struct BitmapGroupSpriteBlock
 			{
 				[Field("Bitmap Index*", null)]
-				public short Bitmap_Index__0;
+				public short BitmapIndex0;
 				[Field("", null)]
-				public fixed byte Empty_1[2];
+				public fixed byte _1[2];
 				[Field("", null)]
-				public fixed byte Empty_2[4];
+				public fixed byte _2[4];
 				[Field("Left*", null)]
-				public float Left__3;
+				public float Left3;
 				[Field("Right*", null)]
-				public float Right__4;
+				public float Right4;
 				[Field("Top*", null)]
-				public float Top__5;
+				public float Top5;
 				[Field("Bottom*", null)]
-				public float Bottom__6;
+				public float Bottom6;
 				[Field("Registration Point*", null)]
-				public Vector2 Registration_Point__7;
+				public Vector2 RegistrationPoint7;
 			}
 			[Field("Name^", null)]
-			public String Name__0;
+			public String Name0;
 			[Field("First Bitmap Index*", null)]
-			public short First_Bitmap_Index__1;
+			public short FirstBitmapIndex1;
 			[Field("Bitmap Count*", null)]
-			public short Bitmap_Count__2;
+			public short BitmapCount2;
 			[Field("", null)]
-			public fixed byte Empty_3[16];
+			public fixed byte _3[16];
 			[Field("Sprites*", null)]
 			[Block("Bitmap Group Sprite Block", 64, typeof(BitmapGroupSpriteBlock))]
-			public TagBlock Sprites__4;
+			public TagBlock Sprites4;
 		}
 		[FieldSet(116, 4)]
 		public unsafe struct BitmapDataBlock
@@ -123,13 +123,13 @@ namespace Abide.Guerilla.Tags
 				BitmapCreateAttempted_1 = 2,
 				__2 = 4,
 			}
-			public enum Type__DeterminesBitmap_geometry_Options
+			public enum TypeDeterminesBitmapGeometryOptions
 			{
 				_2DTexture_0 = 0,
 				_3DTexture_1 = 1,
 				CubeMap_2 = 2,
 			}
-			public enum Format__DeterminesHowPixelsAreRepresentedInternallyOptions
+			public enum FormatDeterminesHowPixelsAreRepresentedInternallyOptions
 			{
 				A8_0 = 0,
 				Y8_1 = 1,
@@ -156,7 +156,7 @@ namespace Abide.Guerilla.Tags
 				V8u8_22 = 22,
 				G8b8_23 = 23,
 			}
-			public enum Flags_Options
+			public enum FlagsOptions
 			{
 				PowerOfTwoDimensions_0 = 1,
 				Compressed_1 = 2,
@@ -168,111 +168,111 @@ namespace Abide.Guerilla.Tags
 				PreferStutterPreferLowDetail_7 = 128,
 			}
 			[Field("Signature*", null)]
-			public Tag Signature__0;
+			public Tag Signature0;
 			[Field("Width*:pixels", null)]
-			public short Width__pixels_1;
+			public short Width1;
 			[Field("Height*:pixels", null)]
-			public short Height__pixels_2;
+			public short Height2;
 			[Field("Depth*:pixels#Depth is 1 for 2D textures and cube maps.", null)]
-			public int Depth__pixels_Depth_is_1_for_2D_textures_and_cube_maps__3;
+			public int Depth3;
 			[Field("More Flags", typeof(MoreFlagsOptions))]
-			public byte More_Flags_4;
-			[Field("Type*#Determines bitmap \"geometry.\"", typeof(Type__DeterminesBitmap_geometry_Options))]
-			public short Type__Determines_bitmap__geometry___5;
-			[Field("Format*#Determines how pixels are represented internally.", typeof(Format__DeterminesHowPixelsAreRepresentedInternallyOptions))]
-			public short Format__Determines_how_pixels_are_represented_internally__6;
-			[Field("Flags*", typeof(Flags_Options))]
-			public short Flags__7;
+			public byte MoreFlags4;
+			[Field("Type*#Determines bitmap \"geometry.\"", typeof(TypeDeterminesBitmapGeometryOptions))]
+			public short Type5;
+			[Field("Format*#Determines how pixels are represented internally.", typeof(FormatDeterminesHowPixelsAreRepresentedInternallyOptions))]
+			public short Format6;
+			[Field("Flags*", typeof(FlagsOptions))]
+			public short Flags7;
 			[Field("Registration Point*", null)]
-			public Vector2 Registration_Point__8;
+			public Vector2 RegistrationPoint8;
 			[Field("mipmap Count*", null)]
-			public short mipmap_Count__9;
+			public short MipmapCount9;
 			[Field("Low-Detail mipmap Count*", null)]
-			public short Low_Detail_mipmap_Count__10;
+			public short LowDetailMipmapCount10;
 			[Field("Pixels Offset*", null)]
-			public int Pixels_Offset__11;
+			public int PixelsOffset11;
 			[Field("", null)]
-			public fixed byte Empty_12[12];
+			public fixed byte _12[12];
 			[Field("", null)]
-			public fixed byte Empty_13[12];
+			public fixed byte _13[12];
 			[Field("", null)]
-			public fixed byte Empty_14[12];
+			public fixed byte _14[12];
 			[Field("", null)]
-			public fixed byte Empty_15[12];
+			public fixed byte _15[12];
 			[Field("", null)]
-			public fixed byte Empty_16[4];
+			public fixed byte _16[4];
 			[Field("", null)]
-			public fixed byte Empty_17[4];
+			public fixed byte _17[4];
 			[Field("", null)]
-			public fixed byte Empty_18[4];
+			public fixed byte _18[4];
 			[Field("", null)]
-			public fixed byte Empty_19[4];
+			public fixed byte _19[4];
 			[Field("", null)]
-			public fixed byte Empty_20[20];
+			public fixed byte _20[20];
 			[Field("", null)]
-			public fixed byte Empty_21[4];
+			public fixed byte _21[4];
 		}
-		public enum ColorSubsampling_Options
+		public enum ColorSubsamplingOptions
 		{
-			_4_0_0_0 = 0,
-			_4_2_0_1 = 1,
-			_4_2_2_2 = 2,
-			_4_4_4_3 = 3,
+			_400_0 = 0,
+			_420_1 = 1,
+			_422_2 = 2,
+			_444_3 = 3,
 		}
 		[Field("Type", typeof(TypeOptions))]
-		public short Type_2;
+		public short Type2;
 		[Field("Format", typeof(FormatOptions))]
-		public short Format_4;
+		public short Format4;
 		[Field("Usage", typeof(UsageOptions))]
-		public short Usage_6;
+		public short Usage6;
 		[Field("Flags", typeof(FlagsOptions))]
-		public short Flags_7;
+		public short Flags7;
 		[Field("Detail Fade Factor:[0,1]#0 means fade to gray by last mipmap; 1 means fade to gray by first mipmap.", null)]
-		public float Detail_Fade_Factor__0_1__0_means_fade_to_gray_by_last_mipmap__1_means_fade_to_gray_by_first_mipmap__9;
+		public float DetailFadeFactor9;
 		[Field("Sharpen Amount:[0,1]#Sharpens mipmap after downsampling.", null)]
-		public float Sharpen_Amount__0_1__Sharpens_mipmap_after_downsampling__10;
+		public float SharpenAmount10;
 		[Field("Bump Height:repeats#tApparent height of the bump map above the triangle onto which it is textured, in texture repeats (i.e., 1.0 would be as high as the texture is wide).", null)]
-		public float Bump_Height_repeats_tApparent_height_of_the_bump_map_above_the_triangle_onto_which_it_is_textured__in_texture_repeats__i_e___1_0_would_be_as_high_as_the_texture_is_wide___11;
+		public float BumpHeight11;
 		[Field("EMPTY STRING", typeof(EMPTYSTRINGOptions))]
-		public short EMPTY_STRING_12;
+		public short EMPTYSTRING12;
 		[Field("EMPTY STRING", null)]
-		public short EMPTY_STRING_13;
+		public short EMPTYSTRING13;
 		[Field("Color Plate Width*:pixels", null)]
-		public short Color_Plate_Width__pixels_15;
+		public short ColorPlateWidth15;
 		[Field("Color Plate Height*:pixels", null)]
-		public short Color_Plate_Height__pixels_16;
+		public short ColorPlateHeight16;
 		[Field("Compressed Color Plate Data*", null)]
 		[Data(1073741824)]
-		public TagBlock Compressed_Color_Plate_Data__17;
+		public TagBlock CompressedColorPlateData17;
 		[Field("Processed Pixel Data*", null)]
 		[Data(1073741824)]
-		public TagBlock Processed_Pixel_Data__19;
+		public TagBlock ProcessedPixelData19;
 		[Field("Blur Filter Size:[0,10] pixels#Blurs the bitmap before generating mipmaps.", null)]
-		public float Blur_Filter_Size__0_10__pixels_Blurs_the_bitmap_before_generating_mipmaps__21;
+		public float BlurFilterSize21;
 		[Field("Alpha Bias:[-1,1]#Affects alpha mipmap generation.", null)]
-		public float Alpha_Bias___1_1__Affects_alpha_mipmap_generation__22;
+		public float AlphaBias22;
 		[Field("Mipmap Count:levels#0 Defaults to all levels.", null)]
-		public short Mipmap_Count_levels_0_Defaults_to_all_levels__23;
+		public short MipmapCount23;
 		[Field("Sprite Usage", typeof(SpriteUsageOptions))]
-		public short Sprite_Usage_25;
+		public short SpriteUsage25;
 		[Field("Sprite Spacing*", null)]
-		public short Sprite_Spacing__26;
+		public short SpriteSpacing26;
 		[Field("Force Format", typeof(ForceFormatOptions))]
-		public short Force_Format_28;
+		public short ForceFormat28;
 		[Field("Sequences*", null)]
 		[Block("Bitmap Group Sequence Block", 256, typeof(BitmapGroupSequenceBlock))]
-		public TagBlock Sequences__29;
+		public TagBlock Sequences29;
 		[Field("Bitmaps*", null)]
 		[Block("Bitmap Data Block", 65536, typeof(BitmapDataBlock))]
-		public TagBlock Bitmaps__30;
+		public TagBlock Bitmaps30;
 		[Field("color compression quality:[1,127]#1 means lossless, 127 means crappy", null)]
-		public int color_compression_quality__1_127__1_means_lossless__127_means_crappy_32;
+		public int ColorCompressionQuality32;
 		[Field("alpha compression quality:[1,127]#1 means lossless, 127 means crappy", null)]
-		public int alpha_compression_quality__1_127__1_means_lossless__127_means_crappy_33;
+		public int AlphaCompressionQuality33;
 		[Field("overlap*", null)]
-		public int overlap__34;
-		[Field("color subsampling*", typeof(ColorSubsampling_Options))]
-		public byte color_subsampling__35;
+		public int Overlap34;
+		[Field("color subsampling*", typeof(ColorSubsamplingOptions))]
+		public byte ColorSubsampling35;
 	}
 }
 #pragma warning restore CS1591
