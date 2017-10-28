@@ -34,10 +34,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tagGroupTreeView = new System.Windows.Forms.TreeView();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.mapFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -68,22 +68,22 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -91,6 +91,13 @@
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.exportToolStripMenuItem.Text = "&Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
+            // 
+            // mapFormToolStripMenuItem
+            // 
+            this.mapFormToolStripMenuItem.Name = "mapFormToolStripMenuItem";
+            this.mapFormToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.mapFormToolStripMenuItem.Text = "&Map Form";
+            this.mapFormToolStripMenuItem.Click += new System.EventHandler(this.MapFormToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -108,6 +115,7 @@
             this.tagGroupTreeView.Name = "tagGroupTreeView";
             this.tagGroupTreeView.Size = new System.Drawing.Size(340, 637);
             this.tagGroupTreeView.TabIndex = 1;
+            this.tagGroupTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TagGroupTreeView_AfterSelect);
             // 
             // splitter1
             // 
@@ -116,13 +124,6 @@
             this.splitter1.Size = new System.Drawing.Size(3, 637);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
-            // 
-            // mapFormToolStripMenuItem
-            // 
-            this.mapFormToolStripMenuItem.Name = "mapFormToolStripMenuItem";
-            this.mapFormToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.mapFormToolStripMenuItem.Text = "&Map Form";
-            this.mapFormToolStripMenuItem.Click += new System.EventHandler(this.MapFormToolStripMenuItem_Click);
             // 
             // Main
             // 

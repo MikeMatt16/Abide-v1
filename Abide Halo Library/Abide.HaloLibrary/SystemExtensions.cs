@@ -280,6 +280,73 @@ namespace System.IO
             return ReadStringTable(reader, stringsOffset, indexOffset, count, Encoding.ASCII);
         }
         /// <summary>
+        /// Reads an object of the specified type from the underlying stream and advances the current position of the stream the length of the given type.
+        /// </summary>
+        /// <param name="reader">The <see cref="BinaryReader"/> instance to read the object from the underlying stream.</param>
+        /// <param name="type">A binary structure type to read.</param>
+        /// <returns>An instance of the read type.</returns>
+        public static object Read(this BinaryReader reader, Type type)
+        {
+            //Prepare
+            GCHandle handle = new GCHandle();
+            object instance = null;
+            byte[] data = null;
+            int size = 0;
+
+            //Read
+            try { size = Marshal.SizeOf(type); }
+            catch (Exception ex) { throw new IOException($"Unable to get length of {type.FullName}.", ex); }
+
+            //Read
+            data = reader.ReadBytes(size);
+
+            //Check
+            if (data != null)
+            {
+                try
+                {
+                    handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                    instance = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
+                }
+                finally { if (handle.IsAllocated) handle.Free(); }
+            }
+
+            //Return
+            return instance;
+        }
+        /// <summary>
+        /// Reads the specified object from the underlying stream and advances the current position of the stream the length of the given type.
+        /// <typeparamref name="T"/> must be a binary type.
+        /// </summary>
+        /// <typeparam name="T">A binary structure type to read.</typeparam>
+        /// <param name="reader">The <see cref="BinaryReader"/> instance to read the object from the underlying stream.</param>
+        /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        public static T Read<T>(this BinaryReader reader) where T : struct
+        {
+            //Prepare
+            GCHandle handle = new GCHandle();
+            T instance = new T();
+            byte[] data = null;
+
+            //Read
+            try { data = reader.ReadBytes(Marshal.SizeOf(typeof(T))); }
+            catch (Exception ex) { throw new IOException($"Unable to read object of type {typeof(T).FullName}.", ex); }
+
+            //Check
+            if (data != null)
+            {
+                try
+                {
+                    handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                    instance = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                }
+                finally { if (handle.IsAllocated) handle.Free(); }
+            }
+
+            //Return
+            return instance;
+        }
+        /// <summary>
         /// Reads the specified structure from the underlying stream and advances the current position of the stream by the length of the structure.
         /// </summary>
         /// <typeparam name="T">The marshalable structure type.</typeparam>
@@ -289,6 +356,7 @@ namespace System.IO
         /// <exception cref="IOException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [Obsolete("Obsolete, use Read<T>().", false)]
         public static T ReadStructure<T>(this BinaryReader reader) where T : new()
         {
             //Prepare
@@ -308,10 +376,7 @@ namespace System.IO
                     handle = GCHandle.Alloc(data, GCHandleType.Pinned);
                     structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
                 }
-                finally
-                {
-                    if (handle.IsAllocated) handle.Free();
-                }
+                finally { if (handle.IsAllocated) handle.Free(); }
             }
 
             //Return

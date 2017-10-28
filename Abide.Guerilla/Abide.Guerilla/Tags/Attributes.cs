@@ -4,7 +4,33 @@ using System;
 namespace Abide.Guerilla.Tags
 {
     /// <summary>
-    /// Represents a tag field.
+    /// Represents a tag padding field attribute.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class PaddingAttribute : Attribute
+    {
+        /// <summary>
+        /// Gets and returns the size of the padding.
+        /// </summary>
+        public int Size
+        {
+            get { return size; }
+        }
+
+        private readonly int size;
+
+        /// <summary>
+        /// Initializes a new <see cref="PaddingAttribute"/> instance using the supplied padding size.
+        /// </summary>
+        /// <param name="size">The padding size.</param>
+        public PaddingAttribute(int size)
+        {
+            this.size = size;
+        }
+    }
+
+    /// <summary>
+    /// Represents a tag field attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class FieldAttribute : Attribute
@@ -40,9 +66,79 @@ namespace Abide.Guerilla.Tags
     }
 
     /// <summary>
-    /// Represents a tag group.
+    /// Represents an tag field options attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Struct)]
+    public sealed class OptionsAttribute : Attribute
+    {
+        /// <summary>
+        /// Gets and returns the enum type for this field.
+        /// </summary>
+        public Type EnumType
+        {
+            get { return enumType; }
+        }
+        /// <summary>
+        /// Gets and returns true if this field has flag options; otherwise returns false for enum options.
+        /// </summary>
+        public bool IsFlags
+        {
+            get { return isFlags; }
+        }
+
+        private readonly Type enumType;
+        private readonly bool isFlags;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OptionsAttribute"/> class using the supplied enum type, and flags options.
+        /// </summary>
+        /// <param name="enumType">The enumerator type of this field.</param>
+        /// <param name="isFlags">Determines if the options are flags or simple enumeration.</param>
+        public OptionsAttribute(Type enumType, bool isFlags)
+        {
+            this.enumType = enumType;
+            this.isFlags = isFlags;
+        }
+    }
+
+    /// <summary>
+    /// Represents a tag field array.
+    /// </summary>
+    public sealed class ArrayAttribute : Attribute
+    {
+        /// <summary>
+        /// Gets and returns the number of elements within the array.
+        /// </summary>
+        public int Length
+        {
+            get { return length; }
+        }
+        /// <summary>
+        /// Gets and returns the array element type.
+        /// </summary>
+        public Type ElementType
+        {
+            get { return elementType; }
+        }
+        
+        private readonly int length;
+        private readonly Type elementType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayAttribute"/> structure using the specified array length and array element type.
+        /// </summary>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="elementType">The array element type.</param>
+        public ArrayAttribute(int length, Type elementType)
+        {
+            this.length = length;
+            this.elementType = elementType;
+        }
+    }
+
+    /// <summary>
+    /// Represents a tag group attribute.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public sealed class TagGroupAttribute : Attribute
     {
         /// <summary>
@@ -86,17 +182,17 @@ namespace Abide.Guerilla.Tags
         /// <param name="groupTag">The group tag (or tag class) of the tag group.</param>
         /// <param name="parentGroupTag">The parent group tag (or parent tag class) of the tag group.</param>
         /// <param name="blockType">The block type of the tag group.</param>
-        public TagGroupAttribute(string name, string groupTag, string parentGroupTag, Type blockType)
+        public TagGroupAttribute(string name, uint groupTag, uint parentGroupTag, Type blockType)
         {
             this.name = name;
-            this.groupTag = groupTag;
-            this.parentGroupTag = parentGroupTag;
+            this.groupTag = (Tag)groupTag;
+            this.parentGroupTag = (Tag)parentGroupTag;
             this.blockType = blockType;
         }
     }
 
     /// <summary>
-    /// Represents a tag block.
+    /// Represents a tag block attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class BlockAttribute : Attribute
@@ -142,7 +238,7 @@ namespace Abide.Guerilla.Tags
     }
 
     /// <summary>
-    /// Represents a tag data block.
+    /// Represents a tag data block attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class DataAttribute : Attribute
@@ -168,9 +264,9 @@ namespace Abide.Guerilla.Tags
     }
 
     /// <summary>
-    /// Represents an in-line tag structure.
+    /// Represents a tag structure attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct)]
     public sealed class StructureAttribute : Attribute
     {
         /// <summary>
@@ -204,9 +300,9 @@ namespace Abide.Guerilla.Tags
     }
 
     /// <summary>
-    /// Represents a tag field set.
+    /// Represents a tag field set attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public sealed class FieldSetAttribute : Attribute
     {
         /// <summary>

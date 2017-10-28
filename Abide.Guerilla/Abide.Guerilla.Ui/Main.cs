@@ -1,7 +1,11 @@
-﻿using Abide.Guerilla.Managed;
+﻿using Abide.Guerilla.CodeDom;
+using Abide.Guerilla.Managed;
 using Abide.Guerilla.Ui.Forms;
 using Abide.HaloLibrary.Halo2Map;
+using Microsoft.CSharp;
 using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -11,14 +15,14 @@ namespace Abide.Guerilla.Ui
 {
     public partial class Main : Form
     {
-        private readonly GuerillaReader guerilla = new GuerillaReader();
+        private readonly GuerillaInstance guerilla = new GuerillaInstance();
 
         public Main()
         {
             InitializeComponent();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open H2alang.dll...
             using (OpenFileDialog openDlg = new OpenFileDialog())
@@ -42,7 +46,7 @@ namespace Abide.Guerilla.Ui
             LoadGuerilla();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Exit
             Application.Exit();
@@ -61,7 +65,6 @@ namespace Abide.Guerilla.Ui
             {
                 //Process
                 guerilla.Process(Program.H2GuerillaPath, Program.H2alangPath);
-                guerilla.PostProcess();
 
                 //Clear Tree nodes
                 tagGroupTreeView.BeginUpdate();
@@ -71,7 +74,7 @@ namespace Abide.Guerilla.Ui
                 foreach (TagGroupDefinition tagGroup in guerilla.GetTagGroups())
                 {
                     //Get Block
-                    TagBlockDefinition block = guerilla.SearchTagBlocks(tagGroup.DefinitionAddress);
+                    TagBlockDefinition block = guerilla.FindTagBlock(tagGroup.DefinitionAddress);
 
                     //Create group node
                     TreeNode groupNode = new TreeNode($"[{tagGroup.GroupTag}] - {block?.DisplayName ?? tagGroup.Name}");
@@ -99,13 +102,13 @@ namespace Abide.Guerilla.Ui
 
             //Loop
             if (block.FieldSetCount > 0)
-                foreach (TagFieldDefinition field in block.GetFieldDefinitionsH2Xbox())
+                foreach (TagFieldDefinition field in block.GetLatestFieldDefinitions())
                     switch (field.Type)
                     {
                         case FieldType.FieldBlock:
                             //Prepare
-                            childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
-                            fieldSet = childBlock.GetFieldSetH2Xbox();
+                            childBlock = guerilla.FindTagBlock(field.DefinitionAddress);
+                            fieldSet = childBlock.GetFieldSet(childBlock.TagFieldSetLatestIndex);
                             childBlockNode = new TreeNode($"{childBlock.DisplayName} Size: {fieldSet.Size} Alignment: {fieldSet.Alignment}");
                             childBlockNode.Tag = groupBlock;
 
@@ -115,8 +118,8 @@ namespace Abide.Guerilla.Ui
                             break;
                         case FieldType.FieldStruct:
                             //Prepare
-                            TagStructDefinition structDef = (TagStructDefinition)field;
-                            childBlock = guerilla.SearchTagBlocks(structDef.BlockDefinitionAddresss);
+                            TagFieldStructDefinition structDef = (TagFieldStructDefinition)field;
+                            childBlock = guerilla.FindTagBlock(structDef.BlockDefinitionAddresss);
 
                             //Build Node hierarchy
                             if (block != null) LoadBlock(groupBlock, blockNode, childBlock);
@@ -130,8 +133,19 @@ namespace Abide.Guerilla.Ui
             if (e.Node.Tag is TagBlockDefinition block)
             {
                 //Prepare
+                StringBuilder cSharpBuilder = new StringBuilder();
                 StringBuilder xmlBuilder = new StringBuilder();
                 XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
+
+                //Create CodeDOM
+                TagGroupCodeCompileUnit compileUnit = new TagGroupCodeCompileUnit(guerilla, guerilla.FindTagGroup(block.Address), block);
+
+                //Initialize
+                using (CSharpCodeProvider provider = new CSharpCodeProvider())
+                {
+                    using (StringWriter writer = new StringWriter(cSharpBuilder))
+                        provider.GenerateCodeFromCompileUnit(compileUnit, writer, new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false });
+                }
 
                 //Initialize
                 using (XmlWriter xmlWriter = XmlWriter.Create(xmlBuilder, settings))
@@ -148,6 +162,20 @@ namespace Abide.Guerilla.Ui
                     xmlWriter.Close();
                 }
 
+                //Inititalize
+                TextForm ifpTextForm = new TextForm();
+                ifpTextForm.TextContent = xmlBuilder.ToString();
+                ifpTextForm.Text = $"Ifp Content - {block.Name}";
+                ifpTextForm.MdiParent = this;
+                ifpTextForm.Show();
+                
+                //Inititalize
+                TextForm codeDomTextForm = new TextForm();
+                codeDomTextForm.TextContent = cSharpBuilder.ToString();
+                codeDomTextForm.Text = $"C# Content - {block.Name}";
+                codeDomTextForm.MdiParent = this;
+                codeDomTextForm.Show();
+
                 //Clear
                 //xmlRichTextBox.Clear();
                 //xmlRichTextBox.AppendText(xmlBuilder.ToString());
@@ -156,6 +184,12 @@ namespace Abide.Guerilla.Ui
 
         private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Prepare
+            CodeCompileUnit pragmaDisable = new CodeSnippetCompileUnit("#pragma warning disable CS1591");
+            CodeCompileUnit pragmaRestore = new CodeSnippetCompileUnit("#pragma warning restore CS1591");
+            TagGroupCodeCompileUnit compileUnit = null;
+            CodeGeneratorOptions options = new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false };
+
             //Initialize
             using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
             {
@@ -164,39 +198,25 @@ namespace Abide.Guerilla.Ui
 
                 //Show
                 if (folderDlg.ShowDialog() == DialogResult.OK)
-                {
-                    //Loop
-                    foreach (TagGroupDefinition tagGroup in guerilla.GetTagGroups())
-                        GenerateCs(folderDlg.SelectedPath, guerilla.SearchTagBlocks(tagGroup.DefinitionAddress));
-
-                    //Create Dictionary
-                    using (CsWriter writer = new CsWriter(Path.Combine(folderDlg.SelectedPath, "Guerilla.cs")))
-                    {
-                        //Add Usings
-                        writer.WriteUsing("Abide.HaloLibrary");
-                        writer.WriteUsing("System");
-                        writer.WriteUsing("System.Collections.Generic");
-
-                        //Write Space
-                        writer.Write(string.Empty);
-
-                        //Write Namespace
-                        writer.WriteStartNamespace("Abide.Guerilla.Tags");
-                        writer.WriteStartClass("Guerilla", "internal", "static");
-                        writer.WriteField("Dictionary<Tag, Type>", "TagGroupDictionary", "public", "static");
-                        writer.Write(string.Empty);
-                        writer.Write("static Guerilla()");
-                        writer.WriteStartScope();
-                        writer.Write("// Initialize Dictionary");
-                        writer.Write("TagGroupDictionary = new Dictionary<Tag, Type>();");
-                        writer.Write(string.Empty);
+                    using (CSharpCodeProvider provider = new CSharpCodeProvider())
                         foreach (TagGroupDefinition tagGroup in guerilla.GetTagGroups())
-                            writer.Write($"TagGroupDictionary.Add(\"{tagGroup.GroupTag}\", typeof({guerilla.SearchTagBlocks(tagGroup.DefinitionAddress).Name}));");
-                        writer.WriteEndScope();
-                        writer.WriteEndClass();
-                        writer.WriteEndNamespace();
-                    }
-                }
+                        {
+                            //Create group code compile unit
+                            compileUnit = new TagGroupCodeCompileUnit(guerilla, tagGroup, guerilla.FindTagBlock(tagGroup.DefinitionAddress));
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{compileUnit.BlockName}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write Disable
+                                provider.GenerateCodeFromCompileUnit(pragmaDisable, writer, options);
+
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+
+                                //Write Restore
+                                provider.GenerateCodeFromCompileUnit(pragmaRestore, writer, options);
+                            }
+                        }
             }
         }
 
@@ -240,8 +260,8 @@ namespace Abide.Guerilla.Ui
         private void GenerateXml(XmlWriter writer, TagBlockDefinition tagBlock, ref int offset)
         {
             //Get Data
-            TagFieldSet fieldSet = tagBlock.GetFieldSetH2Xbox();
-            TagFieldDefinition[] fields = tagBlock.GetFieldDefinitionsH2Xbox();
+            TagFieldSet fieldSet = tagBlock.GetFieldSet(tagBlock.TagFieldSetLatestIndex);
+            TagFieldDefinition[] fields = tagBlock.GetLatestFieldDefinitions();
             TagBlockDefinition childBlock = null;
             TagFieldSet childSet = null;
 
@@ -249,11 +269,11 @@ namespace Abide.Guerilla.Ui
             if (tagBlock.IsTagGroup)
             {
                 //Lookup tag group
-                TagGroupDefinition tagGroup = guerilla.SearchTagGroups(tagBlock.Address);
+                TagGroupDefinition tagGroup = guerilla.FindTagGroup(tagBlock.Address);
                 
                 //Write Start
                 writer.WriteStartElement("plugin");
-                writer.WriteStartAttribute("class"); writer.WriteValue(tagGroup.GroupTag); writer.WriteEndAttribute();
+                writer.WriteStartAttribute("class"); writer.WriteValue(tagGroup.GroupTag.FourCc); writer.WriteEndAttribute();
                 writer.WriteStartAttribute("author"); writer.WriteValue("Abide.Guerilla"); writer.WriteEndAttribute();
                 writer.WriteStartAttribute("headersize"); writer.WriteValue(fieldSet.Size); writer.WriteEndAttribute();
             }
@@ -264,8 +284,8 @@ namespace Abide.Guerilla.Ui
                 {
                     case FieldType.FieldBlock:
                         //Get Block
-                        childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
-                        childSet = childBlock.GetFieldSetH2Xbox();
+                        childBlock = guerilla.FindTagBlock(field.DefinitionAddress);
+                        childSet = tagBlock.GetFieldSet(tagBlock.TagFieldSetLatestIndex);
 
                         //Write Struct
                         writer.WriteStartElement("struct");
@@ -289,9 +309,9 @@ namespace Abide.Guerilla.Ui
         private void CreateXmlElement(XmlWriter writer, TagFieldDefinition tagField, ref int offset)
         {
             //Prepare
-            ExplanationDefinition explanationDefinition = null;
-            TagStructDefinition structDefinition = null;
-            EnumDefinition enumDefinition = null;
+            TagFieldExplanationDefinition explanationDefinition = null;
+            TagFieldStructDefinition structDefinition = null;
+            TagFieldEnumDefinition enumDefinition = null;
             TagBlockDefinition childBlock = null;
             TagFieldSet childFieldSet = null;
 
@@ -369,7 +389,7 @@ namespace Abide.Guerilla.Ui
                     offset += 4;
                     break;
                 case FieldType.FieldCharEnum:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("enum8");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -385,7 +405,7 @@ namespace Abide.Guerilla.Ui
                     offset += 1;
                     break;
                 case FieldType.FieldEnum:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("enum16");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -401,7 +421,7 @@ namespace Abide.Guerilla.Ui
                     offset += 2;
                     break;
                 case FieldType.FieldLongEnum:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("enum32");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -417,7 +437,7 @@ namespace Abide.Guerilla.Ui
                     offset += 4;
                     break;
                 case FieldType.FieldLongFlags:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("bitmask32");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -433,7 +453,7 @@ namespace Abide.Guerilla.Ui
                     offset += 4;
                     break;
                 case FieldType.FieldWordFlags:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("bitmask16");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -449,7 +469,7 @@ namespace Abide.Guerilla.Ui
                     offset += 2;
                     break;
                 case FieldType.FieldByteFlags:
-                    enumDefinition = (EnumDefinition)tagField;
+                    enumDefinition = (TagFieldEnumDefinition)tagField;
                     writer.WriteStartElement("bitmask8");
                     writer.WriteStartAttribute("name"); writer.WriteValue(tagField.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -851,8 +871,8 @@ namespace Abide.Guerilla.Ui
                     offset += 4;
                     break;
                 case FieldType.FieldBlock:
-                    childBlock = guerilla.SearchTagBlocks(tagField.DefinitionAddress);
-                    childFieldSet = childBlock.GetFieldSetH2Xbox();
+                    childBlock = guerilla.FindTagBlock(tagField.DefinitionAddress);
+                    childFieldSet = childBlock.GetFieldSet(childBlock.TagFieldSetLatestIndex);
                     writer.WriteStartElement("struct");
                     writer.WriteStartAttribute("name"); writer.WriteValue(childBlock.DisplayName); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -864,7 +884,7 @@ namespace Abide.Guerilla.Ui
                     writer.WriteEndElement();
                     break;
                 case FieldType.FieldData:
-                    TagDataDefinition data = (TagDataDefinition)tagField;
+                    TagFieldDataDefinition data = (TagFieldDataDefinition)tagField;
                     writer.WriteStartElement("struct");
                     writer.WriteStartAttribute("name"); writer.WriteValue(data.Name); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -891,14 +911,14 @@ namespace Abide.Guerilla.Ui
                     offset += tagField.DefinitionAddress;
                     break;
                 case FieldType.FieldExplanation:
-                    explanationDefinition = (ExplanationDefinition)tagField;
+                    explanationDefinition = (TagFieldExplanationDefinition)tagField;
                     writer.WriteStartElement("explanation");
                     writer.WriteValue(explanationDefinition.Explanation);
                     writer.WriteEndElement();
                     break;
                 case FieldType.FieldStruct:
-                    structDefinition = (TagStructDefinition)tagField;
-                    childBlock = guerilla.SearchTagBlocks(structDefinition.BlockDefinitionAddresss);
+                    structDefinition = (TagFieldStructDefinition)tagField;
+                    childBlock = guerilla.FindTagBlock(structDefinition.BlockDefinitionAddresss);
                     GenerateXml(writer, childBlock, ref offset);
                     break;
                 case FieldType.FieldArrayStart:
@@ -930,10 +950,10 @@ namespace Abide.Guerilla.Ui
                 csWriter.WriteUsing("Abide.Guerilla.Types");
                 csWriter.WriteUsing("Abide.HaloLibrary");
                 csWriter.Write(string.Empty);
-                csWriter.WriteStartNamespace("Abide.Guerilla.Tags");
 
                 //Suppress
                 csWriter.WriteUnIndented("#pragma warning disable CS1591");
+                csWriter.WriteStartNamespace("Abide.Guerilla.Tags");
 
                 //Write C#
                 GenerateCs(directory, csWriter, tagBlock);
@@ -956,19 +976,19 @@ namespace Abide.Guerilla.Ui
             TagFieldSet fieldSet = null;
             TagBlockDefinition childBlock = null;
             TagFieldDefinition[] fields = null;
-            EnumDefinition enumDefinition = null;
-            TagStructDefinition structDefinition = null;
-            TagDataDefinition dataDefinition = null;
+            TagFieldEnumDefinition enumDefinition = null;
+            TagFieldStructDefinition structDefinition = null;
+            TagFieldDataDefinition dataDefinition = null;
 
             //Get Data
-            fieldSet = tagBlock.GetFieldSetH2Xbox();
-            fields = tagBlock.GetFieldDefinitionsH2Xbox();
+            fieldSet = tagBlock.GetFieldSet(tagBlock.TagFieldSetLatestIndex);
+            fields = tagBlock.GetLatestFieldDefinitions();
 
             //Check
             if (tagBlock.IsTagGroup)
             {
                 //Lookup tag group
-                tagGroup = guerilla.SearchTagGroups(tagBlock.Address);
+                tagGroup = guerilla.FindTagGroup(tagBlock.Address);
 
                 //Write Tag Group attribute
                 if (tagGroup != null)
@@ -985,13 +1005,14 @@ namespace Abide.Guerilla.Ui
             int index = 0;
             foreach (var field in fields)
             {
+                string name = GetFriendlyName(field.Name);
                 switch (field.Type)
                 {
                     case FieldType.FieldCharEnum:
                     case FieldType.FieldEnum:
                     case FieldType.FieldLongEnum:
-                        enumDefinition = (EnumDefinition)field;
-                        csWriter.WriteStartEnum($"{PascalFormat(enumDefinition.Name)}{index}Options", "public");
+                        enumDefinition = (TagFieldEnumDefinition)field;
+                        csWriter.WriteStartEnum($"Options{index}{PascalFormat(name)}", "public");
                         for (int i = 0; i < enumDefinition.OptionCount; i++)
                             csWriter.Write($"{PascalFormat(enumDefinition.Options[i])}_{i} = {i},");
                         csWriter.WriteEndEnum();
@@ -999,26 +1020,26 @@ namespace Abide.Guerilla.Ui
                     case FieldType.FieldByteFlags:
                     case FieldType.FieldWordFlags:
                     case FieldType.FieldLongFlags:
-                        enumDefinition = (EnumDefinition)field;
-                        csWriter.WriteStartEnum($"{PascalFormat(enumDefinition.Name)}{index}Options", "public");
+                        enumDefinition = (TagFieldEnumDefinition)field;
+                        csWriter.WriteStartEnum($"Options{index}{PascalFormat(name)}", "public");
                         for (int i = 0; i < enumDefinition.OptionCount; i++)
                             csWriter.Write($"{PascalFormat(enumDefinition.Options[i])}_{i} = {1 << i},");
                         csWriter.WriteEndEnum();
                         break;
                     case FieldType.FieldBlock:
                         //Create
-                        childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
+                        childBlock = guerilla.FindTagBlock(field.DefinitionAddress);
                         using (CsWriter writer = new CsWriter(Path.Combine(directory, $"{childBlock.Name}.cs")))
                         {
                             //Write Usings and namespace
                             writer.WriteUsing("Abide.Guerilla.Types");
                             writer.WriteUsing("Abide.HaloLibrary");
                             writer.Write(string.Empty);
-                            writer.WriteStartNamespace("Abide.Guerilla.Tags");
 
                             //Suppress
                             writer.WriteUnIndented("#pragma warning disable CS1591");
-
+                            writer.WriteStartNamespace("Abide.Guerilla.Tags");
+                            
                             //Write
                             GenerateCs(directory, writer, childBlock);
 
@@ -1034,19 +1055,19 @@ namespace Abide.Guerilla.Ui
                         break;
                     case FieldType.FieldStruct:
                         //Create
-                        structDefinition = (TagStructDefinition)field;
-                        childBlock = guerilla.SearchTagBlocks(structDefinition.BlockDefinitionAddresss);
+                        structDefinition = (TagFieldStructDefinition)field;
+                        childBlock = guerilla.FindTagBlock(structDefinition.BlockDefinitionAddresss);
                         using (CsWriter writer = new CsWriter(Path.Combine(directory, $"{childBlock.Name}.cs")))
                         {
                             //Write Usings and namespace
                             writer.WriteUsing("Abide.Guerilla.Types");
                             writer.WriteUsing("Abide.HaloLibrary");
                             writer.Write(string.Empty);
-                            writer.WriteStartNamespace("Abide.Guerilla.Tags");
 
                             //Suppress
                             writer.WriteUnIndented("#pragma warning disable CS1591");
-
+                            writer.WriteStartNamespace("Abide.Guerilla.Tags");
+                            
                             //Write
                             GenerateCs(directory, writer, childBlock);
 
@@ -1070,152 +1091,151 @@ namespace Abide.Guerilla.Ui
             index = 0;
             foreach (var field in fields)
             {
-                string cut = field.Name;
-                if (cut.Contains(":")) cut = cut.Substring(0, cut.IndexOf(':'));
-                if (cut.Contains("#")) cut = cut.Substring(0, cut.IndexOf('#'));
-                string fieldName = $"{PascalFormat(cut)}{index}".Replace("\"", "\\\"");
+                string enumName = $"{index}{PascalFormat(GetFriendlyName(field.Name))}";
+                string fieldName = $"Field{index}_{PascalFormat(GetFriendlyName(field.Name))}";
                 string friendlyFieldName = field.Name.Replace("\"", "\\\"");    // replace " with \" so it becomes an escape sequence.
 
                 switch (field.Type)
                 {
                     case FieldType.FieldString:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(String)");
                         csWriter.WriteField("String", fieldName, "public");
                         break;
                     case FieldType.FieldLongString:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(LongString)");
                         csWriter.WriteField("LongString", fieldName, "public");
                         break;
 
                     case FieldType.FieldStringId:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(StringId)");
                         csWriter.WriteField("StringId", fieldName, "public");
                         break;
 
                     case FieldType.FieldCharInteger:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        csWriter.WriteField("int", fieldName, "public");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(byte)");
+                        csWriter.WriteField("byte", fieldName, "public");
                         break;
                     case FieldType.FieldShortInteger:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(short)");
                         csWriter.WriteField("short", fieldName, "public");
                         break;
                     case FieldType.FieldLongInteger:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(int)");
                         csWriter.WriteField("int", fieldName, "public");
                         break;
 
                     case FieldType.FieldAngle:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(float)");
                         csWriter.WriteField("float", fieldName, "public");
                         break;
 
                     case FieldType.FieldTag:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Tag)");
                         csWriter.WriteField("Tag", fieldName, "public");
                         break;
 
                     case FieldType.FieldByteFlags:
                     case FieldType.FieldCharEnum:
-                        enumDefinition = (EnumDefinition)field;
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof({PascalFormat(enumDefinition.Name)}{index}Options)");
+                        enumDefinition = (TagFieldEnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof(Options{enumName})");
                         csWriter.WriteField("byte", fieldName, "public");
                         break;
                     case FieldType.FieldWordFlags:
                     case FieldType.FieldEnum:
-                        enumDefinition = (EnumDefinition)field;
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof({PascalFormat(enumDefinition.Name)}{index}Options)");
+                        enumDefinition = (TagFieldEnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof(Options{enumName})");
                         csWriter.WriteField("short", fieldName, "public");
                         break;
                     case FieldType.FieldLongFlags:
                     case FieldType.FieldLongEnum:
-                        enumDefinition = (EnumDefinition)field;
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof({PascalFormat(enumDefinition.Name)}{index}Options)");
+                        enumDefinition = (TagFieldEnumDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof(Options{enumName})");
                         csWriter.WriteField("int", fieldName, "public");
                         break;
 
                     case FieldType.FieldPoint2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector2)");
                         csWriter.WriteField("Vector2", fieldName, "public");
                         break;
                     case FieldType.FieldRectangle2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        csWriter.WriteField("Rectangle2", fieldName, "public");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector2)");
+                        csWriter.WriteField("Vector2", fieldName, "public");
                         break;
 
                     case FieldType.FieldRgbColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorRgb)");
                         csWriter.WriteField("ColorRgb", fieldName, "public");
                         break;
                     case FieldType.FieldArgbColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorArgb)");
                         csWriter.WriteField("ColorArgb", fieldName, "public");
                         break;
 
                     case FieldType.FieldReal:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(float)");
                         csWriter.WriteField("float", fieldName, "public");
                         break;
                     case FieldType.FieldRealFraction:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(float)");
                         csWriter.WriteField("float", fieldName, "public");
                         break;
 
                     case FieldType.FieldRealPoint2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector2)");
                         csWriter.WriteField("Vector2", fieldName, "public");
                         break;
                     case FieldType.FieldRealPoint3D:
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector3)");
                         csWriter.WriteField("Vector3", fieldName, "public");
                         break;
 
                     case FieldType.FieldRealVector2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector2)");
                         csWriter.WriteField("Vector2", fieldName, "public");
                         break;
                     case FieldType.FieldRealVector3D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector3)");
                         csWriter.WriteField("Vector3", fieldName, "public");
                         break;
 
                     case FieldType.FieldQuaternion:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Quaternion)");
                         csWriter.WriteField("Quaternion", fieldName, "public");
                         break;
 
                     case FieldType.FieldEulerAngles2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector2)");
                         csWriter.WriteField("Vector2", fieldName, "public");
                         break;
                     case FieldType.FieldEulerAngles3D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector3)");
                         csWriter.WriteField("Vector3", fieldName, "public");
                         break;
 
                     case FieldType.FieldRealPlane2D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        csWriter.WriteField("Plane2", fieldName, "public");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector3)");
+                        csWriter.WriteField("Vector3", fieldName, "public");
                         break;
                     case FieldType.FieldRealPlane3D:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        csWriter.WriteField("Plane3", fieldName, "public");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(Vector4)");
+                        csWriter.WriteField("Vector4", fieldName, "public");
                         break;
 
                     case FieldType.FieldRealRgbColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorRgbF)");
                         csWriter.WriteField("ColorRgbF", fieldName, "public");
                         break;
                     case FieldType.FieldRealArgbColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorArgbF)");
                         csWriter.WriteField("ColorArgbF", fieldName, "public");
                         break;
 
                     case FieldType.FieldRealHsvColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorHsvF)");
                         csWriter.WriteField("ColorHsvF", fieldName, "public");
                         break;
                     case FieldType.FieldRealAhsvColor:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(ColorAhsvF)");
                         csWriter.WriteField("ColorAhsvF", fieldName, "public");
                         break;
 
@@ -1223,41 +1243,41 @@ namespace Abide.Guerilla.Ui
                     case FieldType.FieldRealAngleBounds:
                     case FieldType.FieldRealBounds:
                     case FieldType.FieldRealFractionBounds:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(FloatBounds)");
                         csWriter.WriteField("FloatBounds", fieldName, "public");
                         break;
 
                     case FieldType.FieldTagReference:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(TagReference)");
                         csWriter.WriteField("TagReference", fieldName, "public");
                         break;
 
                     case FieldType.FieldBlock:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        childBlock = guerilla.SearchTagBlocks(field.DefinitionAddress);
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(TagBlock)");
+                        childBlock = guerilla.FindTagBlock(field.DefinitionAddress);
                         csWriter.WriteAttribute("Block", $"\"{childBlock.DisplayName}\"", childBlock.MaximumElementCount, $"typeof({childBlock.Name})");
                         csWriter.WriteField("TagBlock", fieldName, "public");
                         break;
 
                     case FieldType.FieldCharBlockIndex1:
                     case FieldType.FieldCharBlockIndex2:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof(byte)");
                         csWriter.WriteField("byte", fieldName, "public");
                         break;
                     case FieldType.FieldShortBlockIndex1:
                     case FieldType.FieldShortBlockIndex2:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(short)");
                         csWriter.WriteField("short", fieldName, "public");
                         break;
                     case FieldType.FieldLongBlockIndex1:
                     case FieldType.FieldLongBlockIndex2:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(int)");
                         csWriter.WriteField("int", fieldName, "public");
                         break;
 
                     case FieldType.FieldData:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
-                        dataDefinition = (TagDataDefinition)field;
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(TagBlock)");
+                        dataDefinition = (TagFieldDataDefinition)field;
                         csWriter.WriteAttribute("Data", dataDefinition.MaximumSize);
                         csWriter.WriteField("TagBlock", fieldName, "public");
                         break;
@@ -1265,13 +1285,14 @@ namespace Abide.Guerilla.Ui
                     case FieldType.FieldPad:
                     case FieldType.FieldUselessPad:
                     case FieldType.FieldSkip:
-                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "null");
+                        csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(byte*)");
+                        csWriter.WriteAttribute("Padding", field.DefinitionAddress);
                         csWriter.Write($"public fixed byte {fieldName}[{field.DefinitionAddress}];");
                         break;
 
                     case FieldType.FieldStruct:
-                        structDefinition = (TagStructDefinition)field;
-                        childBlock = guerilla.SearchTagBlocks(structDefinition.BlockDefinitionAddresss);
+                        structDefinition = (TagFieldStructDefinition)field;
+                        childBlock = guerilla.FindTagBlock(structDefinition.BlockDefinitionAddresss);
                         csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", $"typeof({childBlock.Name})");
                         csWriter.WriteAttribute("Block", $"\"{childBlock.DisplayName}\"", childBlock.MaximumElementCount, $"typeof({childBlock.Name})");
                         csWriter.WriteField(childBlock.Name, fieldName, "public");
@@ -1284,6 +1305,21 @@ namespace Abide.Guerilla.Ui
 
             //Write End
             csWriter.WriteEndStruct();
+        }
+
+        private static string GetFriendlyName(string name)
+        {
+            //Get name
+            string value = name;
+
+            //Check
+            if (value.Contains("*")) value = value.Substring(0, value.IndexOf('*'));    //Split label
+            if (value.Contains("#")) value = value.Substring(0, value.IndexOf('#'));    //Tooltip
+            if (value.Contains("^")) value = value.Substring(0, value.IndexOf('^'));    //Tag Block Name
+            if (value.Contains(":")) value = value.Substring(0, value.IndexOf(':'));    //Just... why?
+
+            //Return
+            return value;
         }
 
         private static string PascalFormat(string str)

@@ -52,10 +52,6 @@ namespace Abide.Guerilla.H2Guerilla
             field.DefinitionAddress = ReadInt32();
             field.GroupTag = ReadInt32();
 
-            //Read Strings
-            if (field.NameAddress != 0) field.Name = ReadLocalizedString(field.NameAddress);
-            else field.Name = string.Empty;
-
             //Return
             return field;
         }
@@ -87,9 +83,6 @@ namespace Abide.Guerilla.H2Guerilla
             BaseStream.Seek(2, SeekOrigin.Current);
             tagGroup.DefaultTagPathAddress = ReadInt32();
 
-            //Read Strings
-            tagGroup.Name = ReadLocalizedString(tagGroup.NameAddress);
-
             //Return
             return tagGroup;
         }
@@ -116,12 +109,7 @@ namespace Abide.Guerilla.H2Guerilla
             tagBlock.FormatProcedure = ReadInt32();
             tagBlock.GenerateDefaultProcedure = ReadInt32();
             tagBlock.DisposeElementProcedure = ReadInt32();
-
-            //Read Strings
-            tagBlock.DisplayName = ReadLocalizedString(tagBlock.DisplayNameAddress);
-            tagBlock.Name = ReadLocalizedString(tagBlock.NameAddress);
-            tagBlock.MaximumElementCountString = ReadLocalizedString(tagBlock.MaximumElementCountStringAddress);
-
+            
             //Return
             return tagBlock;
         }
@@ -161,9 +149,6 @@ namespace Abide.Guerilla.H2Guerilla
             fieldSet.ParentVersionIndex = ReadInt32();
             fieldSet.FieldsAddress = ReadInt32();
             fieldSet.SizeStringAddress = ReadInt32();
-
-            //Read Strings
-            fieldSet.SizeString = ReadLocalizedString(fieldSet.SizeStringAddress);
 
             //Return
             return fieldSet;
@@ -205,6 +190,9 @@ namespace Abide.Guerilla.H2Guerilla
         /// <returns>A string.</returns>
         public string ReadLocalizedString(int num)
         {
+            //Check
+            if (num == 0) return string.Empty;
+
             //Prepare
             long position = BaseStream.Position;
             string s = string.Empty;

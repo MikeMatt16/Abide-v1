@@ -30,9 +30,15 @@
         {
             this.tagTreeSplitter = new System.Windows.Forms.SplitContainer();
             this.tagTreeView = new System.Windows.Forms.TreeView();
+            this.groupPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.tagTreeSplitter)).BeginInit();
             this.tagTreeSplitter.Panel1.SuspendLayout();
+            this.tagTreeSplitter.Panel2.SuspendLayout();
             this.tagTreeSplitter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tagTreeSplitter
@@ -45,6 +51,10 @@
             // tagTreeSplitter.Panel1
             // 
             this.tagTreeSplitter.Panel1.Controls.Add(this.tagTreeView);
+            // 
+            // tagTreeSplitter.Panel2
+            // 
+            this.tagTreeSplitter.Panel2.Controls.Add(this.splitContainer1);
             this.tagTreeSplitter.Size = new System.Drawing.Size(784, 661);
             this.tagTreeSplitter.SplitterDistance = 261;
             this.tagTreeSplitter.TabIndex = 0;
@@ -58,6 +68,28 @@
             this.tagTreeView.TabIndex = 0;
             this.tagTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TagTreeView_AfterSelect);
             // 
+            // groupPropertyGrid
+            // 
+            this.groupPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupPropertyGrid.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.groupPropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.groupPropertyGrid.Name = "groupPropertyGrid";
+            this.groupPropertyGrid.Size = new System.Drawing.Size(248, 661);
+            this.groupPropertyGrid.TabIndex = 1;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupPropertyGrid);
+            this.splitContainer1.Size = new System.Drawing.Size(519, 661);
+            this.splitContainer1.SplitterDistance = 248;
+            this.splitContainer1.TabIndex = 0;
+            // 
             // MapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -67,8 +99,12 @@
             this.Name = "MapForm";
             this.Text = "MapForm";
             this.tagTreeSplitter.Panel1.ResumeLayout(false);
+            this.tagTreeSplitter.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tagTreeSplitter)).EndInit();
             this.tagTreeSplitter.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -77,5 +113,7 @@
 
         private System.Windows.Forms.SplitContainer tagTreeSplitter;
         private System.Windows.Forms.TreeView tagTreeView;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.PropertyGrid groupPropertyGrid;
     }
 }

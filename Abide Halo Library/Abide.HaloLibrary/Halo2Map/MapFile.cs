@@ -155,7 +155,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 {
                     //Read Header
                     inStream.Seek(0, SeekOrigin.Begin);
-                    header = reader.ReadStructure<Header>();
+                    header = reader.Read<Header>();
 
                     //Check...
                     if (header.Head != HaloTags.head || header.Foot != HaloTags.foot)    //Quick sanity check...
@@ -169,12 +169,12 @@ namespace Abide.HaloLibrary.Halo2Map
 
                     //Read Index
                     inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
-                    index = reader.ReadStructure<Index>();
+                    index = reader.Read<Index>();
 
                     //Read Tags
                     TagHierarchy[] tags = new TagHierarchy[index.TagCount];
                     for (int i = 0; i < index.TagCount; i++)
-                        tags[i] = reader.ReadStructure<TagHierarchy>();
+                        tags[i] = reader.Read<TagHierarchy>();
                     this.tags = new TagHierarchyList(tags);
 
                     //Read Objects
@@ -182,7 +182,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     ObjectEntry objectEntry = new ObjectEntry(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
                     for (int i = 0; i < index.ObjectCount; i++)
                     {
-                        objectEntry = reader.ReadStructure<ObjectEntry>();
+                        objectEntry = reader.Read<ObjectEntry>();
                         indexEntries[i] = new IndexEntry(objectEntry, files[i], this.tags[objectEntry.Tag]);
                         indexEntries[i].PostProcessedOffset = (int)objectEntry.Offset;
                         indexEntries[i].PostProcessedSize = (int)objectEntry.Size;
@@ -273,10 +273,10 @@ namespace Abide.HaloLibrary.Halo2Map
                             int bspMagic = reader.ReadInt32();
                             int bspFileMagic = bspMagic - sbspOffset;
                             inStream.Seek(4, SeekOrigin.Current);
-                            Tag sbspTag = reader.ReadStructure<Tag>();
-                            TagId sbspId = reader.ReadStructure<TagId>();
-                            Tag ltmpTag = reader.ReadStructure<Tag>();
-                            TagId ltmpId = reader.ReadStructure<TagId>();
+                            Tag sbspTag = reader.Read<Tag>();
+                            TagId sbspId = reader.Read<TagId>();
+                            Tag ltmpTag = reader.Read<Tag>();
+                            TagId ltmpId = reader.Read<TagId>();
 
                             //Add
                             bspIndexLookup.Add(sbspId, i);
@@ -286,7 +286,7 @@ namespace Abide.HaloLibrary.Halo2Map
                             sbspTagDatas[i] = new FixedMemoryMappedStream(reader.ReadBytes(sbspSize), (uint)bspMagic);
                             SbspHeader sbspHeader = new SbspHeader();
                             using (BinaryReader bspHeaderReader = new BinaryReader(sbspTagDatas[i]))
-                                sbspHeader = bspHeaderReader.ReadStructure<SbspHeader>();
+                                sbspHeader = bspHeaderReader.Read<SbspHeader>();
 
                             //Setup SBSP and Lightmap
                             if (indexList.ContainsID(sbspId))
@@ -397,7 +397,7 @@ namespace Abide.HaloLibrary.Halo2Map
                 //Prepare
                 using (BinaryReader metaReader = new BinaryReader(entry.TagData))
                 using (BinaryWriter metaWriter = new BinaryWriter(entry.TagData))
-                    switch (entry.Root)
+                    switch (entry.Root.FourCc)
                     {
                         #region ugh!
                         case HaloTags.ugh_:
@@ -958,7 +958,7 @@ namespace Abide.HaloLibrary.Halo2Map
             inStream.Seek(indexOffset, SeekOrigin.Begin);
             for (int i = 0; i < count; i++)
             {
-                stringObjects[i] = reader.ReadStructure<StringObject>();
+                stringObjects[i] = reader.Read<StringObject>();
                 table[i] = new StringEntry() { ID = strings[stringObjects[i].StringID.Index] };
             }
 
@@ -1047,7 +1047,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
             //Loop
             foreach (var entry in indexList)
-                switch (entry.Root)
+                switch (entry.Root.FourCc)
                 {
                     case HaloTags.ugh_: soundDatas.AddRange(entry.Raws[RawSection.Sound]); lipSyncDatas.AddRange(entry.Raws[RawSection.LipSync]); break;
                     case HaloTags.mode: modelDatas.AddRange(entry.Raws[RawSection.Model]); break;

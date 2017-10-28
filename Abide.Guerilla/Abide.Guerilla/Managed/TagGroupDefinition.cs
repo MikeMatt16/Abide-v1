@@ -42,44 +42,42 @@ namespace Abide.Guerilla.Managed
         {
             get { return definitionAddress; }
         }
-
-        private int nameAddress;
+        
         private int flags;
         private Tag groupTag;
         private Tag parentGroupTag;
         private short version;
         private byte initialized;
-        private int postProcessProcedure;
-        private int saveProcessProcedure;
         private int definitionAddress;
         private int[] childGroupTags;
         private short childsCount;
-        private int defaultTagPathAddress;
         private string name;
+        private string defaultTagPath;
 
         /// <summary>
         /// Intializes a new instance of the <see cref="TagGroupDefinition"/> class.
         /// </summary>
         public TagGroupDefinition() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="TagGroupDefinition"/> class using the supplied tag group structure.
+        /// Initializes a new instance of the <see cref="TagGroupDefinition"/> class using the supplied guerilla reader.
         /// </summary>
-        /// <param name="tagGroup">The tag group structure to initialize this instance with.</param>
-        internal TagGroupDefinition(H2Guerilla.TagGroup tagGroup) : this()
+        /// <param name="reader">The guerilla binary reader.</param>
+        internal TagGroupDefinition(H2Guerilla.GuerillaBinaryReader reader) : this()
         {
-            nameAddress = tagGroup.NameAddress;
+            //Read tag group
+            H2Guerilla.TagGroup tagGroup = reader.ReadTagGroup();
+            
+            //Setup
             flags = tagGroup.Flags;
             groupTag = tagGroup.GroupTag;
             parentGroupTag = tagGroup.ParentGroupTag;
             version = tagGroup.Version;
             initialized = tagGroup.Initialized;
-            postProcessProcedure = tagGroup.PostProcessProcedure;
-            saveProcessProcedure = tagGroup.SavePostProcessProcedure;
             definitionAddress = tagGroup.DefinitionAddress;
             childGroupTags = tagGroup.ChildGroupTags;
             childsCount = tagGroup.ChildsCount;
-            defaultTagPathAddress = tagGroup.DefaultTagPathAddress;
-            name = tagGroup.Name;
+            defaultTagPath = reader.ReadLocalizedString(tagGroup.DefaultTagPathAddress);
+            name = reader.ReadLocalizedString(tagGroup.NameAddress);
         }
         /// <summary>
         /// Returns a string that represents this tag group definition.

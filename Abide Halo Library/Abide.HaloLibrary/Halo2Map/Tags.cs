@@ -5,6 +5,7 @@
     /// </summary>
     public static class HaloTags
     {
+#pragma warning disable CS1591
         public const string @null = "null";
         public const string blkh = "blkh";
         public const string rsrc = "rsrc";
@@ -129,5 +130,6 @@
         public const string wind = "wind";
         public const string wphi = "wphi";
         public const string fkcu = "fkcu";
+#pragma warning restore CS1591
     }
 }

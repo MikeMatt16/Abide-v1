@@ -26,6 +26,7 @@
         public FieldSetVersion Version
         {
             get { return version; }
+            internal set { version = value; }
         }
         /// <summary>
         /// Gets and returns the tag field set's size.
@@ -73,7 +74,6 @@
         private int alignmentBit;
         private int parentVersionIndex;
         private int fieldsAddress;
-        private int sizeStringAddress;
         private int address;
         private string sizeString;
 
@@ -96,9 +96,8 @@
             alignmentBit = fieldSet.AlignmentBit;
             parentVersionIndex = fieldSet.ParentVersionIndex;
             fieldsAddress = fieldSet.FieldsAddress;
-            sizeStringAddress = fieldSet.SizeStringAddress;
             address = fieldSet.Address;
-            sizeString = fieldSet.SizeString;
+            sizeString = reader.ReadLocalizedString(fieldSet.SizeStringAddress);
         }
 
         /// <summary>

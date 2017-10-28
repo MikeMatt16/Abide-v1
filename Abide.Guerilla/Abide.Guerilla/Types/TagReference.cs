@@ -1,11 +1,13 @@
 ﻿using Abide.HaloLibrary;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Abide.Guerilla.Types
 {
     /// <summary>
-    /// Represents a guerilla tag reference.
+    /// Represents a tag reference.
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Size = 8)]
     public struct TagReference : IEquatable<TagReference>
     {
         /// <summary>

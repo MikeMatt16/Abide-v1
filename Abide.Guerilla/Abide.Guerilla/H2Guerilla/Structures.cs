@@ -8,8 +8,7 @@ namespace Abide.Guerilla.H2Guerilla
         public int NameAddress;
         public int DefinitionAddress;
         public int GroupTag;
-        internal int Definition;
-        public string Name;
+        public int Definition;
     }
 
     internal struct TagGroup
@@ -27,7 +26,6 @@ namespace Abide.Guerilla.H2Guerilla
         public int[] ChildGroupTags;
         public short ChildsCount;
         public int DefaultTagPathAddress;
-        public string Name;
     }
 
     internal struct TagBlockDefinition
@@ -44,9 +42,6 @@ namespace Abide.Guerilla.H2Guerilla
         public int FormatProcedure;
         public int GenerateDefaultProcedure;
         public int DisposeElementProcedure;
-        public string DisplayName;
-        public string Name;
-        public string MaximumElementCountString;
     }
 
     internal struct TagFieldSetVersion
@@ -66,6 +61,5 @@ namespace Abide.Guerilla.H2Guerilla
         public int FieldsAddress;
         public int SizeStringAddress;
         public int Address;
-        public string SizeString;
     }
 }

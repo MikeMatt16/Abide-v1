@@ -75,6 +75,7 @@ namespace Abide.Guerilla.Managed
         public int FieldSetsAddress
         {
             get { return fieldSetsAddress; }
+            internal set { fieldSetsAddress = value; }
         }
         /// <summary>
         /// Gets and returns this tag block definition's field set count.
@@ -101,24 +102,17 @@ namespace Abide.Guerilla.Managed
         }
 
         internal TagFieldSet[] tagFieldSets;
-        internal List<TagFieldDefinition>[] tagFields;
+        internal List<TagFieldDefinition> tagFields;
 
         private readonly List<TagBlockDefinition> references;
         private int tagFieldSetLatestIndex;
         private bool isTagGroup;
         private int address;
-        private int displayNameAddress;
-        private int nameAddress;
         private int flags;
         private int maximumElementCount;
-        private int maximumElementCountStringAddress;
         private int fieldSetsAddress;
         private int fieldSetCount;
         private int fieldSetLatestAddress;
-        private int postProcessProcedure;
-        private int formatProcedure;
-        private int generateDefaultProcedure;
-        private int disposeElementProcedure;
         private string displayName;
         private string name;
         private string maximumElementCountString;
@@ -131,26 +125,23 @@ namespace Abide.Guerilla.Managed
             references = new List<TagBlockDefinition>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="TagBlockDefinition"/> using the supplied tag block definition structure.
+        /// Initializes a new instance of the <see cref="TagBlockDefinition"/> using the supplied guerilla reader.
         /// </summary>
-        /// <param name="definition">The tag block definition structure to initialize this instance.</param>
-        internal TagBlockDefinition(H2Guerilla.TagBlockDefinition definition) : this()
+        /// <param name="reader">The guerilla binary reader.</param>
+        internal TagBlockDefinition(H2Guerilla.GuerillaBinaryReader reader) : this()
         {
-            displayNameAddress = definition.DisplayNameAddress;
-            nameAddress = definition.NameAddress;
-            flags = definition.Flags;
-            maximumElementCount = definition.MaximumElementCount;
-            maximumElementCountStringAddress = definition.MaximumElementCountStringAddress;
-            fieldSetsAddress = definition.FieldSetsAddress;
-            fieldSetCount = definition.FieldSetCount;
-            fieldSetLatestAddress = definition.FieldSetLatestAddress;
-            postProcessProcedure = definition.PostProcessProcedure;
-            formatProcedure = definition.FormatProcedure;
-            generateDefaultProcedure = definition.GenerateDefaultProcedure;
-            disposeElementProcedure = definition.DisposeElementProcedure;
-            displayName = definition.DisplayName;
-            name = definition.Name;
-            maximumElementCountString = definition.MaximumElementCountString;
+            //Read tag block definition
+            H2Guerilla.TagBlockDefinition tagBlockDefinition = reader.ReadTagBlockDefinition();
+
+            //Initialize
+            flags = tagBlockDefinition.Flags;
+            maximumElementCount = tagBlockDefinition.MaximumElementCount;
+            fieldSetsAddress = tagBlockDefinition.FieldSetsAddress;
+            fieldSetCount = tagBlockDefinition.FieldSetCount;
+            fieldSetLatestAddress = tagBlockDefinition.FieldSetLatestAddress;
+            displayName = reader.ReadLocalizedString(tagBlockDefinition.DisplayNameAddress);
+            name = reader.ReadLocalizedString(tagBlockDefinition.NameAddress);
+            maximumElementCountString = reader.ReadLocalizedString(tagBlockDefinition.MaximumElementCountStringAddress);
         }
         /// <summary>
         /// Returns a string that represents this tag block definition.
@@ -158,10 +149,10 @@ namespace Abide.Guerilla.Managed
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return $"{name} \"{displayName}\" Max Count: {maximumElementCountStringAddress} Field Sets: {fieldSetCount}";
+            return $"{name} \"{displayName}\" Max Count: {maximumElementCountString} Field Sets: {fieldSetCount}";
         }
         /// <summary>
-        /// Retrieves the field set of this block at a given index.
+        /// Gets the field set of this block at a given index.
         /// </summary>
         /// <param name="index">The zero-based index of the field set.</param>
         /// <returns>A <see cref="TagFieldSet"/> instance.</returns>
@@ -172,87 +163,20 @@ namespace Abide.Guerilla.Managed
             return tagFieldSets[index];
         }
         /// <summary>
-        /// Retrieves an array of fields for a field set of this block at a given index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the field set.</param>
-        /// <returns>A <see cref="TagFieldDefinition"/> array.</returns>
-        public TagFieldDefinition[] GetFieldDefinitions(int index)
-        {
-            //Check
-            if (index < 0 || index > fieldSetCount) throw new ArgumentOutOfRangeException(nameof(index));
-            return tagFields[index].ToArray();
-        }
-        /// <summary>
-        /// Retrieves the field set with the closest layout to Halo 2 Xbox.
+        /// Gets the latest field set of this block.
         /// </summary>
         /// <returns>A <see cref="TagFieldSet"/> instance.</returns>
-        public TagFieldSet GetFieldSetH2Xbox()
+        public TagFieldSet GetLatestFieldSet()
         {
-            //Get index...
-            int setIndex = tagFieldSetLatestIndex;
-            switch (name)
-            {
-                case "materials_block":
-                    setIndex = 0;
-                    if (tagFields[setIndex].Count == 5)
-                        name = "phmo_materials_block";
-                    break;
-                case "hud_globals_block":
-                case "global_new_hud_globals_struct_block":
-                case "sound_gestalt_promotions_block":
-                case "sound_block":
-                case "tag_block_index_struct_block":
-                case "vertex_shader_classification_block":
-                    setIndex = 0;
-                    break;
-                case "model_block":
-                case "instantaneous_response_damage_effect_marker_struct_block":
-                case "instantaneous_response_damage_effect_struct_block":
-                    setIndex = 1;
-                    break;
-                case "animation_pool_block":
-                    setIndex = 4;
-                    break;
-            }
-
-            //Return
-            return GetFieldSet(setIndex);
+            return tagFieldSets[tagFieldSetLatestIndex];
         }
         /// <summary>
-        /// Retrieves an array of fields for a field set with the closest layout to Halo 2 Xbox.
+        /// Gets an array of fields for the latest field set of this block.
         /// </summary>
-        /// <returns>An array of <see cref="TagFieldDefinition"/> elements.</returns>
-        public TagFieldDefinition[] GetFieldDefinitionsH2Xbox()
+        /// <returns>A <see cref="TagFieldDefinition"/> array.</returns>
+        public TagFieldDefinition[] GetLatestFieldDefinitions()
         {
-            //Get index...
-            int setIndex = tagFieldSetLatestIndex;
-            switch (name)
-            {
-                case "materials_block":
-                    setIndex = 0;
-                    if (tagFields[setIndex].Count == 5)
-                        name = "phmo_materials_block";
-                    break;
-                case "hud_globals_block":
-                case "global_new_hud_globals_struct_block":
-                case "sound_gestalt_promotions_block":
-                case "sound_block":
-                case "tag_block_index_struct_block":
-                case "vertex_shader_classification_block":
-                    setIndex = 0;
-                    break;
-                case "model_block":
-                case "instantaneous_response_damage_effect_marker_struct_block":
-                case "instantaneous_response_damage_effect_struct_block":
-                    setIndex = 1;
-                    break;
-                case "animation_pool_block":
-                    setIndex = 4;
-                    break;
-            }
-
-            //Return
-            return GetFieldDefinitions(setIndex);
+            return tagFields.ToArray();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Abide.Guerilla.Types
     /// Represents a guerilla string.
     /// This string is encoded with <see cref="Encoding.UTF8"/> encoding.
     /// </summary>
-    public unsafe struct String : IEquatable<string>, IComparable<string>
+    public unsafe struct String32 : IEquatable<string>, IComparable<string>
     {
         /// <summary>
         /// The size of the string.
@@ -16,7 +16,7 @@ namespace Abide.Guerilla.Types
         /// <summary>
         /// Represents an empty string.
         /// </summary>
-        public static readonly String Empty = new String();
+        public static readonly String32 Empty = new String32();
 
         /// <summary>
         /// Gets or sets the string value of this guerilla string.
@@ -79,7 +79,7 @@ namespace Abide.Guerilla.Types
         /// Converts a guerilla string instance to a <see cref="string"/> object.
         /// </summary>
         /// <param name="guerillaString">The guerilla string.</param>
-        public static implicit operator string(String guerillaString)
+        public static implicit operator string(String32 guerillaString)
         {
             return guerillaString.Value;
         }
@@ -87,9 +87,9 @@ namespace Abide.Guerilla.Types
         /// Converts a string object to a guerilla string instance.
         /// </summary>
         /// <param name="str">The string.</param>
-        public static implicit operator String(string str)
+        public static implicit operator String32(string str)
         {
-            String s = new String();
+            String32 s = new String32();
             s.Value = str;
             return s;
         }
@@ -99,7 +99,7 @@ namespace Abide.Guerilla.Types
     /// Represents a long guerilla string.
     /// This string is encoded with <see cref="Encoding.UTF8"/> encoding.
     /// </summary>
-    public unsafe struct LongString : IEquatable<string>, IComparable<string>
+    public unsafe struct String256 : IEquatable<string>, IComparable<string>
     {
         /// <summary>
         /// The size of the string.
@@ -108,7 +108,7 @@ namespace Abide.Guerilla.Types
         /// <summary>
         /// Represents an empty string.
         /// </summary>
-        public static readonly String Empty = new String();
+        public static readonly String32 Empty = new String32();
 
         /// <summary>
         /// Gets or sets the string value of this guerilla string.
@@ -171,7 +171,7 @@ namespace Abide.Guerilla.Types
         /// Converts a guerilla string instance to a <see cref="string"/> object.
         /// </summary>
         /// <param name="guerillaString">The guerilla string.</param>
-        public static implicit operator string(LongString guerillaString)
+        public static implicit operator string(String256 guerillaString)
         {
             return guerillaString.Value;
         }
@@ -179,9 +179,9 @@ namespace Abide.Guerilla.Types
         /// Converts a string object to a guerilla string instance.
         /// </summary>
         /// <param name="str">The string.</param>
-        public static implicit operator LongString(string str)
+        public static implicit operator String256(string str)
         {
-            LongString s = new LongString();
+            String256 s = new String256();
             s.Value = str;
             return s;
         }

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1A031FB1-09CD-430D-8C87-23929A95F1B8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abide.Builder</RootNamespace>
     <AssemblyName>Abide Builder</AssemblyName>
@@ -49,141 +49,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbideTag.cs" />
-    <Compile Include="AbideTagDefinition.cs" />
-    <Compile Include="ChunkCloner.cs">
+    <Compile Include="Halo 2\ChunkCloner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChunkCloner.Designer.cs">
+    <Compile Include="Halo 2\ChunkCloner.Designer.cs">
       <DependentUpon>ChunkCloner.cs</DependentUpon>
     </Compile>
-    <Compile Include="CsWriter.cs" />
-    <Compile Include="Guerilla\Definitions\TagDefinitions.cs" />
-    <Compile Include="Guerilla\Example\bitmap.bitm.cs" />
-    <Compile Include="Guerilla\Types\Quaternion.cs" />
-    <Compile Include="Guerilla\Types\Vector2.cs" />
-    <Compile Include="Guerilla\Types\Vector3.cs" />
     <Compile Include="Halo 2\ChunkClonerMenuButton.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Tags\%24#!+.cs" />
-    <Compile Include="Tags\adlg.cs" />
-    <Compile Include="Tags\ant!.cs" />
-    <Compile Include="Tags\bipd.cs" />
-    <Compile Include="Tags\bitm.cs" />
-    <Compile Include="Tags\bloc.cs" />
-    <Compile Include="Tags\BooM.cs" />
-    <Compile Include="Tags\bsdt.cs" />
-    <Compile Include="Tags\char.cs" />
-    <Compile Include="Tags\clwd.cs" />
-    <Compile Include="Tags\coll.cs" />
-    <Compile Include="Tags\coln.cs" />
-    <Compile Include="Tags\colo.cs" />
-    <Compile Include="Tags\cont.cs" />
-    <Compile Include="Tags\crea.cs" />
-    <Compile Include="Tags\ctrl.cs" />
-    <Compile Include="Tags\deca.cs" />
-    <Compile Include="Tags\DECP.cs" />
-    <Compile Include="Tags\DECR.cs" />
-    <Compile Include="Tags\devi.cs" />
-    <Compile Include="Tags\devo.cs" />
-    <Compile Include="Tags\dobc.cs" />
-    <Compile Include="Tags\effe.cs" />
-    <Compile Include="Tags\egor.cs" />
-    <Compile Include="Tags\eqip.cs" />
-    <Compile Include="Tags\fog .cs" />
-    <Compile Include="Tags\foot.cs" />
-    <Compile Include="Tags\fpch.cs" />
-    <Compile Include="Tags\fx.cs" />
-    <Compile Include="Tags\garb.cs" />
-    <Compile Include="Tags\gldf.cs" />
-    <Compile Include="Tags\goof.cs" />
-    <Compile Include="Tags\grhi.cs" />
-    <Compile Include="Tags\hlmt.cs" />
-    <Compile Include="Tags\hmt .cs" />
-    <Compile Include="Tags\hud#.cs" />
-    <Compile Include="Tags\hudg.cs" />
-    <Compile Include="Tags\item.cs" />
-    <Compile Include="Tags\itmc.cs" />
-    <Compile Include="Tags\jmad.cs" />
-    <Compile Include="Tags\jpt!.cs" />
-    <Compile Include="Tags\lens.cs" />
-    <Compile Include="Tags\lifi.cs" />
-    <Compile Include="Tags\ligh.cs" />
-    <Compile Include="Tags\lsnd.cs" />
-    <Compile Include="Tags\ltmp.cs" />
-    <Compile Include="Tags\mach.cs" />
-    <Compile Include="Tags\matg.cs" />
-    <Compile Include="Tags\mcsr.cs" />
-    <Compile Include="Tags\mdlg.cs" />
-    <Compile Include="Tags\metr.cs" />
-    <Compile Include="Tags\MGS2.cs" />
-    <Compile Include="Tags\mode.cs" />
-    <Compile Include="Tags\mpdt.cs" />
-    <Compile Include="Tags\mply.cs" />
-    <Compile Include="Tags\mulg.cs" />
-    <Compile Include="Tags\nhdt.cs" />
-    <Compile Include="Tags\obje.cs" />
-    <Compile Include="Tags\phmo.cs" />
-    <Compile Include="Tags\phys.cs" />
-    <Compile Include="Tags\pixl.cs" />
-    <Compile Include="Tags\pmov.cs" />
-    <Compile Include="Tags\pphy.cs" />
-    <Compile Include="Tags\proj.cs" />
-    <Compile Include="Tags\prt3.cs" />
-    <Compile Include="Tags\PRTM.cs" />
-    <Compile Include="Tags\sbsp.cs" />
-    <Compile Include="Tags\scen.cs" />
-    <Compile Include="Tags\scnr.cs" />
-    <Compile Include="Tags\sfx+.cs" />
-    <Compile Include="Tags\shad.cs" />
-    <Compile Include="Tags\sily.cs" />
-    <Compile Include="Tags\skin.cs" />
-    <Compile Include="Tags\sky .cs" />
-    <Compile Include="Tags\slit.cs" />
-    <Compile Include="Tags\sncl.cs" />
-    <Compile Include="Tags\snd!.cs" />
-    <Compile Include="Tags\snde.cs" />
-    <Compile Include="Tags\snmx.cs" />
-    <Compile Include="Tags\spas.cs" />
-    <Compile Include="Tags\spk!.cs" />
-    <Compile Include="Tags\ssce.cs" />
-    <Compile Include="Tags\sslt.cs" />
-    <Compile Include="Tags\stem.cs" />
-    <Compile Include="Tags\styl.cs" />
-    <Compile Include="Tags\TagDefinition\DefinitionAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\OptionAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\StringIdentifierAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\TagBlockAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\TagIdentifierAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\TagAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\TagDefinitionAttribute.cs" />
-    <Compile Include="Tags\TagDefinition\ValueDefinitionAttribute.cs" />
-    <Compile Include="Tags\Tags.cs" />
-    <Compile Include="Tags\tdtl.cs" />
-    <Compile Include="Tags\trak.cs" />
-    <Compile Include="Tags\udlg.cs" />
-    <Compile Include="Tags\ugh!.cs" />
-    <Compile Include="Tags\unhi.cs" />
-    <Compile Include="Tags\unic.cs" />
-    <Compile Include="Tags\unit.cs" />
-    <Compile Include="Tags\vehc.cs" />
-    <Compile Include="Tags\vehi.cs" />
-    <Compile Include="Tags\vrtx.cs" />
-    <Compile Include="Tags\weap.cs" />
-    <Compile Include="Tags\weat.cs" />
-    <Compile Include="Tags\wgit.cs" />
-    <Compile Include="Tags\wgtz.cs" />
-    <Compile Include="Tags\whip.cs" />
-    <Compile Include="Tags\wigl.cs" />
-    <Compile Include="Tags\wind.cs" />
-    <Compile Include="Tags\wphi.cs" />
-    <Compile Include="TagTestMenuButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
@@ -198,15 +76,16 @@
       <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
       <Name>YeloDebug</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide.Guerilla\Abide.Guerilla\Abide.Guerilla.csproj">
+      <Project>{4d71745a-3ece-4e31-9b90-faf0cc4185c2}</Project>
+      <Name>Abide.Guerilla</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj">
       <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
       <Name>Abide.Ifp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ChunkCloner.resx">
-      <DependentUpon>ChunkCloner.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

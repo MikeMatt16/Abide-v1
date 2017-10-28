@@ -14,6 +14,8 @@ namespace Abide.Guerilla.Ui.Forms
             this.map = map;
             Text = map.Name;
 
+            //Begin
+            tagTreeView.BeginUpdate();
             foreach (IndexEntry entry in map.IndexEntries)
             {
                 //Split
@@ -41,6 +43,10 @@ namespace Abide.Guerilla.Ui.Forms
                 //Setup
                 currentNode.Tag = entry;
             }
+
+            //Sort
+            tagTreeView.Sort();
+            tagTreeView.EndUpdate();
         }
 
         private MapForm()
@@ -52,17 +58,17 @@ namespace Abide.Guerilla.Ui.Forms
         {
             //Check
             if (e.Node.Tag is IndexEntry entry)
-                using (BinaryReader tagReader = new BinaryReader(entry.TagData))
-                {
-                    //Goto
-                    entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin);
+            {
+                //Get Parsed block
+                ParsedBlock block = new ParsedBlock(Guerilla.TagGroupDictionary[entry.Root]);
 
-                    //Get Type
-                    if (Guerilla.TagGroupDictionary[entry.Root] == typeof(Tags.BitmapBlock))
-                    {
-                        var group = tagReader.ReadStructure<Tags.BitmapBlock>();
-                    }
+                //Goto
+                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                {
+                    reader.BaseStream.Seek(entry.PostProcessedOffset, SeekOrigin.Begin);
+                    block.Read(reader);
                 }
+            }
         }
     }
 }

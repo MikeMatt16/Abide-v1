@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "..\..\Abi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Ifp", "..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj", "{55B8FBAD-8570-4371-BA33-62E85351DB66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla", "..\..\Abide.Guerilla\Abide.Guerilla\Abide.Guerilla.csproj", "{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

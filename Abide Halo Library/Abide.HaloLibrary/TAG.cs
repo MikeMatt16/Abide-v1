@@ -25,6 +25,22 @@ namespace Abide.HaloLibrary
                 d = (sbyte)pad[3];
             }
         }
+        /// <summary>
+        /// Gets or sets the tag dword.
+        /// </summary>
+        public uint Dword
+        {
+            get
+            {
+                int a = this.a, b = this.b, c = this.c, d = this.d;
+                return (uint)(d | c << 8 | b << 16 | a << 24);
+            }
+            set
+            {
+                uint a = value & 0xff, b = value & 0xff00, c = value & 0xff0000, d = value & 0xff000000;
+                this.d = (sbyte)(d >> 24); this.c = (sbyte)(c >> 16); this.b = (sbyte)(b >> 8); this.a = (sbyte)a;
+            }
+        }
 
         private sbyte d, c, b, a;
 
@@ -39,6 +55,15 @@ namespace Abide.HaloLibrary
             b = (sbyte)pad[1];
             c = (sbyte)pad[2];
             d = (sbyte)pad[3];
+        }
+        /// <summary>
+        /// Initializes a new <see cref="Tag"/> instance using the supplied 32-bit unsigned integer.
+        /// </summary>
+        /// <param name="dword"></param>
+        public Tag(uint dword)
+        {
+            uint a = dword & 0xff, b = dword & 0xff00, c = dword & 0xff0000, d = dword & 0xff000000;
+            this.d = (sbyte)(d >> 24); this.c = (sbyte)(c >> 16); this.b = (sbyte)(b >> 8); this.a = (sbyte)a;
         }
         /// <summary>
         /// Compares this instance with a specified <see cref="Tag"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified tag.
@@ -99,6 +124,24 @@ namespace Abide.HaloLibrary
         public static implicit operator Tag(string fourCc)
         {
             return new Tag(fourCc);
+        }
+        /// <summary>
+        /// Converts the <see cref="Tag"/> to an unsigned 32-bit integer.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        public static explicit operator uint(Tag tag)
+        {
+            int a = tag.a, b = tag.b, c = tag.c, d = tag.d;
+            return (uint)(d | c << 8 | b << 16 | a << 24);
+        }
+        /// <summary>
+        /// Converts a 32-bit unsigned integer to a <see cref="Tag"/>.
+        /// </summary>
+        /// <param name="dword">The tag dword.</param>
+        public static explicit operator Tag(uint dword)
+        {
+            uint a = dword & 0xff, b = dword & 0xff00, c = dword & 0xff0000, d = dword & 0xff000000;
+            return new Tag() { d = (sbyte)(d >> 24), c = (sbyte)(c >> 16), b = (sbyte)(b >> 8), a = (sbyte)a };
         }
     }
 }

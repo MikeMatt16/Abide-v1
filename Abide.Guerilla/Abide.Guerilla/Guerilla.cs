@@ -28,7 +28,8 @@ namespace Abide.Guerilla
         /// </summary>
         public static Dictionary<Tag, Type> TagGroupDictionary
         {
-            get { return Tags.Guerilla.TagGroupDictionary; }
+            //get { return Tags.Guerilla.TagGroupDictionary; }
+            get { return null; }
         }
         
         /// <summary>
