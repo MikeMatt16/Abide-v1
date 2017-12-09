@@ -14,213 +14,392 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(716, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("weapon", 2003132784u, 1769235821u, typeof(WeaponBlock))]
-    public sealed class WeaponBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(716, 4)]
+    [TagGroupAttribute("weapon", 2003132784u, 1769235821u, typeof(WeaponBlock))]
+    public sealed class WeaponBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(StringId))]
+        private TagBlockList<PredictedResourceBlock> predictedResourcesList = new TagBlockList<PredictedResourceBlock>(2048);
+        private TagBlockList<Magazines> magazinesList = new TagBlockList<Magazines>(2);
+        private TagBlockList<WeaponTriggers> newTriggersList = new TagBlockList<WeaponTriggers>(2);
+        private TagBlockList<WeaponBarrels> barrelsList = new TagBlockList<WeaponBarrels>(2);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("", typeof(StringId))]
         public StringId EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("secondary trigger mode", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SecondaryTriggerModeOptions), false)]
-        public Int16 SecondaryTriggerMode;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum alternate shots loaded#if the second trigger loads alternate ammunition, " +
+        [FieldAttribute("secondary trigger mode", typeof(SecondaryTriggerModeOptions))]
+        [OptionsAttribute(typeof(SecondaryTriggerModeOptions), false)]
+        public SecondaryTriggerModeOptions SecondaryTriggerMode;
+        [FieldAttribute("maximum alternate shots loaded#if the second trigger loads alternate ammunition, " +
             "this is the maximum number of shots that can be loaded at a time", typeof(Int16))]
         public Int16 MaximumAlternateShotsLoaded;
-        [Abide.Guerilla.Tags.FieldAttribute("turn on time#how long after being readied it takes this weapon to switch its \'tur" +
+        [FieldAttribute("turn on time#how long after being readied it takes this weapon to switch its \'tur" +
             "ned_on\' attachment to 1.0", typeof(Single))]
         public Single TurnOnTime;
-        [Abide.Guerilla.Tags.FieldAttribute("ready time:seconds", typeof(Single))]
+        [FieldAttribute("ready time:seconds", typeof(Single))]
         public Single ReadyTime;
-        [Abide.Guerilla.Tags.FieldAttribute("ready effect", typeof(TagReference))]
+        [FieldAttribute("ready effect", typeof(TagReference))]
         public TagReference ReadyEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("ready damage effect", typeof(TagReference))]
+        [FieldAttribute("ready damage effect", typeof(TagReference))]
         public TagReference ReadyDamageEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("heat recovery threshold:[0,1]#the heat value a weapon must return to before leavi" +
+        [FieldAttribute("heat recovery threshold:[0,1]#the heat value a weapon must return to before leavi" +
             "ng the overheated state, once it has become overheated in the first place", typeof(Single))]
         public Single HeatRecoveryThreshold;
-        [Abide.Guerilla.Tags.FieldAttribute("overheated threshold:[0,1]#the heat value over which a weapon first becomes overh" +
+        [FieldAttribute("overheated threshold:[0,1]#the heat value over which a weapon first becomes overh" +
             "eated (should be greater than the heat recovery threshold)", typeof(Single))]
         public Single OverheatedThreshold;
-        [Abide.Guerilla.Tags.FieldAttribute("heat detonation threshold:[0,1]#the heat value above which the weapon has a chanc" +
+        [FieldAttribute("heat detonation threshold:[0,1]#the heat value above which the weapon has a chanc" +
             "e of exploding each time it is fired", typeof(Single))]
         public Single HeatDetonationThreshold;
-        [Abide.Guerilla.Tags.FieldAttribute("heat detonation fraction:[0,1]#the percent chance (between 0.0 and 1.0) the weapo" +
+        [FieldAttribute("heat detonation fraction:[0,1]#the percent chance (between 0.0 and 1.0) the weapo" +
             "n will explode when fired over the heat detonation threshold", typeof(Single))]
         public Single HeatDetonationFraction;
-        [Abide.Guerilla.Tags.FieldAttribute("heat loss per second:[0,1]#the amount of heat lost each second when the weapon is" +
+        [FieldAttribute("heat loss per second:[0,1]#the amount of heat lost each second when the weapon is" +
             " not being fired", typeof(Single))]
         public Single HeatLossPerSecond;
-        [Abide.Guerilla.Tags.FieldAttribute("heat illumination:[0,1]#the amount of illumination given off when the weapon is o" +
+        [FieldAttribute("heat illumination:[0,1]#the amount of illumination given off when the weapon is o" +
             "verheated", typeof(Single))]
         public Single HeatIllumination;
-        [Abide.Guerilla.Tags.FieldAttribute("overheated heat loss per second:[0,1]#the amount of heat lost each second when th" +
+        [FieldAttribute("overheated heat loss per second:[0,1]#the amount of heat lost each second when th" +
             "e weapon is not being fired", typeof(Single))]
         public Single OverheatedHeatLossPerSecond;
-        [Abide.Guerilla.Tags.FieldAttribute("overheated", typeof(TagReference))]
+        [FieldAttribute("overheated", typeof(TagReference))]
         public TagReference Overheated;
-        [Abide.Guerilla.Tags.FieldAttribute("overheated damage effect", typeof(TagReference))]
+        [FieldAttribute("overheated damage effect", typeof(TagReference))]
         public TagReference OverheatedDamageEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation", typeof(TagReference))]
+        [FieldAttribute("detonation", typeof(TagReference))]
         public TagReference Detonation;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation damage effect", typeof(TagReference))]
+        [FieldAttribute("detonation damage effect", typeof(TagReference))]
         public TagReference DetonationDamageEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("player melee damage", typeof(TagReference))]
+        [FieldAttribute("player melee damage", typeof(TagReference))]
         public TagReference PlayerMeleeDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("player melee response", typeof(TagReference))]
+        [FieldAttribute("player melee response", typeof(TagReference))]
         public TagReference PlayerMeleeResponse;
-        [Abide.Guerilla.Tags.FieldAttribute("melee aim assist", typeof(MeleeAimAssistStructBlock))]
-        public MeleeAimAssistStructBlock MeleeAimAssist1;
-        [Abide.Guerilla.Tags.FieldAttribute("melee damage parameters", typeof(MeleeDamageParametersStructBlock))]
-        public MeleeDamageParametersStructBlock MeleeDamageParameters1;
-        [Abide.Guerilla.Tags.FieldAttribute("melee damage reporting type", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(MeleeDamageReportingTypeOptions), false)]
-        public Byte MeleeDamageReportingType;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(1)]
+        [FieldAttribute("melee aim assist", typeof(MeleeAimAssistStructBlock))]
+        public MeleeAimAssistStructBlock MeleeAimAssist;
+        [FieldAttribute("melee damage parameters", typeof(MeleeDamageParametersStructBlock))]
+        public MeleeDamageParametersStructBlock MeleeDamageParameters;
+        [FieldAttribute("melee damage reporting type", typeof(MeleeDamageReportingTypeOptions))]
+        [OptionsAttribute(typeof(MeleeDamageReportingTypeOptions), false)]
+        public MeleeDamageReportingTypeOptions MeleeDamageReportingType;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(1)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("magnification levels#the number of magnification levels this weapon allows", typeof(Int16))]
+        [FieldAttribute("magnification levels#the number of magnification levels this weapon allows", typeof(Int16))]
         public Int16 MagnificationLevels;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon aim assist", typeof(AimAssistStructBlock))]
-        public AimAssistStructBlock WeaponAimAssist1;
-        [Abide.Guerilla.Tags.FieldAttribute("movement penalized", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(MovementPenalizedOptions), false)]
-        public Int16 MovementPenalized;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("weapon aim assist", typeof(AimAssistStructBlock))]
+        public AimAssistStructBlock WeaponAimAssist;
+        [FieldAttribute("movement penalized", typeof(MovementPenalizedOptions))]
+        [OptionsAttribute(typeof(MovementPenalizedOptions), false)]
+        public MovementPenalizedOptions MovementPenalized;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("forward movement penalty#percent slowdown to forward movement for units carrying " +
+        [FieldAttribute("forward movement penalty#percent slowdown to forward movement for units carrying " +
             "this weapon", typeof(Single))]
         public Single ForwardMovementPenalty;
-        [Abide.Guerilla.Tags.FieldAttribute("sideways movement penalty#percent slowdown to sideways and backward movement for " +
+        [FieldAttribute("sideways movement penalty#percent slowdown to sideways and backward movement for " +
             "units carrying this weapon", typeof(Single))]
         public Single SidewaysMovementPenalty;
-        [Abide.Guerilla.Tags.FieldAttribute("AI scariness", typeof(Single))]
+        [FieldAttribute("AI scariness", typeof(Single))]
         public Single AiScariness;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon power-on time:seconds", typeof(Single))]
+        [FieldAttribute("weapon power-on time:seconds", typeof(Single))]
         public Single WeaponPowerOnTime;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon power-off time:seconds", typeof(Single))]
+        [FieldAttribute("weapon power-off time:seconds", typeof(Single))]
         public Single WeaponPowerOffTime;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon power-on effect", typeof(TagReference))]
+        [FieldAttribute("weapon power-on effect", typeof(TagReference))]
         public TagReference WeaponPowerOnEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon power-off effect", typeof(TagReference))]
+        [FieldAttribute("weapon power-off effect", typeof(TagReference))]
         public TagReference WeaponPowerOffEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("age heat recovery penalty#how much the weapon\'s heat recovery is penalized as it " +
+        [FieldAttribute("age heat recovery penalty#how much the weapon\'s heat recovery is penalized as it " +
             "ages", typeof(Single))]
         public Single AgeHeatRecoveryPenalty;
-        [Abide.Guerilla.Tags.FieldAttribute("age rate of fire penalty#how much the weapon\'s rate of fire is penalized as it ag" +
+        [FieldAttribute("age rate of fire penalty#how much the weapon\'s rate of fire is penalized as it ag" +
             "es", typeof(Single))]
         public Single AgeRateOfFirePenalty;
-        [Abide.Guerilla.Tags.FieldAttribute("age misfire start:[0,1]#the age threshold when the weapon begins to misfire", typeof(Single))]
+        [FieldAttribute("age misfire start:[0,1]#the age threshold when the weapon begins to misfire", typeof(Single))]
         public Single AgeMisfireStart;
-        [Abide.Guerilla.Tags.FieldAttribute("age misfire chance:[0,1]#at age 1.0, the misfire chance per shot", typeof(Single))]
+        [FieldAttribute("age misfire chance:[0,1]#at age 1.0, the misfire chance per shot", typeof(Single))]
         public Single AgeMisfireChance;
-        [Abide.Guerilla.Tags.FieldAttribute("pickup sound", typeof(TagReference))]
+        [FieldAttribute("pickup sound", typeof(TagReference))]
         public TagReference PickupSound;
-        [Abide.Guerilla.Tags.FieldAttribute("zoom-in sound", typeof(TagReference))]
+        [FieldAttribute("zoom-in sound", typeof(TagReference))]
         public TagReference ZoomInSound;
-        [Abide.Guerilla.Tags.FieldAttribute("zoom-out sound", typeof(TagReference))]
+        [FieldAttribute("zoom-out sound", typeof(TagReference))]
         public TagReference ZoomOutSound;
-        [Abide.Guerilla.Tags.FieldAttribute("active camo ding#how much to decrease active camo when a round is fired", typeof(Single))]
+        [FieldAttribute("active camo ding#how much to decrease active camo when a round is fired", typeof(Single))]
         public Single ActiveCamoDing;
-        [Abide.Guerilla.Tags.FieldAttribute("active camo regrowth rate#how fast to increase active camo (per tick) when a roun" +
+        [FieldAttribute("active camo regrowth rate#how fast to increase active camo (per tick) when a roun" +
             "d is fired", typeof(Single))]
         public Single ActiveCamoRegrowthRate;
-        [Abide.Guerilla.Tags.FieldAttribute("handle node#the node that get\'s attached to the unit\'s hand", typeof(StringId))]
+        [FieldAttribute("handle node#the node that get\'s attached to the unit\'s hand", typeof(StringId))]
         public StringId HandleNode;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon class", typeof(StringId))]
+        [FieldAttribute("weapon class", typeof(StringId))]
         public StringId WeaponClass;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon name", typeof(StringId))]
+        [FieldAttribute("weapon name", typeof(StringId))]
         public StringId WeaponName;
-        [Abide.Guerilla.Tags.FieldAttribute("multiplayer weapon type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(MultiplayerWeaponTypeOptions), false)]
-        public Int16 MultiplayerWeaponType;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(WeaponTypeOptions), false)]
-        public Int16 WeaponType;
-        [Abide.Guerilla.Tags.FieldAttribute("tracking", typeof(WeaponTrackingStructBlock))]
+        [FieldAttribute("multiplayer weapon type", typeof(MultiplayerWeaponTypeOptions))]
+        [OptionsAttribute(typeof(MultiplayerWeaponTypeOptions), false)]
+        public MultiplayerWeaponTypeOptions MultiplayerWeaponType;
+        [FieldAttribute("weapon type", typeof(WeaponTypeOptions))]
+        [OptionsAttribute(typeof(WeaponTypeOptions), false)]
+        public WeaponTypeOptions WeaponType;
+        [FieldAttribute("tracking", typeof(WeaponTrackingStructBlock))]
         public WeaponTrackingStructBlock Tracking;
-        [Abide.Guerilla.Tags.FieldAttribute("player interface", typeof(WeaponInterfaceStructBlock))]
+        [FieldAttribute("player interface", typeof(WeaponInterfaceStructBlock))]
         public WeaponInterfaceStructBlock PlayerInterface;
-        [Abide.Guerilla.Tags.FieldAttribute("predicted resources", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("predicted_resource_block", 2048, typeof(PredictedResourceBlock))]
+        [FieldAttribute("predicted resources", typeof(TagBlock))]
+        [BlockAttribute("predicted_resource_block", 2048, typeof(PredictedResourceBlock))]
         public TagBlock PredictedResources;
-        [Abide.Guerilla.Tags.FieldAttribute("magazines", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("magazines", 2, typeof(Magazines))]
+        [FieldAttribute("magazines", typeof(TagBlock))]
+        [BlockAttribute("magazines", 2, typeof(Magazines))]
         public TagBlock Magazines1;
-        [Abide.Guerilla.Tags.FieldAttribute("new triggers", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("weapon_triggers", 2, typeof(WeaponTriggers))]
+        [FieldAttribute("new triggers", typeof(TagBlock))]
+        [BlockAttribute("weapon_triggers", 2, typeof(WeaponTriggers))]
         public TagBlock NewTriggers;
-        [Abide.Guerilla.Tags.FieldAttribute("barrels", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("weapon_barrels", 2, typeof(WeaponBarrels))]
+        [FieldAttribute("barrels", typeof(TagBlock))]
+        [BlockAttribute("weapon_barrels", 2, typeof(WeaponBarrels))]
         public TagBlock Barrels;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
-        public Byte[] EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("max movement acceleration", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
+        public Byte[] EmptyString3;
+        [FieldAttribute("max movement acceleration", typeof(Single))]
         public Single MaxMovementAcceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("max movement velocity", typeof(Single))]
+        [FieldAttribute("max movement velocity", typeof(Single))]
         public Single MaxMovementVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("max turning acceleration", typeof(Single))]
+        [FieldAttribute("max turning acceleration", typeof(Single))]
         public Single MaxTurningAcceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("max turning velocity", typeof(Single))]
+        [FieldAttribute("max turning velocity", typeof(Single))]
         public Single MaxTurningVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("deployed vehicle", typeof(TagReference))]
+        [FieldAttribute("deployed vehicle", typeof(TagReference))]
         public TagReference DeployedVehicle;
-        [Abide.Guerilla.Tags.FieldAttribute("age effect", typeof(TagReference))]
+        [FieldAttribute("age effect", typeof(TagReference))]
         public TagReference AgeEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("aged weapon", typeof(TagReference))]
+        [FieldAttribute("aged weapon", typeof(TagReference))]
         public TagReference AgedWeapon;
-        [Abide.Guerilla.Tags.FieldAttribute("first person weapon offset", typeof(Vector3))]
+        [FieldAttribute("first person weapon offset", typeof(Vector3))]
         public Vector3 FirstPersonWeaponOffset;
-        [Abide.Guerilla.Tags.FieldAttribute("first person scope size", typeof(Vector2))]
+        [FieldAttribute("first person scope size", typeof(Vector2))]
         public Vector2 FirstPersonScopeSize;
-        public int Size
+        public TagBlockList<PredictedResourceBlock> PredictedResourcesList
+        {
+            get
+            {
+                return this.predictedResourcesList;
+            }
+        }
+        public TagBlockList<Magazines> MagazinesList
+        {
+            get
+            {
+                return this.magazinesList;
+            }
+        }
+        public TagBlockList<WeaponTriggers> NewTriggersList
+        {
+            get
+            {
+                return this.newTriggersList;
+            }
+        }
+        public TagBlockList<WeaponBarrels> BarrelsList
+        {
+            get
+            {
+                return this.barrelsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 716;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.predictedResourcesList.Clear();
+            this.magazinesList.Clear();
+            this.newTriggersList.Clear();
+            this.barrelsList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.EmptyString = StringId.Zero;
+            this.SecondaryTriggerMode = ((SecondaryTriggerModeOptions)(0));
+            this.MaximumAlternateShotsLoaded = 0;
+            this.TurnOnTime = 0;
+            this.ReadyTime = 0;
+            this.ReadyEffect = TagReference.Null;
+            this.ReadyDamageEffect = TagReference.Null;
+            this.HeatRecoveryThreshold = 0;
+            this.OverheatedThreshold = 0;
+            this.HeatDetonationThreshold = 0;
+            this.HeatDetonationFraction = 0;
+            this.HeatLossPerSecond = 0;
+            this.HeatIllumination = 0;
+            this.OverheatedHeatLossPerSecond = 0;
+            this.Overheated = TagReference.Null;
+            this.OverheatedDamageEffect = TagReference.Null;
+            this.Detonation = TagReference.Null;
+            this.DetonationDamageEffect = TagReference.Null;
+            this.PlayerMeleeDamage = TagReference.Null;
+            this.PlayerMeleeResponse = TagReference.Null;
+            this.MeleeAimAssist = new MeleeAimAssistStructBlock();
+            this.MeleeDamageParameters = new MeleeDamageParametersStructBlock();
+            this.MeleeDamageReportingType = ((MeleeDamageReportingTypeOptions)(0));
+            this.EmptyString1 = new byte[1];
+            this.MagnificationLevels = 0;
+            this.WeaponAimAssist = new AimAssistStructBlock();
+            this.MovementPenalized = ((MovementPenalizedOptions)(0));
+            this.EmptyString2 = new byte[2];
+            this.ForwardMovementPenalty = 0;
+            this.SidewaysMovementPenalty = 0;
+            this.AiScariness = 0;
+            this.WeaponPowerOnTime = 0;
+            this.WeaponPowerOffTime = 0;
+            this.WeaponPowerOnEffect = TagReference.Null;
+            this.WeaponPowerOffEffect = TagReference.Null;
+            this.AgeHeatRecoveryPenalty = 0;
+            this.AgeRateOfFirePenalty = 0;
+            this.AgeMisfireStart = 0;
+            this.AgeMisfireChance = 0;
+            this.PickupSound = TagReference.Null;
+            this.ZoomInSound = TagReference.Null;
+            this.ZoomOutSound = TagReference.Null;
+            this.ActiveCamoDing = 0;
+            this.ActiveCamoRegrowthRate = 0;
+            this.HandleNode = StringId.Zero;
+            this.WeaponClass = StringId.Zero;
+            this.WeaponName = StringId.Zero;
+            this.MultiplayerWeaponType = ((MultiplayerWeaponTypeOptions)(0));
+            this.WeaponType = ((WeaponTypeOptions)(0));
+            this.Tracking = new WeaponTrackingStructBlock();
+            this.PlayerInterface = new WeaponInterfaceStructBlock();
+            this.PredictedResources = TagBlock.Zero;
+            this.Magazines1 = TagBlock.Zero;
+            this.NewTriggers = TagBlock.Zero;
+            this.Barrels = TagBlock.Zero;
+            this.EmptyString3 = new byte[8];
+            this.MaxMovementAcceleration = 0;
+            this.MaxMovementVelocity = 0;
+            this.MaxTurningAcceleration = 0;
+            this.MaxTurningVelocity = 0;
+            this.DeployedVehicle = TagReference.Null;
+            this.AgeEffect = TagReference.Null;
+            this.AgedWeapon = TagReference.Null;
+            this.FirstPersonWeaponOffset = Vector3.Zero;
+            this.FirstPersonScopeSize = Vector2.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.EmptyString = reader.ReadInt32();
+            this.SecondaryTriggerMode = ((SecondaryTriggerModeOptions)(reader.ReadInt16()));
+            this.MaximumAlternateShotsLoaded = reader.ReadInt16();
+            this.TurnOnTime = reader.ReadSingle();
+            this.ReadyTime = reader.ReadSingle();
+            this.ReadyEffect = reader.Read<TagReference>();
+            this.ReadyDamageEffect = reader.Read<TagReference>();
+            this.HeatRecoveryThreshold = reader.ReadSingle();
+            this.OverheatedThreshold = reader.ReadSingle();
+            this.HeatDetonationThreshold = reader.ReadSingle();
+            this.HeatDetonationFraction = reader.ReadSingle();
+            this.HeatLossPerSecond = reader.ReadSingle();
+            this.HeatIllumination = reader.ReadSingle();
+            this.OverheatedHeatLossPerSecond = reader.ReadSingle();
+            this.Overheated = reader.Read<TagReference>();
+            this.OverheatedDamageEffect = reader.Read<TagReference>();
+            this.Detonation = reader.Read<TagReference>();
+            this.DetonationDamageEffect = reader.Read<TagReference>();
+            this.PlayerMeleeDamage = reader.Read<TagReference>();
+            this.PlayerMeleeResponse = reader.Read<TagReference>();
+            this.MeleeAimAssist = reader.ReadDataStructure<MeleeAimAssistStructBlock>();
+            this.MeleeDamageParameters = reader.ReadDataStructure<MeleeDamageParametersStructBlock>();
+            this.MeleeDamageReportingType = ((MeleeDamageReportingTypeOptions)(reader.ReadByte()));
+            this.EmptyString1 = reader.ReadBytes(1);
+            this.MagnificationLevels = reader.ReadInt16();
+            this.WeaponAimAssist = reader.ReadDataStructure<AimAssistStructBlock>();
+            this.MovementPenalized = ((MovementPenalizedOptions)(reader.ReadInt16()));
+            this.EmptyString2 = reader.ReadBytes(2);
+            this.ForwardMovementPenalty = reader.ReadSingle();
+            this.SidewaysMovementPenalty = reader.ReadSingle();
+            this.AiScariness = reader.ReadSingle();
+            this.WeaponPowerOnTime = reader.ReadSingle();
+            this.WeaponPowerOffTime = reader.ReadSingle();
+            this.WeaponPowerOnEffect = reader.Read<TagReference>();
+            this.WeaponPowerOffEffect = reader.Read<TagReference>();
+            this.AgeHeatRecoveryPenalty = reader.ReadSingle();
+            this.AgeRateOfFirePenalty = reader.ReadSingle();
+            this.AgeMisfireStart = reader.ReadSingle();
+            this.AgeMisfireChance = reader.ReadSingle();
+            this.PickupSound = reader.Read<TagReference>();
+            this.ZoomInSound = reader.Read<TagReference>();
+            this.ZoomOutSound = reader.Read<TagReference>();
+            this.ActiveCamoDing = reader.ReadSingle();
+            this.ActiveCamoRegrowthRate = reader.ReadSingle();
+            this.HandleNode = reader.ReadInt32();
+            this.WeaponClass = reader.ReadInt32();
+            this.WeaponName = reader.ReadInt32();
+            this.MultiplayerWeaponType = ((MultiplayerWeaponTypeOptions)(reader.ReadInt16()));
+            this.WeaponType = ((WeaponTypeOptions)(reader.ReadInt16()));
+            this.Tracking = reader.ReadDataStructure<WeaponTrackingStructBlock>();
+            this.PlayerInterface = reader.ReadDataStructure<WeaponInterfaceStructBlock>();
+            this.PredictedResources = reader.ReadInt64();
+            this.predictedResourcesList.Read(reader, this.PredictedResources);
+            this.Magazines1 = reader.ReadInt64();
+            this.magazinesList.Read(reader, this.Magazines1);
+            this.NewTriggers = reader.ReadInt64();
+            this.newTriggersList.Read(reader, this.NewTriggers);
+            this.Barrels = reader.ReadInt64();
+            this.barrelsList.Read(reader, this.Barrels);
+            this.EmptyString3 = reader.ReadBytes(8);
+            this.MaxMovementAcceleration = reader.ReadSingle();
+            this.MaxMovementVelocity = reader.ReadSingle();
+            this.MaxTurningAcceleration = reader.ReadSingle();
+            this.MaxTurningVelocity = reader.ReadSingle();
+            this.DeployedVehicle = reader.Read<TagReference>();
+            this.AgeEffect = reader.Read<TagReference>();
+            this.AgedWeapon = reader.Read<TagReference>();
+            this.FirstPersonWeaponOffset = reader.Read<Vector3>();
+            this.FirstPersonScopeSize = reader.Read<Vector2>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(8, 4)]
+        public sealed class PredictedResourceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-        public sealed class PredictedResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int16 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("resource index", typeof(Int16))]
+            [FieldAttribute("type", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("resource index", typeof(Int16))]
             public Int16 ResourceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("tag index", typeof(Int32))]
+            [FieldAttribute("tag index", typeof(Int32))]
             public Int32 TagIndex;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 8;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Type = ((TypeOptions)(0));
+                this.ResourceIndex = 0;
+                this.TagIndex = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Type = ((TypeOptions)(reader.ReadInt16()));
+                this.ResourceIndex = reader.ReadInt16();
+                this.TagIndex = reader.ReadInt32();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TypeOptions
+            public enum TypeOptions : Int16
             {
                 Bitmap = 0,
                 Sound = 1,
@@ -233,178 +412,254 @@ namespace Abide.Guerilla.Tags
                 LightmapInstanceBitmaps = 8,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-        public sealed class Magazines : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(128, 4)]
+        public sealed class Magazines : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds recharged:per second", typeof(Int16))]
+            private TagBlockList<MagazineObjects> magazinesList = new TagBlockList<MagazineObjects>(8);
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("rounds recharged:per second", typeof(Int16))]
             public Int16 RoundsRecharged;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds total initial", typeof(Int16))]
+            [FieldAttribute("rounds total initial", typeof(Int16))]
             public Int16 RoundsTotalInitial;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds total maximum", typeof(Int16))]
+            [FieldAttribute("rounds total maximum", typeof(Int16))]
             public Int16 RoundsTotalMaximum;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds loaded maximum", typeof(Int16))]
+            [FieldAttribute("rounds loaded maximum", typeof(Int16))]
             public Int16 RoundsLoadedMaximum;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("reload time:seconds#the length of time it takes to load a single magazine into th" +
+            [FieldAttribute("reload time:seconds#the length of time it takes to load a single magazine into th" +
                 "e weapon", typeof(Single))]
             public Single ReloadTime;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds reloaded", typeof(Int16))]
+            [FieldAttribute("rounds reloaded", typeof(Int16))]
             public Int16 RoundsReloaded;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("chamber time:seconds#the length of time it takes to chamber the next round", typeof(Single))]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString1;
+            [FieldAttribute("chamber time:seconds#the length of time it takes to chamber the next round", typeof(Single))]
             public Single ChamberTime;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
+            public Byte[] EmptyString2;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
-            public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("reloading effect", typeof(TagReference))]
+            [FieldAttribute("reloading effect", typeof(TagReference))]
             public TagReference ReloadingEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("reloading damage effect", typeof(TagReference))]
+            [FieldAttribute("reloading damage effect", typeof(TagReference))]
             public TagReference ReloadingDamageEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("chambering effect", typeof(TagReference))]
+            [FieldAttribute("chambering effect", typeof(TagReference))]
             public TagReference ChamberingEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("chambering damage effect", typeof(TagReference))]
+            [FieldAttribute("chambering damage effect", typeof(TagReference))]
             public TagReference ChamberingDamageEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("magazines", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("magazine_objects", 8, typeof(MagazineObjects))]
+            [FieldAttribute("magazines", typeof(TagBlock))]
+            [BlockAttribute("magazine_objects", 8, typeof(MagazineObjects))]
             public TagBlock Magazines1;
-            public int Size
+            public TagBlockList<MagazineObjects> MagazinesList
+            {
+                get
+                {
+                    return this.magazinesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 128;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.magazinesList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.RoundsRecharged = 0;
+                this.RoundsTotalInitial = 0;
+                this.RoundsTotalMaximum = 0;
+                this.RoundsLoadedMaximum = 0;
+                this.EmptyString = new byte[4];
+                this.ReloadTime = 0;
+                this.RoundsReloaded = 0;
+                this.EmptyString1 = new byte[2];
+                this.ChamberTime = 0;
+                this.EmptyString2 = new byte[8];
+                this.EmptyString3 = new byte[16];
+                this.ReloadingEffect = TagReference.Null;
+                this.ReloadingDamageEffect = TagReference.Null;
+                this.ChamberingEffect = TagReference.Null;
+                this.ChamberingDamageEffect = TagReference.Null;
+                this.Magazines1 = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.RoundsRecharged = reader.ReadInt16();
+                this.RoundsTotalInitial = reader.ReadInt16();
+                this.RoundsTotalMaximum = reader.ReadInt16();
+                this.RoundsLoadedMaximum = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(4);
+                this.ReloadTime = reader.ReadSingle();
+                this.RoundsReloaded = reader.ReadInt16();
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.ChamberTime = reader.ReadSingle();
+                this.EmptyString2 = reader.ReadBytes(8);
+                this.EmptyString3 = reader.ReadBytes(16);
+                this.ReloadingEffect = reader.Read<TagReference>();
+                this.ReloadingDamageEffect = reader.Read<TagReference>();
+                this.ChamberingEffect = reader.Read<TagReference>();
+                this.ChamberingDamageEffect = reader.Read<TagReference>();
+                this.Magazines1 = reader.ReadInt64();
+                this.magazinesList.Read(reader, this.Magazines1);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(20, 4)]
+            public sealed class MagazineObjects : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class MagazineObjects : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("rounds", typeof(Int16))]
+                [FieldAttribute("rounds", typeof(Int16))]
                 public Int16 Rounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("equipment^", typeof(TagReference))]
+                [FieldAttribute("equipment^", typeof(TagReference))]
                 public TagReference Equipment;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Rounds = 0;
+                    this.EmptyString = new byte[2];
+                    this.Equipment = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Rounds = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Equipment = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 WastesRoundsWhenReloaded = 1,
                 EveryRoundMustBeChambered = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(80, 4)]
-        public sealed class WeaponTriggers : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(80, 4)]
+        public sealed class WeaponTriggers : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("input", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(InputOptions), false)]
-            public Int16 Input;
-            [Abide.Guerilla.Tags.FieldAttribute("behavior", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(BehaviorOptions), false)]
-            public Int16 Behavior;
-            [Abide.Guerilla.Tags.FieldAttribute("primary barrel", typeof(Int16))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("input", typeof(InputOptions))]
+            [OptionsAttribute(typeof(InputOptions), false)]
+            public InputOptions Input;
+            [FieldAttribute("behavior", typeof(BehaviorOptions))]
+            [OptionsAttribute(typeof(BehaviorOptions), false)]
+            public BehaviorOptions Behavior;
+            [FieldAttribute("primary barrel", typeof(Int16))]
             public Int16 PrimaryBarrel;
-            [Abide.Guerilla.Tags.FieldAttribute("secondary barrel", typeof(Int16))]
+            [FieldAttribute("secondary barrel", typeof(Int16))]
             public Int16 SecondaryBarrel;
-            [Abide.Guerilla.Tags.FieldAttribute("prediction", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PredictionOptions), false)]
-            public Int16 Prediction;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("prediction", typeof(PredictionOptions))]
+            [OptionsAttribute(typeof(PredictionOptions), false)]
+            public PredictionOptions Prediction;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("autofire", typeof(WeaponTriggerAutofireStructBlock))]
+            [FieldAttribute("autofire", typeof(WeaponTriggerAutofireStructBlock))]
             public WeaponTriggerAutofireStructBlock Autofire;
-            [Abide.Guerilla.Tags.FieldAttribute("charging", typeof(WeaponTriggerChargingStructBlock))]
+            [FieldAttribute("charging", typeof(WeaponTriggerChargingStructBlock))]
             public WeaponTriggerChargingStructBlock Charging;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 80;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.Input = ((InputOptions)(0));
+                this.Behavior = ((BehaviorOptions)(0));
+                this.PrimaryBarrel = 0;
+                this.SecondaryBarrel = 0;
+                this.Prediction = ((PredictionOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Autofire = new WeaponTriggerAutofireStructBlock();
+                this.Charging = new WeaponTriggerChargingStructBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.Input = ((InputOptions)(reader.ReadInt16()));
+                this.Behavior = ((BehaviorOptions)(reader.ReadInt16()));
+                this.PrimaryBarrel = reader.ReadInt16();
+                this.SecondaryBarrel = reader.ReadInt16();
+                this.Prediction = ((PredictionOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Autofire = reader.ReadDataStructure<WeaponTriggerAutofireStructBlock>();
+                this.Charging = reader.ReadDataStructure<WeaponTriggerChargingStructBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class WeaponTriggerAutofireStructBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class WeaponTriggerAutofireStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("autofire time", typeof(Single))]
+                [FieldAttribute("autofire time", typeof(Single))]
                 public Single AutofireTime;
-                [Abide.Guerilla.Tags.FieldAttribute("autofire throw", typeof(Single))]
+                [FieldAttribute("autofire throw", typeof(Single))]
                 public Single AutofireThrow;
-                [Abide.Guerilla.Tags.FieldAttribute("secondary action", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SecondaryActionOptions), false)]
-                public Int16 SecondaryAction;
-                [Abide.Guerilla.Tags.FieldAttribute("primary action", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(PrimaryActionOptions), false)]
-                public Int16 PrimaryAction;
-                public int Size
+                [FieldAttribute("secondary action", typeof(SecondaryActionOptions))]
+                [OptionsAttribute(typeof(SecondaryActionOptions), false)]
+                public SecondaryActionOptions SecondaryAction;
+                [FieldAttribute("primary action", typeof(PrimaryActionOptions))]
+                [OptionsAttribute(typeof(PrimaryActionOptions), false)]
+                public PrimaryActionOptions PrimaryAction;
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.AutofireTime = 0;
+                    this.AutofireThrow = 0;
+                    this.SecondaryAction = ((SecondaryActionOptions)(0));
+                    this.PrimaryAction = ((PrimaryActionOptions)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.AutofireTime = reader.ReadSingle();
+                    this.AutofireThrow = reader.ReadSingle();
+                    this.SecondaryAction = ((SecondaryActionOptions)(reader.ReadInt16()));
+                    this.PrimaryAction = ((PrimaryActionOptions)(reader.ReadInt16()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum SecondaryActionOptions
+                public enum SecondaryActionOptions : Int16
                 {
                     Fire = 0,
                     Charge = 1,
                     Track = 2,
                     FireOther = 3,
                 }
-                public enum PrimaryActionOptions
+                public enum PrimaryActionOptions : Int16
                 {
                     Fire = 0,
                     Charge = 1,
@@ -412,67 +667,83 @@ namespace Abide.Guerilla.Tags
                     FireOther = 3,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-            public sealed class WeaponTriggerChargingStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(52, 4)]
+            public sealed class WeaponTriggerChargingStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("charging time:seconds#the amount of time it takes for this trigger to become full" +
+                [FieldAttribute("charging time:seconds#the amount of time it takes for this trigger to become full" +
                     "y charged", typeof(Single))]
                 public Single ChargingTime;
-                [Abide.Guerilla.Tags.FieldAttribute("charged time:seconds#the amount of time this trigger can be charged before becomi" +
+                [FieldAttribute("charged time:seconds#the amount of time this trigger can be charged before becomi" +
                     "ng overcharged", typeof(Single))]
                 public Single ChargedTime;
-                [Abide.Guerilla.Tags.FieldAttribute("overcharged action", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverchargedActionOptions), false)]
-                public Int16 OverchargedAction;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("overcharged action", typeof(OverchargedActionOptions))]
+                [OptionsAttribute(typeof(OverchargedActionOptions), false)]
+                public OverchargedActionOptions OverchargedAction;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("charged illumination:[0,1]#the amount of illumination given off when the weapon i" +
+                [FieldAttribute("charged illumination:[0,1]#the amount of illumination given off when the weapon i" +
                     "s fully charged", typeof(Single))]
                 public Single ChargedIllumination;
-                [Abide.Guerilla.Tags.FieldAttribute("spew time:seconds#length of time the weapon will spew (fire continuously) while d" +
+                [FieldAttribute("spew time:seconds#length of time the weapon will spew (fire continuously) while d" +
                     "ischarging", typeof(Single))]
                 public Single SpewTime;
-                [Abide.Guerilla.Tags.FieldAttribute("charging effect#the charging effect is created once when the trigger begins to ch" +
+                [FieldAttribute("charging effect#the charging effect is created once when the trigger begins to ch" +
                     "arge", typeof(TagReference))]
                 public TagReference ChargingEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("charging damage effect#the charging effect is created once when the trigger begin" +
+                [FieldAttribute("charging damage effect#the charging effect is created once when the trigger begin" +
                     "s to charge", typeof(TagReference))]
                 public TagReference ChargingDamageEffect;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 52;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.ChargingTime = 0;
+                    this.ChargedTime = 0;
+                    this.OverchargedAction = ((OverchargedActionOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.ChargedIllumination = 0;
+                    this.SpewTime = 0;
+                    this.ChargingEffect = TagReference.Null;
+                    this.ChargingDamageEffect = TagReference.Null;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.ChargingTime = reader.ReadSingle();
+                    this.ChargedTime = reader.ReadSingle();
+                    this.OverchargedAction = ((OverchargedActionOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.ChargedIllumination = reader.ReadSingle();
+                    this.SpewTime = reader.ReadSingle();
+                    this.ChargingEffect = reader.Read<TagReference>();
+                    this.ChargingDamageEffect = reader.Read<TagReference>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum OverchargedActionOptions
+                public enum OverchargedActionOptions : Int16
                 {
                     None = 0,
                     Explode = 1,
                     Discharge = 2,
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 AutofireSingleActionOnly = 1,
             }
-            public enum InputOptions
+            public enum InputOptions : Int16
             {
                 RightTrigger = 0,
                 LeftTrigger = 1,
                 MeleeAttack = 2,
             }
-            public enum BehaviorOptions
+            public enum BehaviorOptions : Int16
             {
                 Spew = 0,
                 Latch = 1,
@@ -481,209 +752,321 @@ namespace Abide.Guerilla.Tags
                 LatchZoom = 4,
                 LatchRocketlauncher = 5,
             }
-            public enum PredictionOptions
+            public enum PredictionOptions : Int16
             {
                 None = 0,
                 Spew = 1,
                 Charge = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(256, 4)]
-        public sealed class WeaponBarrels : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(256, 4)]
+        public sealed class WeaponBarrels : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
+            private TagBlockList<BarrelFiringEffectBlock> firingEffectsList = new TagBlockList<BarrelFiringEffectBlock>(3);
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
                 "chieve its final rounds per second", typeof(Single))]
             public Single AccelerationTime;
-            [Abide.Guerilla.Tags.FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
+            [FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
                 "urn from its final rounds per second to its initial", typeof(Single))]
             public Single DecelerationTime;
-            [Abide.Guerilla.Tags.FieldAttribute("barrel spin scale#scale the barrel spin speed by this amount", typeof(Single))]
+            [FieldAttribute("barrel spin scale#scale the barrel spin speed by this amount", typeof(Single))]
             public Single BarrelSpinScale;
-            [Abide.Guerilla.Tags.FieldAttribute("blurred rate of fire#a percentage between 0 and 1 which controls how soon in its " +
+            [FieldAttribute("blurred rate of fire#a percentage between 0 and 1 which controls how soon in its " +
                 "firing animation the weapon blurs", typeof(Single))]
             public Single BlurredRateOfFire;
-            [Abide.Guerilla.Tags.FieldAttribute("fire recovery time:seconds#how long after a set of shots it takes before the barr" +
+            [FieldAttribute("fire recovery time:seconds#how long after a set of shots it takes before the barr" +
                 "el can fire again", typeof(Single))]
             public Single FireRecoveryTime;
-            [Abide.Guerilla.Tags.FieldAttribute("soft recovery fraction#how much of the recovery allows shots to be queued", typeof(Single))]
+            [FieldAttribute("soft recovery fraction#how much of the recovery allows shots to be queued", typeof(Single))]
             public Single SoftRecoveryFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("magazine#the magazine from which this trigger draws its ammunition", typeof(Int16))]
+            [FieldAttribute("magazine#the magazine from which this trigger draws its ammunition", typeof(Int16))]
             public Int16 Magazine;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds per shot#the number of rounds expended to create a single firing effect", typeof(Int16))]
+            [FieldAttribute("rounds per shot#the number of rounds expended to create a single firing effect", typeof(Int16))]
             public Int16 RoundsPerShot;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum rounds loaded#the minimum number of rounds necessary to fire the weapon", typeof(Int16))]
+            [FieldAttribute("minimum rounds loaded#the minimum number of rounds necessary to fire the weapon", typeof(Int16))]
             public Int16 MinimumRoundsLoaded;
-            [Abide.Guerilla.Tags.FieldAttribute("rounds between tracers#the number of non-tracer rounds fired between tracers", typeof(Int16))]
+            [FieldAttribute("rounds between tracers#the number of non-tracer rounds fired between tracers", typeof(Int16))]
             public Int16 RoundsBetweenTracers;
-            [Abide.Guerilla.Tags.FieldAttribute("optional barrel marker name", typeof(StringId))]
+            [FieldAttribute("optional barrel marker name", typeof(StringId))]
             public StringId OptionalBarrelMarkerName;
-            [Abide.Guerilla.Tags.FieldAttribute("prediction type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PredictionTypeOptions), false)]
-            public Int16 PredictionType;
-            [Abide.Guerilla.Tags.FieldAttribute("firing noise#how loud this weapon appears to the AI", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FiringNoiseOptions), false)]
-            public Int16 FiringNoise;
-            [Abide.Guerilla.Tags.FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
+            [FieldAttribute("prediction type", typeof(PredictionTypeOptions))]
+            [OptionsAttribute(typeof(PredictionTypeOptions), false)]
+            public PredictionTypeOptions PredictionType;
+            [FieldAttribute("firing noise#how loud this weapon appears to the AI", typeof(FiringNoiseOptions))]
+            [OptionsAttribute(typeof(FiringNoiseOptions), false)]
+            public FiringNoiseOptions FiringNoise;
+            [FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
                 "chieve its final error", typeof(Single))]
             public Single AccelerationTime1;
-            [Abide.Guerilla.Tags.FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
+            [FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
                 "urn to its initial error", typeof(Single))]
             public Single DecelerationTime1;
-            [Abide.Guerilla.Tags.FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
+            [FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
                 "chieve its final error", typeof(Single))]
             public Single AccelerationTime2;
-            [Abide.Guerilla.Tags.FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
+            [FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
                 "urn to its initial error", typeof(Single))]
             public Single DecelerationTime2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum error:degrees", typeof(Single))]
+            [FieldAttribute("minimum error:degrees", typeof(Single))]
             public Single MinimumError;
-            [Abide.Guerilla.Tags.FieldAttribute("dual wield damage scale", typeof(Single))]
+            [FieldAttribute("dual wield damage scale", typeof(Single))]
             public Single DualWieldDamageScale;
-            [Abide.Guerilla.Tags.FieldAttribute("distribution function", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DistributionFunctionOptions), false)]
-            public Int16 DistributionFunction;
-            [Abide.Guerilla.Tags.FieldAttribute("projectiles per shot", typeof(Int16))]
+            [FieldAttribute("distribution function", typeof(DistributionFunctionOptions))]
+            [OptionsAttribute(typeof(DistributionFunctionOptions), false)]
+            public DistributionFunctionOptions DistributionFunction;
+            [FieldAttribute("projectiles per shot", typeof(Int16))]
             public Int16 ProjectilesPerShot;
-            [Abide.Guerilla.Tags.FieldAttribute("distribution angle:degrees", typeof(Single))]
+            [FieldAttribute("distribution angle:degrees", typeof(Single))]
             public Single DistributionAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum error:degrees", typeof(Single))]
+            [FieldAttribute("minimum error:degrees", typeof(Single))]
             public Single MinimumError1;
-            [Abide.Guerilla.Tags.FieldAttribute("first person offset:world units#+x is forward, +z is up, +y is left", typeof(Vector3))]
+            [FieldAttribute("first person offset:world units#+x is forward, +z is up, +y is left", typeof(Vector3))]
             public Vector3 FirstPersonOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("damage effect reporting type", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DamageEffectReportingTypeOptions), false)]
-            public Byte DamageEffectReportingType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(3)]
+            [FieldAttribute("damage effect reporting type", typeof(DamageEffectReportingTypeOptions))]
+            [OptionsAttribute(typeof(DamageEffectReportingTypeOptions), false)]
+            public DamageEffectReportingTypeOptions DamageEffectReportingType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(3)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("projectile", typeof(TagReference))]
-            public TagReference Projectile1;
-            [Abide.Guerilla.Tags.FieldAttribute("eh", typeof(WeaponBarrelDamageEffectStructBlock))]
+            [FieldAttribute("projectile", typeof(TagReference))]
+            public TagReference Projectile;
+            [FieldAttribute("eh", typeof(WeaponBarrelDamageEffectStructBlock))]
             public WeaponBarrelDamageEffectStructBlock Eh;
-            [Abide.Guerilla.Tags.FieldAttribute("ejection port recovery time#the amount of time (in seconds) it takes for the ejec" +
+            [FieldAttribute("ejection port recovery time#the amount of time (in seconds) it takes for the ejec" +
                 "tion port to transition from 1.0 (open) to 0.0 (closed) after a shot has been fi" +
                 "red", typeof(Single))]
             public Single EjectionPortRecoveryTime;
-            [Abide.Guerilla.Tags.FieldAttribute("illumination recovery time#the amount of time (in seconds) it takes the illuminat" +
+            [FieldAttribute("illumination recovery time#the amount of time (in seconds) it takes the illuminat" +
                 "ion function to transition from 1.0 (bright) to 0.0 (dark) after a shot has been" +
                 " fired", typeof(Single))]
             public Single IlluminationRecoveryTime;
-            [Abide.Guerilla.Tags.FieldAttribute("heat generated per round:[0,1]#the amount of heat generated each time the trigger" +
+            [FieldAttribute("heat generated per round:[0,1]#the amount of heat generated each time the trigger" +
                 " is fired", typeof(Single))]
             public Single HeatGeneratedPerRound;
-            [Abide.Guerilla.Tags.FieldAttribute("age generated per round:[0,1]#the amount the weapon ages each time the trigger is" +
+            [FieldAttribute("age generated per round:[0,1]#the amount the weapon ages each time the trigger is" +
                 " fired", typeof(Single))]
             public Single AgeGeneratedPerRound;
-            [Abide.Guerilla.Tags.FieldAttribute("overload time:seconds#the next trigger fires this often while holding down this t" +
+            [FieldAttribute("overload time:seconds#the next trigger fires this often while holding down this t" +
                 "rigger", typeof(Single))]
             public Single OverloadTime;
-            [Abide.Guerilla.Tags.FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
+            [FieldAttribute("acceleration time:seconds#the continuous firing time it takes for the weapon to a" +
                 "chieve its final angle change per shot", typeof(Single))]
             public Single AccelerationTime3;
-            [Abide.Guerilla.Tags.FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
+            [FieldAttribute("deceleration time:seconds#the continuous idle time it takes for the weapon to ret" +
                 "urn to its initial angle change per shot", typeof(Single))]
             public Single DecelerationTime3;
-            [Abide.Guerilla.Tags.FieldAttribute("angle change function#function used to scale between initial and final angle chan" +
-                "ge per shot", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AngleChangeFunctionOptions), false)]
-            public Int16 AngleChangeFunction;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("angle change function#function used to scale between initial and final angle chan" +
+                "ge per shot", typeof(AngleChangeFunctionOptions))]
+            [OptionsAttribute(typeof(AngleChangeFunctionOptions), false)]
+            public AngleChangeFunctionOptions AngleChangeFunction;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(24)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(24)]
             public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("firing effects#firing effects determine what happens when this trigger is fired", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("barrel_firing_effect_block", 3, typeof(BarrelFiringEffectBlock))]
+            [FieldAttribute("firing effects#firing effects determine what happens when this trigger is fired", typeof(TagBlock))]
+            [BlockAttribute("barrel_firing_effect_block", 3, typeof(BarrelFiringEffectBlock))]
             public TagBlock FiringEffects;
-            public int Size
+            public TagBlockList<BarrelFiringEffectBlock> FiringEffectsList
+            {
+                get
+                {
+                    return this.firingEffectsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 256;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.firingEffectsList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.AccelerationTime = 0;
+                this.DecelerationTime = 0;
+                this.BarrelSpinScale = 0;
+                this.BlurredRateOfFire = 0;
+                this.FireRecoveryTime = 0;
+                this.SoftRecoveryFraction = 0;
+                this.Magazine = 0;
+                this.RoundsPerShot = 0;
+                this.MinimumRoundsLoaded = 0;
+                this.RoundsBetweenTracers = 0;
+                this.OptionalBarrelMarkerName = StringId.Zero;
+                this.PredictionType = ((PredictionTypeOptions)(0));
+                this.FiringNoise = ((FiringNoiseOptions)(0));
+                this.AccelerationTime1 = 0;
+                this.DecelerationTime1 = 0;
+                this.AccelerationTime2 = 0;
+                this.DecelerationTime2 = 0;
+                this.EmptyString = new byte[8];
+                this.MinimumError = 0;
+                this.DualWieldDamageScale = 0;
+                this.DistributionFunction = ((DistributionFunctionOptions)(0));
+                this.ProjectilesPerShot = 0;
+                this.DistributionAngle = 0;
+                this.MinimumError1 = 0;
+                this.FirstPersonOffset = Vector3.Zero;
+                this.DamageEffectReportingType = ((DamageEffectReportingTypeOptions)(0));
+                this.EmptyString1 = new byte[3];
+                this.Projectile = TagReference.Null;
+                this.Eh = new WeaponBarrelDamageEffectStructBlock();
+                this.EjectionPortRecoveryTime = 0;
+                this.IlluminationRecoveryTime = 0;
+                this.HeatGeneratedPerRound = 0;
+                this.AgeGeneratedPerRound = 0;
+                this.OverloadTime = 0;
+                this.AccelerationTime3 = 0;
+                this.DecelerationTime3 = 0;
+                this.AngleChangeFunction = ((AngleChangeFunctionOptions)(0));
+                this.EmptyString2 = new byte[2];
+                this.EmptyString3 = new byte[8];
+                this.EmptyString4 = new byte[24];
+                this.FiringEffects = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.AccelerationTime = reader.ReadSingle();
+                this.DecelerationTime = reader.ReadSingle();
+                this.BarrelSpinScale = reader.ReadSingle();
+                this.BlurredRateOfFire = reader.ReadSingle();
+                this.FireRecoveryTime = reader.ReadSingle();
+                this.SoftRecoveryFraction = reader.ReadSingle();
+                this.Magazine = reader.ReadInt16();
+                this.RoundsPerShot = reader.ReadInt16();
+                this.MinimumRoundsLoaded = reader.ReadInt16();
+                this.RoundsBetweenTracers = reader.ReadInt16();
+                this.OptionalBarrelMarkerName = reader.ReadInt32();
+                this.PredictionType = ((PredictionTypeOptions)(reader.ReadInt16()));
+                this.FiringNoise = ((FiringNoiseOptions)(reader.ReadInt16()));
+                this.AccelerationTime1 = reader.ReadSingle();
+                this.DecelerationTime1 = reader.ReadSingle();
+                this.AccelerationTime2 = reader.ReadSingle();
+                this.DecelerationTime2 = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(8);
+                this.MinimumError = reader.ReadSingle();
+                this.DualWieldDamageScale = reader.ReadSingle();
+                this.DistributionFunction = ((DistributionFunctionOptions)(reader.ReadInt16()));
+                this.ProjectilesPerShot = reader.ReadInt16();
+                this.DistributionAngle = reader.ReadSingle();
+                this.MinimumError1 = reader.ReadSingle();
+                this.FirstPersonOffset = reader.Read<Vector3>();
+                this.DamageEffectReportingType = ((DamageEffectReportingTypeOptions)(reader.ReadByte()));
+                this.EmptyString1 = reader.ReadBytes(3);
+                this.Projectile = reader.Read<TagReference>();
+                this.Eh = reader.ReadDataStructure<WeaponBarrelDamageEffectStructBlock>();
+                this.EjectionPortRecoveryTime = reader.ReadSingle();
+                this.IlluminationRecoveryTime = reader.ReadSingle();
+                this.HeatGeneratedPerRound = reader.ReadSingle();
+                this.AgeGeneratedPerRound = reader.ReadSingle();
+                this.OverloadTime = reader.ReadSingle();
+                this.AccelerationTime3 = reader.ReadSingle();
+                this.DecelerationTime3 = reader.ReadSingle();
+                this.AngleChangeFunction = ((AngleChangeFunctionOptions)(reader.ReadInt16()));
+                this.EmptyString2 = reader.ReadBytes(2);
+                this.EmptyString3 = reader.ReadBytes(8);
+                this.EmptyString4 = reader.ReadBytes(24);
+                this.FiringEffects = reader.ReadInt64();
+                this.firingEffectsList.Read(reader, this.FiringEffects);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(100, 4)]
+            public sealed class BarrelFiringEffectBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(100, 4)]
-            public sealed class BarrelFiringEffectBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("shot count lower bound#the minimum number of times this firing effect will be use" +
+                [FieldAttribute("shot count lower bound#the minimum number of times this firing effect will be use" +
                     "d, once it has been chosen", typeof(Int16))]
                 public Int16 ShotCountLowerBound;
-                [Abide.Guerilla.Tags.FieldAttribute("shot count upper bound#the maximum number of times this firing effect will be use" +
+                [FieldAttribute("shot count upper bound#the maximum number of times this firing effect will be use" +
                     "d, once it has been chosen", typeof(Int16))]
                 public Int16 ShotCountUpperBound;
-                [Abide.Guerilla.Tags.FieldAttribute("firing effect^#this effect is used when the weapon is loaded and fired normally", typeof(TagReference))]
+                [FieldAttribute("firing effect^#this effect is used when the weapon is loaded and fired normally", typeof(TagReference))]
                 public TagReference FiringEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("misfire effect#this effect is used when the weapon is loaded but fired while over" +
+                [FieldAttribute("misfire effect#this effect is used when the weapon is loaded but fired while over" +
                     "heated", typeof(TagReference))]
                 public TagReference MisfireEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("empty effect#this effect is used when the weapon is not loaded", typeof(TagReference))]
+                [FieldAttribute("empty effect#this effect is used when the weapon is not loaded", typeof(TagReference))]
                 public TagReference EmptyEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("firing damage#this effect is used when the weapon is loaded and fired normally", typeof(TagReference))]
+                [FieldAttribute("firing damage#this effect is used when the weapon is loaded and fired normally", typeof(TagReference))]
                 public TagReference FiringDamage;
-                [Abide.Guerilla.Tags.FieldAttribute("misfire damage#this effect is used when the weapon is loaded but fired while over" +
+                [FieldAttribute("misfire damage#this effect is used when the weapon is loaded but fired while over" +
                     "heated", typeof(TagReference))]
                 public TagReference MisfireDamage;
-                [Abide.Guerilla.Tags.FieldAttribute("empty damage#this effect is used when the weapon is not loaded", typeof(TagReference))]
+                [FieldAttribute("empty damage#this effect is used when the weapon is not loaded", typeof(TagReference))]
                 public TagReference EmptyDamage;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 100;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.ShotCountLowerBound = 0;
+                    this.ShotCountUpperBound = 0;
+                    this.FiringEffect = TagReference.Null;
+                    this.MisfireEffect = TagReference.Null;
+                    this.EmptyEffect = TagReference.Null;
+                    this.FiringDamage = TagReference.Null;
+                    this.MisfireDamage = TagReference.Null;
+                    this.EmptyDamage = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.ShotCountLowerBound = reader.ReadInt16();
+                    this.ShotCountUpperBound = reader.ReadInt16();
+                    this.FiringEffect = reader.Read<TagReference>();
+                    this.MisfireEffect = reader.Read<TagReference>();
+                    this.EmptyEffect = reader.Read<TagReference>();
+                    this.FiringDamage = reader.Read<TagReference>();
+                    this.MisfireDamage = reader.Read<TagReference>();
+                    this.EmptyDamage = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class WeaponBarrelDamageEffectStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class WeaponBarrelDamageEffectStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("damage effect", typeof(TagReference))]
+                [FieldAttribute("damage effect", typeof(TagReference))]
                 public TagReference DamageEffect;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.DamageEffect = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.DamageEffect = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 TracksFiredProjectile = 1,
                 RandomFiringEffects = 2,
@@ -700,13 +1083,13 @@ namespace Abide.Guerilla.Tags
                 StaggerFireAcrossMultipleMarkers = 4096,
                 FiresLockedProjectiles = 8192,
             }
-            public enum PredictionTypeOptions
+            public enum PredictionTypeOptions : Int16
             {
                 None = 0,
                 Continuous = 1,
                 Instant = 2,
             }
-            public enum FiringNoiseOptions
+            public enum FiringNoiseOptions : Int16
             {
                 Silent = 0,
                 Medium = 1,
@@ -714,12 +1097,12 @@ namespace Abide.Guerilla.Tags
                 Shout = 3,
                 Quiet = 4,
             }
-            public enum DistributionFunctionOptions
+            public enum DistributionFunctionOptions : Int16
             {
                 Point = 0,
                 HorizontalFan = 1,
             }
-            public enum DamageEffectReportingTypeOptions
+            public enum DamageEffectReportingTypeOptions : Byte
             {
                 TehGuardians11 = 0,
                 FallingDamage = 1,
@@ -764,7 +1147,7 @@ namespace Abide.Guerilla.Tags
                 SentinelRpg = 40,
                 Teleporter = 41,
             }
-            public enum AngleChangeFunctionOptions
+            public enum AngleChangeFunctionOptions : Int16
             {
                 Linear = 0,
                 Early = 1,
@@ -776,223 +1159,293 @@ namespace Abide.Guerilla.Tags
                 Zero = 7,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class MeleeAimAssistStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class MeleeAimAssistStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("magnetism angle:degrees#the maximum angle that magnetism works at full strength", typeof(Single))]
+            [FieldAttribute("magnetism angle:degrees#the maximum angle that magnetism works at full strength", typeof(Single))]
             public Single MagnetismAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("magnetism range:world units#the maximum distance that magnetism works at full str" +
+            [FieldAttribute("magnetism range:world units#the maximum distance that magnetism works at full str" +
                 "ength", typeof(Single))]
             public Single MagnetismRange;
-            [Abide.Guerilla.Tags.FieldAttribute("throttle magnitude", typeof(Single))]
+            [FieldAttribute("throttle magnitude", typeof(Single))]
             public Single ThrottleMagnitude;
-            [Abide.Guerilla.Tags.FieldAttribute("throttle minimum distance", typeof(Single))]
+            [FieldAttribute("throttle minimum distance", typeof(Single))]
             public Single ThrottleMinimumDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("throttle maximum adjustment angle:degrees", typeof(Single))]
+            [FieldAttribute("throttle maximum adjustment angle:degrees", typeof(Single))]
             public Single ThrottleMaximumAdjustmentAngle;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.MagnetismAngle = 0;
+                this.MagnetismRange = 0;
+                this.ThrottleMagnitude = 0;
+                this.ThrottleMinimumDistance = 0;
+                this.ThrottleMaximumAdjustmentAngle = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.MagnetismAngle = reader.ReadSingle();
+                this.MagnetismRange = reader.ReadSingle();
+                this.ThrottleMagnitude = reader.ReadSingle();
+                this.ThrottleMinimumDistance = reader.ReadSingle();
+                this.ThrottleMaximumAdjustmentAngle = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(140, 4)]
-        public sealed class MeleeDamageParametersStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(140, 4)]
+        public sealed class MeleeDamageParametersStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("damage pyramid angles", typeof(Vector2))]
+            [FieldAttribute("damage pyramid angles", typeof(Vector2))]
             public Vector2 DamagePyramidAngles;
-            [Abide.Guerilla.Tags.FieldAttribute("damage pyramid depth", typeof(Single))]
+            [FieldAttribute("damage pyramid depth", typeof(Single))]
             public Single DamagePyramidDepth;
-            [Abide.Guerilla.Tags.FieldAttribute("1st hit melee damage", typeof(TagReference))]
+            [FieldAttribute("1st hit melee damage", typeof(TagReference))]
             public TagReference _1stHitMeleeDamage;
-            [Abide.Guerilla.Tags.FieldAttribute("1st hit melee response", typeof(TagReference))]
+            [FieldAttribute("1st hit melee response", typeof(TagReference))]
             public TagReference _1stHitMeleeResponse;
-            [Abide.Guerilla.Tags.FieldAttribute("2nd hit melee damage", typeof(TagReference))]
+            [FieldAttribute("2nd hit melee damage", typeof(TagReference))]
             public TagReference _2ndHitMeleeDamage;
-            [Abide.Guerilla.Tags.FieldAttribute("2nd hit melee response", typeof(TagReference))]
+            [FieldAttribute("2nd hit melee response", typeof(TagReference))]
             public TagReference _2ndHitMeleeResponse;
-            [Abide.Guerilla.Tags.FieldAttribute("3rd hit melee damage", typeof(TagReference))]
+            [FieldAttribute("3rd hit melee damage", typeof(TagReference))]
             public TagReference _3rdHitMeleeDamage;
-            [Abide.Guerilla.Tags.FieldAttribute("3rd hit melee response", typeof(TagReference))]
+            [FieldAttribute("3rd hit melee response", typeof(TagReference))]
             public TagReference _3rdHitMeleeResponse;
-            [Abide.Guerilla.Tags.FieldAttribute("lunge melee damage#this is only important for the energy sword", typeof(TagReference))]
+            [FieldAttribute("lunge melee damage#this is only important for the energy sword", typeof(TagReference))]
             public TagReference LungeMeleeDamage;
-            [Abide.Guerilla.Tags.FieldAttribute("lunge melee response#this is only important for the energy sword", typeof(TagReference))]
+            [FieldAttribute("lunge melee response#this is only important for the energy sword", typeof(TagReference))]
             public TagReference LungeMeleeResponse;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 140;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.DamagePyramidAngles = Vector2.Zero;
+                this.DamagePyramidDepth = 0;
+                this._1stHitMeleeDamage = TagReference.Null;
+                this._1stHitMeleeResponse = TagReference.Null;
+                this._2ndHitMeleeDamage = TagReference.Null;
+                this._2ndHitMeleeResponse = TagReference.Null;
+                this._3rdHitMeleeDamage = TagReference.Null;
+                this._3rdHitMeleeResponse = TagReference.Null;
+                this.LungeMeleeDamage = TagReference.Null;
+                this.LungeMeleeResponse = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.DamagePyramidAngles = reader.Read<Vector2>();
+                this.DamagePyramidDepth = reader.ReadSingle();
+                this._1stHitMeleeDamage = reader.Read<TagReference>();
+                this._1stHitMeleeResponse = reader.Read<TagReference>();
+                this._2ndHitMeleeDamage = reader.Read<TagReference>();
+                this._2ndHitMeleeResponse = reader.Read<TagReference>();
+                this._3rdHitMeleeDamage = reader.Read<TagReference>();
+                this._3rdHitMeleeResponse = reader.Read<TagReference>();
+                this.LungeMeleeDamage = reader.Read<TagReference>();
+                this.LungeMeleeResponse = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class AimAssistStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(36, 4)]
+        public sealed class AimAssistStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("autoaim angle:degrees#the maximum angle that autoaim works at full strength", typeof(Single))]
+            [FieldAttribute("autoaim angle:degrees#the maximum angle that autoaim works at full strength", typeof(Single))]
             public Single AutoaimAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("autoaim range:world units#the maximum distance that autoaim works at full strengt" +
+            [FieldAttribute("autoaim range:world units#the maximum distance that autoaim works at full strengt" +
                 "h", typeof(Single))]
             public Single AutoaimRange;
-            [Abide.Guerilla.Tags.FieldAttribute("magnetism angle:degrees#the maximum angle that magnetism works at full strength", typeof(Single))]
+            [FieldAttribute("magnetism angle:degrees#the maximum angle that magnetism works at full strength", typeof(Single))]
             public Single MagnetismAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("magnetism range:world units#the maximum distance that magnetism works at full str" +
+            [FieldAttribute("magnetism range:world units#the maximum distance that magnetism works at full str" +
                 "ength", typeof(Single))]
             public Single MagnetismRange;
-            [Abide.Guerilla.Tags.FieldAttribute("deviation angle:degrees#the maximum angle that a projectile is allowed to deviate" +
+            [FieldAttribute("deviation angle:degrees#the maximum angle that a projectile is allowed to deviate" +
                 " from the gun barrel", typeof(Single))]
             public Single DeviationAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(12)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(12)]
             public Byte[] EmptyString1;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.AutoaimAngle = 0;
+                this.AutoaimRange = 0;
+                this.MagnetismAngle = 0;
+                this.MagnetismRange = 0;
+                this.DeviationAngle = 0;
+                this.EmptyString = new byte[4];
+                this.EmptyString1 = new byte[12];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.AutoaimAngle = reader.ReadSingle();
+                this.AutoaimRange = reader.ReadSingle();
+                this.MagnetismAngle = reader.ReadSingle();
+                this.MagnetismRange = reader.ReadSingle();
+                this.DeviationAngle = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(4);
+                this.EmptyString1 = reader.ReadBytes(12);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class WeaponTrackingStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(4, 4)]
+        public sealed class WeaponTrackingStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("tracking type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TrackingTypeOptions), false)]
-            public Int16 TrackingType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("tracking type", typeof(TrackingTypeOptions))]
+            [OptionsAttribute(typeof(TrackingTypeOptions), false)]
+            public TrackingTypeOptions TrackingType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.TrackingType = ((TrackingTypeOptions)(0));
+                this.EmptyString = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.TrackingType = ((TrackingTypeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TrackingTypeOptions
+            public enum TrackingTypeOptions : Int16
             {
                 NoTracking = 0,
                 HumanTracking = 1,
                 PlasmaTracking = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(44, 4)]
-        public sealed class WeaponInterfaceStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(44, 4)]
+        public sealed class WeaponInterfaceStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("shared interface", typeof(WeaponSharedInterfaceStructBlock))]
+            private TagBlockList<WeaponFirstPersonInterfaceBlock> firstPersonList = new TagBlockList<WeaponFirstPersonInterfaceBlock>(4);
+            [FieldAttribute("shared interface", typeof(WeaponSharedInterfaceStructBlock))]
             public WeaponSharedInterfaceStructBlock SharedInterface;
-            [Abide.Guerilla.Tags.FieldAttribute("first person", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("weapon_first_person_interface_block", 4, typeof(WeaponFirstPersonInterfaceBlock))]
+            [FieldAttribute("first person", typeof(TagBlock))]
+            [BlockAttribute("weapon_first_person_interface_block", 4, typeof(WeaponFirstPersonInterfaceBlock))]
             public TagBlock FirstPerson;
-            [Abide.Guerilla.Tags.FieldAttribute("new hud interface", typeof(TagReference))]
+            [FieldAttribute("new hud interface", typeof(TagReference))]
             public TagReference NewHudInterface;
-            public int Size
+            public TagBlockList<WeaponFirstPersonInterfaceBlock> FirstPersonList
+            {
+                get
+                {
+                    return this.firstPersonList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 44;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.firstPersonList.Clear();
+                this.SharedInterface = new WeaponSharedInterfaceStructBlock();
+                this.FirstPerson = TagBlock.Zero;
+                this.NewHudInterface = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.SharedInterface = reader.ReadDataStructure<WeaponSharedInterfaceStructBlock>();
+                this.FirstPerson = reader.ReadInt64();
+                this.firstPersonList.Read(reader, this.FirstPerson);
+                this.NewHudInterface = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(32, 4)]
+            public sealed class WeaponFirstPersonInterfaceBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-            public sealed class WeaponFirstPersonInterfaceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("first person model", typeof(TagReference))]
+                [FieldAttribute("first person model", typeof(TagReference))]
                 public TagReference FirstPersonModel;
-                [Abide.Guerilla.Tags.FieldAttribute("first person animations", typeof(TagReference))]
+                [FieldAttribute("first person animations", typeof(TagReference))]
                 public TagReference FirstPersonAnimations;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 32;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.FirstPersonModel = TagReference.Null;
+                    this.FirstPersonAnimations = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.FirstPersonModel = reader.Read<TagReference>();
+                    this.FirstPersonAnimations = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class WeaponSharedInterfaceStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class WeaponSharedInterfaceStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[16];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(16);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             VerticalHeatDisplay = 1,
             MutuallyExclusiveTriggers = 2,
@@ -1025,7 +1478,7 @@ namespace Abide.Guerilla.Tags
             PrimaryTriggerMeleeAttacks = 268435456,
             CannotBeUsedByPlayer = 536870912,
         }
-        public enum SecondaryTriggerModeOptions
+        public enum SecondaryTriggerModeOptions : Int16
         {
             Normal = 0,
             SlavedToPrimary = 1,
@@ -1033,7 +1486,7 @@ namespace Abide.Guerilla.Tags
             LoadsAlterateAmmunition = 3,
             LoadsMultiplePrimaryAmmunition = 4,
         }
-        public enum MeleeDamageReportingTypeOptions
+        public enum MeleeDamageReportingTypeOptions : Byte
         {
             TehGuardians11 = 0,
             FallingDamage = 1,
@@ -1078,13 +1531,13 @@ namespace Abide.Guerilla.Tags
             SentinelRpg = 40,
             Teleporter = 41,
         }
-        public enum MovementPenalizedOptions
+        public enum MovementPenalizedOptions : Int16
         {
             Always = 0,
             WhenZoomed = 1,
             WhenZoomedOrReloading = 2,
         }
-        public enum MultiplayerWeaponTypeOptions
+        public enum MultiplayerWeaponTypeOptions : Int16
         {
             None = 0,
             CtfFlag = 1,
@@ -1092,7 +1545,7 @@ namespace Abide.Guerilla.Tags
             HeadhunterHead = 3,
             JuggernautPowerup = 4,
         }
-        public enum WeaponTypeOptions
+        public enum WeaponTypeOptions : Int16
         {
             Undefined = 0,
             Shotgun = 1,

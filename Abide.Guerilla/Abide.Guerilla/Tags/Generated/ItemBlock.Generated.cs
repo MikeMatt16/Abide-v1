@@ -14,94 +14,149 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(156, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("item", 1769235821u, 1868720741u, typeof(ItemBlock))]
-    public sealed class ItemBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(156, 4)]
+    [TagGroupAttribute("item", 1769235821u, 1868720741u, typeof(ItemBlock))]
+    public sealed class ItemBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("OLD message index", typeof(Int16))]
+        private TagBlockList<PredictedBitmapsBlock> predictedBitmapsList = new TagBlockList<PredictedBitmapsBlock>(8);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("OLD message index", typeof(Int16))]
         public Int16 OldMessageIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("sort order", typeof(Int16))]
+        [FieldAttribute("sort order", typeof(Int16))]
         public Int16 SortOrder;
-        [Abide.Guerilla.Tags.FieldAttribute("multiplayer on-ground scale", typeof(Single))]
+        [FieldAttribute("multiplayer on-ground scale", typeof(Single))]
         public Single MultiplayerOnGroundScale;
-        [Abide.Guerilla.Tags.FieldAttribute("campaign on-ground scale", typeof(Single))]
+        [FieldAttribute("campaign on-ground scale", typeof(Single))]
         public Single CampaignOnGroundScale;
-        [Abide.Guerilla.Tags.FieldAttribute("pickup message", typeof(StringId))]
+        [FieldAttribute("pickup message", typeof(StringId))]
         public StringId PickupMessage;
-        [Abide.Guerilla.Tags.FieldAttribute("swap message", typeof(StringId))]
+        [FieldAttribute("swap message", typeof(StringId))]
         public StringId SwapMessage;
-        [Abide.Guerilla.Tags.FieldAttribute("pickup or dual msg", typeof(StringId))]
+        [FieldAttribute("pickup or dual msg", typeof(StringId))]
         public StringId PickupOrDualMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("swap or dual msg", typeof(StringId))]
+        [FieldAttribute("swap or dual msg", typeof(StringId))]
         public StringId SwapOrDualMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("dual-only msg", typeof(StringId))]
+        [FieldAttribute("dual-only msg", typeof(StringId))]
         public StringId DualOnlyMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("picked up msg", typeof(StringId))]
+        [FieldAttribute("picked up msg", typeof(StringId))]
         public StringId PickedUpMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("singluar quantity msg", typeof(StringId))]
+        [FieldAttribute("singluar quantity msg", typeof(StringId))]
         public StringId SingluarQuantityMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("plural quantity msg", typeof(StringId))]
+        [FieldAttribute("plural quantity msg", typeof(StringId))]
         public StringId PluralQuantityMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("switch-to msg", typeof(StringId))]
+        [FieldAttribute("switch-to msg", typeof(StringId))]
         public StringId SwitchToMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("switch-to from ai msg", typeof(StringId))]
+        [FieldAttribute("switch-to from ai msg", typeof(StringId))]
         public StringId SwitchToFromAiMsg;
-        [Abide.Guerilla.Tags.FieldAttribute("UNUSED*", typeof(TagReference))]
+        [FieldAttribute("UNUSED*", typeof(TagReference))]
         public TagReference Unused;
-        [Abide.Guerilla.Tags.FieldAttribute("collision sound", typeof(TagReference))]
+        [FieldAttribute("collision sound", typeof(TagReference))]
         public TagReference CollisionSound;
-        [Abide.Guerilla.Tags.FieldAttribute("predicted bitmaps", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("predicted_bitmaps_block", 8, typeof(PredictedBitmapsBlock))]
+        [FieldAttribute("predicted bitmaps", typeof(TagBlock))]
+        [BlockAttribute("predicted_bitmaps_block", 8, typeof(PredictedBitmapsBlock))]
         public TagBlock PredictedBitmaps;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation damage effect", typeof(TagReference))]
+        [FieldAttribute("detonation damage effect", typeof(TagReference))]
         public TagReference DetonationDamageEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("detonating effect", typeof(TagReference))]
+        [FieldAttribute("detonating effect", typeof(TagReference))]
         public TagReference DetonatingEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation effect", typeof(TagReference))]
+        [FieldAttribute("detonation effect", typeof(TagReference))]
         public TagReference DetonationEffect;
-        public int Size
+        public TagBlockList<PredictedBitmapsBlock> PredictedBitmapsList
+        {
+            get
+            {
+                return this.predictedBitmapsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 156;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.predictedBitmapsList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.OldMessageIndex = 0;
+            this.SortOrder = 0;
+            this.MultiplayerOnGroundScale = 0;
+            this.CampaignOnGroundScale = 0;
+            this.PickupMessage = StringId.Zero;
+            this.SwapMessage = StringId.Zero;
+            this.PickupOrDualMsg = StringId.Zero;
+            this.SwapOrDualMsg = StringId.Zero;
+            this.DualOnlyMsg = StringId.Zero;
+            this.PickedUpMsg = StringId.Zero;
+            this.SingluarQuantityMsg = StringId.Zero;
+            this.PluralQuantityMsg = StringId.Zero;
+            this.SwitchToMsg = StringId.Zero;
+            this.SwitchToFromAiMsg = StringId.Zero;
+            this.Unused = TagReference.Null;
+            this.CollisionSound = TagReference.Null;
+            this.PredictedBitmaps = TagBlock.Zero;
+            this.DetonationDamageEffect = TagReference.Null;
+            this.DetonatingEffect = TagReference.Null;
+            this.DetonationEffect = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.OldMessageIndex = reader.ReadInt16();
+            this.SortOrder = reader.ReadInt16();
+            this.MultiplayerOnGroundScale = reader.ReadSingle();
+            this.CampaignOnGroundScale = reader.ReadSingle();
+            this.PickupMessage = reader.ReadInt32();
+            this.SwapMessage = reader.ReadInt32();
+            this.PickupOrDualMsg = reader.ReadInt32();
+            this.SwapOrDualMsg = reader.ReadInt32();
+            this.DualOnlyMsg = reader.ReadInt32();
+            this.PickedUpMsg = reader.ReadInt32();
+            this.SingluarQuantityMsg = reader.ReadInt32();
+            this.PluralQuantityMsg = reader.ReadInt32();
+            this.SwitchToMsg = reader.ReadInt32();
+            this.SwitchToFromAiMsg = reader.ReadInt32();
+            this.Unused = reader.Read<TagReference>();
+            this.CollisionSound = reader.Read<TagReference>();
+            this.PredictedBitmaps = reader.ReadInt64();
+            this.predictedBitmapsList.Read(reader, this.PredictedBitmaps);
+            this.DetonationDamageEffect = reader.Read<TagReference>();
+            this.DetonatingEffect = reader.Read<TagReference>();
+            this.DetonationEffect = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(16, 4)]
+        public sealed class PredictedBitmapsBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class PredictedBitmapsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+            [FieldAttribute("bitmap", typeof(TagReference))]
             public TagReference Bitmap;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Bitmap = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Bitmap = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             AlwaysMaintainsZUp = 1,
             DestroyedByExplosions = 2,

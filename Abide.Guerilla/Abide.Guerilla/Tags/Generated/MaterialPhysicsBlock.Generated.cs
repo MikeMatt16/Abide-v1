@@ -14,37 +14,48 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("material_physics", 1836082292u, 4294967293u, typeof(MaterialPhysicsBlock))]
-    public sealed class MaterialPhysicsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(20, 4)]
+    [TagGroupAttribute("material_physics", 1836082292u, 4294967293u, typeof(MaterialPhysicsBlock))]
+    public sealed class MaterialPhysicsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("ground friction scale#fraction of original velocity parallel to the ground after " +
+        [FieldAttribute("ground friction scale#fraction of original velocity parallel to the ground after " +
             "one tick", typeof(Single))]
         public Single GroundFrictionScale;
-        [Abide.Guerilla.Tags.FieldAttribute("ground friction normal k1 scale#cosine of angle at which friction falls off", typeof(Single))]
+        [FieldAttribute("ground friction normal k1 scale#cosine of angle at which friction falls off", typeof(Single))]
         public Single GroundFrictionNormalK1Scale;
-        [Abide.Guerilla.Tags.FieldAttribute("ground friction normal k0 scale#cosine of angle at which friction is zero", typeof(Single))]
+        [FieldAttribute("ground friction normal k0 scale#cosine of angle at which friction is zero", typeof(Single))]
         public Single GroundFrictionNormalK0Scale;
-        [Abide.Guerilla.Tags.FieldAttribute("ground depth scale#depth a point mass rests in the ground", typeof(Single))]
+        [FieldAttribute("ground depth scale#depth a point mass rests in the ground", typeof(Single))]
         public Single GroundDepthScale;
-        [Abide.Guerilla.Tags.FieldAttribute("ground damp fraction scale#fraction of original velocity perpendicular to the gro" +
+        [FieldAttribute("ground damp fraction scale#fraction of original velocity perpendicular to the gro" +
             "und after one tick", typeof(Single))]
         public Single GroundDampFractionScale;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 20;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.GroundFrictionScale = 0;
+            this.GroundFrictionNormalK1Scale = 0;
+            this.GroundFrictionNormalK0Scale = 0;
+            this.GroundDepthScale = 0;
+            this.GroundDampFractionScale = 0;
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.GroundFrictionScale = reader.ReadSingle();
+            this.GroundFrictionNormalK1Scale = reader.ReadSingle();
+            this.GroundFrictionNormalK0Scale = reader.ReadSingle();
+            this.GroundDepthScale = reader.ReadSingle();
+            this.GroundDampFractionScale = reader.ReadSingle();
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

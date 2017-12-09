@@ -14,72 +14,99 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("dialogue", 1969515623u, 4294967293u, typeof(DialogueBlock))]
-    public sealed class DialogueBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(36, 4)]
+    [TagGroupAttribute("dialogue", 1969515623u, 4294967293u, typeof(DialogueBlock))]
+    public sealed class DialogueBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("global dialogue info", typeof(TagReference))]
+        private TagBlockList<SoundReferencesBlock> vocalizationsList = new TagBlockList<SoundReferencesBlock>(500);
+        [FieldAttribute("global dialogue info", typeof(TagReference))]
         public TagReference GlobalDialogueInfo;
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("vocalizations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("sound_references_block", 500, typeof(SoundReferencesBlock))]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("vocalizations", typeof(TagBlock))]
+        [BlockAttribute("sound_references_block", 500, typeof(SoundReferencesBlock))]
         public TagBlock Vocalizations;
-        [Abide.Guerilla.Tags.FieldAttribute("mission dialogue designator#3-letter mission dialogue designator name", typeof(StringId))]
+        [FieldAttribute("mission dialogue designator#3-letter mission dialogue designator name", typeof(StringId))]
         public StringId MissionDialogueDesignator;
-        public int Size
+        public TagBlockList<SoundReferencesBlock> VocalizationsList
+        {
+            get
+            {
+                return this.vocalizationsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 36;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.vocalizationsList.Clear();
+            this.GlobalDialogueInfo = TagReference.Null;
+            this.Flags = ((FlagsOptions)(0));
+            this.Vocalizations = TagBlock.Zero;
+            this.MissionDialogueDesignator = StringId.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.GlobalDialogueInfo = reader.Read<TagReference>();
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.Vocalizations = reader.ReadInt64();
+            this.vocalizationsList.Read(reader, this.Vocalizations);
+            this.MissionDialogueDesignator = reader.ReadInt32();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(24, 4)]
+        public sealed class SoundReferencesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class SoundReferencesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+            [FieldAttribute("vocalization^", typeof(StringId))]
             public StringId Vocalization;
-            [Abide.Guerilla.Tags.FieldAttribute("sound", typeof(TagReference))]
+            [FieldAttribute("sound", typeof(TagReference))]
             public TagReference Sound;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Vocalization = StringId.Zero;
+                this.Sound = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Vocalization = reader.ReadInt32();
+                this.Sound = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 NewVocalization = 1,
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             Female = 1,
         }

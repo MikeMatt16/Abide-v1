@@ -14,94 +14,179 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("shader_pass", 1936744819u, 4294967293u, typeof(ShaderPassBlock))]
-    public sealed class ShaderPassBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("shader_pass", 1936744819u, 4294967293u, typeof(ShaderPassBlock))]
+    public sealed class ShaderPassBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Parameters", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("parameter", 64, typeof(ShaderPassParameterBlock))]
+        private DataList documentationList = new DataList(65535);
+        private TagBlockList<ShaderPassParameterBlock> parametersList = new TagBlockList<ShaderPassParameterBlock>(64);
+        private TagBlockList<ShaderPassImplementationBlock> implementationsList = new TagBlockList<ShaderPassImplementationBlock>(32);
+        private TagBlockList<ShaderPassPostprocessDefinitionNewBlock> postprocessDefinitionList = new TagBlockList<ShaderPassPostprocessDefinitionNewBlock>(1);
+        [FieldAttribute("Documentation", typeof(TagBlock))]
+        [DataAttribute(65535)]
+        public TagBlock Documentation;
+        [FieldAttribute("Parameters", typeof(TagBlock))]
+        [BlockAttribute("parameter", 64, typeof(ShaderPassParameterBlock))]
         public TagBlock Parameters;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("Implementations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("implementation", 32, typeof(ShaderPassImplementationBlock))]
+        [FieldAttribute("Implementations", typeof(TagBlock))]
+        [BlockAttribute("implementation", 32, typeof(ShaderPassImplementationBlock))]
         public TagBlock Implementations;
-        [Abide.Guerilla.Tags.FieldAttribute("Postprocess Definition*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_definition_new_block", 1, typeof(ShaderPassPostprocessDefinitionNewBlock))]
+        [FieldAttribute("Postprocess Definition*", typeof(TagBlock))]
+        [BlockAttribute("shader_pass_postprocess_definition_new_block", 1, typeof(ShaderPassPostprocessDefinitionNewBlock))]
         public TagBlock PostprocessDefinition;
-        public int Size
+        public DataList DocumentationList
+        {
+            get
+            {
+                return this.documentationList;
+            }
+        }
+        public TagBlockList<ShaderPassParameterBlock> ParametersList
+        {
+            get
+            {
+                return this.parametersList;
+            }
+        }
+        public TagBlockList<ShaderPassImplementationBlock> ImplementationsList
+        {
+            get
+            {
+                return this.implementationsList;
+            }
+        }
+        public TagBlockList<ShaderPassPostprocessDefinitionNewBlock> PostprocessDefinitionList
+        {
+            get
+            {
+                return this.postprocessDefinitionList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.documentationList.Clear();
+            this.parametersList.Clear();
+            this.implementationsList.Clear();
+            this.postprocessDefinitionList.Clear();
+            this.Documentation = TagBlock.Zero;
+            this.Parameters = TagBlock.Zero;
+            this.EmptyString = new byte[2];
+            this.EmptyString1 = new byte[2];
+            this.Implementations = TagBlock.Zero;
+            this.PostprocessDefinition = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Documentation = reader.ReadInt64();
+            this.Parameters = reader.ReadInt64();
+            this.parametersList.Read(reader, this.Parameters);
+            this.EmptyString = reader.ReadBytes(2);
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.Implementations = reader.ReadInt64();
+            this.implementationsList.Read(reader, this.Implementations);
+            this.PostprocessDefinition = reader.ReadInt64();
+            this.postprocessDefinitionList.Read(reader, this.PostprocessDefinition);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(64, 4)]
+        public sealed class ShaderPassParameterBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class ShaderPassParameterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(StringId))]
+            private DataList explanationList = new DataList(65535);
+            [FieldAttribute("Name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int16 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("Flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("Default Bitmap", typeof(TagReference))]
+            [FieldAttribute("Explanation", typeof(TagBlock))]
+            [DataAttribute(65535)]
+            public TagBlock Explanation;
+            [FieldAttribute("Type", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("Flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("Default Bitmap", typeof(TagReference))]
             public TagReference DefaultBitmap;
-            [Abide.Guerilla.Tags.FieldAttribute("Default Const Value", typeof(Single))]
+            [FieldAttribute("Default Const Value", typeof(Single))]
             public Single DefaultConstValue;
-            [Abide.Guerilla.Tags.FieldAttribute("Default Const Color", typeof(ColorRgbF))]
+            [FieldAttribute("Default Const Color", typeof(ColorRgbF))]
             public ColorRgbF DefaultConstColor;
-            [Abide.Guerilla.Tags.FieldAttribute("Source Extern", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SourceExternOptions), false)]
-            public Int16 SourceExtern;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("Source Extern", typeof(SourceExternOptions))]
+            [OptionsAttribute(typeof(SourceExternOptions), false)]
+            public SourceExternOptions SourceExtern;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            public int Size
+            public DataList ExplanationList
+            {
+                get
+                {
+                    return this.explanationList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.explanationList.Clear();
+                this.Name = StringId.Zero;
+                this.Explanation = TagBlock.Zero;
+                this.Type = ((TypeOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.DefaultBitmap = TagReference.Null;
+                this.DefaultConstValue = 0;
+                this.DefaultConstColor = ColorRgbF.Zero;
+                this.SourceExtern = ((SourceExternOptions)(0));
+                this.EmptyString = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.Explanation = reader.ReadInt64();
+                this.Type = ((TypeOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.DefaultBitmap = reader.Read<TagReference>();
+                this.DefaultConstValue = reader.ReadSingle();
+                this.DefaultConstColor = reader.Read<ColorRgbF>();
+                this.SourceExtern = ((SourceExternOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TypeOptions
+            public enum TypeOptions : Int16
             {
                 Bitmap = 0,
                 Value = 1,
                 Color = 2,
                 Switch = 3,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 NoBitmapLod = 1,
                 RequiredParameter = 2,
             }
-            public enum SourceExternOptions
+            public enum SourceExternOptions : Int16
             {
                 None = 0,
                 Global = 1,
@@ -199,168 +284,404 @@ namespace Abide.Guerilla.Tags
                 ScreenEffect1 = 93,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(184, 4)]
-        public sealed class ShaderPassImplementationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(184, 4)]
+        public sealed class ShaderPassImplementationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            private DataList pixelShaderCodeNoLongerUsedList = new DataList(65535);
+            private TagBlockList<ShaderPassTextureBlock> texturesList = new TagBlockList<ShaderPassTextureBlock>(8);
+            private TagBlockList<ShaderPassVertexShaderConstantBlock> vsConstantsList = new TagBlockList<ShaderPassVertexShaderConstantBlock>(32);
+            private TagBlockList<ShaderStateChannelsStateBlock> channelStateList = new TagBlockList<ShaderStateChannelsStateBlock>(1);
+            private TagBlockList<ShaderStateAlphaBlendStateBlock> alphaBlendStateList = new TagBlockList<ShaderStateAlphaBlendStateBlock>(1);
+            private TagBlockList<ShaderStateAlphaTestStateBlock> alphaTestStateList = new TagBlockList<ShaderStateAlphaTestStateBlock>(1);
+            private TagBlockList<ShaderStateDepthStateBlock> depthStateList = new TagBlockList<ShaderStateDepthStateBlock>(1);
+            private TagBlockList<ShaderStateCullStateBlock> cullStateList = new TagBlockList<ShaderStateCullStateBlock>(1);
+            private TagBlockList<ShaderStateFillStateBlock> fillStateList = new TagBlockList<ShaderStateFillStateBlock>(1);
+            private TagBlockList<ShaderStateMiscStateBlock> miscStateList = new TagBlockList<ShaderStateMiscStateBlock>(1);
+            private TagBlockList<ShaderStateConstantBlock> constantsList = new TagBlockList<ShaderStateConstantBlock>(7);
+            [FieldAttribute("Flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Textures", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("texture stage", 8, typeof(ShaderPassTextureBlock))]
+            [FieldAttribute("Textures", typeof(TagBlock))]
+            [BlockAttribute("texture stage", 8, typeof(ShaderPassTextureBlock))]
             public TagBlock Textures;
-            [Abide.Guerilla.Tags.FieldAttribute("Vertex Shader", typeof(TagReference))]
-            public TagReference VertexShader1;
-            [Abide.Guerilla.Tags.FieldAttribute("vs Constants", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("vs constant", 32, typeof(ShaderPassVertexShaderConstantBlock))]
+            [FieldAttribute("Vertex Shader", typeof(TagReference))]
+            public TagReference VertexShader;
+            [FieldAttribute("vs Constants", typeof(TagBlock))]
+            [BlockAttribute("vs constant", 32, typeof(ShaderPassVertexShaderConstantBlock))]
             public TagBlock VsConstants;
-            [Abide.Guerilla.Tags.FieldAttribute("channels", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ChannelsOptions), false)]
-            public Int16 Channels;
-            [Abide.Guerilla.Tags.FieldAttribute("alpha-blend", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AlphaBlendOptions), false)]
-            public Int16 AlphaBlend;
-            [Abide.Guerilla.Tags.FieldAttribute("depth", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DepthOptions), false)]
-            public Int16 Depth;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("channel state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("channels", 1, typeof(ShaderStateChannelsStateBlock))]
+            [FieldAttribute("Pixel Shader Code [NO LONGER USED]", typeof(TagBlock))]
+            [DataAttribute(65535)]
+            public TagBlock PixelShaderCodeNoLongerUsed;
+            [FieldAttribute("channels", typeof(ChannelsOptions))]
+            [OptionsAttribute(typeof(ChannelsOptions), false)]
+            public ChannelsOptions Channels;
+            [FieldAttribute("alpha-blend", typeof(AlphaBlendOptions))]
+            [OptionsAttribute(typeof(AlphaBlendOptions), false)]
+            public AlphaBlendOptions AlphaBlend;
+            [FieldAttribute("depth", typeof(DepthOptions))]
+            [OptionsAttribute(typeof(DepthOptions), false)]
+            public DepthOptions Depth;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString1;
+            [FieldAttribute("channel state", typeof(TagBlock))]
+            [BlockAttribute("channels", 1, typeof(ShaderStateChannelsStateBlock))]
             public TagBlock ChannelState;
-            [Abide.Guerilla.Tags.FieldAttribute("alpha-blend state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("alpha-blend state", 1, typeof(ShaderStateAlphaBlendStateBlock))]
+            [FieldAttribute("alpha-blend state", typeof(TagBlock))]
+            [BlockAttribute("alpha-blend state", 1, typeof(ShaderStateAlphaBlendStateBlock))]
             public TagBlock AlphaBlendState;
-            [Abide.Guerilla.Tags.FieldAttribute("alpha-test state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("alpha-test state", 1, typeof(ShaderStateAlphaTestStateBlock))]
+            [FieldAttribute("alpha-test state", typeof(TagBlock))]
+            [BlockAttribute("alpha-test state", 1, typeof(ShaderStateAlphaTestStateBlock))]
             public TagBlock AlphaTestState;
-            [Abide.Guerilla.Tags.FieldAttribute("depth state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("depth state", 1, typeof(ShaderStateDepthStateBlock))]
+            [FieldAttribute("depth state", typeof(TagBlock))]
+            [BlockAttribute("depth state", 1, typeof(ShaderStateDepthStateBlock))]
             public TagBlock DepthState;
-            [Abide.Guerilla.Tags.FieldAttribute("cull state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("cull state", 1, typeof(ShaderStateCullStateBlock))]
+            [FieldAttribute("cull state", typeof(TagBlock))]
+            [BlockAttribute("cull state", 1, typeof(ShaderStateCullStateBlock))]
             public TagBlock CullState;
-            [Abide.Guerilla.Tags.FieldAttribute("fill state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("fill state", 1, typeof(ShaderStateFillStateBlock))]
+            [FieldAttribute("fill state", typeof(TagBlock))]
+            [BlockAttribute("fill state", 1, typeof(ShaderStateFillStateBlock))]
             public TagBlock FillState;
-            [Abide.Guerilla.Tags.FieldAttribute("misc state", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("misc state", 1, typeof(ShaderStateMiscStateBlock))]
+            [FieldAttribute("misc state", typeof(TagBlock))]
+            [BlockAttribute("misc state", 1, typeof(ShaderStateMiscStateBlock))]
             public TagBlock MiscState;
-            [Abide.Guerilla.Tags.FieldAttribute("constants", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("render state constant", 7, typeof(ShaderStateConstantBlock))]
+            [FieldAttribute("constants", typeof(TagBlock))]
+            [BlockAttribute("render state constant", 7, typeof(ShaderStateConstantBlock))]
             public TagBlock Constants;
-            [Abide.Guerilla.Tags.FieldAttribute("Pixel Shader", typeof(TagReference))]
+            [FieldAttribute("Pixel Shader", typeof(TagReference))]
             public TagReference PixelShader;
-            public int Size
+            public DataList PixelShaderCodeNoLongerUsedList
+            {
+                get
+                {
+                    return this.pixelShaderCodeNoLongerUsedList;
+                }
+            }
+            public TagBlockList<ShaderPassTextureBlock> TexturesList
+            {
+                get
+                {
+                    return this.texturesList;
+                }
+            }
+            public TagBlockList<ShaderPassVertexShaderConstantBlock> VsConstantsList
+            {
+                get
+                {
+                    return this.vsConstantsList;
+                }
+            }
+            public TagBlockList<ShaderStateChannelsStateBlock> ChannelStateList
+            {
+                get
+                {
+                    return this.channelStateList;
+                }
+            }
+            public TagBlockList<ShaderStateAlphaBlendStateBlock> AlphaBlendStateList
+            {
+                get
+                {
+                    return this.alphaBlendStateList;
+                }
+            }
+            public TagBlockList<ShaderStateAlphaTestStateBlock> AlphaTestStateList
+            {
+                get
+                {
+                    return this.alphaTestStateList;
+                }
+            }
+            public TagBlockList<ShaderStateDepthStateBlock> DepthStateList
+            {
+                get
+                {
+                    return this.depthStateList;
+                }
+            }
+            public TagBlockList<ShaderStateCullStateBlock> CullStateList
+            {
+                get
+                {
+                    return this.cullStateList;
+                }
+            }
+            public TagBlockList<ShaderStateFillStateBlock> FillStateList
+            {
+                get
+                {
+                    return this.fillStateList;
+                }
+            }
+            public TagBlockList<ShaderStateMiscStateBlock> MiscStateList
+            {
+                get
+                {
+                    return this.miscStateList;
+                }
+            }
+            public TagBlockList<ShaderStateConstantBlock> ConstantsList
+            {
+                get
+                {
+                    return this.constantsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 184;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.pixelShaderCodeNoLongerUsedList.Clear();
+                this.texturesList.Clear();
+                this.vsConstantsList.Clear();
+                this.channelStateList.Clear();
+                this.alphaBlendStateList.Clear();
+                this.alphaTestStateList.Clear();
+                this.depthStateList.Clear();
+                this.cullStateList.Clear();
+                this.fillStateList.Clear();
+                this.miscStateList.Clear();
+                this.constantsList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Textures = TagBlock.Zero;
+                this.VertexShader = TagReference.Null;
+                this.VsConstants = TagBlock.Zero;
+                this.PixelShaderCodeNoLongerUsed = TagBlock.Zero;
+                this.Channels = ((ChannelsOptions)(0));
+                this.AlphaBlend = ((AlphaBlendOptions)(0));
+                this.Depth = ((DepthOptions)(0));
+                this.EmptyString1 = new byte[2];
+                this.ChannelState = TagBlock.Zero;
+                this.AlphaBlendState = TagBlock.Zero;
+                this.AlphaTestState = TagBlock.Zero;
+                this.DepthState = TagBlock.Zero;
+                this.CullState = TagBlock.Zero;
+                this.FillState = TagBlock.Zero;
+                this.MiscState = TagBlock.Zero;
+                this.Constants = TagBlock.Zero;
+                this.PixelShader = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Textures = reader.ReadInt64();
+                this.texturesList.Read(reader, this.Textures);
+                this.VertexShader = reader.Read<TagReference>();
+                this.VsConstants = reader.ReadInt64();
+                this.vsConstantsList.Read(reader, this.VsConstants);
+                this.PixelShaderCodeNoLongerUsed = reader.ReadInt64();
+                this.Channels = ((ChannelsOptions)(reader.ReadInt16()));
+                this.AlphaBlend = ((AlphaBlendOptions)(reader.ReadInt16()));
+                this.Depth = ((DepthOptions)(reader.ReadInt16()));
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.ChannelState = reader.ReadInt64();
+                this.channelStateList.Read(reader, this.ChannelState);
+                this.AlphaBlendState = reader.ReadInt64();
+                this.alphaBlendStateList.Read(reader, this.AlphaBlendState);
+                this.AlphaTestState = reader.ReadInt64();
+                this.alphaTestStateList.Read(reader, this.AlphaTestState);
+                this.DepthState = reader.ReadInt64();
+                this.depthStateList.Read(reader, this.DepthState);
+                this.CullState = reader.ReadInt64();
+                this.cullStateList.Read(reader, this.CullState);
+                this.FillState = reader.ReadInt64();
+                this.fillStateList.Read(reader, this.FillState);
+                this.MiscState = reader.ReadInt64();
+                this.miscStateList.Read(reader, this.MiscState);
+                this.Constants = reader.ReadInt64();
+                this.constantsList.Read(reader, this.Constants);
+                this.PixelShader = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(80, 4)]
+            public sealed class ShaderPassTextureBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(80, 4)]
-            public sealed class ShaderPassTextureBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("Source Parameter", typeof(StringId))]
+                private TagBlockList<ShaderTextureStateAddressStateBlock> addressStateList = new TagBlockList<ShaderTextureStateAddressStateBlock>(1);
+                private TagBlockList<ShaderTextureStateFilterStateBlock> filterStateList = new TagBlockList<ShaderTextureStateFilterStateBlock>(1);
+                private TagBlockList<ShaderTextureStateKillStateBlock> killStateList = new TagBlockList<ShaderTextureStateKillStateBlock>(1);
+                private TagBlockList<ShaderTextureStateMiscStateBlock> miscStateList = new TagBlockList<ShaderTextureStateMiscStateBlock>(1);
+                private TagBlockList<ShaderTextureStateConstantBlock> constantsList = new TagBlockList<ShaderTextureStateConstantBlock>(10);
+                [FieldAttribute("Source Parameter", typeof(StringId))]
                 public StringId SourceParameter;
-                [Abide.Guerilla.Tags.FieldAttribute("Source Extern", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SourceExternOptions), false)]
-                public Int16 SourceExtern;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("Source Extern", typeof(SourceExternOptions))]
+                [OptionsAttribute(typeof(SourceExternOptions), false)]
+                public SourceExternOptions SourceExtern;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("Mode", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ModeOptions), false)]
-                public Int16 Mode;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("Mode", typeof(ModeOptions))]
+                [OptionsAttribute(typeof(ModeOptions), false)]
+                public ModeOptions Mode;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("Dot Mapping", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(DotMappingOptions), false)]
-                public Int16 DotMapping;
-                [Abide.Guerilla.Tags.FieldAttribute("Input Stage:[0,3]", typeof(Int16))]
+                [FieldAttribute("Dot Mapping", typeof(DotMappingOptions))]
+                [OptionsAttribute(typeof(DotMappingOptions), false)]
+                public DotMappingOptions DotMapping;
+                [FieldAttribute("Input Stage:[0,3]", typeof(Int16))]
                 public Int16 InputStage;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("address state", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("address state", 1, typeof(ShaderTextureStateAddressStateBlock))]
+                [FieldAttribute("address state", typeof(TagBlock))]
+                [BlockAttribute("address state", 1, typeof(ShaderTextureStateAddressStateBlock))]
                 public TagBlock AddressState;
-                [Abide.Guerilla.Tags.FieldAttribute("filter state", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("filter state", 1, typeof(ShaderTextureStateFilterStateBlock))]
+                [FieldAttribute("filter state", typeof(TagBlock))]
+                [BlockAttribute("filter state", 1, typeof(ShaderTextureStateFilterStateBlock))]
                 public TagBlock FilterState;
-                [Abide.Guerilla.Tags.FieldAttribute("kill state", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("kill state", 1, typeof(ShaderTextureStateKillStateBlock))]
+                [FieldAttribute("kill state", typeof(TagBlock))]
+                [BlockAttribute("kill state", 1, typeof(ShaderTextureStateKillStateBlock))]
                 public TagBlock KillState;
-                [Abide.Guerilla.Tags.FieldAttribute("misc state", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("misc state", 1, typeof(ShaderTextureStateMiscStateBlock))]
+                [FieldAttribute("misc state", typeof(TagBlock))]
+                [BlockAttribute("misc state", 1, typeof(ShaderTextureStateMiscStateBlock))]
                 public TagBlock MiscState;
-                [Abide.Guerilla.Tags.FieldAttribute("constants", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("texture constant", 10, typeof(ShaderTextureStateConstantBlock))]
+                [FieldAttribute("constants", typeof(TagBlock))]
+                [BlockAttribute("texture constant", 10, typeof(ShaderTextureStateConstantBlock))]
                 public TagBlock Constants;
-                public int Size
+                public TagBlockList<ShaderTextureStateAddressStateBlock> AddressStateList
+                {
+                    get
+                    {
+                        return this.addressStateList;
+                    }
+                }
+                public TagBlockList<ShaderTextureStateFilterStateBlock> FilterStateList
+                {
+                    get
+                    {
+                        return this.filterStateList;
+                    }
+                }
+                public TagBlockList<ShaderTextureStateKillStateBlock> KillStateList
+                {
+                    get
+                    {
+                        return this.killStateList;
+                    }
+                }
+                public TagBlockList<ShaderTextureStateMiscStateBlock> MiscStateList
+                {
+                    get
+                    {
+                        return this.miscStateList;
+                    }
+                }
+                public TagBlockList<ShaderTextureStateConstantBlock> ConstantsList
+                {
+                    get
+                    {
+                        return this.constantsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 80;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.addressStateList.Clear();
+                    this.filterStateList.Clear();
+                    this.killStateList.Clear();
+                    this.miscStateList.Clear();
+                    this.constantsList.Clear();
+                    this.SourceParameter = StringId.Zero;
+                    this.SourceExtern = ((SourceExternOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.EmptyString1 = new byte[2];
+                    this.Mode = ((ModeOptions)(0));
+                    this.EmptyString2 = new byte[2];
+                    this.DotMapping = ((DotMappingOptions)(0));
+                    this.InputStage = 0;
+                    this.EmptyString3 = new byte[2];
+                    this.AddressState = TagBlock.Zero;
+                    this.FilterState = TagBlock.Zero;
+                    this.KillState = TagBlock.Zero;
+                    this.MiscState = TagBlock.Zero;
+                    this.Constants = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SourceParameter = reader.ReadInt32();
+                    this.SourceExtern = ((SourceExternOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.Mode = ((ModeOptions)(reader.ReadInt16()));
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DotMapping = ((DotMappingOptions)(reader.ReadInt16()));
+                    this.InputStage = reader.ReadInt16();
+                    this.EmptyString3 = reader.ReadBytes(2);
+                    this.AddressState = reader.ReadInt64();
+                    this.addressStateList.Read(reader, this.AddressState);
+                    this.FilterState = reader.ReadInt64();
+                    this.filterStateList.Read(reader, this.FilterState);
+                    this.KillState = reader.ReadInt64();
+                    this.killStateList.Read(reader, this.KillState);
+                    this.MiscState = reader.ReadInt64();
+                    this.miscStateList.Read(reader, this.MiscState);
+                    this.Constants = reader.ReadInt64();
+                    this.constantsList.Read(reader, this.Constants);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(8, 4)]
+                public sealed class ShaderTextureStateAddressStateBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-                public sealed class ShaderTextureStateAddressStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("U address mode", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(UAddressModeOptions), false)]
-                    public Int16 UAddressMode;
-                    [Abide.Guerilla.Tags.FieldAttribute("V address mode", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(VAddressModeOptions), false)]
-                    public Int16 VAddressMode;
-                    [Abide.Guerilla.Tags.FieldAttribute("W address mode", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(WAddressModeOptions), false)]
-                    public Int16 WAddressMode;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("U address mode", typeof(UAddressModeOptions))]
+                    [OptionsAttribute(typeof(UAddressModeOptions), false)]
+                    public UAddressModeOptions UAddressMode;
+                    [FieldAttribute("V address mode", typeof(VAddressModeOptions))]
+                    [OptionsAttribute(typeof(VAddressModeOptions), false)]
+                    public VAddressModeOptions VAddressMode;
+                    [FieldAttribute("W address mode", typeof(WAddressModeOptions))]
+                    [OptionsAttribute(typeof(WAddressModeOptions), false)]
+                    public WAddressModeOptions WAddressMode;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 8;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.UAddressMode = ((UAddressModeOptions)(0));
+                        this.VAddressMode = ((VAddressModeOptions)(0));
+                        this.WAddressMode = ((WAddressModeOptions)(0));
+                        this.EmptyString = new byte[2];
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.UAddressMode = ((UAddressModeOptions)(reader.ReadInt16()));
+                        this.VAddressMode = ((VAddressModeOptions)(reader.ReadInt16()));
+                        this.WAddressMode = ((WAddressModeOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum UAddressModeOptions
+                    public enum UAddressModeOptions : Int16
                     {
                         Wrap = 0,
                         Mirror = 1,
@@ -368,7 +689,7 @@ namespace Abide.Guerilla.Tags
                         Border = 3,
                         ClampToEdge = 4,
                     }
-                    public enum VAddressModeOptions
+                    public enum VAddressModeOptions : Int16
                     {
                         Wrap = 0,
                         Mirror = 1,
@@ -376,7 +697,7 @@ namespace Abide.Guerilla.Tags
                         Border = 3,
                         ClampToEdge = 4,
                     }
-                    public enum WAddressModeOptions
+                    public enum WAddressModeOptions : Int16
                     {
                         Wrap = 0,
                         Mirror = 1,
@@ -385,63 +706,59 @@ namespace Abide.Guerilla.Tags
                         ClampToEdge = 4,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                public sealed class ShaderTextureStateFilterStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(16, 4)]
+                public sealed class ShaderTextureStateFilterStateBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("mag filter", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(MagFilterOptions), false)]
-                    public Int16 MagFilter;
-                    [Abide.Guerilla.Tags.FieldAttribute("min filter", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(MinFilterOptions), false)]
-                    public Int16 MinFilter;
-                    [Abide.Guerilla.Tags.FieldAttribute("mip filter", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(MipFilterOptions), false)]
-                    public Int16 MipFilter;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("mag filter", typeof(MagFilterOptions))]
+                    [OptionsAttribute(typeof(MagFilterOptions), false)]
+                    public MagFilterOptions MagFilter;
+                    [FieldAttribute("min filter", typeof(MinFilterOptions))]
+                    [OptionsAttribute(typeof(MinFilterOptions), false)]
+                    public MinFilterOptions MinFilter;
+                    [FieldAttribute("mip filter", typeof(MipFilterOptions))]
+                    [OptionsAttribute(typeof(MipFilterOptions), false)]
+                    public MipFilterOptions MipFilter;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("mipmap bias", typeof(Single))]
+                    [FieldAttribute("mipmap bias", typeof(Single))]
                     public Single MipmapBias;
-                    [Abide.Guerilla.Tags.FieldAttribute("max mipmap index#0 means all mipmap levels are used", typeof(Int16))]
+                    [FieldAttribute("max mipmap index#0 means all mipmap levels are used", typeof(Int16))]
                     public Int16 MaxMipmapIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("anisotropy", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnisotropyOptions), false)]
-                    public Int16 Anisotropy;
-                    public int Size
+                    [FieldAttribute("anisotropy", typeof(AnisotropyOptions))]
+                    [OptionsAttribute(typeof(AnisotropyOptions), false)]
+                    public AnisotropyOptions Anisotropy;
+                    public override int Size
                     {
                         get
                         {
                             return 16;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.MagFilter = ((MagFilterOptions)(0));
+                        this.MinFilter = ((MinFilterOptions)(0));
+                        this.MipFilter = ((MipFilterOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.MipmapBias = 0;
+                        this.MaxMipmapIndex = 0;
+                        this.Anisotropy = ((AnisotropyOptions)(0));
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.MagFilter = ((MagFilterOptions)(reader.ReadInt16()));
+                        this.MinFilter = ((MinFilterOptions)(reader.ReadInt16()));
+                        this.MipFilter = ((MipFilterOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.MipmapBias = reader.ReadSingle();
+                        this.MaxMipmapIndex = reader.ReadInt16();
+                        this.Anisotropy = ((AnisotropyOptions)(reader.ReadInt16()));
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum MagFilterOptions
-                    {
-                        None = 0,
-                        PointSampled = 1,
-                        Linear = 2,
-                        Anisotropic = 3,
-                        Quincunx = 4,
-                        GaussianCubic = 5,
-                    }
-                    public enum MinFilterOptions
-                    {
-                        None = 0,
-                        PointSampled = 1,
-                        Linear = 2,
-                        Anisotropic = 3,
-                        Quincunx = 4,
-                        GaussianCubic = 5,
-                    }
-                    public enum MipFilterOptions
+                    public enum MagFilterOptions : Int16
                     {
                         None = 0,
                         PointSampled = 1,
@@ -450,7 +767,25 @@ namespace Abide.Guerilla.Tags
                         Quincunx = 4,
                         GaussianCubic = 5,
                     }
-                    public enum AnisotropyOptions
+                    public enum MinFilterOptions : Int16
+                    {
+                        None = 0,
+                        PointSampled = 1,
+                        Linear = 2,
+                        Anisotropic = 3,
+                        Quincunx = 4,
+                        GaussianCubic = 5,
+                    }
+                    public enum MipFilterOptions : Int16
+                    {
+                        None = 0,
+                        PointSampled = 1,
+                        Linear = 2,
+                        Anisotropic = 3,
+                        Quincunx = 4,
+                        GaussianCubic = 5,
+                    }
+                    public enum AnisotropyOptions : Int16
                     {
                         NonAnisotropic = 0,
                         _2Tap = 1,
@@ -458,44 +793,54 @@ namespace Abide.Guerilla.Tags
                         _4Tap = 3,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                public sealed class ShaderTextureStateKillStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(12, 4)]
+                public sealed class ShaderTextureStateKillStateBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Int16 Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("colorkey mode", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ColorkeyModeOptions), false)]
-                    public Int16 ColorkeyMode;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("colorkey mode", typeof(ColorkeyModeOptions))]
+                    [OptionsAttribute(typeof(ColorkeyModeOptions), false)]
+                    public ColorkeyModeOptions ColorkeyMode;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString1;
-                    [Abide.Guerilla.Tags.FieldAttribute("colorkey color", typeof(ColorRgb))]
+                    [FieldAttribute("colorkey color", typeof(ColorRgb))]
                     public ColorRgb ColorkeyColor;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 12;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.Flags = ((FlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.ColorkeyMode = ((ColorkeyModeOptions)(0));
+                        this.EmptyString1 = new byte[2];
+                        this.ColorkeyColor = ColorRgb.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.ColorkeyMode = ((ColorkeyModeOptions)(reader.ReadInt16()));
+                        this.EmptyString1 = reader.ReadBytes(2);
+                        this.ColorkeyColor = reader.Read<ColorRgb>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Int16
                     {
                         AlphaKill = 1,
                     }
-                    public enum ColorkeyModeOptions
+                    public enum ColorkeyModeOptions : Int16
                     {
                         Disabled = 0,
                         ZeroAlpha = 1,
@@ -503,34 +848,40 @@ namespace Abide.Guerilla.Tags
                         Kill = 3,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-                public sealed class ShaderTextureStateMiscStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(8, 4)]
+                public sealed class ShaderTextureStateMiscStateBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("component sign flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ComponentSignFlagsOptions), true)]
-                    public Int16 ComponentSignFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("component sign flags", typeof(ComponentSignFlagsOptions))]
+                    [OptionsAttribute(typeof(ComponentSignFlagsOptions), true)]
+                    public ComponentSignFlagsOptions ComponentSignFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("border color", typeof(ColorArgb))]
+                    [FieldAttribute("border color", typeof(ColorArgb))]
                     public ColorArgb BorderColor;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 8;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.ComponentSignFlags = ((ComponentSignFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.BorderColor = ColorArgb.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.ComponentSignFlags = ((ComponentSignFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.BorderColor = reader.Read<ColorArgb>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum ComponentSignFlagsOptions
+                    public enum ComponentSignFlagsOptions : Int16
                     {
                         RSigned = 1,
                         GSigned = 2,
@@ -538,34 +889,40 @@ namespace Abide.Guerilla.Tags
                         ASigned = 8,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-                public sealed class ShaderTextureStateConstantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(8, 4)]
+                public sealed class ShaderTextureStateConstantBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("source parameter", typeof(StringId))]
+                    [FieldAttribute("source parameter", typeof(StringId))]
                     public StringId SourceParameter;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("constant^", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ConstantOptions), false)]
-                    public Int16 Constant;
-                    public int Size
+                    [FieldAttribute("constant^", typeof(ConstantOptions))]
+                    [OptionsAttribute(typeof(ConstantOptions), false)]
+                    public ConstantOptions Constant;
+                    public override int Size
                     {
                         get
                         {
                             return 8;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SourceParameter = StringId.Zero;
+                        this.EmptyString = new byte[2];
+                        this.Constant = ((ConstantOptions)(0));
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SourceParameter = reader.ReadInt32();
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.Constant = ((ConstantOptions)(reader.ReadInt16()));
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum ConstantOptions
+                    public enum ConstantOptions : Int16
                     {
                         MipmapBiasValue = 0,
                         ColorkeyColor = 1,
@@ -579,7 +936,7 @@ namespace Abide.Guerilla.Tags
                         BumpenvLumOffsetValue = 9,
                     }
                 }
-                public enum SourceExternOptions
+                public enum SourceExternOptions : Int16
                 {
                     None = 0,
                     Global = 1,
@@ -610,7 +967,7 @@ namespace Abide.Guerilla.Tags
                     Shader = 26,
                     FirstPerson = 27,
                 }
-                public enum ModeOptions
+                public enum ModeOptions : Int16
                 {
                     _2d = 0,
                     _3d = 1,
@@ -632,7 +989,7 @@ namespace Abide.Guerilla.Tags
                     DotReflectSpecularConst = 17,
                     None = 18,
                 }
-                public enum DotMappingOptions
+                public enum DotMappingOptions : Int16
                 {
                     _0To1 = 0,
                     SignedD3d = 1,
@@ -644,39 +1001,49 @@ namespace Abide.Guerilla.Tags
                     Hilo3 = 7,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class ShaderPassVertexShaderConstantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(12, 4)]
+            public sealed class ShaderPassVertexShaderConstantBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("Source Parameter", typeof(StringId))]
+                [FieldAttribute("Source Parameter", typeof(StringId))]
                 public StringId SourceParameter;
-                [Abide.Guerilla.Tags.FieldAttribute("Scale by Texture Stage", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ScaleByTextureStageOptions), false)]
-                public Int16 ScaleByTextureStage;
-                [Abide.Guerilla.Tags.FieldAttribute("Register Bank", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RegisterBankOptions), false)]
-                public Int16 RegisterBank;
-                [Abide.Guerilla.Tags.FieldAttribute("Register Index", typeof(Int16))]
+                [FieldAttribute("Scale by Texture Stage", typeof(ScaleByTextureStageOptions))]
+                [OptionsAttribute(typeof(ScaleByTextureStageOptions), false)]
+                public ScaleByTextureStageOptions ScaleByTextureStage;
+                [FieldAttribute("Register Bank", typeof(RegisterBankOptions))]
+                [OptionsAttribute(typeof(RegisterBankOptions), false)]
+                public RegisterBankOptions RegisterBank;
+                [FieldAttribute("Register Index", typeof(Int16))]
                 public Int16 RegisterIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("Component Mask", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ComponentMaskOptions), false)]
-                public Int16 ComponentMask;
-                public int Size
+                [FieldAttribute("Component Mask", typeof(ComponentMaskOptions))]
+                [OptionsAttribute(typeof(ComponentMaskOptions), false)]
+                public ComponentMaskOptions ComponentMask;
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.SourceParameter = StringId.Zero;
+                    this.ScaleByTextureStage = ((ScaleByTextureStageOptions)(0));
+                    this.RegisterBank = ((RegisterBankOptions)(0));
+                    this.RegisterIndex = 0;
+                    this.ComponentMask = ((ComponentMaskOptions)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SourceParameter = reader.ReadInt32();
+                    this.ScaleByTextureStage = ((ScaleByTextureStageOptions)(reader.ReadInt16()));
+                    this.RegisterBank = ((RegisterBankOptions)(reader.ReadInt16()));
+                    this.RegisterIndex = reader.ReadInt16();
+                    this.ComponentMask = ((ComponentMaskOptions)(reader.ReadInt16()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum ScaleByTextureStageOptions
+                public enum ScaleByTextureStageOptions : Int16
                 {
                     None = 0,
                     Stage0 = 1,
@@ -684,12 +1051,12 @@ namespace Abide.Guerilla.Tags
                     Stage2 = 3,
                     Stage3 = 4,
                 }
-                public enum RegisterBankOptions
+                public enum RegisterBankOptions : Int16
                 {
                     Vn015 = 0,
                     Cn012 = 1,
                 }
-                public enum ComponentMaskOptions
+                public enum ComponentMaskOptions : Int16
                 {
                     XValue = 0,
                     YValue = 1,
@@ -714,32 +1081,36 @@ namespace Abide.Guerilla.Tags
                     XyzwRow33dAffineXform = 20,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ShaderStateChannelsStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ShaderStateChannelsStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     R = 1,
                     G = 2,
@@ -747,46 +1118,60 @@ namespace Abide.Guerilla.Tags
                     A = 8,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class ShaderStateAlphaBlendStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class ShaderStateAlphaBlendStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("blend function", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(BlendFunctionOptions), false)]
-                public Int16 BlendFunction;
-                [Abide.Guerilla.Tags.FieldAttribute("blend src factor", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(BlendSrcFactorOptions), false)]
-                public Int16 BlendSrcFactor;
-                [Abide.Guerilla.Tags.FieldAttribute("blend dst factor", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(BlendDstFactorOptions), false)]
-                public Int16 BlendDstFactor;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("blend function", typeof(BlendFunctionOptions))]
+                [OptionsAttribute(typeof(BlendFunctionOptions), false)]
+                public BlendFunctionOptions BlendFunction;
+                [FieldAttribute("blend src factor", typeof(BlendSrcFactorOptions))]
+                [OptionsAttribute(typeof(BlendSrcFactorOptions), false)]
+                public BlendSrcFactorOptions BlendSrcFactor;
+                [FieldAttribute("blend dst factor", typeof(BlendDstFactorOptions))]
+                [OptionsAttribute(typeof(BlendDstFactorOptions), false)]
+                public BlendDstFactorOptions BlendDstFactor;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("blend color", typeof(ColorArgb))]
+                [FieldAttribute("blend color", typeof(ColorArgb))]
                 public ColorArgb BlendColor;
-                [Abide.Guerilla.Tags.FieldAttribute("logic-op flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(LogicOpFlagsOptions), true)]
-                public Int16 LogicOpFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("logic-op flags", typeof(LogicOpFlagsOptions))]
+                [OptionsAttribute(typeof(LogicOpFlagsOptions), true)]
+                public LogicOpFlagsOptions LogicOpFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.BlendFunction = ((BlendFunctionOptions)(0));
+                    this.BlendSrcFactor = ((BlendSrcFactorOptions)(0));
+                    this.BlendDstFactor = ((BlendDstFactorOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.BlendColor = ColorArgb.Zero;
+                    this.LogicOpFlags = ((LogicOpFlagsOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.BlendFunction = ((BlendFunctionOptions)(reader.ReadInt16()));
+                    this.BlendSrcFactor = ((BlendSrcFactorOptions)(reader.ReadInt16()));
+                    this.BlendDstFactor = ((BlendDstFactorOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.BlendColor = reader.Read<ColorArgb>();
+                    this.LogicOpFlags = ((LogicOpFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum BlendFunctionOptions
+                public enum BlendFunctionOptions : Int16
                 {
                     Add = 0,
                     Subtract = 1,
@@ -797,7 +1182,7 @@ namespace Abide.Guerilla.Tags
                     ReverseSubtractSigned = 6,
                     LogicOp = 7,
                 }
-                public enum BlendSrcFactorOptions
+                public enum BlendSrcFactorOptions : Int16
                 {
                     Zero = 0,
                     One = 1,
@@ -815,7 +1200,7 @@ namespace Abide.Guerilla.Tags
                     ConstantAlpha = 13,
                     ConstantAlphaInverse = 14,
                 }
-                public enum BlendDstFactorOptions
+                public enum BlendDstFactorOptions : Int16
                 {
                     Zero = 0,
                     One = 1,
@@ -833,7 +1218,7 @@ namespace Abide.Guerilla.Tags
                     ConstantAlpha = 13,
                     ConstantAlphaInverse = 14,
                 }
-                public enum LogicOpFlagsOptions
+                public enum LogicOpFlagsOptions : Int16
                 {
                     SrcEquals0DstEquals0 = 1,
                     SrcEquals0DstEquals1 = 2,
@@ -841,43 +1226,51 @@ namespace Abide.Guerilla.Tags
                     SrcEquals1DstEquals1 = 8,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class ShaderStateAlphaTestStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(8, 4)]
+            public sealed class ShaderStateAlphaTestStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha compare function", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AlphaCompareFunctionOptions), false)]
-                public Int16 AlphaCompareFunction;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha-test ref:[0,255]", typeof(Int16))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("alpha compare function", typeof(AlphaCompareFunctionOptions))]
+                [OptionsAttribute(typeof(AlphaCompareFunctionOptions), false)]
+                public AlphaCompareFunctionOptions AlphaCompareFunction;
+                [FieldAttribute("alpha-test ref:[0,255]", typeof(Int16))]
                 public Int16 AlphaTestRef;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.AlphaCompareFunction = ((AlphaCompareFunctionOptions)(0));
+                    this.AlphaTestRef = 0;
+                    this.EmptyString = new byte[2];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.AlphaCompareFunction = ((AlphaCompareFunctionOptions)(reader.ReadInt16()));
+                    this.AlphaTestRef = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     AlphaTestEnabled = 1,
                     SampleAlphaToCoverage = 2,
                     SampleAlphaToOne = 4,
                 }
-                public enum AlphaCompareFunctionOptions
+                public enum AlphaCompareFunctionOptions : Int16
                 {
                     Never = 0,
                     Less = 1,
@@ -889,47 +1282,59 @@ namespace Abide.Guerilla.Tags
                     Always = 7,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class ShaderStateDepthStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class ShaderStateDepthStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("mode", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ModeOptions), false)]
-                public Int16 Mode;
-                [Abide.Guerilla.Tags.FieldAttribute("depth compare function", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(DepthCompareFunctionOptions), false)]
-                public Int16 DepthCompareFunction;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("mode", typeof(ModeOptions))]
+                [OptionsAttribute(typeof(ModeOptions), false)]
+                public ModeOptions Mode;
+                [FieldAttribute("depth compare function", typeof(DepthCompareFunctionOptions))]
+                [OptionsAttribute(typeof(DepthCompareFunctionOptions), false)]
+                public DepthCompareFunctionOptions DepthCompareFunction;
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("depth bias slope scale", typeof(Single))]
+                [FieldAttribute("depth bias slope scale", typeof(Single))]
                 public Single DepthBiasSlopeScale;
-                [Abide.Guerilla.Tags.FieldAttribute("depth bias", typeof(Single))]
+                [FieldAttribute("depth bias", typeof(Single))]
                 public Single DepthBias;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Mode = ((ModeOptions)(0));
+                    this.DepthCompareFunction = ((DepthCompareFunctionOptions)(0));
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.DepthBiasSlopeScale = 0;
+                    this.DepthBias = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Mode = ((ModeOptions)(reader.ReadInt16()));
+                    this.DepthCompareFunction = ((DepthCompareFunctionOptions)(reader.ReadInt16()));
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.DepthBiasSlopeScale = reader.ReadSingle();
+                    this.DepthBias = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum ModeOptions
+                public enum ModeOptions : Int16
                 {
                     UseZ = 0,
                     UseW = 1,
                 }
-                public enum DepthCompareFunctionOptions
+                public enum DepthCompareFunctionOptions : Int16
                 {
                     Never = 0,
                     Less = 1,
@@ -940,7 +1345,7 @@ namespace Abide.Guerilla.Tags
                     GreaterOrEqual = 6,
                     Always = 7,
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     DepthWrite = 1,
                     OffsetPoints = 2,
@@ -951,156 +1356,182 @@ namespace Abide.Guerilla.Tags
                     ClipControlIgnoreWSign = 64,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ShaderStateCullStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ShaderStateCullStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("mode", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ModeOptions), false)]
-                public Int16 Mode;
-                [Abide.Guerilla.Tags.FieldAttribute("front face", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FrontFaceOptions), false)]
-                public Int16 FrontFace;
-                public int Size
+                [FieldAttribute("mode", typeof(ModeOptions))]
+                [OptionsAttribute(typeof(ModeOptions), false)]
+                public ModeOptions Mode;
+                [FieldAttribute("front face", typeof(FrontFaceOptions))]
+                [OptionsAttribute(typeof(FrontFaceOptions), false)]
+                public FrontFaceOptions FrontFace;
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Mode = ((ModeOptions)(0));
+                    this.FrontFace = ((FrontFaceOptions)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Mode = ((ModeOptions)(reader.ReadInt16()));
+                    this.FrontFace = ((FrontFaceOptions)(reader.ReadInt16()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum ModeOptions
+                public enum ModeOptions : Int16
                 {
                     None = 0,
                     Cw = 1,
                     Ccw = 2,
                 }
-                public enum FrontFaceOptions
+                public enum FrontFaceOptions : Int16
                 {
                     Cw = 0,
                     Ccw = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class ShaderStateFillStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(12, 4)]
+            public sealed class ShaderStateFillStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("fill mode", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FillModeOptions), false)]
-                public Int16 FillMode;
-                [Abide.Guerilla.Tags.FieldAttribute("back fill mode", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(BackFillModeOptions), false)]
-                public Int16 BackFillMode;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("fill mode", typeof(FillModeOptions))]
+                [OptionsAttribute(typeof(FillModeOptions), false)]
+                public FillModeOptions FillMode;
+                [FieldAttribute("back fill mode", typeof(BackFillModeOptions))]
+                [OptionsAttribute(typeof(BackFillModeOptions), false)]
+                public BackFillModeOptions BackFillMode;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("line width", typeof(Single))]
+                [FieldAttribute("line width", typeof(Single))]
                 public Single LineWidth;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.FillMode = ((FillModeOptions)(0));
+                    this.BackFillMode = ((BackFillModeOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.LineWidth = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.FillMode = ((FillModeOptions)(reader.ReadInt16()));
+                    this.BackFillMode = ((BackFillModeOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.LineWidth = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     FlatShading = 1,
                     EdgeAntialiasing = 2,
                 }
-                public enum FillModeOptions
+                public enum FillModeOptions : Int16
                 {
                     Solid = 0,
                     Wireframe = 1,
                     Points = 2,
                 }
-                public enum BackFillModeOptions
+                public enum BackFillModeOptions : Int16
                 {
                     Solid = 0,
                     Wireframe = 1,
                     Points = 2,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class ShaderStateMiscStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(8, 4)]
+            public sealed class ShaderStateMiscStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("fog color", typeof(ColorRgb))]
+                [FieldAttribute("fog color", typeof(ColorRgb))]
                 public ColorRgb FogColor;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.FogColor = ColorRgb.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.FogColor = reader.Read<ColorRgb>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     YuvToRgb = 1,
                     _16BitDither = 2,
                     _32BitDxt1Noise = 4,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class ShaderStateConstantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(8, 4)]
+            public sealed class ShaderStateConstantBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("source parameter", typeof(StringId))]
+                [FieldAttribute("source parameter", typeof(StringId))]
                 public StringId SourceParameter;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("constant^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ConstantOptions), false)]
-                public Int16 Constant;
-                public int Size
+                [FieldAttribute("constant^", typeof(ConstantOptions))]
+                [OptionsAttribute(typeof(ConstantOptions), false)]
+                public ConstantOptions Constant;
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.SourceParameter = StringId.Zero;
+                    this.EmptyString = new byte[2];
+                    this.Constant = ((ConstantOptions)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SourceParameter = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Constant = ((ConstantOptions)(reader.ReadInt16()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum ConstantOptions
+                public enum ConstantOptions : Int16
                 {
                     ConstantBlendColor = 0,
                     ConstantBlendAlphaValue = 1,
@@ -1111,19 +1542,19 @@ namespace Abide.Guerilla.Tags
                     FogColor = 6,
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 DeleteFromCacheFile = 1,
                 Critical = 2,
             }
-            public enum ChannelsOptions
+            public enum ChannelsOptions : Int16
             {
                 All = 0,
                 ColorOnly = 1,
                 AlphaOnly = 2,
                 Custom = 3,
             }
-            public enum AlphaBlendOptions
+            public enum AlphaBlendOptions : Int16
             {
                 Disabled = 0,
                 Add = 1,
@@ -1134,7 +1565,7 @@ namespace Abide.Guerilla.Tags
                 AlphaBlend = 6,
                 Custom = 7,
             }
-            public enum DepthOptions
+            public enum DepthOptions : Int16
             {
                 Disabled = 0,
                 DefaultOpaque = 1,
@@ -1143,840 +1574,1342 @@ namespace Abide.Guerilla.Tags
                 Custom = 4,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(132, 4)]
-        public sealed class ShaderPassPostprocessDefinitionNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(132, 4)]
+        public sealed class ShaderPassPostprocessDefinitionNewBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("implementations", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_implementation_new_block", 1024, typeof(ShaderPassPostprocessImplementationNewBlock))]
+            private TagBlockList<ShaderPassPostprocessImplementationNewBlock> implementationsList = new TagBlockList<ShaderPassPostprocessImplementationNewBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessTextureNewBlock> texturesList = new TagBlockList<ShaderPassPostprocessTextureNewBlock>(1024);
+            private TagBlockList<RenderStateBlock> renderStatesList = new TagBlockList<RenderStateBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessTextureStateBlock> textureStatesList = new TagBlockList<ShaderPassPostprocessTextureStateBlock>(1024);
+            private TagBlockList<PixelShaderFragmentBlock> psFragmentsList = new TagBlockList<PixelShaderFragmentBlock>(1024);
+            private TagBlockList<PixelShaderPermutationNewBlock> psPermutationsList = new TagBlockList<PixelShaderPermutationNewBlock>(1024);
+            private TagBlockList<PixelShaderCombinerBlock> psCombinersList = new TagBlockList<PixelShaderCombinerBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessExternNewBlock> externsList = new TagBlockList<ShaderPassPostprocessExternNewBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessConstantNewBlock> constantsList = new TagBlockList<ShaderPassPostprocessConstantNewBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessConstantInfoNewBlock> constantInfoList = new TagBlockList<ShaderPassPostprocessConstantInfoNewBlock>(1024);
+            private TagBlockList<ShaderPassPostprocessImplementationBlock> oldImplementationsList = new TagBlockList<ShaderPassPostprocessImplementationBlock>(1024);
+            [FieldAttribute("implementations", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_implementation_new_block", 1024, typeof(ShaderPassPostprocessImplementationNewBlock))]
             public TagBlock Implementations;
-            [Abide.Guerilla.Tags.FieldAttribute("textures", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_texture_new_block", 1024, typeof(ShaderPassPostprocessTextureNewBlock))]
+            [FieldAttribute("textures", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_texture_new_block", 1024, typeof(ShaderPassPostprocessTextureNewBlock))]
             public TagBlock Textures;
-            [Abide.Guerilla.Tags.FieldAttribute("render states", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("render_state_block", 1024, typeof(RenderStateBlock))]
+            [FieldAttribute("render states", typeof(TagBlock))]
+            [BlockAttribute("render_state_block", 1024, typeof(RenderStateBlock))]
             public TagBlock RenderStates;
-            [Abide.Guerilla.Tags.FieldAttribute("texture states", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_texture_state_block", 1024, typeof(ShaderPassPostprocessTextureStateBlock))]
+            [FieldAttribute("texture states", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_texture_state_block", 1024, typeof(ShaderPassPostprocessTextureStateBlock))]
             public TagBlock TextureStates;
-            [Abide.Guerilla.Tags.FieldAttribute("ps fragments", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_fragment_block", 1024, typeof(PixelShaderFragmentBlock))]
+            [FieldAttribute("ps fragments", typeof(TagBlock))]
+            [BlockAttribute("pixel_shader_fragment_block", 1024, typeof(PixelShaderFragmentBlock))]
             public TagBlock PsFragments;
-            [Abide.Guerilla.Tags.FieldAttribute("ps permutations", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_permutation_new_block", 1024, typeof(PixelShaderPermutationNewBlock))]
+            [FieldAttribute("ps permutations", typeof(TagBlock))]
+            [BlockAttribute("pixel_shader_permutation_new_block", 1024, typeof(PixelShaderPermutationNewBlock))]
             public TagBlock PsPermutations;
-            [Abide.Guerilla.Tags.FieldAttribute("ps combiners", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_combiner_block", 1024, typeof(PixelShaderCombinerBlock))]
+            [FieldAttribute("ps combiners", typeof(TagBlock))]
+            [BlockAttribute("pixel_shader_combiner_block", 1024, typeof(PixelShaderCombinerBlock))]
             public TagBlock PsCombiners;
-            [Abide.Guerilla.Tags.FieldAttribute("externs", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_extern_new_block", 1024, typeof(ShaderPassPostprocessExternNewBlock))]
+            [FieldAttribute("externs", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_extern_new_block", 1024, typeof(ShaderPassPostprocessExternNewBlock))]
             public TagBlock Externs;
-            [Abide.Guerilla.Tags.FieldAttribute("constants", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_constant_new_block", 1024, typeof(ShaderPassPostprocessConstantNewBlock))]
+            [FieldAttribute("constants", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_constant_new_block", 1024, typeof(ShaderPassPostprocessConstantNewBlock))]
             public TagBlock Constants;
-            [Abide.Guerilla.Tags.FieldAttribute("constant info", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_constant_info_new_block", 1024, typeof(ShaderPassPostprocessConstantInfoNewBlock))]
+            [FieldAttribute("constant info", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_constant_info_new_block", 1024, typeof(ShaderPassPostprocessConstantInfoNewBlock))]
             public TagBlock ConstantInfo;
-            [Abide.Guerilla.Tags.FieldAttribute("old implementations", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shader_pass_postprocess_implementation_block", 1024, typeof(ShaderPassPostprocessImplementationBlock))]
+            [FieldAttribute("old implementations", typeof(TagBlock))]
+            [BlockAttribute("shader_pass_postprocess_implementation_block", 1024, typeof(ShaderPassPostprocessImplementationBlock))]
             public TagBlock OldImplementations;
-            public int Size
+            public TagBlockList<ShaderPassPostprocessImplementationNewBlock> ImplementationsList
+            {
+                get
+                {
+                    return this.implementationsList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessTextureNewBlock> TexturesList
+            {
+                get
+                {
+                    return this.texturesList;
+                }
+            }
+            public TagBlockList<RenderStateBlock> RenderStatesList
+            {
+                get
+                {
+                    return this.renderStatesList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessTextureStateBlock> TextureStatesList
+            {
+                get
+                {
+                    return this.textureStatesList;
+                }
+            }
+            public TagBlockList<PixelShaderFragmentBlock> PsFragmentsList
+            {
+                get
+                {
+                    return this.psFragmentsList;
+                }
+            }
+            public TagBlockList<PixelShaderPermutationNewBlock> PsPermutationsList
+            {
+                get
+                {
+                    return this.psPermutationsList;
+                }
+            }
+            public TagBlockList<PixelShaderCombinerBlock> PsCombinersList
+            {
+                get
+                {
+                    return this.psCombinersList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessExternNewBlock> ExternsList
+            {
+                get
+                {
+                    return this.externsList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessConstantNewBlock> ConstantsList
+            {
+                get
+                {
+                    return this.constantsList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessConstantInfoNewBlock> ConstantInfoList
+            {
+                get
+                {
+                    return this.constantInfoList;
+                }
+            }
+            public TagBlockList<ShaderPassPostprocessImplementationBlock> OldImplementationsList
+            {
+                get
+                {
+                    return this.oldImplementationsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 132;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.implementationsList.Clear();
+                this.texturesList.Clear();
+                this.renderStatesList.Clear();
+                this.textureStatesList.Clear();
+                this.psFragmentsList.Clear();
+                this.psPermutationsList.Clear();
+                this.psCombinersList.Clear();
+                this.externsList.Clear();
+                this.constantsList.Clear();
+                this.constantInfoList.Clear();
+                this.oldImplementationsList.Clear();
+                this.Implementations = TagBlock.Zero;
+                this.Textures = TagBlock.Zero;
+                this.RenderStates = TagBlock.Zero;
+                this.TextureStates = TagBlock.Zero;
+                this.PsFragments = TagBlock.Zero;
+                this.PsPermutations = TagBlock.Zero;
+                this.PsCombiners = TagBlock.Zero;
+                this.Externs = TagBlock.Zero;
+                this.Constants = TagBlock.Zero;
+                this.ConstantInfo = TagBlock.Zero;
+                this.OldImplementations = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Implementations = reader.ReadInt64();
+                this.implementationsList.Read(reader, this.Implementations);
+                this.Textures = reader.ReadInt64();
+                this.texturesList.Read(reader, this.Textures);
+                this.RenderStates = reader.ReadInt64();
+                this.renderStatesList.Read(reader, this.RenderStates);
+                this.TextureStates = reader.ReadInt64();
+                this.textureStatesList.Read(reader, this.TextureStates);
+                this.PsFragments = reader.ReadInt64();
+                this.psFragmentsList.Read(reader, this.PsFragments);
+                this.PsPermutations = reader.ReadInt64();
+                this.psPermutationsList.Read(reader, this.PsPermutations);
+                this.PsCombiners = reader.ReadInt64();
+                this.psCombinersList.Read(reader, this.PsCombiners);
+                this.Externs = reader.ReadInt64();
+                this.externsList.Read(reader, this.Externs);
+                this.Constants = reader.ReadInt64();
+                this.constantsList.Read(reader, this.Constants);
+                this.ConstantInfo = reader.ReadInt64();
+                this.constantInfoList.Read(reader, this.ConstantInfo);
+                this.OldImplementations = reader.ReadInt64();
+                this.oldImplementationsList.Read(reader, this.OldImplementations);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(350, 4)]
+            public sealed class ShaderPassPostprocessImplementationNewBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(350, 4)]
-            public sealed class ShaderPassPostprocessImplementationNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("textures", typeof(TagBlockIndexStructBlock))]
+                private TagBlockList<ShaderPostprocessPixelShader> pixelShaderList = new TagBlockList<ShaderPostprocessPixelShader>(100);
+                private TagBlockList<PixelShaderExternMapBlock> pixelShaderSwitchExternMapList = new TagBlockList<PixelShaderExternMapBlock>(6);
+                private TagBlockList<PixelShaderIndexBlock> pixelShaderIndexBlockList = new TagBlockList<PixelShaderIndexBlock>(100);
+                [FieldAttribute("textures", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock Textures;
-                [Abide.Guerilla.Tags.FieldAttribute("render states", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("render states", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock RenderStates;
-                [Abide.Guerilla.Tags.FieldAttribute("texture states", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("texture states", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock TextureStates;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(240)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(240)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("ps fragments", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("ps fragments", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PsFragments;
-                [Abide.Guerilla.Tags.FieldAttribute("ps permutations", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("ps permutations", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PsPermutations;
-                [Abide.Guerilla.Tags.FieldAttribute("ps combiners", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("ps combiners", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PsCombiners;
-                [Abide.Guerilla.Tags.FieldAttribute("vertex shader", typeof(TagReference))]
+                [FieldAttribute("vertex shader", typeof(TagReference))]
                 public TagReference VertexShader;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(8)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(8)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(8)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(8)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("default render states", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("default render states", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock DefaultRenderStates;
-                [Abide.Guerilla.Tags.FieldAttribute("render state externs", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("render state externs", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock RenderStateExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("texture state externs", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("texture state externs", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock TextureStateExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel constant externs", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("pixel constant externs", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PixelConstantExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("vertex constant externs", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("vertex constant externs", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock VertexConstantExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("ps constants", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("ps constants", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PsConstants;
-                [Abide.Guerilla.Tags.FieldAttribute("vs constants", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("vs constants", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock VsConstants;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel constant info", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("pixel constant info", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PixelConstantInfo;
-                [Abide.Guerilla.Tags.FieldAttribute("vertex constant info", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("vertex constant info", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock VertexConstantInfo;
-                [Abide.Guerilla.Tags.FieldAttribute("render state info", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("render state info", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock RenderStateInfo;
-                [Abide.Guerilla.Tags.FieldAttribute("texture state info", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("texture state info", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock TextureStateInfo;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("shader_postprocess_pixel_shader", 100, typeof(ShaderPostprocessPixelShader))]
+                [FieldAttribute("pixel shader", typeof(TagBlock))]
+                [BlockAttribute("shader_postprocess_pixel_shader", 100, typeof(ShaderPostprocessPixelShader))]
                 public TagBlock PixelShader;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader switch extern map", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_extern_map_block", 6, typeof(PixelShaderExternMapBlock))]
+                [FieldAttribute("pixel shader switch extern map", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_extern_map_block", 6, typeof(PixelShaderExternMapBlock))]
                 public TagBlock PixelShaderSwitchExternMap;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader index block", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_index_block", 100, typeof(PixelShaderIndexBlock))]
+                [FieldAttribute("pixel shader index block", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_index_block", 100, typeof(PixelShaderIndexBlock))]
                 public TagBlock PixelShaderIndexBlock1;
-                public int Size
+                public TagBlockList<ShaderPostprocessPixelShader> PixelShaderList
+                {
+                    get
+                    {
+                        return this.pixelShaderList;
+                    }
+                }
+                public TagBlockList<PixelShaderExternMapBlock> PixelShaderSwitchExternMapList
+                {
+                    get
+                    {
+                        return this.pixelShaderSwitchExternMapList;
+                    }
+                }
+                public TagBlockList<PixelShaderIndexBlock> PixelShaderIndexBlockList
+                {
+                    get
+                    {
+                        return this.pixelShaderIndexBlockList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 350;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.pixelShaderList.Clear();
+                    this.pixelShaderSwitchExternMapList.Clear();
+                    this.pixelShaderIndexBlockList.Clear();
+                    this.Textures = new TagBlockIndexStructBlock();
+                    this.RenderStates = new TagBlockIndexStructBlock();
+                    this.TextureStates = new TagBlockIndexStructBlock();
+                    this.EmptyString = new byte[240];
+                    this.PsFragments = new TagBlockIndexStructBlock();
+                    this.PsPermutations = new TagBlockIndexStructBlock();
+                    this.PsCombiners = new TagBlockIndexStructBlock();
+                    this.VertexShader = TagReference.Null;
+                    this.EmptyString1 = new byte[8];
+                    this.EmptyString2 = new byte[8];
+                    this.EmptyString3 = new byte[4];
+                    this.EmptyString4 = new byte[4];
+                    this.DefaultRenderStates = new TagBlockIndexStructBlock();
+                    this.RenderStateExterns = new TagBlockIndexStructBlock();
+                    this.TextureStateExterns = new TagBlockIndexStructBlock();
+                    this.PixelConstantExterns = new TagBlockIndexStructBlock();
+                    this.VertexConstantExterns = new TagBlockIndexStructBlock();
+                    this.PsConstants = new TagBlockIndexStructBlock();
+                    this.VsConstants = new TagBlockIndexStructBlock();
+                    this.PixelConstantInfo = new TagBlockIndexStructBlock();
+                    this.VertexConstantInfo = new TagBlockIndexStructBlock();
+                    this.RenderStateInfo = new TagBlockIndexStructBlock();
+                    this.TextureStateInfo = new TagBlockIndexStructBlock();
+                    this.PixelShader = TagBlock.Zero;
+                    this.PixelShaderSwitchExternMap = TagBlock.Zero;
+                    this.PixelShaderIndexBlock1 = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Textures = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.RenderStates = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.TextureStates = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.EmptyString = reader.ReadBytes(240);
+                    this.PsFragments = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PsPermutations = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PsCombiners = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.VertexShader = reader.Read<TagReference>();
+                    this.EmptyString1 = reader.ReadBytes(8);
+                    this.EmptyString2 = reader.ReadBytes(8);
+                    this.EmptyString3 = reader.ReadBytes(4);
+                    this.EmptyString4 = reader.ReadBytes(4);
+                    this.DefaultRenderStates = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.RenderStateExterns = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.TextureStateExterns = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PixelConstantExterns = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.VertexConstantExterns = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PsConstants = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.VsConstants = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PixelConstantInfo = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.VertexConstantInfo = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.RenderStateInfo = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.TextureStateInfo = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    this.PixelShader = reader.ReadInt64();
+                    this.pixelShaderList.Read(reader, this.PixelShader);
+                    this.PixelShaderSwitchExternMap = reader.ReadInt64();
+                    this.pixelShaderSwitchExternMapList.Read(reader, this.PixelShaderSwitchExternMap);
+                    this.PixelShaderIndexBlock1 = reader.ReadInt64();
+                    this.pixelShaderIndexBlockList.Read(reader, this.PixelShaderIndexBlock1);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(84, 4)]
+                public sealed class ShaderPostprocessPixelShader : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(84, 4)]
-                public sealed class ShaderPostprocessPixelShader : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
+                    private DataList compiledShaderList = new DataList(32768);
+                    private DataList compiledShaderList1 = new DataList(32768);
+                    private DataList compiledShaderList2 = new DataList(32768);
+                    private TagBlockList<ShaderPostprocessPixelShaderConstantDefaults> constantRegisterDefaultsList = new TagBlockList<ShaderPostprocessPixelShaderConstantDefaults>(32);
+                    [FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
                     public Int32 PixelShaderHandleRuntime;
-                    [Abide.Guerilla.Tags.FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
+                    [FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
                     public Int32 PixelShaderHandleRuntime1;
-                    [Abide.Guerilla.Tags.FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
+                    [FieldAttribute("pixel shader handle (runtime)", typeof(Int32))]
                     public Int32 PixelShaderHandleRuntime2;
-                    [Abide.Guerilla.Tags.FieldAttribute("constant register defaults", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("shader_postprocess_pixel_shader_constant_defaults", 32, typeof(ShaderPostprocessPixelShaderConstantDefaults))]
+                    [FieldAttribute("constant register defaults", typeof(TagBlock))]
+                    [BlockAttribute("shader_postprocess_pixel_shader_constant_defaults", 32, typeof(ShaderPostprocessPixelShaderConstantDefaults))]
                     public TagBlock ConstantRegisterDefaults;
-                    public int Size
+                    [FieldAttribute("compiled shader", typeof(TagBlock))]
+                    [DataAttribute(32768)]
+                    public TagBlock CompiledShader;
+                    [FieldAttribute("compiled shader", typeof(TagBlock))]
+                    [DataAttribute(32768)]
+                    public TagBlock CompiledShader1;
+                    [FieldAttribute("compiled shader", typeof(TagBlock))]
+                    [DataAttribute(32768)]
+                    public TagBlock CompiledShader2;
+                    public DataList CompiledShaderList
+                    {
+                        get
+                        {
+                            return this.compiledShaderList;
+                        }
+                    }
+                    public DataList CompiledShaderList1
+                    {
+                        get
+                        {
+                            return this.compiledShaderList1;
+                        }
+                    }
+                    public DataList CompiledShaderList2
+                    {
+                        get
+                        {
+                            return this.compiledShaderList2;
+                        }
+                    }
+                    public TagBlockList<ShaderPostprocessPixelShaderConstantDefaults> ConstantRegisterDefaultsList
+                    {
+                        get
+                        {
+                            return this.constantRegisterDefaultsList;
+                        }
+                    }
+                    public override int Size
                     {
                         get
                         {
                             return 84;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.compiledShaderList.Clear();
+                        this.compiledShaderList1.Clear();
+                        this.compiledShaderList2.Clear();
+                        this.constantRegisterDefaultsList.Clear();
+                        this.PixelShaderHandleRuntime = 0;
+                        this.PixelShaderHandleRuntime1 = 0;
+                        this.PixelShaderHandleRuntime2 = 0;
+                        this.ConstantRegisterDefaults = TagBlock.Zero;
+                        this.CompiledShader = TagBlock.Zero;
+                        this.CompiledShader1 = TagBlock.Zero;
+                        this.CompiledShader2 = TagBlock.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.PixelShaderHandleRuntime = reader.ReadInt32();
+                        this.PixelShaderHandleRuntime1 = reader.ReadInt32();
+                        this.PixelShaderHandleRuntime2 = reader.ReadInt32();
+                        this.ConstantRegisterDefaults = reader.ReadInt64();
+                        this.constantRegisterDefaultsList.Read(reader, this.ConstantRegisterDefaults);
+                        this.CompiledShader = reader.ReadInt64();
+                        this.CompiledShader1 = reader.ReadInt64();
+                        this.CompiledShader2 = reader.ReadInt64();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(4, 4)]
+                    public sealed class ShaderPostprocessPixelShaderConstantDefaults : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                    public sealed class ShaderPostprocessPixelShaderConstantDefaults : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("defaults", typeof(Int32))]
+                        [FieldAttribute("defaults", typeof(Int32))]
                         public Int32 Defaults;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 4;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.Defaults = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.Defaults = reader.ReadInt32();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                public sealed class PixelShaderExternMapBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(2, 4)]
+                public sealed class PixelShaderExternMapBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("switch parameter", typeof(Byte))]
+                    [FieldAttribute("switch parameter", typeof(Byte))]
                     public Byte SwitchParameter;
-                    [Abide.Guerilla.Tags.FieldAttribute("case scalar", typeof(Byte))]
+                    [FieldAttribute("case scalar", typeof(Byte))]
                     public Byte CaseScalar;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 2;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.SwitchParameter = 0;
+                        this.CaseScalar = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.SwitchParameter = reader.ReadByte();
+                        this.CaseScalar = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                public sealed class PixelShaderIndexBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(1, 4)]
+                public sealed class PixelShaderIndexBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("pixel shader index", typeof(Byte))]
+                    [FieldAttribute("pixel shader index", typeof(Byte))]
                     public Byte PixelShaderIndex;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 1;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.PixelShaderIndex = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.PixelShaderIndex = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(2, 4)]
+                public sealed class TagBlockIndexStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                    [FieldAttribute("block index data", typeof(Int16))]
                     public Int16 BlockIndexData;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 2;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.BlockIndexData = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.BlockIndexData = reader.ReadInt16();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ShaderPassPostprocessTextureNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ShaderPassPostprocessTextureNewBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("bitmap parameter index", typeof(Byte))]
+                [FieldAttribute("bitmap parameter index", typeof(Byte))]
                 public Byte BitmapParameterIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("bitmap extern index", typeof(Byte))]
+                [FieldAttribute("bitmap extern index", typeof(Byte))]
                 public Byte BitmapExternIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("texture stage index", typeof(Byte))]
+                [FieldAttribute("texture stage index", typeof(Byte))]
                 public Byte TextureStageIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Byte))]
+                [FieldAttribute("flags", typeof(Byte))]
                 public Byte Flags;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.BitmapParameterIndex = 0;
+                    this.BitmapExternIndex = 0;
+                    this.TextureStageIndex = 0;
+                    this.Flags = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.BitmapParameterIndex = reader.ReadByte();
+                    this.BitmapExternIndex = reader.ReadByte();
+                    this.TextureStageIndex = reader.ReadByte();
+                    this.Flags = reader.ReadByte();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(5, 4)]
-            public sealed class RenderStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(5, 4)]
+            public sealed class RenderStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("state index", typeof(Byte))]
+                [FieldAttribute("state index", typeof(Byte))]
                 public Byte StateIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("state value", typeof(Int32))]
+                [FieldAttribute("state value", typeof(Int32))]
                 public Int32 StateValue;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 5;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.StateIndex = 0;
+                    this.StateValue = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.StateIndex = reader.ReadByte();
+                    this.StateValue = reader.ReadInt32();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class ShaderPassPostprocessTextureStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(24, 4)]
+            public sealed class ShaderPassPostprocessTextureStateBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(24)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(24)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[24];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(24);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(3, 4)]
-            public sealed class PixelShaderFragmentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(3, 4)]
+            public sealed class PixelShaderFragmentBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("switch parameter index", typeof(Byte))]
+                [FieldAttribute("switch parameter index", typeof(Byte))]
                 public Byte SwitchParameterIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("permutations index", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("permutations index", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock PermutationsIndex;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 3;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.SwitchParameterIndex = 0;
+                    this.PermutationsIndex = new TagBlockIndexStructBlock();
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SwitchParameterIndex = reader.ReadByte();
+                    this.PermutationsIndex = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(2, 4)]
+                public sealed class TagBlockIndexStructBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                    [FieldAttribute("block index data", typeof(Int16))]
                     public Int16 BlockIndexData;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 2;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.BlockIndexData = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.BlockIndexData = reader.ReadInt16();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(6, 4)]
-            public sealed class PixelShaderPermutationNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(6, 4)]
+            public sealed class PixelShaderPermutationNewBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("enum index", typeof(Int16))]
+                [FieldAttribute("enum index", typeof(Int16))]
                 public Int16 EnumIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
+                [FieldAttribute("flags", typeof(Int16))]
                 public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("combiners", typeof(TagBlockIndexStructBlock))]
+                [FieldAttribute("combiners", typeof(TagBlockIndexStructBlock))]
                 public TagBlockIndexStructBlock Combiners;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 6;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.EnumIndex = 0;
+                    this.Flags = 0;
+                    this.Combiners = new TagBlockIndexStructBlock();
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.EnumIndex = reader.ReadInt16();
+                    this.Flags = reader.ReadInt16();
+                    this.Combiners = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(2, 4)]
+                public sealed class TagBlockIndexStructBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                    [FieldAttribute("block index data", typeof(Int16))]
                     public Int16 BlockIndexData;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 2;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.BlockIndexData = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.BlockIndexData = reader.ReadInt16();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-            public sealed class PixelShaderCombinerBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(32, 4)]
+            public sealed class PixelShaderCombinerBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("constant color0", typeof(ColorArgb))]
+                [FieldAttribute("constant color0", typeof(ColorArgb))]
                 public ColorArgb ConstantColor0;
-                [Abide.Guerilla.Tags.FieldAttribute("constant color1", typeof(ColorArgb))]
+                [FieldAttribute("constant color1", typeof(ColorArgb))]
                 public ColorArgb ConstantColor1;
-                [Abide.Guerilla.Tags.FieldAttribute("color A register ptr index", typeof(Byte))]
+                [FieldAttribute("color A register ptr index", typeof(Byte))]
                 public Byte ColorARegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("color B register ptr index", typeof(Byte))]
+                [FieldAttribute("color B register ptr index", typeof(Byte))]
                 public Byte ColorBRegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("color C register ptr index", typeof(Byte))]
+                [FieldAttribute("color C register ptr index", typeof(Byte))]
                 public Byte ColorCRegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("color D register ptr index", typeof(Byte))]
+                [FieldAttribute("color D register ptr index", typeof(Byte))]
                 public Byte ColorDRegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha A register ptr index", typeof(Byte))]
+                [FieldAttribute("alpha A register ptr index", typeof(Byte))]
                 public Byte AlphaARegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha B register ptr index", typeof(Byte))]
+                [FieldAttribute("alpha B register ptr index", typeof(Byte))]
                 public Byte AlphaBRegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha C register ptr index", typeof(Byte))]
+                [FieldAttribute("alpha C register ptr index", typeof(Byte))]
                 public Byte AlphaCRegisterPtrIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha D register ptr index", typeof(Byte))]
+                [FieldAttribute("alpha D register ptr index", typeof(Byte))]
                 public Byte AlphaDRegisterPtrIndex;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 32;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[16];
+                    this.ConstantColor0 = ColorArgb.Zero;
+                    this.ConstantColor1 = ColorArgb.Zero;
+                    this.ColorARegisterPtrIndex = 0;
+                    this.ColorBRegisterPtrIndex = 0;
+                    this.ColorCRegisterPtrIndex = 0;
+                    this.ColorDRegisterPtrIndex = 0;
+                    this.AlphaARegisterPtrIndex = 0;
+                    this.AlphaBRegisterPtrIndex = 0;
+                    this.AlphaCRegisterPtrIndex = 0;
+                    this.AlphaDRegisterPtrIndex = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(16);
+                    this.ConstantColor0 = reader.Read<ColorArgb>();
+                    this.ConstantColor1 = reader.Read<ColorArgb>();
+                    this.ColorARegisterPtrIndex = reader.ReadByte();
+                    this.ColorBRegisterPtrIndex = reader.ReadByte();
+                    this.ColorCRegisterPtrIndex = reader.ReadByte();
+                    this.ColorDRegisterPtrIndex = reader.ReadByte();
+                    this.AlphaARegisterPtrIndex = reader.ReadByte();
+                    this.AlphaBRegisterPtrIndex = reader.ReadByte();
+                    this.AlphaCRegisterPtrIndex = reader.ReadByte();
+                    this.AlphaDRegisterPtrIndex = reader.ReadByte();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ShaderPassPostprocessExternNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ShaderPassPostprocessExternNewBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(3)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(3)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("extern index", typeof(Byte))]
+                [FieldAttribute("extern index", typeof(Byte))]
                 public Byte ExternIndex;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[3];
+                    this.ExternIndex = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(3);
+                    this.ExternIndex = reader.ReadByte();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(7, 4)]
-            public sealed class ShaderPassPostprocessConstantNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(7, 4)]
+            public sealed class ShaderPassPostprocessConstantNewBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("parameter name", typeof(StringId))]
+                [FieldAttribute("parameter name", typeof(StringId))]
                 public StringId ParameterName;
-                [Abide.Guerilla.Tags.FieldAttribute("component mask", typeof(Byte))]
+                [FieldAttribute("component mask", typeof(Byte))]
                 public Byte ComponentMask;
-                [Abide.Guerilla.Tags.FieldAttribute("scale by texture stage", typeof(Byte))]
+                [FieldAttribute("scale by texture stage", typeof(Byte))]
                 public Byte ScaleByTextureStage;
-                [Abide.Guerilla.Tags.FieldAttribute("function index", typeof(Byte))]
+                [FieldAttribute("function index", typeof(Byte))]
                 public Byte FunctionIndex;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 7;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.ParameterName = StringId.Zero;
+                    this.ComponentMask = 0;
+                    this.ScaleByTextureStage = 0;
+                    this.FunctionIndex = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.ParameterName = reader.ReadInt32();
+                    this.ComponentMask = reader.ReadByte();
+                    this.ScaleByTextureStage = reader.ReadByte();
+                    this.FunctionIndex = reader.ReadByte();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(7, 4)]
-            public sealed class ShaderPassPostprocessConstantInfoNewBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(7, 4)]
+            public sealed class ShaderPassPostprocessConstantInfoNewBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("parameter name", typeof(StringId))]
+                [FieldAttribute("parameter name", typeof(StringId))]
                 public StringId ParameterName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(3)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(3)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 7;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.ParameterName = StringId.Zero;
+                    this.EmptyString = new byte[3];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.ParameterName = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(3);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(502, 4)]
-            public sealed class ShaderPassPostprocessImplementationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(502, 4)]
+            public sealed class ShaderPassPostprocessImplementationBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("GPU State", typeof(ShaderGpuStateStructBlock))]
+                private TagBlockList<ExternReferenceBlock> valueExternsList = new TagBlockList<ExternReferenceBlock>(1024);
+                private TagBlockList<PixelShaderFragmentBlock> pixelShaderFragmentsList = new TagBlockList<PixelShaderFragmentBlock>(1024);
+                private TagBlockList<PixelShaderPermutationBlock> pixelShaderPermutationsList = new TagBlockList<PixelShaderPermutationBlock>(1024);
+                private TagBlockList<PixelShaderCombinerBlock> pixelShaderCombinersList = new TagBlockList<PixelShaderCombinerBlock>(1024);
+                private TagBlockList<PixelShaderConstantBlock> pixelShaderConstantsList = new TagBlockList<PixelShaderConstantBlock>(1024);
+                [FieldAttribute("GPU State", typeof(ShaderGpuStateStructBlock))]
                 public ShaderGpuStateStructBlock GpuState;
-                [Abide.Guerilla.Tags.FieldAttribute("GPU Constant State", typeof(ShaderGpuStateReferenceStructBlock))]
+                [FieldAttribute("GPU Constant State", typeof(ShaderGpuStateReferenceStructBlock))]
                 public ShaderGpuStateReferenceStructBlock GpuConstantState;
-                [Abide.Guerilla.Tags.FieldAttribute("GPU Volatile State", typeof(ShaderGpuStateReferenceStructBlock))]
+                [FieldAttribute("GPU Volatile State", typeof(ShaderGpuStateReferenceStructBlock))]
                 public ShaderGpuStateReferenceStructBlock GpuVolatileState;
-                [Abide.Guerilla.Tags.FieldAttribute("GPU default state", typeof(ShaderGpuStateReferenceStructBlock))]
+                [FieldAttribute("GPU default state", typeof(ShaderGpuStateReferenceStructBlock))]
                 public ShaderGpuStateReferenceStructBlock GpuDefaultState;
-                [Abide.Guerilla.Tags.FieldAttribute("vertex shader", typeof(TagReference))]
+                [FieldAttribute("vertex shader", typeof(TagReference))]
                 public TagReference VertexShader;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(8)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(8)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(8)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(8)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("value externs", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
+                [FieldAttribute("value externs", typeof(TagBlock))]
+                [BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
                 public TagBlock ValueExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("color externs", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
+                [FieldAttribute("color externs", typeof(TagBlock))]
+                [BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
                 public TagBlock ColorExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("switch externs", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
+                [FieldAttribute("switch externs", typeof(TagBlock))]
+                [BlockAttribute("extern_reference_block", 1024, typeof(ExternReferenceBlock))]
                 public TagBlock SwitchExterns;
-                [Abide.Guerilla.Tags.FieldAttribute("bitmap parameter count", typeof(Int16))]
+                [FieldAttribute("bitmap parameter count", typeof(Int16))]
                 public Int16 BitmapParameterCount;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(240)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(240)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader fragments", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_fragment_block", 1024, typeof(PixelShaderFragmentBlock))]
+                [FieldAttribute("pixel shader fragments", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_fragment_block", 1024, typeof(PixelShaderFragmentBlock))]
                 public TagBlock PixelShaderFragments;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_permutation_block", 1024, typeof(PixelShaderPermutationBlock))]
+                [FieldAttribute("pixel shader permutations", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_permutation_block", 1024, typeof(PixelShaderPermutationBlock))]
                 public TagBlock PixelShaderPermutations;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader combiners", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_combiner_block", 1024, typeof(PixelShaderCombinerBlock))]
+                [FieldAttribute("pixel shader combiners", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_combiner_block", 1024, typeof(PixelShaderCombinerBlock))]
                 public TagBlock PixelShaderCombiners;
-                [Abide.Guerilla.Tags.FieldAttribute("pixel shader constants", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("pixel_shader_constant_block", 1024, typeof(PixelShaderConstantBlock))]
+                [FieldAttribute("pixel shader constants", typeof(TagBlock))]
+                [BlockAttribute("pixel_shader_constant_block", 1024, typeof(PixelShaderConstantBlock))]
                 public TagBlock PixelShaderConstants;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString7;
-                public int Size
+                public TagBlockList<ExternReferenceBlock> ValueExternsList
+                {
+                    get
+                    {
+                        return this.valueExternsList;
+                    }
+                }
+                public TagBlockList<PixelShaderFragmentBlock> PixelShaderFragmentsList
+                {
+                    get
+                    {
+                        return this.pixelShaderFragmentsList;
+                    }
+                }
+                public TagBlockList<PixelShaderPermutationBlock> PixelShaderPermutationsList
+                {
+                    get
+                    {
+                        return this.pixelShaderPermutationsList;
+                    }
+                }
+                public TagBlockList<PixelShaderCombinerBlock> PixelShaderCombinersList
+                {
+                    get
+                    {
+                        return this.pixelShaderCombinersList;
+                    }
+                }
+                public TagBlockList<PixelShaderConstantBlock> PixelShaderConstantsList
+                {
+                    get
+                    {
+                        return this.pixelShaderConstantsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 502;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.valueExternsList.Clear();
+                    this.pixelShaderFragmentsList.Clear();
+                    this.pixelShaderPermutationsList.Clear();
+                    this.pixelShaderCombinersList.Clear();
+                    this.pixelShaderConstantsList.Clear();
+                    this.GpuState = new ShaderGpuStateStructBlock();
+                    this.GpuConstantState = new ShaderGpuStateReferenceStructBlock();
+                    this.GpuVolatileState = new ShaderGpuStateReferenceStructBlock();
+                    this.GpuDefaultState = new ShaderGpuStateReferenceStructBlock();
+                    this.VertexShader = TagReference.Null;
+                    this.EmptyString = new byte[8];
+                    this.EmptyString1 = new byte[8];
+                    this.EmptyString2 = new byte[4];
+                    this.EmptyString3 = new byte[4];
+                    this.ValueExterns = TagBlock.Zero;
+                    this.ColorExterns = TagBlock.Zero;
+                    this.SwitchExterns = TagBlock.Zero;
+                    this.BitmapParameterCount = 0;
+                    this.EmptyString4 = new byte[2];
+                    this.EmptyString5 = new byte[240];
+                    this.PixelShaderFragments = TagBlock.Zero;
+                    this.PixelShaderPermutations = TagBlock.Zero;
+                    this.PixelShaderCombiners = TagBlock.Zero;
+                    this.PixelShaderConstants = TagBlock.Zero;
+                    this.EmptyString6 = new byte[4];
+                    this.EmptyString7 = new byte[4];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.GpuState = reader.ReadDataStructure<ShaderGpuStateStructBlock>();
+                    this.GpuConstantState = reader.ReadDataStructure<ShaderGpuStateReferenceStructBlock>();
+                    this.GpuVolatileState = reader.ReadDataStructure<ShaderGpuStateReferenceStructBlock>();
+                    this.GpuDefaultState = reader.ReadDataStructure<ShaderGpuStateReferenceStructBlock>();
+                    this.VertexShader = reader.Read<TagReference>();
+                    this.EmptyString = reader.ReadBytes(8);
+                    this.EmptyString1 = reader.ReadBytes(8);
+                    this.EmptyString2 = reader.ReadBytes(4);
+                    this.EmptyString3 = reader.ReadBytes(4);
+                    this.ValueExterns = reader.ReadInt64();
+                    this.valueExternsList.Read(reader, this.ValueExterns);
+                    this.ColorExterns = reader.ReadInt64();
+                    this.valueExternsList.Read(reader, this.ColorExterns);
+                    this.SwitchExterns = reader.ReadInt64();
+                    this.valueExternsList.Read(reader, this.SwitchExterns);
+                    this.BitmapParameterCount = reader.ReadInt16();
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.EmptyString5 = reader.ReadBytes(240);
+                    this.PixelShaderFragments = reader.ReadInt64();
+                    this.pixelShaderFragmentsList.Read(reader, this.PixelShaderFragments);
+                    this.PixelShaderPermutations = reader.ReadInt64();
+                    this.pixelShaderPermutationsList.Read(reader, this.PixelShaderPermutations);
+                    this.PixelShaderCombiners = reader.ReadInt64();
+                    this.pixelShaderCombinersList.Read(reader, this.PixelShaderCombiners);
+                    this.PixelShaderConstants = reader.ReadInt64();
+                    this.pixelShaderConstantsList.Read(reader, this.PixelShaderConstants);
+                    this.EmptyString6 = reader.ReadBytes(4);
+                    this.EmptyString7 = reader.ReadBytes(4);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(2, 4)]
+                public sealed class ExternReferenceBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                public sealed class ExternReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("parameter index", typeof(Byte))]
+                    [FieldAttribute("parameter index", typeof(Byte))]
                     public Byte ParameterIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("extern index", typeof(Byte))]
+                    [FieldAttribute("extern index", typeof(Byte))]
                     public Byte ExternIndex;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 2;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.ParameterIndex = 0;
+                        this.ExternIndex = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.ParameterIndex = reader.ReadByte();
+                        this.ExternIndex = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(3, 4)]
-                public sealed class PixelShaderFragmentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(3, 4)]
+                public sealed class PixelShaderFragmentBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("switch parameter index", typeof(Byte))]
+                    [FieldAttribute("switch parameter index", typeof(Byte))]
                     public Byte SwitchParameterIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("permutations index", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("permutations index", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock PermutationsIndex;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 3;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SwitchParameterIndex = 0;
+                        this.PermutationsIndex = new TagBlockIndexStructBlock();
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SwitchParameterIndex = reader.ReadByte();
+                        this.PermutationsIndex = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(2, 4)]
+                    public sealed class TagBlockIndexStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                    public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                        [FieldAttribute("block index data", typeof(Int16))]
                         public Int16 BlockIndexData;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 2;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.BlockIndexData = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.BlockIndexData = reader.ReadInt16();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                public sealed class PixelShaderPermutationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(16, 4)]
+                public sealed class PixelShaderPermutationBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("enum index", typeof(Int16))]
+                    [FieldAttribute("enum index", typeof(Int16))]
                     public Int16 EnumIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Int16 Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("constants", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("constants", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock Constants;
-                    [Abide.Guerilla.Tags.FieldAttribute("combiners", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("combiners", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock Combiners;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(4)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(4)]
                     public Byte[] EmptyString1;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 16;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.EnumIndex = 0;
+                        this.Flags = ((FlagsOptions)(0));
+                        this.Constants = new TagBlockIndexStructBlock();
+                        this.Combiners = new TagBlockIndexStructBlock();
+                        this.EmptyString = new byte[4];
+                        this.EmptyString1 = new byte[4];
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.EnumIndex = reader.ReadInt16();
+                        this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                        this.Constants = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.Combiners = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.EmptyString = reader.ReadBytes(4);
+                        this.EmptyString1 = reader.ReadBytes(4);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(2, 4)]
+                    public sealed class TagBlockIndexStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                    public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                        [FieldAttribute("block index data", typeof(Int16))]
                         public Int16 BlockIndexData;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 2;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.BlockIndexData = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.BlockIndexData = reader.ReadInt16();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Int16
                     {
                         HasFinalCombiner = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-                public sealed class PixelShaderCombinerBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(32, 4)]
+                public sealed class PixelShaderCombinerBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(16)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("constant color0", typeof(ColorArgb))]
+                    [FieldAttribute("constant color0", typeof(ColorArgb))]
                     public ColorArgb ConstantColor0;
-                    [Abide.Guerilla.Tags.FieldAttribute("constant color1", typeof(ColorArgb))]
+                    [FieldAttribute("constant color1", typeof(ColorArgb))]
                     public ColorArgb ConstantColor1;
-                    [Abide.Guerilla.Tags.FieldAttribute("color A register ptr index", typeof(Byte))]
+                    [FieldAttribute("color A register ptr index", typeof(Byte))]
                     public Byte ColorARegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("color B register ptr index", typeof(Byte))]
+                    [FieldAttribute("color B register ptr index", typeof(Byte))]
                     public Byte ColorBRegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("color C register ptr index", typeof(Byte))]
+                    [FieldAttribute("color C register ptr index", typeof(Byte))]
                     public Byte ColorCRegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("color D register ptr index", typeof(Byte))]
+                    [FieldAttribute("color D register ptr index", typeof(Byte))]
                     public Byte ColorDRegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("alpha A register ptr index", typeof(Byte))]
+                    [FieldAttribute("alpha A register ptr index", typeof(Byte))]
                     public Byte AlphaARegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("alpha B register ptr index", typeof(Byte))]
+                    [FieldAttribute("alpha B register ptr index", typeof(Byte))]
                     public Byte AlphaBRegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("alpha C register ptr index", typeof(Byte))]
+                    [FieldAttribute("alpha C register ptr index", typeof(Byte))]
                     public Byte AlphaCRegisterPtrIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("alpha D register ptr index", typeof(Byte))]
+                    [FieldAttribute("alpha D register ptr index", typeof(Byte))]
                     public Byte AlphaDRegisterPtrIndex;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 32;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.EmptyString = new byte[16];
+                        this.ConstantColor0 = ColorArgb.Zero;
+                        this.ConstantColor1 = ColorArgb.Zero;
+                        this.ColorARegisterPtrIndex = 0;
+                        this.ColorBRegisterPtrIndex = 0;
+                        this.ColorCRegisterPtrIndex = 0;
+                        this.ColorDRegisterPtrIndex = 0;
+                        this.AlphaARegisterPtrIndex = 0;
+                        this.AlphaBRegisterPtrIndex = 0;
+                        this.AlphaCRegisterPtrIndex = 0;
+                        this.AlphaDRegisterPtrIndex = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.EmptyString = reader.ReadBytes(16);
+                        this.ConstantColor0 = reader.Read<ColorArgb>();
+                        this.ConstantColor1 = reader.Read<ColorArgb>();
+                        this.ColorARegisterPtrIndex = reader.ReadByte();
+                        this.ColorBRegisterPtrIndex = reader.ReadByte();
+                        this.ColorCRegisterPtrIndex = reader.ReadByte();
+                        this.ColorDRegisterPtrIndex = reader.ReadByte();
+                        this.AlphaARegisterPtrIndex = reader.ReadByte();
+                        this.AlphaBRegisterPtrIndex = reader.ReadByte();
+                        this.AlphaCRegisterPtrIndex = reader.ReadByte();
+                        this.AlphaDRegisterPtrIndex = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(6, 4)]
-                public sealed class PixelShaderConstantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(6, 4)]
+                public sealed class PixelShaderConstantBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("parameter type", typeof(Byte))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ParameterTypeOptions), false)]
-                    public Byte ParameterType;
-                    [Abide.Guerilla.Tags.FieldAttribute("combiner index", typeof(Byte))]
+                    [FieldAttribute("parameter type", typeof(ParameterTypeOptions))]
+                    [OptionsAttribute(typeof(ParameterTypeOptions), false)]
+                    public ParameterTypeOptions ParameterType;
+                    [FieldAttribute("combiner index", typeof(Byte))]
                     public Byte CombinerIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("register index", typeof(Byte))]
+                    [FieldAttribute("register index", typeof(Byte))]
                     public Byte RegisterIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("component mask", typeof(Byte))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ComponentMaskOptions), false)]
-                    public Byte ComponentMask;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                    [FieldAttribute("component mask", typeof(ComponentMaskOptions))]
+                    [OptionsAttribute(typeof(ComponentMaskOptions), false)]
+                    public ComponentMaskOptions ComponentMask;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(1)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(1)]
                     public Byte[] EmptyString1;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 6;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.ParameterType = ((ParameterTypeOptions)(0));
+                        this.CombinerIndex = 0;
+                        this.RegisterIndex = 0;
+                        this.ComponentMask = ((ComponentMaskOptions)(0));
+                        this.EmptyString = new byte[1];
+                        this.EmptyString1 = new byte[1];
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.ParameterType = ((ParameterTypeOptions)(reader.ReadByte()));
+                        this.CombinerIndex = reader.ReadByte();
+                        this.RegisterIndex = reader.ReadByte();
+                        this.ComponentMask = ((ComponentMaskOptions)(reader.ReadByte()));
+                        this.EmptyString = reader.ReadBytes(1);
+                        this.EmptyString1 = reader.ReadBytes(1);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum ParameterTypeOptions
+                    public enum ParameterTypeOptions : Byte
                     {
                         Bitmap = 0,
                         Value = 1,
                         Color = 2,
                         Switch = 3,
                     }
-                    public enum ComponentMaskOptions
+                    public enum ComponentMaskOptions : Byte
                     {
                         XValue = 0,
                         YValue = 1,
@@ -1985,259 +2918,390 @@ namespace Abide.Guerilla.Tags
                         XyzrgbColor = 4,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(84, 4)]
-                public sealed class ShaderGpuStateStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(84, 4)]
+                public sealed class ShaderGpuStateStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("render states", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("render_state_block", 1024, typeof(RenderStateBlock))]
+                    private TagBlockList<RenderStateBlock> renderStatesList = new TagBlockList<RenderStateBlock>(1024);
+                    private TagBlockList<TextureStageStateBlock> textureStageStatesList = new TagBlockList<TextureStageStateBlock>(1024);
+                    private TagBlockList<RenderStateParameterBlock> renderStateParametersList = new TagBlockList<RenderStateParameterBlock>(1024);
+                    private TagBlockList<TextureStageStateParameterBlock> textureStageParametersList = new TagBlockList<TextureStageStateParameterBlock>(1024);
+                    private TagBlockList<TextureBlock> texturesList = new TagBlockList<TextureBlock>(1024);
+                    private TagBlockList<VertexShaderConstantBlock> vnConstantsList = new TagBlockList<VertexShaderConstantBlock>(1024);
+                    [FieldAttribute("render states", typeof(TagBlock))]
+                    [BlockAttribute("render_state_block", 1024, typeof(RenderStateBlock))]
                     public TagBlock RenderStates;
-                    [Abide.Guerilla.Tags.FieldAttribute("texture stage states", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("texture_stage_state_block", 1024, typeof(TextureStageStateBlock))]
+                    [FieldAttribute("texture stage states", typeof(TagBlock))]
+                    [BlockAttribute("texture_stage_state_block", 1024, typeof(TextureStageStateBlock))]
                     public TagBlock TextureStageStates;
-                    [Abide.Guerilla.Tags.FieldAttribute("render state parameters", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("render_state_parameter_block", 1024, typeof(RenderStateParameterBlock))]
+                    [FieldAttribute("render state parameters", typeof(TagBlock))]
+                    [BlockAttribute("render_state_parameter_block", 1024, typeof(RenderStateParameterBlock))]
                     public TagBlock RenderStateParameters;
-                    [Abide.Guerilla.Tags.FieldAttribute("texture stage parameters", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("texture_stage_state_parameter_block", 1024, typeof(TextureStageStateParameterBlock))]
+                    [FieldAttribute("texture stage parameters", typeof(TagBlock))]
+                    [BlockAttribute("texture_stage_state_parameter_block", 1024, typeof(TextureStageStateParameterBlock))]
                     public TagBlock TextureStageParameters;
-                    [Abide.Guerilla.Tags.FieldAttribute("textures", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("texture_block", 1024, typeof(TextureBlock))]
+                    [FieldAttribute("textures", typeof(TagBlock))]
+                    [BlockAttribute("texture_block", 1024, typeof(TextureBlock))]
                     public TagBlock Textures;
-                    [Abide.Guerilla.Tags.FieldAttribute("Vn Constants", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("vertex_shader_constant_block", 1024, typeof(VertexShaderConstantBlock))]
+                    [FieldAttribute("Vn Constants", typeof(TagBlock))]
+                    [BlockAttribute("vertex_shader_constant_block", 1024, typeof(VertexShaderConstantBlock))]
                     public TagBlock VnConstants;
-                    [Abide.Guerilla.Tags.FieldAttribute("Cn Constants", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("vertex_shader_constant_block", 1024, typeof(VertexShaderConstantBlock))]
+                    [FieldAttribute("Cn Constants", typeof(TagBlock))]
+                    [BlockAttribute("vertex_shader_constant_block", 1024, typeof(VertexShaderConstantBlock))]
                     public TagBlock CnConstants;
-                    public int Size
+                    public TagBlockList<RenderStateBlock> RenderStatesList
+                    {
+                        get
+                        {
+                            return this.renderStatesList;
+                        }
+                    }
+                    public TagBlockList<TextureStageStateBlock> TextureStageStatesList
+                    {
+                        get
+                        {
+                            return this.textureStageStatesList;
+                        }
+                    }
+                    public TagBlockList<RenderStateParameterBlock> RenderStateParametersList
+                    {
+                        get
+                        {
+                            return this.renderStateParametersList;
+                        }
+                    }
+                    public TagBlockList<TextureStageStateParameterBlock> TextureStageParametersList
+                    {
+                        get
+                        {
+                            return this.textureStageParametersList;
+                        }
+                    }
+                    public TagBlockList<TextureBlock> TexturesList
+                    {
+                        get
+                        {
+                            return this.texturesList;
+                        }
+                    }
+                    public TagBlockList<VertexShaderConstantBlock> VnConstantsList
+                    {
+                        get
+                        {
+                            return this.vnConstantsList;
+                        }
+                    }
+                    public override int Size
                     {
                         get
                         {
                             return 84;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.renderStatesList.Clear();
+                        this.textureStageStatesList.Clear();
+                        this.renderStateParametersList.Clear();
+                        this.textureStageParametersList.Clear();
+                        this.texturesList.Clear();
+                        this.vnConstantsList.Clear();
+                        this.RenderStates = TagBlock.Zero;
+                        this.TextureStageStates = TagBlock.Zero;
+                        this.RenderStateParameters = TagBlock.Zero;
+                        this.TextureStageParameters = TagBlock.Zero;
+                        this.Textures = TagBlock.Zero;
+                        this.VnConstants = TagBlock.Zero;
+                        this.CnConstants = TagBlock.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.RenderStates = reader.ReadInt64();
+                        this.renderStatesList.Read(reader, this.RenderStates);
+                        this.TextureStageStates = reader.ReadInt64();
+                        this.textureStageStatesList.Read(reader, this.TextureStageStates);
+                        this.RenderStateParameters = reader.ReadInt64();
+                        this.renderStateParametersList.Read(reader, this.RenderStateParameters);
+                        this.TextureStageParameters = reader.ReadInt64();
+                        this.textureStageParametersList.Read(reader, this.TextureStageParameters);
+                        this.Textures = reader.ReadInt64();
+                        this.texturesList.Read(reader, this.Textures);
+                        this.VnConstants = reader.ReadInt64();
+                        this.vnConstantsList.Read(reader, this.VnConstants);
+                        this.CnConstants = reader.ReadInt64();
+                        this.vnConstantsList.Read(reader, this.CnConstants);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(5, 4)]
+                    public sealed class RenderStateBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(5, 4)]
-                    public sealed class RenderStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("state index", typeof(Byte))]
+                        [FieldAttribute("state index", typeof(Byte))]
                         public Byte StateIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("state value", typeof(Int32))]
+                        [FieldAttribute("state value", typeof(Int32))]
                         public Int32 StateValue;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 5;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.StateIndex = 0;
+                            this.StateValue = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.StateIndex = reader.ReadByte();
+                            this.StateValue = reader.ReadInt32();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(6, 4)]
-                    public sealed class TextureStageStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(6, 4)]
+                    public sealed class TextureStageStateBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("state index", typeof(Byte))]
+                        [FieldAttribute("state index", typeof(Byte))]
                         public Byte StateIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("stage index", typeof(Byte))]
+                        [FieldAttribute("stage index", typeof(Byte))]
                         public Byte StageIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("state value", typeof(Int32))]
+                        [FieldAttribute("state value", typeof(Int32))]
                         public Int32 StateValue;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 6;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.StateIndex = 0;
+                            this.StageIndex = 0;
+                            this.StateValue = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.StateIndex = reader.ReadByte();
+                            this.StageIndex = reader.ReadByte();
+                            this.StateValue = reader.ReadInt32();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(3, 4)]
-                    public sealed class RenderStateParameterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(3, 4)]
+                    public sealed class RenderStateParameterBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter index", typeof(Byte))]
+                        [FieldAttribute("parameter index", typeof(Byte))]
                         public Byte ParameterIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter type", typeof(Byte))]
+                        [FieldAttribute("parameter type", typeof(Byte))]
                         public Byte ParameterType;
-                        [Abide.Guerilla.Tags.FieldAttribute("state index", typeof(Byte))]
+                        [FieldAttribute("state index", typeof(Byte))]
                         public Byte StateIndex;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 3;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.ParameterIndex = 0;
+                            this.ParameterType = 0;
+                            this.StateIndex = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.ParameterIndex = reader.ReadByte();
+                            this.ParameterType = reader.ReadByte();
+                            this.StateIndex = reader.ReadByte();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                    public sealed class TextureStageStateParameterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(4, 4)]
+                    public sealed class TextureStageStateParameterBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter index", typeof(Byte))]
+                        [FieldAttribute("parameter index", typeof(Byte))]
                         public Byte ParameterIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter type", typeof(Byte))]
+                        [FieldAttribute("parameter type", typeof(Byte))]
                         public Byte ParameterType;
-                        [Abide.Guerilla.Tags.FieldAttribute("state index", typeof(Byte))]
+                        [FieldAttribute("state index", typeof(Byte))]
                         public Byte StateIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("stage index", typeof(Byte))]
+                        [FieldAttribute("stage index", typeof(Byte))]
                         public Byte StageIndex;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 4;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.ParameterIndex = 0;
+                            this.ParameterType = 0;
+                            this.StateIndex = 0;
+                            this.StageIndex = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.ParameterIndex = reader.ReadByte();
+                            this.ParameterType = reader.ReadByte();
+                            this.StateIndex = reader.ReadByte();
+                            this.StageIndex = reader.ReadByte();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                    public sealed class TextureBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(4, 4)]
+                    public sealed class TextureBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("stage index", typeof(Byte))]
+                        [FieldAttribute("stage index", typeof(Byte))]
                         public Byte StageIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter index", typeof(Byte))]
+                        [FieldAttribute("parameter index", typeof(Byte))]
                         public Byte ParameterIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("global texture index", typeof(Byte))]
+                        [FieldAttribute("global texture index", typeof(Byte))]
                         public Byte GlobalTextureIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Byte))]
+                        [FieldAttribute("flags", typeof(Byte))]
                         public Byte Flags;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 4;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.StageIndex = 0;
+                            this.ParameterIndex = 0;
+                            this.GlobalTextureIndex = 0;
+                            this.Flags = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.StageIndex = reader.ReadByte();
+                            this.ParameterIndex = reader.ReadByte();
+                            this.GlobalTextureIndex = reader.ReadByte();
+                            this.Flags = reader.ReadByte();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                    public sealed class VertexShaderConstantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(4, 4)]
+                    public sealed class VertexShaderConstantBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("register index", typeof(Byte))]
+                        [FieldAttribute("register index", typeof(Byte))]
                         public Byte RegisterIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("parameter index", typeof(Byte))]
+                        [FieldAttribute("parameter index", typeof(Byte))]
                         public Byte ParameterIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("destination mask", typeof(Byte))]
+                        [FieldAttribute("destination mask", typeof(Byte))]
                         public Byte DestinationMask;
-                        [Abide.Guerilla.Tags.FieldAttribute("scale by texture stage", typeof(Byte))]
+                        [FieldAttribute("scale by texture stage", typeof(Byte))]
                         public Byte ScaleByTextureStage;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 4;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.RegisterIndex = 0;
+                            this.ParameterIndex = 0;
+                            this.DestinationMask = 0;
+                            this.ScaleByTextureStage = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.RegisterIndex = reader.ReadByte();
+                            this.ParameterIndex = reader.ReadByte();
+                            this.DestinationMask = reader.ReadByte();
+                            this.ScaleByTextureStage = reader.ReadByte();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(14, 4)]
-                public sealed class ShaderGpuStateReferenceStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(14, 4)]
+                public sealed class ShaderGpuStateReferenceStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("render states", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("render states", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock RenderStates;
-                    [Abide.Guerilla.Tags.FieldAttribute("texture stage states", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("texture stage states", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock TextureStageStates;
-                    [Abide.Guerilla.Tags.FieldAttribute("render state parameters", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("render state parameters", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock RenderStateParameters;
-                    [Abide.Guerilla.Tags.FieldAttribute("texture stage parameters", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("texture stage parameters", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock TextureStageParameters;
-                    [Abide.Guerilla.Tags.FieldAttribute("textures", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("textures", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock Textures;
-                    [Abide.Guerilla.Tags.FieldAttribute("Vn Constants", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("Vn Constants", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock VnConstants;
-                    [Abide.Guerilla.Tags.FieldAttribute("Cn Constants", typeof(TagBlockIndexStructBlock))]
+                    [FieldAttribute("Cn Constants", typeof(TagBlockIndexStructBlock))]
                     public TagBlockIndexStructBlock CnConstants;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 14;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.RenderStates = new TagBlockIndexStructBlock();
+                        this.TextureStageStates = new TagBlockIndexStructBlock();
+                        this.RenderStateParameters = new TagBlockIndexStructBlock();
+                        this.TextureStageParameters = new TagBlockIndexStructBlock();
+                        this.Textures = new TagBlockIndexStructBlock();
+                        this.VnConstants = new TagBlockIndexStructBlock();
+                        this.CnConstants = new TagBlockIndexStructBlock();
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.RenderStates = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.TextureStageStates = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.RenderStateParameters = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.TextureStageParameters = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.Textures = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.VnConstants = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                        this.CnConstants = reader.ReadDataStructure<TagBlockIndexStructBlock>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(2, 4)]
+                    public sealed class TagBlockIndexStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-                    public sealed class TagBlockIndexStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("block index data", typeof(Int16))]
+                        [FieldAttribute("block index data", typeof(Int16))]
                         public Int16 BlockIndexData;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 2;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.BlockIndexData = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.BlockIndexData = reader.ReadInt16();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }

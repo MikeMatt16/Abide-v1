@@ -14,358 +14,411 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("new_hud_definition", 1852335220u, 4294967293u, typeof(NewHudDefinitionBlock))]
-    public sealed class NewHudDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("new_hud_definition", 1852335220u, 4294967293u, typeof(NewHudDefinitionBlock))]
+    public sealed class NewHudDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("DO NOT USE", typeof(TagReference))]
+        private TagBlockList<HudBitmapWidgets> bitmapWidgetsList = new TagBlockList<HudBitmapWidgets>(256);
+        private TagBlockList<HudTextWidgets> textWidgetsList = new TagBlockList<HudTextWidgets>(256);
+        private TagBlockList<HudScreenEffectWidgets> screenEffectWidgetsList = new TagBlockList<HudScreenEffectWidgets>(4);
+        [FieldAttribute("DO NOT USE", typeof(TagReference))]
         public TagReference DoNotUse;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmap widgets", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("hud_bitmap_widgets", 256, typeof(HudBitmapWidgets))]
+        [FieldAttribute("bitmap widgets", typeof(TagBlock))]
+        [BlockAttribute("hud_bitmap_widgets", 256, typeof(HudBitmapWidgets))]
         public TagBlock BitmapWidgets;
-        [Abide.Guerilla.Tags.FieldAttribute("text widgets", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("hud_text_widgets", 256, typeof(HudTextWidgets))]
+        [FieldAttribute("text widgets", typeof(TagBlock))]
+        [BlockAttribute("hud_text_widgets", 256, typeof(HudTextWidgets))]
         public TagBlock TextWidgets;
-        [Abide.Guerilla.Tags.FieldAttribute("dashlight data", typeof(NewHudDashlightDataStructBlock))]
+        [FieldAttribute("dashlight data", typeof(NewHudDashlightDataStructBlock))]
         public NewHudDashlightDataStructBlock DashlightData;
-        [Abide.Guerilla.Tags.FieldAttribute("screen effect widgets", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("hud_screen_effect_widgets", 4, typeof(HudScreenEffectWidgets))]
+        [FieldAttribute("screen effect widgets", typeof(TagBlock))]
+        [BlockAttribute("hud_screen_effect_widgets", 4, typeof(HudScreenEffectWidgets))]
         public TagBlock ScreenEffectWidgets;
-        public int Size
+        public TagBlockList<HudBitmapWidgets> BitmapWidgetsList
+        {
+            get
+            {
+                return this.bitmapWidgetsList;
+            }
+        }
+        public TagBlockList<HudTextWidgets> TextWidgetsList
+        {
+            get
+            {
+                return this.textWidgetsList;
+            }
+        }
+        public TagBlockList<HudScreenEffectWidgets> ScreenEffectWidgetsList
+        {
+            get
+            {
+                return this.screenEffectWidgetsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.bitmapWidgetsList.Clear();
+            this.textWidgetsList.Clear();
+            this.screenEffectWidgetsList.Clear();
+            this.DoNotUse = TagReference.Null;
+            this.BitmapWidgets = TagBlock.Zero;
+            this.TextWidgets = TagBlock.Zero;
+            this.DashlightData = new NewHudDashlightDataStructBlock();
+            this.ScreenEffectWidgets = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.DoNotUse = reader.Read<TagReference>();
+            this.BitmapWidgets = reader.ReadInt64();
+            this.bitmapWidgetsList.Read(reader, this.BitmapWidgets);
+            this.TextWidgets = reader.ReadInt64();
+            this.textWidgetsList.Read(reader, this.TextWidgets);
+            this.DashlightData = reader.ReadDataStructure<NewHudDashlightDataStructBlock>();
+            this.ScreenEffectWidgets = reader.ReadInt64();
+            this.screenEffectWidgetsList.Read(reader, this.ScreenEffectWidgets);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(120, 4)]
+        public sealed class HudBitmapWidgets : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(120, 4)]
-        public sealed class HudBitmapWidgets : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name", typeof(StringId))]
+            private TagBlockList<HudWidgetEffectBlock> effectList = new TagBlockList<HudWidgetEffectBlock>(1);
+            [FieldAttribute("name", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
             public HudWidgetInputsStructBlock EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
             public HudWidgetStateDefinitionStructBlock EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("anchor", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnchorOptions), false)]
-            public Int16 Anchor;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+            [FieldAttribute("anchor", typeof(AnchorOptions))]
+            [OptionsAttribute(typeof(AnchorOptions), false)]
+            public AnchorOptions Anchor;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("bitmap", typeof(TagReference))]
             public TagReference Bitmap;
-            [Abide.Guerilla.Tags.FieldAttribute("shader", typeof(TagReference))]
+            [FieldAttribute("shader", typeof(TagReference))]
             public TagReference Shader;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen sequence index", typeof(Byte))]
+            [FieldAttribute("fullscreen sequence index", typeof(Byte))]
             public Byte FullscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen sequence index", typeof(Byte))]
+            [FieldAttribute("halfscreen sequence index", typeof(Byte))]
             public Byte HalfscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen sequence index", typeof(Byte))]
+            [FieldAttribute("quarterscreen sequence index", typeof(Byte))]
             public Byte QuarterscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(1)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(1)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen offset", typeof(Vector2))]
+            [FieldAttribute("fullscreen offset", typeof(Vector2))]
             public Vector2 FullscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen offset", typeof(Vector2))]
+            [FieldAttribute("halfscreen offset", typeof(Vector2))]
             public Vector2 HalfscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen offset", typeof(Vector2))]
+            [FieldAttribute("quarterscreen offset", typeof(Vector2))]
             public Vector2 QuarterscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen registration point", typeof(Vector2))]
+            [FieldAttribute("fullscreen registration point", typeof(Vector2))]
             public Vector2 FullscreenRegistrationPoint;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen registration point", typeof(Vector2))]
+            [FieldAttribute("halfscreen registration point", typeof(Vector2))]
             public Vector2 HalfscreenRegistrationPoint;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen registration point", typeof(Vector2))]
+            [FieldAttribute("quarterscreen registration point", typeof(Vector2))]
             public Vector2 QuarterscreenRegistrationPoint;
-            [Abide.Guerilla.Tags.FieldAttribute("effect", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("hud_widget_effect_block", 1, typeof(HudWidgetEffectBlock))]
+            [FieldAttribute("effect", typeof(TagBlock))]
+            [BlockAttribute("hud_widget_effect_block", 1, typeof(HudWidgetEffectBlock))]
             public TagBlock Effect;
-            [Abide.Guerilla.Tags.FieldAttribute("special hud type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecialHudTypeOptions), false)]
-            public Int16 SpecialHudType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("special hud type", typeof(SpecialHudTypeOptions))]
+            [OptionsAttribute(typeof(SpecialHudTypeOptions), false)]
+            public SpecialHudTypeOptions SpecialHudType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString3;
-            public int Size
+            public TagBlockList<HudWidgetEffectBlock> EffectList
+            {
+                get
+                {
+                    return this.effectList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 120;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.effectList.Clear();
+                this.Name = StringId.Zero;
+                this.EmptyString = new HudWidgetInputsStructBlock();
+                this.EmptyString1 = new HudWidgetStateDefinitionStructBlock();
+                this.Anchor = ((AnchorOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.Bitmap = TagReference.Null;
+                this.Shader = TagReference.Null;
+                this.FullscreenSequenceIndex = 0;
+                this.HalfscreenSequenceIndex = 0;
+                this.QuarterscreenSequenceIndex = 0;
+                this.EmptyString2 = new byte[1];
+                this.FullscreenOffset = Vector2.Zero;
+                this.HalfscreenOffset = Vector2.Zero;
+                this.QuarterscreenOffset = Vector2.Zero;
+                this.FullscreenRegistrationPoint = Vector2.Zero;
+                this.HalfscreenRegistrationPoint = Vector2.Zero;
+                this.QuarterscreenRegistrationPoint = Vector2.Zero;
+                this.Effect = TagBlock.Zero;
+                this.SpecialHudType = ((SpecialHudTypeOptions)(0));
+                this.EmptyString3 = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.EmptyString = reader.ReadDataStructure<HudWidgetInputsStructBlock>();
+                this.EmptyString1 = reader.ReadDataStructure<HudWidgetStateDefinitionStructBlock>();
+                this.Anchor = ((AnchorOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Bitmap = reader.Read<TagReference>();
+                this.Shader = reader.Read<TagReference>();
+                this.FullscreenSequenceIndex = reader.ReadByte();
+                this.HalfscreenSequenceIndex = reader.ReadByte();
+                this.QuarterscreenSequenceIndex = reader.ReadByte();
+                this.EmptyString2 = reader.ReadBytes(1);
+                this.FullscreenOffset = reader.Read<Vector2>();
+                this.HalfscreenOffset = reader.Read<Vector2>();
+                this.QuarterscreenOffset = reader.Read<Vector2>();
+                this.FullscreenRegistrationPoint = reader.Read<Vector2>();
+                this.HalfscreenRegistrationPoint = reader.Read<Vector2>();
+                this.QuarterscreenRegistrationPoint = reader.Read<Vector2>();
+                this.Effect = reader.ReadInt64();
+                this.effectList.Read(reader, this.Effect);
+                this.SpecialHudType = ((SpecialHudTypeOptions)(reader.ReadInt16()));
+                this.EmptyString3 = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(124, 4)]
+            public sealed class HudWidgetEffectBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(124, 4)]
-            public sealed class HudWidgetEffectBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom1;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom2;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom3;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom4;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 124;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.YourMom = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom1 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom2 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom3 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom4 = new HudWidgetEffectFunctionStructBlock();
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.YourMom = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom1 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom2 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom3 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom4 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(24, 4)]
+                public sealed class HudWidgetEffectFunctionStructBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-                public sealed class HudWidgetEffectFunctionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("input name", typeof(StringId))]
+                    [FieldAttribute("input name", typeof(StringId))]
                     public StringId InputName;
-                    [Abide.Guerilla.Tags.FieldAttribute("range name", typeof(StringId))]
+                    [FieldAttribute("range name", typeof(StringId))]
                     public StringId RangeName;
-                    [Abide.Guerilla.Tags.FieldAttribute("time period in seconds", typeof(Single))]
+                    [FieldAttribute("time period in seconds", typeof(Single))]
                     public Single TimePeriodInSeconds;
-                    [Abide.Guerilla.Tags.FieldAttribute("function", typeof(ScalarFunctionStructBlock))]
+                    [FieldAttribute("function", typeof(ScalarFunctionStructBlock))]
                     public ScalarFunctionStructBlock Function;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 24;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.InputName = StringId.Zero;
+                        this.RangeName = StringId.Zero;
+                        this.TimePeriodInSeconds = 0;
+                        this.Function = new ScalarFunctionStructBlock();
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.InputName = reader.ReadInt32();
+                        this.RangeName = reader.ReadInt32();
+                        this.TimePeriodInSeconds = reader.ReadSingle();
+                        this.Function = reader.ReadDataStructure<ScalarFunctionStructBlock>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(12, 4)]
+                    public sealed class ScalarFunctionStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                    public sealed class ScalarFunctionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("function", typeof(MappingFunctionBlock))]
-                        public MappingFunctionBlock Function1;
-                        public int Size
+                        [FieldAttribute("function", typeof(MappingFunctionBlock))]
+                        public MappingFunctionBlock Function;
+                        public override int Size
                         {
                             get
                             {
                                 return 12;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
+                        {
+                            this.Function = new MappingFunctionBlock();
+                        }
+                        public override void Read(BinaryReader reader)
+                        {
+                            this.Function = reader.ReadDataStructure<MappingFunctionBlock>();
+                        }
+                        public override void Write(BinaryWriter writer)
                         {
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        [FieldSetAttribute(12, 4)]
+                        public sealed class MappingFunctionBlock : AbideTagBlock
                         {
-                        }
-                        public void Write(System.IO.BinaryWriter writer)
-                        {
-                        }
-                        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                        public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                        {
-                            [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                            [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                            private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                            [FieldAttribute("data", typeof(TagBlock))]
+                            [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                             public TagBlock Data;
-                            public int Size
+                            public TagBlockList<ByteBlock> DataList
+                            {
+                                get
+                                {
+                                    return this.dataList;
+                                }
+                            }
+                            public override int Size
                             {
                                 get
                                 {
                                     return 12;
                                 }
                             }
-                            public void Initialize()
+                            public override void Initialize()
+                            {
+                                this.dataList.Clear();
+                                this.Data = TagBlock.Zero;
+                            }
+                            public override void Read(BinaryReader reader)
+                            {
+                                this.Data = reader.ReadInt64();
+                                this.dataList.Read(reader, this.Data);
+                            }
+                            public override void Write(BinaryWriter writer)
                             {
                             }
-                            public void Read(System.IO.BinaryReader reader)
+                            [FieldSetAttribute(1, 4)]
+                            public sealed class ByteBlock : AbideTagBlock
                             {
-                            }
-                            public void Write(System.IO.BinaryWriter writer)
-                            {
-                            }
-                            [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                            public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                            {
-                                [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                                [FieldAttribute("Value", typeof(Byte))]
                                 public Byte Value;
-                                public int Size
+                                public override int Size
                                 {
                                     get
                                     {
                                         return 1;
                                     }
                                 }
-                                public void Initialize()
+                                public override void Initialize()
                                 {
+                                    this.Value = 0;
                                 }
-                                public void Read(System.IO.BinaryReader reader)
+                                public override void Read(BinaryReader reader)
                                 {
+                                    this.Value = reader.ReadByte();
                                 }
-                                public void Write(System.IO.BinaryWriter writer)
+                                public override void Write(BinaryWriter writer)
                                 {
                                 }
                             }
                         }
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     ApplyScale = 1,
                     ApplyTheta = 2,
                     ApplyOffset = 4,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class HudWidgetInputsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class HudWidgetInputsStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("input 1", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input1Options), false)]
-                public Byte Input1;
-                [Abide.Guerilla.Tags.FieldAttribute("input 2", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input2Options), false)]
-                public Byte Input2;
-                [Abide.Guerilla.Tags.FieldAttribute("input 3", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input3Options), false)]
-                public Byte Input3;
-                [Abide.Guerilla.Tags.FieldAttribute("input 4", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input4Options), false)]
-                public Byte Input4;
-                public int Size
+                [FieldAttribute("input 1", typeof(Input1Options))]
+                [OptionsAttribute(typeof(Input1Options), false)]
+                public Input1Options Input1;
+                [FieldAttribute("input 2", typeof(Input2Options))]
+                [OptionsAttribute(typeof(Input2Options), false)]
+                public Input2Options Input2;
+                [FieldAttribute("input 3", typeof(Input3Options))]
+                [OptionsAttribute(typeof(Input3Options), false)]
+                public Input3Options Input3;
+                [FieldAttribute("input 4", typeof(Input4Options))]
+                [OptionsAttribute(typeof(Input4Options), false)]
+                public Input4Options Input4;
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Input1 = ((Input1Options)(0));
+                    this.Input2 = ((Input2Options)(0));
+                    this.Input3 = ((Input3Options)(0));
+                    this.Input4 = ((Input4Options)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Input1 = ((Input1Options)(reader.ReadByte()));
+                    this.Input2 = ((Input2Options)(reader.ReadByte()));
+                    this.Input3 = ((Input3Options)(reader.ReadByte()));
+                    this.Input4 = ((Input4Options)(reader.ReadByte()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum Input1Options
-                {
-                    BasicZero = 0,
-                    BasicOne = 1,
-                    BasicTime = 2,
-                    BasicGlobalHudFade = 3,
-                    EmptyString = 4,
-                    EmptyString1 = 5,
-                    EmptyString2 = 6,
-                    EmptyString3 = 7,
-                    EmptyString4 = 8,
-                    EmptyString5 = 9,
-                    EmptyString6 = 10,
-                    EmptyString7 = 11,
-                    EmptyString8 = 12,
-                    EmptyString9 = 13,
-                    EmptyString10 = 14,
-                    EmptyString11 = 15,
-                    UnitShield = 16,
-                    UnitBody = 17,
-                    UnitAutoaimed = 18,
-                    UnitHasNoGrenades = 19,
-                    UnitFragGrenCnt = 20,
-                    UnitPlasmaGrenCnt = 21,
-                    UnitTimeOnDplShld = 22,
-                    UnitZoomFraction = 23,
-                    UnitCamoValue = 24,
-                    EmptyString12 = 25,
-                    EmptyString13 = 26,
-                    EmptyString14 = 27,
-                    EmptyString15 = 28,
-                    EmptyString16 = 29,
-                    EmptyString17 = 30,
-                    EmptyString18 = 31,
-                    ParentShield = 32,
-                    ParentBody = 33,
-                    EmptyString19 = 34,
-                    EmptyString20 = 35,
-                    EmptyString21 = 36,
-                    EmptyString22 = 37,
-                    EmptyString23 = 38,
-                    EmptyString24 = 39,
-                    EmptyString25 = 40,
-                    EmptyString26 = 41,
-                    EmptyString27 = 42,
-                    EmptyString28 = 43,
-                    EmptyString29 = 44,
-                    EmptyString30 = 45,
-                    EmptyString31 = 46,
-                    EmptyString32 = 47,
-                    WeaponClipAmmo = 48,
-                    WeaponHeat = 49,
-                    WeaponBattery = 50,
-                    WeaponTotalAmmo = 51,
-                    WeaponBarrelSpin = 52,
-                    WeaponOverheated = 53,
-                    WeaponClipAmmoFraction = 54,
-                    WeaponTimeOnOverheat = 55,
-                    WeaponBatteryFraction = 56,
-                    WeaponLockingFraction = 57,
-                    EmptyString33 = 58,
-                    EmptyString34 = 59,
-                    EmptyString35 = 60,
-                    EmptyString36 = 61,
-                    EmptyString37 = 62,
-                    EmptyString38 = 63,
-                    EmptyString39 = 64,
-                    UserScoreFraction = 65,
-                    OtherUserScoreFraction = 66,
-                    UserWinning = 67,
-                    BombArmingAmount = 68,
-                    EmptyString40 = 69,
-                    EmptyString41 = 70,
-                    EmptyString42 = 71,
-                    EmptyString43 = 72,
-                    EmptyString44 = 73,
-                    EmptyString45 = 74,
-                    EmptyString46 = 75,
-                    EmptyString47 = 76,
-                    EmptyString48 = 77,
-                    EmptyString49 = 78,
-                    EmptyString50 = 79,
-                    EmptyString51 = 80,
-                }
-                public enum Input2Options
+                public enum Input1Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -449,7 +502,7 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input3Options
+                public enum Input2Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -533,7 +586,91 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input4Options
+                public enum Input3Options : Byte
+                {
+                    BasicZero = 0,
+                    BasicOne = 1,
+                    BasicTime = 2,
+                    BasicGlobalHudFade = 3,
+                    EmptyString = 4,
+                    EmptyString1 = 5,
+                    EmptyString2 = 6,
+                    EmptyString3 = 7,
+                    EmptyString4 = 8,
+                    EmptyString5 = 9,
+                    EmptyString6 = 10,
+                    EmptyString7 = 11,
+                    EmptyString8 = 12,
+                    EmptyString9 = 13,
+                    EmptyString10 = 14,
+                    EmptyString11 = 15,
+                    UnitShield = 16,
+                    UnitBody = 17,
+                    UnitAutoaimed = 18,
+                    UnitHasNoGrenades = 19,
+                    UnitFragGrenCnt = 20,
+                    UnitPlasmaGrenCnt = 21,
+                    UnitTimeOnDplShld = 22,
+                    UnitZoomFraction = 23,
+                    UnitCamoValue = 24,
+                    EmptyString12 = 25,
+                    EmptyString13 = 26,
+                    EmptyString14 = 27,
+                    EmptyString15 = 28,
+                    EmptyString16 = 29,
+                    EmptyString17 = 30,
+                    EmptyString18 = 31,
+                    ParentShield = 32,
+                    ParentBody = 33,
+                    EmptyString19 = 34,
+                    EmptyString20 = 35,
+                    EmptyString21 = 36,
+                    EmptyString22 = 37,
+                    EmptyString23 = 38,
+                    EmptyString24 = 39,
+                    EmptyString25 = 40,
+                    EmptyString26 = 41,
+                    EmptyString27 = 42,
+                    EmptyString28 = 43,
+                    EmptyString29 = 44,
+                    EmptyString30 = 45,
+                    EmptyString31 = 46,
+                    EmptyString32 = 47,
+                    WeaponClipAmmo = 48,
+                    WeaponHeat = 49,
+                    WeaponBattery = 50,
+                    WeaponTotalAmmo = 51,
+                    WeaponBarrelSpin = 52,
+                    WeaponOverheated = 53,
+                    WeaponClipAmmoFraction = 54,
+                    WeaponTimeOnOverheat = 55,
+                    WeaponBatteryFraction = 56,
+                    WeaponLockingFraction = 57,
+                    EmptyString33 = 58,
+                    EmptyString34 = 59,
+                    EmptyString35 = 60,
+                    EmptyString36 = 61,
+                    EmptyString37 = 62,
+                    EmptyString38 = 63,
+                    EmptyString39 = 64,
+                    UserScoreFraction = 65,
+                    OtherUserScoreFraction = 66,
+                    UserWinning = 67,
+                    BombArmingAmount = 68,
+                    EmptyString40 = 69,
+                    EmptyString41 = 70,
+                    EmptyString42 = 71,
+                    EmptyString43 = 72,
+                    EmptyString44 = 73,
+                    EmptyString45 = 74,
+                    EmptyString46 = 75,
+                    EmptyString47 = 76,
+                    EmptyString48 = 77,
+                    EmptyString49 = 78,
+                    EmptyString50 = 79,
+                    EmptyString51 = 80,
+                }
+                public enum Input4Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -618,59 +755,83 @@ namespace Abide.Guerilla.Tags
                     EmptyString51 = 80,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class HudWidgetStateDefinitionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(20, 4)]
+            public sealed class HudWidgetStateDefinitionStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YUnitFlagsOptions), true)]
-                public Int16 YUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YExtraFlagsOptions), true)]
-                public Int16 YExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
-                public Int16 YWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
-                public Int16 YGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NUnitFlagsOptions), true)]
-                public Int16 NUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NExtraFlagsOptions), true)]
-                public Int16 NExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
-                public Int16 NWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
-                public Int16 NGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("age cutoff", typeof(Byte))]
+                [FieldAttribute("[Y] unit flags", typeof(YUnitFlagsOptions))]
+                [OptionsAttribute(typeof(YUnitFlagsOptions), true)]
+                public YUnitFlagsOptions YUnitFlags;
+                [FieldAttribute("[Y] extra flags", typeof(YExtraFlagsOptions))]
+                [OptionsAttribute(typeof(YExtraFlagsOptions), true)]
+                public YExtraFlagsOptions YExtraFlags;
+                [FieldAttribute("[Y] weapon flags", typeof(YWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
+                public YWeaponFlagsOptions YWeaponFlags;
+                [FieldAttribute("[Y] game engine state flags", typeof(YGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
+                public YGameEngineStateFlagsOptions YGameEngineStateFlags;
+                [FieldAttribute("[N] unit flags", typeof(NUnitFlagsOptions))]
+                [OptionsAttribute(typeof(NUnitFlagsOptions), true)]
+                public NUnitFlagsOptions NUnitFlags;
+                [FieldAttribute("[N] extra flags", typeof(NExtraFlagsOptions))]
+                [OptionsAttribute(typeof(NExtraFlagsOptions), true)]
+                public NExtraFlagsOptions NExtraFlags;
+                [FieldAttribute("[N] weapon flags", typeof(NWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
+                public NWeaponFlagsOptions NWeaponFlags;
+                [FieldAttribute("[N] game engine state flags", typeof(NGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
+                public NGameEngineStateFlagsOptions NGameEngineStateFlags;
+                [FieldAttribute("age cutoff", typeof(Byte))]
                 public Byte AgeCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("clip cutoff", typeof(Byte))]
+                [FieldAttribute("clip cutoff", typeof(Byte))]
                 public Byte ClipCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("total cutoff", typeof(Byte))]
+                [FieldAttribute("total cutoff", typeof(Byte))]
                 public Byte TotalCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
-                public Byte[] EmptyString2;
-                public int Size
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
+                public Byte[] EmptyString;
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(0));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(0));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(0));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(0));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(0));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(0));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(0));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(0));
+                    this.AgeCutoff = 0;
+                    this.ClipCutoff = 0;
+                    this.TotalCutoff = 0;
+                    this.EmptyString = new byte[1];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(reader.ReadInt16()));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(reader.ReadInt16()));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(reader.ReadInt16()));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(reader.ReadInt16()));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.AgeCutoff = reader.ReadByte();
+                    this.ClipCutoff = reader.ReadByte();
+                    this.TotalCutoff = reader.ReadByte();
+                    this.EmptyString = reader.ReadBytes(1);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum YUnitFlagsOptions
+                public enum YUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -687,7 +848,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum YExtraFlagsOptions
+                public enum YExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -695,7 +856,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum YWeaponFlagsOptions
+                public enum YWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -709,7 +870,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum YGameEngineStateFlagsOptions
+                public enum YGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -724,7 +885,7 @@ namespace Abide.Guerilla.Tags
                     PlayerIsArmingBomb = 1024,
                     PlayerTalking = 2048,
                 }
-                public enum NUnitFlagsOptions
+                public enum NUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -741,7 +902,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum NExtraFlagsOptions
+                public enum NExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -749,7 +910,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum NWeaponFlagsOptions
+                public enum NWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -763,7 +924,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum NGameEngineStateFlagsOptions
+                public enum NGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -779,7 +940,7 @@ namespace Abide.Guerilla.Tags
                     PlayerTalking = 2048,
                 }
             }
-            public enum AnchorOptions
+            public enum AnchorOptions : Int16
             {
                 HealthAndShield = 0,
                 WeaponHud = 1,
@@ -788,7 +949,7 @@ namespace Abide.Guerilla.Tags
                 Crosshair = 4,
                 LockOnTarget = 5,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 FlipHorizontally = 1,
                 FlipVertically = 2,
@@ -796,7 +957,7 @@ namespace Abide.Guerilla.Tags
                 ScopeMirrorVertically = 8,
                 ScopeStretch = 16,
             }
-            public enum SpecialHudTypeOptions
+            public enum SpecialHudTypeOptions : Int16
             {
                 Unspecial = 0,
                 SbPlayerEmblem = 1,
@@ -808,327 +969,339 @@ namespace Abide.Guerilla.Tags
                 TerritoryMeter = 7,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(96, 4)]
-        public sealed class HudTextWidgets : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(96, 4)]
+        public sealed class HudTextWidgets : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name", typeof(StringId))]
+            private TagBlockList<HudWidgetEffectBlock> effectList = new TagBlockList<HudWidgetEffectBlock>(1);
+            [FieldAttribute("name", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
             public HudWidgetInputsStructBlock EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
             public HudWidgetStateDefinitionStructBlock EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("anchor", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnchorOptions), false)]
-            public Int16 Anchor;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags1;
-            [Abide.Guerilla.Tags.FieldAttribute("shader", typeof(TagReference))]
+            [FieldAttribute("anchor", typeof(AnchorOptions))]
+            [OptionsAttribute(typeof(AnchorOptions), false)]
+            public AnchorOptions Anchor;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("shader", typeof(TagReference))]
             public TagReference Shader;
-            [Abide.Guerilla.Tags.FieldAttribute("string", typeof(StringId))]
+            [FieldAttribute("string", typeof(StringId))]
             public StringId String;
-            [Abide.Guerilla.Tags.FieldAttribute("justification", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(JustificationOptions), false)]
-            public Int16 Justification;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("justification", typeof(JustificationOptions))]
+            [OptionsAttribute(typeof(JustificationOptions), false)]
+            public JustificationOptions Justification;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen font index", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FullscreenFontIndexOptions), false)]
-            public Byte FullscreenFontIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen font index", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(HalfscreenFontIndexOptions), false)]
-            public Byte HalfscreenFontIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen font index", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(QuarterscreenFontIndexOptions), false)]
-            public Byte QuarterscreenFontIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(1)]
-            public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen scale", typeof(Single))]
+            [FieldAttribute("fullscreen font index", typeof(FullscreenFontIndexOptions))]
+            [OptionsAttribute(typeof(FullscreenFontIndexOptions), false)]
+            public FullscreenFontIndexOptions FullscreenFontIndex;
+            [FieldAttribute("halfscreen font index", typeof(HalfscreenFontIndexOptions))]
+            [OptionsAttribute(typeof(HalfscreenFontIndexOptions), false)]
+            public HalfscreenFontIndexOptions HalfscreenFontIndex;
+            [FieldAttribute("quarterscreen font index", typeof(QuarterscreenFontIndexOptions))]
+            [OptionsAttribute(typeof(QuarterscreenFontIndexOptions), false)]
+            public QuarterscreenFontIndexOptions QuarterscreenFontIndex;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(1)]
+            public Byte[] EmptyString3;
+            [FieldAttribute("fullscreen scale", typeof(Single))]
             public Single FullscreenScale;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen scale", typeof(Single))]
+            [FieldAttribute("halfscreen scale", typeof(Single))]
             public Single HalfscreenScale;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen scale", typeof(Single))]
+            [FieldAttribute("quarterscreen scale", typeof(Single))]
             public Single QuarterscreenScale;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen offset", typeof(Vector2))]
+            [FieldAttribute("fullscreen offset", typeof(Vector2))]
             public Vector2 FullscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen offset", typeof(Vector2))]
+            [FieldAttribute("halfscreen offset", typeof(Vector2))]
             public Vector2 HalfscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen offset", typeof(Vector2))]
+            [FieldAttribute("quarterscreen offset", typeof(Vector2))]
             public Vector2 QuarterscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("effect", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("hud_widget_effect_block", 1, typeof(HudWidgetEffectBlock))]
+            [FieldAttribute("effect", typeof(TagBlock))]
+            [BlockAttribute("hud_widget_effect_block", 1, typeof(HudWidgetEffectBlock))]
             public TagBlock Effect;
-            public int Size
+            public TagBlockList<HudWidgetEffectBlock> EffectList
+            {
+                get
+                {
+                    return this.effectList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 96;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.effectList.Clear();
+                this.Name = StringId.Zero;
+                this.EmptyString = new HudWidgetInputsStructBlock();
+                this.EmptyString1 = new HudWidgetStateDefinitionStructBlock();
+                this.Anchor = ((AnchorOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.Shader = TagReference.Null;
+                this.String = StringId.Zero;
+                this.Justification = ((JustificationOptions)(0));
+                this.EmptyString2 = new byte[2];
+                this.FullscreenFontIndex = ((FullscreenFontIndexOptions)(0));
+                this.HalfscreenFontIndex = ((HalfscreenFontIndexOptions)(0));
+                this.QuarterscreenFontIndex = ((QuarterscreenFontIndexOptions)(0));
+                this.EmptyString3 = new byte[1];
+                this.FullscreenScale = 0;
+                this.HalfscreenScale = 0;
+                this.QuarterscreenScale = 0;
+                this.FullscreenOffset = Vector2.Zero;
+                this.HalfscreenOffset = Vector2.Zero;
+                this.QuarterscreenOffset = Vector2.Zero;
+                this.Effect = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.EmptyString = reader.ReadDataStructure<HudWidgetInputsStructBlock>();
+                this.EmptyString1 = reader.ReadDataStructure<HudWidgetStateDefinitionStructBlock>();
+                this.Anchor = ((AnchorOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Shader = reader.Read<TagReference>();
+                this.String = reader.ReadInt32();
+                this.Justification = ((JustificationOptions)(reader.ReadInt16()));
+                this.EmptyString2 = reader.ReadBytes(2);
+                this.FullscreenFontIndex = ((FullscreenFontIndexOptions)(reader.ReadByte()));
+                this.HalfscreenFontIndex = ((HalfscreenFontIndexOptions)(reader.ReadByte()));
+                this.QuarterscreenFontIndex = ((QuarterscreenFontIndexOptions)(reader.ReadByte()));
+                this.EmptyString3 = reader.ReadBytes(1);
+                this.FullscreenScale = reader.ReadSingle();
+                this.HalfscreenScale = reader.ReadSingle();
+                this.QuarterscreenScale = reader.ReadSingle();
+                this.FullscreenOffset = reader.Read<Vector2>();
+                this.HalfscreenOffset = reader.Read<Vector2>();
+                this.QuarterscreenOffset = reader.Read<Vector2>();
+                this.Effect = reader.ReadInt64();
+                this.effectList.Read(reader, this.Effect);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(124, 4)]
+            public sealed class HudWidgetEffectBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(124, 4)]
-            public sealed class HudWidgetEffectBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom1;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom2;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom3;
-                [Abide.Guerilla.Tags.FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
+                [FieldAttribute("your mom", typeof(HudWidgetEffectFunctionStructBlock))]
                 public HudWidgetEffectFunctionStructBlock YourMom4;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 124;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.YourMom = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom1 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom2 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom3 = new HudWidgetEffectFunctionStructBlock();
+                    this.YourMom4 = new HudWidgetEffectFunctionStructBlock();
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.YourMom = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom1 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom2 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom3 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                    this.YourMom4 = reader.ReadDataStructure<HudWidgetEffectFunctionStructBlock>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(24, 4)]
+                public sealed class HudWidgetEffectFunctionStructBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-                public sealed class HudWidgetEffectFunctionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("input name", typeof(StringId))]
+                    [FieldAttribute("input name", typeof(StringId))]
                     public StringId InputName;
-                    [Abide.Guerilla.Tags.FieldAttribute("range name", typeof(StringId))]
+                    [FieldAttribute("range name", typeof(StringId))]
                     public StringId RangeName;
-                    [Abide.Guerilla.Tags.FieldAttribute("time period in seconds", typeof(Single))]
+                    [FieldAttribute("time period in seconds", typeof(Single))]
                     public Single TimePeriodInSeconds;
-                    [Abide.Guerilla.Tags.FieldAttribute("function", typeof(ScalarFunctionStructBlock))]
+                    [FieldAttribute("function", typeof(ScalarFunctionStructBlock))]
                     public ScalarFunctionStructBlock Function;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 24;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.InputName = StringId.Zero;
+                        this.RangeName = StringId.Zero;
+                        this.TimePeriodInSeconds = 0;
+                        this.Function = new ScalarFunctionStructBlock();
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.InputName = reader.ReadInt32();
+                        this.RangeName = reader.ReadInt32();
+                        this.TimePeriodInSeconds = reader.ReadSingle();
+                        this.Function = reader.ReadDataStructure<ScalarFunctionStructBlock>();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(12, 4)]
+                    public sealed class ScalarFunctionStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                    public sealed class ScalarFunctionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("function", typeof(MappingFunctionBlock))]
-                        public MappingFunctionBlock Function1;
-                        public int Size
+                        [FieldAttribute("function", typeof(MappingFunctionBlock))]
+                        public MappingFunctionBlock Function;
+                        public override int Size
                         {
                             get
                             {
                                 return 12;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
+                        {
+                            this.Function = new MappingFunctionBlock();
+                        }
+                        public override void Read(BinaryReader reader)
+                        {
+                            this.Function = reader.ReadDataStructure<MappingFunctionBlock>();
+                        }
+                        public override void Write(BinaryWriter writer)
                         {
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        [FieldSetAttribute(12, 4)]
+                        public sealed class MappingFunctionBlock : AbideTagBlock
                         {
-                        }
-                        public void Write(System.IO.BinaryWriter writer)
-                        {
-                        }
-                        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                        public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                        {
-                            [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                            [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                            private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                            [FieldAttribute("data", typeof(TagBlock))]
+                            [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                             public TagBlock Data;
-                            public int Size
+                            public TagBlockList<ByteBlock> DataList
+                            {
+                                get
+                                {
+                                    return this.dataList;
+                                }
+                            }
+                            public override int Size
                             {
                                 get
                                 {
                                     return 12;
                                 }
                             }
-                            public void Initialize()
+                            public override void Initialize()
+                            {
+                                this.dataList.Clear();
+                                this.Data = TagBlock.Zero;
+                            }
+                            public override void Read(BinaryReader reader)
+                            {
+                                this.Data = reader.ReadInt64();
+                                this.dataList.Read(reader, this.Data);
+                            }
+                            public override void Write(BinaryWriter writer)
                             {
                             }
-                            public void Read(System.IO.BinaryReader reader)
+                            [FieldSetAttribute(1, 4)]
+                            public sealed class ByteBlock : AbideTagBlock
                             {
-                            }
-                            public void Write(System.IO.BinaryWriter writer)
-                            {
-                            }
-                            [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                            public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                            {
-                                [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                                [FieldAttribute("Value", typeof(Byte))]
                                 public Byte Value;
-                                public int Size
+                                public override int Size
                                 {
                                     get
                                     {
                                         return 1;
                                     }
                                 }
-                                public void Initialize()
+                                public override void Initialize()
                                 {
+                                    this.Value = 0;
                                 }
-                                public void Read(System.IO.BinaryReader reader)
+                                public override void Read(BinaryReader reader)
                                 {
+                                    this.Value = reader.ReadByte();
                                 }
-                                public void Write(System.IO.BinaryWriter writer)
+                                public override void Write(BinaryWriter writer)
                                 {
                                 }
                             }
                         }
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     ApplyScale = 1,
                     ApplyTheta = 2,
                     ApplyOffset = 4,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class HudWidgetInputsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class HudWidgetInputsStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("input 1", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input1Options), false)]
-                public Byte Input1;
-                [Abide.Guerilla.Tags.FieldAttribute("input 2", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input2Options), false)]
-                public Byte Input2;
-                [Abide.Guerilla.Tags.FieldAttribute("input 3", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input3Options), false)]
-                public Byte Input3;
-                [Abide.Guerilla.Tags.FieldAttribute("input 4", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input4Options), false)]
-                public Byte Input4;
-                public int Size
+                [FieldAttribute("input 1", typeof(Input1Options))]
+                [OptionsAttribute(typeof(Input1Options), false)]
+                public Input1Options Input1;
+                [FieldAttribute("input 2", typeof(Input2Options))]
+                [OptionsAttribute(typeof(Input2Options), false)]
+                public Input2Options Input2;
+                [FieldAttribute("input 3", typeof(Input3Options))]
+                [OptionsAttribute(typeof(Input3Options), false)]
+                public Input3Options Input3;
+                [FieldAttribute("input 4", typeof(Input4Options))]
+                [OptionsAttribute(typeof(Input4Options), false)]
+                public Input4Options Input4;
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Input1 = ((Input1Options)(0));
+                    this.Input2 = ((Input2Options)(0));
+                    this.Input3 = ((Input3Options)(0));
+                    this.Input4 = ((Input4Options)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Input1 = ((Input1Options)(reader.ReadByte()));
+                    this.Input2 = ((Input2Options)(reader.ReadByte()));
+                    this.Input3 = ((Input3Options)(reader.ReadByte()));
+                    this.Input4 = ((Input4Options)(reader.ReadByte()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum Input1Options
-                {
-                    BasicZero = 0,
-                    BasicOne = 1,
-                    BasicTime = 2,
-                    BasicGlobalHudFade = 3,
-                    EmptyString = 4,
-                    EmptyString1 = 5,
-                    EmptyString2 = 6,
-                    EmptyString3 = 7,
-                    EmptyString4 = 8,
-                    EmptyString5 = 9,
-                    EmptyString6 = 10,
-                    EmptyString7 = 11,
-                    EmptyString8 = 12,
-                    EmptyString9 = 13,
-                    EmptyString10 = 14,
-                    EmptyString11 = 15,
-                    UnitShield = 16,
-                    UnitBody = 17,
-                    UnitAutoaimed = 18,
-                    UnitHasNoGrenades = 19,
-                    UnitFragGrenCnt = 20,
-                    UnitPlasmaGrenCnt = 21,
-                    UnitTimeOnDplShld = 22,
-                    UnitZoomFraction = 23,
-                    UnitCamoValue = 24,
-                    EmptyString12 = 25,
-                    EmptyString13 = 26,
-                    EmptyString14 = 27,
-                    EmptyString15 = 28,
-                    EmptyString16 = 29,
-                    EmptyString17 = 30,
-                    EmptyString18 = 31,
-                    ParentShield = 32,
-                    ParentBody = 33,
-                    EmptyString19 = 34,
-                    EmptyString20 = 35,
-                    EmptyString21 = 36,
-                    EmptyString22 = 37,
-                    EmptyString23 = 38,
-                    EmptyString24 = 39,
-                    EmptyString25 = 40,
-                    EmptyString26 = 41,
-                    EmptyString27 = 42,
-                    EmptyString28 = 43,
-                    EmptyString29 = 44,
-                    EmptyString30 = 45,
-                    EmptyString31 = 46,
-                    EmptyString32 = 47,
-                    WeaponClipAmmo = 48,
-                    WeaponHeat = 49,
-                    WeaponBattery = 50,
-                    WeaponTotalAmmo = 51,
-                    WeaponBarrelSpin = 52,
-                    WeaponOverheated = 53,
-                    WeaponClipAmmoFraction = 54,
-                    WeaponTimeOnOverheat = 55,
-                    WeaponBatteryFraction = 56,
-                    WeaponLockingFraction = 57,
-                    EmptyString33 = 58,
-                    EmptyString34 = 59,
-                    EmptyString35 = 60,
-                    EmptyString36 = 61,
-                    EmptyString37 = 62,
-                    EmptyString38 = 63,
-                    EmptyString39 = 64,
-                    UserScoreFraction = 65,
-                    OtherUserScoreFraction = 66,
-                    UserWinning = 67,
-                    BombArmingAmount = 68,
-                    EmptyString40 = 69,
-                    EmptyString41 = 70,
-                    EmptyString42 = 71,
-                    EmptyString43 = 72,
-                    EmptyString44 = 73,
-                    EmptyString45 = 74,
-                    EmptyString46 = 75,
-                    EmptyString47 = 76,
-                    EmptyString48 = 77,
-                    EmptyString49 = 78,
-                    EmptyString50 = 79,
-                    EmptyString51 = 80,
-                }
-                public enum Input2Options
+                public enum Input1Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -1212,7 +1385,7 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input3Options
+                public enum Input2Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -1296,7 +1469,91 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input4Options
+                public enum Input3Options : Byte
+                {
+                    BasicZero = 0,
+                    BasicOne = 1,
+                    BasicTime = 2,
+                    BasicGlobalHudFade = 3,
+                    EmptyString = 4,
+                    EmptyString1 = 5,
+                    EmptyString2 = 6,
+                    EmptyString3 = 7,
+                    EmptyString4 = 8,
+                    EmptyString5 = 9,
+                    EmptyString6 = 10,
+                    EmptyString7 = 11,
+                    EmptyString8 = 12,
+                    EmptyString9 = 13,
+                    EmptyString10 = 14,
+                    EmptyString11 = 15,
+                    UnitShield = 16,
+                    UnitBody = 17,
+                    UnitAutoaimed = 18,
+                    UnitHasNoGrenades = 19,
+                    UnitFragGrenCnt = 20,
+                    UnitPlasmaGrenCnt = 21,
+                    UnitTimeOnDplShld = 22,
+                    UnitZoomFraction = 23,
+                    UnitCamoValue = 24,
+                    EmptyString12 = 25,
+                    EmptyString13 = 26,
+                    EmptyString14 = 27,
+                    EmptyString15 = 28,
+                    EmptyString16 = 29,
+                    EmptyString17 = 30,
+                    EmptyString18 = 31,
+                    ParentShield = 32,
+                    ParentBody = 33,
+                    EmptyString19 = 34,
+                    EmptyString20 = 35,
+                    EmptyString21 = 36,
+                    EmptyString22 = 37,
+                    EmptyString23 = 38,
+                    EmptyString24 = 39,
+                    EmptyString25 = 40,
+                    EmptyString26 = 41,
+                    EmptyString27 = 42,
+                    EmptyString28 = 43,
+                    EmptyString29 = 44,
+                    EmptyString30 = 45,
+                    EmptyString31 = 46,
+                    EmptyString32 = 47,
+                    WeaponClipAmmo = 48,
+                    WeaponHeat = 49,
+                    WeaponBattery = 50,
+                    WeaponTotalAmmo = 51,
+                    WeaponBarrelSpin = 52,
+                    WeaponOverheated = 53,
+                    WeaponClipAmmoFraction = 54,
+                    WeaponTimeOnOverheat = 55,
+                    WeaponBatteryFraction = 56,
+                    WeaponLockingFraction = 57,
+                    EmptyString33 = 58,
+                    EmptyString34 = 59,
+                    EmptyString35 = 60,
+                    EmptyString36 = 61,
+                    EmptyString37 = 62,
+                    EmptyString38 = 63,
+                    EmptyString39 = 64,
+                    UserScoreFraction = 65,
+                    OtherUserScoreFraction = 66,
+                    UserWinning = 67,
+                    BombArmingAmount = 68,
+                    EmptyString40 = 69,
+                    EmptyString41 = 70,
+                    EmptyString42 = 71,
+                    EmptyString43 = 72,
+                    EmptyString44 = 73,
+                    EmptyString45 = 74,
+                    EmptyString46 = 75,
+                    EmptyString47 = 76,
+                    EmptyString48 = 77,
+                    EmptyString49 = 78,
+                    EmptyString50 = 79,
+                    EmptyString51 = 80,
+                }
+                public enum Input4Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -1381,59 +1638,83 @@ namespace Abide.Guerilla.Tags
                     EmptyString51 = 80,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class HudWidgetStateDefinitionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(20, 4)]
+            public sealed class HudWidgetStateDefinitionStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YUnitFlagsOptions), true)]
-                public Int16 YUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YExtraFlagsOptions), true)]
-                public Int16 YExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
-                public Int16 YWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
-                public Int16 YGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NUnitFlagsOptions), true)]
-                public Int16 NUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NExtraFlagsOptions), true)]
-                public Int16 NExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
-                public Int16 NWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
-                public Int16 NGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("age cutoff", typeof(Byte))]
+                [FieldAttribute("[Y] unit flags", typeof(YUnitFlagsOptions))]
+                [OptionsAttribute(typeof(YUnitFlagsOptions), true)]
+                public YUnitFlagsOptions YUnitFlags;
+                [FieldAttribute("[Y] extra flags", typeof(YExtraFlagsOptions))]
+                [OptionsAttribute(typeof(YExtraFlagsOptions), true)]
+                public YExtraFlagsOptions YExtraFlags;
+                [FieldAttribute("[Y] weapon flags", typeof(YWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
+                public YWeaponFlagsOptions YWeaponFlags;
+                [FieldAttribute("[Y] game engine state flags", typeof(YGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
+                public YGameEngineStateFlagsOptions YGameEngineStateFlags;
+                [FieldAttribute("[N] unit flags", typeof(NUnitFlagsOptions))]
+                [OptionsAttribute(typeof(NUnitFlagsOptions), true)]
+                public NUnitFlagsOptions NUnitFlags;
+                [FieldAttribute("[N] extra flags", typeof(NExtraFlagsOptions))]
+                [OptionsAttribute(typeof(NExtraFlagsOptions), true)]
+                public NExtraFlagsOptions NExtraFlags;
+                [FieldAttribute("[N] weapon flags", typeof(NWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
+                public NWeaponFlagsOptions NWeaponFlags;
+                [FieldAttribute("[N] game engine state flags", typeof(NGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
+                public NGameEngineStateFlagsOptions NGameEngineStateFlags;
+                [FieldAttribute("age cutoff", typeof(Byte))]
                 public Byte AgeCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("clip cutoff", typeof(Byte))]
+                [FieldAttribute("clip cutoff", typeof(Byte))]
                 public Byte ClipCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("total cutoff", typeof(Byte))]
+                [FieldAttribute("total cutoff", typeof(Byte))]
                 public Byte TotalCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
-                public Byte[] EmptyString2;
-                public int Size
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
+                public Byte[] EmptyString;
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(0));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(0));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(0));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(0));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(0));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(0));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(0));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(0));
+                    this.AgeCutoff = 0;
+                    this.ClipCutoff = 0;
+                    this.TotalCutoff = 0;
+                    this.EmptyString = new byte[1];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(reader.ReadInt16()));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(reader.ReadInt16()));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(reader.ReadInt16()));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(reader.ReadInt16()));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.AgeCutoff = reader.ReadByte();
+                    this.ClipCutoff = reader.ReadByte();
+                    this.TotalCutoff = reader.ReadByte();
+                    this.EmptyString = reader.ReadBytes(1);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum YUnitFlagsOptions
+                public enum YUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -1450,7 +1731,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum YExtraFlagsOptions
+                public enum YExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -1458,7 +1739,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum YWeaponFlagsOptions
+                public enum YWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -1472,7 +1753,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum YGameEngineStateFlagsOptions
+                public enum YGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -1487,7 +1768,7 @@ namespace Abide.Guerilla.Tags
                     PlayerIsArmingBomb = 1024,
                     PlayerTalking = 2048,
                 }
-                public enum NUnitFlagsOptions
+                public enum NUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -1504,7 +1785,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum NExtraFlagsOptions
+                public enum NExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -1512,7 +1793,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum NWeaponFlagsOptions
+                public enum NWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -1526,7 +1807,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum NGameEngineStateFlagsOptions
+                public enum NGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -1542,7 +1823,7 @@ namespace Abide.Guerilla.Tags
                     PlayerTalking = 2048,
                 }
             }
-            public enum AnchorOptions
+            public enum AnchorOptions : Int16
             {
                 HealthAndShield = 0,
                 WeaponHud = 1,
@@ -1551,203 +1832,157 @@ namespace Abide.Guerilla.Tags
                 Crosshair = 4,
                 LockOnTarget = 5,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 StringIsANumber = 1,
                 Force2DigitNumber = 2,
                 Force3DigitNumber = 4,
                 TalkingPlayerHack = 8,
             }
-            public enum JustificationOptions
+            public enum JustificationOptions : Int16
             {
                 Left = 0,
                 Center = 1,
                 Right = 2,
             }
-            public enum FullscreenFontIndexOptions
+            public enum FullscreenFontIndexOptions : Byte
             {
                 Defualt = 0,
                 NumberFont = 1,
             }
-            public enum HalfscreenFontIndexOptions
+            public enum HalfscreenFontIndexOptions : Byte
             {
                 Defualt = 0,
                 NumberFont = 1,
             }
-            public enum QuarterscreenFontIndexOptions
+            public enum QuarterscreenFontIndexOptions : Byte
             {
                 Defualt = 0,
                 NumberFont = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(112, 4)]
-        public sealed class HudScreenEffectWidgets : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(112, 4)]
+        public sealed class HudScreenEffectWidgets : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name", typeof(StringId))]
+            [FieldAttribute("name", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetInputsStructBlock))]
             public HudWidgetInputsStructBlock EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
+            [FieldAttribute("", typeof(HudWidgetStateDefinitionStructBlock))]
             public HudWidgetStateDefinitionStructBlock EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("anchor", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnchorOptions), false)]
-            public Int16 Anchor;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+            [FieldAttribute("anchor", typeof(AnchorOptions))]
+            [OptionsAttribute(typeof(AnchorOptions), false)]
+            public AnchorOptions Anchor;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("bitmap", typeof(TagReference))]
             public TagReference Bitmap;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen screen effect", typeof(TagReference))]
+            [FieldAttribute("fullscreen screen effect", typeof(TagReference))]
             public TagReference FullscreenScreenEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("waa", typeof(ScreenEffectBonusStructBlock))]
+            [FieldAttribute("waa", typeof(ScreenEffectBonusStructBlock))]
             public ScreenEffectBonusStructBlock Waa;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen sequence index", typeof(Byte))]
+            [FieldAttribute("fullscreen sequence index", typeof(Byte))]
             public Byte FullscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen sequence index", typeof(Byte))]
+            [FieldAttribute("halfscreen sequence index", typeof(Byte))]
             public Byte HalfscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen sequence index", typeof(Byte))]
+            [FieldAttribute("quarterscreen sequence index", typeof(Byte))]
             public Byte QuarterscreenSequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(1)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(1)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("fullscreen offset", typeof(Vector2))]
+            [FieldAttribute("fullscreen offset", typeof(Vector2))]
             public Vector2 FullscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("halfscreen offset", typeof(Vector2))]
+            [FieldAttribute("halfscreen offset", typeof(Vector2))]
             public Vector2 HalfscreenOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("quarterscreen offset", typeof(Vector2))]
+            [FieldAttribute("quarterscreen offset", typeof(Vector2))]
             public Vector2 QuarterscreenOffset;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 112;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = StringId.Zero;
+                this.EmptyString = new HudWidgetInputsStructBlock();
+                this.EmptyString1 = new HudWidgetStateDefinitionStructBlock();
+                this.Anchor = ((AnchorOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.Bitmap = TagReference.Null;
+                this.FullscreenScreenEffect = TagReference.Null;
+                this.Waa = new ScreenEffectBonusStructBlock();
+                this.FullscreenSequenceIndex = 0;
+                this.HalfscreenSequenceIndex = 0;
+                this.QuarterscreenSequenceIndex = 0;
+                this.EmptyString2 = new byte[1];
+                this.FullscreenOffset = Vector2.Zero;
+                this.HalfscreenOffset = Vector2.Zero;
+                this.QuarterscreenOffset = Vector2.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.EmptyString = reader.ReadDataStructure<HudWidgetInputsStructBlock>();
+                this.EmptyString1 = reader.ReadDataStructure<HudWidgetStateDefinitionStructBlock>();
+                this.Anchor = ((AnchorOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Bitmap = reader.Read<TagReference>();
+                this.FullscreenScreenEffect = reader.Read<TagReference>();
+                this.Waa = reader.ReadDataStructure<ScreenEffectBonusStructBlock>();
+                this.FullscreenSequenceIndex = reader.ReadByte();
+                this.HalfscreenSequenceIndex = reader.ReadByte();
+                this.QuarterscreenSequenceIndex = reader.ReadByte();
+                this.EmptyString2 = reader.ReadBytes(1);
+                this.FullscreenOffset = reader.Read<Vector2>();
+                this.HalfscreenOffset = reader.Read<Vector2>();
+                this.QuarterscreenOffset = reader.Read<Vector2>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(4, 4)]
+            public sealed class HudWidgetInputsStructBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class HudWidgetInputsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("input 1", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input1Options), false)]
-                public Byte Input1;
-                [Abide.Guerilla.Tags.FieldAttribute("input 2", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input2Options), false)]
-                public Byte Input2;
-                [Abide.Guerilla.Tags.FieldAttribute("input 3", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input3Options), false)]
-                public Byte Input3;
-                [Abide.Guerilla.Tags.FieldAttribute("input 4", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Input4Options), false)]
-                public Byte Input4;
-                public int Size
+                [FieldAttribute("input 1", typeof(Input1Options))]
+                [OptionsAttribute(typeof(Input1Options), false)]
+                public Input1Options Input1;
+                [FieldAttribute("input 2", typeof(Input2Options))]
+                [OptionsAttribute(typeof(Input2Options), false)]
+                public Input2Options Input2;
+                [FieldAttribute("input 3", typeof(Input3Options))]
+                [OptionsAttribute(typeof(Input3Options), false)]
+                public Input3Options Input3;
+                [FieldAttribute("input 4", typeof(Input4Options))]
+                [OptionsAttribute(typeof(Input4Options), false)]
+                public Input4Options Input4;
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Input1 = ((Input1Options)(0));
+                    this.Input2 = ((Input2Options)(0));
+                    this.Input3 = ((Input3Options)(0));
+                    this.Input4 = ((Input4Options)(0));
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Input1 = ((Input1Options)(reader.ReadByte()));
+                    this.Input2 = ((Input2Options)(reader.ReadByte()));
+                    this.Input3 = ((Input3Options)(reader.ReadByte()));
+                    this.Input4 = ((Input4Options)(reader.ReadByte()));
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum Input1Options
-                {
-                    BasicZero = 0,
-                    BasicOne = 1,
-                    BasicTime = 2,
-                    BasicGlobalHudFade = 3,
-                    EmptyString = 4,
-                    EmptyString1 = 5,
-                    EmptyString2 = 6,
-                    EmptyString3 = 7,
-                    EmptyString4 = 8,
-                    EmptyString5 = 9,
-                    EmptyString6 = 10,
-                    EmptyString7 = 11,
-                    EmptyString8 = 12,
-                    EmptyString9 = 13,
-                    EmptyString10 = 14,
-                    EmptyString11 = 15,
-                    UnitShield = 16,
-                    UnitBody = 17,
-                    UnitAutoaimed = 18,
-                    UnitHasNoGrenades = 19,
-                    UnitFragGrenCnt = 20,
-                    UnitPlasmaGrenCnt = 21,
-                    UnitTimeOnDplShld = 22,
-                    UnitZoomFraction = 23,
-                    UnitCamoValue = 24,
-                    EmptyString12 = 25,
-                    EmptyString13 = 26,
-                    EmptyString14 = 27,
-                    EmptyString15 = 28,
-                    EmptyString16 = 29,
-                    EmptyString17 = 30,
-                    EmptyString18 = 31,
-                    ParentShield = 32,
-                    ParentBody = 33,
-                    EmptyString19 = 34,
-                    EmptyString20 = 35,
-                    EmptyString21 = 36,
-                    EmptyString22 = 37,
-                    EmptyString23 = 38,
-                    EmptyString24 = 39,
-                    EmptyString25 = 40,
-                    EmptyString26 = 41,
-                    EmptyString27 = 42,
-                    EmptyString28 = 43,
-                    EmptyString29 = 44,
-                    EmptyString30 = 45,
-                    EmptyString31 = 46,
-                    EmptyString32 = 47,
-                    WeaponClipAmmo = 48,
-                    WeaponHeat = 49,
-                    WeaponBattery = 50,
-                    WeaponTotalAmmo = 51,
-                    WeaponBarrelSpin = 52,
-                    WeaponOverheated = 53,
-                    WeaponClipAmmoFraction = 54,
-                    WeaponTimeOnOverheat = 55,
-                    WeaponBatteryFraction = 56,
-                    WeaponLockingFraction = 57,
-                    EmptyString33 = 58,
-                    EmptyString34 = 59,
-                    EmptyString35 = 60,
-                    EmptyString36 = 61,
-                    EmptyString37 = 62,
-                    EmptyString38 = 63,
-                    EmptyString39 = 64,
-                    UserScoreFraction = 65,
-                    OtherUserScoreFraction = 66,
-                    UserWinning = 67,
-                    BombArmingAmount = 68,
-                    EmptyString40 = 69,
-                    EmptyString41 = 70,
-                    EmptyString42 = 71,
-                    EmptyString43 = 72,
-                    EmptyString44 = 73,
-                    EmptyString45 = 74,
-                    EmptyString46 = 75,
-                    EmptyString47 = 76,
-                    EmptyString48 = 77,
-                    EmptyString49 = 78,
-                    EmptyString50 = 79,
-                    EmptyString51 = 80,
-                }
-                public enum Input2Options
+                public enum Input1Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -1831,7 +2066,7 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input3Options
+                public enum Input2Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -1915,7 +2150,91 @@ namespace Abide.Guerilla.Tags
                     EmptyString50 = 79,
                     EmptyString51 = 80,
                 }
-                public enum Input4Options
+                public enum Input3Options : Byte
+                {
+                    BasicZero = 0,
+                    BasicOne = 1,
+                    BasicTime = 2,
+                    BasicGlobalHudFade = 3,
+                    EmptyString = 4,
+                    EmptyString1 = 5,
+                    EmptyString2 = 6,
+                    EmptyString3 = 7,
+                    EmptyString4 = 8,
+                    EmptyString5 = 9,
+                    EmptyString6 = 10,
+                    EmptyString7 = 11,
+                    EmptyString8 = 12,
+                    EmptyString9 = 13,
+                    EmptyString10 = 14,
+                    EmptyString11 = 15,
+                    UnitShield = 16,
+                    UnitBody = 17,
+                    UnitAutoaimed = 18,
+                    UnitHasNoGrenades = 19,
+                    UnitFragGrenCnt = 20,
+                    UnitPlasmaGrenCnt = 21,
+                    UnitTimeOnDplShld = 22,
+                    UnitZoomFraction = 23,
+                    UnitCamoValue = 24,
+                    EmptyString12 = 25,
+                    EmptyString13 = 26,
+                    EmptyString14 = 27,
+                    EmptyString15 = 28,
+                    EmptyString16 = 29,
+                    EmptyString17 = 30,
+                    EmptyString18 = 31,
+                    ParentShield = 32,
+                    ParentBody = 33,
+                    EmptyString19 = 34,
+                    EmptyString20 = 35,
+                    EmptyString21 = 36,
+                    EmptyString22 = 37,
+                    EmptyString23 = 38,
+                    EmptyString24 = 39,
+                    EmptyString25 = 40,
+                    EmptyString26 = 41,
+                    EmptyString27 = 42,
+                    EmptyString28 = 43,
+                    EmptyString29 = 44,
+                    EmptyString30 = 45,
+                    EmptyString31 = 46,
+                    EmptyString32 = 47,
+                    WeaponClipAmmo = 48,
+                    WeaponHeat = 49,
+                    WeaponBattery = 50,
+                    WeaponTotalAmmo = 51,
+                    WeaponBarrelSpin = 52,
+                    WeaponOverheated = 53,
+                    WeaponClipAmmoFraction = 54,
+                    WeaponTimeOnOverheat = 55,
+                    WeaponBatteryFraction = 56,
+                    WeaponLockingFraction = 57,
+                    EmptyString33 = 58,
+                    EmptyString34 = 59,
+                    EmptyString35 = 60,
+                    EmptyString36 = 61,
+                    EmptyString37 = 62,
+                    EmptyString38 = 63,
+                    EmptyString39 = 64,
+                    UserScoreFraction = 65,
+                    OtherUserScoreFraction = 66,
+                    UserWinning = 67,
+                    BombArmingAmount = 68,
+                    EmptyString40 = 69,
+                    EmptyString41 = 70,
+                    EmptyString42 = 71,
+                    EmptyString43 = 72,
+                    EmptyString44 = 73,
+                    EmptyString45 = 74,
+                    EmptyString46 = 75,
+                    EmptyString47 = 76,
+                    EmptyString48 = 77,
+                    EmptyString49 = 78,
+                    EmptyString50 = 79,
+                    EmptyString51 = 80,
+                }
+                public enum Input4Options : Byte
                 {
                     BasicZero = 0,
                     BasicOne = 1,
@@ -2000,59 +2319,83 @@ namespace Abide.Guerilla.Tags
                     EmptyString51 = 80,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class HudWidgetStateDefinitionStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(20, 4)]
+            public sealed class HudWidgetStateDefinitionStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YUnitFlagsOptions), true)]
-                public Int16 YUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YExtraFlagsOptions), true)]
-                public Int16 YExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
-                public Int16 YWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[Y] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
-                public Int16 YGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] unit flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NUnitFlagsOptions), true)]
-                public Int16 NUnitFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] extra flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NExtraFlagsOptions), true)]
-                public Int16 NExtraFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] weapon flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
-                public Int16 NWeaponFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("[N] game engine state flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
-                public Int16 NGameEngineStateFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("age cutoff", typeof(Byte))]
+                [FieldAttribute("[Y] unit flags", typeof(YUnitFlagsOptions))]
+                [OptionsAttribute(typeof(YUnitFlagsOptions), true)]
+                public YUnitFlagsOptions YUnitFlags;
+                [FieldAttribute("[Y] extra flags", typeof(YExtraFlagsOptions))]
+                [OptionsAttribute(typeof(YExtraFlagsOptions), true)]
+                public YExtraFlagsOptions YExtraFlags;
+                [FieldAttribute("[Y] weapon flags", typeof(YWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(YWeaponFlagsOptions), true)]
+                public YWeaponFlagsOptions YWeaponFlags;
+                [FieldAttribute("[Y] game engine state flags", typeof(YGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(YGameEngineStateFlagsOptions), true)]
+                public YGameEngineStateFlagsOptions YGameEngineStateFlags;
+                [FieldAttribute("[N] unit flags", typeof(NUnitFlagsOptions))]
+                [OptionsAttribute(typeof(NUnitFlagsOptions), true)]
+                public NUnitFlagsOptions NUnitFlags;
+                [FieldAttribute("[N] extra flags", typeof(NExtraFlagsOptions))]
+                [OptionsAttribute(typeof(NExtraFlagsOptions), true)]
+                public NExtraFlagsOptions NExtraFlags;
+                [FieldAttribute("[N] weapon flags", typeof(NWeaponFlagsOptions))]
+                [OptionsAttribute(typeof(NWeaponFlagsOptions), true)]
+                public NWeaponFlagsOptions NWeaponFlags;
+                [FieldAttribute("[N] game engine state flags", typeof(NGameEngineStateFlagsOptions))]
+                [OptionsAttribute(typeof(NGameEngineStateFlagsOptions), true)]
+                public NGameEngineStateFlagsOptions NGameEngineStateFlags;
+                [FieldAttribute("age cutoff", typeof(Byte))]
                 public Byte AgeCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("clip cutoff", typeof(Byte))]
+                [FieldAttribute("clip cutoff", typeof(Byte))]
                 public Byte ClipCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("total cutoff", typeof(Byte))]
+                [FieldAttribute("total cutoff", typeof(Byte))]
                 public Byte TotalCutoff;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
-                public Byte[] EmptyString2;
-                public int Size
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
+                public Byte[] EmptyString;
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(0));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(0));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(0));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(0));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(0));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(0));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(0));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(0));
+                    this.AgeCutoff = 0;
+                    this.ClipCutoff = 0;
+                    this.TotalCutoff = 0;
+                    this.EmptyString = new byte[1];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.YUnitFlags = ((YUnitFlagsOptions)(reader.ReadInt16()));
+                    this.YExtraFlags = ((YExtraFlagsOptions)(reader.ReadInt16()));
+                    this.YWeaponFlags = ((YWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.YGameEngineStateFlags = ((YGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.NUnitFlags = ((NUnitFlagsOptions)(reader.ReadInt16()));
+                    this.NExtraFlags = ((NExtraFlagsOptions)(reader.ReadInt16()));
+                    this.NWeaponFlags = ((NWeaponFlagsOptions)(reader.ReadInt16()));
+                    this.NGameEngineStateFlags = ((NGameEngineStateFlagsOptions)(reader.ReadInt16()));
+                    this.AgeCutoff = reader.ReadByte();
+                    this.ClipCutoff = reader.ReadByte();
+                    this.TotalCutoff = reader.ReadByte();
+                    this.EmptyString = reader.ReadBytes(1);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum YUnitFlagsOptions
+                public enum YUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -2069,7 +2412,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum YExtraFlagsOptions
+                public enum YExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -2077,7 +2420,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum YWeaponFlagsOptions
+                public enum YWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -2091,7 +2434,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum YGameEngineStateFlagsOptions
+                public enum YGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -2106,7 +2449,7 @@ namespace Abide.Guerilla.Tags
                     PlayerIsArmingBomb = 1024,
                     PlayerTalking = 2048,
                 }
-                public enum NUnitFlagsOptions
+                public enum NUnitFlagsOptions : Int16
                 {
                     Default = 1,
                     GrenadeTypeIsNone = 2,
@@ -2123,7 +2466,7 @@ namespace Abide.Guerilla.Tags
                     ShieldEnabled = 4096,
                     Dervish = 8192,
                 }
-                public enum NExtraFlagsOptions
+                public enum NExtraFlagsOptions : Int16
                 {
                     AutoaimFriendly = 1,
                     AutoaimPlasma = 2,
@@ -2131,7 +2474,7 @@ namespace Abide.Guerilla.Tags
                     AutoaimVulnerable = 8,
                     AutoaimInvincible = 16,
                 }
-                public enum NWeaponFlagsOptions
+                public enum NWeaponFlagsOptions : Int16
                 {
                     PrimaryWeapon = 1,
                     SecondaryWeapon = 2,
@@ -2145,7 +2488,7 @@ namespace Abide.Guerilla.Tags
                     Locking = 512,
                     Locked = 1024,
                 }
-                public enum NGameEngineStateFlagsOptions
+                public enum NGameEngineStateFlagsOptions : Int16
                 {
                     CampaignSolo = 1,
                     CampaignCoop = 2,
@@ -2161,31 +2504,35 @@ namespace Abide.Guerilla.Tags
                     PlayerTalking = 2048,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-            public sealed class ScreenEffectBonusStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(32, 4)]
+            public sealed class ScreenEffectBonusStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("halfscreen screen effect", typeof(TagReference))]
+                [FieldAttribute("halfscreen screen effect", typeof(TagReference))]
                 public TagReference HalfscreenScreenEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("quarterscreen screen effect", typeof(TagReference))]
+                [FieldAttribute("quarterscreen screen effect", typeof(TagReference))]
                 public TagReference QuarterscreenScreenEffect;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 32;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.HalfscreenScreenEffect = TagReference.Null;
+                    this.QuarterscreenScreenEffect = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.HalfscreenScreenEffect = reader.Read<TagReference>();
+                    this.QuarterscreenScreenEffect = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum AnchorOptions
+            public enum AnchorOptions : Int16
             {
                 HealthAndShield = 0,
                 WeaponHud = 1,
@@ -2194,34 +2541,40 @@ namespace Abide.Guerilla.Tags
                 Crosshair = 4,
                 LockOnTarget = 5,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 Unused = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-        public sealed class NewHudDashlightDataStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(8, 4)]
+        public sealed class NewHudDashlightDataStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("low clip cutoff#the cutoff for showing the reload dashlight", typeof(Int16))]
+            [FieldAttribute("low clip cutoff#the cutoff for showing the reload dashlight", typeof(Int16))]
             public Int16 LowClipCutoff;
-            [Abide.Guerilla.Tags.FieldAttribute("low ammo cutoff#the cutoff for showing the low ammo dashlight", typeof(Int16))]
+            [FieldAttribute("low ammo cutoff#the cutoff for showing the low ammo dashlight", typeof(Int16))]
             public Int16 LowAmmoCutoff;
-            [Abide.Guerilla.Tags.FieldAttribute("age cutoff#the age cutoff for showing the low battery dashlight", typeof(Single))]
+            [FieldAttribute("age cutoff#the age cutoff for showing the low battery dashlight", typeof(Single))]
             public Single AgeCutoff;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 8;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.LowClipCutoff = 0;
+                this.LowAmmoCutoff = 0;
+                this.AgeCutoff = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.LowClipCutoff = reader.ReadInt16();
+                this.LowAmmoCutoff = reader.ReadInt16();
+                this.AgeCutoff = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

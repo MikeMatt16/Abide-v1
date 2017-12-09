@@ -14,90 +14,137 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(88, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_mix", 1936616824u, 4294967293u, typeof(SoundMixBlock))]
-    public sealed class SoundMixBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(88, 4)]
+    [TagGroupAttribute("sound_mix", 1936616824u, 4294967293u, typeof(SoundMixBlock))]
+    public sealed class SoundMixBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("left stereo gain:dB", typeof(Single))]
+        [FieldAttribute("left stereo gain:dB", typeof(Single))]
         public Single LeftStereoGain;
-        [Abide.Guerilla.Tags.FieldAttribute("right stereo gain:dB", typeof(Single))]
+        [FieldAttribute("right stereo gain:dB", typeof(Single))]
         public Single RightStereoGain;
-        [Abide.Guerilla.Tags.FieldAttribute("left stereo gain:dB", typeof(Single))]
+        [FieldAttribute("left stereo gain:dB", typeof(Single))]
         public Single LeftStereoGain1;
-        [Abide.Guerilla.Tags.FieldAttribute("right stereo gain:dB", typeof(Single))]
+        [FieldAttribute("right stereo gain:dB", typeof(Single))]
         public Single RightStereoGain1;
-        [Abide.Guerilla.Tags.FieldAttribute("left stereo gain:dB", typeof(Single))]
+        [FieldAttribute("left stereo gain:dB", typeof(Single))]
         public Single LeftStereoGain2;
-        [Abide.Guerilla.Tags.FieldAttribute("right stereo gain:dB", typeof(Single))]
+        [FieldAttribute("right stereo gain:dB", typeof(Single))]
         public Single RightStereoGain2;
-        [Abide.Guerilla.Tags.FieldAttribute("front speaker gain:dB", typeof(Single))]
+        [FieldAttribute("front speaker gain:dB", typeof(Single))]
         public Single FrontSpeakerGain;
-        [Abide.Guerilla.Tags.FieldAttribute("rear speaker gain:dB", typeof(Single))]
+        [FieldAttribute("rear speaker gain:dB", typeof(Single))]
         public Single RearSpeakerGain;
-        [Abide.Guerilla.Tags.FieldAttribute("front speaker gain:dB", typeof(Single))]
+        [FieldAttribute("front speaker gain:dB", typeof(Single))]
         public Single FrontSpeakerGain1;
-        [Abide.Guerilla.Tags.FieldAttribute("rear speaker gain:dB", typeof(Single))]
+        [FieldAttribute("rear speaker gain:dB", typeof(Single))]
         public Single RearSpeakerGain1;
-        [Abide.Guerilla.Tags.FieldAttribute("global mix", typeof(SoundGlobalMixStructBlock))]
-        public SoundGlobalMixStructBlock GlobalMix1;
-        public int Size
+        [FieldAttribute("global mix", typeof(SoundGlobalMixStructBlock))]
+        public SoundGlobalMixStructBlock GlobalMix;
+        public override int Size
         {
             get
             {
                 return 88;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.LeftStereoGain = 0;
+            this.RightStereoGain = 0;
+            this.LeftStereoGain1 = 0;
+            this.RightStereoGain1 = 0;
+            this.LeftStereoGain2 = 0;
+            this.RightStereoGain2 = 0;
+            this.FrontSpeakerGain = 0;
+            this.RearSpeakerGain = 0;
+            this.FrontSpeakerGain1 = 0;
+            this.RearSpeakerGain1 = 0;
+            this.GlobalMix = new SoundGlobalMixStructBlock();
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.LeftStereoGain = reader.ReadSingle();
+            this.RightStereoGain = reader.ReadSingle();
+            this.LeftStereoGain1 = reader.ReadSingle();
+            this.RightStereoGain1 = reader.ReadSingle();
+            this.LeftStereoGain2 = reader.ReadSingle();
+            this.RightStereoGain2 = reader.ReadSingle();
+            this.FrontSpeakerGain = reader.ReadSingle();
+            this.RearSpeakerGain = reader.ReadSingle();
+            this.FrontSpeakerGain1 = reader.ReadSingle();
+            this.RearSpeakerGain1 = reader.ReadSingle();
+            this.GlobalMix = reader.ReadDataStructure<SoundGlobalMixStructBlock>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(48, 4)]
+        public sealed class SoundGlobalMixStructBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(48, 4)]
-        public sealed class SoundGlobalMixStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("mono unspatialized gain:dB", typeof(Single))]
+            [FieldAttribute("mono unspatialized gain:dB", typeof(Single))]
             public Single MonoUnspatializedGain;
-            [Abide.Guerilla.Tags.FieldAttribute("stereo to 3d gain:dB", typeof(Single))]
+            [FieldAttribute("stereo to 3d gain:dB", typeof(Single))]
             public Single StereoTo3dGain;
-            [Abide.Guerilla.Tags.FieldAttribute("rear surround to front stereo gain:dB", typeof(Single))]
+            [FieldAttribute("rear surround to front stereo gain:dB", typeof(Single))]
             public Single RearSurroundToFrontStereoGain;
-            [Abide.Guerilla.Tags.FieldAttribute("front speaker gain:dB", typeof(Single))]
+            [FieldAttribute("front speaker gain:dB", typeof(Single))]
             public Single FrontSpeakerGain;
-            [Abide.Guerilla.Tags.FieldAttribute("center speaker gain:dB", typeof(Single))]
+            [FieldAttribute("center speaker gain:dB", typeof(Single))]
             public Single CenterSpeakerGain;
-            [Abide.Guerilla.Tags.FieldAttribute("front speaker gain:dB", typeof(Single))]
+            [FieldAttribute("front speaker gain:dB", typeof(Single))]
             public Single FrontSpeakerGain1;
-            [Abide.Guerilla.Tags.FieldAttribute("center speaker gain:dB", typeof(Single))]
+            [FieldAttribute("center speaker gain:dB", typeof(Single))]
             public Single CenterSpeakerGain1;
-            [Abide.Guerilla.Tags.FieldAttribute("stereo unspatialized gain:dB", typeof(Single))]
+            [FieldAttribute("stereo unspatialized gain:dB", typeof(Single))]
             public Single StereoUnspatializedGain;
-            [Abide.Guerilla.Tags.FieldAttribute("solo player fade out delay: seconds", typeof(Single))]
+            [FieldAttribute("solo player fade out delay: seconds", typeof(Single))]
             public Single SoloPlayerFadeOutDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("solo player fade out time: seconds", typeof(Single))]
+            [FieldAttribute("solo player fade out time: seconds", typeof(Single))]
             public Single SoloPlayerFadeOutTime;
-            [Abide.Guerilla.Tags.FieldAttribute("solo player fade in time: seconds", typeof(Single))]
+            [FieldAttribute("solo player fade in time: seconds", typeof(Single))]
             public Single SoloPlayerFadeInTime;
-            [Abide.Guerilla.Tags.FieldAttribute("game music fade out time: seconds", typeof(Single))]
+            [FieldAttribute("game music fade out time: seconds", typeof(Single))]
             public Single GameMusicFadeOutTime;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 48;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.MonoUnspatializedGain = 0;
+                this.StereoTo3dGain = 0;
+                this.RearSurroundToFrontStereoGain = 0;
+                this.FrontSpeakerGain = 0;
+                this.CenterSpeakerGain = 0;
+                this.FrontSpeakerGain1 = 0;
+                this.CenterSpeakerGain1 = 0;
+                this.StereoUnspatializedGain = 0;
+                this.SoloPlayerFadeOutDelay = 0;
+                this.SoloPlayerFadeOutTime = 0;
+                this.SoloPlayerFadeInTime = 0;
+                this.GameMusicFadeOutTime = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.MonoUnspatializedGain = reader.ReadSingle();
+                this.StereoTo3dGain = reader.ReadSingle();
+                this.RearSurroundToFrontStereoGain = reader.ReadSingle();
+                this.FrontSpeakerGain = reader.ReadSingle();
+                this.CenterSpeakerGain = reader.ReadSingle();
+                this.FrontSpeakerGain1 = reader.ReadSingle();
+                this.CenterSpeakerGain1 = reader.ReadSingle();
+                this.StereoUnspatializedGain = reader.ReadSingle();
+                this.SoloPlayerFadeOutDelay = reader.ReadSingle();
+                this.SoloPlayerFadeOutTime = reader.ReadSingle();
+                this.SoloPlayerFadeInTime = reader.ReadSingle();
+                this.GameMusicFadeOutTime = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

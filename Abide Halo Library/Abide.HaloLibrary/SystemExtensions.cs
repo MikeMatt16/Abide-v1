@@ -316,9 +316,9 @@ namespace System.IO
         }
         /// <summary>
         /// Reads the specified object from the underlying stream and advances the current position of the stream the length of the given type.
-        /// <typeparamref name="T"/> must be a binary type.
+        /// <typeparamref name="T"/> must be a value type.
         /// </summary>
-        /// <typeparam name="T">A binary structure type to read.</typeparam>
+        /// <typeparam name="T">A value type structure type to read.</typeparam>
         /// <param name="reader">The <see cref="BinaryReader"/> instance to read the object from the underlying stream.</param>
         /// <returns>An instance of <typeparamref name="T"/>.</returns>
         public static T Read<T>(this BinaryReader reader) where T : struct

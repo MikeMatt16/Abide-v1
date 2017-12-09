@@ -14,28 +14,31 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_scenery", 1936941925u, 1868720741u, typeof(SoundSceneryBlock))]
-    public sealed class SoundSceneryBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(16, 4)]
+    [TagGroupAttribute("sound_scenery", 1936941925u, 1868720741u, typeof(SoundSceneryBlock))]
+    public sealed class SoundSceneryBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(16)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(16)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 16;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.EmptyString = new byte[16];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.EmptyString = reader.ReadBytes(16);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

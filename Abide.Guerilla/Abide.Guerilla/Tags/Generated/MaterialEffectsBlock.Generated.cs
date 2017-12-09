@@ -14,134 +14,198 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("material_effects", 1718579060u, 4294967293u, typeof(MaterialEffectsBlock))]
-    public sealed class MaterialEffectsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("material_effects", 1718579060u, 4294967293u, typeof(MaterialEffectsBlock))]
+    public sealed class MaterialEffectsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("effects", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("material_effect_block_v2", 21, typeof(MaterialEffectBlockV2))]
+        private TagBlockList<MaterialEffectBlockV2> effectsList = new TagBlockList<MaterialEffectBlockV2>(21);
+        [FieldAttribute("effects", typeof(TagBlock))]
+        [BlockAttribute("material_effect_block_v2", 21, typeof(MaterialEffectBlockV2))]
         public TagBlock Effects;
-        public int Size
+        public TagBlockList<MaterialEffectBlockV2> EffectsList
+        {
+            get
+            {
+                return this.effectsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.effectsList.Clear();
+            this.Effects = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Effects = reader.ReadInt64();
+            this.effectsList.Read(reader, this.Effects);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(36, 4)]
+        public sealed class MaterialEffectBlockV2 : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class MaterialEffectBlockV2 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("old materials (DO NOT USE)", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("old_material_effect_material_block", 33, typeof(OldMaterialEffectMaterialBlock))]
+            private TagBlockList<OldMaterialEffectMaterialBlock> oldMaterialsDoNotUseList = new TagBlockList<OldMaterialEffectMaterialBlock>(33);
+            private TagBlockList<MaterialEffectMaterialBlock> soundsList = new TagBlockList<MaterialEffectMaterialBlock>(500);
+            [FieldAttribute("old materials (DO NOT USE)", typeof(TagBlock))]
+            [BlockAttribute("old_material_effect_material_block", 33, typeof(OldMaterialEffectMaterialBlock))]
             public TagBlock OldMaterialsDoNotUse;
-            [Abide.Guerilla.Tags.FieldAttribute("sounds", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("material_effect_material_block", 500, typeof(MaterialEffectMaterialBlock))]
+            [FieldAttribute("sounds", typeof(TagBlock))]
+            [BlockAttribute("material_effect_material_block", 500, typeof(MaterialEffectMaterialBlock))]
             public TagBlock Sounds;
-            [Abide.Guerilla.Tags.FieldAttribute("effects", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("material_effect_material_block", 500, typeof(MaterialEffectMaterialBlock))]
+            [FieldAttribute("effects", typeof(TagBlock))]
+            [BlockAttribute("material_effect_material_block", 500, typeof(MaterialEffectMaterialBlock))]
             public TagBlock Effects;
-            public int Size
+            public TagBlockList<OldMaterialEffectMaterialBlock> OldMaterialsDoNotUseList
+            {
+                get
+                {
+                    return this.oldMaterialsDoNotUseList;
+                }
+            }
+            public TagBlockList<MaterialEffectMaterialBlock> SoundsList
+            {
+                get
+                {
+                    return this.soundsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.oldMaterialsDoNotUseList.Clear();
+                this.soundsList.Clear();
+                this.OldMaterialsDoNotUse = TagBlock.Zero;
+                this.Sounds = TagBlock.Zero;
+                this.Effects = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.OldMaterialsDoNotUse = reader.ReadInt64();
+                this.oldMaterialsDoNotUseList.Read(reader, this.OldMaterialsDoNotUse);
+                this.Sounds = reader.ReadInt64();
+                this.soundsList.Read(reader, this.Sounds);
+                this.Effects = reader.ReadInt64();
+                this.soundsList.Read(reader, this.Effects);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(44, 4)]
+            public sealed class OldMaterialEffectMaterialBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(44, 4)]
-            public sealed class OldMaterialEffectMaterialBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("effect", typeof(TagReference))]
+                [FieldAttribute("effect", typeof(TagReference))]
                 public TagReference Effect;
-                [Abide.Guerilla.Tags.FieldAttribute("sound", typeof(TagReference))]
+                [FieldAttribute("sound", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("material name^", typeof(StringId))]
+                [FieldAttribute("material name^", typeof(StringId))]
                 public StringId MaterialName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("sweetener mode", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SweetenerModeOptions), false)]
-                public Byte SweetenerMode;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(3)]
+                [FieldAttribute("sweetener mode", typeof(SweetenerModeOptions))]
+                [OptionsAttribute(typeof(SweetenerModeOptions), false)]
+                public SweetenerModeOptions SweetenerMode;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(3)]
                 public Byte[] EmptyString1;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 44;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Effect = TagReference.Null;
+                    this.Sound = TagReference.Null;
+                    this.MaterialName = StringId.Zero;
+                    this.EmptyString = new byte[4];
+                    this.SweetenerMode = ((SweetenerModeOptions)(0));
+                    this.EmptyString1 = new byte[3];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Effect = reader.Read<TagReference>();
+                    this.Sound = reader.Read<TagReference>();
+                    this.MaterialName = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(4);
+                    this.SweetenerMode = ((SweetenerModeOptions)(reader.ReadByte()));
+                    this.EmptyString1 = reader.ReadBytes(3);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum SweetenerModeOptions
+                public enum SweetenerModeOptions : Byte
                 {
                     SweetenerDefault = 0,
                     SweetenerEnabled = 1,
                     SweetenerDisabled = 2,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-            public sealed class MaterialEffectMaterialBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(40, 4)]
+            public sealed class MaterialEffectMaterialBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("tag (effect or sound)", typeof(TagReference))]
+                [FieldAttribute("tag (effect or sound)", typeof(TagReference))]
                 public TagReference TagEffectOrSound;
-                [Abide.Guerilla.Tags.FieldAttribute("secondary tag (effect or sound)", typeof(TagReference))]
+                [FieldAttribute("secondary tag (effect or sound)", typeof(TagReference))]
                 public TagReference SecondaryTagEffectOrSound;
-                [Abide.Guerilla.Tags.FieldAttribute("material name^", typeof(StringId))]
+                [FieldAttribute("material name^", typeof(StringId))]
                 public StringId MaterialName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("sweetener mode", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SweetenerModeOptions), false)]
-                public Byte SweetenerMode;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                [FieldAttribute("sweetener mode", typeof(SweetenerModeOptions))]
+                [OptionsAttribute(typeof(SweetenerModeOptions), false)]
+                public SweetenerModeOptions SweetenerMode;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
                 public Byte[] EmptyString1;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 40;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.TagEffectOrSound = TagReference.Null;
+                    this.SecondaryTagEffectOrSound = TagReference.Null;
+                    this.MaterialName = StringId.Zero;
+                    this.EmptyString = new byte[2];
+                    this.SweetenerMode = ((SweetenerModeOptions)(0));
+                    this.EmptyString1 = new byte[1];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.TagEffectOrSound = reader.Read<TagReference>();
+                    this.SecondaryTagEffectOrSound = reader.Read<TagReference>();
+                    this.MaterialName = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.SweetenerMode = ((SweetenerModeOptions)(reader.ReadByte()));
+                    this.EmptyString1 = reader.ReadBytes(1);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum SweetenerModeOptions
+                public enum SweetenerModeOptions : Byte
                 {
                     SweetenerDefault = 0,
                     SweetenerEnabled = 1,

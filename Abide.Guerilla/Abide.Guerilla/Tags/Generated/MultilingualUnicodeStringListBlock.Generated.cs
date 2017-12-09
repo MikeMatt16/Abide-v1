@@ -14,70 +14,119 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("multilingual_unicode_string_list", 1970170211u, 4294967293u, typeof(MultilingualUnicodeStringListBlock))]
-    public sealed class MultilingualUnicodeStringListBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(68, 4)]
+    [TagGroupAttribute("multilingual_unicode_string_list", 1970170211u, 4294967293u, typeof(MultilingualUnicodeStringListBlock))]
+    public sealed class MultilingualUnicodeStringListBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("string references", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("multilingual_unicode_string_reference_block", 9216, typeof(MultilingualUnicodeStringReferenceBlock))]
+        private DataList stringDataUtf8List = new DataList(18874368);
+        private TagBlockList<MultilingualUnicodeStringReferenceBlock> stringReferencesList = new TagBlockList<MultilingualUnicodeStringReferenceBlock>(9216);
+        [FieldAttribute("string references", typeof(TagBlock))]
+        [BlockAttribute("multilingual_unicode_string_reference_block", 9216, typeof(MultilingualUnicodeStringReferenceBlock))]
         public TagBlock StringReferences;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(36)]
+        [FieldAttribute("string data utf8", typeof(TagBlock))]
+        [DataAttribute(18874368)]
+        public TagBlock StringDataUtf8;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(36)]
         public Byte[] EmptyString;
-        public int Size
+        public DataList StringDataUtf8List
+        {
+            get
+            {
+                return this.stringDataUtf8List;
+            }
+        }
+        public TagBlockList<MultilingualUnicodeStringReferenceBlock> StringReferencesList
+        {
+            get
+            {
+                return this.stringReferencesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 68;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.stringDataUtf8List.Clear();
+            this.stringReferencesList.Clear();
+            this.StringReferences = TagBlock.Zero;
+            this.StringDataUtf8 = TagBlock.Zero;
+            this.EmptyString = new byte[36];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.StringReferences = reader.ReadInt64();
+            this.stringReferencesList.Read(reader, this.StringReferences);
+            this.StringDataUtf8 = reader.ReadInt64();
+            this.EmptyString = reader.ReadBytes(36);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(40, 4)]
+        public sealed class MultilingualUnicodeStringReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-        public sealed class MultilingualUnicodeStringReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("string id", typeof(StringId))]
+            [FieldAttribute("string id", typeof(StringId))]
             public StringId StringId;
-            [Abide.Guerilla.Tags.FieldAttribute("english offset", typeof(Int32))]
+            [FieldAttribute("english offset", typeof(Int32))]
             public Int32 EnglishOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("japanese offset", typeof(Int32))]
+            [FieldAttribute("japanese offset", typeof(Int32))]
             public Int32 JapaneseOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("german offset", typeof(Int32))]
+            [FieldAttribute("german offset", typeof(Int32))]
             public Int32 GermanOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("french offset", typeof(Int32))]
+            [FieldAttribute("french offset", typeof(Int32))]
             public Int32 FrenchOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("spanish offset", typeof(Int32))]
+            [FieldAttribute("spanish offset", typeof(Int32))]
             public Int32 SpanishOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("italian offset", typeof(Int32))]
+            [FieldAttribute("italian offset", typeof(Int32))]
             public Int32 ItalianOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("korean offset", typeof(Int32))]
+            [FieldAttribute("korean offset", typeof(Int32))]
             public Int32 KoreanOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("chinese offset", typeof(Int32))]
+            [FieldAttribute("chinese offset", typeof(Int32))]
             public Int32 ChineseOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("portuguese offset", typeof(Int32))]
+            [FieldAttribute("portuguese offset", typeof(Int32))]
             public Int32 PortugueseOffset;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 40;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.StringId = StringId.Zero;
+                this.EnglishOffset = 0;
+                this.JapaneseOffset = 0;
+                this.GermanOffset = 0;
+                this.FrenchOffset = 0;
+                this.SpanishOffset = 0;
+                this.ItalianOffset = 0;
+                this.KoreanOffset = 0;
+                this.ChineseOffset = 0;
+                this.PortugueseOffset = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.StringId = reader.ReadInt32();
+                this.EnglishOffset = reader.ReadInt32();
+                this.JapaneseOffset = reader.ReadInt32();
+                this.GermanOffset = reader.ReadInt32();
+                this.FrenchOffset = reader.ReadInt32();
+                this.SpanishOffset = reader.ReadInt32();
+                this.ItalianOffset = reader.ReadInt32();
+                this.KoreanOffset = reader.ReadInt32();
+                this.ChineseOffset = reader.ReadInt32();
+                this.PortugueseOffset = reader.ReadInt32();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

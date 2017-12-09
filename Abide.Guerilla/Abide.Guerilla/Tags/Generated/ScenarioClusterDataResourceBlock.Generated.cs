@@ -14,248 +14,413 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_cluster_data_resource", 1668052266u, 4294967293u, typeof(ScenarioClusterDataResourceBlock))]
-    public sealed class ScenarioClusterDataResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("scenario_cluster_data_resource", 1668052266u, 4294967293u, typeof(ScenarioClusterDataResourceBlock))]
+    public sealed class ScenarioClusterDataResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Cluster Data", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_data_block", 16, typeof(ScenarioClusterDataBlock))]
+        private TagBlockList<ScenarioClusterDataBlock> clusterDataList = new TagBlockList<ScenarioClusterDataBlock>(16);
+        private TagBlockList<StructureBspBackgroundSoundPaletteBlock> backgroundSoundPaletteList = new TagBlockList<StructureBspBackgroundSoundPaletteBlock>(64);
+        private TagBlockList<StructureBspSoundEnvironmentPaletteBlock> soundEnvironmentPaletteList = new TagBlockList<StructureBspSoundEnvironmentPaletteBlock>(64);
+        private TagBlockList<StructureBspWeatherPaletteBlock> weatherPaletteList = new TagBlockList<StructureBspWeatherPaletteBlock>(32);
+        private TagBlockList<ScenarioAtmosphericFogPalette> atmosphericFogPaletteList = new TagBlockList<ScenarioAtmosphericFogPalette>(127);
+        [FieldAttribute("Cluster Data", typeof(TagBlock))]
+        [BlockAttribute("scenario_cluster_data_block", 16, typeof(ScenarioClusterDataBlock))]
         public TagBlock ClusterData;
-        [Abide.Guerilla.Tags.FieldAttribute("Background Sound Palette", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("structure_bsp_background_sound_palette_block", 64, typeof(StructureBspBackgroundSoundPaletteBlock))]
+        [FieldAttribute("Background Sound Palette", typeof(TagBlock))]
+        [BlockAttribute("structure_bsp_background_sound_palette_block", 64, typeof(StructureBspBackgroundSoundPaletteBlock))]
         public TagBlock BackgroundSoundPalette;
-        [Abide.Guerilla.Tags.FieldAttribute("Sound Environment Palette", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("structure_bsp_sound_environment_palette_block", 64, typeof(StructureBspSoundEnvironmentPaletteBlock))]
+        [FieldAttribute("Sound Environment Palette", typeof(TagBlock))]
+        [BlockAttribute("structure_bsp_sound_environment_palette_block", 64, typeof(StructureBspSoundEnvironmentPaletteBlock))]
         public TagBlock SoundEnvironmentPalette;
-        [Abide.Guerilla.Tags.FieldAttribute("Weather Palette", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("structure_bsp_weather_palette_block", 32, typeof(StructureBspWeatherPaletteBlock))]
+        [FieldAttribute("Weather Palette", typeof(TagBlock))]
+        [BlockAttribute("structure_bsp_weather_palette_block", 32, typeof(StructureBspWeatherPaletteBlock))]
         public TagBlock WeatherPalette;
-        [Abide.Guerilla.Tags.FieldAttribute("Atmospheric Fog Palette", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_atmospheric_fog_palette", 127, typeof(ScenarioAtmosphericFogPalette))]
+        [FieldAttribute("Atmospheric Fog Palette", typeof(TagBlock))]
+        [BlockAttribute("scenario_atmospheric_fog_palette", 127, typeof(ScenarioAtmosphericFogPalette))]
         public TagBlock AtmosphericFogPalette;
-        public int Size
+        public TagBlockList<ScenarioClusterDataBlock> ClusterDataList
+        {
+            get
+            {
+                return this.clusterDataList;
+            }
+        }
+        public TagBlockList<StructureBspBackgroundSoundPaletteBlock> BackgroundSoundPaletteList
+        {
+            get
+            {
+                return this.backgroundSoundPaletteList;
+            }
+        }
+        public TagBlockList<StructureBspSoundEnvironmentPaletteBlock> SoundEnvironmentPaletteList
+        {
+            get
+            {
+                return this.soundEnvironmentPaletteList;
+            }
+        }
+        public TagBlockList<StructureBspWeatherPaletteBlock> WeatherPaletteList
+        {
+            get
+            {
+                return this.weatherPaletteList;
+            }
+        }
+        public TagBlockList<ScenarioAtmosphericFogPalette> AtmosphericFogPaletteList
+        {
+            get
+            {
+                return this.atmosphericFogPaletteList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.clusterDataList.Clear();
+            this.backgroundSoundPaletteList.Clear();
+            this.soundEnvironmentPaletteList.Clear();
+            this.weatherPaletteList.Clear();
+            this.atmosphericFogPaletteList.Clear();
+            this.ClusterData = TagBlock.Zero;
+            this.BackgroundSoundPalette = TagBlock.Zero;
+            this.SoundEnvironmentPalette = TagBlock.Zero;
+            this.WeatherPalette = TagBlock.Zero;
+            this.AtmosphericFogPalette = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.ClusterData = reader.ReadInt64();
+            this.clusterDataList.Read(reader, this.ClusterData);
+            this.BackgroundSoundPalette = reader.ReadInt64();
+            this.backgroundSoundPaletteList.Read(reader, this.BackgroundSoundPalette);
+            this.SoundEnvironmentPalette = reader.ReadInt64();
+            this.soundEnvironmentPaletteList.Read(reader, this.SoundEnvironmentPalette);
+            this.WeatherPalette = reader.ReadInt64();
+            this.weatherPaletteList.Read(reader, this.WeatherPalette);
+            this.AtmosphericFogPalette = reader.ReadInt64();
+            this.atmosphericFogPaletteList.Read(reader, this.AtmosphericFogPalette);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(80, 4)]
+        public sealed class ScenarioClusterDataBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(80, 4)]
-        public sealed class ScenarioClusterDataBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("BSP*", typeof(TagReference))]
+            private TagBlockList<ScenarioClusterBackgroundSoundsBlock> backgroundSoundsList = new TagBlockList<ScenarioClusterBackgroundSoundsBlock>(512);
+            private TagBlockList<ScenarioClusterSoundEnvironmentsBlock> soundEnvironmentsList = new TagBlockList<ScenarioClusterSoundEnvironmentsBlock>(512);
+            private TagBlockList<ScenarioClusterPointsBlock> clusterCentroidsList = new TagBlockList<ScenarioClusterPointsBlock>(512);
+            private TagBlockList<ScenarioClusterWeatherPropertiesBlock> weatherPropertiesList = new TagBlockList<ScenarioClusterWeatherPropertiesBlock>(512);
+            private TagBlockList<ScenarioClusterAtmosphericFogPropertiesBlock> atmosphericFogPropertiesList = new TagBlockList<ScenarioClusterAtmosphericFogPropertiesBlock>(512);
+            [FieldAttribute("BSP*", typeof(TagReference))]
             public TagReference Bsp;
-            [Abide.Guerilla.Tags.FieldAttribute("Background Sounds*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_background_sounds_block", 512, typeof(ScenarioClusterBackgroundSoundsBlock))]
+            [FieldAttribute("Background Sounds*", typeof(TagBlock))]
+            [BlockAttribute("scenario_cluster_background_sounds_block", 512, typeof(ScenarioClusterBackgroundSoundsBlock))]
             public TagBlock BackgroundSounds;
-            [Abide.Guerilla.Tags.FieldAttribute("Sound Environments*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_sound_environments_block", 512, typeof(ScenarioClusterSoundEnvironmentsBlock))]
+            [FieldAttribute("Sound Environments*", typeof(TagBlock))]
+            [BlockAttribute("scenario_cluster_sound_environments_block", 512, typeof(ScenarioClusterSoundEnvironmentsBlock))]
             public TagBlock SoundEnvironments;
-            [Abide.Guerilla.Tags.FieldAttribute("BSP Checksum*", typeof(Int32))]
+            [FieldAttribute("BSP Checksum*", typeof(Int32))]
             public Int32 BspChecksum;
-            [Abide.Guerilla.Tags.FieldAttribute("Cluster Centroids*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_points_block", 512, typeof(ScenarioClusterPointsBlock))]
+            [FieldAttribute("Cluster Centroids*", typeof(TagBlock))]
+            [BlockAttribute("scenario_cluster_points_block", 512, typeof(ScenarioClusterPointsBlock))]
             public TagBlock ClusterCentroids;
-            [Abide.Guerilla.Tags.FieldAttribute("Weather Properties*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_weather_properties_block", 512, typeof(ScenarioClusterWeatherPropertiesBlock))]
+            [FieldAttribute("Weather Properties*", typeof(TagBlock))]
+            [BlockAttribute("scenario_cluster_weather_properties_block", 512, typeof(ScenarioClusterWeatherPropertiesBlock))]
             public TagBlock WeatherProperties;
-            [Abide.Guerilla.Tags.FieldAttribute("Atmospheric Fog Properties*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_cluster_atmospheric_fog_properties_block", 512, typeof(ScenarioClusterAtmosphericFogPropertiesBlock))]
+            [FieldAttribute("Atmospheric Fog Properties*", typeof(TagBlock))]
+            [BlockAttribute("scenario_cluster_atmospheric_fog_properties_block", 512, typeof(ScenarioClusterAtmosphericFogPropertiesBlock))]
             public TagBlock AtmosphericFogProperties;
-            public int Size
+            public TagBlockList<ScenarioClusterBackgroundSoundsBlock> BackgroundSoundsList
+            {
+                get
+                {
+                    return this.backgroundSoundsList;
+                }
+            }
+            public TagBlockList<ScenarioClusterSoundEnvironmentsBlock> SoundEnvironmentsList
+            {
+                get
+                {
+                    return this.soundEnvironmentsList;
+                }
+            }
+            public TagBlockList<ScenarioClusterPointsBlock> ClusterCentroidsList
+            {
+                get
+                {
+                    return this.clusterCentroidsList;
+                }
+            }
+            public TagBlockList<ScenarioClusterWeatherPropertiesBlock> WeatherPropertiesList
+            {
+                get
+                {
+                    return this.weatherPropertiesList;
+                }
+            }
+            public TagBlockList<ScenarioClusterAtmosphericFogPropertiesBlock> AtmosphericFogPropertiesList
+            {
+                get
+                {
+                    return this.atmosphericFogPropertiesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 80;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.backgroundSoundsList.Clear();
+                this.soundEnvironmentsList.Clear();
+                this.clusterCentroidsList.Clear();
+                this.weatherPropertiesList.Clear();
+                this.atmosphericFogPropertiesList.Clear();
+                this.Bsp = TagReference.Null;
+                this.BackgroundSounds = TagBlock.Zero;
+                this.SoundEnvironments = TagBlock.Zero;
+                this.BspChecksum = 0;
+                this.ClusterCentroids = TagBlock.Zero;
+                this.WeatherProperties = TagBlock.Zero;
+                this.AtmosphericFogProperties = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Bsp = reader.Read<TagReference>();
+                this.BackgroundSounds = reader.ReadInt64();
+                this.backgroundSoundsList.Read(reader, this.BackgroundSounds);
+                this.SoundEnvironments = reader.ReadInt64();
+                this.soundEnvironmentsList.Read(reader, this.SoundEnvironments);
+                this.BspChecksum = reader.ReadInt32();
+                this.ClusterCentroids = reader.ReadInt64();
+                this.clusterCentroidsList.Read(reader, this.ClusterCentroids);
+                this.WeatherProperties = reader.ReadInt64();
+                this.weatherPropertiesList.Read(reader, this.WeatherProperties);
+                this.AtmosphericFogProperties = reader.ReadInt64();
+                this.atmosphericFogPropertiesList.Read(reader, this.AtmosphericFogProperties);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(4, 4)]
+            public sealed class ScenarioClusterBackgroundSoundsBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ScenarioClusterBackgroundSoundsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("Type^", typeof(Int16))]
+                [FieldAttribute("Type^", typeof(Int16))]
                 public Int16 Type;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Type = 0;
+                    this.EmptyString = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Type = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ScenarioClusterSoundEnvironmentsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ScenarioClusterSoundEnvironmentsBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("Type^", typeof(Int16))]
+                [FieldAttribute("Type^", typeof(Int16))]
                 public Int16 Type;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Type = 0;
+                    this.EmptyString = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Type = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class ScenarioClusterPointsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(12, 4)]
+            public sealed class ScenarioClusterPointsBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("Centroid*", typeof(Vector3))]
+                [FieldAttribute("Centroid*", typeof(Vector3))]
                 public Vector3 Centroid;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Centroid = Vector3.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Centroid = reader.Read<Vector3>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ScenarioClusterWeatherPropertiesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ScenarioClusterWeatherPropertiesBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("Type^", typeof(Int16))]
+                [FieldAttribute("Type^", typeof(Int16))]
                 public Int16 Type;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Type = 0;
+                    this.EmptyString = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Type = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-            public sealed class ScenarioClusterAtmosphericFogPropertiesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(4, 4)]
+            public sealed class ScenarioClusterAtmosphericFogPropertiesBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("Type^", typeof(Int16))]
+                [FieldAttribute("Type^", typeof(Int16))]
                 public Int16 Type;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 4;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Type = 0;
+                    this.EmptyString = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Type = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(116, 4)]
-        public sealed class StructureBspBackgroundSoundPaletteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(116, 4)]
+        public sealed class StructureBspBackgroundSoundPaletteBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Background Sound", typeof(TagReference))]
+            [FieldAttribute("Background Sound", typeof(TagReference))]
             public TagReference BackgroundSound;
-            [Abide.Guerilla.Tags.FieldAttribute("Inside Cluster Sound#Play only when player is inside cluster.", typeof(TagReference))]
+            [FieldAttribute("Inside Cluster Sound#Play only when player is inside cluster.", typeof(TagReference))]
             public TagReference InsideClusterSound;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(20)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(20)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Cutoff Distance", typeof(Single))]
+            [FieldAttribute("Cutoff Distance", typeof(Single))]
             public Single CutoffDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Scale Flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ScaleFlagsOptions), true)]
-            public Int32 ScaleFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("Interior Scale", typeof(Single))]
+            [FieldAttribute("Scale Flags", typeof(ScaleFlagsOptions))]
+            [OptionsAttribute(typeof(ScaleFlagsOptions), true)]
+            public ScaleFlagsOptions ScaleFlags;
+            [FieldAttribute("Interior Scale", typeof(Single))]
             public Single InteriorScale;
-            [Abide.Guerilla.Tags.FieldAttribute("Portal Scale", typeof(Single))]
+            [FieldAttribute("Portal Scale", typeof(Single))]
             public Single PortalScale;
-            [Abide.Guerilla.Tags.FieldAttribute("Exterior Scale", typeof(Single))]
+            [FieldAttribute("Exterior Scale", typeof(Single))]
             public Single ExteriorScale;
-            [Abide.Guerilla.Tags.FieldAttribute("Interpolation Speed:1/sec", typeof(Single))]
+            [FieldAttribute("Interpolation Speed:1/sec", typeof(Single))]
             public Single InterpolationSpeed;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString1;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 116;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = String32.Empty;
+                this.BackgroundSound = TagReference.Null;
+                this.InsideClusterSound = TagReference.Null;
+                this.EmptyString = new byte[20];
+                this.CutoffDistance = 0;
+                this.ScaleFlags = ((ScaleFlagsOptions)(0));
+                this.InteriorScale = 0;
+                this.PortalScale = 0;
+                this.ExteriorScale = 0;
+                this.InterpolationSpeed = 0;
+                this.EmptyString1 = new byte[8];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.Read<String32>();
+                this.BackgroundSound = reader.Read<TagReference>();
+                this.InsideClusterSound = reader.Read<TagReference>();
+                this.EmptyString = reader.ReadBytes(20);
+                this.CutoffDistance = reader.ReadSingle();
+                this.ScaleFlags = ((ScaleFlagsOptions)(reader.ReadInt32()));
+                this.InteriorScale = reader.ReadSingle();
+                this.PortalScale = reader.ReadSingle();
+                this.ExteriorScale = reader.ReadSingle();
+                this.InterpolationSpeed = reader.ReadSingle();
+                this.EmptyString1 = reader.ReadBytes(8);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum ScaleFlagsOptions
+            public enum ScaleFlagsOptions : Int32
             {
                 OverrideDefaultScale = 1,
                 UseAdjacentClusterAsPortalScale = 2,
@@ -263,204 +428,312 @@ namespace Abide.Guerilla.Tags
                 ScaleWithWeatherIntensity = 8,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(80, 4)]
-        public sealed class StructureBspSoundEnvironmentPaletteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(80, 4)]
+        public sealed class StructureBspSoundEnvironmentPaletteBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Sound Environment", typeof(TagReference))]
+            [FieldAttribute("Sound Environment", typeof(TagReference))]
             public TagReference SoundEnvironment;
-            [Abide.Guerilla.Tags.FieldAttribute("Cutoff Distance", typeof(Single))]
+            [FieldAttribute("Cutoff Distance", typeof(Single))]
             public Single CutoffDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Interpolation Speed:1/sec", typeof(Single))]
+            [FieldAttribute("Interpolation Speed:1/sec", typeof(Single))]
             public Single InterpolationSpeed;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(24)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(24)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 80;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = String32.Empty;
+                this.SoundEnvironment = TagReference.Null;
+                this.CutoffDistance = 0;
+                this.InterpolationSpeed = 0;
+                this.EmptyString = new byte[24];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.SoundEnvironment = reader.Read<TagReference>();
+                this.CutoffDistance = reader.ReadSingle();
+                this.InterpolationSpeed = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(24);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-        public sealed class StructureBspWeatherPaletteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(152, 4)]
+        public sealed class StructureBspWeatherPaletteBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Weather System", typeof(TagReference))]
+            [FieldAttribute("Weather System", typeof(TagReference))]
             public TagReference WeatherSystem;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(32)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(32)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("Wind", typeof(TagReference))]
+            [FieldAttribute("Wind", typeof(TagReference))]
             public TagReference Wind;
-            [Abide.Guerilla.Tags.FieldAttribute("Wind Direction", typeof(Vector3))]
+            [FieldAttribute("Wind Direction", typeof(Vector3))]
             public Vector3 WindDirection;
-            [Abide.Guerilla.Tags.FieldAttribute("Wind Magnitude", typeof(Single))]
+            [FieldAttribute("Wind Magnitude", typeof(Single))]
             public Single WindMagnitude;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("Wind Scale Function", typeof(String32))]
+            [FieldAttribute("Wind Scale Function", typeof(String32))]
             public String32 WindScaleFunction;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 152;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = String32.Empty;
+                this.WeatherSystem = TagReference.Null;
+                this.EmptyString = new byte[2];
+                this.EmptyString1 = new byte[2];
+                this.EmptyString2 = new byte[32];
+                this.Wind = TagReference.Null;
+                this.WindDirection = Vector3.Zero;
+                this.WindMagnitude = 0;
+                this.EmptyString3 = new byte[4];
+                this.WindScaleFunction = String32.Empty;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.WeatherSystem = reader.Read<TagReference>();
+                this.EmptyString = reader.ReadBytes(2);
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.EmptyString2 = reader.ReadBytes(32);
+                this.Wind = reader.Read<TagReference>();
+                this.WindDirection = reader.Read<Vector3>();
+                this.WindMagnitude = reader.ReadSingle();
+                this.EmptyString3 = reader.ReadBytes(4);
+                this.WindScaleFunction = reader.Read<String32>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(256, 4)]
-        public sealed class ScenarioAtmosphericFogPalette : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(256, 4)]
+        public sealed class ScenarioAtmosphericFogPalette : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(StringId))]
+            private TagBlockList<ScenarioAtmosphericFogMixerBlock> mixersList = new TagBlockList<ScenarioAtmosphericFogMixerBlock>(2);
+            [FieldAttribute("Name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Color", typeof(ColorRgbF))]
+            [FieldAttribute("Color", typeof(ColorRgbF))]
             public ColorRgbF Color;
-            [Abide.Guerilla.Tags.FieldAttribute("Spread Distance:World Units#How far fog spreads into adjacent clusters: 0 default" +
+            [FieldAttribute("Spread Distance:World Units#How far fog spreads into adjacent clusters: 0 default" +
                 "s to 1.", typeof(Single))]
             public Single SpreadDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Maximum Density:[0,1]#Fog density clamps to this value.", typeof(Single))]
+            [FieldAttribute("Maximum Density:[0,1]#Fog density clamps to this value.", typeof(Single))]
             public Single MaximumDensity;
-            [Abide.Guerilla.Tags.FieldAttribute("Start Distance:World Units#Before this distance, there is no fog.", typeof(Single))]
+            [FieldAttribute("Start Distance:World Units#Before this distance, there is no fog.", typeof(Single))]
             public Single StartDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance" +
+            [FieldAttribute("Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance" +
                 " from viewer.", typeof(Single))]
             public Single OpaqueDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Color", typeof(ColorRgbF))]
+            [FieldAttribute("Color", typeof(ColorRgbF))]
             public ColorRgbF Color1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("Maximum Density:[0,1]#Fog density clamps to this value.", typeof(Single))]
+            [FieldAttribute("Maximum Density:[0,1]#Fog density clamps to this value.", typeof(Single))]
             public Single MaximumDensity1;
-            [Abide.Guerilla.Tags.FieldAttribute("Start Distance:World Units#Before this distance, there is no fog.", typeof(Single))]
+            [FieldAttribute("Start Distance:World Units#Before this distance, there is no fog.", typeof(Single))]
             public Single StartDistance1;
-            [Abide.Guerilla.Tags.FieldAttribute("Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance" +
+            [FieldAttribute("Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance" +
                 " from viewer.", typeof(Single))]
             public Single OpaqueDistance1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("Planar Color", typeof(ColorRgbF))]
+            [FieldAttribute("Planar Color", typeof(ColorRgbF))]
             public ColorRgbF PlanarColor;
-            [Abide.Guerilla.Tags.FieldAttribute("Planar Max Density:[0,1]", typeof(Single))]
+            [FieldAttribute("Planar Max Density:[0,1]", typeof(Single))]
             public Single PlanarMaxDensity;
-            [Abide.Guerilla.Tags.FieldAttribute("Planar Override Amount:[0,1]", typeof(Single))]
+            [FieldAttribute("Planar Override Amount:[0,1]", typeof(Single))]
             public Single PlanarOverrideAmount;
-            [Abide.Guerilla.Tags.FieldAttribute("Planar Min Distance Bias:World Units#Don\'t ask.", typeof(Single))]
+            [FieldAttribute("Planar Min Distance Bias:World Units#Don\'t ask.", typeof(Single))]
             public Single PlanarMinDistanceBias;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(44)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(44)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("Patchy Color", typeof(ColorRgbF))]
+            [FieldAttribute("Patchy Color", typeof(ColorRgbF))]
             public ColorRgbF PatchyColor;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(12)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(12)]
             public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(32)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(32)]
             public Byte[] EmptyString5;
-            [Abide.Guerilla.Tags.FieldAttribute("Patchy Fog", typeof(TagReference))]
-            public TagReference PatchyFog1;
-            [Abide.Guerilla.Tags.FieldAttribute("Mixers", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("mixers", 2, typeof(ScenarioAtmosphericFogMixerBlock))]
+            [FieldAttribute("Patchy Fog", typeof(TagReference))]
+            public TagReference PatchyFog;
+            [FieldAttribute("Mixers", typeof(TagBlock))]
+            [BlockAttribute("mixers", 2, typeof(ScenarioAtmosphericFogMixerBlock))]
             public TagBlock Mixers;
-            [Abide.Guerilla.Tags.FieldAttribute("Amount:[0,1]", typeof(Single))]
+            [FieldAttribute("Amount:[0,1]", typeof(Single))]
             public Single Amount;
-            [Abide.Guerilla.Tags.FieldAttribute("Threshold:[0,1]", typeof(Single))]
+            [FieldAttribute("Threshold:[0,1]", typeof(Single))]
             public Single Threshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Brightness:[0,1]", typeof(Single))]
+            [FieldAttribute("Brightness:[0,1]", typeof(Single))]
             public Single Brightness;
-            [Abide.Guerilla.Tags.FieldAttribute("Gamma Power", typeof(Single))]
+            [FieldAttribute("Gamma Power", typeof(Single))]
             public Single GammaPower;
-            [Abide.Guerilla.Tags.FieldAttribute("Camera Immersion Flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CameraImmersionFlagsOptions), true)]
-            public Int16 CameraImmersionFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("Camera Immersion Flags", typeof(CameraImmersionFlagsOptions))]
+            [OptionsAttribute(typeof(CameraImmersionFlagsOptions), true)]
+            public CameraImmersionFlagsOptions CameraImmersionFlags;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString6;
-            public int Size
+            public TagBlockList<ScenarioAtmosphericFogMixerBlock> MixersList
+            {
+                get
+                {
+                    return this.mixersList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 256;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.mixersList.Clear();
+                this.Name = StringId.Zero;
+                this.Color = ColorRgbF.Zero;
+                this.SpreadDistance = 0;
+                this.EmptyString = new byte[4];
+                this.MaximumDensity = 0;
+                this.StartDistance = 0;
+                this.OpaqueDistance = 0;
+                this.Color1 = ColorRgbF.Zero;
+                this.EmptyString1 = new byte[4];
+                this.MaximumDensity1 = 0;
+                this.StartDistance1 = 0;
+                this.OpaqueDistance1 = 0;
+                this.EmptyString2 = new byte[4];
+                this.PlanarColor = ColorRgbF.Zero;
+                this.PlanarMaxDensity = 0;
+                this.PlanarOverrideAmount = 0;
+                this.PlanarMinDistanceBias = 0;
+                this.EmptyString3 = new byte[44];
+                this.PatchyColor = ColorRgbF.Zero;
+                this.EmptyString4 = new byte[12];
+                this.EmptyString5 = new byte[32];
+                this.PatchyFog = TagReference.Null;
+                this.Mixers = TagBlock.Zero;
+                this.Amount = 0;
+                this.Threshold = 0;
+                this.Brightness = 0;
+                this.GammaPower = 0;
+                this.CameraImmersionFlags = ((CameraImmersionFlagsOptions)(0));
+                this.EmptyString6 = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.Color = reader.Read<ColorRgbF>();
+                this.SpreadDistance = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(4);
+                this.MaximumDensity = reader.ReadSingle();
+                this.StartDistance = reader.ReadSingle();
+                this.OpaqueDistance = reader.ReadSingle();
+                this.Color1 = reader.Read<ColorRgbF>();
+                this.EmptyString1 = reader.ReadBytes(4);
+                this.MaximumDensity1 = reader.ReadSingle();
+                this.StartDistance1 = reader.ReadSingle();
+                this.OpaqueDistance1 = reader.ReadSingle();
+                this.EmptyString2 = reader.ReadBytes(4);
+                this.PlanarColor = reader.Read<ColorRgbF>();
+                this.PlanarMaxDensity = reader.ReadSingle();
+                this.PlanarOverrideAmount = reader.ReadSingle();
+                this.PlanarMinDistanceBias = reader.ReadSingle();
+                this.EmptyString3 = reader.ReadBytes(44);
+                this.PatchyColor = reader.Read<ColorRgbF>();
+                this.EmptyString4 = reader.ReadBytes(12);
+                this.EmptyString5 = reader.ReadBytes(32);
+                this.PatchyFog = reader.Read<TagReference>();
+                this.Mixers = reader.ReadInt64();
+                this.mixersList.Read(reader, this.Mixers);
+                this.Amount = reader.ReadSingle();
+                this.Threshold = reader.ReadSingle();
+                this.Brightness = reader.ReadSingle();
+                this.GammaPower = reader.ReadSingle();
+                this.CameraImmersionFlags = ((CameraImmersionFlagsOptions)(reader.ReadInt16()));
+                this.EmptyString6 = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(16, 4)]
+            public sealed class ScenarioAtmosphericFogMixerBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class ScenarioAtmosphericFogMixerBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("Atmospheric Fog Source:From Scenario Atmospheric Fog Palette", typeof(StringId))]
+                [FieldAttribute("Atmospheric Fog Source:From Scenario Atmospheric Fog Palette", typeof(StringId))]
                 public StringId AtmosphericFogSource;
-                [Abide.Guerilla.Tags.FieldAttribute("Interpolator:From Scenario Interpolators", typeof(StringId))]
+                [FieldAttribute("Interpolator:From Scenario Interpolators", typeof(StringId))]
                 public StringId Interpolator;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[4];
+                    this.AtmosphericFogSource = StringId.Zero;
+                    this.Interpolator = StringId.Zero;
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(4);
+                    this.AtmosphericFogSource = reader.ReadInt32();
+                    this.Interpolator = reader.ReadInt32();
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum CameraImmersionFlagsOptions
+            public enum CameraImmersionFlagsOptions : Int16
             {
                 DisableAtmosphericFog = 1,
                 DisableSecondaryFog = 2,

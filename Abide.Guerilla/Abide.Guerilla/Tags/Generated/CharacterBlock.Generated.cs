@@ -14,179 +14,496 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(372, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("character", 1667785074u, 4294967293u, typeof(CharacterBlock))]
-    public sealed class CharacterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(372, 4)]
+    [TagGroupAttribute("character", 1667785074u, 4294967293u, typeof(CharacterBlock))]
+    public sealed class CharacterBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Character flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(CharacterFlagsOptions), true)]
-        public Int32 CharacterFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("parent character", typeof(TagReference))]
+        private TagBlockList<CharacterVariantsBlock> variantsList = new TagBlockList<CharacterVariantsBlock>(64);
+        private TagBlockList<CharacterGeneralBlock> generalPropertiesList = new TagBlockList<CharacterGeneralBlock>(1);
+        private TagBlockList<CharacterVitalityBlock> vitalityPropertiesList = new TagBlockList<CharacterVitalityBlock>(1);
+        private TagBlockList<CharacterPlacementBlock> placementPropertiesList = new TagBlockList<CharacterPlacementBlock>(1);
+        private TagBlockList<CharacterPerceptionBlock> perceptionPropertiesList = new TagBlockList<CharacterPerceptionBlock>(4);
+        private TagBlockList<CharacterLookBlock> lookPropertiesList = new TagBlockList<CharacterLookBlock>(1);
+        private TagBlockList<CharacterMovementBlock> movementPropertiesList = new TagBlockList<CharacterMovementBlock>(1);
+        private TagBlockList<CharacterSwarmBlock> swarmPropertiesList = new TagBlockList<CharacterSwarmBlock>(3);
+        private TagBlockList<CharacterReadyBlock> readyPropertiesList = new TagBlockList<CharacterReadyBlock>(3);
+        private TagBlockList<CharacterEngageBlock> engagePropertiesList = new TagBlockList<CharacterEngageBlock>(3);
+        private TagBlockList<CharacterChargeBlock> chargePropertiesList = new TagBlockList<CharacterChargeBlock>(3);
+        private TagBlockList<CharacterEvasionBlock> evasionPropertiesList = new TagBlockList<CharacterEvasionBlock>(3);
+        private TagBlockList<CharacterCoverBlock> coverPropertiesList = new TagBlockList<CharacterCoverBlock>(3);
+        private TagBlockList<CharacterRetreatBlock> retreatPropertiesList = new TagBlockList<CharacterRetreatBlock>(3);
+        private TagBlockList<CharacterSearchBlock> searchPropertiesList = new TagBlockList<CharacterSearchBlock>(3);
+        private TagBlockList<CharacterPresearchBlock> preSearchPropertiesList = new TagBlockList<CharacterPresearchBlock>(3);
+        private TagBlockList<CharacterIdleBlock> idlePropertiesList = new TagBlockList<CharacterIdleBlock>(3);
+        private TagBlockList<CharacterVocalizationBlock> vocalizationPropertiesList = new TagBlockList<CharacterVocalizationBlock>(1);
+        private TagBlockList<CharacterBoardingBlock> boardingPropertiesList = new TagBlockList<CharacterBoardingBlock>(1);
+        private TagBlockList<CharacterBossBlock> bossPropertiesList = new TagBlockList<CharacterBossBlock>(1);
+        private TagBlockList<CharacterWeaponsBlock> weaponsPropertiesList = new TagBlockList<CharacterWeaponsBlock>(100);
+        private TagBlockList<CharacterFiringPatternPropertiesBlock> firingPatternPropertiesList = new TagBlockList<CharacterFiringPatternPropertiesBlock>(100);
+        private TagBlockList<CharacterGrenadesBlock> grenadesPropertiesList = new TagBlockList<CharacterGrenadesBlock>(10);
+        private TagBlockList<CharacterVehicleBlock> vehiclePropertiesList = new TagBlockList<CharacterVehicleBlock>(100);
+        [FieldAttribute("Character flags", typeof(CharacterFlagsOptions))]
+        [OptionsAttribute(typeof(CharacterFlagsOptions), true)]
+        public CharacterFlagsOptions CharacterFlags;
+        [FieldAttribute("parent character", typeof(TagReference))]
         public TagReference ParentCharacter;
-        [Abide.Guerilla.Tags.FieldAttribute("unit", typeof(TagReference))]
+        [FieldAttribute("unit", typeof(TagReference))]
         public TagReference Unit;
-        [Abide.Guerilla.Tags.FieldAttribute("creature#Creature reference for swarm characters ONLY", typeof(TagReference))]
+        [FieldAttribute("creature#Creature reference for swarm characters ONLY", typeof(TagReference))]
         public TagReference Creature;
-        [Abide.Guerilla.Tags.FieldAttribute("style", typeof(TagReference))]
+        [FieldAttribute("style", typeof(TagReference))]
         public TagReference Style;
-        [Abide.Guerilla.Tags.FieldAttribute("major character", typeof(TagReference))]
+        [FieldAttribute("major character", typeof(TagReference))]
         public TagReference MajorCharacter;
-        [Abide.Guerilla.Tags.FieldAttribute("variants", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_variants_block", 64, typeof(CharacterVariantsBlock))]
+        [FieldAttribute("variants", typeof(TagBlock))]
+        [BlockAttribute("character_variants_block", 64, typeof(CharacterVariantsBlock))]
         public TagBlock Variants;
-        [Abide.Guerilla.Tags.FieldAttribute("general properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_general_block", 1, typeof(CharacterGeneralBlock))]
+        [FieldAttribute("general properties", typeof(TagBlock))]
+        [BlockAttribute("character_general_block", 1, typeof(CharacterGeneralBlock))]
         public TagBlock GeneralProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("vitality properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_vitality_block", 1, typeof(CharacterVitalityBlock))]
+        [FieldAttribute("vitality properties", typeof(TagBlock))]
+        [BlockAttribute("character_vitality_block", 1, typeof(CharacterVitalityBlock))]
         public TagBlock VitalityProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("placement properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_placement_block", 1, typeof(CharacterPlacementBlock))]
+        [FieldAttribute("placement properties", typeof(TagBlock))]
+        [BlockAttribute("character_placement_block", 1, typeof(CharacterPlacementBlock))]
         public TagBlock PlacementProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("perception properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_perception_block", 4, typeof(CharacterPerceptionBlock))]
+        [FieldAttribute("perception properties", typeof(TagBlock))]
+        [BlockAttribute("character_perception_block", 4, typeof(CharacterPerceptionBlock))]
         public TagBlock PerceptionProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("look properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_look_block", 1, typeof(CharacterLookBlock))]
+        [FieldAttribute("look properties", typeof(TagBlock))]
+        [BlockAttribute("character_look_block", 1, typeof(CharacterLookBlock))]
         public TagBlock LookProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("movement properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_movement_block", 1, typeof(CharacterMovementBlock))]
+        [FieldAttribute("movement properties", typeof(TagBlock))]
+        [BlockAttribute("character_movement_block", 1, typeof(CharacterMovementBlock))]
         public TagBlock MovementProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("swarm properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_swarm_block", 3, typeof(CharacterSwarmBlock))]
+        [FieldAttribute("swarm properties", typeof(TagBlock))]
+        [BlockAttribute("character_swarm_block", 3, typeof(CharacterSwarmBlock))]
         public TagBlock SwarmProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("ready properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_ready_block", 3, typeof(CharacterReadyBlock))]
+        [FieldAttribute("ready properties", typeof(TagBlock))]
+        [BlockAttribute("character_ready_block", 3, typeof(CharacterReadyBlock))]
         public TagBlock ReadyProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("engage properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_engage_block", 3, typeof(CharacterEngageBlock))]
+        [FieldAttribute("engage properties", typeof(TagBlock))]
+        [BlockAttribute("character_engage_block", 3, typeof(CharacterEngageBlock))]
         public TagBlock EngageProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("charge properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_charge_block", 3, typeof(CharacterChargeBlock))]
+        [FieldAttribute("charge properties", typeof(TagBlock))]
+        [BlockAttribute("character_charge_block", 3, typeof(CharacterChargeBlock))]
         public TagBlock ChargeProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("evasion properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_evasion_block", 3, typeof(CharacterEvasionBlock))]
+        [FieldAttribute("evasion properties", typeof(TagBlock))]
+        [BlockAttribute("character_evasion_block", 3, typeof(CharacterEvasionBlock))]
         public TagBlock EvasionProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("cover properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_cover_block", 3, typeof(CharacterCoverBlock))]
+        [FieldAttribute("cover properties", typeof(TagBlock))]
+        [BlockAttribute("character_cover_block", 3, typeof(CharacterCoverBlock))]
         public TagBlock CoverProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("retreat properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_retreat_block", 3, typeof(CharacterRetreatBlock))]
+        [FieldAttribute("retreat properties", typeof(TagBlock))]
+        [BlockAttribute("character_retreat_block", 3, typeof(CharacterRetreatBlock))]
         public TagBlock RetreatProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("search properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_search_block", 3, typeof(CharacterSearchBlock))]
+        [FieldAttribute("search properties", typeof(TagBlock))]
+        [BlockAttribute("character_search_block", 3, typeof(CharacterSearchBlock))]
         public TagBlock SearchProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("pre-search properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_presearch_block", 3, typeof(CharacterPresearchBlock))]
+        [FieldAttribute("pre-search properties", typeof(TagBlock))]
+        [BlockAttribute("character_presearch_block", 3, typeof(CharacterPresearchBlock))]
         public TagBlock PreSearchProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("idle properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_idle_block", 3, typeof(CharacterIdleBlock))]
+        [FieldAttribute("idle properties", typeof(TagBlock))]
+        [BlockAttribute("character_idle_block", 3, typeof(CharacterIdleBlock))]
         public TagBlock IdleProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("vocalization properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_vocalization_block", 1, typeof(CharacterVocalizationBlock))]
+        [FieldAttribute("vocalization properties", typeof(TagBlock))]
+        [BlockAttribute("character_vocalization_block", 1, typeof(CharacterVocalizationBlock))]
         public TagBlock VocalizationProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("boarding properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_boarding_block", 1, typeof(CharacterBoardingBlock))]
+        [FieldAttribute("boarding properties", typeof(TagBlock))]
+        [BlockAttribute("character_boarding_block", 1, typeof(CharacterBoardingBlock))]
         public TagBlock BoardingProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("boss properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_boss_block", 1, typeof(CharacterBossBlock))]
+        [FieldAttribute("boss properties", typeof(TagBlock))]
+        [BlockAttribute("character_boss_block", 1, typeof(CharacterBossBlock))]
         public TagBlock BossProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("weapons properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_weapons_block", 100, typeof(CharacterWeaponsBlock))]
+        [FieldAttribute("weapons properties", typeof(TagBlock))]
+        [BlockAttribute("character_weapons_block", 100, typeof(CharacterWeaponsBlock))]
         public TagBlock WeaponsProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("firing pattern properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_firing_pattern_properties_block", 100, typeof(CharacterFiringPatternPropertiesBlock))]
+        [FieldAttribute("firing pattern properties", typeof(TagBlock))]
+        [BlockAttribute("character_firing_pattern_properties_block", 100, typeof(CharacterFiringPatternPropertiesBlock))]
         public TagBlock FiringPatternProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("grenades properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_grenades_block", 10, typeof(CharacterGrenadesBlock))]
+        [FieldAttribute("grenades properties", typeof(TagBlock))]
+        [BlockAttribute("character_grenades_block", 10, typeof(CharacterGrenadesBlock))]
         public TagBlock GrenadesProperties;
-        [Abide.Guerilla.Tags.FieldAttribute("vehicle properties", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("character_vehicle_block", 100, typeof(CharacterVehicleBlock))]
+        [FieldAttribute("vehicle properties", typeof(TagBlock))]
+        [BlockAttribute("character_vehicle_block", 100, typeof(CharacterVehicleBlock))]
         public TagBlock VehicleProperties;
-        public int Size
+        public TagBlockList<CharacterVariantsBlock> VariantsList
+        {
+            get
+            {
+                return this.variantsList;
+            }
+        }
+        public TagBlockList<CharacterGeneralBlock> GeneralPropertiesList
+        {
+            get
+            {
+                return this.generalPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterVitalityBlock> VitalityPropertiesList
+        {
+            get
+            {
+                return this.vitalityPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterPlacementBlock> PlacementPropertiesList
+        {
+            get
+            {
+                return this.placementPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterPerceptionBlock> PerceptionPropertiesList
+        {
+            get
+            {
+                return this.perceptionPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterLookBlock> LookPropertiesList
+        {
+            get
+            {
+                return this.lookPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterMovementBlock> MovementPropertiesList
+        {
+            get
+            {
+                return this.movementPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterSwarmBlock> SwarmPropertiesList
+        {
+            get
+            {
+                return this.swarmPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterReadyBlock> ReadyPropertiesList
+        {
+            get
+            {
+                return this.readyPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterEngageBlock> EngagePropertiesList
+        {
+            get
+            {
+                return this.engagePropertiesList;
+            }
+        }
+        public TagBlockList<CharacterChargeBlock> ChargePropertiesList
+        {
+            get
+            {
+                return this.chargePropertiesList;
+            }
+        }
+        public TagBlockList<CharacterEvasionBlock> EvasionPropertiesList
+        {
+            get
+            {
+                return this.evasionPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterCoverBlock> CoverPropertiesList
+        {
+            get
+            {
+                return this.coverPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterRetreatBlock> RetreatPropertiesList
+        {
+            get
+            {
+                return this.retreatPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterSearchBlock> SearchPropertiesList
+        {
+            get
+            {
+                return this.searchPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterPresearchBlock> PreSearchPropertiesList
+        {
+            get
+            {
+                return this.preSearchPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterIdleBlock> IdlePropertiesList
+        {
+            get
+            {
+                return this.idlePropertiesList;
+            }
+        }
+        public TagBlockList<CharacterVocalizationBlock> VocalizationPropertiesList
+        {
+            get
+            {
+                return this.vocalizationPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterBoardingBlock> BoardingPropertiesList
+        {
+            get
+            {
+                return this.boardingPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterBossBlock> BossPropertiesList
+        {
+            get
+            {
+                return this.bossPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterWeaponsBlock> WeaponsPropertiesList
+        {
+            get
+            {
+                return this.weaponsPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterFiringPatternPropertiesBlock> FiringPatternPropertiesList
+        {
+            get
+            {
+                return this.firingPatternPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterGrenadesBlock> GrenadesPropertiesList
+        {
+            get
+            {
+                return this.grenadesPropertiesList;
+            }
+        }
+        public TagBlockList<CharacterVehicleBlock> VehiclePropertiesList
+        {
+            get
+            {
+                return this.vehiclePropertiesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 372;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.variantsList.Clear();
+            this.generalPropertiesList.Clear();
+            this.vitalityPropertiesList.Clear();
+            this.placementPropertiesList.Clear();
+            this.perceptionPropertiesList.Clear();
+            this.lookPropertiesList.Clear();
+            this.movementPropertiesList.Clear();
+            this.swarmPropertiesList.Clear();
+            this.readyPropertiesList.Clear();
+            this.engagePropertiesList.Clear();
+            this.chargePropertiesList.Clear();
+            this.evasionPropertiesList.Clear();
+            this.coverPropertiesList.Clear();
+            this.retreatPropertiesList.Clear();
+            this.searchPropertiesList.Clear();
+            this.preSearchPropertiesList.Clear();
+            this.idlePropertiesList.Clear();
+            this.vocalizationPropertiesList.Clear();
+            this.boardingPropertiesList.Clear();
+            this.bossPropertiesList.Clear();
+            this.weaponsPropertiesList.Clear();
+            this.firingPatternPropertiesList.Clear();
+            this.grenadesPropertiesList.Clear();
+            this.vehiclePropertiesList.Clear();
+            this.CharacterFlags = ((CharacterFlagsOptions)(0));
+            this.ParentCharacter = TagReference.Null;
+            this.Unit = TagReference.Null;
+            this.Creature = TagReference.Null;
+            this.Style = TagReference.Null;
+            this.MajorCharacter = TagReference.Null;
+            this.Variants = TagBlock.Zero;
+            this.GeneralProperties = TagBlock.Zero;
+            this.VitalityProperties = TagBlock.Zero;
+            this.PlacementProperties = TagBlock.Zero;
+            this.PerceptionProperties = TagBlock.Zero;
+            this.LookProperties = TagBlock.Zero;
+            this.MovementProperties = TagBlock.Zero;
+            this.SwarmProperties = TagBlock.Zero;
+            this.ReadyProperties = TagBlock.Zero;
+            this.EngageProperties = TagBlock.Zero;
+            this.ChargeProperties = TagBlock.Zero;
+            this.EvasionProperties = TagBlock.Zero;
+            this.CoverProperties = TagBlock.Zero;
+            this.RetreatProperties = TagBlock.Zero;
+            this.SearchProperties = TagBlock.Zero;
+            this.PreSearchProperties = TagBlock.Zero;
+            this.IdleProperties = TagBlock.Zero;
+            this.VocalizationProperties = TagBlock.Zero;
+            this.BoardingProperties = TagBlock.Zero;
+            this.BossProperties = TagBlock.Zero;
+            this.WeaponsProperties = TagBlock.Zero;
+            this.FiringPatternProperties = TagBlock.Zero;
+            this.GrenadesProperties = TagBlock.Zero;
+            this.VehicleProperties = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.CharacterFlags = ((CharacterFlagsOptions)(reader.ReadInt32()));
+            this.ParentCharacter = reader.Read<TagReference>();
+            this.Unit = reader.Read<TagReference>();
+            this.Creature = reader.Read<TagReference>();
+            this.Style = reader.Read<TagReference>();
+            this.MajorCharacter = reader.Read<TagReference>();
+            this.Variants = reader.ReadInt64();
+            this.variantsList.Read(reader, this.Variants);
+            this.GeneralProperties = reader.ReadInt64();
+            this.generalPropertiesList.Read(reader, this.GeneralProperties);
+            this.VitalityProperties = reader.ReadInt64();
+            this.vitalityPropertiesList.Read(reader, this.VitalityProperties);
+            this.PlacementProperties = reader.ReadInt64();
+            this.placementPropertiesList.Read(reader, this.PlacementProperties);
+            this.PerceptionProperties = reader.ReadInt64();
+            this.perceptionPropertiesList.Read(reader, this.PerceptionProperties);
+            this.LookProperties = reader.ReadInt64();
+            this.lookPropertiesList.Read(reader, this.LookProperties);
+            this.MovementProperties = reader.ReadInt64();
+            this.movementPropertiesList.Read(reader, this.MovementProperties);
+            this.SwarmProperties = reader.ReadInt64();
+            this.swarmPropertiesList.Read(reader, this.SwarmProperties);
+            this.ReadyProperties = reader.ReadInt64();
+            this.readyPropertiesList.Read(reader, this.ReadyProperties);
+            this.EngageProperties = reader.ReadInt64();
+            this.engagePropertiesList.Read(reader, this.EngageProperties);
+            this.ChargeProperties = reader.ReadInt64();
+            this.chargePropertiesList.Read(reader, this.ChargeProperties);
+            this.EvasionProperties = reader.ReadInt64();
+            this.evasionPropertiesList.Read(reader, this.EvasionProperties);
+            this.CoverProperties = reader.ReadInt64();
+            this.coverPropertiesList.Read(reader, this.CoverProperties);
+            this.RetreatProperties = reader.ReadInt64();
+            this.retreatPropertiesList.Read(reader, this.RetreatProperties);
+            this.SearchProperties = reader.ReadInt64();
+            this.searchPropertiesList.Read(reader, this.SearchProperties);
+            this.PreSearchProperties = reader.ReadInt64();
+            this.preSearchPropertiesList.Read(reader, this.PreSearchProperties);
+            this.IdleProperties = reader.ReadInt64();
+            this.idlePropertiesList.Read(reader, this.IdleProperties);
+            this.VocalizationProperties = reader.ReadInt64();
+            this.vocalizationPropertiesList.Read(reader, this.VocalizationProperties);
+            this.BoardingProperties = reader.ReadInt64();
+            this.boardingPropertiesList.Read(reader, this.BoardingProperties);
+            this.BossProperties = reader.ReadInt64();
+            this.bossPropertiesList.Read(reader, this.BossProperties);
+            this.WeaponsProperties = reader.ReadInt64();
+            this.weaponsPropertiesList.Read(reader, this.WeaponsProperties);
+            this.FiringPatternProperties = reader.ReadInt64();
+            this.firingPatternPropertiesList.Read(reader, this.FiringPatternProperties);
+            this.GrenadesProperties = reader.ReadInt64();
+            this.grenadesPropertiesList.Read(reader, this.GrenadesProperties);
+            this.VehicleProperties = reader.ReadInt64();
+            this.vehiclePropertiesList.Read(reader, this.VehicleProperties);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(12, 4)]
+        public sealed class CharacterVariantsBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class CharacterVariantsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("variant name^", typeof(StringId))]
+            [FieldAttribute("variant name^", typeof(StringId))]
             public StringId VariantName;
-            [Abide.Guerilla.Tags.FieldAttribute("variant index*", typeof(Int16))]
+            [FieldAttribute("variant index*", typeof(Int16))]
             public Int16 VariantIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("variant designator*", typeof(StringId))]
+            [FieldAttribute("variant designator*", typeof(StringId))]
             public StringId VariantDesignator;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.VariantName = StringId.Zero;
+                this.VariantIndex = 0;
+                this.EmptyString = new byte[2];
+                this.VariantDesignator = StringId.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.VariantName = reader.ReadInt32();
+                this.VariantIndex = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.VariantDesignator = reader.ReadInt32();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class CharacterGeneralBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(12, 4)]
+        public sealed class CharacterGeneralBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("general flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GeneralFlagsOptions), true)]
-            public Int32 GeneralFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int16 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("general flags", typeof(GeneralFlagsOptions))]
+            [OptionsAttribute(typeof(GeneralFlagsOptions), true)]
+            public GeneralFlagsOptions GeneralFlags;
+            [FieldAttribute("type", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("scariness#the inherent scariness of the character", typeof(Single))]
+            [FieldAttribute("scariness#the inherent scariness of the character", typeof(Single))]
             public Single Scariness;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.GeneralFlags = ((GeneralFlagsOptions)(0));
+                this.Type = ((TypeOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Scariness = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.GeneralFlags = ((GeneralFlagsOptions)(reader.ReadInt32()));
+                this.Type = ((TypeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Scariness = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum GeneralFlagsOptions
+            public enum GeneralFlagsOptions : Int32
             {
                 Swarm = 1,
                 Flying = 2,
                 DualWields = 4,
                 UsesGravemind = 8,
             }
-            public enum TypeOptions
+            public enum TypeOptions : Int16
             {
                 Elite = 0,
                 Jackal = 1,
@@ -210,293 +527,433 @@ namespace Abide.Guerilla.Tags
                 Juggernaut = 19,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(112, 4)]
-        public sealed class CharacterVitalityBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(112, 4)]
+        public sealed class CharacterVitalityBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("vitality flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(VitalityFlagsOptions), true)]
-            public Int32 VitalityFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("normal body vitality#maximum body vitality of our unit", typeof(Single))]
+            [FieldAttribute("vitality flags", typeof(VitalityFlagsOptions))]
+            [OptionsAttribute(typeof(VitalityFlagsOptions), true)]
+            public VitalityFlagsOptions VitalityFlags;
+            [FieldAttribute("normal body vitality#maximum body vitality of our unit", typeof(Single))]
             public Single NormalBodyVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("normal shield vitality#maximum shield vitality of our unit", typeof(Single))]
+            [FieldAttribute("normal shield vitality#maximum shield vitality of our unit", typeof(Single))]
             public Single NormalShieldVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("legendary body vitality#maximum body vitality of our unit (on legendary)", typeof(Single))]
+            [FieldAttribute("legendary body vitality#maximum body vitality of our unit (on legendary)", typeof(Single))]
             public Single LegendaryBodyVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("legendary shield vitality#maximum shield vitality of our unit (on legendary)", typeof(Single))]
+            [FieldAttribute("legendary shield vitality#maximum shield vitality of our unit (on legendary)", typeof(Single))]
             public Single LegendaryShieldVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("body recharge fraction#fraction of body health that can be regained after damage", typeof(Single))]
+            [FieldAttribute("body recharge fraction#fraction of body health that can be regained after damage", typeof(Single))]
             public Single BodyRechargeFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("soft ping threshold (with shields)#damage necessary to trigger a soft ping when s" +
+            [FieldAttribute("soft ping threshold (with shields)#damage necessary to trigger a soft ping when s" +
                 "hields are up", typeof(Single))]
             public Single SoftPingThresholdWithShields;
-            [Abide.Guerilla.Tags.FieldAttribute("soft ping threshold (no shields)#damage necessary to trigger a soft ping when shi" +
+            [FieldAttribute("soft ping threshold (no shields)#damage necessary to trigger a soft ping when shi" +
                 "elds are down", typeof(Single))]
             public Single SoftPingThresholdNoShields;
-            [Abide.Guerilla.Tags.FieldAttribute("soft ping min interrupt time#minimum time before a soft ping can be interrupted", typeof(Single))]
+            [FieldAttribute("soft ping min interrupt time#minimum time before a soft ping can be interrupted", typeof(Single))]
             public Single SoftPingMinInterruptTime;
-            [Abide.Guerilla.Tags.FieldAttribute("hard ping threshold (with shields)#damage necessary to trigger a hard ping when s" +
+            [FieldAttribute("hard ping threshold (with shields)#damage necessary to trigger a hard ping when s" +
                 "hields are up", typeof(Single))]
             public Single HardPingThresholdWithShields;
-            [Abide.Guerilla.Tags.FieldAttribute("hard ping threshold (no shields)#damage necessary to trigger a hard ping when shi" +
+            [FieldAttribute("hard ping threshold (no shields)#damage necessary to trigger a hard ping when shi" +
                 "elds are down", typeof(Single))]
             public Single HardPingThresholdNoShields;
-            [Abide.Guerilla.Tags.FieldAttribute("hard ping min interrupt time#minimum time before a hard ping can be interrupted", typeof(Single))]
+            [FieldAttribute("hard ping min interrupt time#minimum time before a hard ping can be interrupted", typeof(Single))]
             public Single HardPingMinInterruptTime;
-            [Abide.Guerilla.Tags.FieldAttribute("current damage decay delay#current damage begins to fall after a time delay has p" +
+            [FieldAttribute("current damage decay delay#current damage begins to fall after a time delay has p" +
                 "assed since last the damage", typeof(Single))]
             public Single CurrentDamageDecayDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("current damage decay time#amount of time it would take for 100% current damage to" +
+            [FieldAttribute("current damage decay time#amount of time it would take for 100% current damage to" +
                 " decay to 0", typeof(Single))]
             public Single CurrentDamageDecayTime;
-            [Abide.Guerilla.Tags.FieldAttribute("recent damage decay delay#recent damage begins to fall after a time delay has pas" +
+            [FieldAttribute("recent damage decay delay#recent damage begins to fall after a time delay has pas" +
                 "sed since last the damage", typeof(Single))]
             public Single RecentDamageDecayDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("recent damage decay time#amount of time it would take for 100% recent damage to d" +
+            [FieldAttribute("recent damage decay time#amount of time it would take for 100% recent damage to d" +
                 "ecay to 0", typeof(Single))]
             public Single RecentDamageDecayTime;
-            [Abide.Guerilla.Tags.FieldAttribute("body recharge delay time#amount of time delay before a shield begins to recharge", typeof(Single))]
+            [FieldAttribute("body recharge delay time#amount of time delay before a shield begins to recharge", typeof(Single))]
             public Single BodyRechargeDelayTime;
-            [Abide.Guerilla.Tags.FieldAttribute("body recharge time#amount of time for shields to recharge completely", typeof(Single))]
+            [FieldAttribute("body recharge time#amount of time for shields to recharge completely", typeof(Single))]
             public Single BodyRechargeTime;
-            [Abide.Guerilla.Tags.FieldAttribute("shield recharge delay time#amount of time delay before a shield begins to recharg" +
+            [FieldAttribute("shield recharge delay time#amount of time delay before a shield begins to recharg" +
                 "e", typeof(Single))]
             public Single ShieldRechargeDelayTime;
-            [Abide.Guerilla.Tags.FieldAttribute("shield recharge time#amount of time for shields to recharge completely", typeof(Single))]
+            [FieldAttribute("shield recharge time#amount of time for shields to recharge completely", typeof(Single))]
             public Single ShieldRechargeTime;
-            [Abide.Guerilla.Tags.FieldAttribute("stun threshold#stun level that triggers the stunned state (currently, the \'stunne" +
+            [FieldAttribute("stun threshold#stun level that triggers the stunned state (currently, the \'stunne" +
                 "d\' behavior)", typeof(Single))]
             public Single StunThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("extended shield damage threshold:%#Amount of shield damage sustained before it is" +
+            [FieldAttribute("extended shield damage threshold:%#Amount of shield damage sustained before it is" +
                 " considered \'extended\'", typeof(Single))]
             public Single ExtendedShieldDamageThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("extended body damage threshold:%#Amount of body damage sustained before it is con" +
+            [FieldAttribute("extended body damage threshold:%#Amount of body damage sustained before it is con" +
                 "sidered \'extended\'", typeof(Single))]
             public Single ExtendedBodyDamageThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("suicide radius#when I die and explode, I damage stuff within this distance of me." +
+            [FieldAttribute("suicide radius#when I die and explode, I damage stuff within this distance of me." +
                 "", typeof(Single))]
             public Single SuicideRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
-            public Byte[] EmptyString5;
-            public int Size
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
+            public Byte[] EmptyString;
+            public override int Size
             {
                 get
                 {
                     return 112;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.VitalityFlags = ((VitalityFlagsOptions)(0));
+                this.NormalBodyVitality = 0;
+                this.NormalShieldVitality = 0;
+                this.LegendaryBodyVitality = 0;
+                this.LegendaryShieldVitality = 0;
+                this.BodyRechargeFraction = 0;
+                this.SoftPingThresholdWithShields = 0;
+                this.SoftPingThresholdNoShields = 0;
+                this.SoftPingMinInterruptTime = 0;
+                this.HardPingThresholdWithShields = 0;
+                this.HardPingThresholdNoShields = 0;
+                this.HardPingMinInterruptTime = 0;
+                this.CurrentDamageDecayDelay = 0;
+                this.CurrentDamageDecayTime = 0;
+                this.RecentDamageDecayDelay = 0;
+                this.RecentDamageDecayTime = 0;
+                this.BodyRechargeDelayTime = 0;
+                this.BodyRechargeTime = 0;
+                this.ShieldRechargeDelayTime = 0;
+                this.ShieldRechargeTime = 0;
+                this.StunThreshold = 0;
+                this.ExtendedShieldDamageThreshold = 0;
+                this.ExtendedBodyDamageThreshold = 0;
+                this.SuicideRadius = 0;
+                this.EmptyString = new byte[8];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.VitalityFlags = ((VitalityFlagsOptions)(reader.ReadInt32()));
+                this.NormalBodyVitality = reader.ReadSingle();
+                this.NormalShieldVitality = reader.ReadSingle();
+                this.LegendaryBodyVitality = reader.ReadSingle();
+                this.LegendaryShieldVitality = reader.ReadSingle();
+                this.BodyRechargeFraction = reader.ReadSingle();
+                this.SoftPingThresholdWithShields = reader.ReadSingle();
+                this.SoftPingThresholdNoShields = reader.ReadSingle();
+                this.SoftPingMinInterruptTime = reader.ReadSingle();
+                this.HardPingThresholdWithShields = reader.ReadSingle();
+                this.HardPingThresholdNoShields = reader.ReadSingle();
+                this.HardPingMinInterruptTime = reader.ReadSingle();
+                this.CurrentDamageDecayDelay = reader.ReadSingle();
+                this.CurrentDamageDecayTime = reader.ReadSingle();
+                this.RecentDamageDecayDelay = reader.ReadSingle();
+                this.RecentDamageDecayTime = reader.ReadSingle();
+                this.BodyRechargeDelayTime = reader.ReadSingle();
+                this.BodyRechargeTime = reader.ReadSingle();
+                this.ShieldRechargeDelayTime = reader.ReadSingle();
+                this.ShieldRechargeTime = reader.ReadSingle();
+                this.StunThreshold = reader.ReadSingle();
+                this.ExtendedShieldDamageThreshold = reader.ReadSingle();
+                this.ExtendedBodyDamageThreshold = reader.ReadSingle();
+                this.SuicideRadius = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(8);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum VitalityFlagsOptions
+            public enum VitalityFlagsOptions : Int32
             {
                 Unused = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-        public sealed class CharacterPlacementBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(52, 4)]
+        public sealed class CharacterPlacementBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("few upgrade chance (easy)", typeof(Single))]
+            [FieldAttribute("few upgrade chance (easy)", typeof(Single))]
             public Single FewUpgradeChanceEasy;
-            [Abide.Guerilla.Tags.FieldAttribute("few upgrade chance (normal)", typeof(Single))]
+            [FieldAttribute("few upgrade chance (normal)", typeof(Single))]
             public Single FewUpgradeChanceNormal;
-            [Abide.Guerilla.Tags.FieldAttribute("few upgrade chance (heroic)", typeof(Single))]
+            [FieldAttribute("few upgrade chance (heroic)", typeof(Single))]
             public Single FewUpgradeChanceHeroic;
-            [Abide.Guerilla.Tags.FieldAttribute("few upgrade chance (legendary)", typeof(Single))]
+            [FieldAttribute("few upgrade chance (legendary)", typeof(Single))]
             public Single FewUpgradeChanceLegendary;
-            [Abide.Guerilla.Tags.FieldAttribute("normal upgrade chance (easy)", typeof(Single))]
+            [FieldAttribute("normal upgrade chance (easy)", typeof(Single))]
             public Single NormalUpgradeChanceEasy;
-            [Abide.Guerilla.Tags.FieldAttribute("normal upgrade chance (normal)", typeof(Single))]
+            [FieldAttribute("normal upgrade chance (normal)", typeof(Single))]
             public Single NormalUpgradeChanceNormal;
-            [Abide.Guerilla.Tags.FieldAttribute("normal upgrade chance (heroic)", typeof(Single))]
+            [FieldAttribute("normal upgrade chance (heroic)", typeof(Single))]
             public Single NormalUpgradeChanceHeroic;
-            [Abide.Guerilla.Tags.FieldAttribute("normal upgrade chance (legendary)", typeof(Single))]
+            [FieldAttribute("normal upgrade chance (legendary)", typeof(Single))]
             public Single NormalUpgradeChanceLegendary;
-            [Abide.Guerilla.Tags.FieldAttribute("many upgrade chance (easy)", typeof(Single))]
+            [FieldAttribute("many upgrade chance (easy)", typeof(Single))]
             public Single ManyUpgradeChanceEasy;
-            [Abide.Guerilla.Tags.FieldAttribute("many upgrade chance (normal)", typeof(Single))]
+            [FieldAttribute("many upgrade chance (normal)", typeof(Single))]
             public Single ManyUpgradeChanceNormal;
-            [Abide.Guerilla.Tags.FieldAttribute("many upgrade chance (heroic)", typeof(Single))]
+            [FieldAttribute("many upgrade chance (heroic)", typeof(Single))]
             public Single ManyUpgradeChanceHeroic;
-            [Abide.Guerilla.Tags.FieldAttribute("many upgrade chance (legendary)", typeof(Single))]
+            [FieldAttribute("many upgrade chance (legendary)", typeof(Single))]
             public Single ManyUpgradeChanceLegendary;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 52;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = new byte[4];
+                this.FewUpgradeChanceEasy = 0;
+                this.FewUpgradeChanceNormal = 0;
+                this.FewUpgradeChanceHeroic = 0;
+                this.FewUpgradeChanceLegendary = 0;
+                this.NormalUpgradeChanceEasy = 0;
+                this.NormalUpgradeChanceNormal = 0;
+                this.NormalUpgradeChanceHeroic = 0;
+                this.NormalUpgradeChanceLegendary = 0;
+                this.ManyUpgradeChanceEasy = 0;
+                this.ManyUpgradeChanceNormal = 0;
+                this.ManyUpgradeChanceHeroic = 0;
+                this.ManyUpgradeChanceLegendary = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadBytes(4);
+                this.FewUpgradeChanceEasy = reader.ReadSingle();
+                this.FewUpgradeChanceNormal = reader.ReadSingle();
+                this.FewUpgradeChanceHeroic = reader.ReadSingle();
+                this.FewUpgradeChanceLegendary = reader.ReadSingle();
+                this.NormalUpgradeChanceEasy = reader.ReadSingle();
+                this.NormalUpgradeChanceNormal = reader.ReadSingle();
+                this.NormalUpgradeChanceHeroic = reader.ReadSingle();
+                this.NormalUpgradeChanceLegendary = reader.ReadSingle();
+                this.ManyUpgradeChanceEasy = reader.ReadSingle();
+                this.ManyUpgradeChanceNormal = reader.ReadSingle();
+                this.ManyUpgradeChanceHeroic = reader.ReadSingle();
+                this.ManyUpgradeChanceLegendary = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-        public sealed class CharacterPerceptionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(52, 4)]
+        public sealed class CharacterPerceptionBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("perception flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionFlagsOptions), true)]
-            public Int32 PerceptionFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("max vision distance:world units#maximum range of sight", typeof(Single))]
+            [FieldAttribute("perception flags", typeof(PerceptionFlagsOptions))]
+            [OptionsAttribute(typeof(PerceptionFlagsOptions), true)]
+            public PerceptionFlagsOptions PerceptionFlags;
+            [FieldAttribute("max vision distance:world units#maximum range of sight", typeof(Single))]
             public Single MaxVisionDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("central vision angle:degrees#horizontal angle within which we see targets out to " +
+            [FieldAttribute("central vision angle:degrees#horizontal angle within which we see targets out to " +
                 "our maximum range", typeof(Single))]
             public Single CentralVisionAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("max vision angle:degrees#maximum horizontal angle within which we see targets at " +
+            [FieldAttribute("max vision angle:degrees#maximum horizontal angle within which we see targets at " +
                 "range", typeof(Single))]
             public Single MaxVisionAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("peripheral vision angle:degrees#maximum horizontal angle within which we can see " +
+            [FieldAttribute("peripheral vision angle:degrees#maximum horizontal angle within which we can see " +
                 "targets out of the corner of our eye", typeof(Single))]
             public Single PeripheralVisionAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("peripheral distance:world units#maximum range at which we can see targets our of " +
+            [FieldAttribute("peripheral distance:world units#maximum range at which we can see targets our of " +
                 "the corner of our eye", typeof(Single))]
             public Single PeripheralDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("hearing distance:world units#maximum range at which sounds can be heard", typeof(Single))]
+            [FieldAttribute("hearing distance:world units#maximum range at which sounds can be heard", typeof(Single))]
             public Single HearingDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("notice projectile chance:[0,1]#random chance of noticing a dangerous enemy projec" +
+            [FieldAttribute("notice projectile chance:[0,1]#random chance of noticing a dangerous enemy projec" +
                 "tile (e.g. grenade)", typeof(Single))]
             public Single NoticeProjectileChance;
-            [Abide.Guerilla.Tags.FieldAttribute("notice vehicle chance:[0,1]#random chance of noticing a dangerous vehicle", typeof(Single))]
+            [FieldAttribute("notice vehicle chance:[0,1]#random chance of noticing a dangerous vehicle", typeof(Single))]
             public Single NoticeVehicleChance;
-            [Abide.Guerilla.Tags.FieldAttribute("combat perception time:seconds#time required to acknowledge a visible enemy when " +
+            [FieldAttribute("combat perception time:seconds#time required to acknowledge a visible enemy when " +
                 "we are already in combat or searching for them", typeof(Single))]
             public Single CombatPerceptionTime;
-            [Abide.Guerilla.Tags.FieldAttribute("guard perception time:seconds#time required to acknowledge a visible enemy when w" +
+            [FieldAttribute("guard perception time:seconds#time required to acknowledge a visible enemy when w" +
                 "e have been alerted", typeof(Single))]
             public Single GuardPerceptionTime;
-            [Abide.Guerilla.Tags.FieldAttribute("non-combat perception time:seconds#time required to acknowledge a visible enemy w" +
+            [FieldAttribute("non-combat perception time:seconds#time required to acknowledge a visible enemy w" +
                 "hen we are not alerted", typeof(Single))]
             public Single NonCombatPerceptionTime;
-            [Abide.Guerilla.Tags.FieldAttribute("first ack. surprise distance:world units#If a new prop is acknowledged within the" +
+            [FieldAttribute("first ack. surprise distance:world units#If a new prop is acknowledged within the" +
                 " given distance, surprise is registerd", typeof(Single))]
             public Single FirstAckSurpriseDistance;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 52;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.PerceptionFlags = ((PerceptionFlagsOptions)(0));
+                this.MaxVisionDistance = 0;
+                this.CentralVisionAngle = 0;
+                this.MaxVisionAngle = 0;
+                this.PeripheralVisionAngle = 0;
+                this.PeripheralDistance = 0;
+                this.HearingDistance = 0;
+                this.NoticeProjectileChance = 0;
+                this.NoticeVehicleChance = 0;
+                this.CombatPerceptionTime = 0;
+                this.GuardPerceptionTime = 0;
+                this.NonCombatPerceptionTime = 0;
+                this.FirstAckSurpriseDistance = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.PerceptionFlags = ((PerceptionFlagsOptions)(reader.ReadInt32()));
+                this.MaxVisionDistance = reader.ReadSingle();
+                this.CentralVisionAngle = reader.ReadSingle();
+                this.MaxVisionAngle = reader.ReadSingle();
+                this.PeripheralVisionAngle = reader.ReadSingle();
+                this.PeripheralDistance = reader.ReadSingle();
+                this.HearingDistance = reader.ReadSingle();
+                this.NoticeProjectileChance = reader.ReadSingle();
+                this.NoticeVehicleChance = reader.ReadSingle();
+                this.CombatPerceptionTime = reader.ReadSingle();
+                this.GuardPerceptionTime = reader.ReadSingle();
+                this.NonCombatPerceptionTime = reader.ReadSingle();
+                this.FirstAckSurpriseDistance = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum PerceptionFlagsOptions
+            public enum PerceptionFlagsOptions : Int32
             {
                 Flag1 = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(80, 4)]
-        public sealed class CharacterLookBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(80, 4)]
+        public sealed class CharacterLookBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("maximum aiming deviation:degrees#how far we can turn our weapon", typeof(Vector2))]
+            [FieldAttribute("maximum aiming deviation:degrees#how far we can turn our weapon", typeof(Vector2))]
             public Vector2 MaximumAimingDeviation;
-            [Abide.Guerilla.Tags.FieldAttribute("maximum looking deviation:degrees#how far we can turn our head", typeof(Vector2))]
+            [FieldAttribute("maximum looking deviation:degrees#how far we can turn our head", typeof(Vector2))]
             public Vector2 MaximumLookingDeviation;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("noncombat look delta L:degrees#how far we can turn our head left away from our ai" +
+            [FieldAttribute("noncombat look delta L:degrees#how far we can turn our head left away from our ai" +
                 "ming vector when not in combat", typeof(Single))]
             public Single NoncombatLookDeltaL;
-            [Abide.Guerilla.Tags.FieldAttribute("noncombat look delta R:degrees#how far we can turn our head right away from our a" +
+            [FieldAttribute("noncombat look delta R:degrees#how far we can turn our head right away from our a" +
                 "iming vector when not in combat", typeof(Single))]
             public Single NoncombatLookDeltaR;
-            [Abide.Guerilla.Tags.FieldAttribute("combat look delta L:degrees#how far we can turn our head left away from our aimin" +
+            [FieldAttribute("combat look delta L:degrees#how far we can turn our head left away from our aimin" +
                 "g vector when in combat", typeof(Single))]
             public Single CombatLookDeltaL;
-            [Abide.Guerilla.Tags.FieldAttribute("combat look delta R:degrees#how far we can turn our head right away from our aimi" +
+            [FieldAttribute("combat look delta R:degrees#how far we can turn our head right away from our aimi" +
                 "ng vector when in combat", typeof(Single))]
             public Single CombatLookDeltaR;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 80;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.MaximumAimingDeviation = Vector2.Zero;
+                this.MaximumLookingDeviation = Vector2.Zero;
+                this.EmptyString = new byte[16];
+                this.NoncombatLookDeltaL = 0;
+                this.NoncombatLookDeltaR = 0;
+                this.CombatLookDeltaL = 0;
+                this.CombatLookDeltaR = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.MaximumAimingDeviation = reader.Read<Vector2>();
+                this.MaximumLookingDeviation = reader.Read<Vector2>();
+                this.EmptyString = reader.ReadBytes(16);
+                this.NoncombatLookDeltaL = reader.ReadSingle();
+                this.NoncombatLookDeltaR = reader.ReadSingle();
+                this.CombatLookDeltaL = reader.ReadSingle();
+                this.CombatLookDeltaR = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class CharacterMovementBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(36, 4)]
+        public sealed class CharacterMovementBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("movement flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(MovementFlagsOptions), true)]
-            public Int32 MovementFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("pathfinding radius", typeof(Single))]
+            [FieldAttribute("movement flags", typeof(MovementFlagsOptions))]
+            [OptionsAttribute(typeof(MovementFlagsOptions), true)]
+            public MovementFlagsOptions MovementFlags;
+            [FieldAttribute("pathfinding radius", typeof(Single))]
             public Single PathfindingRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("destination radius", typeof(Single))]
+            [FieldAttribute("destination radius", typeof(Single))]
             public Single DestinationRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("dive grenade chance", typeof(Single))]
+            [FieldAttribute("dive grenade chance", typeof(Single))]
             public Single DiveGrenadeChance;
-            [Abide.Guerilla.Tags.FieldAttribute("obstacle leap min size", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ObstacleLeapMinSizeOptions), false)]
-            public Int16 ObstacleLeapMinSize;
-            [Abide.Guerilla.Tags.FieldAttribute("obstacle leap max size", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ObstacleLeapMaxSizeOptions), false)]
-            public Int16 ObstacleLeapMaxSize;
-            [Abide.Guerilla.Tags.FieldAttribute("obstacle ignore size", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ObstacleIgnoreSizeOptions), false)]
-            public Int16 ObstacleIgnoreSize;
-            [Abide.Guerilla.Tags.FieldAttribute("obstacle smashable size", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ObstacleSmashableSizeOptions), false)]
-            public Int16 ObstacleSmashableSize;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("jump height", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(JumpHeightOptions), false)]
-            public Int16 JumpHeight;
-            [Abide.Guerilla.Tags.FieldAttribute("movement hints", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(MovementHintsOptions), true)]
-            public Int32 MovementHints;
-            [Abide.Guerilla.Tags.FieldAttribute("throttle scale", typeof(Single))]
+            [FieldAttribute("obstacle leap min size", typeof(ObstacleLeapMinSizeOptions))]
+            [OptionsAttribute(typeof(ObstacleLeapMinSizeOptions), false)]
+            public ObstacleLeapMinSizeOptions ObstacleLeapMinSize;
+            [FieldAttribute("obstacle leap max size", typeof(ObstacleLeapMaxSizeOptions))]
+            [OptionsAttribute(typeof(ObstacleLeapMaxSizeOptions), false)]
+            public ObstacleLeapMaxSizeOptions ObstacleLeapMaxSize;
+            [FieldAttribute("obstacle ignore size", typeof(ObstacleIgnoreSizeOptions))]
+            [OptionsAttribute(typeof(ObstacleIgnoreSizeOptions), false)]
+            public ObstacleIgnoreSizeOptions ObstacleIgnoreSize;
+            [FieldAttribute("obstacle smashable size", typeof(ObstacleSmashableSizeOptions))]
+            [OptionsAttribute(typeof(ObstacleSmashableSizeOptions), false)]
+            public ObstacleSmashableSizeOptions ObstacleSmashableSize;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString;
+            [FieldAttribute("jump height", typeof(JumpHeightOptions))]
+            [OptionsAttribute(typeof(JumpHeightOptions), false)]
+            public JumpHeightOptions JumpHeight;
+            [FieldAttribute("movement hints", typeof(MovementHintsOptions))]
+            [OptionsAttribute(typeof(MovementHintsOptions), true)]
+            public MovementHintsOptions MovementHints;
+            [FieldAttribute("throttle scale", typeof(Single))]
             public Single ThrottleScale;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.MovementFlags = ((MovementFlagsOptions)(0));
+                this.PathfindingRadius = 0;
+                this.DestinationRadius = 0;
+                this.DiveGrenadeChance = 0;
+                this.ObstacleLeapMinSize = ((ObstacleLeapMinSizeOptions)(0));
+                this.ObstacleLeapMaxSize = ((ObstacleLeapMaxSizeOptions)(0));
+                this.ObstacleIgnoreSize = ((ObstacleIgnoreSizeOptions)(0));
+                this.ObstacleSmashableSize = ((ObstacleSmashableSizeOptions)(0));
+                this.EmptyString = new byte[2];
+                this.JumpHeight = ((JumpHeightOptions)(0));
+                this.MovementHints = ((MovementHintsOptions)(0));
+                this.ThrottleScale = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.MovementFlags = ((MovementFlagsOptions)(reader.ReadInt32()));
+                this.PathfindingRadius = reader.ReadSingle();
+                this.DestinationRadius = reader.ReadSingle();
+                this.DiveGrenadeChance = reader.ReadSingle();
+                this.ObstacleLeapMinSize = ((ObstacleLeapMinSizeOptions)(reader.ReadInt16()));
+                this.ObstacleLeapMaxSize = ((ObstacleLeapMaxSizeOptions)(reader.ReadInt16()));
+                this.ObstacleIgnoreSize = ((ObstacleIgnoreSizeOptions)(reader.ReadInt16()));
+                this.ObstacleSmashableSize = ((ObstacleSmashableSizeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.JumpHeight = ((JumpHeightOptions)(reader.ReadInt16()));
+                this.MovementHints = ((MovementHintsOptions)(reader.ReadInt32()));
+                this.ThrottleScale = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum MovementFlagsOptions
+            public enum MovementFlagsOptions : Int32
             {
                 DangerCrouchAllowMovement = 1,
                 NoSideStep = 2,
@@ -506,7 +963,7 @@ namespace Abide.Guerilla.Tags
                 HasFlyingMode = 32,
                 DisallowCrouch = 64,
             }
-            public enum ObstacleLeapMinSizeOptions
+            public enum ObstacleLeapMinSizeOptions : Int16
             {
                 None = 0,
                 Tiny = 1,
@@ -516,7 +973,7 @@ namespace Abide.Guerilla.Tags
                 Huge = 5,
                 Immobile = 6,
             }
-            public enum ObstacleLeapMaxSizeOptions
+            public enum ObstacleLeapMaxSizeOptions : Int16
             {
                 None = 0,
                 Tiny = 1,
@@ -526,7 +983,7 @@ namespace Abide.Guerilla.Tags
                 Huge = 5,
                 Immobile = 6,
             }
-            public enum ObstacleIgnoreSizeOptions
+            public enum ObstacleIgnoreSizeOptions : Int16
             {
                 None = 0,
                 Tiny = 1,
@@ -536,7 +993,7 @@ namespace Abide.Guerilla.Tags
                 Huge = 5,
                 Immobile = 6,
             }
-            public enum ObstacleSmashableSizeOptions
+            public enum ObstacleSmashableSizeOptions : Int16
             {
                 None = 0,
                 Tiny = 1,
@@ -546,7 +1003,7 @@ namespace Abide.Guerilla.Tags
                 Huge = 5,
                 Immobile = 6,
             }
-            public enum JumpHeightOptions
+            public enum JumpHeightOptions : Int16
             {
                 None = 0,
                 Down = 1,
@@ -557,7 +1014,7 @@ namespace Abide.Guerilla.Tags
                 Tower = 6,
                 Infinite = 7,
             }
-            public enum MovementHintsOptions
+            public enum MovementHintsOptions : Int32
             {
                 VaultStep = 1,
                 VaultCrouch = 2,
@@ -577,636 +1034,856 @@ namespace Abide.Guerilla.Tags
                 EmptyString8 = 32768,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-        public sealed class CharacterSwarmBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(40, 4)]
+        public sealed class CharacterSwarmBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("scatter killed count#After the given number of deaths, the swarm scatters", typeof(Int16))]
+            [FieldAttribute("scatter killed count#After the given number of deaths, the swarm scatters", typeof(Int16))]
             public Int16 ScatterKilledCount;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("scatter radius#the distance from the target that the swarm scatters", typeof(Single))]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString;
+            [FieldAttribute("scatter radius#the distance from the target that the swarm scatters", typeof(Single))]
             public Single ScatterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("scatter time#amount of time to remain scattered", typeof(Single))]
+            [FieldAttribute("scatter time#amount of time to remain scattered", typeof(Single))]
             public Single ScatterTime;
-            [Abide.Guerilla.Tags.FieldAttribute("hound min distance", typeof(Single))]
+            [FieldAttribute("hound min distance", typeof(Single))]
             public Single HoundMinDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("hound max distance", typeof(Single))]
+            [FieldAttribute("hound max distance", typeof(Single))]
             public Single HoundMaxDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("perlin offset scale:[0-1]#amount of randomness added to creature\'s throttle", typeof(Single))]
+            [FieldAttribute("perlin offset scale:[0-1]#amount of randomness added to creature\'s throttle", typeof(Single))]
             public Single PerlinOffsetScale;
-            [Abide.Guerilla.Tags.FieldAttribute("perlin idle movement threshold:[0-1]#a random offset lower then given threshold i" +
+            [FieldAttribute("perlin idle movement threshold:[0-1]#a random offset lower then given threshold i" +
                 "s made 0. (threshold of 1 = no movement)", typeof(Single))]
             public Single PerlinIdleMovementThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("perlin combat movement threshold:[0-1]#a random offset lower then given threshold" +
+            [FieldAttribute("perlin combat movement threshold:[0-1]#a random offset lower then given threshold" +
                 " is made 0. (threshold of 1 = no movement)", typeof(Single))]
             public Single PerlinCombatMovementThreshold;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 40;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.ScatterKilledCount = 0;
+                this.EmptyString = new byte[2];
+                this.ScatterRadius = 0;
+                this.ScatterTime = 0;
+                this.HoundMinDistance = 0;
+                this.HoundMaxDistance = 0;
+                this.PerlinOffsetScale = 0;
+                this.PerlinIdleMovementThreshold = 0;
+                this.PerlinCombatMovementThreshold = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.ScatterKilledCount = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.ScatterRadius = reader.ReadSingle();
+                this.ScatterTime = reader.ReadSingle();
+                this.HoundMinDistance = reader.ReadSingle();
+                this.HoundMaxDistance = reader.ReadSingle();
+                this.PerlinOffsetScale = reader.ReadSingle();
+                this.PerlinIdleMovementThreshold = reader.ReadSingle();
+                this.PerlinCombatMovementThreshold = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-        public sealed class CharacterReadyBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(8, 4)]
+        public sealed class CharacterReadyBlock : AbideTagBlock
         {
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 8;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class CharacterEngageBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class CharacterEngageBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("Crouch danger threshold#When danger rises above the threshold, the actor crouches" +
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("Crouch danger threshold#When danger rises above the threshold, the actor crouches" +
                 "", typeof(Single))]
             public Single CrouchDangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Stand danger threshold#When danger drops below this threshold, the actor can stan" +
+            [FieldAttribute("Stand danger threshold#When danger drops below this threshold, the actor can stan" +
                 "d again.", typeof(Single))]
             public Single StandDangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Fight danger move threshold#When danger goes above given level, this actor switch" +
+            [FieldAttribute("Fight danger move threshold#When danger goes above given level, this actor switch" +
                 "es firing positions", typeof(Single))]
             public Single FightDangerMoveThreshold;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.CrouchDangerThreshold = 0;
+                this.StandDangerThreshold = 0;
+                this.FightDangerMoveThreshold = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.CrouchDangerThreshold = reader.ReadSingle();
+                this.StandDangerThreshold = reader.ReadSingle();
+                this.FightDangerMoveThreshold = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 EngagePerch = 1,
                 FightConstantMovement = 2,
                 FlightFightConstantMovement = 4,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(72, 4)]
-        public sealed class CharacterChargeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(72, 4)]
+        public sealed class CharacterChargeBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Charge flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ChargeFlagsOptions), true)]
-            public Int32 ChargeFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("melee consider range", typeof(Single))]
+            [FieldAttribute("Charge flags", typeof(ChargeFlagsOptions))]
+            [OptionsAttribute(typeof(ChargeFlagsOptions), true)]
+            public ChargeFlagsOptions ChargeFlags;
+            [FieldAttribute("melee consider range", typeof(Single))]
             public Single MeleeConsiderRange;
-            [Abide.Guerilla.Tags.FieldAttribute("melee chance#chance of initiating a melee within a 1 second period", typeof(Single))]
+            [FieldAttribute("melee chance#chance of initiating a melee within a 1 second period", typeof(Single))]
             public Single MeleeChance;
-            [Abide.Guerilla.Tags.FieldAttribute("melee attack range", typeof(Single))]
+            [FieldAttribute("melee attack range", typeof(Single))]
             public Single MeleeAttackRange;
-            [Abide.Guerilla.Tags.FieldAttribute("melee abort range", typeof(Single))]
+            [FieldAttribute("melee abort range", typeof(Single))]
             public Single MeleeAbortRange;
-            [Abide.Guerilla.Tags.FieldAttribute("melee attack timeout:seconds#Give up after given amount of time spent charging", typeof(Single))]
+            [FieldAttribute("melee attack timeout:seconds#Give up after given amount of time spent charging", typeof(Single))]
             public Single MeleeAttackTimeout;
-            [Abide.Guerilla.Tags.FieldAttribute("melee attack delay timer:seconds#don\'t attempt again before given time since last" +
+            [FieldAttribute("melee attack delay timer:seconds#don\'t attempt again before given time since last" +
                 " melee", typeof(Single))]
             public Single MeleeAttackDelayTimer;
-            [Abide.Guerilla.Tags.FieldAttribute("melee leap chance", typeof(Single))]
+            [FieldAttribute("melee leap chance", typeof(Single))]
             public Single MeleeLeapChance;
-            [Abide.Guerilla.Tags.FieldAttribute("ideal leap velocity", typeof(Single))]
+            [FieldAttribute("ideal leap velocity", typeof(Single))]
             public Single IdealLeapVelocity;
-            [Abide.Guerilla.Tags.FieldAttribute("max leap velocity", typeof(Single))]
+            [FieldAttribute("max leap velocity", typeof(Single))]
             public Single MaxLeapVelocity;
-            [Abide.Guerilla.Tags.FieldAttribute("melee leap ballistic", typeof(Single))]
+            [FieldAttribute("melee leap ballistic", typeof(Single))]
             public Single MeleeLeapBallistic;
-            [Abide.Guerilla.Tags.FieldAttribute("melee delay timer:seconds#time between melee leaps", typeof(Single))]
+            [FieldAttribute("melee delay timer:seconds#time between melee leaps", typeof(Single))]
             public Single MeleeDelayTimer;
-            [Abide.Guerilla.Tags.FieldAttribute("berserk weapon#when I berserk, I pull out a ...", typeof(TagReference))]
+            [FieldAttribute("berserk weapon#when I berserk, I pull out a ...", typeof(TagReference))]
             public TagReference BerserkWeapon;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 72;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.ChargeFlags = ((ChargeFlagsOptions)(0));
+                this.MeleeConsiderRange = 0;
+                this.MeleeChance = 0;
+                this.MeleeAttackRange = 0;
+                this.MeleeAbortRange = 0;
+                this.MeleeAttackTimeout = 0;
+                this.MeleeAttackDelayTimer = 0;
+                this.MeleeLeapChance = 0;
+                this.IdealLeapVelocity = 0;
+                this.MaxLeapVelocity = 0;
+                this.MeleeLeapBallistic = 0;
+                this.MeleeDelayTimer = 0;
+                this.BerserkWeapon = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.ChargeFlags = ((ChargeFlagsOptions)(reader.ReadInt32()));
+                this.MeleeConsiderRange = reader.ReadSingle();
+                this.MeleeChance = reader.ReadSingle();
+                this.MeleeAttackRange = reader.ReadSingle();
+                this.MeleeAbortRange = reader.ReadSingle();
+                this.MeleeAttackTimeout = reader.ReadSingle();
+                this.MeleeAttackDelayTimer = reader.ReadSingle();
+                this.MeleeLeapChance = reader.ReadSingle();
+                this.IdealLeapVelocity = reader.ReadSingle();
+                this.MaxLeapVelocity = reader.ReadSingle();
+                this.MeleeLeapBallistic = reader.ReadSingle();
+                this.MeleeDelayTimer = reader.ReadSingle();
+                this.BerserkWeapon = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum ChargeFlagsOptions
+            public enum ChargeFlagsOptions : Int32
             {
                 OffhandMeleeAllowed = 1,
                 BerserkWheneverCharge = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class CharacterEvasionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class CharacterEvasionBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Evasion danger threshold#Consider evading when immediate danger surpasses thresho" +
+            [FieldAttribute("Evasion danger threshold#Consider evading when immediate danger surpasses thresho" +
                 "ld", typeof(Single))]
             public Single EvasionDangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Evasion delay timer#Wait at least this delay between evasions", typeof(Single))]
+            [FieldAttribute("Evasion delay timer#Wait at least this delay between evasions", typeof(Single))]
             public Single EvasionDelayTimer;
-            [Abide.Guerilla.Tags.FieldAttribute("Evasion chance#If danger is above threshold, the chance that we will evade. Expre" +
+            [FieldAttribute("Evasion chance#If danger is above threshold, the chance that we will evade. Expre" +
                 "ssed as chance of evading within a 1 second time period", typeof(Single))]
             public Single EvasionChance;
-            [Abide.Guerilla.Tags.FieldAttribute("Evasion proximity threshold#If target is within given proximity, possibly evade", typeof(Single))]
+            [FieldAttribute("Evasion proximity threshold#If target is within given proximity, possibly evade", typeof(Single))]
             public Single EvasionProximityThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("dive retreat chance#Chance of retreating (fleeing) after danger avoidance dive", typeof(Single))]
+            [FieldAttribute("dive retreat chance#Chance of retreating (fleeing) after danger avoidance dive", typeof(Single))]
             public Single DiveRetreatChance;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EvasionDangerThreshold = 0;
+                this.EvasionDelayTimer = 0;
+                this.EvasionChance = 0;
+                this.EvasionProximityThreshold = 0;
+                this.DiveRetreatChance = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EvasionDangerThreshold = reader.ReadSingle();
+                this.EvasionDelayTimer = reader.ReadSingle();
+                this.EvasionChance = reader.ReadSingle();
+                this.EvasionProximityThreshold = reader.ReadSingle();
+                this.DiveRetreatChance = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class CharacterCoverBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(64, 4)]
+        public sealed class CharacterCoverBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("cover flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CoverFlagsOptions), true)]
-            public Int32 CoverFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("Cover vitality threshold#When vitality drops below this level, possibly trigger a" +
+            [FieldAttribute("cover flags", typeof(CoverFlagsOptions))]
+            [OptionsAttribute(typeof(CoverFlagsOptions), true)]
+            public CoverFlagsOptions CoverFlags;
+            [FieldAttribute("Cover vitality threshold#When vitality drops below this level, possibly trigger a" +
                 " cover", typeof(Single))]
             public Single CoverVitalityThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Cover shield fraction#trigger cover when shield drops below this fraction (low sh" +
+            [FieldAttribute("Cover shield fraction#trigger cover when shield drops below this fraction (low sh" +
                 "ield cover impulse must be enabled)", typeof(Single))]
             public Single CoverShieldFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("Cover check delay#amount of time I will wait before trying again after covering", typeof(Single))]
+            [FieldAttribute("Cover check delay#amount of time I will wait before trying again after covering", typeof(Single))]
             public Single CoverCheckDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("Emerge from cover when shield fraction reaches threshold#Emerge from cover when s" +
+            [FieldAttribute("Emerge from cover when shield fraction reaches threshold#Emerge from cover when s" +
                 "hield fraction reaches threshold", typeof(Single))]
             public Single EmergeFromCoverWhenShieldFractionReachesThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Cover danger threshold#Danger must be this high to cover. At a danger level of \'d" +
+            [FieldAttribute("Cover danger threshold#Danger must be this high to cover. At a danger level of \'d" +
                 "anger threshold\', the chance of seeking cover is the cover chance lower bound (b" +
                 "elow)", typeof(Single))]
             public Single CoverDangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Danger upper threshold#At or above danger level of upper threshold, the chance of" +
+            [FieldAttribute("Danger upper threshold#At or above danger level of upper threshold, the chance of" +
                 " seeking cover is the cover chance upper bound (below)", typeof(Single))]
             public Single DangerUpperThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Proximity self-preserve:wus#When the proximity_self_preservation impulse is enabl" +
+            [FieldAttribute("Proximity self-preserve:wus#When the proximity_self_preservation impulse is enabl" +
                 "ed, triggers self-preservation when target within this distance", typeof(Single))]
             public Single ProximitySelfPreserve;
-            [Abide.Guerilla.Tags.FieldAttribute("Disallow cover distance:world units#Disallow covering from visible target under t" +
+            [FieldAttribute("Disallow cover distance:world units#Disallow covering from visible target under t" +
                 "he given distance away", typeof(Single))]
             public Single DisallowCoverDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("proximity melee distance#When self preserving from a target less than given dista" +
+            [FieldAttribute("proximity melee distance#When self preserving from a target less than given dista" +
                 "nce, causes melee attack (assuming proximity_melee_impulse is enabled)", typeof(Single))]
             public Single ProximityMeleeDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("unreachable enemy danger threshold#When danger from an unreachable enemy surpasse" +
+            [FieldAttribute("unreachable enemy danger threshold#When danger from an unreachable enemy surpasse" +
                 "s threshold, actor cover (assuming unreachable_enemy_cover impulse is enabled)", typeof(Single))]
             public Single UnreachableEnemyDangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("scary target threshold#When target is aware of me and surpasses the given scarine" +
+            [FieldAttribute("scary target threshold#When target is aware of me and surpasses the given scarine" +
                 "ss, self-preserve (scary_target_cover_impulse)", typeof(Single))]
             public Single ScaryTargetThreshold;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.CoverFlags = ((CoverFlagsOptions)(0));
+                this.CoverVitalityThreshold = 0;
+                this.CoverShieldFraction = 0;
+                this.CoverCheckDelay = 0;
+                this.EmergeFromCoverWhenShieldFractionReachesThreshold = 0;
+                this.CoverDangerThreshold = 0;
+                this.DangerUpperThreshold = 0;
+                this.ProximitySelfPreserve = 0;
+                this.DisallowCoverDistance = 0;
+                this.ProximityMeleeDistance = 0;
+                this.UnreachableEnemyDangerThreshold = 0;
+                this.ScaryTargetThreshold = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.CoverFlags = ((CoverFlagsOptions)(reader.ReadInt32()));
+                this.CoverVitalityThreshold = reader.ReadSingle();
+                this.CoverShieldFraction = reader.ReadSingle();
+                this.CoverCheckDelay = reader.ReadSingle();
+                this.EmergeFromCoverWhenShieldFractionReachesThreshold = reader.ReadSingle();
+                this.CoverDangerThreshold = reader.ReadSingle();
+                this.DangerUpperThreshold = reader.ReadSingle();
+                this.ProximitySelfPreserve = reader.ReadSingle();
+                this.DisallowCoverDistance = reader.ReadSingle();
+                this.ProximityMeleeDistance = reader.ReadSingle();
+                this.UnreachableEnemyDangerThreshold = reader.ReadSingle();
+                this.ScaryTargetThreshold = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum CoverFlagsOptions
+            public enum CoverFlagsOptions : Int32
             {
                 Flag1 = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(84, 4)]
-        public sealed class CharacterRetreatBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(84, 4)]
+        public sealed class CharacterRetreatBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Retreat flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(RetreatFlagsOptions), true)]
-            public Int32 RetreatFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("Shield threshold#When shield vitality drops below given amount, retreat is trigge" +
+            [FieldAttribute("Retreat flags", typeof(RetreatFlagsOptions))]
+            [OptionsAttribute(typeof(RetreatFlagsOptions), true)]
+            public RetreatFlagsOptions RetreatFlags;
+            [FieldAttribute("Shield threshold#When shield vitality drops below given amount, retreat is trigge" +
                 "red by low_shield_retreat_impulse", typeof(Single))]
             public Single ShieldThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Scary target threshold#When confronting an enemy of over the given scariness, ret" +
+            [FieldAttribute("Scary target threshold#When confronting an enemy of over the given scariness, ret" +
                 "reat is triggered by scary_target_retreat_impulse", typeof(Single))]
             public Single ScaryTargetThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Danger threshold#When perceived danger rises above the given threshold, retreat i" +
+            [FieldAttribute("Danger threshold#When perceived danger rises above the given threshold, retreat i" +
                 "s triggered by danger_retreat_impulse", typeof(Single))]
             public Single DangerThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("Proximity threshold#When enemy closer than given threshold, retreat is triggered " +
+            [FieldAttribute("Proximity threshold#When enemy closer than given threshold, retreat is triggered " +
                 "by proximity_retreat_impulse", typeof(Single))]
             public Single ProximityThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("proximity ambush threshold#If target reaches is within the given proximity, an am" +
+            [FieldAttribute("proximity ambush threshold#If target reaches is within the given proximity, an am" +
                 "bush is triggered by the proximity ambush impulse", typeof(Single))]
             public Single ProximityAmbushThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("awareness ambush threshold#If target is less than threshold (0-1) aware of me, an" +
+            [FieldAttribute("awareness ambush threshold#If target is less than threshold (0-1) aware of me, an" +
                 " ambush is triggered by the vulnerable enemy ambush impulse", typeof(Single))]
             public Single AwarenessAmbushThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("leader dead retreat chance#If leader-dead-retreat-impulse is active, gives the ch" +
+            [FieldAttribute("leader dead retreat chance#If leader-dead-retreat-impulse is active, gives the ch" +
                 "ance that we will flee when our leader dies within 4 world units of us", typeof(Single))]
             public Single LeaderDeadRetreatChance;
-            [Abide.Guerilla.Tags.FieldAttribute("peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the chance" +
+            [FieldAttribute("peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the chance" +
                 " that we will flee when one of our peers (friend of the same race) dies within 4" +
                 " world units of us", typeof(Single))]
             public Single PeerDeadRetreatChance;
-            [Abide.Guerilla.Tags.FieldAttribute("second peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the" +
+            [FieldAttribute("second peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the" +
                 " chance that we will flee when a second peer (friend of the same race) dies with" +
                 "in 4 world units of us", typeof(Single))]
             public Single SecondPeerDeadRetreatChance;
-            [Abide.Guerilla.Tags.FieldAttribute("zig-zag angle:degrees#The angle from the intended destination direction that a zi" +
+            [FieldAttribute("zig-zag angle:degrees#The angle from the intended destination direction that a zi" +
                 "g-zag will cause", typeof(Single))]
             public Single ZigZagAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("zig-zag period:seconds#How long it takes to zig left and then zag right.", typeof(Single))]
+            [FieldAttribute("zig-zag period:seconds#How long it takes to zig left and then zag right.", typeof(Single))]
             public Single ZigZagPeriod;
-            [Abide.Guerilla.Tags.FieldAttribute("retreat grenade chance#The likelihood of throwing down a grenade to cover our ret" +
+            [FieldAttribute("retreat grenade chance#The likelihood of throwing down a grenade to cover our ret" +
                 "reat", typeof(Single))]
             public Single RetreatGrenadeChance;
-            [Abide.Guerilla.Tags.FieldAttribute("backup weapon#If I want to flee and I don\'t have flee animations with my current " +
+            [FieldAttribute("backup weapon#If I want to flee and I don\'t have flee animations with my current " +
                 "weapon, throw it away and try a ...", typeof(TagReference))]
             public TagReference BackupWeapon;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 84;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.RetreatFlags = ((RetreatFlagsOptions)(0));
+                this.ShieldThreshold = 0;
+                this.ScaryTargetThreshold = 0;
+                this.DangerThreshold = 0;
+                this.ProximityThreshold = 0;
+                this.ProximityAmbushThreshold = 0;
+                this.AwarenessAmbushThreshold = 0;
+                this.LeaderDeadRetreatChance = 0;
+                this.PeerDeadRetreatChance = 0;
+                this.SecondPeerDeadRetreatChance = 0;
+                this.ZigZagAngle = 0;
+                this.ZigZagPeriod = 0;
+                this.RetreatGrenadeChance = 0;
+                this.BackupWeapon = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.RetreatFlags = ((RetreatFlagsOptions)(reader.ReadInt32()));
+                this.ShieldThreshold = reader.ReadSingle();
+                this.ScaryTargetThreshold = reader.ReadSingle();
+                this.DangerThreshold = reader.ReadSingle();
+                this.ProximityThreshold = reader.ReadSingle();
+                this.ProximityAmbushThreshold = reader.ReadSingle();
+                this.AwarenessAmbushThreshold = reader.ReadSingle();
+                this.LeaderDeadRetreatChance = reader.ReadSingle();
+                this.PeerDeadRetreatChance = reader.ReadSingle();
+                this.SecondPeerDeadRetreatChance = reader.ReadSingle();
+                this.ZigZagAngle = reader.ReadSingle();
+                this.ZigZagPeriod = reader.ReadSingle();
+                this.RetreatGrenadeChance = reader.ReadSingle();
+                this.BackupWeapon = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum RetreatFlagsOptions
+            public enum RetreatFlagsOptions : Int32
             {
                 ZigZagWhenFleeing = 1,
                 Unused1 = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class CharacterSearchBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class CharacterSearchBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Search flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SearchFlagsOptions), true)]
-            public Int32 SearchFlags;
-            public int Size
+            [FieldAttribute("Search flags", typeof(SearchFlagsOptions))]
+            [OptionsAttribute(typeof(SearchFlagsOptions), true)]
+            public SearchFlagsOptions SearchFlags;
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.SearchFlags = ((SearchFlagsOptions)(0));
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.SearchFlags = ((SearchFlagsOptions)(reader.ReadInt32()));
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum SearchFlagsOptions
+            public enum SearchFlagsOptions : Int32
             {
                 CrouchOnInvestigate = 1,
                 WalkOnPursuit = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class CharacterPresearchBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(36, 4)]
+        public sealed class CharacterPresearchBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Pre-search flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PreSearchFlagsOptions), true)]
-            public Int32 PreSearchFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("Min certainty radius", typeof(Single))]
+            [FieldAttribute("Pre-search flags", typeof(PreSearchFlagsOptions))]
+            [OptionsAttribute(typeof(PreSearchFlagsOptions), true)]
+            public PreSearchFlagsOptions PreSearchFlags;
+            [FieldAttribute("Min certainty radius", typeof(Single))]
             public Single MinCertaintyRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("DEPRECATED", typeof(Single))]
+            [FieldAttribute("DEPRECATED", typeof(Single))]
             public Single Deprecated;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.PreSearchFlags = ((PreSearchFlagsOptions)(0));
+                this.MinCertaintyRadius = 0;
+                this.Deprecated = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.PreSearchFlags = ((PreSearchFlagsOptions)(reader.ReadInt32()));
+                this.MinCertaintyRadius = reader.ReadSingle();
+                this.Deprecated = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum PreSearchFlagsOptions
+            public enum PreSearchFlagsOptions : Int32
             {
                 Flag1 = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class CharacterIdleBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(12, 4)]
+        public sealed class CharacterIdleBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = new byte[4];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadBytes(4);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-        public sealed class CharacterVocalizationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(8, 4)]
+        public sealed class CharacterVocalizationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("look comment time:s#How long does the player look at an AI before the AI responds" +
+            [FieldAttribute("look comment time:s#How long does the player look at an AI before the AI responds" +
                 "?", typeof(Single))]
             public Single LookCommentTime;
-            [Abide.Guerilla.Tags.FieldAttribute("look long comment time:s#How long does the player look at the AI before he respon" +
+            [FieldAttribute("look long comment time:s#How long does the player look at the AI before he respon" +
                 "ds with his \'long look\' comment?", typeof(Single))]
             public Single LookLongCommentTime;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 8;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.LookCommentTime = 0;
+                this.LookLongCommentTime = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.LookCommentTime = reader.ReadSingle();
+                this.LookLongCommentTime = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class CharacterBoardingBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class CharacterBoardingBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("max distance:wus#maximum distance from entry point that we will consider boarding" +
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("max distance:wus#maximum distance from entry point that we will consider boarding" +
                 "", typeof(Single))]
             public Single MaxDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("abort distance:wus#give up trying to get in boarding seat if entry point is furth" +
+            [FieldAttribute("abort distance:wus#give up trying to get in boarding seat if entry point is furth" +
                 "er away than this", typeof(Single))]
             public Single AbortDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("max speed:wu/s#maximum speed at which we will consider boarding", typeof(Single))]
+            [FieldAttribute("max speed:wu/s#maximum speed at which we will consider boarding", typeof(Single))]
             public Single MaxSpeed;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.MaxDistance = 0;
+                this.AbortDistance = 0;
+                this.MaxSpeed = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.MaxDistance = reader.ReadSingle();
+                this.AbortDistance = reader.ReadSingle();
+                this.MaxSpeed = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 AirborneBoarding = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class CharacterBossBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(12, 4)]
+        public sealed class CharacterBossBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("flurry damage threshold:[0..1]#when more than x damage is caused a juggernaut flu" +
+            [FieldAttribute("flurry damage threshold:[0..1]#when more than x damage is caused a juggernaut flu" +
                 "rry is triggered", typeof(Single))]
             public Single FlurryDamageThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("flurry time:seconds#flurry lasts this long", typeof(Single))]
+            [FieldAttribute("flurry time:seconds#flurry lasts this long", typeof(Single))]
             public Single FlurryTime;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = new byte[4];
+                this.FlurryDamageThreshold = 0;
+                this.FlurryTime = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadBytes(4);
+                this.FlurryDamageThreshold = reader.ReadSingle();
+                this.FlurryTime = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(224, 4)]
-        public sealed class CharacterWeaponsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(224, 4)]
+        public sealed class CharacterWeaponsBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("weapons flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(WeaponsFlagsOptions), true)]
-            public Int32 WeaponsFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("weapon^", typeof(TagReference))]
+            private TagBlockList<CharacterFiringPatternBlock> firingPatternsList = new TagBlockList<CharacterFiringPatternBlock>(2);
+            [FieldAttribute("weapons flags", typeof(WeaponsFlagsOptions))]
+            [OptionsAttribute(typeof(WeaponsFlagsOptions), true)]
+            public WeaponsFlagsOptions WeaponsFlags;
+            [FieldAttribute("weapon^", typeof(TagReference))]
             public TagReference Weapon;
-            [Abide.Guerilla.Tags.FieldAttribute("maximum firing range:world units#we can only fire our weapon at targets within th" +
+            [FieldAttribute("maximum firing range:world units#we can only fire our weapon at targets within th" +
                 "is distance", typeof(Single))]
             public Single MaximumFiringRange;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum firing range#weapon will not be fired at target closer than given distanc" +
+            [FieldAttribute("minimum firing range#weapon will not be fired at target closer than given distanc" +
                 "e", typeof(Single))]
             public Single MinimumFiringRange;
-            [Abide.Guerilla.Tags.FieldAttribute("bombardment range#we offset our burst targets randomly by this range when firing " +
+            [FieldAttribute("bombardment range#we offset our burst targets randomly by this range when firing " +
                 "at non-visible enemies (zero = never)", typeof(Single))]
             public Single BombardmentRange;
-            [Abide.Guerilla.Tags.FieldAttribute("Max special target distance:world units#Specific target regions on a vehicle or u" +
+            [FieldAttribute("Max special target distance:world units#Specific target regions on a vehicle or u" +
                 "nit will be fired upon only under the given distance", typeof(Single))]
             public Single MaxSpecialTargetDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("super-ballistic range#we try to aim our shots super-ballistically if target is ou" +
+            [FieldAttribute("super-ballistic range#we try to aim our shots super-ballistically if target is ou" +
                 "tside this range (zero = never)", typeof(Single))]
             public Single SuperBallisticRange;
-            [Abide.Guerilla.Tags.FieldAttribute("surprise delay time:seconds", typeof(Single))]
+            [FieldAttribute("surprise delay time:seconds", typeof(Single))]
             public Single SurpriseDelayTime;
-            [Abide.Guerilla.Tags.FieldAttribute("surprise fire-wildly time:seconds", typeof(Single))]
+            [FieldAttribute("surprise fire-wildly time:seconds", typeof(Single))]
             public Single SurpriseFireWildlyTime;
-            [Abide.Guerilla.Tags.FieldAttribute("death fire-wildly chance:[0,1]", typeof(Single))]
+            [FieldAttribute("death fire-wildly chance:[0,1]", typeof(Single))]
             public Single DeathFireWildlyChance;
-            [Abide.Guerilla.Tags.FieldAttribute("death fire-wildly time:seconds", typeof(Single))]
+            [FieldAttribute("death fire-wildly time:seconds", typeof(Single))]
             public Single DeathFireWildlyTime;
-            [Abide.Guerilla.Tags.FieldAttribute("custom stand gun offset#custom standing gun offset for overriding the default in " +
+            [FieldAttribute("custom stand gun offset#custom standing gun offset for overriding the default in " +
                 "the base actor", typeof(Vector3))]
             public Vector3 CustomStandGunOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("custom crouch gun offset#custom crouching gun offset for overriding the default i" +
+            [FieldAttribute("custom crouch gun offset#custom crouching gun offset for overriding the default i" +
                 "n the base actor", typeof(Vector3))]
             public Vector3 CustomCrouchGunOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("special-fire mode#the type of special weapon fire that we can use", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecialFireModeOptions), false)]
-            public Int16 SpecialFireMode;
-            [Abide.Guerilla.Tags.FieldAttribute("special-fire situation#when we will decide to use our special weapon fire mode", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecialFireSituationOptions), false)]
-            public Int16 SpecialFireSituation;
-            [Abide.Guerilla.Tags.FieldAttribute("special-fire chance:[0,1]#how likely we are to use our special weapon fire mode", typeof(Single))]
+            [FieldAttribute("special-fire mode#the type of special weapon fire that we can use", typeof(SpecialFireModeOptions))]
+            [OptionsAttribute(typeof(SpecialFireModeOptions), false)]
+            public SpecialFireModeOptions SpecialFireMode;
+            [FieldAttribute("special-fire situation#when we will decide to use our special weapon fire mode", typeof(SpecialFireSituationOptions))]
+            [OptionsAttribute(typeof(SpecialFireSituationOptions), false)]
+            public SpecialFireSituationOptions SpecialFireSituation;
+            [FieldAttribute("special-fire chance:[0,1]#how likely we are to use our special weapon fire mode", typeof(Single))]
             public Single SpecialFireChance;
-            [Abide.Guerilla.Tags.FieldAttribute("special-fire delay:seconds#how long we must wait between uses of our special weap" +
+            [FieldAttribute("special-fire delay:seconds#how long we must wait between uses of our special weap" +
                 "on fire mode", typeof(Single))]
             public Single SpecialFireDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("special damage modifier:[0,1]#damage modifier for special weapon fire (applied in" +
+            [FieldAttribute("special damage modifier:[0,1]#damage modifier for special weapon fire (applied in" +
                 " addition to the normal damage modifier. zero = no change)", typeof(Single))]
             public Single SpecialDamageModifier;
-            [Abide.Guerilla.Tags.FieldAttribute("special projectile error:degrees#projectile error angle for special weapon fire (" +
+            [FieldAttribute("special projectile error:degrees#projectile error angle for special weapon fire (" +
                 "applied in addition to the normal error)", typeof(Single))]
             public Single SpecialProjectileError;
-            [Abide.Guerilla.Tags.FieldAttribute("normal accuracy time#The amount of time it takes the accuracy to go from starting" +
+            [FieldAttribute("normal accuracy time#The amount of time it takes the accuracy to go from starting" +
                 " to ending", typeof(Single))]
             public Single NormalAccuracyTime;
-            [Abide.Guerilla.Tags.FieldAttribute("heroic accuracy time#The amount of time it takes the accuracy to go from starting" +
+            [FieldAttribute("heroic accuracy time#The amount of time it takes the accuracy to go from starting" +
                 " to ending", typeof(Single))]
             public Single HeroicAccuracyTime;
-            [Abide.Guerilla.Tags.FieldAttribute("legendary accuracy time#The amount of time it takes the accuracy to go from start" +
+            [FieldAttribute("legendary accuracy time#The amount of time it takes the accuracy to go from start" +
                 "ing to ending", typeof(Single))]
             public Single LegendaryAccuracyTime;
-            [Abide.Guerilla.Tags.FieldAttribute("firing patterns", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("character_firing_pattern_block", 2, typeof(CharacterFiringPatternBlock))]
+            [FieldAttribute("firing patterns", typeof(TagBlock))]
+            [BlockAttribute("character_firing_pattern_block", 2, typeof(CharacterFiringPatternBlock))]
             public TagBlock FiringPatterns;
-            [Abide.Guerilla.Tags.FieldAttribute("weapon melee damage", typeof(TagReference))]
+            [FieldAttribute("weapon melee damage", typeof(TagReference))]
             public TagReference WeaponMeleeDamage;
-            public int Size
+            public TagBlockList<CharacterFiringPatternBlock> FiringPatternsList
+            {
+                get
+                {
+                    return this.firingPatternsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 224;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.firingPatternsList.Clear();
+                this.WeaponsFlags = ((WeaponsFlagsOptions)(0));
+                this.Weapon = TagReference.Null;
+                this.MaximumFiringRange = 0;
+                this.MinimumFiringRange = 0;
+                this.BombardmentRange = 0;
+                this.MaxSpecialTargetDistance = 0;
+                this.SuperBallisticRange = 0;
+                this.SurpriseDelayTime = 0;
+                this.SurpriseFireWildlyTime = 0;
+                this.DeathFireWildlyChance = 0;
+                this.DeathFireWildlyTime = 0;
+                this.CustomStandGunOffset = Vector3.Zero;
+                this.CustomCrouchGunOffset = Vector3.Zero;
+                this.SpecialFireMode = ((SpecialFireModeOptions)(0));
+                this.SpecialFireSituation = ((SpecialFireSituationOptions)(0));
+                this.SpecialFireChance = 0;
+                this.SpecialFireDelay = 0;
+                this.SpecialDamageModifier = 0;
+                this.SpecialProjectileError = 0;
+                this.NormalAccuracyTime = 0;
+                this.HeroicAccuracyTime = 0;
+                this.LegendaryAccuracyTime = 0;
+                this.FiringPatterns = TagBlock.Zero;
+                this.WeaponMeleeDamage = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.WeaponsFlags = ((WeaponsFlagsOptions)(reader.ReadInt32()));
+                this.Weapon = reader.Read<TagReference>();
+                this.MaximumFiringRange = reader.ReadSingle();
+                this.MinimumFiringRange = reader.ReadSingle();
+                this.BombardmentRange = reader.ReadSingle();
+                this.MaxSpecialTargetDistance = reader.ReadSingle();
+                this.SuperBallisticRange = reader.ReadSingle();
+                this.SurpriseDelayTime = reader.ReadSingle();
+                this.SurpriseFireWildlyTime = reader.ReadSingle();
+                this.DeathFireWildlyChance = reader.ReadSingle();
+                this.DeathFireWildlyTime = reader.ReadSingle();
+                this.CustomStandGunOffset = reader.Read<Vector3>();
+                this.CustomCrouchGunOffset = reader.Read<Vector3>();
+                this.SpecialFireMode = ((SpecialFireModeOptions)(reader.ReadInt16()));
+                this.SpecialFireSituation = ((SpecialFireSituationOptions)(reader.ReadInt16()));
+                this.SpecialFireChance = reader.ReadSingle();
+                this.SpecialFireDelay = reader.ReadSingle();
+                this.SpecialDamageModifier = reader.ReadSingle();
+                this.SpecialProjectileError = reader.ReadSingle();
+                this.NormalAccuracyTime = reader.ReadSingle();
+                this.HeroicAccuracyTime = reader.ReadSingle();
+                this.LegendaryAccuracyTime = reader.ReadSingle();
+                this.FiringPatterns = reader.ReadInt64();
+                this.firingPatternsList.Read(reader, this.FiringPatterns);
+                this.WeaponMeleeDamage = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(64, 4)]
+            public sealed class CharacterFiringPatternBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-            public sealed class CharacterFiringPatternBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("rate of fire#how many times per second we pull the trigger (zero = continuously h" +
+                [FieldAttribute("rate of fire#how many times per second we pull the trigger (zero = continuously h" +
                     "eld down)", typeof(Single))]
                 public Single RateOfFire;
-                [Abide.Guerilla.Tags.FieldAttribute("target tracking:[0,1]#how well our bursts track moving targets. 0.0= fire at the " +
+                [FieldAttribute("target tracking:[0,1]#how well our bursts track moving targets. 0.0= fire at the " +
                     "position they were standing when we started the burst. 1.0= fire at current posi" +
                     "tion", typeof(Single))]
                 public Single TargetTracking;
-                [Abide.Guerilla.Tags.FieldAttribute("target leading:[0,1]#how much we lead moving targets. 0.0= no prediction. 1.0= pr" +
+                [FieldAttribute("target leading:[0,1]#how much we lead moving targets. 0.0= no prediction. 1.0= pr" +
                     "edict completely.", typeof(Single))]
                 public Single TargetLeading;
-                [Abide.Guerilla.Tags.FieldAttribute("burst origin radius:world units#how far away from the target the starting point i" +
+                [FieldAttribute("burst origin radius:world units#how far away from the target the starting point i" +
                     "s", typeof(Single))]
                 public Single BurstOriginRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("burst origin angle:degrees#the range from the horizontal that our starting error " +
+                [FieldAttribute("burst origin angle:degrees#the range from the horizontal that our starting error " +
                     "can be", typeof(Single))]
                 public Single BurstOriginAngle;
-                [Abide.Guerilla.Tags.FieldAttribute("burst return angle:degrees#the range from the horizontal that the return directio" +
+                [FieldAttribute("burst return angle:degrees#the range from the horizontal that the return directio" +
                     "n can be", typeof(Single))]
                 public Single BurstReturnAngle;
-                [Abide.Guerilla.Tags.FieldAttribute("weapon damage modifier#what fraction of its normal damage our weapon inflicts (ze" +
+                [FieldAttribute("weapon damage modifier#what fraction of its normal damage our weapon inflicts (ze" +
                     "ro = no modifier)", typeof(Single))]
                 public Single WeaponDamageModifier;
-                [Abide.Guerilla.Tags.FieldAttribute("projectile error:degrees#error added to every projectile we fire", typeof(Single))]
+                [FieldAttribute("projectile error:degrees#error added to every projectile we fire", typeof(Single))]
                 public Single ProjectileError;
-                [Abide.Guerilla.Tags.FieldAttribute("burst angular velocity:degrees per second#the maximum rate at which we can sweep " +
+                [FieldAttribute("burst angular velocity:degrees per second#the maximum rate at which we can sweep " +
                     "our fire (zero = unlimited)", typeof(Single))]
                 public Single BurstAngularVelocity;
-                [Abide.Guerilla.Tags.FieldAttribute("maximum error angle:degrees#cap on the maximum angle by which we will miss target" +
+                [FieldAttribute("maximum error angle:degrees#cap on the maximum angle by which we will miss target" +
                     " (restriction on burst origin radius", typeof(Single))]
                 public Single MaximumErrorAngle;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 64;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.RateOfFire = 0;
+                    this.TargetTracking = 0;
+                    this.TargetLeading = 0;
+                    this.BurstOriginRadius = 0;
+                    this.BurstOriginAngle = 0;
+                    this.BurstReturnAngle = 0;
+                    this.WeaponDamageModifier = 0;
+                    this.ProjectileError = 0;
+                    this.BurstAngularVelocity = 0;
+                    this.MaximumErrorAngle = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.RateOfFire = reader.ReadSingle();
+                    this.TargetTracking = reader.ReadSingle();
+                    this.TargetLeading = reader.ReadSingle();
+                    this.BurstOriginRadius = reader.ReadSingle();
+                    this.BurstOriginAngle = reader.ReadSingle();
+                    this.BurstReturnAngle = reader.ReadSingle();
+                    this.WeaponDamageModifier = reader.ReadSingle();
+                    this.ProjectileError = reader.ReadSingle();
+                    this.BurstAngularVelocity = reader.ReadSingle();
+                    this.MaximumErrorAngle = reader.ReadSingle();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum WeaponsFlagsOptions
+            public enum WeaponsFlagsOptions : Int32
             {
                 BurstingInhibitsMovement = 1,
                 MustCrouchToShoot = 2,
                 UseExtendedSafeToSaveRange = 4,
             }
-            public enum SpecialFireModeOptions
+            public enum SpecialFireModeOptions : Int16
             {
                 None = 0,
                 Overcharge = 1,
                 SecondaryTrigger = 2,
             }
-            public enum SpecialFireSituationOptions
+            public enum SpecialFireSituationOptions : Int16
             {
                 Never = 0,
                 EnemyVisible = 1,
@@ -1214,299 +1891,445 @@ namespace Abide.Guerilla.Tags
                 Strafing = 3,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(28, 4)]
-        public sealed class CharacterFiringPatternPropertiesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(28, 4)]
+        public sealed class CharacterFiringPatternPropertiesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("weapon^", typeof(TagReference))]
+            private TagBlockList<CharacterFiringPatternBlock> firingPatternsList = new TagBlockList<CharacterFiringPatternBlock>(2);
+            [FieldAttribute("weapon^", typeof(TagReference))]
             public TagReference Weapon;
-            [Abide.Guerilla.Tags.FieldAttribute("firing patterns", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("character_firing_pattern_block", 2, typeof(CharacterFiringPatternBlock))]
+            [FieldAttribute("firing patterns", typeof(TagBlock))]
+            [BlockAttribute("character_firing_pattern_block", 2, typeof(CharacterFiringPatternBlock))]
             public TagBlock FiringPatterns;
-            public int Size
+            public TagBlockList<CharacterFiringPatternBlock> FiringPatternsList
+            {
+                get
+                {
+                    return this.firingPatternsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 28;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.firingPatternsList.Clear();
+                this.Weapon = TagReference.Null;
+                this.FiringPatterns = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Weapon = reader.Read<TagReference>();
+                this.FiringPatterns = reader.ReadInt64();
+                this.firingPatternsList.Read(reader, this.FiringPatterns);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(64, 4)]
+            public sealed class CharacterFiringPatternBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-            public sealed class CharacterFiringPatternBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("rate of fire#how many times per second we pull the trigger (zero = continuously h" +
+                [FieldAttribute("rate of fire#how many times per second we pull the trigger (zero = continuously h" +
                     "eld down)", typeof(Single))]
                 public Single RateOfFire;
-                [Abide.Guerilla.Tags.FieldAttribute("target tracking:[0,1]#how well our bursts track moving targets. 0.0= fire at the " +
+                [FieldAttribute("target tracking:[0,1]#how well our bursts track moving targets. 0.0= fire at the " +
                     "position they were standing when we started the burst. 1.0= fire at current posi" +
                     "tion", typeof(Single))]
                 public Single TargetTracking;
-                [Abide.Guerilla.Tags.FieldAttribute("target leading:[0,1]#how much we lead moving targets. 0.0= no prediction. 1.0= pr" +
+                [FieldAttribute("target leading:[0,1]#how much we lead moving targets. 0.0= no prediction. 1.0= pr" +
                     "edict completely.", typeof(Single))]
                 public Single TargetLeading;
-                [Abide.Guerilla.Tags.FieldAttribute("burst origin radius:world units#how far away from the target the starting point i" +
+                [FieldAttribute("burst origin radius:world units#how far away from the target the starting point i" +
                     "s", typeof(Single))]
                 public Single BurstOriginRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("burst origin angle:degrees#the range from the horizontal that our starting error " +
+                [FieldAttribute("burst origin angle:degrees#the range from the horizontal that our starting error " +
                     "can be", typeof(Single))]
                 public Single BurstOriginAngle;
-                [Abide.Guerilla.Tags.FieldAttribute("burst return angle:degrees#the range from the horizontal that the return directio" +
+                [FieldAttribute("burst return angle:degrees#the range from the horizontal that the return directio" +
                     "n can be", typeof(Single))]
                 public Single BurstReturnAngle;
-                [Abide.Guerilla.Tags.FieldAttribute("weapon damage modifier#what fraction of its normal damage our weapon inflicts (ze" +
+                [FieldAttribute("weapon damage modifier#what fraction of its normal damage our weapon inflicts (ze" +
                     "ro = no modifier)", typeof(Single))]
                 public Single WeaponDamageModifier;
-                [Abide.Guerilla.Tags.FieldAttribute("projectile error:degrees#error added to every projectile we fire", typeof(Single))]
+                [FieldAttribute("projectile error:degrees#error added to every projectile we fire", typeof(Single))]
                 public Single ProjectileError;
-                [Abide.Guerilla.Tags.FieldAttribute("burst angular velocity:degrees per second#the maximum rate at which we can sweep " +
+                [FieldAttribute("burst angular velocity:degrees per second#the maximum rate at which we can sweep " +
                     "our fire (zero = unlimited)", typeof(Single))]
                 public Single BurstAngularVelocity;
-                [Abide.Guerilla.Tags.FieldAttribute("maximum error angle:degrees#cap on the maximum angle by which we will miss target" +
+                [FieldAttribute("maximum error angle:degrees#cap on the maximum angle by which we will miss target" +
                     " (restriction on burst origin radius", typeof(Single))]
                 public Single MaximumErrorAngle;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 64;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.RateOfFire = 0;
+                    this.TargetTracking = 0;
+                    this.TargetLeading = 0;
+                    this.BurstOriginRadius = 0;
+                    this.BurstOriginAngle = 0;
+                    this.BurstReturnAngle = 0;
+                    this.WeaponDamageModifier = 0;
+                    this.ProjectileError = 0;
+                    this.BurstAngularVelocity = 0;
+                    this.MaximumErrorAngle = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.RateOfFire = reader.ReadSingle();
+                    this.TargetTracking = reader.ReadSingle();
+                    this.TargetLeading = reader.ReadSingle();
+                    this.BurstOriginRadius = reader.ReadSingle();
+                    this.BurstOriginAngle = reader.ReadSingle();
+                    this.BurstReturnAngle = reader.ReadSingle();
+                    this.WeaponDamageModifier = reader.ReadSingle();
+                    this.ProjectileError = reader.ReadSingle();
+                    this.BurstAngularVelocity = reader.ReadSingle();
+                    this.MaximumErrorAngle = reader.ReadSingle();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-        public sealed class CharacterGrenadesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(60, 4)]
+        public sealed class CharacterGrenadesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("grenades flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GrenadesFlagsOptions), true)]
-            public Int32 GrenadesFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade type#type of grenades that we throw^", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GrenadeTypeOptions), false)]
-            public Int16 GrenadeType;
-            [Abide.Guerilla.Tags.FieldAttribute("trajectory type#how we throw our grenades", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TrajectoryTypeOptions), false)]
-            public Int16 TrajectoryType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("grenades flags", typeof(GrenadesFlagsOptions))]
+            [OptionsAttribute(typeof(GrenadesFlagsOptions), true)]
+            public GrenadesFlagsOptions GrenadesFlags;
+            [FieldAttribute("grenade type#type of grenades that we throw^", typeof(GrenadeTypeOptions))]
+            [OptionsAttribute(typeof(GrenadeTypeOptions), false)]
+            public GrenadeTypeOptions GrenadeType;
+            [FieldAttribute("trajectory type#how we throw our grenades", typeof(TrajectoryTypeOptions))]
+            [OptionsAttribute(typeof(TrajectoryTypeOptions), false)]
+            public TrajectoryTypeOptions TrajectoryType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum enemy count#how many enemies must be within the radius of the grenade bef" +
+            [FieldAttribute("minimum enemy count#how many enemies must be within the radius of the grenade bef" +
                 "ore we will consider throwing there", typeof(Int16))]
             public Int16 MinimumEnemyCount;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy radius:world units#we consider enemies within this radius when determining " +
+            [FieldAttribute("enemy radius:world units#we consider enemies within this radius when determining " +
                 "where to throw", typeof(Single))]
             public Single EnemyRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade ideal velocity:world units per second#how fast we LIKE to throw our grena" +
+            [FieldAttribute("grenade ideal velocity:world units per second#how fast we LIKE to throw our grena" +
                 "des", typeof(Single))]
             public Single GrenadeIdealVelocity;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade velocity:world units per second#the fastest we can possibly throw our gre" +
+            [FieldAttribute("grenade velocity:world units per second#the fastest we can possibly throw our gre" +
                 "nades", typeof(Single))]
             public Single GrenadeVelocity;
-            [Abide.Guerilla.Tags.FieldAttribute("collateral damage radius:world units#we won\'t throw if there are friendlies aroun" +
+            [FieldAttribute("collateral damage radius:world units#we won\'t throw if there are friendlies aroun" +
                 "d our target within this range", typeof(Single))]
             public Single CollateralDamageRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade chance:[0,1]#how likely we are to throw a grenade in one second", typeof(Single))]
+            [FieldAttribute("grenade chance:[0,1]#how likely we are to throw a grenade in one second", typeof(Single))]
             public Single GrenadeChance;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade throw delay:seconds#How long we have to wait after throwing a grenade bef" +
+            [FieldAttribute("grenade throw delay:seconds#How long we have to wait after throwing a grenade bef" +
                 "ore we can throw another one", typeof(Single))]
             public Single GrenadeThrowDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("grenade uncover chance:[0,1]#how likely we are to throw a grenade to flush out a " +
+            [FieldAttribute("grenade uncover chance:[0,1]#how likely we are to throw a grenade to flush out a " +
                 "target in one second", typeof(Single))]
             public Single GrenadeUncoverChance;
-            [Abide.Guerilla.Tags.FieldAttribute("anti-vehicle grenade chance:[0,1]#how likely we are to throw a grenade against a " +
+            [FieldAttribute("anti-vehicle grenade chance:[0,1]#how likely we are to throw a grenade against a " +
                 "vehicle", typeof(Single))]
             public Single AntiVehicleGrenadeChance;
-            [Abide.Guerilla.Tags.FieldAttribute("dont drop grenades chance:[0,1]#how likely we are not to drop any grenades when w" +
+            [FieldAttribute("dont drop grenades chance:[0,1]#how likely we are not to drop any grenades when w" +
                 "e die, even if we still have some", typeof(Single))]
             public Single DontDropGrenadesChance;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 60;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.GrenadesFlags = ((GrenadesFlagsOptions)(0));
+                this.GrenadeType = ((GrenadeTypeOptions)(0));
+                this.TrajectoryType = ((TrajectoryTypeOptions)(0));
+                this.EmptyString = new byte[2];
+                this.MinimumEnemyCount = 0;
+                this.EnemyRadius = 0;
+                this.GrenadeIdealVelocity = 0;
+                this.GrenadeVelocity = 0;
+                this.CollateralDamageRadius = 0;
+                this.GrenadeChance = 0;
+                this.GrenadeThrowDelay = 0;
+                this.GrenadeUncoverChance = 0;
+                this.AntiVehicleGrenadeChance = 0;
+                this.DontDropGrenadesChance = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.GrenadesFlags = ((GrenadesFlagsOptions)(reader.ReadInt32()));
+                this.GrenadeType = ((GrenadeTypeOptions)(reader.ReadInt16()));
+                this.TrajectoryType = ((TrajectoryTypeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.MinimumEnemyCount = reader.ReadInt16();
+                this.EnemyRadius = reader.ReadSingle();
+                this.GrenadeIdealVelocity = reader.ReadSingle();
+                this.GrenadeVelocity = reader.ReadSingle();
+                this.CollateralDamageRadius = reader.ReadSingle();
+                this.GrenadeChance = reader.ReadSingle();
+                this.GrenadeThrowDelay = reader.ReadSingle();
+                this.GrenadeUncoverChance = reader.ReadSingle();
+                this.AntiVehicleGrenadeChance = reader.ReadSingle();
+                this.DontDropGrenadesChance = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum GrenadesFlagsOptions
+            public enum GrenadesFlagsOptions : Int32
             {
                 Flag1 = 1,
             }
-            public enum GrenadeTypeOptions
+            public enum GrenadeTypeOptions : Int16
             {
                 HumanFragmentation = 0,
                 CovenantPlasma = 1,
             }
-            public enum TrajectoryTypeOptions
+            public enum TrajectoryTypeOptions : Int16
             {
                 Toss = 0,
                 Lob = 1,
                 Bounce = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(196, 4)]
-        public sealed class CharacterVehicleBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(196, 4)]
+        public sealed class CharacterVehicleBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("unit^", typeof(TagReference))]
+            [FieldAttribute("unit^", typeof(TagReference))]
             public TagReference Unit;
-            [Abide.Guerilla.Tags.FieldAttribute("style^", typeof(TagReference))]
+            [FieldAttribute("style^", typeof(TagReference))]
             public TagReference Style;
-            [Abide.Guerilla.Tags.FieldAttribute("vehicle flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(VehicleFlagsOptions), true)]
-            public Int32 VehicleFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("ai pathfinding radius:world units#(Ground vehicles)", typeof(Single))]
+            [FieldAttribute("vehicle flags", typeof(VehicleFlagsOptions))]
+            [OptionsAttribute(typeof(VehicleFlagsOptions), true)]
+            public VehicleFlagsOptions VehicleFlags;
+            [FieldAttribute("ai pathfinding radius:world units#(Ground vehicles)", typeof(Single))]
             public Single AiPathfindingRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("ai destination radius:world units#(All vehicles) Distance within which goal is co" +
+            [FieldAttribute("ai destination radius:world units#(All vehicles) Distance within which goal is co" +
                 "nsidered reached", typeof(Single))]
             public Single AiDestinationRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("ai deceleration distanceworld units#(All vehicles)Distance from goal at which AI " +
+            [FieldAttribute("ai deceleration distanceworld units#(All vehicles)Distance from goal at which AI " +
                 "starts to decelerate", typeof(Single))]
             public Single AiDecelerationDistanceworldUnits;
-            [Abide.Guerilla.Tags.FieldAttribute("ai turning radius#(Warthog, Pelican, Ghost) Idealized average turning radius (sho" +
+            [FieldAttribute("ai turning radius#(Warthog, Pelican, Ghost) Idealized average turning radius (sho" +
                 "uld reflect actual vehicle physics)", typeof(Single))]
             public Single AiTurningRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("ai inner turning radius (< tr)#(Warthog-type) Idealized minimum turning radius (s" +
+            [FieldAttribute("ai inner turning radius (< tr)#(Warthog-type) Idealized minimum turning radius (s" +
                 "hould reflect actual vehicle physics)", typeof(Single))]
             public Single AiInnerTurningRadiusLessThanTr;
-            [Abide.Guerilla.Tags.FieldAttribute("ai ideal turning radius (> tr)#(Warthogs, ghosts) Ideal turning radius for roundi" +
+            [FieldAttribute("ai ideal turning radius (> tr)#(Warthogs, ghosts) Ideal turning radius for roundi" +
                 "ng turns (barring obstacles, etc.)", typeof(Single))]
             public Single AiIdealTurningRadiusGreaterThanTr;
-            [Abide.Guerilla.Tags.FieldAttribute("ai banshee steering maximum#(Banshee)", typeof(Single))]
+            [FieldAttribute("ai banshee steering maximum#(Banshee)", typeof(Single))]
             public Single AiBansheeSteeringMaximum;
-            [Abide.Guerilla.Tags.FieldAttribute("ai max steering angle:degrees#(Warthog, ghosts, wraiths)Maximum steering angle fr" +
+            [FieldAttribute("ai max steering angle:degrees#(Warthog, ghosts, wraiths)Maximum steering angle fr" +
                 "om forward (ultimately controls turning speed)", typeof(Single))]
             public Single AiMaxSteeringAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("ai max steering delta: degrees#(pelicans, dropships, ghosts, wraiths)Maximum delt" +
+            [FieldAttribute("ai max steering delta: degrees#(pelicans, dropships, ghosts, wraiths)Maximum delt" +
                 "a in steering angle from one tick to the next (ultimately controls turn accelera" +
                 "tion)", typeof(Single))]
             public Single AiMaxSteeringDelta;
-            [Abide.Guerilla.Tags.FieldAttribute("ai oversteering scale#(Warthog, ghosts, wraiths)", typeof(Single))]
+            [FieldAttribute("ai oversteering scale#(Warthog, ghosts, wraiths)", typeof(Single))]
             public Single AiOversteeringScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai sideslip distance#(Ghosts, Dropships) Distance within which Ai will strafe to " +
+            [FieldAttribute("ai sideslip distance#(Ghosts, Dropships) Distance within which Ai will strafe to " +
                 "target (as opposed to turning)", typeof(Single))]
             public Single AiSideslipDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("ai avoidance distance:world units#(Banshee-style) Look-ahead distance for obstacl" +
+            [FieldAttribute("ai avoidance distance:world units#(Banshee-style) Look-ahead distance for obstacl" +
                 "e avoidance", typeof(Single))]
             public Single AiAvoidanceDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("ai min urgency:[0-1]#(Banshees)The minimum urgency with which a turn can be made " +
+            [FieldAttribute("ai min urgency:[0-1]#(Banshees)The minimum urgency with which a turn can be made " +
                 "(urgency = percent of maximum steering delta)", typeof(Single))]
             public Single AiMinUrgency;
-            [Abide.Guerilla.Tags.FieldAttribute("ai throttle maximum:(0 - 1)#(All vehicles)", typeof(Single))]
+            [FieldAttribute("ai throttle maximum:(0 - 1)#(All vehicles)", typeof(Single))]
             public Single AiThrottleMaximum;
-            [Abide.Guerilla.Tags.FieldAttribute("ai goal min throttle scale#(Warthogs, Dropships, ghosts)scale on throttle when wi" +
+            [FieldAttribute("ai goal min throttle scale#(Warthogs, Dropships, ghosts)scale on throttle when wi" +
                 "thin \'ai deceleration distance\' of goal (0...1)", typeof(Single))]
             public Single AiGoalMinThrottleScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai turn min throttle scale#(Warthogs, ghosts) Scale on throttle due to nearness t" +
+            [FieldAttribute("ai turn min throttle scale#(Warthogs, ghosts) Scale on throttle due to nearness t" +
                 "o a turn (0...1)", typeof(Single))]
             public Single AiTurnMinThrottleScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai direction min throttle scale#(Warthogs, ghosts) Scale on throttle due to facin" +
+            [FieldAttribute("ai direction min throttle scale#(Warthogs, ghosts) Scale on throttle due to facin" +
                 "g away from intended direction (0...1)", typeof(Single))]
             public Single AiDirectionMinThrottleScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai acceleration scale:(0-1)#(warthogs, ghosts) The maximum allowable change in th" +
+            [FieldAttribute("ai acceleration scale:(0-1)#(warthogs, ghosts) The maximum allowable change in th" +
                 "rottle between ticks", typeof(Single))]
             public Single AiAccelerationScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai throttle blend:(0-1)#(dropships, sentinels) The degree of throttle blending be" +
+            [FieldAttribute("ai throttle blend:(0-1)#(dropships, sentinels) The degree of throttle blending be" +
                 "tween one tick and the next (0 = no blending)", typeof(Single))]
             public Single AiThrottleBlend;
-            [Abide.Guerilla.Tags.FieldAttribute("theoretical max speed:wu/s#(dropships, warthogs, ghosts) About how fast I can go." +
+            [FieldAttribute("theoretical max speed:wu/s#(dropships, warthogs, ghosts) About how fast I can go." +
                 "", typeof(Single))]
             public Single TheoreticalMaxSpeed;
-            [Abide.Guerilla.Tags.FieldAttribute("error scale#(dropships, warthogs) scale on the difference between desired and act" +
+            [FieldAttribute("error scale#(dropships, warthogs) scale on the difference between desired and act" +
                 "ual speed, applied to throttle", typeof(Single))]
             public Single ErrorScale;
-            [Abide.Guerilla.Tags.FieldAttribute("ai allowable aim deviation angle", typeof(Single))]
+            [FieldAttribute("ai allowable aim deviation angle", typeof(Single))]
             public Single AiAllowableAimDeviationAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge tight angle distance#(All vehicles) The distance at which the tight ang" +
+            [FieldAttribute("ai charge tight angle distance#(All vehicles) The distance at which the tight ang" +
                 "le criterion is used for deciding to vehicle charge", typeof(Single))]
             public Single AiChargeTightAngleDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge tight angle:[0-1]#(All vehicles) Angle cosine within which the target m" +
+            [FieldAttribute("ai charge tight angle:[0-1]#(All vehicles) Angle cosine within which the target m" +
                 "ust be when target is closer than tight angle distance in order to charge", typeof(Single))]
             public Single AiChargeTightAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge repeat timeout#(All vehicles) Time delay between vehicle charges", typeof(Single))]
+            [FieldAttribute("ai charge repeat timeout#(All vehicles) Time delay between vehicle charges", typeof(Single))]
             public Single AiChargeRepeatTimeout;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge look-ahead time#(All vehicles) In deciding when to abort vehicle charge" +
+            [FieldAttribute("ai charge look-ahead time#(All vehicles) In deciding when to abort vehicle charge" +
                 ", look ahead these many seconds to predict time of contact", typeof(Single))]
             public Single AiChargeLookAheadTime;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge consider distance#Consider charging the target when it is within this r" +
+            [FieldAttribute("ai charge consider distance#Consider charging the target when it is within this r" +
                 "ange (0 = infinite distance)", typeof(Single))]
             public Single AiChargeConsiderDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("ai charge abort distance#Abort the charge when the target get more than this far " +
+            [FieldAttribute("ai charge abort distance#Abort the charge when the target get more than this far " +
                 "away (0 = never abort)", typeof(Single))]
             public Single AiChargeAbortDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("vehicle ram timeout#The ram behavior stops after a maximum of the given number of" +
+            [FieldAttribute("vehicle ram timeout#The ram behavior stops after a maximum of the given number of" +
                 " seconds", typeof(Single))]
             public Single VehicleRamTimeout;
-            [Abide.Guerilla.Tags.FieldAttribute("ram paralysis time#The ram behavior freezes the vehicle for a given number of sec" +
+            [FieldAttribute("ram paralysis time#The ram behavior freezes the vehicle for a given number of sec" +
                 "onds after performing the ram", typeof(Single))]
             public Single RamParalysisTime;
-            [Abide.Guerilla.Tags.FieldAttribute("ai cover damage threshold#(All vehicles) Trigger a cover when recent damage is ab" +
+            [FieldAttribute("ai cover damage threshold#(All vehicles) Trigger a cover when recent damage is ab" +
                 "ove given threshold (damage_vehicle_cover impulse)", typeof(Single))]
             public Single AiCoverDamageThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("ai cover min distance#(All vehicles) When executing vehicle-cover, minimum distan" +
+            [FieldAttribute("ai cover min distance#(All vehicles) When executing vehicle-cover, minimum distan" +
                 "ce from the target to flee to", typeof(Single))]
             public Single AiCoverMinDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("ai cover time#(All vehicles) How long to stay away from the target", typeof(Single))]
+            [FieldAttribute("ai cover time#(All vehicles) How long to stay away from the target", typeof(Single))]
             public Single AiCoverTime;
-            [Abide.Guerilla.Tags.FieldAttribute("ai cover min boost distance#(All vehicles) Boosting allowed when distance to cove" +
+            [FieldAttribute("ai cover min boost distance#(All vehicles) Boosting allowed when distance to cove" +
                 "r destination is greater then this.", typeof(Single))]
             public Single AiCoverMinBoostDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("turtling recent damage threshold:%#If vehicle turtling behavior is enabled, turtl" +
+            [FieldAttribute("turtling recent damage threshold:%#If vehicle turtling behavior is enabled, turtl" +
                 "ing is initiated if \'recent damage\' surpasses the given threshold", typeof(Single))]
             public Single TurtlingRecentDamageThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("turtling min time:seconds#If the vehicle turtling behavior is enabled, turtling o" +
+            [FieldAttribute("turtling min time:seconds#If the vehicle turtling behavior is enabled, turtling o" +
                 "ccurs for at least the given time", typeof(Single))]
             public Single TurtlingMinTime;
-            [Abide.Guerilla.Tags.FieldAttribute("turtling timeout:seconds#The turtled state times out after the given number of se" +
+            [FieldAttribute("turtling timeout:seconds#The turtled state times out after the given number of se" +
                 "conds", typeof(Single))]
             public Single TurtlingTimeout;
-            [Abide.Guerilla.Tags.FieldAttribute("obstacle ignore size", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ObstacleIgnoreSizeOptions), false)]
-            public Int16 ObstacleIgnoreSize;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString10;
-            public int Size
+            [FieldAttribute("obstacle ignore size", typeof(ObstacleIgnoreSizeOptions))]
+            [OptionsAttribute(typeof(ObstacleIgnoreSizeOptions), false)]
+            public ObstacleIgnoreSizeOptions ObstacleIgnoreSize;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString;
+            public override int Size
             {
                 get
                 {
                     return 196;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Unit = TagReference.Null;
+                this.Style = TagReference.Null;
+                this.VehicleFlags = ((VehicleFlagsOptions)(0));
+                this.AiPathfindingRadius = 0;
+                this.AiDestinationRadius = 0;
+                this.AiDecelerationDistanceworldUnits = 0;
+                this.AiTurningRadius = 0;
+                this.AiInnerTurningRadiusLessThanTr = 0;
+                this.AiIdealTurningRadiusGreaterThanTr = 0;
+                this.AiBansheeSteeringMaximum = 0;
+                this.AiMaxSteeringAngle = 0;
+                this.AiMaxSteeringDelta = 0;
+                this.AiOversteeringScale = 0;
+                this.AiSideslipDistance = 0;
+                this.AiAvoidanceDistance = 0;
+                this.AiMinUrgency = 0;
+                this.AiThrottleMaximum = 0;
+                this.AiGoalMinThrottleScale = 0;
+                this.AiTurnMinThrottleScale = 0;
+                this.AiDirectionMinThrottleScale = 0;
+                this.AiAccelerationScale = 0;
+                this.AiThrottleBlend = 0;
+                this.TheoreticalMaxSpeed = 0;
+                this.ErrorScale = 0;
+                this.AiAllowableAimDeviationAngle = 0;
+                this.AiChargeTightAngleDistance = 0;
+                this.AiChargeTightAngle = 0;
+                this.AiChargeRepeatTimeout = 0;
+                this.AiChargeLookAheadTime = 0;
+                this.AiChargeConsiderDistance = 0;
+                this.AiChargeAbortDistance = 0;
+                this.VehicleRamTimeout = 0;
+                this.RamParalysisTime = 0;
+                this.AiCoverDamageThreshold = 0;
+                this.AiCoverMinDistance = 0;
+                this.AiCoverTime = 0;
+                this.AiCoverMinBoostDistance = 0;
+                this.TurtlingRecentDamageThreshold = 0;
+                this.TurtlingMinTime = 0;
+                this.TurtlingTimeout = 0;
+                this.ObstacleIgnoreSize = ((ObstacleIgnoreSizeOptions)(0));
+                this.EmptyString = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Unit = reader.Read<TagReference>();
+                this.Style = reader.Read<TagReference>();
+                this.VehicleFlags = ((VehicleFlagsOptions)(reader.ReadInt32()));
+                this.AiPathfindingRadius = reader.ReadSingle();
+                this.AiDestinationRadius = reader.ReadSingle();
+                this.AiDecelerationDistanceworldUnits = reader.ReadSingle();
+                this.AiTurningRadius = reader.ReadSingle();
+                this.AiInnerTurningRadiusLessThanTr = reader.ReadSingle();
+                this.AiIdealTurningRadiusGreaterThanTr = reader.ReadSingle();
+                this.AiBansheeSteeringMaximum = reader.ReadSingle();
+                this.AiMaxSteeringAngle = reader.ReadSingle();
+                this.AiMaxSteeringDelta = reader.ReadSingle();
+                this.AiOversteeringScale = reader.ReadSingle();
+                this.AiSideslipDistance = reader.ReadSingle();
+                this.AiAvoidanceDistance = reader.ReadSingle();
+                this.AiMinUrgency = reader.ReadSingle();
+                this.AiThrottleMaximum = reader.ReadSingle();
+                this.AiGoalMinThrottleScale = reader.ReadSingle();
+                this.AiTurnMinThrottleScale = reader.ReadSingle();
+                this.AiDirectionMinThrottleScale = reader.ReadSingle();
+                this.AiAccelerationScale = reader.ReadSingle();
+                this.AiThrottleBlend = reader.ReadSingle();
+                this.TheoreticalMaxSpeed = reader.ReadSingle();
+                this.ErrorScale = reader.ReadSingle();
+                this.AiAllowableAimDeviationAngle = reader.ReadSingle();
+                this.AiChargeTightAngleDistance = reader.ReadSingle();
+                this.AiChargeTightAngle = reader.ReadSingle();
+                this.AiChargeRepeatTimeout = reader.ReadSingle();
+                this.AiChargeLookAheadTime = reader.ReadSingle();
+                this.AiChargeConsiderDistance = reader.ReadSingle();
+                this.AiChargeAbortDistance = reader.ReadSingle();
+                this.VehicleRamTimeout = reader.ReadSingle();
+                this.RamParalysisTime = reader.ReadSingle();
+                this.AiCoverDamageThreshold = reader.ReadSingle();
+                this.AiCoverMinDistance = reader.ReadSingle();
+                this.AiCoverTime = reader.ReadSingle();
+                this.AiCoverMinBoostDistance = reader.ReadSingle();
+                this.TurtlingRecentDamageThreshold = reader.ReadSingle();
+                this.TurtlingMinTime = reader.ReadSingle();
+                this.TurtlingTimeout = reader.ReadSingle();
+                this.ObstacleIgnoreSize = ((ObstacleIgnoreSizeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum VehicleFlagsOptions
+            public enum VehicleFlagsOptions : Int32
             {
                 PassengersAdoptOriginalSquad = 1,
             }
-            public enum ObstacleIgnoreSizeOptions
+            public enum ObstacleIgnoreSizeOptions : Int16
             {
                 None = 0,
                 Tiny = 1,
@@ -1517,7 +2340,7 @@ namespace Abide.Guerilla.Tags
                 Immobile = 6,
             }
         }
-        public enum CharacterFlagsOptions
+        public enum CharacterFlagsOptions : Int32
         {
             Flag1 = 1,
         }

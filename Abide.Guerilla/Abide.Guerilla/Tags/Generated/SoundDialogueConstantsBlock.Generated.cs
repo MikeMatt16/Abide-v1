@@ -14,36 +14,47 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_dialogue_constants", 1936747297u, 4294967293u, typeof(SoundDialogueConstantsBlock))]
-    public sealed class SoundDialogueConstantsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(40, 4)]
+    [TagGroupAttribute("sound_dialogue_constants", 1936747297u, 4294967293u, typeof(SoundDialogueConstantsBlock))]
+    public sealed class SoundDialogueConstantsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("almost never", typeof(Single))]
+        [FieldAttribute("almost never", typeof(Single))]
         public Single AlmostNever;
-        [Abide.Guerilla.Tags.FieldAttribute("rarely", typeof(Single))]
+        [FieldAttribute("rarely", typeof(Single))]
         public Single Rarely;
-        [Abide.Guerilla.Tags.FieldAttribute("somewhat", typeof(Single))]
+        [FieldAttribute("somewhat", typeof(Single))]
         public Single Somewhat;
-        [Abide.Guerilla.Tags.FieldAttribute("often", typeof(Single))]
+        [FieldAttribute("often", typeof(Single))]
         public Single Often;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(24)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(24)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 40;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.AlmostNever = 0;
+            this.Rarely = 0;
+            this.Somewhat = 0;
+            this.Often = 0;
+            this.EmptyString = new byte[24];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.AlmostNever = reader.ReadSingle();
+            this.Rarely = reader.ReadSingle();
+            this.Somewhat = reader.ReadSingle();
+            this.Often = reader.ReadSingle();
+            this.EmptyString = reader.ReadBytes(24);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

@@ -14,124 +14,197 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(100, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("style", 1937013100u, 4294967293u, typeof(StyleBlock))]
-    public sealed class StyleBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(100, 4)]
+    [TagGroupAttribute("style", 1937013100u, 4294967293u, typeof(StyleBlock))]
+    public sealed class StyleBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+        private TagBlockList<SpecialMovementBlock> specialMovementList = new TagBlockList<SpecialMovementBlock>(1);
+        private TagBlockList<BehaviorNamesBlock> behaviorListList = new TagBlockList<BehaviorNamesBlock>(160);
+        [FieldAttribute("name^", typeof(String32))]
         public String32 Name;
-        [Abide.Guerilla.Tags.FieldAttribute("Combat status decay options", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(CombatStatusDecayOptionsOptions), false)]
-        public Int16 CombatStatusDecayOptions1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("Combat status decay options", typeof(CombatStatusDecayOptionsOptions))]
+        [OptionsAttribute(typeof(CombatStatusDecayOptionsOptions), false)]
+        public CombatStatusDecayOptionsOptions CombatStatusDecayOptions;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("Attitude", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(AttitudeOptions), false)]
-        public Int16 Attitude;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("Attitude", typeof(AttitudeOptions))]
+        [OptionsAttribute(typeof(AttitudeOptions), false)]
+        public AttitudeOptions Attitude;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("engage attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(EngageAttitudeOptions), false)]
-        public Byte EngageAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("evasion attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(EvasionAttitudeOptions), false)]
-        public Byte EvasionAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("cover attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(CoverAttitudeOptions), false)]
-        public Byte CoverAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("search attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SearchAttitudeOptions), false)]
-        public Byte SearchAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("presearch attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PresearchAttitudeOptions), false)]
-        public Byte PresearchAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("retreat attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(RetreatAttitudeOptions), false)]
-        public Byte RetreatAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("charge attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ChargeAttitudeOptions), false)]
-        public Byte ChargeAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("ready attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ReadyAttitudeOptions), false)]
-        public Byte ReadyAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("idle attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(IdleAttitudeOptions), false)]
-        public Byte IdleAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("weapon attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(WeaponAttitudeOptions), false)]
-        public Byte WeaponAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("swarm attitude", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SwarmAttitudeOptions), false)]
-        public Byte SwarmAttitude;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(1)]
+        [FieldAttribute("engage attitude", typeof(EngageAttitudeOptions))]
+        [OptionsAttribute(typeof(EngageAttitudeOptions), false)]
+        public EngageAttitudeOptions EngageAttitude;
+        [FieldAttribute("evasion attitude", typeof(EvasionAttitudeOptions))]
+        [OptionsAttribute(typeof(EvasionAttitudeOptions), false)]
+        public EvasionAttitudeOptions EvasionAttitude;
+        [FieldAttribute("cover attitude", typeof(CoverAttitudeOptions))]
+        [OptionsAttribute(typeof(CoverAttitudeOptions), false)]
+        public CoverAttitudeOptions CoverAttitude;
+        [FieldAttribute("search attitude", typeof(SearchAttitudeOptions))]
+        [OptionsAttribute(typeof(SearchAttitudeOptions), false)]
+        public SearchAttitudeOptions SearchAttitude;
+        [FieldAttribute("presearch attitude", typeof(PresearchAttitudeOptions))]
+        [OptionsAttribute(typeof(PresearchAttitudeOptions), false)]
+        public PresearchAttitudeOptions PresearchAttitude;
+        [FieldAttribute("retreat attitude", typeof(RetreatAttitudeOptions))]
+        [OptionsAttribute(typeof(RetreatAttitudeOptions), false)]
+        public RetreatAttitudeOptions RetreatAttitude;
+        [FieldAttribute("charge attitude", typeof(ChargeAttitudeOptions))]
+        [OptionsAttribute(typeof(ChargeAttitudeOptions), false)]
+        public ChargeAttitudeOptions ChargeAttitude;
+        [FieldAttribute("ready attitude", typeof(ReadyAttitudeOptions))]
+        [OptionsAttribute(typeof(ReadyAttitudeOptions), false)]
+        public ReadyAttitudeOptions ReadyAttitude;
+        [FieldAttribute("idle attitude", typeof(IdleAttitudeOptions))]
+        [OptionsAttribute(typeof(IdleAttitudeOptions), false)]
+        public IdleAttitudeOptions IdleAttitude;
+        [FieldAttribute("weapon attitude", typeof(WeaponAttitudeOptions))]
+        [OptionsAttribute(typeof(WeaponAttitudeOptions), false)]
+        public WeaponAttitudeOptions WeaponAttitude;
+        [FieldAttribute("swarm attitude", typeof(SwarmAttitudeOptions))]
+        [OptionsAttribute(typeof(SwarmAttitudeOptions), false)]
+        public SwarmAttitudeOptions SwarmAttitude;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(1)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("Style control", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(StyleControlOptions), true)]
-        public Int32 StyleControl;
-        [Abide.Guerilla.Tags.FieldAttribute("Behaviors1", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(Behaviors1Options), true)]
-        public Int32 Behaviors1;
-        [Abide.Guerilla.Tags.FieldAttribute("Behaviors2", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(Behaviors2Options), true)]
-        public Int32 Behaviors2;
-        [Abide.Guerilla.Tags.FieldAttribute("Behaviors3", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(Behaviors3Options), true)]
-        public Int32 Behaviors3;
-        [Abide.Guerilla.Tags.FieldAttribute("Behaviors4", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(Behaviors4Options), true)]
-        public Int32 Behaviors4;
-        [Abide.Guerilla.Tags.FieldAttribute("Behaviors5", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(Behaviors5Options), true)]
-        public Int32 Behaviors5;
-        [Abide.Guerilla.Tags.FieldAttribute("Special movement", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("special_movement_block", 1, typeof(SpecialMovementBlock))]
+        [FieldAttribute("Style control", typeof(StyleControlOptions))]
+        [OptionsAttribute(typeof(StyleControlOptions), true)]
+        public StyleControlOptions StyleControl;
+        [FieldAttribute("Behaviors1", typeof(Behaviors1Options))]
+        [OptionsAttribute(typeof(Behaviors1Options), true)]
+        public Behaviors1Options Behaviors1;
+        [FieldAttribute("Behaviors2", typeof(Behaviors2Options))]
+        [OptionsAttribute(typeof(Behaviors2Options), true)]
+        public Behaviors2Options Behaviors2;
+        [FieldAttribute("Behaviors3", typeof(Behaviors3Options))]
+        [OptionsAttribute(typeof(Behaviors3Options), true)]
+        public Behaviors3Options Behaviors3;
+        [FieldAttribute("Behaviors4", typeof(Behaviors4Options))]
+        [OptionsAttribute(typeof(Behaviors4Options), true)]
+        public Behaviors4Options Behaviors4;
+        [FieldAttribute("Behaviors5", typeof(Behaviors5Options))]
+        [OptionsAttribute(typeof(Behaviors5Options), true)]
+        public Behaviors5Options Behaviors5;
+        [FieldAttribute("Special movement", typeof(TagBlock))]
+        [BlockAttribute("special_movement_block", 1, typeof(SpecialMovementBlock))]
         public TagBlock SpecialMovement;
-        [Abide.Guerilla.Tags.FieldAttribute("Behavior list", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("behavior_names_block", 160, typeof(BehaviorNamesBlock))]
+        [FieldAttribute("Behavior list", typeof(TagBlock))]
+        [BlockAttribute("behavior_names_block", 160, typeof(BehaviorNamesBlock))]
         public TagBlock BehaviorList;
-        public int Size
+        public TagBlockList<SpecialMovementBlock> SpecialMovementList
+        {
+            get
+            {
+                return this.specialMovementList;
+            }
+        }
+        public TagBlockList<BehaviorNamesBlock> BehaviorListList
+        {
+            get
+            {
+                return this.behaviorListList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 100;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.specialMovementList.Clear();
+            this.behaviorListList.Clear();
+            this.Name = String32.Empty;
+            this.CombatStatusDecayOptions = ((CombatStatusDecayOptionsOptions)(0));
+            this.EmptyString = new byte[2];
+            this.Attitude = ((AttitudeOptions)(0));
+            this.EmptyString1 = new byte[2];
+            this.EngageAttitude = ((EngageAttitudeOptions)(0));
+            this.EvasionAttitude = ((EvasionAttitudeOptions)(0));
+            this.CoverAttitude = ((CoverAttitudeOptions)(0));
+            this.SearchAttitude = ((SearchAttitudeOptions)(0));
+            this.PresearchAttitude = ((PresearchAttitudeOptions)(0));
+            this.RetreatAttitude = ((RetreatAttitudeOptions)(0));
+            this.ChargeAttitude = ((ChargeAttitudeOptions)(0));
+            this.ReadyAttitude = ((ReadyAttitudeOptions)(0));
+            this.IdleAttitude = ((IdleAttitudeOptions)(0));
+            this.WeaponAttitude = ((WeaponAttitudeOptions)(0));
+            this.SwarmAttitude = ((SwarmAttitudeOptions)(0));
+            this.EmptyString2 = new byte[1];
+            this.StyleControl = ((StyleControlOptions)(0));
+            this.Behaviors1 = ((Behaviors1Options)(0));
+            this.Behaviors2 = ((Behaviors2Options)(0));
+            this.Behaviors3 = ((Behaviors3Options)(0));
+            this.Behaviors4 = ((Behaviors4Options)(0));
+            this.Behaviors5 = ((Behaviors5Options)(0));
+            this.SpecialMovement = TagBlock.Zero;
+            this.BehaviorList = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Name = reader.Read<String32>();
+            this.CombatStatusDecayOptions = ((CombatStatusDecayOptionsOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.Attitude = ((AttitudeOptions)(reader.ReadInt16()));
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.EngageAttitude = ((EngageAttitudeOptions)(reader.ReadByte()));
+            this.EvasionAttitude = ((EvasionAttitudeOptions)(reader.ReadByte()));
+            this.CoverAttitude = ((CoverAttitudeOptions)(reader.ReadByte()));
+            this.SearchAttitude = ((SearchAttitudeOptions)(reader.ReadByte()));
+            this.PresearchAttitude = ((PresearchAttitudeOptions)(reader.ReadByte()));
+            this.RetreatAttitude = ((RetreatAttitudeOptions)(reader.ReadByte()));
+            this.ChargeAttitude = ((ChargeAttitudeOptions)(reader.ReadByte()));
+            this.ReadyAttitude = ((ReadyAttitudeOptions)(reader.ReadByte()));
+            this.IdleAttitude = ((IdleAttitudeOptions)(reader.ReadByte()));
+            this.WeaponAttitude = ((WeaponAttitudeOptions)(reader.ReadByte()));
+            this.SwarmAttitude = ((SwarmAttitudeOptions)(reader.ReadByte()));
+            this.EmptyString2 = reader.ReadBytes(1);
+            this.StyleControl = ((StyleControlOptions)(reader.ReadInt32()));
+            this.Behaviors1 = ((Behaviors1Options)(reader.ReadInt32()));
+            this.Behaviors2 = ((Behaviors2Options)(reader.ReadInt32()));
+            this.Behaviors3 = ((Behaviors3Options)(reader.ReadInt32()));
+            this.Behaviors4 = ((Behaviors4Options)(reader.ReadInt32()));
+            this.Behaviors5 = ((Behaviors5Options)(reader.ReadInt32()));
+            this.SpecialMovement = reader.ReadInt64();
+            this.specialMovementList.Read(reader, this.SpecialMovement);
+            this.BehaviorList = reader.ReadInt64();
+            this.behaviorListList.Read(reader, this.BehaviorList);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(4, 4)]
+        public sealed class SpecialMovementBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class SpecialMovementBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Special movement 1", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecialMovement1Options), true)]
-            public Int32 SpecialMovement1;
-            public int Size
+            [FieldAttribute("Special movement 1", typeof(SpecialMovement1Options))]
+            [OptionsAttribute(typeof(SpecialMovement1Options), true)]
+            public SpecialMovement1Options SpecialMovement1;
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.SpecialMovement1 = ((SpecialMovement1Options)(0));
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.SpecialMovement1 = ((SpecialMovement1Options)(reader.ReadInt32()));
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum SpecialMovement1Options
+            public enum SpecialMovement1Options : Int32
             {
                 Jump = 1,
                 Climb = 2,
@@ -142,122 +215,124 @@ namespace Abide.Guerilla.Tags
                 Na = 64,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-        public sealed class BehaviorNamesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(32, 4)]
+        public sealed class BehaviorNamesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("behavior name*^", typeof(String32))]
+            [FieldAttribute("behavior name*^", typeof(String32))]
             public String32 BehaviorName;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 32;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.BehaviorName = String32.Empty;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.BehaviorName = reader.Read<String32>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum CombatStatusDecayOptionsOptions
+        public enum CombatStatusDecayOptionsOptions : Int16
         {
             LatchAtIdle = 0,
             LatchAtAlert = 1,
             LatchAtCombat = 2,
         }
-        public enum AttitudeOptions
+        public enum AttitudeOptions : Int16
         {
             Normal = 0,
             Timid = 1,
             Aggressive = 2,
         }
-        public enum EngageAttitudeOptions
+        public enum EngageAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum EvasionAttitudeOptions
+        public enum EvasionAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum CoverAttitudeOptions
+        public enum CoverAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum SearchAttitudeOptions
+        public enum SearchAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum PresearchAttitudeOptions
+        public enum PresearchAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum RetreatAttitudeOptions
+        public enum RetreatAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum ChargeAttitudeOptions
+        public enum ChargeAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum ReadyAttitudeOptions
+        public enum ReadyAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum IdleAttitudeOptions
+        public enum IdleAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum WeaponAttitudeOptions
+        public enum WeaponAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum SwarmAttitudeOptions
+        public enum SwarmAttitudeOptions : Byte
         {
             Default = 0,
             Normal = 1,
             Timid = 2,
             Aggressive = 3,
         }
-        public enum StyleControlOptions
+        public enum StyleControlOptions : Int32
         {
             NewBehaviorsDefaultToOn = 1,
         }
-        public enum Behaviors1Options
+        public enum Behaviors1Options : Int32
         {
             General = 1,
             Root = 2,
@@ -292,7 +367,7 @@ namespace Abide.Guerilla.Tags
             SuppressingFire = 1073741824,
             GrenadeUncover = -2147483648,
         }
-        public enum Behaviors2Options
+        public enum Behaviors2Options : Int32
         {
             LeapOnCover = 1,
             Search = 2,
@@ -327,7 +402,7 @@ namespace Abide.Guerilla.Tags
             LeaderDeadRetreat = 1073741824,
             PeerDeadRetreat = -2147483648,
         }
-        public enum Behaviors3Options
+        public enum Behaviors3Options : Int32
         {
             DangerRetreat = 1,
             ProximityRetreat = 2,
@@ -362,7 +437,7 @@ namespace Abide.Guerilla.Tags
             VehicleTurtle = 1073741824,
             VehicleEngagePatrolImpulse = -2147483648,
         }
-        public enum Behaviors4Options
+        public enum Behaviors4Options : Int32
         {
             VehicleEngageWanderImpulse = 1,
             Postcombat = 2,
@@ -397,7 +472,7 @@ namespace Abide.Guerilla.Tags
             Formation = 1073741824,
             GruntScaredByElite = -2147483648,
         }
-        public enum Behaviors5Options
+        public enum Behaviors5Options : Int32
         {
             Stunned = 1,
             CureIsolation = 2,

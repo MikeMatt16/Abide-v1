@@ -17,7 +17,7 @@ namespace Abide.Guerilla.CodeDom
         public TagGroupCodeCompileUnit(GuerillaInstance guerilla, TagGroupDefinition tagGroupDefinition, TagBlockDefinition tagBlockDefinition) : base(guerilla, tagBlockDefinition)
         {
             //Field set attribute
-            CodeAttributeDeclaration tagGroupAttribute = new CodeAttributeDeclaration(new CodeTypeReference(typeof(Tags.TagGroupAttribute)));
+            CodeAttributeDeclaration tagGroupAttribute = new CodeAttributeDeclaration(new CodeAttributeTypeReference<Tags.TagGroupAttribute>());
             tagGroupAttribute.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(tagGroupDefinition.Name)));
             tagGroupAttribute.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(tagGroupDefinition.GroupTag.Dword)));
             tagGroupAttribute.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(tagGroupDefinition.ParentGroupTag.Dword)));

@@ -14,136 +14,218 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(472, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("multiplayer_variant_settings_interface_definition", 1735356262u, 4294967293u, typeof(MultiplayerVariantSettingsInterfaceDefinitionBlock))]
-    public sealed class MultiplayerVariantSettingsInterfaceDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(472, 4)]
+    [TagGroupAttribute("multiplayer_variant_settings_interface_definition", 1735356262u, 4294967293u, typeof(MultiplayerVariantSettingsInterfaceDefinitionBlock))]
+    public sealed class MultiplayerVariantSettingsInterfaceDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        private TagBlockList<VariantSettingEditReferenceBlock> gameEngineSettingsList = new TagBlockList<VariantSettingEditReferenceBlock>(40);
+        private TagBlockList<GDefaultVariantsBlock> defaultVariantsList = new TagBlockList<GDefaultVariantsBlock>(100);
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("game engine settings", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("variant_setting_edit_reference_block", 40, typeof(VariantSettingEditReferenceBlock))]
+        [FieldAttribute("game engine settings", typeof(TagBlock))]
+        [BlockAttribute("variant_setting_edit_reference_block", 40, typeof(VariantSettingEditReferenceBlock))]
         public TagBlock GameEngineSettings;
-        [Abide.Guerilla.Tags.FieldAttribute("default variant strings", typeof(TagReference))]
+        [FieldAttribute("default variant strings", typeof(TagReference))]
         public TagReference DefaultVariantStrings;
-        [Abide.Guerilla.Tags.FieldAttribute("default variants", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("g_default_variants_block", 100, typeof(GDefaultVariantsBlock))]
+        [FieldAttribute("default variants", typeof(TagBlock))]
+        [BlockAttribute("g_default_variants_block", 100, typeof(GDefaultVariantsBlock))]
         public TagBlock DefaultVariants;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        public CreateNewVariantStructBlock EmptyString5;
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        public CreateNewVariantStructBlock EmptyString7;
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString8;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString9;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+        public CreateNewVariantStructBlock EmptyString10;
+        [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
         public CreateNewVariantStructBlock EmptyString11;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
-        public CreateNewVariantStructBlock EmptyString13;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
-        public CreateNewVariantStructBlock EmptyString14;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
-        public CreateNewVariantStructBlock EmptyString15;
-        [Abide.Guerilla.Tags.FieldAttribute("unused_create_new_variants", typeof(UnusedCreateNewVariantsElement[]))]
-        [Abide.Guerilla.Tags.ArrayAttribute(7, typeof(UnusedCreateNewVariantsElement))]
+        [FieldAttribute("unused_create_new_variants", typeof(UnusedCreateNewVariantsElement[]))]
+        [ArrayAttribute(7, typeof(UnusedCreateNewVariantsElement))]
         public UnusedCreateNewVariantsElement[] UnusedCreateNewVariants;
-        public int Size
+        public TagBlockList<VariantSettingEditReferenceBlock> GameEngineSettingsList
+        {
+            get
+            {
+                return this.gameEngineSettingsList;
+            }
+        }
+        public TagBlockList<GDefaultVariantsBlock> DefaultVariantsList
+        {
+            get
+            {
+                return this.defaultVariantsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 472;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.gameEngineSettingsList.Clear();
+            this.defaultVariantsList.Clear();
+            this.EmptyString = TagReference.Null;
+            this.EmptyString1 = TagReference.Null;
+            this.EmptyString2 = TagReference.Null;
+            this.GameEngineSettings = TagBlock.Zero;
+            this.DefaultVariantStrings = TagReference.Null;
+            this.DefaultVariants = TagBlock.Zero;
+            this.EmptyString3 = new CreateNewVariantStructBlock();
+            this.EmptyString4 = new CreateNewVariantStructBlock();
+            this.EmptyString5 = new CreateNewVariantStructBlock();
+            this.EmptyString6 = new CreateNewVariantStructBlock();
+            this.EmptyString7 = new CreateNewVariantStructBlock();
+            this.EmptyString8 = new CreateNewVariantStructBlock();
+            this.EmptyString9 = new CreateNewVariantStructBlock();
+            this.EmptyString10 = new CreateNewVariantStructBlock();
+            this.EmptyString11 = new CreateNewVariantStructBlock();
+            this.UnusedCreateNewVariants = new UnusedCreateNewVariantsElement[7];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.EmptyString = reader.Read<TagReference>();
+            this.EmptyString1 = reader.Read<TagReference>();
+            this.EmptyString2 = reader.Read<TagReference>();
+            this.GameEngineSettings = reader.ReadInt64();
+            this.gameEngineSettingsList.Read(reader, this.GameEngineSettings);
+            this.DefaultVariantStrings = reader.Read<TagReference>();
+            this.DefaultVariants = reader.ReadInt64();
+            this.defaultVariantsList.Read(reader, this.DefaultVariants);
+            this.EmptyString3 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString4 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString5 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString6 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString7 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString8 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString9 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString10 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            this.EmptyString11 = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(32, 4)]
+        public sealed class VariantSettingEditReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-        public sealed class VariantSettingEditReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("setting category^", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SettingCategoryOptions), false)]
-            public Int32 SettingCategory;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            private TagBlockList<TextValuePairBlock> optionsList = new TagBlockList<TextValuePairBlock>(32);
+            private TagBlockList<NullBlock> emptyStringList = new TagBlockList<NullBlock>(0);
+            [FieldAttribute("setting category^", typeof(SettingCategoryOptions))]
+            [OptionsAttribute(typeof(SettingCategoryOptions), false)]
+            public SettingCategoryOptions SettingCategory;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("options", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("text_value_pair_block", 32, typeof(TextValuePairBlock))]
+            [FieldAttribute("options", typeof(TagBlock))]
+            [BlockAttribute("text_value_pair_block", 32, typeof(TextValuePairBlock))]
             public TagBlock Options;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("null_block", 0, typeof(NullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("null_block", 0, typeof(NullBlock))]
             public TagBlock EmptyString1;
-            public int Size
+            public TagBlockList<TextValuePairBlock> OptionsList
+            {
+                get
+                {
+                    return this.optionsList;
+                }
+            }
+            public TagBlockList<NullBlock> EmptyStringList
+            {
+                get
+                {
+                    return this.emptyStringList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 32;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.optionsList.Clear();
+                this.emptyStringList.Clear();
+                this.SettingCategory = ((SettingCategoryOptions)(0));
+                this.EmptyString = new byte[4];
+                this.Options = TagBlock.Zero;
+                this.EmptyString1 = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.SettingCategory = ((SettingCategoryOptions)(reader.ReadInt32()));
+                this.EmptyString = reader.ReadBytes(4);
+                this.Options = reader.ReadInt64();
+                this.optionsList.Read(reader, this.Options);
+                this.EmptyString1 = reader.ReadInt64();
+                this.emptyStringList.Read(reader, this.EmptyString1);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(16, 4)]
+            public sealed class TextValuePairBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class TextValuePairBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("value pairs^", typeof(TagReference))]
+                [FieldAttribute("value pairs^", typeof(TagReference))]
                 public TagReference ValuePairs;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.ValuePairs = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.ValuePairs = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(0, 4)]
-            public sealed class NullBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(0, 4)]
+            public sealed class NullBlock : AbideTagBlock
             {
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 0;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum SettingCategoryOptions
+            public enum SettingCategoryOptions : Int32
             {
                 MatchCtf = 0,
                 MatchSlayer = 1,
@@ -187,63 +269,87 @@ namespace Abide.Guerilla.Tags
                 TeamAssault = 39,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class GDefaultVariantsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(24, 4)]
+        public sealed class GDefaultVariantsBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("variant name^", typeof(StringId))]
+            private TagBlockList<GDefaultVariantSettingsBlock> settingsList = new TagBlockList<GDefaultVariantSettingsBlock>(112);
+            [FieldAttribute("variant name^", typeof(StringId))]
             public StringId VariantName;
-            [Abide.Guerilla.Tags.FieldAttribute("variant type", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(VariantTypeOptions), false)]
-            public Int32 VariantType;
-            [Abide.Guerilla.Tags.FieldAttribute("settings", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
+            [FieldAttribute("variant type", typeof(VariantTypeOptions))]
+            [OptionsAttribute(typeof(VariantTypeOptions), false)]
+            public VariantTypeOptions VariantType;
+            [FieldAttribute("settings", typeof(TagBlock))]
+            [BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
             public TagBlock Settings;
-            [Abide.Guerilla.Tags.FieldAttribute("description index", typeof(Byte))]
+            [FieldAttribute("description index", typeof(Byte))]
             public Byte DescriptionIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(3)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(3)]
             public Byte[] EmptyString;
-            public int Size
+            public TagBlockList<GDefaultVariantSettingsBlock> SettingsList
+            {
+                get
+                {
+                    return this.settingsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.settingsList.Clear();
+                this.VariantName = StringId.Zero;
+                this.VariantType = ((VariantTypeOptions)(0));
+                this.Settings = TagBlock.Zero;
+                this.DescriptionIndex = 0;
+                this.EmptyString = new byte[3];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.VariantName = reader.ReadInt32();
+                this.VariantType = ((VariantTypeOptions)(reader.ReadInt32()));
+                this.Settings = reader.ReadInt64();
+                this.settingsList.Read(reader, this.Settings);
+                this.DescriptionIndex = reader.ReadByte();
+                this.EmptyString = reader.ReadBytes(3);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(8, 4)]
+            public sealed class GDefaultVariantSettingsBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class GDefaultVariantSettingsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("setting category^", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SettingCategoryOptions), false)]
-                public Int32 SettingCategory;
-                [Abide.Guerilla.Tags.FieldAttribute("value", typeof(Int32))]
+                [FieldAttribute("setting category^", typeof(SettingCategoryOptions))]
+                [OptionsAttribute(typeof(SettingCategoryOptions), false)]
+                public SettingCategoryOptions SettingCategory;
+                [FieldAttribute("value", typeof(Int32))]
                 public Int32 Value;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.SettingCategory = ((SettingCategoryOptions)(0));
+                    this.Value = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SettingCategory = ((SettingCategoryOptions)(reader.ReadInt32()));
+                    this.Value = reader.ReadInt32();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum SettingCategoryOptions
+                public enum SettingCategoryOptions : Int32
                 {
                     MatchRoundSetting = 0,
                     MatchCtfScoreToWin = 1,
@@ -359,7 +465,7 @@ namespace Abide.Guerilla.Tags
                     UnsForceEvenTeams = 111,
                 }
             }
-            public enum VariantTypeOptions
+            public enum VariantTypeOptions : Int32
             {
                 Slayer = 0,
                 Oddball = 1,
@@ -370,63 +476,87 @@ namespace Abide.Guerilla.Tags
                 Territories = 6,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class CreateNewVariantStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(24, 4)]
+        public sealed class CreateNewVariantStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(StringId))]
+            private TagBlockList<GDefaultVariantSettingsBlock> settingsList = new TagBlockList<GDefaultVariantSettingsBlock>(112);
+            [FieldAttribute("", typeof(StringId))]
             public StringId EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(EmptyStringOptions), false)]
-            public Int32 EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("settings", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
+            [FieldAttribute("", typeof(EmptyStringOptions))]
+            [OptionsAttribute(typeof(EmptyStringOptions), false)]
+            public EmptyStringOptions EmptyString1;
+            [FieldAttribute("settings", typeof(TagBlock))]
+            [BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
             public TagBlock Settings;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte))]
+            [FieldAttribute("", typeof(Byte))]
             public Byte EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(3)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(3)]
             public Byte[] EmptyString3;
-            public int Size
+            public TagBlockList<GDefaultVariantSettingsBlock> SettingsList
+            {
+                get
+                {
+                    return this.settingsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.settingsList.Clear();
+                this.EmptyString = StringId.Zero;
+                this.EmptyString1 = ((EmptyStringOptions)(0));
+                this.Settings = TagBlock.Zero;
+                this.EmptyString2 = 0;
+                this.EmptyString3 = new byte[3];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.EmptyString = reader.ReadInt32();
+                this.EmptyString1 = ((EmptyStringOptions)(reader.ReadInt32()));
+                this.Settings = reader.ReadInt64();
+                this.settingsList.Read(reader, this.Settings);
+                this.EmptyString2 = reader.ReadByte();
+                this.EmptyString3 = reader.ReadBytes(3);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(8, 4)]
+            public sealed class GDefaultVariantSettingsBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class GDefaultVariantSettingsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("setting category^", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SettingCategoryOptions), false)]
-                public Int32 SettingCategory;
-                [Abide.Guerilla.Tags.FieldAttribute("value", typeof(Int32))]
+                [FieldAttribute("setting category^", typeof(SettingCategoryOptions))]
+                [OptionsAttribute(typeof(SettingCategoryOptions), false)]
+                public SettingCategoryOptions SettingCategory;
+                [FieldAttribute("value", typeof(Int32))]
                 public Int32 Value;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.SettingCategory = ((SettingCategoryOptions)(0));
+                    this.Value = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.SettingCategory = ((SettingCategoryOptions)(reader.ReadInt32()));
+                    this.Value = reader.ReadInt32();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum SettingCategoryOptions
+                public enum SettingCategoryOptions : Int32
                 {
                     MatchRoundSetting = 0,
                     MatchCtfScoreToWin = 1,
@@ -542,7 +672,7 @@ namespace Abide.Guerilla.Tags
                     UnsForceEvenTeams = 111,
                 }
             }
-            public enum EmptyStringOptions
+            public enum EmptyStringOptions : Int32
             {
                 Slayer = 0,
                 Oddball = 1,
@@ -553,83 +683,109 @@ namespace Abide.Guerilla.Tags
                 Territories = 6,
             }
         }
-        public sealed class UnusedCreateNewVariantsElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        public sealed class UnusedCreateNewVariantsElement : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(CreateNewVariantStructBlock))]
+            [FieldAttribute("", typeof(CreateNewVariantStructBlock))]
             public CreateNewVariantStructBlock EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 0;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.EmptyString = new CreateNewVariantStructBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.EmptyString = reader.ReadDataStructure<CreateNewVariantStructBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(24, 4)]
+            public sealed class CreateNewVariantStructBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class CreateNewVariantStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(StringId))]
+                private TagBlockList<GDefaultVariantSettingsBlock> settingsList = new TagBlockList<GDefaultVariantSettingsBlock>(112);
+                [FieldAttribute("", typeof(StringId))]
                 public StringId EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EmptyStringOptions), false)]
-                public Int32 EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("settings", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
+                [FieldAttribute("", typeof(EmptyStringOptions))]
+                [OptionsAttribute(typeof(EmptyStringOptions), false)]
+                public EmptyStringOptions EmptyString1;
+                [FieldAttribute("settings", typeof(TagBlock))]
+                [BlockAttribute("g_default_variant_settings_block", 112, typeof(GDefaultVariantSettingsBlock))]
                 public TagBlock Settings;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte))]
+                [FieldAttribute("", typeof(Byte))]
                 public Byte EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(3)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(3)]
                 public Byte[] EmptyString3;
-                public int Size
+                public TagBlockList<GDefaultVariantSettingsBlock> SettingsList
+                {
+                    get
+                    {
+                        return this.settingsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.settingsList.Clear();
+                    this.EmptyString = StringId.Zero;
+                    this.EmptyString1 = ((EmptyStringOptions)(0));
+                    this.Settings = TagBlock.Zero;
+                    this.EmptyString2 = 0;
+                    this.EmptyString3 = new byte[3];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.EmptyString = reader.ReadInt32();
+                    this.EmptyString1 = ((EmptyStringOptions)(reader.ReadInt32()));
+                    this.Settings = reader.ReadInt64();
+                    this.settingsList.Read(reader, this.Settings);
+                    this.EmptyString2 = reader.ReadByte();
+                    this.EmptyString3 = reader.ReadBytes(3);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(8, 4)]
+                public sealed class GDefaultVariantSettingsBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-                public sealed class GDefaultVariantSettingsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("setting category^", typeof(Int32))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SettingCategoryOptions), false)]
-                    public Int32 SettingCategory;
-                    [Abide.Guerilla.Tags.FieldAttribute("value", typeof(Int32))]
+                    [FieldAttribute("setting category^", typeof(SettingCategoryOptions))]
+                    [OptionsAttribute(typeof(SettingCategoryOptions), false)]
+                    public SettingCategoryOptions SettingCategory;
+                    [FieldAttribute("value", typeof(Int32))]
                     public Int32 Value;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 8;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SettingCategory = ((SettingCategoryOptions)(0));
+                        this.Value = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SettingCategory = ((SettingCategoryOptions)(reader.ReadInt32()));
+                        this.Value = reader.ReadInt32();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum SettingCategoryOptions
+                    public enum SettingCategoryOptions : Int32
                     {
                         MatchRoundSetting = 0,
                         MatchCtfScoreToWin = 1,
@@ -745,7 +901,7 @@ namespace Abide.Guerilla.Tags
                         UnsForceEvenTeams = 111,
                     }
                 }
-                public enum EmptyStringOptions
+                public enum EmptyStringOptions : Int32
                 {
                     Slayer = 0,
                     Oddball = 1,

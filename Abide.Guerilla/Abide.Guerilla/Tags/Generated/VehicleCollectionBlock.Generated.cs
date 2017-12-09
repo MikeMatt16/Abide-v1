@@ -14,58 +14,81 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("vehicle_collection", 1986357347u, 4294967293u, typeof(VehicleCollectionBlock))]
-    public sealed class VehicleCollectionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(16, 4)]
+    [TagGroupAttribute("vehicle_collection", 1986357347u, 4294967293u, typeof(VehicleCollectionBlock))]
+    public sealed class VehicleCollectionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("vehicle permutations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("vehicle_permutation", 32, typeof(VehiclePermutation))]
+        private TagBlockList<VehiclePermutation> vehiclePermutationsList = new TagBlockList<VehiclePermutation>(32);
+        [FieldAttribute("vehicle permutations", typeof(TagBlock))]
+        [BlockAttribute("vehicle_permutation", 32, typeof(VehiclePermutation))]
         public TagBlock VehiclePermutations;
-        [Abide.Guerilla.Tags.FieldAttribute("spawn time (in seconds, 0 = default)", typeof(Int16))]
+        [FieldAttribute("spawn time (in seconds, 0 = default)", typeof(Int16))]
         public Int16 SpawnTimeInSeconds0EqualsDefault;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        public int Size
+        public TagBlockList<VehiclePermutation> VehiclePermutationsList
+        {
+            get
+            {
+                return this.vehiclePermutationsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 16;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.vehiclePermutationsList.Clear();
+            this.VehiclePermutations = TagBlock.Zero;
+            this.SpawnTimeInSeconds0EqualsDefault = 0;
+            this.EmptyString = new byte[2];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.VehiclePermutations = reader.ReadInt64();
+            this.vehiclePermutationsList.Read(reader, this.VehiclePermutations);
+            this.SpawnTimeInSeconds0EqualsDefault = reader.ReadInt16();
+            this.EmptyString = reader.ReadBytes(2);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(24, 4)]
+        public sealed class VehiclePermutation : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class VehiclePermutation : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("weight#relatively how likely this vehicle will be chosen", typeof(Single))]
+            [FieldAttribute("weight#relatively how likely this vehicle will be chosen", typeof(Single))]
             public Single Weight;
-            [Abide.Guerilla.Tags.FieldAttribute("vehicle^#which vehicle to ", typeof(TagReference))]
+            [FieldAttribute("vehicle^#which vehicle to ", typeof(TagReference))]
             public TagReference Vehicle;
-            [Abide.Guerilla.Tags.FieldAttribute("variant name", typeof(StringId))]
+            [FieldAttribute("variant name", typeof(StringId))]
             public StringId VariantName;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Weight = 0;
+                this.Vehicle = TagReference.Null;
+                this.VariantName = StringId.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Weight = reader.ReadSingle();
+                this.Vehicle = reader.Read<TagReference>();
+                this.VariantName = reader.ReadInt32();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

@@ -14,103 +14,160 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_cinematics_resource", 1667853866u, 4294967293u, typeof(ScenarioCinematicsResourceBlock))]
-    public sealed class ScenarioCinematicsResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(36, 4)]
+    [TagGroupAttribute("scenario_cinematics_resource", 1667853866u, 4294967293u, typeof(ScenarioCinematicsResourceBlock))]
+    public sealed class ScenarioCinematicsResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Flags", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_cutscene_flag_block", 512, typeof(ScenarioCutsceneFlagBlock))]
+        private TagBlockList<ScenarioCutsceneFlagBlock> flagsList = new TagBlockList<ScenarioCutsceneFlagBlock>(512);
+        private TagBlockList<ScenarioCutsceneCameraPointBlock> cameraPointsList = new TagBlockList<ScenarioCutsceneCameraPointBlock>(512);
+        private TagBlockList<RecordedAnimationBlock> recordedAnimationsList = new TagBlockList<RecordedAnimationBlock>(1024);
+        [FieldAttribute("Flags", typeof(TagBlock))]
+        [BlockAttribute("scenario_cutscene_flag_block", 512, typeof(ScenarioCutsceneFlagBlock))]
         public TagBlock Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("Camera Points", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_cutscene_camera_point_block", 512, typeof(ScenarioCutsceneCameraPointBlock))]
+        [FieldAttribute("Camera Points", typeof(TagBlock))]
+        [BlockAttribute("scenario_cutscene_camera_point_block", 512, typeof(ScenarioCutsceneCameraPointBlock))]
         public TagBlock CameraPoints;
-        [Abide.Guerilla.Tags.FieldAttribute("Recorded Animations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("recorded_animation_block", 1024, typeof(RecordedAnimationBlock))]
+        [FieldAttribute("Recorded Animations", typeof(TagBlock))]
+        [BlockAttribute("recorded_animation_block", 1024, typeof(RecordedAnimationBlock))]
         public TagBlock RecordedAnimations;
-        public int Size
+        public TagBlockList<ScenarioCutsceneFlagBlock> FlagsList
+        {
+            get
+            {
+                return this.flagsList;
+            }
+        }
+        public TagBlockList<ScenarioCutsceneCameraPointBlock> CameraPointsList
+        {
+            get
+            {
+                return this.cameraPointsList;
+            }
+        }
+        public TagBlockList<RecordedAnimationBlock> RecordedAnimationsList
+        {
+            get
+            {
+                return this.recordedAnimationsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 36;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.flagsList.Clear();
+            this.cameraPointsList.Clear();
+            this.recordedAnimationsList.Clear();
+            this.Flags = TagBlock.Zero;
+            this.CameraPoints = TagBlock.Zero;
+            this.RecordedAnimations = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = reader.ReadInt64();
+            this.flagsList.Read(reader, this.Flags);
+            this.CameraPoints = reader.ReadInt64();
+            this.cameraPointsList.Read(reader, this.CameraPoints);
+            this.RecordedAnimations = reader.ReadInt64();
+            this.recordedAnimationsList.Read(reader, this.RecordedAnimations);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(56, 4)]
+        public sealed class ScenarioCutsceneFlagBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(56, 4)]
-        public sealed class ScenarioCutsceneFlagBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Position", typeof(Vector3))]
+            [FieldAttribute("Position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute("Facing", typeof(Vector2))]
+            [FieldAttribute("Facing", typeof(Vector2))]
             public Vector2 Facing;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 56;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = new byte[4];
+                this.Name = String32.Empty;
+                this.Position = Vector3.Zero;
+                this.Facing = Vector2.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadBytes(4);
+                this.Name = reader.Read<String32>();
+                this.Position = reader.Read<Vector3>();
+                this.Facing = reader.Read<Vector2>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class ScenarioCutsceneCameraPointBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(64, 4)]
+        public sealed class ScenarioCutsceneCameraPointBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("Type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int16 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("Type", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Position", typeof(Vector3))]
+            [FieldAttribute("Position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute("Orientation", typeof(Vector3))]
+            [FieldAttribute("Orientation", typeof(Vector3))]
             public Vector3 Orientation;
-            [Abide.Guerilla.Tags.FieldAttribute(")Unused", typeof(Single))]
+            [FieldAttribute(")Unused", typeof(Single))]
             public Single Unused;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.Type = ((TypeOptions)(0));
+                this.Name = String32.Empty;
+                this.Position = Vector3.Zero;
+                this.Orientation = Vector3.Zero;
+                this.Unused = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Type = ((TypeOptions)(reader.ReadInt16()));
+                this.Name = reader.Read<String32>();
+                this.Position = reader.Read<Vector3>();
+                this.Orientation = reader.Read<Vector3>();
+                this.Unused = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 EditAsRelative = 1,
             }
-            public enum TypeOptions
+            public enum TypeOptions : Int16
             {
                 Normal = 0,
                 IgnoreTargetOrientation = 1,
@@ -118,42 +175,72 @@ namespace Abide.Guerilla.Tags
                 IgnoreTargetUpdates = 3,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class RecordedAnimationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(64, 4)]
+        public sealed class RecordedAnimationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+            private DataList recordedAnimationEventStreamList = new DataList(2097152);
+            [FieldAttribute("name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("version*", typeof(Byte))]
+            [FieldAttribute("version*", typeof(Byte))]
             public Byte Version;
-            [Abide.Guerilla.Tags.FieldAttribute("raw animation data*", typeof(Byte))]
+            [FieldAttribute("raw animation data*", typeof(Byte))]
             public Byte RawAnimationData;
-            [Abide.Guerilla.Tags.FieldAttribute("unit control data version*", typeof(Byte))]
+            [FieldAttribute("unit control data version*", typeof(Byte))]
             public Byte UnitControlDataVersion;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(1)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(1)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("length of animation*:ticks", typeof(Int16))]
+            [FieldAttribute("length of animation*:ticks", typeof(Int16))]
             public Int16 LengthOfAnimation;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            public int Size
+            [FieldAttribute("recorded animation event stream*", typeof(TagBlock))]
+            [DataAttribute(2097152)]
+            public TagBlock RecordedAnimationEventStream;
+            public DataList RecordedAnimationEventStreamList
+            {
+                get
+                {
+                    return this.recordedAnimationEventStreamList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.recordedAnimationEventStreamList.Clear();
+                this.Name = String32.Empty;
+                this.Version = 0;
+                this.RawAnimationData = 0;
+                this.UnitControlDataVersion = 0;
+                this.EmptyString = new byte[1];
+                this.LengthOfAnimation = 0;
+                this.EmptyString1 = new byte[2];
+                this.EmptyString2 = new byte[4];
+                this.RecordedAnimationEventStream = TagBlock.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.Version = reader.ReadByte();
+                this.RawAnimationData = reader.ReadByte();
+                this.UnitControlDataVersion = reader.ReadByte();
+                this.EmptyString = reader.ReadBytes(1);
+                this.LengthOfAnimation = reader.ReadInt16();
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.EmptyString2 = reader.ReadBytes(4);
+                this.RecordedAnimationEventStream = reader.ReadInt64();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

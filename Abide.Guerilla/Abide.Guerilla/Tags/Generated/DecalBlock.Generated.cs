@@ -14,75 +14,112 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(188, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("decal", 1684366177u, 4294967293u, typeof(DecalBlock))]
-    public sealed class DecalBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(188, 4)]
+    [TagGroupAttribute("decal", 1684366177u, 4294967293u, typeof(DecalBlock))]
+    public sealed class DecalBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("type#controls how the decal wraps onto surface geometry", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-        public Int16 Type;
-        [Abide.Guerilla.Tags.FieldAttribute("layer", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(LayerOptions), false)]
-        public Int16 Layer;
-        [Abide.Guerilla.Tags.FieldAttribute("max overlapping count", typeof(Int16))]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("type#controls how the decal wraps onto surface geometry", typeof(TypeOptions))]
+        [OptionsAttribute(typeof(TypeOptions), false)]
+        public TypeOptions Type;
+        [FieldAttribute("layer", typeof(LayerOptions))]
+        [OptionsAttribute(typeof(LayerOptions), false)]
+        public LayerOptions Layer;
+        [FieldAttribute("max overlapping count", typeof(Int16))]
         public Int16 MaxOverlappingCount;
-        [Abide.Guerilla.Tags.FieldAttribute("next decal in chain", typeof(TagReference))]
+        [FieldAttribute("next decal in chain", typeof(TagReference))]
         public TagReference NextDecalInChain;
-        [Abide.Guerilla.Tags.FieldAttribute("radius overlap rejection:muliplier", typeof(Single))]
+        [FieldAttribute("radius overlap rejection:muliplier", typeof(Single))]
         public Single RadiusOverlapRejection;
-        [Abide.Guerilla.Tags.FieldAttribute("color lower bounds", typeof(ColorRgbF))]
+        [FieldAttribute("color lower bounds", typeof(ColorRgbF))]
         public ColorRgbF ColorLowerBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("color upper bounds", typeof(ColorRgbF))]
+        [FieldAttribute("color upper bounds", typeof(ColorRgbF))]
         public ColorRgbF ColorUpperBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(40)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(40)]
+        public Byte[] EmptyString;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString2;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString3;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString4;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(20)]
         public Byte[] EmptyString5;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString7;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString8;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString9;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(20)]
-        public Byte[] EmptyString10;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+        [FieldAttribute("bitmap", typeof(TagReference))]
         public TagReference Bitmap;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(20)]
-        public Byte[] EmptyString11;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum sprite extent:pixels*", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(20)]
+        public Byte[] EmptyString6;
+        [FieldAttribute("maximum sprite extent:pixels*", typeof(Single))]
         public Single MaximumSpriteExtent;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString12;
-        public int Size
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString7;
+        public override int Size
         {
             get
             {
                 return 188;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.Type = ((TypeOptions)(0));
+            this.Layer = ((LayerOptions)(0));
+            this.MaxOverlappingCount = 0;
+            this.NextDecalInChain = TagReference.Null;
+            this.RadiusOverlapRejection = 0;
+            this.ColorLowerBounds = ColorRgbF.Zero;
+            this.ColorUpperBounds = ColorRgbF.Zero;
+            this.EmptyString = new byte[40];
+            this.EmptyString1 = new byte[2];
+            this.EmptyString2 = new byte[2];
+            this.EmptyString3 = new byte[2];
+            this.EmptyString4 = new byte[2];
+            this.EmptyString5 = new byte[20];
+            this.Bitmap = TagReference.Null;
+            this.EmptyString6 = new byte[20];
+            this.MaximumSpriteExtent = 0;
+            this.EmptyString7 = new byte[4];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.Type = ((TypeOptions)(reader.ReadInt16()));
+            this.Layer = ((LayerOptions)(reader.ReadInt16()));
+            this.MaxOverlappingCount = reader.ReadInt16();
+            this.NextDecalInChain = reader.Read<TagReference>();
+            this.RadiusOverlapRejection = reader.ReadSingle();
+            this.ColorLowerBounds = reader.Read<ColorRgbF>();
+            this.ColorUpperBounds = reader.Read<ColorRgbF>();
+            this.EmptyString = reader.ReadBytes(40);
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.EmptyString2 = reader.ReadBytes(2);
+            this.EmptyString3 = reader.ReadBytes(2);
+            this.EmptyString4 = reader.ReadBytes(2);
+            this.EmptyString5 = reader.ReadBytes(20);
+            this.Bitmap = reader.Read<TagReference>();
+            this.EmptyString6 = reader.ReadBytes(20);
+            this.MaximumSpriteExtent = reader.ReadSingle();
+            this.EmptyString7 = reader.ReadBytes(4);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             GeometryInheritedByNextDecalInChain = 1,
             InterpolateColorInHsv = 2,
@@ -95,14 +132,14 @@ namespace Abide.Guerilla.Tags
             PreserveAspect = 256,
             Unused2 = 512,
         }
-        public enum TypeOptions
+        public enum TypeOptions : Int16
         {
             Scratch = 0,
             Splatter = 1,
             Burn = 2,
             PaintedSign = 3,
         }
-        public enum LayerOptions
+        public enum LayerOptions : Int16
         {
             LitAlphaBlendPrelight = 0,
             LitAlphaBlend = 1,

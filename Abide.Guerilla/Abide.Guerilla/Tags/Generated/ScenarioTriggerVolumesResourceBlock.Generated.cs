@@ -14,121 +14,173 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_trigger_volumes_resource", 1953654570u, 4294967293u, typeof(ScenarioTriggerVolumesResourceBlock))]
-    public sealed class ScenarioTriggerVolumesResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(24, 4)]
+    [TagGroupAttribute("scenario_trigger_volumes_resource", 1953654570u, 4294967293u, typeof(ScenarioTriggerVolumesResourceBlock))]
+    public sealed class ScenarioTriggerVolumesResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Kill Trigger Volumes", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_trigger_volume_block", 256, typeof(ScenarioTriggerVolumeBlock))]
+        private TagBlockList<ScenarioTriggerVolumeBlock> killTriggerVolumesList = new TagBlockList<ScenarioTriggerVolumeBlock>(256);
+        private TagBlockList<ScenarioObjectNamesBlock> objectNamesList = new TagBlockList<ScenarioObjectNamesBlock>(640);
+        [FieldAttribute("Kill Trigger Volumes", typeof(TagBlock))]
+        [BlockAttribute("scenario_trigger_volume_block", 256, typeof(ScenarioTriggerVolumeBlock))]
         public TagBlock KillTriggerVolumes;
-        [Abide.Guerilla.Tags.FieldAttribute("Object Names", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_object_names_block", 640, typeof(ScenarioObjectNamesBlock))]
+        [FieldAttribute("Object Names", typeof(TagBlock))]
+        [BlockAttribute("scenario_object_names_block", 640, typeof(ScenarioObjectNamesBlock))]
         public TagBlock ObjectNames;
-        public int Size
+        public TagBlockList<ScenarioTriggerVolumeBlock> KillTriggerVolumesList
+        {
+            get
+            {
+                return this.killTriggerVolumesList;
+            }
+        }
+        public TagBlockList<ScenarioObjectNamesBlock> ObjectNamesList
+        {
+            get
+            {
+                return this.objectNamesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 24;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.killTriggerVolumesList.Clear();
+            this.objectNamesList.Clear();
+            this.KillTriggerVolumes = TagBlock.Zero;
+            this.ObjectNames = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.KillTriggerVolumes = reader.ReadInt64();
+            this.killTriggerVolumesList.Read(reader, this.KillTriggerVolumes);
+            this.ObjectNames = reader.ReadInt64();
+            this.objectNamesList.Read(reader, this.ObjectNames);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(68, 4)]
+        public sealed class ScenarioTriggerVolumeBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-        public sealed class ScenarioTriggerVolumeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(StringId))]
+            [FieldAttribute("Name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Object Name", typeof(Int16))]
+            [FieldAttribute("Object Name", typeof(Int16))]
             public Int16 ObjectName;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Node Name", typeof(StringId))]
+            [FieldAttribute("Node Name", typeof(StringId))]
             public StringId NodeName;
-            [Abide.Guerilla.Tags.FieldAttribute("EMPTY STRING", typeof(EmptyStringElement[]))]
-            [Abide.Guerilla.Tags.ArrayAttribute(6, typeof(EmptyStringElement))]
+            [FieldAttribute("EMPTY STRING", typeof(EmptyStringElement[]))]
+            [ArrayAttribute(6, typeof(EmptyStringElement))]
             public EmptyStringElement[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("Position", typeof(Vector3))]
+            [FieldAttribute("Position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute("Extents", typeof(Vector3))]
+            [FieldAttribute("Extents", typeof(Vector3))]
             public Vector3 Extents;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("~Kill Trigger Volume*", typeof(Int16))]
+            [FieldAttribute("~Kill Trigger Volume*", typeof(Int16))]
             public Int16 KillTriggerVolume;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString3;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 68;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = StringId.Zero;
+                this.ObjectName = 0;
+                this.EmptyString = new byte[2];
+                this.NodeName = StringId.Zero;
+                this.EmptyString1 = new EmptyStringElement[6];
+                this.Position = Vector3.Zero;
+                this.Extents = Vector3.Zero;
+                this.EmptyString2 = new byte[4];
+                this.KillTriggerVolume = 0;
+                this.EmptyString3 = new byte[2];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.ObjectName = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.NodeName = reader.ReadInt32();
+                this.Position = reader.Read<Vector3>();
+                this.Extents = reader.Read<Vector3>();
+                this.EmptyString2 = reader.ReadBytes(4);
+                this.KillTriggerVolume = reader.ReadInt16();
+                this.EmptyString3 = reader.ReadBytes(2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            public sealed class EmptyStringElement : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public sealed class EmptyStringElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("EMPTY STRING", typeof(Single))]
+                [FieldAttribute("EMPTY STRING", typeof(Single))]
                 public Single EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 0;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadSingle();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class ScenarioObjectNamesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(36, 4)]
+        public sealed class ScenarioObjectNamesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("EMPTY STRING", typeof(Int16))]
+            [FieldAttribute("EMPTY STRING", typeof(Int16))]
             public Int16 EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("EMPTY STRING", typeof(Int16))]
+            [FieldAttribute("EMPTY STRING", typeof(Int16))]
             public Int16 EmptyString1;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = String32.Empty;
+                this.EmptyString = 0;
+                this.EmptyString1 = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.EmptyString = reader.ReadInt16();
+                this.EmptyString1 = reader.ReadInt16();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

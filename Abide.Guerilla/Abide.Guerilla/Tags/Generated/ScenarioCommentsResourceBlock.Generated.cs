@@ -14,59 +14,80 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_comments_resource", 791292463u, 4294967293u, typeof(ScenarioCommentsResourceBlock))]
-    public sealed class ScenarioCommentsResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("scenario_comments_resource", 791292463u, 4294967293u, typeof(ScenarioCommentsResourceBlock))]
+    public sealed class ScenarioCommentsResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Comments", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("editor_comment_block", 65536, typeof(EditorCommentBlock))]
+        private TagBlockList<EditorCommentBlock> commentsList = new TagBlockList<EditorCommentBlock>(65536);
+        [FieldAttribute("Comments", typeof(TagBlock))]
+        [BlockAttribute("editor_comment_block", 65536, typeof(EditorCommentBlock))]
         public TagBlock Comments;
-        public int Size
+        public TagBlockList<EditorCommentBlock> CommentsList
+        {
+            get
+            {
+                return this.commentsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.commentsList.Clear();
+            this.Comments = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Comments = reader.ReadInt64();
+            this.commentsList.Read(reader, this.Comments);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(304, 4)]
+        public sealed class EditorCommentBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(304, 4)]
-        public sealed class EditorCommentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Position", typeof(Vector3))]
+            [FieldAttribute("Position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute(")Type", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int32 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute(")Type", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Comment", typeof(String256))]
+            [FieldAttribute("Comment", typeof(String256))]
             public String256 Comment;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 304;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Position = Vector3.Zero;
+                this.Type = ((TypeOptions)(0));
+                this.Name = String32.Empty;
+                this.Comment = String256.Empty;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Position = reader.Read<Vector3>();
+                this.Type = ((TypeOptions)(reader.ReadInt32()));
+                this.Name = reader.Read<String32>();
+                this.Comment = reader.Read<String256>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TypeOptions
+            public enum TypeOptions : Int32
             {
                 Generic = 0,
             }

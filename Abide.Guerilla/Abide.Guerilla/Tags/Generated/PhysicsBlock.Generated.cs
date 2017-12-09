@@ -14,149 +14,254 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("physics", 1885895027u, 4294967293u, typeof(PhysicsBlock))]
-    public sealed class PhysicsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(128, 4)]
+    [TagGroupAttribute("physics", 1885895027u, 4294967293u, typeof(PhysicsBlock))]
+    public sealed class PhysicsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("radius#positive uses old inferior physics, negative uses new improved physics", typeof(Single))]
+        private TagBlockList<InertialMatrixBlock> inertialMatrixAndInverseList = new TagBlockList<InertialMatrixBlock>(2);
+        private TagBlockList<PoweredMassPointBlock> poweredMassPointsList = new TagBlockList<PoweredMassPointBlock>(32);
+        private TagBlockList<MassPointBlock> massPointsList = new TagBlockList<MassPointBlock>(32);
+        [FieldAttribute("radius#positive uses old inferior physics, negative uses new improved physics", typeof(Single))]
         public Single Radius;
-        [Abide.Guerilla.Tags.FieldAttribute("moment scale", typeof(Single))]
+        [FieldAttribute("moment scale", typeof(Single))]
         public Single MomentScale;
-        [Abide.Guerilla.Tags.FieldAttribute("mass", typeof(Single))]
+        [FieldAttribute("mass", typeof(Single))]
         public Single Mass;
-        [Abide.Guerilla.Tags.FieldAttribute("center of mass*", typeof(Vector3))]
+        [FieldAttribute("center of mass*", typeof(Vector3))]
         public Vector3 CenterOfMass;
-        [Abide.Guerilla.Tags.FieldAttribute("density", typeof(Single))]
+        [FieldAttribute("density", typeof(Single))]
         public Single Density;
-        [Abide.Guerilla.Tags.FieldAttribute("gravity scale", typeof(Single))]
+        [FieldAttribute("gravity scale", typeof(Single))]
         public Single GravityScale;
-        [Abide.Guerilla.Tags.FieldAttribute("ground friction", typeof(Single))]
+        [FieldAttribute("ground friction", typeof(Single))]
         public Single GroundFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("ground depth", typeof(Single))]
+        [FieldAttribute("ground depth", typeof(Single))]
         public Single GroundDepth;
-        [Abide.Guerilla.Tags.FieldAttribute("ground damp fraction", typeof(Single))]
+        [FieldAttribute("ground damp fraction", typeof(Single))]
         public Single GroundDampFraction;
-        [Abide.Guerilla.Tags.FieldAttribute("ground normal k1", typeof(Single))]
+        [FieldAttribute("ground normal k1", typeof(Single))]
         public Single GroundNormalK1;
-        [Abide.Guerilla.Tags.FieldAttribute("ground normal k0", typeof(Single))]
+        [FieldAttribute("ground normal k0", typeof(Single))]
         public Single GroundNormalK0;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("water friction", typeof(Single))]
+        [FieldAttribute("water friction", typeof(Single))]
         public Single WaterFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("water depth", typeof(Single))]
+        [FieldAttribute("water depth", typeof(Single))]
         public Single WaterDepth;
-        [Abide.Guerilla.Tags.FieldAttribute("water density", typeof(Single))]
+        [FieldAttribute("water density", typeof(Single))]
         public Single WaterDensity;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("air friction", typeof(Single))]
+        [FieldAttribute("air friction", typeof(Single))]
         public Single AirFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("xx moment", typeof(Single))]
+        [FieldAttribute("xx moment", typeof(Single))]
         public Single XxMoment;
-        [Abide.Guerilla.Tags.FieldAttribute("yy moment", typeof(Single))]
+        [FieldAttribute("yy moment", typeof(Single))]
         public Single YyMoment;
-        [Abide.Guerilla.Tags.FieldAttribute("zz moment", typeof(Single))]
+        [FieldAttribute("zz moment", typeof(Single))]
         public Single ZzMoment;
-        [Abide.Guerilla.Tags.FieldAttribute("inertial matrix and inverse*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("inertial_matrix_block", 2, typeof(InertialMatrixBlock))]
+        [FieldAttribute("inertial matrix and inverse*", typeof(TagBlock))]
+        [BlockAttribute("inertial_matrix_block", 2, typeof(InertialMatrixBlock))]
         public TagBlock InertialMatrixAndInverse;
-        [Abide.Guerilla.Tags.FieldAttribute("powered mass points", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("powered_mass_point_block", 32, typeof(PoweredMassPointBlock))]
+        [FieldAttribute("powered mass points", typeof(TagBlock))]
+        [BlockAttribute("powered_mass_point_block", 32, typeof(PoweredMassPointBlock))]
         public TagBlock PoweredMassPoints;
-        [Abide.Guerilla.Tags.FieldAttribute("mass points", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("mass_point_block", 32, typeof(MassPointBlock))]
+        [FieldAttribute("mass points", typeof(TagBlock))]
+        [BlockAttribute("mass_point_block", 32, typeof(MassPointBlock))]
         public TagBlock MassPoints;
-        public int Size
+        public TagBlockList<InertialMatrixBlock> InertialMatrixAndInverseList
+        {
+            get
+            {
+                return this.inertialMatrixAndInverseList;
+            }
+        }
+        public TagBlockList<PoweredMassPointBlock> PoweredMassPointsList
+        {
+            get
+            {
+                return this.poweredMassPointsList;
+            }
+        }
+        public TagBlockList<MassPointBlock> MassPointsList
+        {
+            get
+            {
+                return this.massPointsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 128;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.inertialMatrixAndInverseList.Clear();
+            this.poweredMassPointsList.Clear();
+            this.massPointsList.Clear();
+            this.Radius = 0;
+            this.MomentScale = 0;
+            this.Mass = 0;
+            this.CenterOfMass = Vector3.Zero;
+            this.Density = 0;
+            this.GravityScale = 0;
+            this.GroundFriction = 0;
+            this.GroundDepth = 0;
+            this.GroundDampFraction = 0;
+            this.GroundNormalK1 = 0;
+            this.GroundNormalK0 = 0;
+            this.EmptyString = new byte[4];
+            this.WaterFriction = 0;
+            this.WaterDepth = 0;
+            this.WaterDensity = 0;
+            this.EmptyString1 = new byte[4];
+            this.AirFriction = 0;
+            this.EmptyString2 = new byte[4];
+            this.XxMoment = 0;
+            this.YyMoment = 0;
+            this.ZzMoment = 0;
+            this.InertialMatrixAndInverse = TagBlock.Zero;
+            this.PoweredMassPoints = TagBlock.Zero;
+            this.MassPoints = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Radius = reader.ReadSingle();
+            this.MomentScale = reader.ReadSingle();
+            this.Mass = reader.ReadSingle();
+            this.CenterOfMass = reader.Read<Vector3>();
+            this.Density = reader.ReadSingle();
+            this.GravityScale = reader.ReadSingle();
+            this.GroundFriction = reader.ReadSingle();
+            this.GroundDepth = reader.ReadSingle();
+            this.GroundDampFraction = reader.ReadSingle();
+            this.GroundNormalK1 = reader.ReadSingle();
+            this.GroundNormalK0 = reader.ReadSingle();
+            this.EmptyString = reader.ReadBytes(4);
+            this.WaterFriction = reader.ReadSingle();
+            this.WaterDepth = reader.ReadSingle();
+            this.WaterDensity = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.AirFriction = reader.ReadSingle();
+            this.EmptyString2 = reader.ReadBytes(4);
+            this.XxMoment = reader.ReadSingle();
+            this.YyMoment = reader.ReadSingle();
+            this.ZzMoment = reader.ReadSingle();
+            this.InertialMatrixAndInverse = reader.ReadInt64();
+            this.inertialMatrixAndInverseList.Read(reader, this.InertialMatrixAndInverse);
+            this.PoweredMassPoints = reader.ReadInt64();
+            this.poweredMassPointsList.Read(reader, this.PoweredMassPoints);
+            this.MassPoints = reader.ReadInt64();
+            this.massPointsList.Read(reader, this.MassPoints);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(36, 4)]
+        public sealed class InertialMatrixBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class InertialMatrixBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("yy+zz    -xy     -zx", typeof(Vector3))]
+            [FieldAttribute("yy+zz    -xy     -zx", typeof(Vector3))]
             public Vector3 YyzzXyZx;
-            [Abide.Guerilla.Tags.FieldAttribute(" -xy    zz+xx    -yz", typeof(Vector3))]
+            [FieldAttribute(" -xy    zz+xx    -yz", typeof(Vector3))]
             public Vector3 XyZzxxYz;
-            [Abide.Guerilla.Tags.FieldAttribute(" -zx     -yz    xx+yy", typeof(Vector3))]
+            [FieldAttribute(" -zx     -yz    xx+yy", typeof(Vector3))]
             public Vector3 ZxYzXxyy;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.YyzzXyZx = Vector3.Zero;
+                this.XyZzxxYz = Vector3.Zero;
+                this.ZxYzXxyy = Vector3.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.YyzzXyZx = reader.Read<Vector3>();
+                this.XyZzxxYz = reader.Read<Vector3>();
+                this.ZxYzXxyy = reader.Read<Vector3>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-        public sealed class PoweredMassPointBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(128, 4)]
+        public sealed class PoweredMassPointBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+            [FieldAttribute("name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav strength", typeof(Single))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("antigrav strength", typeof(Single))]
             public Single AntigravStrength;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav offset", typeof(Single))]
+            [FieldAttribute("antigrav offset", typeof(Single))]
             public Single AntigravOffset;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav height", typeof(Single))]
+            [FieldAttribute("antigrav height", typeof(Single))]
             public Single AntigravHeight;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav damp fraction", typeof(Single))]
+            [FieldAttribute("antigrav damp fraction", typeof(Single))]
             public Single AntigravDampFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav normal k1", typeof(Single))]
+            [FieldAttribute("antigrav normal k1", typeof(Single))]
             public Single AntigravNormalK1;
-            [Abide.Guerilla.Tags.FieldAttribute("antigrav normal k0", typeof(Single))]
+            [FieldAttribute("antigrav normal k0", typeof(Single))]
             public Single AntigravNormalK0;
-            [Abide.Guerilla.Tags.FieldAttribute("damage source region name", typeof(StringId))]
+            [FieldAttribute("damage source region name", typeof(StringId))]
             public StringId DamageSourceRegionName;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(64)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(64)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 128;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = String32.Empty;
+                this.Flags = ((FlagsOptions)(0));
+                this.AntigravStrength = 0;
+                this.AntigravOffset = 0;
+                this.AntigravHeight = 0;
+                this.AntigravDampFraction = 0;
+                this.AntigravNormalK1 = 0;
+                this.AntigravNormalK0 = 0;
+                this.DamageSourceRegionName = StringId.Zero;
+                this.EmptyString = new byte[64];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.Read<String32>();
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.AntigravStrength = reader.ReadSingle();
+                this.AntigravOffset = reader.ReadSingle();
+                this.AntigravHeight = reader.ReadSingle();
+                this.AntigravDampFraction = reader.ReadSingle();
+                this.AntigravNormalK1 = reader.ReadSingle();
+                this.AntigravNormalK0 = reader.ReadSingle();
+                this.DamageSourceRegionName = reader.ReadInt32();
+                this.EmptyString = reader.ReadBytes(64);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 GroundFriction = 1,
                 WaterFriction = 2,
@@ -168,68 +273,102 @@ namespace Abide.Guerilla.Tags
                 GetsDamageFromRegion = 128,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-        public sealed class MassPointBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(128, 4)]
+        public sealed class MassPointBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name^*", typeof(String32))]
+            [FieldAttribute("name^*", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("powered mass point", typeof(Int16))]
+            [FieldAttribute("powered mass point", typeof(Int16))]
             public Int16 PoweredMassPoint;
-            [Abide.Guerilla.Tags.FieldAttribute("model node*", typeof(Int16))]
+            [FieldAttribute("model node*", typeof(Int16))]
             public Int16 ModelNode;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("relative mass", typeof(Single))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("relative mass", typeof(Single))]
             public Single RelativeMass;
-            [Abide.Guerilla.Tags.FieldAttribute("mass*", typeof(Single))]
+            [FieldAttribute("mass*", typeof(Single))]
             public Single Mass;
-            [Abide.Guerilla.Tags.FieldAttribute("relative density", typeof(Single))]
+            [FieldAttribute("relative density", typeof(Single))]
             public Single RelativeDensity;
-            [Abide.Guerilla.Tags.FieldAttribute("density*", typeof(Single))]
+            [FieldAttribute("density*", typeof(Single))]
             public Single Density;
-            [Abide.Guerilla.Tags.FieldAttribute("position", typeof(Vector3))]
+            [FieldAttribute("position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute("forward", typeof(Vector3))]
+            [FieldAttribute("forward", typeof(Vector3))]
             public Vector3 Forward;
-            [Abide.Guerilla.Tags.FieldAttribute("up", typeof(Vector3))]
+            [FieldAttribute("up", typeof(Vector3))]
             public Vector3 Up;
-            [Abide.Guerilla.Tags.FieldAttribute("friction type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FrictionTypeOptions), false)]
-            public Int16 FrictionType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("friction type", typeof(FrictionTypeOptions))]
+            [OptionsAttribute(typeof(FrictionTypeOptions), false)]
+            public FrictionTypeOptions FrictionType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("friction parallel scale", typeof(Single))]
+            [FieldAttribute("friction parallel scale", typeof(Single))]
             public Single FrictionParallelScale;
-            [Abide.Guerilla.Tags.FieldAttribute("friction perpendicular scale", typeof(Single))]
+            [FieldAttribute("friction perpendicular scale", typeof(Single))]
             public Single FrictionPerpendicularScale;
-            [Abide.Guerilla.Tags.FieldAttribute("radius", typeof(Single))]
+            [FieldAttribute("radius", typeof(Single))]
             public Single Radius;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(20)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(20)]
             public Byte[] EmptyString1;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 128;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = String32.Empty;
+                this.PoweredMassPoint = 0;
+                this.ModelNode = 0;
+                this.Flags = ((FlagsOptions)(0));
+                this.RelativeMass = 0;
+                this.Mass = 0;
+                this.RelativeDensity = 0;
+                this.Density = 0;
+                this.Position = Vector3.Zero;
+                this.Forward = Vector3.Zero;
+                this.Up = Vector3.Zero;
+                this.FrictionType = ((FrictionTypeOptions)(0));
+                this.EmptyString = new byte[2];
+                this.FrictionParallelScale = 0;
+                this.FrictionPerpendicularScale = 0;
+                this.Radius = 0;
+                this.EmptyString1 = new byte[20];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.Read<String32>();
+                this.PoweredMassPoint = reader.ReadInt16();
+                this.ModelNode = reader.ReadInt16();
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.RelativeMass = reader.ReadSingle();
+                this.Mass = reader.ReadSingle();
+                this.RelativeDensity = reader.ReadSingle();
+                this.Density = reader.ReadSingle();
+                this.Position = reader.Read<Vector3>();
+                this.Forward = reader.Read<Vector3>();
+                this.Up = reader.Read<Vector3>();
+                this.FrictionType = ((FrictionTypeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.FrictionParallelScale = reader.ReadSingle();
+                this.FrictionPerpendicularScale = reader.ReadSingle();
+                this.Radius = reader.ReadSingle();
+                this.EmptyString1 = reader.ReadBytes(20);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 Metallic = 1,
             }
-            public enum FrictionTypeOptions
+            public enum FrictionTypeOptions : Int16
             {
                 Point = 0,
                 Forward = 1,

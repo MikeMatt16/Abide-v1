@@ -14,34 +14,39 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("crate", 1651273571u, 1868720741u, typeof(CrateBlock))]
-    public sealed class CrateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(4, 4)]
+    [TagGroupAttribute("crate", 1651273571u, 1868720741u, typeof(CrateBlock))]
+    public sealed class CrateBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 4;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.EmptyString = new byte[2];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             DoesNotBlockAoe = 1,
         }

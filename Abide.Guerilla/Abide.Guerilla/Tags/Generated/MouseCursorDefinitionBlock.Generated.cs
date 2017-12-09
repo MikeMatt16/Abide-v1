@@ -14,51 +14,68 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("mouse_cursor_definition", 1835234162u, 4294967293u, typeof(MouseCursorDefinitionBlock))]
-    public sealed class MouseCursorDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(16, 4)]
+    [TagGroupAttribute("mouse_cursor_definition", 1835234162u, 4294967293u, typeof(MouseCursorDefinitionBlock))]
+    public sealed class MouseCursorDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("mouse cursor bitmaps", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("mouse_cursor_bitmap_reference_block", 4, typeof(MouseCursorBitmapReferenceBlock))]
-        public TagBlock MouseCursorBitmaps1;
-        [Abide.Guerilla.Tags.FieldAttribute("animation speed (fps)", typeof(Single))]
+        private TagBlockList<MouseCursorBitmapReferenceBlock> mouseCursorBitmapsList = new TagBlockList<MouseCursorBitmapReferenceBlock>(4);
+        [FieldAttribute("mouse cursor bitmaps", typeof(TagBlock))]
+        [BlockAttribute("mouse_cursor_bitmap_reference_block", 4, typeof(MouseCursorBitmapReferenceBlock))]
+        public TagBlock MouseCursorBitmaps;
+        [FieldAttribute("animation speed (fps)", typeof(Single))]
         public Single AnimationSpeedFps;
-        public int Size
+        public TagBlockList<MouseCursorBitmapReferenceBlock> MouseCursorBitmapsList
+        {
+            get
+            {
+                return this.mouseCursorBitmapsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 16;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.mouseCursorBitmapsList.Clear();
+            this.MouseCursorBitmaps = TagBlock.Zero;
+            this.AnimationSpeedFps = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.MouseCursorBitmaps = reader.ReadInt64();
+            this.mouseCursorBitmapsList.Read(reader, this.MouseCursorBitmaps);
+            this.AnimationSpeedFps = reader.ReadSingle();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(16, 4)]
+        public sealed class MouseCursorBitmapReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class MouseCursorBitmapReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+            [FieldAttribute("bitmap", typeof(TagReference))]
             public TagReference Bitmap;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Bitmap = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Bitmap = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

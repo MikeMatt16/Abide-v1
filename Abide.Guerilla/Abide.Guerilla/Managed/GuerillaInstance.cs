@@ -170,6 +170,35 @@ namespace Abide.Guerilla.Managed
                     if (definition.FieldSetLatestAddress == definition.tagFieldSets[i].Address)
                         definition.TagFieldSetLatestIndex = i;
                 }
+
+                //Check
+                switch (definition.Name)
+                {
+                    case "materials_block":
+                        definition.TagFieldSetLatestIndex = 0;
+                        if (definition.FieldSetCount == 5)
+                            definition.Name = "phmo_materials_block";
+                        break;
+                    case "hud_globals_block":
+                    case "global_new_hud_globals_struct_block":
+                    case "sound_gestalt_promotions_block":
+                    case "sound_block":
+                    case "tag_block_index_struct_block":
+                    case "vertex_shader_classification_block":
+                        definition.TagFieldSetLatestIndex = 0;
+                        break;
+                    case "model_block":
+                    case "instantaneous_response_damage_effect_marker_struct_block":
+                    case "instantaneous_response_damage_effect_struct_block":
+                        definition.TagFieldSetLatestIndex = 1;
+                        break;
+                    case "animation_pool_block":
+                        definition.TagFieldSetLatestIndex = 4;
+                        break;
+                    case "bitmap_block":
+                        definition.tagFieldSets[definition.TagFieldSetLatestIndex].Size = 76;
+                        break;
+                }
             }
 
             //Initialize the tag fields list
@@ -179,7 +208,7 @@ namespace Abide.Guerilla.Managed
             input.Seek(definition.tagFieldSets[definition.TagFieldSetLatestIndex].FieldsAddress - Guerilla.BaseAddress, SeekOrigin.Begin);
 
             //Loop
-            TagFieldDefinition field = new TagFieldDefinition();
+            TagFieldDefinition field = new TagFieldDefinition(); int index = 0;
             do
             {
                 //Store address
@@ -210,30 +239,9 @@ namespace Abide.Guerilla.Managed
                 field.Read(reader);
 
                 //Add
-                definition.tagFields.Add(field);
-
-                //Handle name
-                switch (definition.Name)
-                {
-                    case "materials_block":
-                        definition.TagFieldSetLatestIndex = 0;
-                        if (definition.FieldSetCount == 5)
-                        {
-                            definition.Name = "phmo_materials_block";
-                        }
-                        break;
-                    case "hud_globals_block":
-                    case "global_new_hud_globals_struct_block":
-                    case "sound_promotion_parameters_struct_block":
-                    case "sound_gestalt_promotions_block":
-                    case "tag_block_index_struct_block":
-                    case "vertex_shader_classification_block":
-                    case "sound_block":
-                        definition.TagFieldSetLatestIndex = 0; break;
-                    case "animation_pool_block":
-                        definition.TagFieldSetLatestIndex = 4; break;
-                }
-
+                if (definition.Name == "bitmap_block" && index < 31)
+                    definition.tagFields.Add(field);
+                
                 //Handle special field type
                 switch (field.Type)
                 {
@@ -254,6 +262,9 @@ namespace Abide.Guerilla.Managed
 
                 //Goto next field
                 input.Seek(fieldAddress + field.Nudge, SeekOrigin.Begin);
+
+                //Increment
+                index++;
             }
             while (field.Type != FieldType.FieldTerminator);
         }

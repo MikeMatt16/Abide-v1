@@ -14,37 +14,48 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("wind", 2003398244u, 4294967293u, typeof(WindBlock))]
-    public sealed class WindBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(64, 4)]
+    [TagGroupAttribute("wind", 2003398244u, 4294967293u, typeof(WindBlock))]
+    public sealed class WindBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("variation area#the wind direction varies inside a box defined by these angles on " +
+        [FieldAttribute("variation area#the wind direction varies inside a box defined by these angles on " +
             "either side of the direction from the weather region.", typeof(Vector2))]
         public Vector2 VariationArea;
-        [Abide.Guerilla.Tags.FieldAttribute("local variation weight", typeof(Single))]
+        [FieldAttribute("local variation weight", typeof(Single))]
         public Single LocalVariationWeight;
-        [Abide.Guerilla.Tags.FieldAttribute("local variation rate", typeof(Single))]
+        [FieldAttribute("local variation rate", typeof(Single))]
         public Single LocalVariationRate;
-        [Abide.Guerilla.Tags.FieldAttribute("damping", typeof(Single))]
+        [FieldAttribute("damping", typeof(Single))]
         public Single Damping;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(36)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(36)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 64;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.VariationArea = Vector2.Zero;
+            this.LocalVariationWeight = 0;
+            this.LocalVariationRate = 0;
+            this.Damping = 0;
+            this.EmptyString = new byte[36];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.VariationArea = reader.Read<Vector2>();
+            this.LocalVariationWeight = reader.ReadSingle();
+            this.LocalVariationRate = reader.ReadSingle();
+            this.Damping = reader.ReadSingle();
+            this.EmptyString = reader.ReadBytes(36);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

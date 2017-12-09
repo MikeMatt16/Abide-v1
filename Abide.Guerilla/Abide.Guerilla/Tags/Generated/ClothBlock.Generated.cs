@@ -14,175 +14,263 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(132, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("cloth", 1668052836u, 4294967293u, typeof(ClothBlock))]
-    public sealed class ClothBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(132, 4)]
+    [TagGroupAttribute("cloth", 1668052836u, 4294967293u, typeof(ClothBlock))]
+    public sealed class ClothBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("marker attachment name", typeof(StringId))]
+        private TagBlockList<ClothVerticesBlock> verticesList = new TagBlockList<ClothVerticesBlock>(128);
+        private TagBlockList<ClothIndicesBlock> indicesList = new TagBlockList<ClothIndicesBlock>(768);
+        private TagBlockList<ClothLinksBlock> linksList = new TagBlockList<ClothLinksBlock>(640);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("marker attachment name", typeof(StringId))]
         public StringId MarkerAttachmentName;
-        [Abide.Guerilla.Tags.FieldAttribute("Shader", typeof(TagReference))]
+        [FieldAttribute("Shader", typeof(TagReference))]
         public TagReference Shader;
-        [Abide.Guerilla.Tags.FieldAttribute("grid x dimension", typeof(Int16))]
+        [FieldAttribute("grid x dimension", typeof(Int16))]
         public Int16 GridXDimension;
-        [Abide.Guerilla.Tags.FieldAttribute("grid y dimension", typeof(Int16))]
+        [FieldAttribute("grid y dimension", typeof(Int16))]
         public Int16 GridYDimension;
-        [Abide.Guerilla.Tags.FieldAttribute("grid spacing x", typeof(Single))]
+        [FieldAttribute("grid spacing x", typeof(Single))]
         public Single GridSpacingX;
-        [Abide.Guerilla.Tags.FieldAttribute("grid spacing y", typeof(Single))]
+        [FieldAttribute("grid spacing y", typeof(Single))]
         public Single GridSpacingY;
-        [Abide.Guerilla.Tags.FieldAttribute("properties", typeof(ClothPropertiesBlock))]
+        [FieldAttribute("properties", typeof(ClothPropertiesBlock))]
         public ClothPropertiesBlock Properties;
-        [Abide.Guerilla.Tags.FieldAttribute("vertices*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("cloth_vertices_block", 128, typeof(ClothVerticesBlock))]
+        [FieldAttribute("vertices*", typeof(TagBlock))]
+        [BlockAttribute("cloth_vertices_block", 128, typeof(ClothVerticesBlock))]
         public TagBlock Vertices;
-        [Abide.Guerilla.Tags.FieldAttribute("indices*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("cloth_indices_block", 768, typeof(ClothIndicesBlock))]
+        [FieldAttribute("indices*", typeof(TagBlock))]
+        [BlockAttribute("cloth_indices_block", 768, typeof(ClothIndicesBlock))]
         public TagBlock Indices;
-        [Abide.Guerilla.Tags.FieldAttribute("strip indices*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("cloth_indices_block", 768, typeof(ClothIndicesBlock))]
+        [FieldAttribute("strip indices*", typeof(TagBlock))]
+        [BlockAttribute("cloth_indices_block", 768, typeof(ClothIndicesBlock))]
         public TagBlock StripIndices;
-        [Abide.Guerilla.Tags.FieldAttribute("links*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("cloth_links_block", 640, typeof(ClothLinksBlock))]
+        [FieldAttribute("links*", typeof(TagBlock))]
+        [BlockAttribute("cloth_links_block", 640, typeof(ClothLinksBlock))]
         public TagBlock Links;
-        public int Size
+        public TagBlockList<ClothVerticesBlock> VerticesList
+        {
+            get
+            {
+                return this.verticesList;
+            }
+        }
+        public TagBlockList<ClothIndicesBlock> IndicesList
+        {
+            get
+            {
+                return this.indicesList;
+            }
+        }
+        public TagBlockList<ClothLinksBlock> LinksList
+        {
+            get
+            {
+                return this.linksList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 132;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.verticesList.Clear();
+            this.indicesList.Clear();
+            this.linksList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.MarkerAttachmentName = StringId.Zero;
+            this.Shader = TagReference.Null;
+            this.GridXDimension = 0;
+            this.GridYDimension = 0;
+            this.GridSpacingX = 0;
+            this.GridSpacingY = 0;
+            this.Properties = new ClothPropertiesBlock();
+            this.Vertices = TagBlock.Zero;
+            this.Indices = TagBlock.Zero;
+            this.StripIndices = TagBlock.Zero;
+            this.Links = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.MarkerAttachmentName = reader.ReadInt32();
+            this.Shader = reader.Read<TagReference>();
+            this.GridXDimension = reader.ReadInt16();
+            this.GridYDimension = reader.ReadInt16();
+            this.GridSpacingX = reader.ReadSingle();
+            this.GridSpacingY = reader.ReadSingle();
+            this.Properties = reader.ReadDataStructure<ClothPropertiesBlock>();
+            this.Vertices = reader.ReadInt64();
+            this.verticesList.Read(reader, this.Vertices);
+            this.Indices = reader.ReadInt64();
+            this.indicesList.Read(reader, this.Indices);
+            this.StripIndices = reader.ReadInt64();
+            this.indicesList.Read(reader, this.StripIndices);
+            this.Links = reader.ReadInt64();
+            this.linksList.Read(reader, this.Links);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(20, 4)]
+        public sealed class ClothVerticesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class ClothVerticesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("initial position*", typeof(Vector3))]
+            [FieldAttribute("initial position*", typeof(Vector3))]
             public Vector3 InitialPosition;
-            [Abide.Guerilla.Tags.FieldAttribute("uv*", typeof(Vector2))]
+            [FieldAttribute("uv*", typeof(Vector2))]
             public Vector2 Uv;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.InitialPosition = Vector3.Zero;
+                this.Uv = Vector2.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.InitialPosition = reader.Read<Vector3>();
+                this.Uv = reader.Read<Vector2>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-        public sealed class ClothIndicesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(2, 4)]
+        public sealed class ClothIndicesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("index*", typeof(Int16))]
+            [FieldAttribute("index*", typeof(Int16))]
             public Int16 Index;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 2;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Index = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Index = reader.ReadInt16();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class ClothLinksBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class ClothLinksBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("attachment bits*", typeof(Int32))]
+            [FieldAttribute("attachment bits*", typeof(Int32))]
             public Int32 AttachmentBits;
-            [Abide.Guerilla.Tags.FieldAttribute("index1*", typeof(Int16))]
+            [FieldAttribute("index1*", typeof(Int16))]
             public Int16 Index1;
-            [Abide.Guerilla.Tags.FieldAttribute("index2*", typeof(Int16))]
+            [FieldAttribute("index2*", typeof(Int16))]
             public Int16 Index2;
-            [Abide.Guerilla.Tags.FieldAttribute("default_distance*", typeof(Single))]
+            [FieldAttribute("default_distance*", typeof(Single))]
             public Single DefaultDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("damping_multiplier*", typeof(Single))]
+            [FieldAttribute("damping_multiplier*", typeof(Single))]
             public Single DampingMultiplier;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.AttachmentBits = 0;
+                this.Index1 = 0;
+                this.Index2 = 0;
+                this.DefaultDistance = 0;
+                this.DampingMultiplier = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.AttachmentBits = reader.ReadInt32();
+                this.Index1 = reader.ReadInt16();
+                this.Index2 = reader.ReadInt16();
+                this.DefaultDistance = reader.ReadSingle();
+                this.DampingMultiplier = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(48, 4)]
-        public sealed class ClothPropertiesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(48, 4)]
+        public sealed class ClothPropertiesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Integration type*", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(IntegrationTypeOptions), false)]
-            public Int16 IntegrationType;
-            [Abide.Guerilla.Tags.FieldAttribute("Number iterations#[1-8] sug 1", typeof(Int16))]
+            [FieldAttribute("Integration type*", typeof(IntegrationTypeOptions))]
+            [OptionsAttribute(typeof(IntegrationTypeOptions), false)]
+            public IntegrationTypeOptions IntegrationType;
+            [FieldAttribute("Number iterations#[1-8] sug 1", typeof(Int16))]
             public Int16 NumberIterations;
-            [Abide.Guerilla.Tags.FieldAttribute("weight#[-10.0 - 10.0] sug 1.0", typeof(Single))]
+            [FieldAttribute("weight#[-10.0 - 10.0] sug 1.0", typeof(Single))]
             public Single Weight;
-            [Abide.Guerilla.Tags.FieldAttribute("drag#[0.0 - 0.5] sug 0.07", typeof(Single))]
+            [FieldAttribute("drag#[0.0 - 0.5] sug 0.07", typeof(Single))]
             public Single Drag;
-            [Abide.Guerilla.Tags.FieldAttribute("wind_scale#[0.0 - 3.0] sug 1.0", typeof(Single))]
+            [FieldAttribute("wind_scale#[0.0 - 3.0] sug 1.0", typeof(Single))]
             public Single WindScale;
-            [Abide.Guerilla.Tags.FieldAttribute("wind_flappiness_scale#[0.0 - 1.0] sug 0.75", typeof(Single))]
+            [FieldAttribute("wind_flappiness_scale#[0.0 - 1.0] sug 0.75", typeof(Single))]
             public Single WindFlappinessScale;
-            [Abide.Guerilla.Tags.FieldAttribute("longest_rod#[1.0 - 10.0] sug 3.5", typeof(Single))]
+            [FieldAttribute("longest_rod#[1.0 - 10.0] sug 3.5", typeof(Single))]
             public Single LongestRod;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(24)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(24)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 48;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.IntegrationType = ((IntegrationTypeOptions)(0));
+                this.NumberIterations = 0;
+                this.Weight = 0;
+                this.Drag = 0;
+                this.WindScale = 0;
+                this.WindFlappinessScale = 0;
+                this.LongestRod = 0;
+                this.EmptyString = new byte[24];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.IntegrationType = ((IntegrationTypeOptions)(reader.ReadInt16()));
+                this.NumberIterations = reader.ReadInt16();
+                this.Weight = reader.ReadSingle();
+                this.Drag = reader.ReadSingle();
+                this.WindScale = reader.ReadSingle();
+                this.WindFlappinessScale = reader.ReadSingle();
+                this.LongestRod = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(24);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum IntegrationTypeOptions
+            public enum IntegrationTypeOptions : Int16
             {
                 Verlet = 0,
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             DoesntUseWind = 1,
             UsesGridAttachTop = 2,

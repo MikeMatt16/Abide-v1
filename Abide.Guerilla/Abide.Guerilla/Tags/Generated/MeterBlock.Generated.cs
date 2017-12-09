@@ -14,81 +14,128 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(172, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("meter", 1835365490u, 4294967293u, typeof(MeterBlock))]
-    public sealed class MeterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(172, 4)]
+    [TagGroupAttribute("meter", 1835365490u, 4294967293u, typeof(MeterBlock))]
+    public sealed class MeterBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("stencil bitmaps#two bitmaps specifying the mask and the meter levels", typeof(TagReference))]
+        private DataList encodedStencilList = new DataList(65536);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("stencil bitmaps#two bitmaps specifying the mask and the meter levels", typeof(TagReference))]
         public TagReference StencilBitmaps;
-        [Abide.Guerilla.Tags.FieldAttribute("source bitmap#optional bitmap to draw into the unmasked regions of the meter (mod" +
+        [FieldAttribute("source bitmap#optional bitmap to draw into the unmasked regions of the meter (mod" +
             "ulated by the colors below)", typeof(TagReference))]
         public TagReference SourceBitmap;
-        [Abide.Guerilla.Tags.FieldAttribute("stencil sequence index", typeof(Int16))]
+        [FieldAttribute("stencil sequence index", typeof(Int16))]
         public Int16 StencilSequenceIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("source sequence index", typeof(Int16))]
+        [FieldAttribute("source sequence index", typeof(Int16))]
         public Int16 SourceSequenceIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(16)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(16)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("interpolate colors...", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(InterpolateColorsOptions), false)]
-        public Int16 InterpolateColors;
-        [Abide.Guerilla.Tags.FieldAttribute("anchor colors...", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnchorColorsOptions), false)]
-        public Int16 AnchorColors;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("interpolate colors...", typeof(InterpolateColorsOptions))]
+        [OptionsAttribute(typeof(InterpolateColorsOptions), false)]
+        public InterpolateColorsOptions InterpolateColors;
+        [FieldAttribute("anchor colors...", typeof(AnchorColorsOptions))]
+        [OptionsAttribute(typeof(AnchorColorsOptions), false)]
+        public AnchorColorsOptions AnchorColors;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("empty color", typeof(ColorArgbF))]
+        [FieldAttribute("empty color", typeof(ColorArgbF))]
         public ColorArgbF EmptyColor;
-        [Abide.Guerilla.Tags.FieldAttribute("full color", typeof(ColorArgbF))]
+        [FieldAttribute("full color", typeof(ColorArgbF))]
         public ColorArgbF FullColor;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(20)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(20)]
         public Byte[] EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("unmask distance:meter units#fade from fully masked to fully unmasked this distanc" +
+        [FieldAttribute("unmask distance:meter units#fade from fully masked to fully unmasked this distanc" +
             "e beyond full (and below empty)", typeof(Single))]
         public Single UnmaskDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("mask distance:meter units#fade from fully unmasked to fully masked this distance " +
+        [FieldAttribute("mask distance:meter units#fade from fully unmasked to fully masked this distance " +
             "below full (and beyond empty)", typeof(Single))]
         public Single MaskDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(20)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(20)]
         public Byte[] EmptyString4;
-        public int Size
+        [FieldAttribute("encoded stencil", typeof(TagBlock))]
+        [DataAttribute(65536)]
+        public TagBlock EncodedStencil;
+        public DataList EncodedStencilList
+        {
+            get
+            {
+                return this.encodedStencilList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 172;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.encodedStencilList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.StencilBitmaps = TagReference.Null;
+            this.SourceBitmap = TagReference.Null;
+            this.StencilSequenceIndex = 0;
+            this.SourceSequenceIndex = 0;
+            this.EmptyString = new byte[16];
+            this.EmptyString1 = new byte[4];
+            this.InterpolateColors = ((InterpolateColorsOptions)(0));
+            this.AnchorColors = ((AnchorColorsOptions)(0));
+            this.EmptyString2 = new byte[8];
+            this.EmptyColor = ColorArgbF.Zero;
+            this.FullColor = ColorArgbF.Zero;
+            this.EmptyString3 = new byte[20];
+            this.UnmaskDistance = 0;
+            this.MaskDistance = 0;
+            this.EmptyString4 = new byte[20];
+            this.EncodedStencil = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.StencilBitmaps = reader.Read<TagReference>();
+            this.SourceBitmap = reader.Read<TagReference>();
+            this.StencilSequenceIndex = reader.ReadInt16();
+            this.SourceSequenceIndex = reader.ReadInt16();
+            this.EmptyString = reader.ReadBytes(16);
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.InterpolateColors = ((InterpolateColorsOptions)(reader.ReadInt16()));
+            this.AnchorColors = ((AnchorColorsOptions)(reader.ReadInt16()));
+            this.EmptyString2 = reader.ReadBytes(8);
+            this.EmptyColor = reader.Read<ColorArgbF>();
+            this.FullColor = reader.Read<ColorArgbF>();
+            this.EmptyString3 = reader.ReadBytes(20);
+            this.UnmaskDistance = reader.ReadSingle();
+            this.MaskDistance = reader.ReadSingle();
+            this.EmptyString4 = reader.ReadBytes(20);
+            this.EncodedStencil = reader.ReadInt64();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        public enum FlagsOptions : Int32
         {
         }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
-        {
-        }
-        public enum InterpolateColorsOptions
+        public enum InterpolateColorsOptions : Int16
         {
             Linearly = 0,
             FasterNearEmpty = 1,
             FasterNearFull = 2,
             ThroughRandomNoise = 3,
         }
-        public enum AnchorColorsOptions
+        public enum AnchorColorsOptions : Int16
         {
             AtBothEnds = 0,
             AtEmpty = 1,

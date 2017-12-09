@@ -14,45 +14,64 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(100, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("hud_number", 1752523811u, 4294967293u, typeof(HudNumberBlock))]
-    public sealed class HudNumberBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(100, 4)]
+    [TagGroupAttribute("hud_number", 1752523811u, 4294967293u, typeof(HudNumberBlock))]
+    public sealed class HudNumberBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("digits bitmap", typeof(TagReference))]
+        [FieldAttribute("digits bitmap", typeof(TagReference))]
         public TagReference DigitsBitmap;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmap digit width", typeof(Byte))]
+        [FieldAttribute("bitmap digit width", typeof(Byte))]
         public Byte BitmapDigitWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("screen digit width", typeof(Byte))]
+        [FieldAttribute("screen digit width", typeof(Byte))]
         public Byte ScreenDigitWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("x offset", typeof(Byte))]
+        [FieldAttribute("x offset", typeof(Byte))]
         public Byte XOffset;
-        [Abide.Guerilla.Tags.FieldAttribute("y offset", typeof(Byte))]
+        [FieldAttribute("y offset", typeof(Byte))]
         public Byte YOffset;
-        [Abide.Guerilla.Tags.FieldAttribute("decimal point width", typeof(Byte))]
+        [FieldAttribute("decimal point width", typeof(Byte))]
         public Byte DecimalPointWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("colon width", typeof(Byte))]
+        [FieldAttribute("colon width", typeof(Byte))]
         public Byte ColonWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(76)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(76)]
         public Byte[] EmptyString1;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 100;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.DigitsBitmap = TagReference.Null;
+            this.BitmapDigitWidth = 0;
+            this.ScreenDigitWidth = 0;
+            this.XOffset = 0;
+            this.YOffset = 0;
+            this.DecimalPointWidth = 0;
+            this.ColonWidth = 0;
+            this.EmptyString = new byte[2];
+            this.EmptyString1 = new byte[76];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.DigitsBitmap = reader.Read<TagReference>();
+            this.BitmapDigitWidth = reader.ReadByte();
+            this.ScreenDigitWidth = reader.ReadByte();
+            this.XOffset = reader.ReadByte();
+            this.YOffset = reader.ReadByte();
+            this.DecimalPointWidth = reader.ReadByte();
+            this.ColonWidth = reader.ReadByte();
+            this.EmptyString = reader.ReadBytes(2);
+            this.EmptyString1 = reader.ReadBytes(76);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

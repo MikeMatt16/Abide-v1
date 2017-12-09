@@ -14,589 +14,1085 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("multiplayer_globals", 1836412007u, 4294967293u, typeof(MultiplayerGlobalsBlock))]
-    public sealed class MultiplayerGlobalsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(24, 4)]
+    [TagGroupAttribute("multiplayer_globals", 1836412007u, 4294967293u, typeof(MultiplayerGlobalsBlock))]
+    public sealed class MultiplayerGlobalsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("universal", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("multiplayer_universal_block", 1, typeof(MultiplayerUniversalBlock))]
+        private TagBlockList<MultiplayerUniversalBlock> universalList = new TagBlockList<MultiplayerUniversalBlock>(1);
+        private TagBlockList<MultiplayerRuntimeBlock> runtimeList = new TagBlockList<MultiplayerRuntimeBlock>(1);
+        [FieldAttribute("universal", typeof(TagBlock))]
+        [BlockAttribute("multiplayer_universal_block", 1, typeof(MultiplayerUniversalBlock))]
         public TagBlock Universal;
-        [Abide.Guerilla.Tags.FieldAttribute("runtime", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("multiplayer_runtime_block", 1, typeof(MultiplayerRuntimeBlock))]
+        [FieldAttribute("runtime", typeof(TagBlock))]
+        [BlockAttribute("multiplayer_runtime_block", 1, typeof(MultiplayerRuntimeBlock))]
         public TagBlock Runtime;
-        public int Size
+        public TagBlockList<MultiplayerUniversalBlock> UniversalList
+        {
+            get
+            {
+                return this.universalList;
+            }
+        }
+        public TagBlockList<MultiplayerRuntimeBlock> RuntimeList
+        {
+            get
+            {
+                return this.runtimeList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 24;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.universalList.Clear();
+            this.runtimeList.Clear();
+            this.Universal = TagBlock.Zero;
+            this.Runtime = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Universal = reader.ReadInt64();
+            this.universalList.Read(reader, this.Universal);
+            this.Runtime = reader.ReadInt64();
+            this.runtimeList.Read(reader, this.Runtime);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(60, 4)]
+        public sealed class MultiplayerUniversalBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-        public sealed class MultiplayerUniversalBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("random player names", typeof(TagReference))]
+            private TagBlockList<MultiplayerColorBlock> teamColorsList = new TagBlockList<MultiplayerColorBlock>(32);
+            [FieldAttribute("random player names", typeof(TagReference))]
             public TagReference RandomPlayerNames;
-            [Abide.Guerilla.Tags.FieldAttribute("team names", typeof(TagReference))]
+            [FieldAttribute("team names", typeof(TagReference))]
             public TagReference TeamNames;
-            [Abide.Guerilla.Tags.FieldAttribute("team colors", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("multiplayer_color_block", 32, typeof(MultiplayerColorBlock))]
+            [FieldAttribute("team colors", typeof(TagBlock))]
+            [BlockAttribute("multiplayer_color_block", 32, typeof(MultiplayerColorBlock))]
             public TagBlock TeamColors;
-            [Abide.Guerilla.Tags.FieldAttribute("multiplayer text", typeof(TagReference))]
+            [FieldAttribute("multiplayer text", typeof(TagReference))]
             public TagReference MultiplayerText;
-            public int Size
+            public TagBlockList<MultiplayerColorBlock> TeamColorsList
+            {
+                get
+                {
+                    return this.teamColorsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 60;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.teamColorsList.Clear();
+                this.RandomPlayerNames = TagReference.Null;
+                this.TeamNames = TagReference.Null;
+                this.TeamColors = TagBlock.Zero;
+                this.MultiplayerText = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.RandomPlayerNames = reader.Read<TagReference>();
+                this.TeamNames = reader.Read<TagReference>();
+                this.TeamColors = reader.ReadInt64();
+                this.teamColorsList.Read(reader, this.TeamColors);
+                this.MultiplayerText = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class MultiplayerColorBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class MultiplayerColorBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorRgbF))]
+                [FieldAttribute("color", typeof(ColorRgbF))]
                 public ColorRgbF Color;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Color = ColorRgbF.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Color = reader.Read<ColorRgbF>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(1640, 4)]
-        public sealed class MultiplayerRuntimeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(1640, 4)]
+        public sealed class MultiplayerRuntimeBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flag", typeof(TagReference))]
+            private TagBlockList<WeaponsBlock> weaponsList = new TagBlockList<WeaponsBlock>(20);
+            private TagBlockList<VehiclesBlock> vehiclesList = new TagBlockList<VehiclesBlock>(20);
+            private TagBlockList<SoundsBlock> soundsList = new TagBlockList<SoundsBlock>(60);
+            private TagBlockList<GameEngineGeneralEventBlock> generalEventsList = new TagBlockList<GameEngineGeneralEventBlock>(128);
+            private TagBlockList<GameEngineFlavorEventBlock> flavorEventsList = new TagBlockList<GameEngineFlavorEventBlock>(128);
+            private TagBlockList<GameEngineSlayerEventBlock> slayerEventsList = new TagBlockList<GameEngineSlayerEventBlock>(128);
+            private TagBlockList<GameEngineCtfEventBlock> ctfEventsList = new TagBlockList<GameEngineCtfEventBlock>(128);
+            private TagBlockList<GameEngineOddballEventBlock> oddballEventsList = new TagBlockList<GameEngineOddballEventBlock>(128);
+            private TagBlockList<GNullBlock> emptyStringList = new TagBlockList<GNullBlock>(0);
+            private TagBlockList<GameEngineKingEventBlock> kingEventsList = new TagBlockList<GameEngineKingEventBlock>(128);
+            private TagBlockList<GameEngineJuggernautEventBlock> juggernautEventsList = new TagBlockList<GameEngineJuggernautEventBlock>(128);
+            private TagBlockList<GameEngineTerritoriesEventBlock> territoriesEventsList = new TagBlockList<GameEngineTerritoriesEventBlock>(128);
+            private TagBlockList<GameEngineAssaultEventBlock> invasionEventsList = new TagBlockList<GameEngineAssaultEventBlock>(128);
+            private TagBlockList<MultiplayerConstantsBlock> multiplayerConstantsList = new TagBlockList<MultiplayerConstantsBlock>(1);
+            private TagBlockList<GameEngineStatusResponseBlock> stateResponsesList = new TagBlockList<GameEngineStatusResponseBlock>(32);
+            [FieldAttribute("flag", typeof(TagReference))]
             public TagReference Flag;
-            [Abide.Guerilla.Tags.FieldAttribute("ball", typeof(TagReference))]
+            [FieldAttribute("ball", typeof(TagReference))]
             public TagReference Ball;
-            [Abide.Guerilla.Tags.FieldAttribute("unit", typeof(TagReference))]
+            [FieldAttribute("unit", typeof(TagReference))]
             public TagReference Unit;
-            [Abide.Guerilla.Tags.FieldAttribute("flag shader", typeof(TagReference))]
+            [FieldAttribute("flag shader", typeof(TagReference))]
             public TagReference FlagShader;
-            [Abide.Guerilla.Tags.FieldAttribute("hill shader", typeof(TagReference))]
+            [FieldAttribute("hill shader", typeof(TagReference))]
             public TagReference HillShader;
-            [Abide.Guerilla.Tags.FieldAttribute("head", typeof(TagReference))]
+            [FieldAttribute("head", typeof(TagReference))]
             public TagReference Head;
-            [Abide.Guerilla.Tags.FieldAttribute("juggernaut powerup", typeof(TagReference))]
+            [FieldAttribute("juggernaut powerup", typeof(TagReference))]
             public TagReference JuggernautPowerup;
-            [Abide.Guerilla.Tags.FieldAttribute("da bomb", typeof(TagReference))]
+            [FieldAttribute("da bomb", typeof(TagReference))]
             public TagReference DaBomb;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+            [FieldAttribute("", typeof(TagReference))]
             public TagReference EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+            [FieldAttribute("", typeof(TagReference))]
             public TagReference EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+            [FieldAttribute("", typeof(TagReference))]
             public TagReference EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+            [FieldAttribute("", typeof(TagReference))]
             public TagReference EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+            [FieldAttribute("", typeof(TagReference))]
             public TagReference EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("weapons", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("weapons_block", 20, typeof(WeaponsBlock))]
+            [FieldAttribute("weapons", typeof(TagBlock))]
+            [BlockAttribute("weapons_block", 20, typeof(WeaponsBlock))]
             public TagBlock Weapons;
-            [Abide.Guerilla.Tags.FieldAttribute("vehicles", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("vehicles_block", 20, typeof(VehiclesBlock))]
+            [FieldAttribute("vehicles", typeof(TagBlock))]
+            [BlockAttribute("vehicles_block", 20, typeof(VehiclesBlock))]
             public TagBlock Vehicles;
-            [Abide.Guerilla.Tags.FieldAttribute("arr!", typeof(GrenadeAndPowerupStructBlock))]
+            [FieldAttribute("arr!", typeof(GrenadeAndPowerupStructBlock))]
             public GrenadeAndPowerupStructBlock Arr;
-            [Abide.Guerilla.Tags.FieldAttribute("in game text", typeof(TagReference))]
+            [FieldAttribute("in game text", typeof(TagReference))]
             public TagReference InGameText;
-            [Abide.Guerilla.Tags.FieldAttribute("sounds", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("sounds_block", 60, typeof(SoundsBlock))]
+            [FieldAttribute("sounds", typeof(TagBlock))]
+            [BlockAttribute("sounds_block", 60, typeof(SoundsBlock))]
             public TagBlock Sounds;
-            [Abide.Guerilla.Tags.FieldAttribute("general events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_general_event_block", 128, typeof(GameEngineGeneralEventBlock))]
+            [FieldAttribute("general events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_general_event_block", 128, typeof(GameEngineGeneralEventBlock))]
             public TagBlock GeneralEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("flavor events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_flavor_event_block", 128, typeof(GameEngineFlavorEventBlock))]
+            [FieldAttribute("flavor events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_flavor_event_block", 128, typeof(GameEngineFlavorEventBlock))]
             public TagBlock FlavorEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("slayer events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_slayer_event_block", 128, typeof(GameEngineSlayerEventBlock))]
+            [FieldAttribute("slayer events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_slayer_event_block", 128, typeof(GameEngineSlayerEventBlock))]
             public TagBlock SlayerEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("ctf events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_ctf_event_block", 128, typeof(GameEngineCtfEventBlock))]
+            [FieldAttribute("ctf events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_ctf_event_block", 128, typeof(GameEngineCtfEventBlock))]
             public TagBlock CtfEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_oddball_event_block", 128, typeof(GameEngineOddballEventBlock))]
+            [FieldAttribute("oddball events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_oddball_event_block", 128, typeof(GameEngineOddballEventBlock))]
             public TagBlock OddballEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString5;
-            [Abide.Guerilla.Tags.FieldAttribute("king events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_king_event_block", 128, typeof(GameEngineKingEventBlock))]
+            [FieldAttribute("king events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_king_event_block", 128, typeof(GameEngineKingEventBlock))]
             public TagBlock KingEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString6;
-            [Abide.Guerilla.Tags.FieldAttribute("juggernaut events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_juggernaut_event_block", 128, typeof(GameEngineJuggernautEventBlock))]
+            [FieldAttribute("juggernaut events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_juggernaut_event_block", 128, typeof(GameEngineJuggernautEventBlock))]
             public TagBlock JuggernautEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("territories events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_territories_event_block", 128, typeof(GameEngineTerritoriesEventBlock))]
+            [FieldAttribute("territories events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_territories_event_block", 128, typeof(GameEngineTerritoriesEventBlock))]
             public TagBlock TerritoriesEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("invasion events", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_assault_event_block", 128, typeof(GameEngineAssaultEventBlock))]
+            [FieldAttribute("invasion events", typeof(TagBlock))]
+            [BlockAttribute("game_engine_assault_event_block", 128, typeof(GameEngineAssaultEventBlock))]
             public TagBlock InvasionEvents;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString7;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString8;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString9;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+            [FieldAttribute("", typeof(TagBlock))]
+            [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
             public TagBlock EmptyString10;
-            [Abide.Guerilla.Tags.FieldAttribute("default item collection 1", typeof(TagReference))]
+            [FieldAttribute("default item collection 1", typeof(TagReference))]
             public TagReference DefaultItemCollection1;
-            [Abide.Guerilla.Tags.FieldAttribute("default item collection 2", typeof(TagReference))]
+            [FieldAttribute("default item collection 2", typeof(TagReference))]
             public TagReference DefaultItemCollection2;
-            [Abide.Guerilla.Tags.FieldAttribute("default frag grenade count", typeof(Int32))]
+            [FieldAttribute("default frag grenade count", typeof(Int32))]
             public Int32 DefaultFragGrenadeCount;
-            [Abide.Guerilla.Tags.FieldAttribute("default plasma grenade count", typeof(Int32))]
+            [FieldAttribute("default plasma grenade count", typeof(Int32))]
             public Int32 DefaultPlasmaGrenadeCount;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(40)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(40)]
             public Byte[] EmptyString11;
-            [Abide.Guerilla.Tags.FieldAttribute("dynamic zone upper height", typeof(Single))]
+            [FieldAttribute("dynamic zone upper height", typeof(Single))]
             public Single DynamicZoneUpperHeight;
-            [Abide.Guerilla.Tags.FieldAttribute("dynamic zone lower height", typeof(Single))]
+            [FieldAttribute("dynamic zone lower height", typeof(Single))]
             public Single DynamicZoneLowerHeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(40)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(40)]
             public Byte[] EmptyString12;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy inner radius", typeof(Single))]
+            [FieldAttribute("enemy inner radius", typeof(Single))]
             public Single EnemyInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy outer radius", typeof(Single))]
+            [FieldAttribute("enemy outer radius", typeof(Single))]
             public Single EnemyOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy weight", typeof(Single))]
+            [FieldAttribute("enemy weight", typeof(Single))]
             public Single EnemyWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString13;
-            [Abide.Guerilla.Tags.FieldAttribute("friend inner radius", typeof(Single))]
+            [FieldAttribute("friend inner radius", typeof(Single))]
             public Single FriendInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("friend outer radius", typeof(Single))]
+            [FieldAttribute("friend outer radius", typeof(Single))]
             public Single FriendOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("friend weight", typeof(Single))]
+            [FieldAttribute("friend weight", typeof(Single))]
             public Single FriendWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString14;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy vehicle inner radius", typeof(Single))]
+            [FieldAttribute("enemy vehicle inner radius", typeof(Single))]
             public Single EnemyVehicleInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy vehicle outer radius", typeof(Single))]
+            [FieldAttribute("enemy vehicle outer radius", typeof(Single))]
             public Single EnemyVehicleOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("enemy vehicle weight", typeof(Single))]
+            [FieldAttribute("enemy vehicle weight", typeof(Single))]
             public Single EnemyVehicleWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString15;
-            [Abide.Guerilla.Tags.FieldAttribute("friendly vehicle inner radius", typeof(Single))]
+            [FieldAttribute("friendly vehicle inner radius", typeof(Single))]
             public Single FriendlyVehicleInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("friendly vehicle outer radius", typeof(Single))]
+            [FieldAttribute("friendly vehicle outer radius", typeof(Single))]
             public Single FriendlyVehicleOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("friendly vehicle weight", typeof(Single))]
+            [FieldAttribute("friendly vehicle weight", typeof(Single))]
             public Single FriendlyVehicleWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString16;
-            [Abide.Guerilla.Tags.FieldAttribute("empty vehicle inner radius", typeof(Single))]
+            [FieldAttribute("empty vehicle inner radius", typeof(Single))]
             public Single EmptyVehicleInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("empty vehicle outer radius", typeof(Single))]
+            [FieldAttribute("empty vehicle outer radius", typeof(Single))]
             public Single EmptyVehicleOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("empty vehicle weight", typeof(Single))]
+            [FieldAttribute("empty vehicle weight", typeof(Single))]
             public Single EmptyVehicleWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString17;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball inclusion inner radius", typeof(Single))]
+            [FieldAttribute("oddball inclusion inner radius", typeof(Single))]
             public Single OddballInclusionInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball inclusion outer radius", typeof(Single))]
+            [FieldAttribute("oddball inclusion outer radius", typeof(Single))]
             public Single OddballInclusionOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball inclusion weight", typeof(Single))]
+            [FieldAttribute("oddball inclusion weight", typeof(Single))]
             public Single OddballInclusionWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString18;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball exclusion inner radius", typeof(Single))]
+            [FieldAttribute("oddball exclusion inner radius", typeof(Single))]
             public Single OddballExclusionInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball exclusion outer radius", typeof(Single))]
+            [FieldAttribute("oddball exclusion outer radius", typeof(Single))]
             public Single OddballExclusionOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("oddball exclusion weight", typeof(Single))]
+            [FieldAttribute("oddball exclusion weight", typeof(Single))]
             public Single OddballExclusionWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString19;
-            [Abide.Guerilla.Tags.FieldAttribute("hill inclusion inner radius", typeof(Single))]
+            [FieldAttribute("hill inclusion inner radius", typeof(Single))]
             public Single HillInclusionInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("hill inclusion outer radius", typeof(Single))]
+            [FieldAttribute("hill inclusion outer radius", typeof(Single))]
             public Single HillInclusionOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("hill inclusion weight", typeof(Single))]
+            [FieldAttribute("hill inclusion weight", typeof(Single))]
             public Single HillInclusionWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString20;
-            [Abide.Guerilla.Tags.FieldAttribute("hill exclusion inner radius", typeof(Single))]
+            [FieldAttribute("hill exclusion inner radius", typeof(Single))]
             public Single HillExclusionInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("hill exclusion outer radius", typeof(Single))]
+            [FieldAttribute("hill exclusion outer radius", typeof(Single))]
             public Single HillExclusionOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("hill exclusion weight", typeof(Single))]
+            [FieldAttribute("hill exclusion weight", typeof(Single))]
             public Single HillExclusionWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString21;
-            [Abide.Guerilla.Tags.FieldAttribute("last race flag inner radius", typeof(Single))]
+            [FieldAttribute("last race flag inner radius", typeof(Single))]
             public Single LastRaceFlagInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("last race flag outer radius", typeof(Single))]
+            [FieldAttribute("last race flag outer radius", typeof(Single))]
             public Single LastRaceFlagOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("last race flag weight", typeof(Single))]
+            [FieldAttribute("last race flag weight", typeof(Single))]
             public Single LastRaceFlagWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString22;
-            [Abide.Guerilla.Tags.FieldAttribute("dead ally inner radius", typeof(Single))]
+            [FieldAttribute("dead ally inner radius", typeof(Single))]
             public Single DeadAllyInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("dead ally outer radius", typeof(Single))]
+            [FieldAttribute("dead ally outer radius", typeof(Single))]
             public Single DeadAllyOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("dead ally weight", typeof(Single))]
+            [FieldAttribute("dead ally weight", typeof(Single))]
             public Single DeadAllyWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString23;
-            [Abide.Guerilla.Tags.FieldAttribute("controlled territory inner radius", typeof(Single))]
+            [FieldAttribute("controlled territory inner radius", typeof(Single))]
             public Single ControlledTerritoryInnerRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("controlled territory outer radius", typeof(Single))]
+            [FieldAttribute("controlled territory outer radius", typeof(Single))]
             public Single ControlledTerritoryOuterRadius;
-            [Abide.Guerilla.Tags.FieldAttribute("controlled territory weight", typeof(Single))]
+            [FieldAttribute("controlled territory weight", typeof(Single))]
             public Single ControlledTerritoryWeight;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString24;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(560)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(560)]
             public Byte[] EmptyString25;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(48)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(48)]
             public Byte[] EmptyString26;
-            [Abide.Guerilla.Tags.FieldAttribute("multiplayer constants", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("multiplayer_constants_block", 1, typeof(MultiplayerConstantsBlock))]
+            [FieldAttribute("multiplayer constants", typeof(TagBlock))]
+            [BlockAttribute("multiplayer_constants_block", 1, typeof(MultiplayerConstantsBlock))]
             public TagBlock MultiplayerConstants;
-            [Abide.Guerilla.Tags.FieldAttribute("state responses", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("game_engine_status_response_block", 32, typeof(GameEngineStatusResponseBlock))]
+            [FieldAttribute("state responses", typeof(TagBlock))]
+            [BlockAttribute("game_engine_status_response_block", 32, typeof(GameEngineStatusResponseBlock))]
             public TagBlock StateResponses;
-            [Abide.Guerilla.Tags.FieldAttribute("scoreboard hud definition", typeof(TagReference))]
+            [FieldAttribute("scoreboard hud definition", typeof(TagReference))]
             public TagReference ScoreboardHudDefinition;
-            [Abide.Guerilla.Tags.FieldAttribute("scoreboard emblem shader", typeof(TagReference))]
+            [FieldAttribute("scoreboard emblem shader", typeof(TagReference))]
             public TagReference ScoreboardEmblemShader;
-            [Abide.Guerilla.Tags.FieldAttribute("scoreboard emblem bitmap", typeof(TagReference))]
+            [FieldAttribute("scoreboard emblem bitmap", typeof(TagReference))]
             public TagReference ScoreboardEmblemBitmap;
-            [Abide.Guerilla.Tags.FieldAttribute("scoreboard dead emblem shader", typeof(TagReference))]
+            [FieldAttribute("scoreboard dead emblem shader", typeof(TagReference))]
             public TagReference ScoreboardDeadEmblemShader;
-            [Abide.Guerilla.Tags.FieldAttribute("scoreboard dead emblem bitmap", typeof(TagReference))]
+            [FieldAttribute("scoreboard dead emblem bitmap", typeof(TagReference))]
             public TagReference ScoreboardDeadEmblemBitmap;
-            public int Size
+            public TagBlockList<WeaponsBlock> WeaponsList
+            {
+                get
+                {
+                    return this.weaponsList;
+                }
+            }
+            public TagBlockList<VehiclesBlock> VehiclesList
+            {
+                get
+                {
+                    return this.vehiclesList;
+                }
+            }
+            public TagBlockList<SoundsBlock> SoundsList
+            {
+                get
+                {
+                    return this.soundsList;
+                }
+            }
+            public TagBlockList<GameEngineGeneralEventBlock> GeneralEventsList
+            {
+                get
+                {
+                    return this.generalEventsList;
+                }
+            }
+            public TagBlockList<GameEngineFlavorEventBlock> FlavorEventsList
+            {
+                get
+                {
+                    return this.flavorEventsList;
+                }
+            }
+            public TagBlockList<GameEngineSlayerEventBlock> SlayerEventsList
+            {
+                get
+                {
+                    return this.slayerEventsList;
+                }
+            }
+            public TagBlockList<GameEngineCtfEventBlock> CtfEventsList
+            {
+                get
+                {
+                    return this.ctfEventsList;
+                }
+            }
+            public TagBlockList<GameEngineOddballEventBlock> OddballEventsList
+            {
+                get
+                {
+                    return this.oddballEventsList;
+                }
+            }
+            public TagBlockList<GNullBlock> EmptyStringList
+            {
+                get
+                {
+                    return this.emptyStringList;
+                }
+            }
+            public TagBlockList<GameEngineKingEventBlock> KingEventsList
+            {
+                get
+                {
+                    return this.kingEventsList;
+                }
+            }
+            public TagBlockList<GameEngineJuggernautEventBlock> JuggernautEventsList
+            {
+                get
+                {
+                    return this.juggernautEventsList;
+                }
+            }
+            public TagBlockList<GameEngineTerritoriesEventBlock> TerritoriesEventsList
+            {
+                get
+                {
+                    return this.territoriesEventsList;
+                }
+            }
+            public TagBlockList<GameEngineAssaultEventBlock> InvasionEventsList
+            {
+                get
+                {
+                    return this.invasionEventsList;
+                }
+            }
+            public TagBlockList<MultiplayerConstantsBlock> MultiplayerConstantsList
+            {
+                get
+                {
+                    return this.multiplayerConstantsList;
+                }
+            }
+            public TagBlockList<GameEngineStatusResponseBlock> StateResponsesList
+            {
+                get
+                {
+                    return this.stateResponsesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 1640;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.weaponsList.Clear();
+                this.vehiclesList.Clear();
+                this.soundsList.Clear();
+                this.generalEventsList.Clear();
+                this.flavorEventsList.Clear();
+                this.slayerEventsList.Clear();
+                this.ctfEventsList.Clear();
+                this.oddballEventsList.Clear();
+                this.emptyStringList.Clear();
+                this.kingEventsList.Clear();
+                this.juggernautEventsList.Clear();
+                this.territoriesEventsList.Clear();
+                this.invasionEventsList.Clear();
+                this.multiplayerConstantsList.Clear();
+                this.stateResponsesList.Clear();
+                this.Flag = TagReference.Null;
+                this.Ball = TagReference.Null;
+                this.Unit = TagReference.Null;
+                this.FlagShader = TagReference.Null;
+                this.HillShader = TagReference.Null;
+                this.Head = TagReference.Null;
+                this.JuggernautPowerup = TagReference.Null;
+                this.DaBomb = TagReference.Null;
+                this.EmptyString = TagReference.Null;
+                this.EmptyString1 = TagReference.Null;
+                this.EmptyString2 = TagReference.Null;
+                this.EmptyString3 = TagReference.Null;
+                this.EmptyString4 = TagReference.Null;
+                this.Weapons = TagBlock.Zero;
+                this.Vehicles = TagBlock.Zero;
+                this.Arr = new GrenadeAndPowerupStructBlock();
+                this.InGameText = TagReference.Null;
+                this.Sounds = TagBlock.Zero;
+                this.GeneralEvents = TagBlock.Zero;
+                this.FlavorEvents = TagBlock.Zero;
+                this.SlayerEvents = TagBlock.Zero;
+                this.CtfEvents = TagBlock.Zero;
+                this.OddballEvents = TagBlock.Zero;
+                this.EmptyString5 = TagBlock.Zero;
+                this.KingEvents = TagBlock.Zero;
+                this.EmptyString6 = TagBlock.Zero;
+                this.JuggernautEvents = TagBlock.Zero;
+                this.TerritoriesEvents = TagBlock.Zero;
+                this.InvasionEvents = TagBlock.Zero;
+                this.EmptyString7 = TagBlock.Zero;
+                this.EmptyString8 = TagBlock.Zero;
+                this.EmptyString9 = TagBlock.Zero;
+                this.EmptyString10 = TagBlock.Zero;
+                this.DefaultItemCollection1 = TagReference.Null;
+                this.DefaultItemCollection2 = TagReference.Null;
+                this.DefaultFragGrenadeCount = 0;
+                this.DefaultPlasmaGrenadeCount = 0;
+                this.EmptyString11 = new byte[40];
+                this.DynamicZoneUpperHeight = 0;
+                this.DynamicZoneLowerHeight = 0;
+                this.EmptyString12 = new byte[40];
+                this.EnemyInnerRadius = 0;
+                this.EnemyOuterRadius = 0;
+                this.EnemyWeight = 0;
+                this.EmptyString13 = new byte[16];
+                this.FriendInnerRadius = 0;
+                this.FriendOuterRadius = 0;
+                this.FriendWeight = 0;
+                this.EmptyString14 = new byte[16];
+                this.EnemyVehicleInnerRadius = 0;
+                this.EnemyVehicleOuterRadius = 0;
+                this.EnemyVehicleWeight = 0;
+                this.EmptyString15 = new byte[16];
+                this.FriendlyVehicleInnerRadius = 0;
+                this.FriendlyVehicleOuterRadius = 0;
+                this.FriendlyVehicleWeight = 0;
+                this.EmptyString16 = new byte[16];
+                this.EmptyVehicleInnerRadius = 0;
+                this.EmptyVehicleOuterRadius = 0;
+                this.EmptyVehicleWeight = 0;
+                this.EmptyString17 = new byte[16];
+                this.OddballInclusionInnerRadius = 0;
+                this.OddballInclusionOuterRadius = 0;
+                this.OddballInclusionWeight = 0;
+                this.EmptyString18 = new byte[16];
+                this.OddballExclusionInnerRadius = 0;
+                this.OddballExclusionOuterRadius = 0;
+                this.OddballExclusionWeight = 0;
+                this.EmptyString19 = new byte[16];
+                this.HillInclusionInnerRadius = 0;
+                this.HillInclusionOuterRadius = 0;
+                this.HillInclusionWeight = 0;
+                this.EmptyString20 = new byte[16];
+                this.HillExclusionInnerRadius = 0;
+                this.HillExclusionOuterRadius = 0;
+                this.HillExclusionWeight = 0;
+                this.EmptyString21 = new byte[16];
+                this.LastRaceFlagInnerRadius = 0;
+                this.LastRaceFlagOuterRadius = 0;
+                this.LastRaceFlagWeight = 0;
+                this.EmptyString22 = new byte[16];
+                this.DeadAllyInnerRadius = 0;
+                this.DeadAllyOuterRadius = 0;
+                this.DeadAllyWeight = 0;
+                this.EmptyString23 = new byte[16];
+                this.ControlledTerritoryInnerRadius = 0;
+                this.ControlledTerritoryOuterRadius = 0;
+                this.ControlledTerritoryWeight = 0;
+                this.EmptyString24 = new byte[16];
+                this.EmptyString25 = new byte[560];
+                this.EmptyString26 = new byte[48];
+                this.MultiplayerConstants = TagBlock.Zero;
+                this.StateResponses = TagBlock.Zero;
+                this.ScoreboardHudDefinition = TagReference.Null;
+                this.ScoreboardEmblemShader = TagReference.Null;
+                this.ScoreboardEmblemBitmap = TagReference.Null;
+                this.ScoreboardDeadEmblemShader = TagReference.Null;
+                this.ScoreboardDeadEmblemBitmap = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flag = reader.Read<TagReference>();
+                this.Ball = reader.Read<TagReference>();
+                this.Unit = reader.Read<TagReference>();
+                this.FlagShader = reader.Read<TagReference>();
+                this.HillShader = reader.Read<TagReference>();
+                this.Head = reader.Read<TagReference>();
+                this.JuggernautPowerup = reader.Read<TagReference>();
+                this.DaBomb = reader.Read<TagReference>();
+                this.EmptyString = reader.Read<TagReference>();
+                this.EmptyString1 = reader.Read<TagReference>();
+                this.EmptyString2 = reader.Read<TagReference>();
+                this.EmptyString3 = reader.Read<TagReference>();
+                this.EmptyString4 = reader.Read<TagReference>();
+                this.Weapons = reader.ReadInt64();
+                this.weaponsList.Read(reader, this.Weapons);
+                this.Vehicles = reader.ReadInt64();
+                this.vehiclesList.Read(reader, this.Vehicles);
+                this.Arr = reader.ReadDataStructure<GrenadeAndPowerupStructBlock>();
+                this.InGameText = reader.Read<TagReference>();
+                this.Sounds = reader.ReadInt64();
+                this.soundsList.Read(reader, this.Sounds);
+                this.GeneralEvents = reader.ReadInt64();
+                this.generalEventsList.Read(reader, this.GeneralEvents);
+                this.FlavorEvents = reader.ReadInt64();
+                this.flavorEventsList.Read(reader, this.FlavorEvents);
+                this.SlayerEvents = reader.ReadInt64();
+                this.slayerEventsList.Read(reader, this.SlayerEvents);
+                this.CtfEvents = reader.ReadInt64();
+                this.ctfEventsList.Read(reader, this.CtfEvents);
+                this.OddballEvents = reader.ReadInt64();
+                this.oddballEventsList.Read(reader, this.OddballEvents);
+                this.EmptyString5 = reader.ReadInt64();
+                this.emptyStringList.Read(reader, this.EmptyString5);
+                this.KingEvents = reader.ReadInt64();
+                this.kingEventsList.Read(reader, this.KingEvents);
+                this.EmptyString6 = reader.ReadInt64();
+                this.kingEventsList.Read(reader, this.EmptyString6);
+                this.JuggernautEvents = reader.ReadInt64();
+                this.juggernautEventsList.Read(reader, this.JuggernautEvents);
+                this.TerritoriesEvents = reader.ReadInt64();
+                this.territoriesEventsList.Read(reader, this.TerritoriesEvents);
+                this.InvasionEvents = reader.ReadInt64();
+                this.invasionEventsList.Read(reader, this.InvasionEvents);
+                this.EmptyString7 = reader.ReadInt64();
+                this.invasionEventsList.Read(reader, this.EmptyString7);
+                this.EmptyString8 = reader.ReadInt64();
+                this.invasionEventsList.Read(reader, this.EmptyString8);
+                this.EmptyString9 = reader.ReadInt64();
+                this.invasionEventsList.Read(reader, this.EmptyString9);
+                this.EmptyString10 = reader.ReadInt64();
+                this.invasionEventsList.Read(reader, this.EmptyString10);
+                this.DefaultItemCollection1 = reader.Read<TagReference>();
+                this.DefaultItemCollection2 = reader.Read<TagReference>();
+                this.DefaultFragGrenadeCount = reader.ReadInt32();
+                this.DefaultPlasmaGrenadeCount = reader.ReadInt32();
+                this.EmptyString11 = reader.ReadBytes(40);
+                this.DynamicZoneUpperHeight = reader.ReadSingle();
+                this.DynamicZoneLowerHeight = reader.ReadSingle();
+                this.EmptyString12 = reader.ReadBytes(40);
+                this.EnemyInnerRadius = reader.ReadSingle();
+                this.EnemyOuterRadius = reader.ReadSingle();
+                this.EnemyWeight = reader.ReadSingle();
+                this.EmptyString13 = reader.ReadBytes(16);
+                this.FriendInnerRadius = reader.ReadSingle();
+                this.FriendOuterRadius = reader.ReadSingle();
+                this.FriendWeight = reader.ReadSingle();
+                this.EmptyString14 = reader.ReadBytes(16);
+                this.EnemyVehicleInnerRadius = reader.ReadSingle();
+                this.EnemyVehicleOuterRadius = reader.ReadSingle();
+                this.EnemyVehicleWeight = reader.ReadSingle();
+                this.EmptyString15 = reader.ReadBytes(16);
+                this.FriendlyVehicleInnerRadius = reader.ReadSingle();
+                this.FriendlyVehicleOuterRadius = reader.ReadSingle();
+                this.FriendlyVehicleWeight = reader.ReadSingle();
+                this.EmptyString16 = reader.ReadBytes(16);
+                this.EmptyVehicleInnerRadius = reader.ReadSingle();
+                this.EmptyVehicleOuterRadius = reader.ReadSingle();
+                this.EmptyVehicleWeight = reader.ReadSingle();
+                this.EmptyString17 = reader.ReadBytes(16);
+                this.OddballInclusionInnerRadius = reader.ReadSingle();
+                this.OddballInclusionOuterRadius = reader.ReadSingle();
+                this.OddballInclusionWeight = reader.ReadSingle();
+                this.EmptyString18 = reader.ReadBytes(16);
+                this.OddballExclusionInnerRadius = reader.ReadSingle();
+                this.OddballExclusionOuterRadius = reader.ReadSingle();
+                this.OddballExclusionWeight = reader.ReadSingle();
+                this.EmptyString19 = reader.ReadBytes(16);
+                this.HillInclusionInnerRadius = reader.ReadSingle();
+                this.HillInclusionOuterRadius = reader.ReadSingle();
+                this.HillInclusionWeight = reader.ReadSingle();
+                this.EmptyString20 = reader.ReadBytes(16);
+                this.HillExclusionInnerRadius = reader.ReadSingle();
+                this.HillExclusionOuterRadius = reader.ReadSingle();
+                this.HillExclusionWeight = reader.ReadSingle();
+                this.EmptyString21 = reader.ReadBytes(16);
+                this.LastRaceFlagInnerRadius = reader.ReadSingle();
+                this.LastRaceFlagOuterRadius = reader.ReadSingle();
+                this.LastRaceFlagWeight = reader.ReadSingle();
+                this.EmptyString22 = reader.ReadBytes(16);
+                this.DeadAllyInnerRadius = reader.ReadSingle();
+                this.DeadAllyOuterRadius = reader.ReadSingle();
+                this.DeadAllyWeight = reader.ReadSingle();
+                this.EmptyString23 = reader.ReadBytes(16);
+                this.ControlledTerritoryInnerRadius = reader.ReadSingle();
+                this.ControlledTerritoryOuterRadius = reader.ReadSingle();
+                this.ControlledTerritoryWeight = reader.ReadSingle();
+                this.EmptyString24 = reader.ReadBytes(16);
+                this.EmptyString25 = reader.ReadBytes(560);
+                this.EmptyString26 = reader.ReadBytes(48);
+                this.MultiplayerConstants = reader.ReadInt64();
+                this.multiplayerConstantsList.Read(reader, this.MultiplayerConstants);
+                this.StateResponses = reader.ReadInt64();
+                this.stateResponsesList.Read(reader, this.StateResponses);
+                this.ScoreboardHudDefinition = reader.Read<TagReference>();
+                this.ScoreboardEmblemShader = reader.Read<TagReference>();
+                this.ScoreboardEmblemBitmap = reader.Read<TagReference>();
+                this.ScoreboardDeadEmblemShader = reader.Read<TagReference>();
+                this.ScoreboardDeadEmblemBitmap = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(16, 4)]
+            public sealed class WeaponsBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class WeaponsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("weapon^", typeof(TagReference))]
+                [FieldAttribute("weapon^", typeof(TagReference))]
                 public TagReference Weapon;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Weapon = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Weapon = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class VehiclesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class VehiclesBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle^", typeof(TagReference))]
+                [FieldAttribute("vehicle^", typeof(TagReference))]
                 public TagReference Vehicle;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Vehicle = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Vehicle = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class SoundsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class SoundsBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Sound = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Sound = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineGeneralEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineGeneralEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     Kill = 0,
                     Suicide = 1,
@@ -648,7 +1144,7 @@ namespace Abide.Guerilla.Tags
                     _10SecsToWin = 47,
                     Team10SecsToWin = 48,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -656,7 +1152,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -664,7 +1160,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -672,199 +1168,293 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineFlavorEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineFlavorEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     DoubleKill = 0,
                     TripleKill = 1,
@@ -880,7 +1470,7 @@ namespace Abide.Guerilla.Tags
                     _20InARow = 11,
                     _25InARow = 12,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -888,7 +1478,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -896,7 +1486,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -904,204 +1494,298 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineSlayerEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineSlayerEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     NewTarget = 1,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -1109,7 +1793,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1117,7 +1801,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1125,199 +1809,293 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineCtfEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineCtfEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     FlagTaken = 1,
@@ -1334,7 +2112,7 @@ namespace Abide.Guerilla.Tags
                     FlagContested = 12,
                     FlagCaptureFaliure = 13,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -1342,7 +2120,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1350,7 +2128,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1358,199 +2136,293 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineOddballEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineOddballEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     BallSpawned = 1,
@@ -1559,7 +2431,7 @@ namespace Abide.Guerilla.Tags
                     BallReset = 4,
                     BallTick = 5,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -1567,7 +2439,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1575,7 +2447,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1583,219 +2455,313 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(0, 4)]
-            public sealed class GNullBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(0, 4)]
+            public sealed class GNullBlock : AbideTagBlock
             {
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 0;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineKingEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineKingEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     HillControlled = 1,
@@ -1805,7 +2771,7 @@ namespace Abide.Guerilla.Tags
                     HillControlledTeam = 5,
                     HillContestedTeam = 6,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -1813,7 +2779,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1821,7 +2787,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -1829,205 +2795,299 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineJuggernautEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineJuggernautEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     NewJuggernaut = 1,
                     JuggernautKilled = 2,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -2035,7 +3095,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2043,7 +3103,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2051,199 +3111,293 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineTerritoriesEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineTerritoriesEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     TerritoryControlGained = 1,
@@ -2253,7 +3407,7 @@ namespace Abide.Guerilla.Tags
                     TeamTerritoryCtrlLost = 5,
                     TeamAllTerritoriesCntrld = 6,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -2261,7 +3415,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2269,7 +3423,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2277,199 +3431,293 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(244, 4)]
-            public sealed class GameEngineAssaultEventBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(244, 4)]
+            public sealed class GameEngineAssaultEventBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                private TagBlockList<SoundResponseDefinitionBlock> soundPermutationsList = new TagBlockList<SoundResponseDefinitionBlock>(10);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("event^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(EventOptions), false)]
-                public Int16 Event;
-                [Abide.Guerilla.Tags.FieldAttribute("audience^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AudienceOptions), false)]
-                public Int16 Audience;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("event^", typeof(EventOptions))]
+                [OptionsAttribute(typeof(EventOptions), false)]
+                public EventOptions Event;
+                [FieldAttribute("audience^", typeof(AudienceOptions))]
+                [OptionsAttribute(typeof(AudienceOptions), false)]
+                public AudienceOptions Audience;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("display string", typeof(StringId))]
+                [FieldAttribute("display string", typeof(StringId))]
                 public StringId DisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("required field", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(RequiredFieldOptions), false)]
-                public Int16 RequiredField;
-                [Abide.Guerilla.Tags.FieldAttribute("excluded audience", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
-                public Int16 ExcludedAudience;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string", typeof(StringId))]
+                [FieldAttribute("required field", typeof(RequiredFieldOptions))]
+                [OptionsAttribute(typeof(RequiredFieldOptions), false)]
+                public RequiredFieldOptions RequiredField;
+                [FieldAttribute("excluded audience", typeof(ExcludedAudienceOptions))]
+                [OptionsAttribute(typeof(ExcludedAudienceOptions), false)]
+                public ExcludedAudienceOptions ExcludedAudience;
+                [FieldAttribute("primary string", typeof(StringId))]
                 public StringId PrimaryString;
-                [Abide.Guerilla.Tags.FieldAttribute("primary string duration:seconds", typeof(Int32))]
+                [FieldAttribute("primary string duration:seconds", typeof(Int32))]
                 public Int32 PrimaryStringDuration;
-                [Abide.Guerilla.Tags.FieldAttribute("plural display string", typeof(StringId))]
+                [FieldAttribute("plural display string", typeof(StringId))]
                 public StringId PluralDisplayString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(28)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(28)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("sound delay (announcer only)", typeof(Single))]
+                [FieldAttribute("sound delay (announcer only)", typeof(Single))]
                 public Single SoundDelayAnnouncerOnly;
-                [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                public Int16 SoundFlags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                public SoundFlagsOptions SoundFlags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("sound^", typeof(TagReference))]
+                [FieldAttribute("sound^", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                 public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("sound permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
+                [FieldAttribute("sound permutations", typeof(TagBlock))]
+                [BlockAttribute("sound_response_definition_block", 10, typeof(SoundResponseDefinitionBlock))]
                 public TagBlock SoundPermutations;
-                public int Size
+                public TagBlockList<SoundResponseDefinitionBlock> SoundPermutationsList
+                {
+                    get
+                    {
+                        return this.soundPermutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 244;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.soundPermutationsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.Event = ((EventOptions)(0));
+                    this.Audience = ((AudienceOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DisplayString = StringId.Zero;
+                    this.RequiredField = ((RequiredFieldOptions)(0));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(0));
+                    this.PrimaryString = StringId.Zero;
+                    this.PrimaryStringDuration = 0;
+                    this.PluralDisplayString = StringId.Zero;
+                    this.EmptyString3 = new byte[28];
+                    this.SoundDelayAnnouncerOnly = 0;
+                    this.SoundFlags = ((SoundFlagsOptions)(0));
+                    this.EmptyString4 = new byte[2];
+                    this.Sound = TagReference.Null;
+                    this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                    this.EmptyString5 = new byte[4];
+                    this.EmptyString6 = new byte[16];
+                    this.SoundPermutations = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Event = ((EventOptions)(reader.ReadInt16()));
+                    this.Audience = ((AudienceOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DisplayString = reader.ReadInt32();
+                    this.RequiredField = ((RequiredFieldOptions)(reader.ReadInt16()));
+                    this.ExcludedAudience = ((ExcludedAudienceOptions)(reader.ReadInt16()));
+                    this.PrimaryString = reader.ReadInt32();
+                    this.PrimaryStringDuration = reader.ReadInt32();
+                    this.PluralDisplayString = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(28);
+                    this.SoundDelayAnnouncerOnly = reader.ReadSingle();
+                    this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString4 = reader.ReadBytes(2);
+                    this.Sound = reader.Read<TagReference>();
+                    this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                    this.EmptyString5 = reader.ReadBytes(4);
+                    this.EmptyString6 = reader.ReadBytes(16);
+                    this.SoundPermutations = reader.ReadInt64();
+                    this.soundPermutationsList.Read(reader, this.SoundPermutations);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(152, 4)]
+                public sealed class SoundResponseDefinitionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-                public sealed class SoundResponseDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("sound flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundFlagsOptions), true)]
-                    public Int16 SoundFlags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("sound flags", typeof(SoundFlagsOptions))]
+                    [OptionsAttribute(typeof(SoundFlagsOptions), true)]
+                    public SoundFlagsOptions SoundFlags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("english sound^", typeof(TagReference))]
+                    [FieldAttribute("english sound^", typeof(TagReference))]
                     public TagReference EnglishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
+                    [FieldAttribute("extra sounds", typeof(SoundResponseExtraSoundsStructBlock))]
                     public SoundResponseExtraSoundsStructBlock ExtraSounds;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability", typeof(Single))]
+                    [FieldAttribute("probability", typeof(Single))]
                     public Single Probability;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 152;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(0));
+                        this.EmptyString = new byte[2];
+                        this.EnglishSound = TagReference.Null;
+                        this.ExtraSounds = new SoundResponseExtraSoundsStructBlock();
+                        this.Probability = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.SoundFlags = ((SoundFlagsOptions)(reader.ReadInt16()));
+                        this.EmptyString = reader.ReadBytes(2);
+                        this.EnglishSound = reader.Read<TagReference>();
+                        this.ExtraSounds = reader.ReadDataStructure<SoundResponseExtraSoundsStructBlock>();
+                        this.Probability = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(128, 4)]
+                    public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                    public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                        [FieldAttribute("japanese sound", typeof(TagReference))]
                         public TagReference JapaneseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                        [FieldAttribute("german sound", typeof(TagReference))]
                         public TagReference GermanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                        [FieldAttribute("french sound", typeof(TagReference))]
                         public TagReference FrenchSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                        [FieldAttribute("spanish sound", typeof(TagReference))]
                         public TagReference SpanishSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                        [FieldAttribute("italian sound", typeof(TagReference))]
                         public TagReference ItalianSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                        [FieldAttribute("korean sound", typeof(TagReference))]
                         public TagReference KoreanSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                        [FieldAttribute("chinese sound", typeof(TagReference))]
                         public TagReference ChineseSound;
-                        [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                        [FieldAttribute("portuguese sound", typeof(TagReference))]
                         public TagReference PortugueseSound;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 128;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.JapaneseSound = TagReference.Null;
+                            this.GermanSound = TagReference.Null;
+                            this.FrenchSound = TagReference.Null;
+                            this.SpanishSound = TagReference.Null;
+                            this.ItalianSound = TagReference.Null;
+                            this.KoreanSound = TagReference.Null;
+                            this.ChineseSound = TagReference.Null;
+                            this.PortugueseSound = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.JapaneseSound = reader.Read<TagReference>();
+                            this.GermanSound = reader.Read<TagReference>();
+                            this.FrenchSound = reader.Read<TagReference>();
+                            this.SpanishSound = reader.Read<TagReference>();
+                            this.ItalianSound = reader.Read<TagReference>();
+                            this.KoreanSound = reader.Read<TagReference>();
+                            this.ChineseSound = reader.Read<TagReference>();
+                            this.PortugueseSound = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum SoundFlagsOptions
+                    public enum SoundFlagsOptions : Int16
                     {
                         AnnouncerSound = 1,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-                public sealed class SoundResponseExtraSoundsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(128, 4)]
+                public sealed class SoundResponseExtraSoundsStructBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("japanese sound", typeof(TagReference))]
+                    [FieldAttribute("japanese sound", typeof(TagReference))]
                     public TagReference JapaneseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("german sound", typeof(TagReference))]
+                    [FieldAttribute("german sound", typeof(TagReference))]
                     public TagReference GermanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("french sound", typeof(TagReference))]
+                    [FieldAttribute("french sound", typeof(TagReference))]
                     public TagReference FrenchSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("spanish sound", typeof(TagReference))]
+                    [FieldAttribute("spanish sound", typeof(TagReference))]
                     public TagReference SpanishSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("italian sound", typeof(TagReference))]
+                    [FieldAttribute("italian sound", typeof(TagReference))]
                     public TagReference ItalianSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("korean sound", typeof(TagReference))]
+                    [FieldAttribute("korean sound", typeof(TagReference))]
                     public TagReference KoreanSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("chinese sound", typeof(TagReference))]
+                    [FieldAttribute("chinese sound", typeof(TagReference))]
                     public TagReference ChineseSound;
-                    [Abide.Guerilla.Tags.FieldAttribute("portuguese sound", typeof(TagReference))]
+                    [FieldAttribute("portuguese sound", typeof(TagReference))]
                     public TagReference PortugueseSound;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 128;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.JapaneseSound = TagReference.Null;
+                        this.GermanSound = TagReference.Null;
+                        this.FrenchSound = TagReference.Null;
+                        this.SpanishSound = TagReference.Null;
+                        this.ItalianSound = TagReference.Null;
+                        this.KoreanSound = TagReference.Null;
+                        this.ChineseSound = TagReference.Null;
+                        this.PortugueseSound = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.JapaneseSound = reader.Read<TagReference>();
+                        this.GermanSound = reader.Read<TagReference>();
+                        this.FrenchSound = reader.Read<TagReference>();
+                        this.SpanishSound = reader.Read<TagReference>();
+                        this.ItalianSound = reader.Read<TagReference>();
+                        this.KoreanSound = reader.Read<TagReference>();
+                        this.ChineseSound = reader.Read<TagReference>();
+                        this.PortugueseSound = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     QuantityMessage = 1,
                 }
-                public enum EventOptions
+                public enum EventOptions : Int16
                 {
                     GameStart = 0,
                     BombTaken = 1,
@@ -2489,7 +3737,7 @@ namespace Abide.Guerilla.Tags
                     BombArmingCompleted = 15,
                     BombContested = 16,
                 }
-                public enum AudienceOptions
+                public enum AudienceOptions : Int16
                 {
                     CausePlayer = 0,
                     CauseTeam = 1,
@@ -2497,7 +3745,7 @@ namespace Abide.Guerilla.Tags
                     EffectTeam = 3,
                     All = 4,
                 }
-                public enum RequiredFieldOptions
+                public enum RequiredFieldOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2505,7 +3753,7 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum ExcludedAudienceOptions
+                public enum ExcludedAudienceOptions : Int16
                 {
                     None = 0,
                     CausePlayer = 1,
@@ -2513,137 +3761,205 @@ namespace Abide.Guerilla.Tags
                     EffectPlayer = 3,
                     EffectTeam = 4,
                 }
-                public enum SoundFlagsOptions
+                public enum SoundFlagsOptions : Int16
                 {
                     AnnouncerSound = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(384, 4)]
-            public sealed class MultiplayerConstantsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(384, 4)]
+            public sealed class MultiplayerConstantsBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("maximum random spawn bias", typeof(Single))]
+                [FieldAttribute("maximum random spawn bias", typeof(Single))]
                 public Single MaximumRandomSpawnBias;
-                [Abide.Guerilla.Tags.FieldAttribute("teleporter recharge time:seconds", typeof(Single))]
+                [FieldAttribute("teleporter recharge time:seconds", typeof(Single))]
                 public Single TeleporterRechargeTime;
-                [Abide.Guerilla.Tags.FieldAttribute("grenade danger weight", typeof(Single))]
+                [FieldAttribute("grenade danger weight", typeof(Single))]
                 public Single GrenadeDangerWeight;
-                [Abide.Guerilla.Tags.FieldAttribute("grenade danger inner radius", typeof(Single))]
+                [FieldAttribute("grenade danger inner radius", typeof(Single))]
                 public Single GrenadeDangerInnerRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("grenade danger outer radius", typeof(Single))]
+                [FieldAttribute("grenade danger outer radius", typeof(Single))]
                 public Single GrenadeDangerOuterRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("grenade danger lead time:seconds", typeof(Single))]
+                [FieldAttribute("grenade danger lead time:seconds", typeof(Single))]
                 public Single GrenadeDangerLeadTime;
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle danger min speed:wu/sec", typeof(Single))]
+                [FieldAttribute("vehicle danger min speed:wu/sec", typeof(Single))]
                 public Single VehicleDangerMinSpeed;
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle danger weight", typeof(Single))]
+                [FieldAttribute("vehicle danger weight", typeof(Single))]
                 public Single VehicleDangerWeight;
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle danger radius", typeof(Single))]
+                [FieldAttribute("vehicle danger radius", typeof(Single))]
                 public Single VehicleDangerRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle danger lead time:seconds", typeof(Single))]
+                [FieldAttribute("vehicle danger lead time:seconds", typeof(Single))]
                 public Single VehicleDangerLeadTime;
-                [Abide.Guerilla.Tags.FieldAttribute("vehicle nearby player dist#how nearby a player is to count a vehicle as \'occupied" +
+                [FieldAttribute("vehicle nearby player dist#how nearby a player is to count a vehicle as \'occupied" +
                     "\'", typeof(Single))]
                 public Single VehicleNearbyPlayerDist;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(84)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(84)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(32)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(32)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(32)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(32)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("hill shader", typeof(TagReference))]
+                [FieldAttribute("hill shader", typeof(TagReference))]
                 public TagReference HillShader;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(16)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(16)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("flag reset stop distance", typeof(Single))]
+                [FieldAttribute("flag reset stop distance", typeof(Single))]
                 public Single FlagResetStopDistance;
-                [Abide.Guerilla.Tags.FieldAttribute("bomb explode effect", typeof(TagReference))]
+                [FieldAttribute("bomb explode effect", typeof(TagReference))]
                 public TagReference BombExplodeEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("bomb explode dmg effect", typeof(TagReference))]
+                [FieldAttribute("bomb explode dmg effect", typeof(TagReference))]
                 public TagReference BombExplodeDmgEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("bomb defuse effect", typeof(TagReference))]
+                [FieldAttribute("bomb defuse effect", typeof(TagReference))]
                 public TagReference BombDefuseEffect;
-                [Abide.Guerilla.Tags.FieldAttribute("bomb defusal string", typeof(StringId))]
+                [FieldAttribute("bomb defusal string", typeof(StringId))]
                 public StringId BombDefusalString;
-                [Abide.Guerilla.Tags.FieldAttribute("blocked teleporter string", typeof(StringId))]
+                [FieldAttribute("blocked teleporter string", typeof(StringId))]
                 public StringId BlockedTeleporterString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString4;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(32)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(32)]
                 public Byte[] EmptyString5;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(32)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(32)]
                 public Byte[] EmptyString6;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(32)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(32)]
                 public Byte[] EmptyString7;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 384;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.MaximumRandomSpawnBias = 0;
+                    this.TeleporterRechargeTime = 0;
+                    this.GrenadeDangerWeight = 0;
+                    this.GrenadeDangerInnerRadius = 0;
+                    this.GrenadeDangerOuterRadius = 0;
+                    this.GrenadeDangerLeadTime = 0;
+                    this.VehicleDangerMinSpeed = 0;
+                    this.VehicleDangerWeight = 0;
+                    this.VehicleDangerRadius = 0;
+                    this.VehicleDangerLeadTime = 0;
+                    this.VehicleNearbyPlayerDist = 0;
+                    this.EmptyString = new byte[84];
+                    this.EmptyString1 = new byte[32];
+                    this.EmptyString2 = new byte[32];
+                    this.HillShader = TagReference.Null;
+                    this.EmptyString3 = new byte[16];
+                    this.FlagResetStopDistance = 0;
+                    this.BombExplodeEffect = TagReference.Null;
+                    this.BombExplodeDmgEffect = TagReference.Null;
+                    this.BombDefuseEffect = TagReference.Null;
+                    this.BombDefusalString = StringId.Zero;
+                    this.BlockedTeleporterString = StringId.Zero;
+                    this.EmptyString4 = new byte[4];
+                    this.EmptyString5 = new byte[32];
+                    this.EmptyString6 = new byte[32];
+                    this.EmptyString7 = new byte[32];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.MaximumRandomSpawnBias = reader.ReadSingle();
+                    this.TeleporterRechargeTime = reader.ReadSingle();
+                    this.GrenadeDangerWeight = reader.ReadSingle();
+                    this.GrenadeDangerInnerRadius = reader.ReadSingle();
+                    this.GrenadeDangerOuterRadius = reader.ReadSingle();
+                    this.GrenadeDangerLeadTime = reader.ReadSingle();
+                    this.VehicleDangerMinSpeed = reader.ReadSingle();
+                    this.VehicleDangerWeight = reader.ReadSingle();
+                    this.VehicleDangerRadius = reader.ReadSingle();
+                    this.VehicleDangerLeadTime = reader.ReadSingle();
+                    this.VehicleNearbyPlayerDist = reader.ReadSingle();
+                    this.EmptyString = reader.ReadBytes(84);
+                    this.EmptyString1 = reader.ReadBytes(32);
+                    this.EmptyString2 = reader.ReadBytes(32);
+                    this.HillShader = reader.Read<TagReference>();
+                    this.EmptyString3 = reader.ReadBytes(16);
+                    this.FlagResetStopDistance = reader.ReadSingle();
+                    this.BombExplodeEffect = reader.Read<TagReference>();
+                    this.BombExplodeDmgEffect = reader.Read<TagReference>();
+                    this.BombDefuseEffect = reader.Read<TagReference>();
+                    this.BombDefusalString = reader.ReadInt32();
+                    this.BlockedTeleporterString = reader.ReadInt32();
+                    this.EmptyString4 = reader.ReadBytes(4);
+                    this.EmptyString5 = reader.ReadBytes(32);
+                    this.EmptyString6 = reader.ReadBytes(32);
+                    this.EmptyString7 = reader.ReadBytes(32);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-            public sealed class GameEngineStatusResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(36, 4)]
+            public sealed class GameEngineStatusResponseBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("state^", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(StateOptions), false)]
-                public Int16 State;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("state^", typeof(StateOptions))]
+                [OptionsAttribute(typeof(StateOptions), false)]
+                public StateOptions State;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("ffa message", typeof(StringId))]
+                [FieldAttribute("ffa message", typeof(StringId))]
                 public StringId FfaMessage;
-                [Abide.Guerilla.Tags.FieldAttribute("team message", typeof(StringId))]
+                [FieldAttribute("team message", typeof(StringId))]
                 public StringId TeamMessage;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+                [FieldAttribute("", typeof(TagReference))]
                 public TagReference EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString3;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 36;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.State = ((StateOptions)(0));
+                    this.EmptyString1 = new byte[2];
+                    this.FfaMessage = StringId.Zero;
+                    this.TeamMessage = StringId.Zero;
+                    this.EmptyString2 = TagReference.Null;
+                    this.EmptyString3 = new byte[4];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.State = ((StateOptions)(reader.ReadInt16()));
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.FfaMessage = reader.ReadInt32();
+                    this.TeamMessage = reader.ReadInt32();
+                    this.EmptyString2 = reader.Read<TagReference>();
+                    this.EmptyString3 = reader.ReadBytes(4);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     Unused = 1,
                 }
-                public enum StateOptions
+                public enum StateOptions : Int16
                 {
                     WaitingForSpaceToClear = 0,
                     Observing = 1,
@@ -2675,72 +3991,100 @@ namespace Abide.Guerilla.Tags
                     PlayingLosingUnlimited = 27,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class GrenadeAndPowerupStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(24, 4)]
+            public sealed class GrenadeAndPowerupStructBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("grenades", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("grenade_block", 20, typeof(GrenadeBlock))]
+                private TagBlockList<GrenadeBlock> grenadesList = new TagBlockList<GrenadeBlock>(20);
+                private TagBlockList<PowerupBlock> powerupsList = new TagBlockList<PowerupBlock>(20);
+                [FieldAttribute("grenades", typeof(TagBlock))]
+                [BlockAttribute("grenade_block", 20, typeof(GrenadeBlock))]
                 public TagBlock Grenades;
-                [Abide.Guerilla.Tags.FieldAttribute("powerups", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("powerup_block", 20, typeof(PowerupBlock))]
+                [FieldAttribute("powerups", typeof(TagBlock))]
+                [BlockAttribute("powerup_block", 20, typeof(PowerupBlock))]
                 public TagBlock Powerups;
-                public int Size
+                public TagBlockList<GrenadeBlock> GrenadesList
+                {
+                    get
+                    {
+                        return this.grenadesList;
+                    }
+                }
+                public TagBlockList<PowerupBlock> PowerupsList
+                {
+                    get
+                    {
+                        return this.powerupsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.grenadesList.Clear();
+                    this.powerupsList.Clear();
+                    this.Grenades = TagBlock.Zero;
+                    this.Powerups = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Grenades = reader.ReadInt64();
+                    this.grenadesList.Read(reader, this.Grenades);
+                    this.Powerups = reader.ReadInt64();
+                    this.powerupsList.Read(reader, this.Powerups);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(16, 4)]
+                public sealed class GrenadeBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                public sealed class GrenadeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("weapon^", typeof(TagReference))]
+                    [FieldAttribute("weapon^", typeof(TagReference))]
                     public TagReference Weapon;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 16;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Weapon = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Weapon = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                public sealed class PowerupBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(16, 4)]
+                public sealed class PowerupBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("weapon^", typeof(TagReference))]
+                    [FieldAttribute("weapon^", typeof(TagReference))]
                     public TagReference Weapon;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 16;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Weapon = TagReference.Null;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Weapon = reader.Read<TagReference>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }

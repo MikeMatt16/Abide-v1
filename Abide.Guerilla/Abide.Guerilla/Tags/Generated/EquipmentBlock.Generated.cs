@@ -14,38 +14,47 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("equipment", 1701931376u, 1769235821u, typeof(EquipmentBlock))]
-    public sealed class EquipmentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(24, 4)]
+    [TagGroupAttribute("equipment", 1701931376u, 1769235821u, typeof(EquipmentBlock))]
+    public sealed class EquipmentBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("powerup type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PowerupTypeOptions), false)]
-        public Int16 PowerupType;
-        [Abide.Guerilla.Tags.FieldAttribute("grenade type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(GrenadeTypeOptions), false)]
-        public Int16 GrenadeType;
-        [Abide.Guerilla.Tags.FieldAttribute("powerup time:seconds", typeof(Single))]
+        [FieldAttribute("powerup type", typeof(PowerupTypeOptions))]
+        [OptionsAttribute(typeof(PowerupTypeOptions), false)]
+        public PowerupTypeOptions PowerupType;
+        [FieldAttribute("grenade type", typeof(GrenadeTypeOptions))]
+        [OptionsAttribute(typeof(GrenadeTypeOptions), false)]
+        public GrenadeTypeOptions GrenadeType;
+        [FieldAttribute("powerup time:seconds", typeof(Single))]
         public Single PowerupTime;
-        [Abide.Guerilla.Tags.FieldAttribute("pickup sound", typeof(TagReference))]
+        [FieldAttribute("pickup sound", typeof(TagReference))]
         public TagReference PickupSound;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 24;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.PowerupType = ((PowerupTypeOptions)(0));
+            this.GrenadeType = ((GrenadeTypeOptions)(0));
+            this.PowerupTime = 0;
+            this.PickupSound = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.PowerupType = ((PowerupTypeOptions)(reader.ReadInt16()));
+            this.GrenadeType = ((GrenadeTypeOptions)(reader.ReadInt16()));
+            this.PowerupTime = reader.ReadSingle();
+            this.PickupSound = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum PowerupTypeOptions
+        public enum PowerupTypeOptions : Int16
         {
             None = 0,
             DoubleSpeed = 1,
@@ -55,7 +64,7 @@ namespace Abide.Guerilla.Tags
             Health = 5,
             Grenade = 6,
         }
-        public enum GrenadeTypeOptions
+        public enum GrenadeTypeOptions : Int16
         {
             HumanFragmentation = 0,
             CovenantPlasma = 1,

@@ -225,12 +225,6 @@
     <None Include="Resources\Potential Software.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Folder16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Abide Reference.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Halo 2 Map.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +238,10 @@
     <Compile Include="Compression\AddOnPackageException.cs" />
     <Content Include="Resources\Abide AddOn Package.ico" />
     <Content Include="Resources\Abide Reference.ico" />
+    <None Include="Resources\abide_reference_16.png" />
+    <None Include="Resources\abide_folder_48.png" />
+    <None Include="Resources\abide_folder_16.png" />
+    <None Include="Resources\abide_reference_48.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\Update Background.png" />
     <None Include="Resources\RemoveFiles.png" />

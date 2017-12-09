@@ -14,188 +14,311 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(348, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("projectile", 1886547818u, 1868720741u, typeof(ProjectileBlock))]
-    public sealed class ProjectileBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(348, 4)]
+    [TagGroupAttribute("projectile", 1886547818u, 1868720741u, typeof(ProjectileBlock))]
+    public sealed class ProjectileBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation timer starts", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(DetonationTimerStartsOptions), false)]
-        public Int16 DetonationTimerStarts;
-        [Abide.Guerilla.Tags.FieldAttribute("impact noise", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ImpactNoiseOptions), false)]
-        public Int16 ImpactNoise;
-        [Abide.Guerilla.Tags.FieldAttribute("AI perception radius:world units", typeof(Single))]
+        private TagBlockList<ProjectileMaterialResponseBlock> materialResponsesList = new TagBlockList<ProjectileMaterialResponseBlock>(200);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("detonation timer starts", typeof(DetonationTimerStartsOptions))]
+        [OptionsAttribute(typeof(DetonationTimerStartsOptions), false)]
+        public DetonationTimerStartsOptions DetonationTimerStarts;
+        [FieldAttribute("impact noise", typeof(ImpactNoiseOptions))]
+        [OptionsAttribute(typeof(ImpactNoiseOptions), false)]
+        public ImpactNoiseOptions ImpactNoise;
+        [FieldAttribute("AI perception radius:world units", typeof(Single))]
         public Single AiPerceptionRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("collision radius:world units", typeof(Single))]
+        [FieldAttribute("collision radius:world units", typeof(Single))]
         public Single CollisionRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("arming time:seconds#won\'t detonate before this time elapses", typeof(Single))]
+        [FieldAttribute("arming time:seconds#won\'t detonate before this time elapses", typeof(Single))]
         public Single ArmingTime;
-        [Abide.Guerilla.Tags.FieldAttribute("danger radius:world units", typeof(Single))]
+        [FieldAttribute("danger radius:world units", typeof(Single))]
         public Single DangerRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("minimum velocity:world units per second#detonates when slowed below this velocity" +
+        [FieldAttribute("minimum velocity:world units per second#detonates when slowed below this velocity" +
             "", typeof(Single))]
         public Single MinimumVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum range:world units#detonates after travelling this distance", typeof(Single))]
+        [FieldAttribute("maximum range:world units#detonates after travelling this distance", typeof(Single))]
         public Single MaximumRange;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation noise", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(DetonationNoiseOptions), false)]
-        public Int16 DetonationNoise;
-        [Abide.Guerilla.Tags.FieldAttribute("super det. projectile count", typeof(Int16))]
+        [FieldAttribute("detonation noise", typeof(DetonationNoiseOptions))]
+        [OptionsAttribute(typeof(DetonationNoiseOptions), false)]
+        public DetonationNoiseOptions DetonationNoise;
+        [FieldAttribute("super det. projectile count", typeof(Int16))]
         public Int16 SuperDetProjectileCount;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation started", typeof(TagReference))]
+        [FieldAttribute("detonation started", typeof(TagReference))]
         public TagReference DetonationStarted;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation effect (airborne)", typeof(TagReference))]
+        [FieldAttribute("detonation effect (airborne)", typeof(TagReference))]
         public TagReference DetonationEffectAirborne;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation effect (ground)", typeof(TagReference))]
+        [FieldAttribute("detonation effect (ground)", typeof(TagReference))]
         public TagReference DetonationEffectGround;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation damage", typeof(TagReference))]
+        [FieldAttribute("detonation damage", typeof(TagReference))]
         public TagReference DetonationDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("attached detonation damage", typeof(TagReference))]
+        [FieldAttribute("attached detonation damage", typeof(TagReference))]
         public TagReference AttachedDetonationDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("super detonation", typeof(TagReference))]
+        [FieldAttribute("super detonation", typeof(TagReference))]
         public TagReference SuperDetonation;
-        [Abide.Guerilla.Tags.FieldAttribute("your momma!", typeof(SuperDetonationDamageStructBlock))]
+        [FieldAttribute("your momma!", typeof(SuperDetonationDamageStructBlock))]
         public SuperDetonationDamageStructBlock YourMomma;
-        [Abide.Guerilla.Tags.FieldAttribute("detonation sound", typeof(TagReference))]
+        [FieldAttribute("detonation sound", typeof(TagReference))]
         public TagReference DetonationSound;
-        [Abide.Guerilla.Tags.FieldAttribute("damage reporting type", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(DamageReportingTypeOptions), false)]
-        public Byte DamageReportingType;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(3)]
-        public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("super attached detonation damage", typeof(TagReference))]
+        [FieldAttribute("damage reporting type", typeof(DamageReportingTypeOptions))]
+        [OptionsAttribute(typeof(DamageReportingTypeOptions), false)]
+        public DamageReportingTypeOptions DamageReportingType;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(3)]
+        public Byte[] EmptyString;
+        [FieldAttribute("super attached detonation damage", typeof(TagReference))]
         public TagReference SuperAttachedDetonationDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("material effect radius#radius within we will generate material effects", typeof(Single))]
+        [FieldAttribute("material effect radius#radius within we will generate material effects", typeof(Single))]
         public Single MaterialEffectRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("flyby sound", typeof(TagReference))]
+        [FieldAttribute("flyby sound", typeof(TagReference))]
         public TagReference FlybySound;
-        [Abide.Guerilla.Tags.FieldAttribute("impact effect", typeof(TagReference))]
+        [FieldAttribute("impact effect", typeof(TagReference))]
         public TagReference ImpactEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("impact damage", typeof(TagReference))]
+        [FieldAttribute("impact damage", typeof(TagReference))]
         public TagReference ImpactDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("boarding detonation time", typeof(Single))]
+        [FieldAttribute("boarding detonation time", typeof(Single))]
         public Single BoardingDetonationTime;
-        [Abide.Guerilla.Tags.FieldAttribute("boarding detonation damage", typeof(TagReference))]
+        [FieldAttribute("boarding detonation damage", typeof(TagReference))]
         public TagReference BoardingDetonationDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("boarding attached detonation damage", typeof(TagReference))]
+        [FieldAttribute("boarding attached detonation damage", typeof(TagReference))]
         public TagReference BoardingAttachedDetonationDamage;
-        [Abide.Guerilla.Tags.FieldAttribute("air gravity scale#the proportion of normal gravity applied to the projectile when" +
+        [FieldAttribute("air gravity scale#the proportion of normal gravity applied to the projectile when" +
             " in air.", typeof(Single))]
         public Single AirGravityScale;
-        [Abide.Guerilla.Tags.FieldAttribute("water gravity scale#the proportion of normal gravity applied to the projectile wh" +
+        [FieldAttribute("water gravity scale#the proportion of normal gravity applied to the projectile wh" +
             "en in water.", typeof(Single))]
         public Single WaterGravityScale;
-        [Abide.Guerilla.Tags.FieldAttribute("initial velocity:world units per second#bullet\'s velocity when inflicting maximum" +
+        [FieldAttribute("initial velocity:world units per second#bullet\'s velocity when inflicting maximum" +
             " damage", typeof(Single))]
         public Single InitialVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("final velocity:world units per second#bullet\'s velocity when inflicting minimum d" +
+        [FieldAttribute("final velocity:world units per second#bullet\'s velocity when inflicting minimum d" +
             "amage", typeof(Single))]
         public Single FinalVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("blah", typeof(AngularVelocityLowerBoundStructBlock))]
+        [FieldAttribute("blah", typeof(AngularVelocityLowerBoundStructBlock))]
         public AngularVelocityLowerBoundStructBlock Blah;
-        [Abide.Guerilla.Tags.FieldAttribute("guided angular velocity (upper):degrees per second", typeof(Single))]
+        [FieldAttribute("guided angular velocity (upper):degrees per second", typeof(Single))]
         public Single GuidedAngularVelocityUpper;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("targeted leading fraction", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("targeted leading fraction", typeof(Single))]
         public Single TargetedLeadingFraction;
-        [Abide.Guerilla.Tags.FieldAttribute("material responses", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("projectile_material_response_block", 200, typeof(ProjectileMaterialResponseBlock))]
+        [FieldAttribute("material responses", typeof(TagBlock))]
+        [BlockAttribute("projectile_material_response_block", 200, typeof(ProjectileMaterialResponseBlock))]
         public TagBlock MaterialResponses;
-        public int Size
+        public TagBlockList<ProjectileMaterialResponseBlock> MaterialResponsesList
+        {
+            get
+            {
+                return this.materialResponsesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 348;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.materialResponsesList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.DetonationTimerStarts = ((DetonationTimerStartsOptions)(0));
+            this.ImpactNoise = ((ImpactNoiseOptions)(0));
+            this.AiPerceptionRadius = 0;
+            this.CollisionRadius = 0;
+            this.ArmingTime = 0;
+            this.DangerRadius = 0;
+            this.MinimumVelocity = 0;
+            this.MaximumRange = 0;
+            this.DetonationNoise = ((DetonationNoiseOptions)(0));
+            this.SuperDetProjectileCount = 0;
+            this.DetonationStarted = TagReference.Null;
+            this.DetonationEffectAirborne = TagReference.Null;
+            this.DetonationEffectGround = TagReference.Null;
+            this.DetonationDamage = TagReference.Null;
+            this.AttachedDetonationDamage = TagReference.Null;
+            this.SuperDetonation = TagReference.Null;
+            this.YourMomma = new SuperDetonationDamageStructBlock();
+            this.DetonationSound = TagReference.Null;
+            this.DamageReportingType = ((DamageReportingTypeOptions)(0));
+            this.EmptyString = new byte[3];
+            this.SuperAttachedDetonationDamage = TagReference.Null;
+            this.MaterialEffectRadius = 0;
+            this.FlybySound = TagReference.Null;
+            this.ImpactEffect = TagReference.Null;
+            this.ImpactDamage = TagReference.Null;
+            this.BoardingDetonationTime = 0;
+            this.BoardingDetonationDamage = TagReference.Null;
+            this.BoardingAttachedDetonationDamage = TagReference.Null;
+            this.AirGravityScale = 0;
+            this.WaterGravityScale = 0;
+            this.InitialVelocity = 0;
+            this.FinalVelocity = 0;
+            this.Blah = new AngularVelocityLowerBoundStructBlock();
+            this.GuidedAngularVelocityUpper = 0;
+            this.EmptyString1 = new byte[4];
+            this.TargetedLeadingFraction = 0;
+            this.MaterialResponses = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.DetonationTimerStarts = ((DetonationTimerStartsOptions)(reader.ReadInt16()));
+            this.ImpactNoise = ((ImpactNoiseOptions)(reader.ReadInt16()));
+            this.AiPerceptionRadius = reader.ReadSingle();
+            this.CollisionRadius = reader.ReadSingle();
+            this.ArmingTime = reader.ReadSingle();
+            this.DangerRadius = reader.ReadSingle();
+            this.MinimumVelocity = reader.ReadSingle();
+            this.MaximumRange = reader.ReadSingle();
+            this.DetonationNoise = ((DetonationNoiseOptions)(reader.ReadInt16()));
+            this.SuperDetProjectileCount = reader.ReadInt16();
+            this.DetonationStarted = reader.Read<TagReference>();
+            this.DetonationEffectAirborne = reader.Read<TagReference>();
+            this.DetonationEffectGround = reader.Read<TagReference>();
+            this.DetonationDamage = reader.Read<TagReference>();
+            this.AttachedDetonationDamage = reader.Read<TagReference>();
+            this.SuperDetonation = reader.Read<TagReference>();
+            this.YourMomma = reader.ReadDataStructure<SuperDetonationDamageStructBlock>();
+            this.DetonationSound = reader.Read<TagReference>();
+            this.DamageReportingType = ((DamageReportingTypeOptions)(reader.ReadByte()));
+            this.EmptyString = reader.ReadBytes(3);
+            this.SuperAttachedDetonationDamage = reader.Read<TagReference>();
+            this.MaterialEffectRadius = reader.ReadSingle();
+            this.FlybySound = reader.Read<TagReference>();
+            this.ImpactEffect = reader.Read<TagReference>();
+            this.ImpactDamage = reader.Read<TagReference>();
+            this.BoardingDetonationTime = reader.ReadSingle();
+            this.BoardingDetonationDamage = reader.Read<TagReference>();
+            this.BoardingAttachedDetonationDamage = reader.Read<TagReference>();
+            this.AirGravityScale = reader.ReadSingle();
+            this.WaterGravityScale = reader.ReadSingle();
+            this.InitialVelocity = reader.ReadSingle();
+            this.FinalVelocity = reader.ReadSingle();
+            this.Blah = reader.ReadDataStructure<AngularVelocityLowerBoundStructBlock>();
+            this.GuidedAngularVelocityUpper = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.TargetedLeadingFraction = reader.ReadSingle();
+            this.MaterialResponses = reader.ReadInt64();
+            this.materialResponsesList.Read(reader, this.MaterialResponses);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(112, 4)]
+        public sealed class ProjectileMaterialResponseBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(112, 4)]
-        public sealed class ProjectileMaterialResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("response", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseOptions), false)]
-            public Int16 Response;
-            [Abide.Guerilla.Tags.FieldAttribute("DO NOT USE (OLD effect)", typeof(TagReference))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("response", typeof(ResponseOptions))]
+            [OptionsAttribute(typeof(ResponseOptions), false)]
+            public ResponseOptions Response;
+            [FieldAttribute("DO NOT USE (OLD effect)", typeof(TagReference))]
             public TagReference DoNotUseOldEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("material name", typeof(StringId))]
+            [FieldAttribute("material name", typeof(StringId))]
             public StringId MaterialName;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("response", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseOptions1), false)]
-            public Int16 Response1;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions1), true)]
-            public Int16 Flags1;
-            [Abide.Guerilla.Tags.FieldAttribute("chance fraction:[0,1]", typeof(Single))]
+            [FieldAttribute("response", typeof(ResponseOptions1))]
+            [OptionsAttribute(typeof(ResponseOptions1), false)]
+            public ResponseOptions1 Response1;
+            [FieldAttribute("flags", typeof(FlagsOptions1))]
+            [OptionsAttribute(typeof(FlagsOptions1), true)]
+            public FlagsOptions1 Flags1;
+            [FieldAttribute("chance fraction:[0,1]", typeof(Single))]
             public Single ChanceFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("DO NOT USE (OLD effect)", typeof(TagReference))]
+            [FieldAttribute("DO NOT USE (OLD effect)", typeof(TagReference))]
             public TagReference DoNotUseOldEffect1;
-            [Abide.Guerilla.Tags.FieldAttribute("scale effects by", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ScaleEffectsByOptions), false)]
-            public Int16 ScaleEffectsBy;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("angular noise:degrees#the angle of incidence is randomly perturbed by at most thi" +
+            [FieldAttribute("scale effects by", typeof(ScaleEffectsByOptions))]
+            [OptionsAttribute(typeof(ScaleEffectsByOptions), false)]
+            public ScaleEffectsByOptions ScaleEffectsBy;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString1;
+            [FieldAttribute("angular noise:degrees#the angle of incidence is randomly perturbed by at most thi" +
                 "s amount to simulate irregularity.", typeof(Single))]
             public Single AngularNoise;
-            [Abide.Guerilla.Tags.FieldAttribute("velocity noise:world units per second#the velocity is randomly perturbed by at mo" +
+            [FieldAttribute("velocity noise:world units per second#the velocity is randomly perturbed by at mo" +
                 "st this amount to simulate irregularity.", typeof(Single))]
             public Single VelocityNoise;
-            [Abide.Guerilla.Tags.FieldAttribute("DO NOT USE (OLD detonation effect)", typeof(TagReference))]
+            [FieldAttribute("DO NOT USE (OLD detonation effect)", typeof(TagReference))]
             public TagReference DoNotUseOldDetonationEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("initial friction#the fraction of the projectile\'s velocity lost on penetration", typeof(Single))]
+            [FieldAttribute("initial friction#the fraction of the projectile\'s velocity lost on penetration", typeof(Single))]
             public Single InitialFriction;
-            [Abide.Guerilla.Tags.FieldAttribute("maximum distance#the maximum distance the projectile can travel through on object" +
+            [FieldAttribute("maximum distance#the maximum distance the projectile can travel through on object" +
                 " of this material", typeof(Single))]
             public Single MaximumDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("parallel friction#the fraction of the projectile\'s velocity parallel to the surfa" +
+            [FieldAttribute("parallel friction#the fraction of the projectile\'s velocity parallel to the surfa" +
                 "ce lost on impact", typeof(Single))]
             public Single ParallelFriction;
-            [Abide.Guerilla.Tags.FieldAttribute("perpendicular friction#the fraction of the projectile\'s velocity perpendicular to" +
+            [FieldAttribute("perpendicular friction#the fraction of the projectile\'s velocity perpendicular to" +
                 " the surface lost on impact", typeof(Single))]
             public Single PerpendicularFriction;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 112;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.Response = ((ResponseOptions)(0));
+                this.DoNotUseOldEffect = TagReference.Null;
+                this.MaterialName = StringId.Zero;
+                this.EmptyString = new byte[4];
+                this.Response1 = ((ResponseOptions1)(0));
+                this.Flags1 = ((FlagsOptions1)(0));
+                this.ChanceFraction = 0;
+                this.DoNotUseOldEffect1 = TagReference.Null;
+                this.ScaleEffectsBy = ((ScaleEffectsByOptions)(0));
+                this.EmptyString1 = new byte[2];
+                this.AngularNoise = 0;
+                this.VelocityNoise = 0;
+                this.DoNotUseOldDetonationEffect = TagReference.Null;
+                this.InitialFriction = 0;
+                this.MaximumDistance = 0;
+                this.ParallelFriction = 0;
+                this.PerpendicularFriction = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Response = ((ResponseOptions)(reader.ReadInt16()));
+                this.DoNotUseOldEffect = reader.Read<TagReference>();
+                this.MaterialName = reader.ReadInt32();
+                this.EmptyString = reader.ReadBytes(4);
+                this.Response1 = ((ResponseOptions1)(reader.ReadInt16()));
+                this.Flags1 = ((FlagsOptions1)(reader.ReadInt16()));
+                this.ChanceFraction = reader.ReadSingle();
+                this.DoNotUseOldEffect1 = reader.Read<TagReference>();
+                this.ScaleEffectsBy = ((ScaleEffectsByOptions)(reader.ReadInt16()));
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.AngularNoise = reader.ReadSingle();
+                this.VelocityNoise = reader.ReadSingle();
+                this.DoNotUseOldDetonationEffect = reader.Read<TagReference>();
+                this.InitialFriction = reader.ReadSingle();
+                this.MaximumDistance = reader.ReadSingle();
+                this.ParallelFriction = reader.ReadSingle();
+                this.PerpendicularFriction = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 CannotBeOverpenetrated = 1,
             }
-            public enum ResponseOptions
+            public enum ResponseOptions : Int16
             {
                 ImpactDetonate = 0,
                 Fizzle = 1,
@@ -205,7 +328,7 @@ namespace Abide.Guerilla.Tags
                 BounceDud = 5,
                 FizzleRicochet = 6,
             }
-            public enum ResponseOptions1
+            public enum ResponseOptions1 : Int16
             {
                 ImpactDetonate = 0,
                 Fizzle = 1,
@@ -215,62 +338,66 @@ namespace Abide.Guerilla.Tags
                 BounceDud = 5,
                 FizzleRicochet = 6,
             }
-            public enum FlagsOptions1
+            public enum FlagsOptions1 : Int16
             {
                 OnlyAgainstUnits = 1,
                 NeverAgainstUnits = 2,
             }
-            public enum ScaleEffectsByOptions
+            public enum ScaleEffectsByOptions : Int16
             {
                 Damage = 0,
                 Angle = 1,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class SuperDetonationDamageStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class SuperDetonationDamageStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("super detonation damage", typeof(TagReference))]
+            [FieldAttribute("super detonation damage", typeof(TagReference))]
             public TagReference SuperDetonationDamage;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.SuperDetonationDamage = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.SuperDetonationDamage = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class AngularVelocityLowerBoundStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(4, 4)]
+        public sealed class AngularVelocityLowerBoundStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("guided angular velocity (lower):degrees per second", typeof(Single))]
+            [FieldAttribute("guided angular velocity (lower):degrees per second", typeof(Single))]
             public Single GuidedAngularVelocityLower;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.GuidedAngularVelocityLower = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.GuidedAngularVelocityLower = reader.ReadSingle();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             OrientedAlongVelocity = 1,
             AiMustUseBallisticAiming = 2,
@@ -284,14 +411,14 @@ namespace Abide.Guerilla.Tags
             RobotronSteering = 512,
             FasterWhenOwnedByPlayer = 1024,
         }
-        public enum DetonationTimerStartsOptions
+        public enum DetonationTimerStartsOptions : Int16
         {
             Immediately = 0,
             AfterFirstBounce = 1,
             WhenAtRest = 2,
             AfterFirstBounceOffAnySurface = 3,
         }
-        public enum ImpactNoiseOptions
+        public enum ImpactNoiseOptions : Int16
         {
             Silent = 0,
             Medium = 1,
@@ -299,7 +426,7 @@ namespace Abide.Guerilla.Tags
             Shout = 3,
             Quiet = 4,
         }
-        public enum DetonationNoiseOptions
+        public enum DetonationNoiseOptions : Int16
         {
             Silent = 0,
             Medium = 1,
@@ -307,7 +434,7 @@ namespace Abide.Guerilla.Tags
             Shout = 3,
             Quiet = 4,
         }
-        public enum DamageReportingTypeOptions
+        public enum DamageReportingTypeOptions : Byte
         {
             TehGuardians11 = 0,
             FallingDamage = 1,

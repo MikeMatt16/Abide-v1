@@ -14,379 +14,638 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(332, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("vehicle", 1986357353u, 1970170228u, typeof(VehicleBlock))]
-    public sealed class VehicleBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(332, 4)]
+    [TagGroupAttribute("vehicle", 1986357353u, 1970170228u, typeof(VehicleBlock))]
+    public sealed class VehicleBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-        public Int16 Type;
-        [Abide.Guerilla.Tags.FieldAttribute("control", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ControlOptions), false)]
-        public Int16 Control;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum forward speed", typeof(Single))]
+        private TagBlockList<GearBlock> gearsList = new TagBlockList<GearBlock>(16);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("type", typeof(TypeOptions))]
+        [OptionsAttribute(typeof(TypeOptions), false)]
+        public TypeOptions Type;
+        [FieldAttribute("control", typeof(ControlOptions))]
+        [OptionsAttribute(typeof(ControlOptions), false)]
+        public ControlOptions Control;
+        [FieldAttribute("maximum forward speed", typeof(Single))]
         public Single MaximumForwardSpeed;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum reverse speed", typeof(Single))]
+        [FieldAttribute("maximum reverse speed", typeof(Single))]
         public Single MaximumReverseSpeed;
-        [Abide.Guerilla.Tags.FieldAttribute("speed acceleration", typeof(Single))]
+        [FieldAttribute("speed acceleration", typeof(Single))]
         public Single SpeedAcceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("speed deceleration", typeof(Single))]
+        [FieldAttribute("speed deceleration", typeof(Single))]
         public Single SpeedDeceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum left turn", typeof(Single))]
+        [FieldAttribute("maximum left turn", typeof(Single))]
         public Single MaximumLeftTurn;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum right turn (negative)", typeof(Single))]
+        [FieldAttribute("maximum right turn (negative)", typeof(Single))]
         public Single MaximumRightTurnNegative;
-        [Abide.Guerilla.Tags.FieldAttribute("wheel circumference", typeof(Single))]
+        [FieldAttribute("wheel circumference", typeof(Single))]
         public Single WheelCircumference;
-        [Abide.Guerilla.Tags.FieldAttribute("turn rate", typeof(Single))]
+        [FieldAttribute("turn rate", typeof(Single))]
         public Single TurnRate;
-        [Abide.Guerilla.Tags.FieldAttribute("blur speed", typeof(Single))]
+        [FieldAttribute("blur speed", typeof(Single))]
         public Single BlurSpeed;
-        [Abide.Guerilla.Tags.FieldAttribute("specific type#if your type corresponds to something in this list choose it", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecificTypeOptions), false)]
-        public Int16 SpecificType;
-        [Abide.Guerilla.Tags.FieldAttribute("player training vehicle type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PlayerTrainingVehicleTypeOptions), false)]
-        public Int16 PlayerTrainingVehicleType;
-        [Abide.Guerilla.Tags.FieldAttribute("flip message", typeof(StringId))]
+        [FieldAttribute("specific type#if your type corresponds to something in this list choose it", typeof(SpecificTypeOptions))]
+        [OptionsAttribute(typeof(SpecificTypeOptions), false)]
+        public SpecificTypeOptions SpecificType;
+        [FieldAttribute("player training vehicle type", typeof(PlayerTrainingVehicleTypeOptions))]
+        [OptionsAttribute(typeof(PlayerTrainingVehicleTypeOptions), false)]
+        public PlayerTrainingVehicleTypeOptions PlayerTrainingVehicleType;
+        [FieldAttribute("flip message", typeof(StringId))]
         public StringId FlipMessage;
-        [Abide.Guerilla.Tags.FieldAttribute("turn scale", typeof(Single))]
+        [FieldAttribute("turn scale", typeof(Single))]
         public Single TurnScale;
-        [Abide.Guerilla.Tags.FieldAttribute("speed turn penalty power (0.5 .. 2)", typeof(Single))]
+        [FieldAttribute("speed turn penalty power (0.5 .. 2)", typeof(Single))]
         public Single SpeedTurnPenaltyPower052;
-        [Abide.Guerilla.Tags.FieldAttribute("speed turn penalty (0 = none, 1 = can\'t turn at top speed)", typeof(Single))]
+        [FieldAttribute("speed turn penalty (0 = none, 1 = can\'t turn at top speed)", typeof(Single))]
         public Single SpeedTurnPenalty0EqualsNone1EqualsCantTurnAtTopSpeed;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum left slide", typeof(Single))]
+        [FieldAttribute("maximum left slide", typeof(Single))]
         public Single MaximumLeftSlide;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum right slide", typeof(Single))]
+        [FieldAttribute("maximum right slide", typeof(Single))]
         public Single MaximumRightSlide;
-        [Abide.Guerilla.Tags.FieldAttribute("slide acceleration", typeof(Single))]
+        [FieldAttribute("slide acceleration", typeof(Single))]
         public Single SlideAcceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("slide deceleration", typeof(Single))]
+        [FieldAttribute("slide deceleration", typeof(Single))]
         public Single SlideDeceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("minimum flipping angular velocity", typeof(Single))]
+        [FieldAttribute("minimum flipping angular velocity", typeof(Single))]
         public Single MinimumFlippingAngularVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum flipping angular velocity", typeof(Single))]
+        [FieldAttribute("maximum flipping angular velocity", typeof(Single))]
         public Single MaximumFlippingAngularVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("vehicle size#The size determine what kind of seats in larger vehicles it may occu" +
-            "py (i.e. small or large cargo seats)", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(VehicleSizeOptions), false)]
-        public Int16 VehicleSize;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("vehicle size#The size determine what kind of seats in larger vehicles it may occu" +
+            "py (i.e. small or large cargo seats)", typeof(VehicleSizeOptions))]
+        [OptionsAttribute(typeof(VehicleSizeOptions), false)]
+        public VehicleSizeOptions VehicleSize;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("fixed gun yaw", typeof(Single))]
+        [FieldAttribute("fixed gun yaw", typeof(Single))]
         public Single FixedGunYaw;
-        [Abide.Guerilla.Tags.FieldAttribute("fixed gun pitch", typeof(Single))]
+        [FieldAttribute("fixed gun pitch", typeof(Single))]
         public Single FixedGunPitch;
-        [Abide.Guerilla.Tags.FieldAttribute("overdampen cusp angle:degrees", typeof(Single))]
+        [FieldAttribute("overdampen cusp angle:degrees", typeof(Single))]
         public Single OverdampenCuspAngle;
-        [Abide.Guerilla.Tags.FieldAttribute("overdampen exponent", typeof(Single))]
+        [FieldAttribute("overdampen exponent", typeof(Single))]
         public Single OverdampenExponent;
-        [Abide.Guerilla.Tags.FieldAttribute("crouch transition time:seconds", typeof(Single))]
+        [FieldAttribute("crouch transition time:seconds", typeof(Single))]
         public Single CrouchTransitionTime;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("engine moment#higher moments make engine spin up slower", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("engine moment#higher moments make engine spin up slower", typeof(Single))]
         public Single EngineMoment;
-        [Abide.Guerilla.Tags.FieldAttribute("engine max angular velocity#higher moments make engine spin up slower", typeof(Single))]
+        [FieldAttribute("engine max angular velocity#higher moments make engine spin up slower", typeof(Single))]
         public Single EngineMaxAngularVelocity;
-        [Abide.Guerilla.Tags.FieldAttribute("gears", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("gear_block", 16, typeof(GearBlock))]
+        [FieldAttribute("gears", typeof(TagBlock))]
+        [BlockAttribute("gear_block", 16, typeof(GearBlock))]
         public TagBlock Gears;
-        [Abide.Guerilla.Tags.FieldAttribute("flying torque scale#big vehicles need to scale this down.  0 defaults to 1, which" +
+        [FieldAttribute("flying torque scale#big vehicles need to scale this down.  0 defaults to 1, which" +
             " is generally a good value.  This is used with alien fighter physics", typeof(Single))]
         public Single FlyingTorqueScale;
-        [Abide.Guerilla.Tags.FieldAttribute("seat enterance acceleration scale#how much do we scale the force the biped the ap" +
+        [FieldAttribute("seat enterance acceleration scale#how much do we scale the force the biped the ap" +
             "plies down on the seat when he enters. 0 == no acceleration", typeof(Single))]
         public Single SeatEnteranceAccelerationScale;
-        [Abide.Guerilla.Tags.FieldAttribute("seat exit accelersation scale#how much do we scale the force the biped the applie" +
+        [FieldAttribute("seat exit accelersation scale#how much do we scale the force the biped the applie" +
             "s down on the seat when he exits. 0 == no acceleration", typeof(Single))]
         public Single SeatExitAccelersationScale;
-        [Abide.Guerilla.Tags.FieldAttribute("air friction deceleration#human plane physics only. 0 is nothing.  1 is like thow" +
+        [FieldAttribute("air friction deceleration#human plane physics only. 0 is nothing.  1 is like thow" +
             "ing the engine to full reverse", typeof(Single))]
         public Single AirFrictionDeceleration;
-        [Abide.Guerilla.Tags.FieldAttribute("thrust scale#human plane physics only. 0 is default (1)", typeof(Single))]
+        [FieldAttribute("thrust scale#human plane physics only. 0 is default (1)", typeof(Single))]
         public Single ThrustScale;
-        [Abide.Guerilla.Tags.FieldAttribute("suspension sound", typeof(TagReference))]
+        [FieldAttribute("suspension sound", typeof(TagReference))]
         public TagReference SuspensionSound;
-        [Abide.Guerilla.Tags.FieldAttribute("crash sound", typeof(TagReference))]
+        [FieldAttribute("crash sound", typeof(TagReference))]
         public TagReference CrashSound;
-        [Abide.Guerilla.Tags.FieldAttribute("UNUSED*", typeof(TagReference))]
+        [FieldAttribute("UNUSED*", typeof(TagReference))]
         public TagReference Unused;
-        [Abide.Guerilla.Tags.FieldAttribute("special effect", typeof(TagReference))]
+        [FieldAttribute("special effect", typeof(TagReference))]
         public TagReference SpecialEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("unused effect", typeof(TagReference))]
+        [FieldAttribute("unused effect", typeof(TagReference))]
         public TagReference UnusedEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("havok vehicle physics", typeof(HavokVehiclePhysicsStructBlock))]
+        [FieldAttribute("havok vehicle physics", typeof(HavokVehiclePhysicsStructBlock))]
         public HavokVehiclePhysicsStructBlock HavokVehiclePhysics;
-        public int Size
+        public TagBlockList<GearBlock> GearsList
+        {
+            get
+            {
+                return this.gearsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 332;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.gearsList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.Type = ((TypeOptions)(0));
+            this.Control = ((ControlOptions)(0));
+            this.MaximumForwardSpeed = 0;
+            this.MaximumReverseSpeed = 0;
+            this.SpeedAcceleration = 0;
+            this.SpeedDeceleration = 0;
+            this.MaximumLeftTurn = 0;
+            this.MaximumRightTurnNegative = 0;
+            this.WheelCircumference = 0;
+            this.TurnRate = 0;
+            this.BlurSpeed = 0;
+            this.SpecificType = ((SpecificTypeOptions)(0));
+            this.PlayerTrainingVehicleType = ((PlayerTrainingVehicleTypeOptions)(0));
+            this.FlipMessage = StringId.Zero;
+            this.TurnScale = 0;
+            this.SpeedTurnPenaltyPower052 = 0;
+            this.SpeedTurnPenalty0EqualsNone1EqualsCantTurnAtTopSpeed = 0;
+            this.MaximumLeftSlide = 0;
+            this.MaximumRightSlide = 0;
+            this.SlideAcceleration = 0;
+            this.SlideDeceleration = 0;
+            this.MinimumFlippingAngularVelocity = 0;
+            this.MaximumFlippingAngularVelocity = 0;
+            this.VehicleSize = ((VehicleSizeOptions)(0));
+            this.EmptyString = new byte[2];
+            this.FixedGunYaw = 0;
+            this.FixedGunPitch = 0;
+            this.OverdampenCuspAngle = 0;
+            this.OverdampenExponent = 0;
+            this.CrouchTransitionTime = 0;
+            this.EmptyString1 = new byte[4];
+            this.EngineMoment = 0;
+            this.EngineMaxAngularVelocity = 0;
+            this.Gears = TagBlock.Zero;
+            this.FlyingTorqueScale = 0;
+            this.SeatEnteranceAccelerationScale = 0;
+            this.SeatExitAccelersationScale = 0;
+            this.AirFrictionDeceleration = 0;
+            this.ThrustScale = 0;
+            this.SuspensionSound = TagReference.Null;
+            this.CrashSound = TagReference.Null;
+            this.Unused = TagReference.Null;
+            this.SpecialEffect = TagReference.Null;
+            this.UnusedEffect = TagReference.Null;
+            this.HavokVehiclePhysics = new HavokVehiclePhysicsStructBlock();
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.Type = ((TypeOptions)(reader.ReadInt16()));
+            this.Control = ((ControlOptions)(reader.ReadInt16()));
+            this.MaximumForwardSpeed = reader.ReadSingle();
+            this.MaximumReverseSpeed = reader.ReadSingle();
+            this.SpeedAcceleration = reader.ReadSingle();
+            this.SpeedDeceleration = reader.ReadSingle();
+            this.MaximumLeftTurn = reader.ReadSingle();
+            this.MaximumRightTurnNegative = reader.ReadSingle();
+            this.WheelCircumference = reader.ReadSingle();
+            this.TurnRate = reader.ReadSingle();
+            this.BlurSpeed = reader.ReadSingle();
+            this.SpecificType = ((SpecificTypeOptions)(reader.ReadInt16()));
+            this.PlayerTrainingVehicleType = ((PlayerTrainingVehicleTypeOptions)(reader.ReadInt16()));
+            this.FlipMessage = reader.ReadInt32();
+            this.TurnScale = reader.ReadSingle();
+            this.SpeedTurnPenaltyPower052 = reader.ReadSingle();
+            this.SpeedTurnPenalty0EqualsNone1EqualsCantTurnAtTopSpeed = reader.ReadSingle();
+            this.MaximumLeftSlide = reader.ReadSingle();
+            this.MaximumRightSlide = reader.ReadSingle();
+            this.SlideAcceleration = reader.ReadSingle();
+            this.SlideDeceleration = reader.ReadSingle();
+            this.MinimumFlippingAngularVelocity = reader.ReadSingle();
+            this.MaximumFlippingAngularVelocity = reader.ReadSingle();
+            this.VehicleSize = ((VehicleSizeOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.FixedGunYaw = reader.ReadSingle();
+            this.FixedGunPitch = reader.ReadSingle();
+            this.OverdampenCuspAngle = reader.ReadSingle();
+            this.OverdampenExponent = reader.ReadSingle();
+            this.CrouchTransitionTime = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.EngineMoment = reader.ReadSingle();
+            this.EngineMaxAngularVelocity = reader.ReadSingle();
+            this.Gears = reader.ReadInt64();
+            this.gearsList.Read(reader, this.Gears);
+            this.FlyingTorqueScale = reader.ReadSingle();
+            this.SeatEnteranceAccelerationScale = reader.ReadSingle();
+            this.SeatExitAccelersationScale = reader.ReadSingle();
+            this.AirFrictionDeceleration = reader.ReadSingle();
+            this.ThrustScale = reader.ReadSingle();
+            this.SuspensionSound = reader.Read<TagReference>();
+            this.CrashSound = reader.Read<TagReference>();
+            this.Unused = reader.Read<TagReference>();
+            this.SpecialEffect = reader.Read<TagReference>();
+            this.UnusedEffect = reader.Read<TagReference>();
+            this.HavokVehiclePhysics = reader.ReadDataStructure<HavokVehiclePhysicsStructBlock>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(68, 4)]
+        public sealed class GearBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-        public sealed class GearBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("loaded torque curve", typeof(TorqueCurveStructBlock))]
+            [FieldAttribute("loaded torque curve", typeof(TorqueCurveStructBlock))]
             public TorqueCurveStructBlock LoadedTorqueCurve;
-            [Abide.Guerilla.Tags.FieldAttribute("cruising torque curve", typeof(TorqueCurveStructBlock))]
+            [FieldAttribute("cruising torque curve", typeof(TorqueCurveStructBlock))]
             public TorqueCurveStructBlock CruisingTorqueCurve;
-            [Abide.Guerilla.Tags.FieldAttribute("min time to upshift#seconds", typeof(Single))]
+            [FieldAttribute("min time to upshift#seconds", typeof(Single))]
             public Single MinTimeToUpshift;
-            [Abide.Guerilla.Tags.FieldAttribute("engine up-shift scale#0-1", typeof(Single))]
+            [FieldAttribute("engine up-shift scale#0-1", typeof(Single))]
             public Single EngineUpShiftScale;
-            [Abide.Guerilla.Tags.FieldAttribute("gear ratio", typeof(Single))]
+            [FieldAttribute("gear ratio", typeof(Single))]
             public Single GearRatio;
-            [Abide.Guerilla.Tags.FieldAttribute("min time to downshift#seconds", typeof(Single))]
+            [FieldAttribute("min time to downshift#seconds", typeof(Single))]
             public Single MinTimeToDownshift;
-            [Abide.Guerilla.Tags.FieldAttribute("engine down-shift scale#0-1", typeof(Single))]
+            [FieldAttribute("engine down-shift scale#0-1", typeof(Single))]
             public Single EngineDownShiftScale;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 68;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.LoadedTorqueCurve = new TorqueCurveStructBlock();
+                this.CruisingTorqueCurve = new TorqueCurveStructBlock();
+                this.MinTimeToUpshift = 0;
+                this.EngineUpShiftScale = 0;
+                this.GearRatio = 0;
+                this.MinTimeToDownshift = 0;
+                this.EngineDownShiftScale = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.LoadedTorqueCurve = reader.ReadDataStructure<TorqueCurveStructBlock>();
+                this.CruisingTorqueCurve = reader.ReadDataStructure<TorqueCurveStructBlock>();
+                this.MinTimeToUpshift = reader.ReadSingle();
+                this.EngineUpShiftScale = reader.ReadSingle();
+                this.GearRatio = reader.ReadSingle();
+                this.MinTimeToDownshift = reader.ReadSingle();
+                this.EngineDownShiftScale = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(24, 4)]
+            public sealed class TorqueCurveStructBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class TorqueCurveStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("min torque", typeof(Single))]
+                [FieldAttribute("min torque", typeof(Single))]
                 public Single MinTorque;
-                [Abide.Guerilla.Tags.FieldAttribute("max torque", typeof(Single))]
+                [FieldAttribute("max torque", typeof(Single))]
                 public Single MaxTorque;
-                [Abide.Guerilla.Tags.FieldAttribute("peak torque scale", typeof(Single))]
+                [FieldAttribute("peak torque scale", typeof(Single))]
                 public Single PeakTorqueScale;
-                [Abide.Guerilla.Tags.FieldAttribute("past peak torque exponent", typeof(Single))]
+                [FieldAttribute("past peak torque exponent", typeof(Single))]
                 public Single PastPeakTorqueExponent;
-                [Abide.Guerilla.Tags.FieldAttribute("torque at max angular velocity#generally 0 for loading torque and something less " +
+                [FieldAttribute("torque at max angular velocity#generally 0 for loading torque and something less " +
                     "than max torque for cruising torque", typeof(Single))]
                 public Single TorqueAtMaxAngularVelocity;
-                [Abide.Guerilla.Tags.FieldAttribute("torque at 2x max angular velocity", typeof(Single))]
+                [FieldAttribute("torque at 2x max angular velocity", typeof(Single))]
                 public Single TorqueAt2xMaxAngularVelocity;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.MinTorque = 0;
+                    this.MaxTorque = 0;
+                    this.PeakTorqueScale = 0;
+                    this.PastPeakTorqueExponent = 0;
+                    this.TorqueAtMaxAngularVelocity = 0;
+                    this.TorqueAt2xMaxAngularVelocity = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.MinTorque = reader.ReadSingle();
+                    this.MaxTorque = reader.ReadSingle();
+                    this.PeakTorqueScale = reader.ReadSingle();
+                    this.PastPeakTorqueExponent = reader.ReadSingle();
+                    this.TorqueAtMaxAngularVelocity = reader.ReadSingle();
+                    this.TorqueAt2xMaxAngularVelocity = reader.ReadSingle();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(96, 4)]
-        public sealed class HavokVehiclePhysicsStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(96, 4)]
+        public sealed class HavokVehiclePhysicsStructBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags*", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("ground friction# for friction based vehicles only", typeof(Single))]
+            private TagBlockList<AntiGravityPointDefinitionBlock> antiGravityPointsList = new TagBlockList<AntiGravityPointDefinitionBlock>(16);
+            private TagBlockList<FrictionPointDefinitionBlock> frictionPointsList = new TagBlockList<FrictionPointDefinitionBlock>(16);
+            private TagBlockList<VehiclePhantomShapeBlock> shapePhantomShapeList = new TagBlockList<VehiclePhantomShapeBlock>(1);
+            [FieldAttribute("flags*", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("ground friction# for friction based vehicles only", typeof(Single))]
             public Single GroundFriction;
-            [Abide.Guerilla.Tags.FieldAttribute("ground depth# for friction based vehicles only", typeof(Single))]
+            [FieldAttribute("ground depth# for friction based vehicles only", typeof(Single))]
             public Single GroundDepth;
-            [Abide.Guerilla.Tags.FieldAttribute("ground damp factor# for friction based vehicles only", typeof(Single))]
+            [FieldAttribute("ground damp factor# for friction based vehicles only", typeof(Single))]
             public Single GroundDampFactor;
-            [Abide.Guerilla.Tags.FieldAttribute("ground moving friction# for friction based vehicles only", typeof(Single))]
+            [FieldAttribute("ground moving friction# for friction based vehicles only", typeof(Single))]
             public Single GroundMovingFriction;
-            [Abide.Guerilla.Tags.FieldAttribute("ground maximum slope 0#degrees 0-90", typeof(Single))]
+            [FieldAttribute("ground maximum slope 0#degrees 0-90", typeof(Single))]
             public Single GroundMaximumSlope0;
-            [Abide.Guerilla.Tags.FieldAttribute("ground maximum slope 1#degrees 0-90.  and greater than slope 0", typeof(Single))]
+            [FieldAttribute("ground maximum slope 1#degrees 0-90.  and greater than slope 0", typeof(Single))]
             public Single GroundMaximumSlope1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("anti_gravity_bank_lift#lift per WU.", typeof(Single))]
+            [FieldAttribute("anti_gravity_bank_lift#lift per WU.", typeof(Single))]
             public Single AntiGravityBankLift;
-            [Abide.Guerilla.Tags.FieldAttribute("steering_bank_reaction_scale#how quickly we bank when we steer ", typeof(Single))]
+            [FieldAttribute("steering_bank_reaction_scale#how quickly we bank when we steer ", typeof(Single))]
             public Single SteeringBankReactionScale;
-            [Abide.Guerilla.Tags.FieldAttribute("gravity scale#value of 0 defaults to 1.  .5 is half gravity", typeof(Single))]
+            [FieldAttribute("gravity scale#value of 0 defaults to 1.  .5 is half gravity", typeof(Single))]
             public Single GravityScale;
-            [Abide.Guerilla.Tags.FieldAttribute("radius*#generated from the radius of the hkConvexShape for this vehicle", typeof(Single))]
+            [FieldAttribute("radius*#generated from the radius of the hkConvexShape for this vehicle", typeof(Single))]
             public Single Radius;
-            [Abide.Guerilla.Tags.FieldAttribute("anti gravity points", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("anti_gravity_point_definition_block", 16, typeof(AntiGravityPointDefinitionBlock))]
+            [FieldAttribute("anti gravity points", typeof(TagBlock))]
+            [BlockAttribute("anti_gravity_point_definition_block", 16, typeof(AntiGravityPointDefinitionBlock))]
             public TagBlock AntiGravityPoints;
-            [Abide.Guerilla.Tags.FieldAttribute("friction points", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("friction_point_definition_block", 16, typeof(FrictionPointDefinitionBlock))]
+            [FieldAttribute("friction points", typeof(TagBlock))]
+            [BlockAttribute("friction_point_definition_block", 16, typeof(FrictionPointDefinitionBlock))]
             public TagBlock FrictionPoints;
-            [Abide.Guerilla.Tags.FieldAttribute("*shape phantom shape*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("vehicle_phantom_shape_block", 1, typeof(VehiclePhantomShapeBlock))]
+            [FieldAttribute("*shape phantom shape*", typeof(TagBlock))]
+            [BlockAttribute("vehicle_phantom_shape_block", 1, typeof(VehiclePhantomShapeBlock))]
             public TagBlock ShapePhantomShape;
-            public int Size
+            public TagBlockList<AntiGravityPointDefinitionBlock> AntiGravityPointsList
+            {
+                get
+                {
+                    return this.antiGravityPointsList;
+                }
+            }
+            public TagBlockList<FrictionPointDefinitionBlock> FrictionPointsList
+            {
+                get
+                {
+                    return this.frictionPointsList;
+                }
+            }
+            public TagBlockList<VehiclePhantomShapeBlock> ShapePhantomShapeList
+            {
+                get
+                {
+                    return this.shapePhantomShapeList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 96;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.antiGravityPointsList.Clear();
+                this.frictionPointsList.Clear();
+                this.shapePhantomShapeList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.GroundFriction = 0;
+                this.GroundDepth = 0;
+                this.GroundDampFactor = 0;
+                this.GroundMovingFriction = 0;
+                this.GroundMaximumSlope0 = 0;
+                this.GroundMaximumSlope1 = 0;
+                this.EmptyString = new byte[16];
+                this.AntiGravityBankLift = 0;
+                this.SteeringBankReactionScale = 0;
+                this.GravityScale = 0;
+                this.Radius = 0;
+                this.AntiGravityPoints = TagBlock.Zero;
+                this.FrictionPoints = TagBlock.Zero;
+                this.ShapePhantomShape = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.GroundFriction = reader.ReadSingle();
+                this.GroundDepth = reader.ReadSingle();
+                this.GroundDampFactor = reader.ReadSingle();
+                this.GroundMovingFriction = reader.ReadSingle();
+                this.GroundMaximumSlope0 = reader.ReadSingle();
+                this.GroundMaximumSlope1 = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(16);
+                this.AntiGravityBankLift = reader.ReadSingle();
+                this.SteeringBankReactionScale = reader.ReadSingle();
+                this.GravityScale = reader.ReadSingle();
+                this.Radius = reader.ReadSingle();
+                this.AntiGravityPoints = reader.ReadInt64();
+                this.antiGravityPointsList.Read(reader, this.AntiGravityPoints);
+                this.FrictionPoints = reader.ReadInt64();
+                this.frictionPointsList.Read(reader, this.FrictionPoints);
+                this.ShapePhantomShape = reader.ReadInt64();
+                this.shapePhantomShapeList.Read(reader, this.ShapePhantomShape);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(76, 4)]
+            public sealed class AntiGravityPointDefinitionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(76, 4)]
-            public sealed class AntiGravityPointDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("marker name^", typeof(StringId))]
+                [FieldAttribute("marker name^", typeof(StringId))]
                 public StringId MarkerName;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav strength", typeof(Single))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("antigrav strength", typeof(Single))]
                 public Single AntigravStrength;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav offset", typeof(Single))]
+                [FieldAttribute("antigrav offset", typeof(Single))]
                 public Single AntigravOffset;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav height", typeof(Single))]
+                [FieldAttribute("antigrav height", typeof(Single))]
                 public Single AntigravHeight;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav damp factor", typeof(Single))]
+                [FieldAttribute("antigrav damp factor", typeof(Single))]
                 public Single AntigravDampFactor;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav normal k1", typeof(Single))]
+                [FieldAttribute("antigrav normal k1", typeof(Single))]
                 public Single AntigravNormalK1;
-                [Abide.Guerilla.Tags.FieldAttribute("antigrav normal k0", typeof(Single))]
+                [FieldAttribute("antigrav normal k0", typeof(Single))]
                 public Single AntigravNormalK0;
-                [Abide.Guerilla.Tags.FieldAttribute("radius", typeof(Single))]
+                [FieldAttribute("radius", typeof(Single))]
                 public Single Radius;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(12)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(12)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("damage source region name", typeof(StringId))]
+                [FieldAttribute("damage source region name", typeof(StringId))]
                 public StringId DamageSourceRegionName;
-                [Abide.Guerilla.Tags.FieldAttribute("default state error", typeof(Single))]
+                [FieldAttribute("default state error", typeof(Single))]
                 public Single DefaultStateError;
-                [Abide.Guerilla.Tags.FieldAttribute("minor damage error", typeof(Single))]
+                [FieldAttribute("minor damage error", typeof(Single))]
                 public Single MinorDamageError;
-                [Abide.Guerilla.Tags.FieldAttribute("medium damage error", typeof(Single))]
+                [FieldAttribute("medium damage error", typeof(Single))]
                 public Single MediumDamageError;
-                [Abide.Guerilla.Tags.FieldAttribute("major damage error", typeof(Single))]
+                [FieldAttribute("major damage error", typeof(Single))]
                 public Single MajorDamageError;
-                [Abide.Guerilla.Tags.FieldAttribute("destroyed state error", typeof(Single))]
+                [FieldAttribute("destroyed state error", typeof(Single))]
                 public Single DestroyedStateError;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 76;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.MarkerName = StringId.Zero;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.AntigravStrength = 0;
+                    this.AntigravOffset = 0;
+                    this.AntigravHeight = 0;
+                    this.AntigravDampFactor = 0;
+                    this.AntigravNormalK1 = 0;
+                    this.AntigravNormalK0 = 0;
+                    this.Radius = 0;
+                    this.EmptyString = new byte[12];
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[2];
+                    this.DamageSourceRegionName = StringId.Zero;
+                    this.DefaultStateError = 0;
+                    this.MinorDamageError = 0;
+                    this.MediumDamageError = 0;
+                    this.MajorDamageError = 0;
+                    this.DestroyedStateError = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.MarkerName = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.AntigravStrength = reader.ReadSingle();
+                    this.AntigravOffset = reader.ReadSingle();
+                    this.AntigravHeight = reader.ReadSingle();
+                    this.AntigravDampFactor = reader.ReadSingle();
+                    this.AntigravNormalK1 = reader.ReadSingle();
+                    this.AntigravNormalK0 = reader.ReadSingle();
+                    this.Radius = reader.ReadSingle();
+                    this.EmptyString = reader.ReadBytes(12);
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.DamageSourceRegionName = reader.ReadInt32();
+                    this.DefaultStateError = reader.ReadSingle();
+                    this.MinorDamageError = reader.ReadSingle();
+                    this.MediumDamageError = reader.ReadSingle();
+                    this.MajorDamageError = reader.ReadSingle();
+                    this.DestroyedStateError = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     GetsDamageFromRegion = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(76, 4)]
-            public sealed class FrictionPointDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(76, 4)]
+            public sealed class FrictionPointDefinitionBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("marker name^", typeof(StringId))]
+                [FieldAttribute("marker name^", typeof(StringId))]
                 public StringId MarkerName;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("fraction of total mass#(0.0-1.0) fraction of total vehicle mass", typeof(Single))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("fraction of total mass#(0.0-1.0) fraction of total vehicle mass", typeof(Single))]
                 public Single FractionOfTotalMass;
-                [Abide.Guerilla.Tags.FieldAttribute("radius", typeof(Single))]
+                [FieldAttribute("radius", typeof(Single))]
                 public Single Radius;
-                [Abide.Guerilla.Tags.FieldAttribute("damaged radius#radius when the tire is blown off.", typeof(Single))]
+                [FieldAttribute("damaged radius#radius when the tire is blown off.", typeof(Single))]
                 public Single DamagedRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("friction type", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FrictionTypeOptions), false)]
-                public Int16 FrictionType;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("friction type", typeof(FrictionTypeOptions))]
+                [OptionsAttribute(typeof(FrictionTypeOptions), false)]
+                public FrictionTypeOptions FrictionType;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("moving friction velocity diff", typeof(Single))]
+                [FieldAttribute("moving friction velocity diff", typeof(Single))]
                 public Single MovingFrictionVelocityDiff;
-                [Abide.Guerilla.Tags.FieldAttribute("e-brake moving friction", typeof(Single))]
+                [FieldAttribute("e-brake moving friction", typeof(Single))]
                 public Single EBrakeMovingFriction;
-                [Abide.Guerilla.Tags.FieldAttribute("e-brake friction", typeof(Single))]
+                [FieldAttribute("e-brake friction", typeof(Single))]
                 public Single EBrakeFriction;
-                [Abide.Guerilla.Tags.FieldAttribute("e-brake moving friction vel diff", typeof(Single))]
+                [FieldAttribute("e-brake moving friction vel diff", typeof(Single))]
                 public Single EBrakeMovingFrictionVelDiff;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(20)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(20)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("collision global material name", typeof(StringId))]
+                [FieldAttribute("collision global material name", typeof(StringId))]
                 public StringId CollisionGlobalMaterialName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("model state destroyed#only need point can destroy flag set", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ModelStateDestroyedOptions), false)]
-                public Int16 ModelStateDestroyed;
-                [Abide.Guerilla.Tags.FieldAttribute("region name#only need point can destroy flag set", typeof(StringId))]
+                [FieldAttribute("model state destroyed#only need point can destroy flag set", typeof(ModelStateDestroyedOptions))]
+                [OptionsAttribute(typeof(ModelStateDestroyedOptions), false)]
+                public ModelStateDestroyedOptions ModelStateDestroyed;
+                [FieldAttribute("region name#only need point can destroy flag set", typeof(StringId))]
                 public StringId RegionName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString3;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 76;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.MarkerName = StringId.Zero;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.FractionOfTotalMass = 0;
+                    this.Radius = 0;
+                    this.DamagedRadius = 0;
+                    this.FrictionType = ((FrictionTypeOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.MovingFrictionVelocityDiff = 0;
+                    this.EBrakeMovingFriction = 0;
+                    this.EBrakeFriction = 0;
+                    this.EBrakeMovingFrictionVelDiff = 0;
+                    this.EmptyString1 = new byte[20];
+                    this.CollisionGlobalMaterialName = StringId.Zero;
+                    this.EmptyString2 = new byte[2];
+                    this.ModelStateDestroyed = ((ModelStateDestroyedOptions)(0));
+                    this.RegionName = StringId.Zero;
+                    this.EmptyString3 = new byte[4];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.MarkerName = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.FractionOfTotalMass = reader.ReadSingle();
+                    this.Radius = reader.ReadSingle();
+                    this.DamagedRadius = reader.ReadSingle();
+                    this.FrictionType = ((FrictionTypeOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.MovingFrictionVelocityDiff = reader.ReadSingle();
+                    this.EBrakeMovingFriction = reader.ReadSingle();
+                    this.EBrakeFriction = reader.ReadSingle();
+                    this.EBrakeMovingFrictionVelDiff = reader.ReadSingle();
+                    this.EmptyString1 = reader.ReadBytes(20);
+                    this.CollisionGlobalMaterialName = reader.ReadInt32();
+                    this.EmptyString2 = reader.ReadBytes(2);
+                    this.ModelStateDestroyed = ((ModelStateDestroyedOptions)(reader.ReadInt16()));
+                    this.RegionName = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(4);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     GetsDamageFromRegion = 1,
                     Powered = 2,
@@ -395,12 +654,12 @@ namespace Abide.Guerilla.Tags
                     AttachedToEBrake = 16,
                     CanBeDestroyed = 32,
                 }
-                public enum FrictionTypeOptions
+                public enum FrictionTypeOptions : Int16
                 {
                     Point = 0,
                     Forward = 1,
                 }
-                public enum ModelStateDestroyedOptions
+                public enum ModelStateDestroyedOptions : Int16
                 {
                     Default = 0,
                     MinorDamage = 1,
@@ -409,97 +668,139 @@ namespace Abide.Guerilla.Tags
                     Destroyed = 4,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(672, 16)]
-            public sealed class VehiclePhantomShapeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(672, 16)]
+            public sealed class VehiclePhantomShapeBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("size*", typeof(Int16))]
+                [FieldAttribute("size*", typeof(Int16))]
                 public Int16 Size1;
-                [Abide.Guerilla.Tags.FieldAttribute("count*", typeof(Int16))]
+                [FieldAttribute("count*", typeof(Int16))]
                 public Int16 Count;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("child shapes size*", typeof(Int32))]
+                [FieldAttribute("child shapes size*", typeof(Int32))]
                 public Int32 ChildShapesSize;
-                [Abide.Guerilla.Tags.FieldAttribute("child shapes capacity*", typeof(Int32))]
+                [FieldAttribute("child shapes capacity*", typeof(Int32))]
                 public Int32 ChildShapesCapacity;
-                [Abide.Guerilla.Tags.FieldAttribute("child shapes storage*", typeof(ChildShapesStorageElement[]))]
-                [Abide.Guerilla.Tags.ArrayAttribute(4, typeof(ChildShapesStorageElement))]
+                [FieldAttribute("child shapes storage*", typeof(ChildShapesStorageElement[]))]
+                [ArrayAttribute(4, typeof(ChildShapesStorageElement))]
                 public ChildShapesStorageElement[] ChildShapesStorage;
-                [Abide.Guerilla.Tags.FieldAttribute("multisphere count*", typeof(Int32))]
+                [FieldAttribute("multisphere count*", typeof(Int32))]
                 public Int32 MultisphereCount;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(8)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(8)]
                 public Byte[] EmptyString3;
-                [Abide.Guerilla.Tags.FieldAttribute("x0", typeof(Single))]
+                [FieldAttribute("x0", typeof(Single))]
                 public Single X0;
-                [Abide.Guerilla.Tags.FieldAttribute("x1", typeof(Single))]
+                [FieldAttribute("x1", typeof(Single))]
                 public Single X1;
-                [Abide.Guerilla.Tags.FieldAttribute("y0", typeof(Single))]
+                [FieldAttribute("y0", typeof(Single))]
                 public Single Y0;
-                [Abide.Guerilla.Tags.FieldAttribute("y1", typeof(Single))]
+                [FieldAttribute("y1", typeof(Single))]
                 public Single Y1;
-                [Abide.Guerilla.Tags.FieldAttribute("z0", typeof(Single))]
+                [FieldAttribute("z0", typeof(Single))]
                 public Single Z0;
-                [Abide.Guerilla.Tags.FieldAttribute("z1", typeof(Single))]
+                [FieldAttribute("z1", typeof(Single))]
                 public Single Z1;
-                [Abide.Guerilla.Tags.FieldAttribute("multispheres*", typeof(MultispheresElement[]))]
-                [Abide.Guerilla.Tags.ArrayAttribute(4, typeof(MultispheresElement))]
+                [FieldAttribute("multispheres*", typeof(MultispheresElement[]))]
+                [ArrayAttribute(4, typeof(MultispheresElement))]
                 public MultispheresElement[] Multispheres;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString4;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 672;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.EmptyString = new byte[4];
+                    this.Size1 = 0;
+                    this.Count = 0;
+                    this.EmptyString1 = new byte[4];
+                    this.EmptyString2 = new byte[4];
+                    this.ChildShapesSize = 0;
+                    this.ChildShapesCapacity = 0;
+                    this.ChildShapesStorage = new ChildShapesStorageElement[4];
+                    this.MultisphereCount = 0;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString3 = new byte[8];
+                    this.X0 = 0;
+                    this.X1 = 0;
+                    this.Y0 = 0;
+                    this.Y1 = 0;
+                    this.Z0 = 0;
+                    this.Z1 = 0;
+                    this.Multispheres = new MultispheresElement[4];
+                    this.EmptyString4 = new byte[4];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.EmptyString = reader.ReadBytes(4);
+                    this.Size1 = reader.ReadInt16();
+                    this.Count = reader.ReadInt16();
+                    this.EmptyString1 = reader.ReadBytes(4);
+                    this.EmptyString2 = reader.ReadBytes(4);
+                    this.ChildShapesSize = reader.ReadInt32();
+                    this.ChildShapesCapacity = reader.ReadInt32();
+                    this.MultisphereCount = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.EmptyString3 = reader.ReadBytes(8);
+                    this.X0 = reader.ReadSingle();
+                    this.X1 = reader.ReadSingle();
+                    this.Y0 = reader.ReadSingle();
+                    this.Y1 = reader.ReadSingle();
+                    this.Z0 = reader.ReadSingle();
+                    this.Z1 = reader.ReadSingle();
+                    this.EmptyString4 = reader.ReadBytes(4);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public sealed class ChildShapesStorageElement : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public sealed class ChildShapesStorageElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("shape type*", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ShapeTypeOptions), false)]
-                    public Int16 ShapeType;
-                    [Abide.Guerilla.Tags.FieldAttribute("shape*", typeof(Int16))]
+                    [FieldAttribute("shape type*", typeof(ShapeTypeOptions))]
+                    [OptionsAttribute(typeof(ShapeTypeOptions), false)]
+                    public ShapeTypeOptions ShapeType;
+                    [FieldAttribute("shape*", typeof(Int16))]
                     public Int16 Shape;
-                    [Abide.Guerilla.Tags.FieldAttribute("collision filter*", typeof(Int32))]
+                    [FieldAttribute("collision filter*", typeof(Int32))]
                     public Int32 CollisionFilter;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 0;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.ShapeType = ((ShapeTypeOptions)(0));
+                        this.Shape = 0;
+                        this.CollisionFilter = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.ShapeType = ((ShapeTypeOptions)(reader.ReadInt16()));
+                        this.Shape = reader.ReadInt16();
+                        this.CollisionFilter = reader.ReadInt32();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum ShapeTypeOptions
+                    public enum ShapeTypeOptions : Int16
                     {
                         Sphere = 0,
                         Pill = 1,
@@ -519,76 +820,91 @@ namespace Abide.Guerilla.Tags
                         Mopp = 15,
                     }
                 }
-                public sealed class MultispheresElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                public sealed class MultispheresElement : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(4)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("size*", typeof(Int16))]
+                    [FieldAttribute("size*", typeof(Int16))]
                     public Int16 Size1;
-                    [Abide.Guerilla.Tags.FieldAttribute("count*", typeof(Int16))]
+                    [FieldAttribute("count*", typeof(Int16))]
                     public Int16 Count;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(4)]
                     public Byte[] EmptyString1;
-                    [Abide.Guerilla.Tags.FieldAttribute("num spheres*", typeof(Int32))]
+                    [FieldAttribute("num spheres*", typeof(Int32))]
                     public Int32 NumSpheres;
-                    [Abide.Guerilla.Tags.FieldAttribute("four vectors storage*", typeof(FourVectorsStorageElement[]))]
-                    [Abide.Guerilla.Tags.ArrayAttribute(8, typeof(FourVectorsStorageElement))]
+                    [FieldAttribute("four vectors storage*", typeof(FourVectorsStorageElement[]))]
+                    [ArrayAttribute(8, typeof(FourVectorsStorageElement))]
                     public FourVectorsStorageElement[] FourVectorsStorage;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 0;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.EmptyString = new byte[4];
+                        this.Size1 = 0;
+                        this.Count = 0;
+                        this.EmptyString1 = new byte[4];
+                        this.NumSpheres = 0;
+                        this.FourVectorsStorage = new FourVectorsStorageElement[8];
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.EmptyString = reader.ReadBytes(4);
+                        this.Size1 = reader.ReadInt16();
+                        this.Count = reader.ReadInt16();
+                        this.EmptyString1 = reader.ReadBytes(4);
+                        this.NumSpheres = reader.ReadInt32();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public sealed class FourVectorsStorageElement : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public sealed class FourVectorsStorageElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("sphere*", typeof(Vector3))]
+                        [FieldAttribute("sphere*", typeof(Vector3))]
                         public Vector3 Sphere;
-                        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                        [FieldAttribute("", typeof(Byte[]))]
+                        [PaddingAttribute(4)]
                         public Byte[] EmptyString;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 0;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.Sphere = Vector3.Zero;
+                            this.EmptyString = new byte[4];
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.Sphere = reader.Read<Vector3>();
+                            this.EmptyString = reader.ReadBytes(4);
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     HasAabbPhantom = 1,
                     Oo1 = 2,
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 Invalid = 1,
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             SpeedWakesPhysics = 1,
             TurnWakesPhysics = 2,
@@ -613,7 +929,7 @@ namespace Abide.Guerilla.Tags
             CanTriggerAutomaticOpeningDoors = 1048576,
             AutoaimWhenTeamless = 2097152,
         }
-        public enum TypeOptions
+        public enum TypeOptions : Int16
         {
             HumanTank = 0,
             HumanJeep = 1,
@@ -623,13 +939,13 @@ namespace Abide.Guerilla.Tags
             AlienFighter = 5,
             Turret = 6,
         }
-        public enum ControlOptions
+        public enum ControlOptions : Int16
         {
             VehicleControlNormal = 0,
             VehicleControlUnused = 1,
             VehicleControlTank = 2,
         }
-        public enum SpecificTypeOptions
+        public enum SpecificTypeOptions : Int16
         {
             None = 0,
             Ghost = 1,
@@ -637,7 +953,7 @@ namespace Abide.Guerilla.Tags
             Spectre = 3,
             SentinelEnforcer = 4,
         }
-        public enum PlayerTrainingVehicleTypeOptions
+        public enum PlayerTrainingVehicleTypeOptions : Int16
         {
             None = 0,
             Warthog = 1,
@@ -647,7 +963,7 @@ namespace Abide.Guerilla.Tags
             Tank = 5,
             Wraith = 6,
         }
-        public enum VehicleSizeOptions
+        public enum VehicleSizeOptions : Int16
         {
             Small = 0,
             Large = 1,

@@ -14,91 +14,140 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(180, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("antenna", 1634628641u, 4294967293u, typeof(AntennaBlock))]
-    public sealed class AntennaBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(180, 4)]
+    [TagGroupAttribute("antenna", 1634628641u, 4294967293u, typeof(AntennaBlock))]
+    public sealed class AntennaBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("attachment marker name#the marker name where the antenna should be attached", typeof(StringId))]
+        private TagBlockList<AntennaVertexBlock> verticesList = new TagBlockList<AntennaVertexBlock>(20);
+        [FieldAttribute("attachment marker name#the marker name where the antenna should be attached", typeof(StringId))]
         public StringId AttachmentMarkerName;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmaps", typeof(TagReference))]
+        [FieldAttribute("bitmaps", typeof(TagReference))]
         public TagReference Bitmaps;
-        [Abide.Guerilla.Tags.FieldAttribute("physics", typeof(TagReference))]
+        [FieldAttribute("physics", typeof(TagReference))]
         public TagReference Physics;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(80)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(80)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("spring strength coefficient#strength of the spring (larger values make the spring" +
+        [FieldAttribute("spring strength coefficient#strength of the spring (larger values make the spring" +
             " stronger)", typeof(Single))]
         public Single SpringStrengthCoefficient;
-        [Abide.Guerilla.Tags.FieldAttribute("falloff pixels", typeof(Single))]
+        [FieldAttribute("falloff pixels", typeof(Single))]
         public Single FalloffPixels;
-        [Abide.Guerilla.Tags.FieldAttribute("cutoff pixels", typeof(Single))]
+        [FieldAttribute("cutoff pixels", typeof(Single))]
         public Single CutoffPixels;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(40)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(40)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("vertices", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("antenna_vertex_block", 20, typeof(AntennaVertexBlock))]
+        [FieldAttribute("vertices", typeof(TagBlock))]
+        [BlockAttribute("antenna_vertex_block", 20, typeof(AntennaVertexBlock))]
         public TagBlock Vertices;
-        public int Size
+        public TagBlockList<AntennaVertexBlock> VerticesList
+        {
+            get
+            {
+                return this.verticesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 180;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.verticesList.Clear();
+            this.AttachmentMarkerName = StringId.Zero;
+            this.Bitmaps = TagReference.Null;
+            this.Physics = TagReference.Null;
+            this.EmptyString = new byte[80];
+            this.SpringStrengthCoefficient = 0;
+            this.FalloffPixels = 0;
+            this.CutoffPixels = 0;
+            this.EmptyString1 = new byte[40];
+            this.Vertices = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.AttachmentMarkerName = reader.ReadInt32();
+            this.Bitmaps = reader.Read<TagReference>();
+            this.Physics = reader.Read<TagReference>();
+            this.EmptyString = reader.ReadBytes(80);
+            this.SpringStrengthCoefficient = reader.ReadSingle();
+            this.FalloffPixels = reader.ReadSingle();
+            this.CutoffPixels = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(40);
+            this.Vertices = reader.ReadInt64();
+            this.verticesList.Read(reader, this.Vertices);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(128, 4)]
+        public sealed class AntennaVertexBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-        public sealed class AntennaVertexBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("spring strength coefficient#strength of the spring (larger values make the spring" +
+            [FieldAttribute("spring strength coefficient#strength of the spring (larger values make the spring" +
                 " stronger)", typeof(Single))]
             public Single SpringStrengthCoefficient;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(24)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(24)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("angles#direction toward next vertex", typeof(Vector2))]
+            [FieldAttribute("angles#direction toward next vertex", typeof(Vector2))]
             public Vector2 Angles;
-            [Abide.Guerilla.Tags.FieldAttribute("length:world units#distance between this vertex and the next", typeof(Single))]
+            [FieldAttribute("length:world units#distance between this vertex and the next", typeof(Single))]
             public Single Length;
-            [Abide.Guerilla.Tags.FieldAttribute("sequence index#bitmap group sequence index for this vertex\'s texture", typeof(Int16))]
+            [FieldAttribute("sequence index#bitmap group sequence index for this vertex\'s texture", typeof(Int16))]
             public Int16 SequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("color#color at this vertex", typeof(ColorArgbF))]
+            [FieldAttribute("color#color at this vertex", typeof(ColorArgbF))]
             public ColorArgbF Color;
-            [Abide.Guerilla.Tags.FieldAttribute("LOD color#color at this vertex for the low-LOD line primitives", typeof(ColorArgbF))]
+            [FieldAttribute("LOD color#color at this vertex for the low-LOD line primitives", typeof(ColorArgbF))]
             public ColorArgbF LodColor;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(40)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(40)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(12)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(12)]
             public Byte[] EmptyString3;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 128;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.SpringStrengthCoefficient = 0;
+                this.EmptyString = new byte[24];
+                this.Angles = Vector2.Zero;
+                this.Length = 0;
+                this.SequenceIndex = 0;
+                this.EmptyString1 = new byte[2];
+                this.Color = ColorArgbF.Zero;
+                this.LodColor = ColorArgbF.Zero;
+                this.EmptyString2 = new byte[40];
+                this.EmptyString3 = new byte[12];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.SpringStrengthCoefficient = reader.ReadSingle();
+                this.EmptyString = reader.ReadBytes(24);
+                this.Angles = reader.Read<Vector2>();
+                this.Length = reader.ReadSingle();
+                this.SequenceIndex = reader.ReadInt16();
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.Color = reader.Read<ColorArgbF>();
+                this.LodColor = reader.Read<ColorArgbF>();
+                this.EmptyString2 = reader.ReadBytes(40);
+                this.EmptyString3 = reader.ReadBytes(12);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

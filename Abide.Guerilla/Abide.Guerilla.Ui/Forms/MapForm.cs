@@ -1,5 +1,5 @@
-﻿using Abide.HaloLibrary.Halo2Map;
-using System;
+﻿using Abide.Guerilla.Tags;
+using Abide.HaloLibrary.Halo2Map;
 using System.IO;
 using System.Windows.Forms;
 
@@ -56,18 +56,15 @@ namespace Abide.Guerilla.Ui.Forms
 
         private void TagTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            //Create
+            ScenarioBlock scenario = AbideTagBlock.Instantiate<ScenarioBlock>(map);
+
             //Check
             if (e.Node.Tag is IndexEntry entry)
             {
-                //Get Parsed block
-                ParsedBlock block = new ParsedBlock(Guerilla.TagGroupDictionary[entry.Root]);
-
-                //Goto
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
-                {
-                    reader.BaseStream.Seek(entry.PostProcessedOffset, SeekOrigin.Begin);
-                    block.Read(reader);
-                }
+                if (entry.Root == HaloTags.scnr)
+                    using (BinaryReader reader = new BinaryReader(entry.TagData))
+                    { entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin); scenario.Read(reader); }
             }
         }
     }

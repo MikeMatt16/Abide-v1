@@ -51,9 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeDom\CodeAttributeTypeReference.cs" />
     <Compile Include="CodeDom\CodeDomString.cs" />
     <Compile Include="CodeDom\CodeFieldsContainerTypeDeclaration.cs" />
-    <Compile Include="CodeDom\TagBlockCodeGraph.cs" />
     <Compile Include="CodeDom\TagBlockCodeCompileUnit.cs" />
     <Compile Include="CodeDom\TagGroupCodeCompileUnit.cs" />
     <Compile Include="Extensions.cs" />

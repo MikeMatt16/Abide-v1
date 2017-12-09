@@ -14,58 +14,81 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("item_collection", 1769237859u, 4294967293u, typeof(ItemCollectionBlock))]
-    public sealed class ItemCollectionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(16, 4)]
+    [TagGroupAttribute("item_collection", 1769237859u, 4294967293u, typeof(ItemCollectionBlock))]
+    public sealed class ItemCollectionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("item permutations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("item_permutation", 32, typeof(ItemPermutation))]
+        private TagBlockList<ItemPermutation> itemPermutationsList = new TagBlockList<ItemPermutation>(32);
+        [FieldAttribute("item permutations", typeof(TagBlock))]
+        [BlockAttribute("item_permutation", 32, typeof(ItemPermutation))]
         public TagBlock ItemPermutations;
-        [Abide.Guerilla.Tags.FieldAttribute("spawn time (in seconds, 0 = default)", typeof(Int16))]
+        [FieldAttribute("spawn time (in seconds, 0 = default)", typeof(Int16))]
         public Int16 SpawnTimeInSeconds0EqualsDefault;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        public int Size
+        public TagBlockList<ItemPermutation> ItemPermutationsList
+        {
+            get
+            {
+                return this.itemPermutationsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 16;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.itemPermutationsList.Clear();
+            this.ItemPermutations = TagBlock.Zero;
+            this.SpawnTimeInSeconds0EqualsDefault = 0;
+            this.EmptyString = new byte[2];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.ItemPermutations = reader.ReadInt64();
+            this.itemPermutationsList.Read(reader, this.ItemPermutations);
+            this.SpawnTimeInSeconds0EqualsDefault = reader.ReadInt16();
+            this.EmptyString = reader.ReadBytes(2);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(24, 4)]
+        public sealed class ItemPermutation : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class ItemPermutation : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("weight#relatively how likely this item will be chosen", typeof(Single))]
+            [FieldAttribute("weight#relatively how likely this item will be chosen", typeof(Single))]
             public Single Weight;
-            [Abide.Guerilla.Tags.FieldAttribute("item^#which item to ", typeof(TagReference))]
+            [FieldAttribute("item^#which item to ", typeof(TagReference))]
             public TagReference Item;
-            [Abide.Guerilla.Tags.FieldAttribute("variant name", typeof(StringId))]
+            [FieldAttribute("variant name", typeof(StringId))]
             public StringId VariantName;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Weight = 0;
+                this.Item = TagReference.Null;
+                this.VariantName = StringId.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Weight = reader.ReadSingle();
+                this.Item = reader.Read<TagReference>();
+                this.VariantName = reader.ReadInt32();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

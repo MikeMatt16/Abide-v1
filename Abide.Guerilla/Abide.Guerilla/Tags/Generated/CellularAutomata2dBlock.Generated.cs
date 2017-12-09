@@ -14,179 +14,296 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(556, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("cellular_automata2d", 2003331440u, 4294967293u, typeof(CellularAutomata2dBlock))]
-    public sealed class CellularAutomata2dBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(556, 4)]
+    [TagGroupAttribute("cellular_automata2d", 2003331440u, 4294967293u, typeof(CellularAutomata2dBlock))]
+    public sealed class CellularAutomata2dBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("updates per second:Hz", typeof(Int16))]
+        private TagBlockList<RulesBlock> rulesList = new TagBlockList<RulesBlock>(16);
+        [FieldAttribute("updates per second:Hz", typeof(Int16))]
         public Int16 UpdatesPerSecond;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("dead cell penalty", typeof(Single))]
+        [FieldAttribute("dead cell penalty", typeof(Single))]
         public Single DeadCellPenalty;
-        [Abide.Guerilla.Tags.FieldAttribute("live cell bonus", typeof(Single))]
+        [FieldAttribute("live cell bonus", typeof(Single))]
         public Single LiveCellBonus;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(80)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(80)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("width:cells", typeof(Int16))]
+        [FieldAttribute("width:cells", typeof(Int16))]
         public Int16 Width;
-        [Abide.Guerilla.Tags.FieldAttribute("height:cells", typeof(Int16))]
+        [FieldAttribute("height:cells", typeof(Int16))]
         public Int16 Height;
-        [Abide.Guerilla.Tags.FieldAttribute("cell width:world units", typeof(Single))]
+        [FieldAttribute("cell width:world units", typeof(Single))]
         public Single CellWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("height:world units", typeof(Single))]
+        [FieldAttribute("height:world units", typeof(Single))]
         public Single Height1;
-        [Abide.Guerilla.Tags.FieldAttribute("velocity:cells/update", typeof(Vector2))]
+        [FieldAttribute("velocity:cells/update", typeof(Vector2))]
         public Vector2 Velocity;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(28)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(28)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("marker", typeof(StringId))]
+        [FieldAttribute("marker", typeof(StringId))]
         public StringId Marker;
-        [Abide.Guerilla.Tags.FieldAttribute("interpolation flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(InterpolationFlagsOptions), true)]
-        public Int32 InterpolationFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("base color", typeof(ColorRgbF))]
+        [FieldAttribute("interpolation flags", typeof(InterpolationFlagsOptions))]
+        [OptionsAttribute(typeof(InterpolationFlagsOptions), true)]
+        public InterpolationFlagsOptions InterpolationFlags;
+        [FieldAttribute("base color", typeof(ColorRgbF))]
         public ColorRgbF BaseColor;
-        [Abide.Guerilla.Tags.FieldAttribute("peak color", typeof(ColorRgbF))]
+        [FieldAttribute("peak color", typeof(ColorRgbF))]
         public ColorRgbF PeakColor;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(76)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(76)]
         public Byte[] EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("width:cells", typeof(Int16))]
+        [FieldAttribute("width:cells", typeof(Int16))]
         public Int16 Width1;
-        [Abide.Guerilla.Tags.FieldAttribute("height:cells", typeof(Int16))]
+        [FieldAttribute("height:cells", typeof(Int16))]
         public Int16 Height2;
-        [Abide.Guerilla.Tags.FieldAttribute("cell width:world units", typeof(Single))]
+        [FieldAttribute("cell width:world units", typeof(Single))]
         public Single CellWidth1;
-        [Abide.Guerilla.Tags.FieldAttribute("velocity:cells/update", typeof(Vector2))]
+        [FieldAttribute("velocity:cells/update", typeof(Vector2))]
         public Vector2 Velocity1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(48)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(48)]
         public Byte[] EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("marker", typeof(StringId))]
+        [FieldAttribute("marker", typeof(StringId))]
         public StringId Marker1;
-        [Abide.Guerilla.Tags.FieldAttribute("texture width:cells", typeof(Int16))]
+        [FieldAttribute("texture width:cells", typeof(Int16))]
         public Int16 TextureWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString5;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(48)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(48)]
         public Byte[] EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("texture", typeof(TagReference))]
+        [FieldAttribute("texture", typeof(TagReference))]
         public TagReference Texture;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(160)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(160)]
         public Byte[] EmptyString7;
-        [Abide.Guerilla.Tags.FieldAttribute("rules", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("rules_block", 16, typeof(RulesBlock))]
+        [FieldAttribute("rules", typeof(TagBlock))]
+        [BlockAttribute("rules_block", 16, typeof(RulesBlock))]
         public TagBlock Rules;
-        public int Size
+        public TagBlockList<RulesBlock> RulesList
+        {
+            get
+            {
+                return this.rulesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 556;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.rulesList.Clear();
+            this.UpdatesPerSecond = 0;
+            this.EmptyString = new byte[2];
+            this.DeadCellPenalty = 0;
+            this.LiveCellBonus = 0;
+            this.EmptyString1 = new byte[80];
+            this.Width = 0;
+            this.Height = 0;
+            this.CellWidth = 0;
+            this.Height1 = 0;
+            this.Velocity = Vector2.Zero;
+            this.EmptyString2 = new byte[28];
+            this.Marker = StringId.Zero;
+            this.InterpolationFlags = ((InterpolationFlagsOptions)(0));
+            this.BaseColor = ColorRgbF.Zero;
+            this.PeakColor = ColorRgbF.Zero;
+            this.EmptyString3 = new byte[76];
+            this.Width1 = 0;
+            this.Height2 = 0;
+            this.CellWidth1 = 0;
+            this.Velocity1 = Vector2.Zero;
+            this.EmptyString4 = new byte[48];
+            this.Marker1 = StringId.Zero;
+            this.TextureWidth = 0;
+            this.EmptyString5 = new byte[2];
+            this.EmptyString6 = new byte[48];
+            this.Texture = TagReference.Null;
+            this.EmptyString7 = new byte[160];
+            this.Rules = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.UpdatesPerSecond = reader.ReadInt16();
+            this.EmptyString = reader.ReadBytes(2);
+            this.DeadCellPenalty = reader.ReadSingle();
+            this.LiveCellBonus = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(80);
+            this.Width = reader.ReadInt16();
+            this.Height = reader.ReadInt16();
+            this.CellWidth = reader.ReadSingle();
+            this.Height1 = reader.ReadSingle();
+            this.Velocity = reader.Read<Vector2>();
+            this.EmptyString2 = reader.ReadBytes(28);
+            this.Marker = reader.ReadInt32();
+            this.InterpolationFlags = ((InterpolationFlagsOptions)(reader.ReadInt32()));
+            this.BaseColor = reader.Read<ColorRgbF>();
+            this.PeakColor = reader.Read<ColorRgbF>();
+            this.EmptyString3 = reader.ReadBytes(76);
+            this.Width1 = reader.ReadInt16();
+            this.Height2 = reader.ReadInt16();
+            this.CellWidth1 = reader.ReadSingle();
+            this.Velocity1 = reader.Read<Vector2>();
+            this.EmptyString4 = reader.ReadBytes(48);
+            this.Marker1 = reader.ReadInt32();
+            this.TextureWidth = reader.ReadInt16();
+            this.EmptyString5 = reader.ReadBytes(2);
+            this.EmptyString6 = reader.ReadBytes(48);
+            this.Texture = reader.Read<TagReference>();
+            this.EmptyString7 = reader.ReadBytes(160);
+            this.Rules = reader.ReadInt64();
+            this.rulesList.Read(reader, this.Rules);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(88, 4)]
+        public sealed class RulesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(88, 4)]
-        public sealed class RulesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+            private TagBlockList<StatesBlock> statesList = new TagBlockList<StatesBlock>(16);
+            [FieldAttribute("name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("tint color", typeof(ColorRgbF))]
+            [FieldAttribute("tint color", typeof(ColorRgbF))]
             public ColorRgbF TintColor;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(32)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(32)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("states", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("states_block", 16, typeof(StatesBlock))]
+            [FieldAttribute("states", typeof(TagBlock))]
+            [BlockAttribute("states_block", 16, typeof(StatesBlock))]
             public TagBlock States;
-            public int Size
+            public TagBlockList<StatesBlock> StatesList
+            {
+                get
+                {
+                    return this.statesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 88;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.statesList.Clear();
+                this.Name = String32.Empty;
+                this.TintColor = ColorRgbF.Zero;
+                this.EmptyString = new byte[32];
+                this.States = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.Read<String32>();
+                this.TintColor = reader.Read<ColorRgbF>();
+                this.EmptyString = reader.ReadBytes(32);
+                this.States = reader.ReadInt64();
+                this.statesList.Read(reader, this.States);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(96, 4)]
+            public sealed class StatesBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(96, 4)]
-            public sealed class StatesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+                [FieldAttribute("name^", typeof(String32))]
                 public String32 Name;
-                [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorRgbF))]
+                [FieldAttribute("color", typeof(ColorRgbF))]
                 public ColorRgbF Color;
-                [Abide.Guerilla.Tags.FieldAttribute("counts as:neighbors", typeof(Int16))]
+                [FieldAttribute("counts as:neighbors", typeof(Int16))]
                 public Int16 CountsAs;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("initial placement weight", typeof(Single))]
+                [FieldAttribute("initial placement weight", typeof(Single))]
                 public Single InitialPlacementWeight;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(24)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(24)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("zero", typeof(Int16))]
+                [FieldAttribute("zero", typeof(Int16))]
                 public Int16 Zero;
-                [Abide.Guerilla.Tags.FieldAttribute("one", typeof(Int16))]
+                [FieldAttribute("one", typeof(Int16))]
                 public Int16 One;
-                [Abide.Guerilla.Tags.FieldAttribute("two", typeof(Int16))]
+                [FieldAttribute("two", typeof(Int16))]
                 public Int16 Two;
-                [Abide.Guerilla.Tags.FieldAttribute("three", typeof(Int16))]
+                [FieldAttribute("three", typeof(Int16))]
                 public Int16 Three;
-                [Abide.Guerilla.Tags.FieldAttribute("four", typeof(Int16))]
+                [FieldAttribute("four", typeof(Int16))]
                 public Int16 Four;
-                [Abide.Guerilla.Tags.FieldAttribute("five", typeof(Int16))]
+                [FieldAttribute("five", typeof(Int16))]
                 public Int16 Five;
-                [Abide.Guerilla.Tags.FieldAttribute("six", typeof(Int16))]
+                [FieldAttribute("six", typeof(Int16))]
                 public Int16 Six;
-                [Abide.Guerilla.Tags.FieldAttribute("seven", typeof(Int16))]
+                [FieldAttribute("seven", typeof(Int16))]
                 public Int16 Seven;
-                [Abide.Guerilla.Tags.FieldAttribute("eight", typeof(Int16))]
+                [FieldAttribute("eight", typeof(Int16))]
                 public Int16 Eight;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 96;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Name = String32.Empty;
+                    this.Color = ColorRgbF.Zero;
+                    this.CountsAs = 0;
+                    this.EmptyString = new byte[2];
+                    this.InitialPlacementWeight = 0;
+                    this.EmptyString1 = new byte[24];
+                    this.Zero = 0;
+                    this.One = 0;
+                    this.Two = 0;
+                    this.Three = 0;
+                    this.Four = 0;
+                    this.Five = 0;
+                    this.Six = 0;
+                    this.Seven = 0;
+                    this.Eight = 0;
+                    this.EmptyString2 = new byte[2];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Name = reader.Read<String32>();
+                    this.Color = reader.Read<ColorRgbF>();
+                    this.CountsAs = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.InitialPlacementWeight = reader.ReadSingle();
+                    this.EmptyString1 = reader.ReadBytes(24);
+                    this.Zero = reader.ReadInt16();
+                    this.One = reader.ReadInt16();
+                    this.Two = reader.ReadInt16();
+                    this.Three = reader.ReadInt16();
+                    this.Four = reader.ReadInt16();
+                    this.Five = reader.ReadInt16();
+                    this.Six = reader.ReadInt16();
+                    this.Seven = reader.ReadInt16();
+                    this.Eight = reader.ReadInt16();
+                    this.EmptyString2 = reader.ReadBytes(2);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        public enum InterpolationFlagsOptions
+        public enum InterpolationFlagsOptions : Int32
         {
             BlendInHsv = 1,
             MoreColors = 2,

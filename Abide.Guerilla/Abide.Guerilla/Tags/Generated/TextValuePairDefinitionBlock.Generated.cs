@@ -14,76 +14,107 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(48, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("text_value_pair_definition", 1936288889u, 4294967293u, typeof(TextValuePairDefinitionBlock))]
-    public sealed class TextValuePairDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(48, 4)]
+    [TagGroupAttribute("text_value_pair_definition", 1936288889u, 4294967293u, typeof(TextValuePairDefinitionBlock))]
+    public sealed class TextValuePairDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("parameter", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ParameterOptions), false)]
-        public Int32 Parameter;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        private TagBlockList<TextValuePairReferenceBlock> textValuePairsList = new TagBlockList<TextValuePairReferenceBlock>(32);
+        [FieldAttribute("parameter", typeof(ParameterOptions))]
+        [OptionsAttribute(typeof(ParameterOptions), false)]
+        public ParameterOptions Parameter;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("string list", typeof(TagReference))]
+        [FieldAttribute("string list", typeof(TagReference))]
         public TagReference StringList;
-        [Abide.Guerilla.Tags.FieldAttribute("title text", typeof(StringId))]
+        [FieldAttribute("title text", typeof(StringId))]
         public StringId TitleText;
-        [Abide.Guerilla.Tags.FieldAttribute("header text", typeof(StringId))]
+        [FieldAttribute("header text", typeof(StringId))]
         public StringId HeaderText;
-        [Abide.Guerilla.Tags.FieldAttribute("description text", typeof(StringId))]
+        [FieldAttribute("description text", typeof(StringId))]
         public StringId DescriptionText;
-        [Abide.Guerilla.Tags.FieldAttribute("text value pairs", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("text_value_pair_reference_block", 32, typeof(TextValuePairReferenceBlock))]
+        [FieldAttribute("text value pairs", typeof(TagBlock))]
+        [BlockAttribute("text_value_pair_reference_block", 32, typeof(TextValuePairReferenceBlock))]
         public TagBlock TextValuePairs;
-        public int Size
+        public TagBlockList<TextValuePairReferenceBlock> TextValuePairsList
+        {
+            get
+            {
+                return this.textValuePairsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 48;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.textValuePairsList.Clear();
+            this.Parameter = ((ParameterOptions)(0));
+            this.EmptyString = new byte[4];
+            this.StringList = TagReference.Null;
+            this.TitleText = StringId.Zero;
+            this.HeaderText = StringId.Zero;
+            this.DescriptionText = StringId.Zero;
+            this.TextValuePairs = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Parameter = ((ParameterOptions)(reader.ReadInt32()));
+            this.EmptyString = reader.ReadBytes(4);
+            this.StringList = reader.Read<TagReference>();
+            this.TitleText = reader.ReadInt32();
+            this.HeaderText = reader.ReadInt32();
+            this.DescriptionText = reader.ReadInt32();
+            this.TextValuePairs = reader.ReadInt64();
+            this.textValuePairsList.Read(reader, this.TextValuePairs);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(12, 4)]
+        public sealed class TextValuePairReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class TextValuePairReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("value", typeof(Int32))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("value", typeof(Int32))]
             public Int32 Value;
-            [Abide.Guerilla.Tags.FieldAttribute("label string id", typeof(StringId))]
+            [FieldAttribute("label string id", typeof(StringId))]
             public StringId LabelStringId;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Flags = ((FlagsOptions)(0));
+                this.Value = 0;
+                this.LabelStringId = StringId.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.Value = reader.ReadInt32();
+                this.LabelStringId = reader.ReadInt32();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 DefaultSetting = 1,
             }
         }
-        public enum ParameterOptions
+        public enum ParameterOptions : Int32
         {
             MatchRoundSetting = 0,
             MatchCtfScoreToWin = 1,

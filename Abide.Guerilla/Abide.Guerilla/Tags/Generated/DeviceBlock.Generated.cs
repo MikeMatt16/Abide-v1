@@ -14,73 +14,110 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(152, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("device", 1684371049u, 1868720741u, typeof(DeviceBlock))]
-    public sealed class DeviceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(152, 4)]
+    [TagGroupAttribute("device", 1684371049u, 1868720741u, typeof(DeviceBlock))]
+    public sealed class DeviceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("power transition time:seconds", typeof(Single))]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("power transition time:seconds", typeof(Single))]
         public Single PowerTransitionTime;
-        [Abide.Guerilla.Tags.FieldAttribute("power acceleration time:seconds", typeof(Single))]
+        [FieldAttribute("power acceleration time:seconds", typeof(Single))]
         public Single PowerAccelerationTime;
-        [Abide.Guerilla.Tags.FieldAttribute("position transition time:seconds", typeof(Single))]
+        [FieldAttribute("position transition time:seconds", typeof(Single))]
         public Single PositionTransitionTime;
-        [Abide.Guerilla.Tags.FieldAttribute("position acceleration time:seconds", typeof(Single))]
+        [FieldAttribute("position acceleration time:seconds", typeof(Single))]
         public Single PositionAccelerationTime;
-        [Abide.Guerilla.Tags.FieldAttribute("depowered position transition time:seconds", typeof(Single))]
+        [FieldAttribute("depowered position transition time:seconds", typeof(Single))]
         public Single DepoweredPositionTransitionTime;
-        [Abide.Guerilla.Tags.FieldAttribute("depowered position acceleration time:seconds", typeof(Single))]
+        [FieldAttribute("depowered position acceleration time:seconds", typeof(Single))]
         public Single DepoweredPositionAccelerationTime;
-        [Abide.Guerilla.Tags.FieldAttribute("lightmap flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(LightmapFlagsOptions), true)]
-        public Int16 LightmapFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("lightmap flags", typeof(LightmapFlagsOptions))]
+        [OptionsAttribute(typeof(LightmapFlagsOptions), true)]
+        public LightmapFlagsOptions LightmapFlags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("open (up)", typeof(TagReference))]
+        [FieldAttribute("open (up)", typeof(TagReference))]
         public TagReference OpenUp;
-        [Abide.Guerilla.Tags.FieldAttribute("close (down)", typeof(TagReference))]
+        [FieldAttribute("close (down)", typeof(TagReference))]
         public TagReference CloseDown;
-        [Abide.Guerilla.Tags.FieldAttribute("opened", typeof(TagReference))]
+        [FieldAttribute("opened", typeof(TagReference))]
         public TagReference Opened;
-        [Abide.Guerilla.Tags.FieldAttribute("closed", typeof(TagReference))]
+        [FieldAttribute("closed", typeof(TagReference))]
         public TagReference Closed;
-        [Abide.Guerilla.Tags.FieldAttribute("depowered", typeof(TagReference))]
+        [FieldAttribute("depowered", typeof(TagReference))]
         public TagReference Depowered;
-        [Abide.Guerilla.Tags.FieldAttribute("repowered", typeof(TagReference))]
+        [FieldAttribute("repowered", typeof(TagReference))]
         public TagReference Repowered;
-        [Abide.Guerilla.Tags.FieldAttribute("delay time:seconds", typeof(Single))]
+        [FieldAttribute("delay time:seconds", typeof(Single))]
         public Single DelayTime;
-        [Abide.Guerilla.Tags.FieldAttribute("delay effect", typeof(TagReference))]
+        [FieldAttribute("delay effect", typeof(TagReference))]
         public TagReference DelayEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("automatic activation radius:world units", typeof(Single))]
+        [FieldAttribute("automatic activation radius:world units", typeof(Single))]
         public Single AutomaticActivationRadius;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 152;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.PowerTransitionTime = 0;
+            this.PowerAccelerationTime = 0;
+            this.PositionTransitionTime = 0;
+            this.PositionAccelerationTime = 0;
+            this.DepoweredPositionTransitionTime = 0;
+            this.DepoweredPositionAccelerationTime = 0;
+            this.LightmapFlags = ((LightmapFlagsOptions)(0));
+            this.EmptyString = new byte[2];
+            this.OpenUp = TagReference.Null;
+            this.CloseDown = TagReference.Null;
+            this.Opened = TagReference.Null;
+            this.Closed = TagReference.Null;
+            this.Depowered = TagReference.Null;
+            this.Repowered = TagReference.Null;
+            this.DelayTime = 0;
+            this.DelayEffect = TagReference.Null;
+            this.AutomaticActivationRadius = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.PowerTransitionTime = reader.ReadSingle();
+            this.PowerAccelerationTime = reader.ReadSingle();
+            this.PositionTransitionTime = reader.ReadSingle();
+            this.PositionAccelerationTime = reader.ReadSingle();
+            this.DepoweredPositionTransitionTime = reader.ReadSingle();
+            this.DepoweredPositionAccelerationTime = reader.ReadSingle();
+            this.LightmapFlags = ((LightmapFlagsOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.OpenUp = reader.Read<TagReference>();
+            this.CloseDown = reader.Read<TagReference>();
+            this.Opened = reader.Read<TagReference>();
+            this.Closed = reader.Read<TagReference>();
+            this.Depowered = reader.Read<TagReference>();
+            this.Repowered = reader.Read<TagReference>();
+            this.DelayTime = reader.ReadSingle();
+            this.DelayEffect = reader.Read<TagReference>();
+            this.AutomaticActivationRadius = reader.ReadSingle();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             PositionLoops = 1,
             Unused = 2,
             AllowInterpolation = 4,
         }
-        public enum LightmapFlagsOptions
+        public enum LightmapFlagsOptions : Int16
         {
             DontUseInLightmap = 1,
             DontUseInLightprobe = 2,

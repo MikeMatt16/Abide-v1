@@ -14,25 +14,26 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(0, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("device_light_fixture", 1818846825u, 1684371049u, typeof(DeviceLightFixtureBlock))]
-    public sealed class DeviceLightFixtureBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(0, 4)]
+    [TagGroupAttribute("device_light_fixture", 1818846825u, 1684371049u, typeof(DeviceLightFixtureBlock))]
+    public sealed class DeviceLightFixtureBlock : AbideTagBlock
     {
-        public int Size
+        public override int Size
         {
             get
             {
                 return 0;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

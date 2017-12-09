@@ -14,51 +14,68 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("color_table", 1668246639u, 4294967293u, typeof(ColorTableBlock))]
-    public sealed class ColorTableBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("color_table", 1668246639u, 4294967293u, typeof(ColorTableBlock))]
+    public sealed class ColorTableBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("colors", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("color_block", 512, typeof(ColorBlock))]
+        private TagBlockList<ColorBlock> colorsList = new TagBlockList<ColorBlock>(512);
+        [FieldAttribute("colors", typeof(TagBlock))]
+        [BlockAttribute("color_block", 512, typeof(ColorBlock))]
         public TagBlock Colors;
-        public int Size
+        public TagBlockList<ColorBlock> ColorsList
+        {
+            get
+            {
+                return this.colorsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.colorsList.Clear();
+            this.Colors = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Colors = reader.ReadInt64();
+            this.colorsList.Read(reader, this.Colors);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(48, 4)]
+        public sealed class ColorBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(48, 4)]
-        public sealed class ColorBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(String32))]
+            [FieldAttribute("name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorArgbF))]
+            [FieldAttribute("color", typeof(ColorArgbF))]
             public ColorArgbF Color;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 48;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = String32.Empty;
+                this.Color = ColorArgbF.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.Color = reader.Read<ColorArgbF>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

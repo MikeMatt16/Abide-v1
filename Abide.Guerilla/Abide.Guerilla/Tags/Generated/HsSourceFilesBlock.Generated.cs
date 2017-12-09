@@ -14,27 +14,44 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_hs_source_file", 1752392490u, 4294967293u, typeof(HsSourceFilesBlock))]
-    public sealed class HsSourceFilesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(52, 4)]
+    [TagGroupAttribute("scenario_hs_source_file", 1752392490u, 4294967293u, typeof(HsSourceFilesBlock))]
+    public sealed class HsSourceFilesBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("name*", typeof(String32))]
+        private DataList sourceList = new DataList(262144);
+        [FieldAttribute("name*", typeof(String32))]
         public String32 Name;
-        public int Size
+        [FieldAttribute("source*", typeof(TagBlock))]
+        [DataAttribute(262144)]
+        public TagBlock Source;
+        public DataList SourceList
+        {
+            get
+            {
+                return this.sourceList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 52;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.sourceList.Clear();
+            this.Name = String32.Empty;
+            this.Source = TagBlock.Zero;
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.Name = reader.Read<String32>();
+            this.Source = reader.ReadInt64();
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

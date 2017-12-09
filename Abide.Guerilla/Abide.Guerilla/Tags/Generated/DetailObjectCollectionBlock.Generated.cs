@@ -14,101 +14,154 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("detail_object_collection", 1685021283u, 4294967293u, typeof(DetailObjectCollectionBlock))]
-    public sealed class DetailObjectCollectionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(128, 4)]
+    [TagGroupAttribute("detail_object_collection", 1685021283u, 4294967293u, typeof(DetailObjectCollectionBlock))]
+    public sealed class DetailObjectCollectionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Collection Type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(CollectionTypeOptions), false)]
-        public Int16 CollectionType;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        private TagBlockList<DetailObjectTypeBlock> typesList = new TagBlockList<DetailObjectTypeBlock>(16);
+        [FieldAttribute("Collection Type", typeof(CollectionTypeOptions))]
+        [OptionsAttribute(typeof(CollectionTypeOptions), false)]
+        public CollectionTypeOptions CollectionType;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("Global z Offset: Applied to all detail objects in this collection so they don\'t f" +
+        [FieldAttribute("Global z Offset: Applied to all detail objects in this collection so they don\'t f" +
             "loat above the ground.", typeof(Single))]
         public Single GlobalZOffset;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(44)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(44)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("Sprite Plate", typeof(TagReference))]
+        [FieldAttribute("Sprite Plate", typeof(TagReference))]
         public TagReference SpritePlate;
-        [Abide.Guerilla.Tags.FieldAttribute("Types", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("detail_object_type_block", 16, typeof(DetailObjectTypeBlock))]
+        [FieldAttribute("Types", typeof(TagBlock))]
+        [BlockAttribute("detail_object_type_block", 16, typeof(DetailObjectTypeBlock))]
         public TagBlock Types;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(48)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(48)]
         public Byte[] EmptyString2;
-        public int Size
+        public TagBlockList<DetailObjectTypeBlock> TypesList
+        {
+            get
+            {
+                return this.typesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 128;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.typesList.Clear();
+            this.CollectionType = ((CollectionTypeOptions)(0));
+            this.EmptyString = new byte[2];
+            this.GlobalZOffset = 0;
+            this.EmptyString1 = new byte[44];
+            this.SpritePlate = TagReference.Null;
+            this.Types = TagBlock.Zero;
+            this.EmptyString2 = new byte[48];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.CollectionType = ((CollectionTypeOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.GlobalZOffset = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(44);
+            this.SpritePlate = reader.Read<TagReference>();
+            this.Types = reader.ReadInt64();
+            this.typesList.Read(reader, this.Types);
+            this.EmptyString2 = reader.ReadBytes(48);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(96, 4)]
+        public sealed class DetailObjectTypeBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(96, 4)]
-        public sealed class DetailObjectTypeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Name^", typeof(String32))]
+            [FieldAttribute("Name^", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("Sequence Index:[0,15]", typeof(Byte))]
+            [FieldAttribute("Sequence Index:[0,15]", typeof(Byte))]
             public Byte SequenceIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("type flags", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeFlagsOptions), true)]
-            public Byte TypeFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("type flags", typeof(TypeFlagsOptions))]
+            [OptionsAttribute(typeof(TypeFlagsOptions), true)]
+            public TypeFlagsOptions TypeFlags;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("Color Override Factor#Fraction of detail object color to use instead of the base " +
+            [FieldAttribute("Color Override Factor#Fraction of detail object color to use instead of the base " +
                 "map color in the environment:[0,1]", typeof(Single))]
             public Single ColorOverrideFactor;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("Near Fade Distance:world units", typeof(Single))]
+            [FieldAttribute("Near Fade Distance:world units", typeof(Single))]
             public Single NearFadeDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Far Fade Distance:world units", typeof(Single))]
+            [FieldAttribute("Far Fade Distance:world units", typeof(Single))]
             public Single FarFadeDistance;
-            [Abide.Guerilla.Tags.FieldAttribute("Size:world units per pixel", typeof(Single))]
+            [FieldAttribute("Size:world units per pixel", typeof(Single))]
             public Single Size1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("Minimum Color:[0,1]", typeof(ColorRgbF))]
+            [FieldAttribute("Minimum Color:[0,1]", typeof(ColorRgbF))]
             public ColorRgbF MinimumColor;
-            [Abide.Guerilla.Tags.FieldAttribute("Maximum Color:[0,1]", typeof(ColorRgbF))]
+            [FieldAttribute("Maximum Color:[0,1]", typeof(ColorRgbF))]
             public ColorRgbF MaximumColor;
-            [Abide.Guerilla.Tags.FieldAttribute("ambient color:[0,255]", typeof(ColorArgb))]
+            [FieldAttribute("ambient color:[0,255]", typeof(ColorArgb))]
             public ColorArgb AmbientColor;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString3;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 96;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = String32.Empty;
+                this.SequenceIndex = 0;
+                this.TypeFlags = ((TypeFlagsOptions)(0));
+                this.EmptyString = new byte[2];
+                this.ColorOverrideFactor = 0;
+                this.EmptyString1 = new byte[8];
+                this.NearFadeDistance = 0;
+                this.FarFadeDistance = 0;
+                this.Size1 = 0;
+                this.EmptyString2 = new byte[4];
+                this.MinimumColor = ColorRgbF.Zero;
+                this.MaximumColor = ColorRgbF.Zero;
+                this.AmbientColor = ColorArgb.Zero;
+                this.EmptyString3 = new byte[4];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.Read<String32>();
+                this.SequenceIndex = reader.ReadByte();
+                this.TypeFlags = ((TypeFlagsOptions)(reader.ReadByte()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.ColorOverrideFactor = reader.ReadSingle();
+                this.EmptyString1 = reader.ReadBytes(8);
+                this.NearFadeDistance = reader.ReadSingle();
+                this.FarFadeDistance = reader.ReadSingle();
+                this.Size1 = reader.ReadSingle();
+                this.EmptyString2 = reader.ReadBytes(4);
+                this.MinimumColor = reader.Read<ColorRgbF>();
+                this.MaximumColor = reader.Read<ColorRgbF>();
+                this.AmbientColor = reader.Read<ColorArgb>();
+                this.EmptyString3 = reader.ReadBytes(4);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TypeFlagsOptions
+            public enum TypeFlagsOptions : Byte
             {
                 Unused = 1,
                 Unused1 = 2,
@@ -116,7 +169,7 @@ namespace Abide.Guerilla.Tags
                 MoreColors = 8,
             }
         }
-        public enum CollectionTypeOptions
+        public enum CollectionTypeOptions : Int16
         {
             ScreenFacing = 0,
             ViewerFacing = 1,

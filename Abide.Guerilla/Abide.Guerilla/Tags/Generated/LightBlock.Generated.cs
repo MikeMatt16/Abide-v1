@@ -14,353 +14,524 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(272, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("light", 1818847080u, 4294967293u, typeof(LightBlock))]
-    public sealed class LightBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(272, 4)]
+    [TagGroupAttribute("light", 1818847080u, 4294967293u, typeof(LightBlock))]
+    public sealed class LightBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-        public Int16 Type;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("shadow quality bias#larger positive numbers improve quality, larger negative numb" +
+        private TagBlockList<LightBrightnessAnimationBlock> brightnessAnimationList = new TagBlockList<LightBrightnessAnimationBlock>(1);
+        private TagBlockList<LightColorAnimationBlock> colorAnimationList = new TagBlockList<LightColorAnimationBlock>(1);
+        private TagBlockList<LightGelAnimationBlock> gelAnimationList = new TagBlockList<LightGelAnimationBlock>(1);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("type", typeof(TypeOptions))]
+        [OptionsAttribute(typeof(TypeOptions), false)]
+        public TypeOptions Type;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString;
+        [FieldAttribute("shadow quality bias#larger positive numbers improve quality, larger negative numb" +
             "ers improve speed", typeof(Single))]
         public Single ShadowQualityBias;
-        [Abide.Guerilla.Tags.FieldAttribute("shadow tap bias#the less taps you use, the faster the light (but edges can look w" +
-            "orse)", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ShadowTapBiasOptions), false)]
-        public Int16 ShadowTapBias;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("radius:world units#the radius at which illumination falls off to zero", typeof(Single))]
+        [FieldAttribute("shadow tap bias#the less taps you use, the faster the light (but edges can look w" +
+            "orse)", typeof(ShadowTapBiasOptions))]
+        [OptionsAttribute(typeof(ShadowTapBiasOptions), false)]
+        public ShadowTapBiasOptions ShadowTapBias;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("radius:world units#the radius at which illumination falls off to zero", typeof(Single))]
         public Single Radius;
-        [Abide.Guerilla.Tags.FieldAttribute("specular radius:world units#the radius at which specular highlights fall off to z" +
+        [FieldAttribute("specular radius:world units#the radius at which specular highlights fall off to z" +
             "ero (if zero, same as maximum radius)", typeof(Single))]
         public Single SpecularRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("near width:world units#width of the frustum light at its near plane", typeof(Single))]
+        [FieldAttribute("near width:world units#width of the frustum light at its near plane", typeof(Single))]
         public Single NearWidth;
-        [Abide.Guerilla.Tags.FieldAttribute("height stretch#how much the gel is stretched vertically (0.0 or 1.0 = aspect rati" +
+        [FieldAttribute("height stretch#how much the gel is stretched vertically (0.0 or 1.0 = aspect rati" +
             "o same as gel)", typeof(Single))]
         public Single HeightStretch;
-        [Abide.Guerilla.Tags.FieldAttribute("field of view:degrees#horizontal angle that the frustum light covers (0.0 = no sp" +
+        [FieldAttribute("field of view:degrees#horizontal angle that the frustum light covers (0.0 = no sp" +
             "read, a parallel beam)", typeof(Single))]
         public Single FieldOfView;
-        [Abide.Guerilla.Tags.FieldAttribute("falloff distance#distance from near plane to where the light falloff starts", typeof(Single))]
+        [FieldAttribute("falloff distance#distance from near plane to where the light falloff starts", typeof(Single))]
         public Single FalloffDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("cutoff distance#distance from near plane to where illumination falls off to zero", typeof(Single))]
+        [FieldAttribute("cutoff distance#distance from near plane to where illumination falls off to zero", typeof(Single))]
         public Single CutoffDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("interpolation flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(InterpolationFlagsOptions), true)]
-        public Int32 InterpolationFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("specular lower bound", typeof(ColorRgbF))]
+        [FieldAttribute("interpolation flags", typeof(InterpolationFlagsOptions))]
+        [OptionsAttribute(typeof(InterpolationFlagsOptions), true)]
+        public InterpolationFlagsOptions InterpolationFlags;
+        [FieldAttribute("specular lower bound", typeof(ColorRgbF))]
         public ColorRgbF SpecularLowerBound;
-        [Abide.Guerilla.Tags.FieldAttribute("specular upper bound", typeof(ColorRgbF))]
+        [FieldAttribute("specular upper bound", typeof(ColorRgbF))]
         public ColorRgbF SpecularUpperBound;
-        [Abide.Guerilla.Tags.FieldAttribute("diffuse lower bound", typeof(ColorRgbF))]
+        [FieldAttribute("diffuse lower bound", typeof(ColorRgbF))]
         public ColorRgbF DiffuseLowerBound;
-        [Abide.Guerilla.Tags.FieldAttribute("diffuse upper bound", typeof(ColorRgbF))]
+        [FieldAttribute("diffuse upper bound", typeof(ColorRgbF))]
         public ColorRgbF DiffuseUpperBound;
-        [Abide.Guerilla.Tags.FieldAttribute("gel map#must be a cubemap for spherical light and a 2d texture for frustum light", typeof(TagReference))]
+        [FieldAttribute("gel map#must be a cubemap for spherical light and a 2d texture for frustum light", typeof(TagReference))]
         public TagReference GelMap;
-        [Abide.Guerilla.Tags.FieldAttribute("specular mask", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecularMaskOptions), false)]
-        public Int16 SpecularMask;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString8;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString10;
-        [Abide.Guerilla.Tags.FieldAttribute("falloff function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FalloffFunctionOptions), false)]
-        public Int16 FalloffFunction;
-        [Abide.Guerilla.Tags.FieldAttribute("diffuse contrast", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(DiffuseContrastOptions), false)]
-        public Int16 DiffuseContrast;
-        [Abide.Guerilla.Tags.FieldAttribute("specular contrast", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecularContrastOptions), false)]
-        public Int16 SpecularContrast;
-        [Abide.Guerilla.Tags.FieldAttribute("falloff geometry", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FalloffGeometryOptions), false)]
-        public Int16 FalloffGeometry;
-        [Abide.Guerilla.Tags.FieldAttribute("lens flare", typeof(TagReference))]
-        public TagReference LensFlare1;
-        [Abide.Guerilla.Tags.FieldAttribute("bounding radius:world units#used to generate a bounding radius for lensflare-only" +
+        [FieldAttribute("specular mask", typeof(SpecularMaskOptions))]
+        [OptionsAttribute(typeof(SpecularMaskOptions), false)]
+        public SpecularMaskOptions SpecularMask;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString2;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString3;
+        [FieldAttribute("falloff function", typeof(FalloffFunctionOptions))]
+        [OptionsAttribute(typeof(FalloffFunctionOptions), false)]
+        public FalloffFunctionOptions FalloffFunction;
+        [FieldAttribute("diffuse contrast", typeof(DiffuseContrastOptions))]
+        [OptionsAttribute(typeof(DiffuseContrastOptions), false)]
+        public DiffuseContrastOptions DiffuseContrast;
+        [FieldAttribute("specular contrast", typeof(SpecularContrastOptions))]
+        [OptionsAttribute(typeof(SpecularContrastOptions), false)]
+        public SpecularContrastOptions SpecularContrast;
+        [FieldAttribute("falloff geometry", typeof(FalloffGeometryOptions))]
+        [OptionsAttribute(typeof(FalloffGeometryOptions), false)]
+        public FalloffGeometryOptions FalloffGeometry;
+        [FieldAttribute("lens flare", typeof(TagReference))]
+        public TagReference LensFlare;
+        [FieldAttribute("bounding radius:world units#used to generate a bounding radius for lensflare-only" +
             " lights", typeof(Single))]
         public Single BoundingRadius;
-        [Abide.Guerilla.Tags.FieldAttribute("light volume", typeof(TagReference))]
+        [FieldAttribute("light volume", typeof(TagReference))]
         public TagReference LightVolume;
-        [Abide.Guerilla.Tags.FieldAttribute("default lightmap setting", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(DefaultLightmapSettingOptions), false)]
-        public Int16 DefaultLightmapSetting;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString18;
-        [Abide.Guerilla.Tags.FieldAttribute("lightmap half life", typeof(Single))]
+        [FieldAttribute("default lightmap setting", typeof(DefaultLightmapSettingOptions))]
+        [OptionsAttribute(typeof(DefaultLightmapSettingOptions), false)]
+        public DefaultLightmapSettingOptions DefaultLightmapSetting;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString4;
+        [FieldAttribute("lightmap half life", typeof(Single))]
         public Single LightmapHalfLife;
-        [Abide.Guerilla.Tags.FieldAttribute("lightmap light scale", typeof(Single))]
+        [FieldAttribute("lightmap light scale", typeof(Single))]
         public Single LightmapLightScale;
-        [Abide.Guerilla.Tags.FieldAttribute("duration:seconds#the light will last this long when created by an effect", typeof(Single))]
+        [FieldAttribute("duration:seconds#the light will last this long when created by an effect", typeof(Single))]
         public Single Duration;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString20;
-        [Abide.Guerilla.Tags.FieldAttribute("falloff function#the scale of the light will diminish over time according to this" +
-            " function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FalloffFunctionOptions1), false)]
-        public Int16 FalloffFunction1;
-        [Abide.Guerilla.Tags.FieldAttribute("illumination fade", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(IlluminationFadeOptions), false)]
-        public Int16 IlluminationFade;
-        [Abide.Guerilla.Tags.FieldAttribute("shadow fade", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ShadowFadeOptions), false)]
-        public Int16 ShadowFade;
-        [Abide.Guerilla.Tags.FieldAttribute("specular fade", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpecularFadeOptions), false)]
-        public Int16 SpecularFade;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString22;
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions1), true)]
-        public Int32 Flags1;
-        [Abide.Guerilla.Tags.FieldAttribute("brightness animation", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("brightness animation", 1, typeof(LightBrightnessAnimationBlock))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString5;
+        [FieldAttribute("falloff function#the scale of the light will diminish over time according to this" +
+            " function", typeof(FalloffFunctionOptions1))]
+        [OptionsAttribute(typeof(FalloffFunctionOptions1), false)]
+        public FalloffFunctionOptions1 FalloffFunction1;
+        [FieldAttribute("illumination fade", typeof(IlluminationFadeOptions))]
+        [OptionsAttribute(typeof(IlluminationFadeOptions), false)]
+        public IlluminationFadeOptions IlluminationFade;
+        [FieldAttribute("shadow fade", typeof(ShadowFadeOptions))]
+        [OptionsAttribute(typeof(ShadowFadeOptions), false)]
+        public ShadowFadeOptions ShadowFade;
+        [FieldAttribute("specular fade", typeof(SpecularFadeOptions))]
+        [OptionsAttribute(typeof(SpecularFadeOptions), false)]
+        public SpecularFadeOptions SpecularFade;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString6;
+        [FieldAttribute("flags", typeof(FlagsOptions1))]
+        [OptionsAttribute(typeof(FlagsOptions1), true)]
+        public FlagsOptions1 Flags1;
+        [FieldAttribute("brightness animation", typeof(TagBlock))]
+        [BlockAttribute("brightness animation", 1, typeof(LightBrightnessAnimationBlock))]
         public TagBlock BrightnessAnimation;
-        [Abide.Guerilla.Tags.FieldAttribute("color animation", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("color animation", 1, typeof(LightColorAnimationBlock))]
+        [FieldAttribute("color animation", typeof(TagBlock))]
+        [BlockAttribute("color animation", 1, typeof(LightColorAnimationBlock))]
         public TagBlock ColorAnimation;
-        [Abide.Guerilla.Tags.FieldAttribute("gel animation", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("gel animation", 1, typeof(LightGelAnimationBlock))]
+        [FieldAttribute("gel animation", typeof(TagBlock))]
+        [BlockAttribute("gel animation", 1, typeof(LightGelAnimationBlock))]
         public TagBlock GelAnimation;
-        [Abide.Guerilla.Tags.FieldAttribute("shader", typeof(TagReference))]
-        public TagReference Shader1;
-        public int Size
+        [FieldAttribute("shader", typeof(TagReference))]
+        public TagReference Shader;
+        public TagBlockList<LightBrightnessAnimationBlock> BrightnessAnimationList
+        {
+            get
+            {
+                return this.brightnessAnimationList;
+            }
+        }
+        public TagBlockList<LightColorAnimationBlock> ColorAnimationList
+        {
+            get
+            {
+                return this.colorAnimationList;
+            }
+        }
+        public TagBlockList<LightGelAnimationBlock> GelAnimationList
+        {
+            get
+            {
+                return this.gelAnimationList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 272;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.brightnessAnimationList.Clear();
+            this.colorAnimationList.Clear();
+            this.gelAnimationList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.Type = ((TypeOptions)(0));
+            this.EmptyString = new byte[2];
+            this.ShadowQualityBias = 0;
+            this.ShadowTapBias = ((ShadowTapBiasOptions)(0));
+            this.EmptyString1 = new byte[2];
+            this.Radius = 0;
+            this.SpecularRadius = 0;
+            this.NearWidth = 0;
+            this.HeightStretch = 0;
+            this.FieldOfView = 0;
+            this.FalloffDistance = 0;
+            this.CutoffDistance = 0;
+            this.InterpolationFlags = ((InterpolationFlagsOptions)(0));
+            this.SpecularLowerBound = ColorRgbF.Zero;
+            this.SpecularUpperBound = ColorRgbF.Zero;
+            this.DiffuseLowerBound = ColorRgbF.Zero;
+            this.DiffuseUpperBound = ColorRgbF.Zero;
+            this.GelMap = TagReference.Null;
+            this.SpecularMask = ((SpecularMaskOptions)(0));
+            this.EmptyString2 = new byte[2];
+            this.EmptyString3 = new byte[4];
+            this.FalloffFunction = ((FalloffFunctionOptions)(0));
+            this.DiffuseContrast = ((DiffuseContrastOptions)(0));
+            this.SpecularContrast = ((SpecularContrastOptions)(0));
+            this.FalloffGeometry = ((FalloffGeometryOptions)(0));
+            this.LensFlare = TagReference.Null;
+            this.BoundingRadius = 0;
+            this.LightVolume = TagReference.Null;
+            this.DefaultLightmapSetting = ((DefaultLightmapSettingOptions)(0));
+            this.EmptyString4 = new byte[2];
+            this.LightmapHalfLife = 0;
+            this.LightmapLightScale = 0;
+            this.Duration = 0;
+            this.EmptyString5 = new byte[2];
+            this.FalloffFunction1 = ((FalloffFunctionOptions1)(0));
+            this.IlluminationFade = ((IlluminationFadeOptions)(0));
+            this.ShadowFade = ((ShadowFadeOptions)(0));
+            this.SpecularFade = ((SpecularFadeOptions)(0));
+            this.EmptyString6 = new byte[2];
+            this.Flags1 = ((FlagsOptions1)(0));
+            this.BrightnessAnimation = TagBlock.Zero;
+            this.ColorAnimation = TagBlock.Zero;
+            this.GelAnimation = TagBlock.Zero;
+            this.Shader = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.Type = ((TypeOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.ShadowQualityBias = reader.ReadSingle();
+            this.ShadowTapBias = ((ShadowTapBiasOptions)(reader.ReadInt16()));
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.Radius = reader.ReadSingle();
+            this.SpecularRadius = reader.ReadSingle();
+            this.NearWidth = reader.ReadSingle();
+            this.HeightStretch = reader.ReadSingle();
+            this.FieldOfView = reader.ReadSingle();
+            this.FalloffDistance = reader.ReadSingle();
+            this.CutoffDistance = reader.ReadSingle();
+            this.InterpolationFlags = ((InterpolationFlagsOptions)(reader.ReadInt32()));
+            this.SpecularLowerBound = reader.Read<ColorRgbF>();
+            this.SpecularUpperBound = reader.Read<ColorRgbF>();
+            this.DiffuseLowerBound = reader.Read<ColorRgbF>();
+            this.DiffuseUpperBound = reader.Read<ColorRgbF>();
+            this.GelMap = reader.Read<TagReference>();
+            this.SpecularMask = ((SpecularMaskOptions)(reader.ReadInt16()));
+            this.EmptyString2 = reader.ReadBytes(2);
+            this.EmptyString3 = reader.ReadBytes(4);
+            this.FalloffFunction = ((FalloffFunctionOptions)(reader.ReadInt16()));
+            this.DiffuseContrast = ((DiffuseContrastOptions)(reader.ReadInt16()));
+            this.SpecularContrast = ((SpecularContrastOptions)(reader.ReadInt16()));
+            this.FalloffGeometry = ((FalloffGeometryOptions)(reader.ReadInt16()));
+            this.LensFlare = reader.Read<TagReference>();
+            this.BoundingRadius = reader.ReadSingle();
+            this.LightVolume = reader.Read<TagReference>();
+            this.DefaultLightmapSetting = ((DefaultLightmapSettingOptions)(reader.ReadInt16()));
+            this.EmptyString4 = reader.ReadBytes(2);
+            this.LightmapHalfLife = reader.ReadSingle();
+            this.LightmapLightScale = reader.ReadSingle();
+            this.Duration = reader.ReadSingle();
+            this.EmptyString5 = reader.ReadBytes(2);
+            this.FalloffFunction1 = ((FalloffFunctionOptions1)(reader.ReadInt16()));
+            this.IlluminationFade = ((IlluminationFadeOptions)(reader.ReadInt16()));
+            this.ShadowFade = ((ShadowFadeOptions)(reader.ReadInt16()));
+            this.SpecularFade = ((SpecularFadeOptions)(reader.ReadInt16()));
+            this.EmptyString6 = reader.ReadBytes(2);
+            this.Flags1 = ((FlagsOptions1)(reader.ReadInt32()));
+            this.BrightnessAnimation = reader.ReadInt64();
+            this.brightnessAnimationList.Read(reader, this.BrightnessAnimation);
+            this.ColorAnimation = reader.ReadInt64();
+            this.colorAnimationList.Read(reader, this.ColorAnimation);
+            this.GelAnimation = reader.ReadInt64();
+            this.gelAnimationList.Read(reader, this.GelAnimation);
+            this.Shader = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(12, 4)]
+        public sealed class LightBrightnessAnimationBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class LightBrightnessAnimationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("function", typeof(MappingFunctionBlock))]
-            public MappingFunctionBlock Function1;
-            public int Size
+            [FieldAttribute("function", typeof(MappingFunctionBlock))]
+            public MappingFunctionBlock Function;
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Function = new MappingFunctionBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Function = reader.ReadDataStructure<MappingFunctionBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class MappingFunctionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                [FieldAttribute("data", typeof(TagBlock))]
+                [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                 public TagBlock Data;
-                public int Size
+                public TagBlockList<ByteBlock> DataList
+                {
+                    get
+                    {
+                        return this.dataList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.dataList.Clear();
+                    this.Data = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Data = reader.ReadInt64();
+                    this.dataList.Read(reader, this.Data);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(1, 4)]
+                public sealed class ByteBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                    [FieldAttribute("Value", typeof(Byte))]
                     public Byte Value;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 1;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Value = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Value = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-        public sealed class LightColorAnimationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(12, 4)]
+        public sealed class LightColorAnimationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("function", typeof(MappingFunctionBlock))]
-            public MappingFunctionBlock Function1;
-            public int Size
+            [FieldAttribute("function", typeof(MappingFunctionBlock))]
+            public MappingFunctionBlock Function;
+            public override int Size
             {
                 get
                 {
                     return 12;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Function = new MappingFunctionBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Function = reader.ReadDataStructure<MappingFunctionBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class MappingFunctionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                [FieldAttribute("data", typeof(TagBlock))]
+                [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                 public TagBlock Data;
-                public int Size
+                public TagBlockList<ByteBlock> DataList
+                {
+                    get
+                    {
+                        return this.dataList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.dataList.Clear();
+                    this.Data = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Data = reader.ReadInt64();
+                    this.dataList.Read(reader, this.Data);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(1, 4)]
+                public sealed class ByteBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                    [FieldAttribute("Value", typeof(Byte))]
                     public Byte Value;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 1;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Value = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Value = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-        public sealed class LightGelAnimationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(24, 4)]
+        public sealed class LightGelAnimationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("dx", typeof(MappingFunctionBlock))]
-            public MappingFunctionBlock Dx1;
-            [Abide.Guerilla.Tags.FieldAttribute("dy", typeof(MappingFunctionBlock))]
-            public MappingFunctionBlock Dy1;
-            public int Size
+            [FieldAttribute("dx", typeof(MappingFunctionBlock))]
+            public MappingFunctionBlock Dx;
+            [FieldAttribute("dy", typeof(MappingFunctionBlock))]
+            public MappingFunctionBlock Dy;
+            public override int Size
             {
                 get
                 {
                     return 24;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Dx = new MappingFunctionBlock();
+                this.Dy = new MappingFunctionBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Dx = reader.ReadDataStructure<MappingFunctionBlock>();
+                this.Dy = reader.ReadDataStructure<MappingFunctionBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class MappingFunctionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                [FieldAttribute("data", typeof(TagBlock))]
+                [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                 public TagBlock Data;
-                public int Size
+                public TagBlockList<ByteBlock> DataList
+                {
+                    get
+                    {
+                        return this.dataList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.dataList.Clear();
+                    this.Data = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Data = reader.ReadInt64();
+                    this.dataList.Read(reader, this.Data);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(1, 4)]
+                public sealed class ByteBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                    [FieldAttribute("Value", typeof(Byte))]
                     public Byte Value;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 1;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Value = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Value = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             NoIllumination = 1,
             NoSpecular = 2,
@@ -386,65 +557,65 @@ namespace Abide.Guerilla.Tags
             AllowedInSplitScreen = 2097152,
             OnlyOnParentBipeds = 4194304,
         }
-        public enum TypeOptions
+        public enum TypeOptions : Int16
         {
             Sphere = 0,
             Orthogonal = 1,
             Projective = 2,
             Pyramid = 3,
         }
-        public enum ShadowTapBiasOptions
+        public enum ShadowTapBiasOptions : Int16
         {
             _3Tap = 0,
             Unused = 1,
             _1Tap = 2,
         }
-        public enum InterpolationFlagsOptions
+        public enum InterpolationFlagsOptions : Int32
         {
             BlendInHsv = 1,
             MoreColors = 2,
         }
-        public enum SpecularMaskOptions
+        public enum SpecularMaskOptions : Int16
         {
             Default = 0,
             NoneNoMask = 1,
             GelAlpha = 2,
             GelColor = 3,
         }
-        public enum FalloffFunctionOptions
+        public enum FalloffFunctionOptions : Int16
         {
             Default = 0,
             Narrow = 1,
             Broad = 2,
             VeryBroad = 3,
         }
-        public enum DiffuseContrastOptions
+        public enum DiffuseContrastOptions : Int16
         {
             DefaultLinear = 0,
             High = 1,
             Low = 2,
             VeryLow = 3,
         }
-        public enum SpecularContrastOptions
+        public enum SpecularContrastOptions : Int16
         {
             DefaultOne = 0,
             HighLinear = 1,
             Low = 2,
             VeryLow = 3,
         }
-        public enum FalloffGeometryOptions
+        public enum FalloffGeometryOptions : Int16
         {
             Default = 0,
             Directional = 1,
             Spherical = 2,
         }
-        public enum DefaultLightmapSettingOptions
+        public enum DefaultLightmapSettingOptions : Int16
         {
             DynamicOnly = 0,
             DynamicWithLightmaps = 1,
             LightmapsOnly = 2,
         }
-        public enum FalloffFunctionOptions1
+        public enum FalloffFunctionOptions1 : Int16
         {
             Linear = 0,
             Late = 1,
@@ -455,7 +626,7 @@ namespace Abide.Guerilla.Tags
             Zero = 6,
             One = 7,
         }
-        public enum IlluminationFadeOptions
+        public enum IlluminationFadeOptions : Int16
         {
             FadeVeryFar = 0,
             FadeFar = 1,
@@ -463,7 +634,7 @@ namespace Abide.Guerilla.Tags
             FadeClose = 3,
             FadeVeryClose = 4,
         }
-        public enum ShadowFadeOptions
+        public enum ShadowFadeOptions : Int16
         {
             FadeVeryFar = 0,
             FadeFar = 1,
@@ -471,7 +642,7 @@ namespace Abide.Guerilla.Tags
             FadeClose = 3,
             FadeVeryClose = 4,
         }
-        public enum SpecularFadeOptions
+        public enum SpecularFadeOptions : Int16
         {
             FadeVeryFar = 0,
             FadeFar = 1,
@@ -479,7 +650,7 @@ namespace Abide.Guerilla.Tags
             FadeClose = 3,
             FadeVeryClose = 4,
         }
-        public enum FlagsOptions1
+        public enum FlagsOptions1 : Int32
         {
             Synchronized = 1,
         }

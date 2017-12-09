@@ -14,62 +14,95 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(88, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("patchy_fog", 1718641512u, 4294967293u, typeof(PatchyFogBlock))]
-    public sealed class PatchyFogBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(88, 4)]
+    [TagGroupAttribute("patchy_fog", 1718641512u, 4294967293u, typeof(PatchyFogBlock))]
+    public sealed class PatchyFogBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation multiplier:[0,1]", typeof(Single))]
+        [FieldAttribute("rotation multiplier:[0,1]", typeof(Single))]
         public Single RotationMultiplier;
-        [Abide.Guerilla.Tags.FieldAttribute("strafing multiplier:[0,1]", typeof(Single))]
+        [FieldAttribute("strafing multiplier:[0,1]", typeof(Single))]
         public Single StrafingMultiplier;
-        [Abide.Guerilla.Tags.FieldAttribute("zoom multiplier:[0,1]", typeof(Single))]
+        [FieldAttribute("zoom multiplier:[0,1]", typeof(Single))]
         public Single ZoomMultiplier;
-        [Abide.Guerilla.Tags.FieldAttribute("noise map scale#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("noise map scale#0 defaults to 1", typeof(Single))]
         public Single NoiseMapScale;
-        [Abide.Guerilla.Tags.FieldAttribute("noise map", typeof(TagReference))]
-        public TagReference NoiseMap1;
-        [Abide.Guerilla.Tags.FieldAttribute("noise vertical scale forward#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("noise map", typeof(TagReference))]
+        public TagReference NoiseMap;
+        [FieldAttribute("noise vertical scale forward#0 defaults to 1", typeof(Single))]
         public Single NoiseVerticalScaleForward;
-        [Abide.Guerilla.Tags.FieldAttribute("noise vertical scale up#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("noise vertical scale up#0 defaults to 1", typeof(Single))]
         public Single NoiseVerticalScaleUp;
-        [Abide.Guerilla.Tags.FieldAttribute("noise opacity scale up#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("noise opacity scale up#0 defaults to 1", typeof(Single))]
         public Single NoiseOpacityScaleUp;
-        [Abide.Guerilla.Tags.FieldAttribute("animation period:seconds", typeof(Single))]
+        [FieldAttribute("animation period:seconds", typeof(Single))]
         public Single AnimationPeriod;
-        [Abide.Guerilla.Tags.FieldAttribute("wind acceleration weight:[0,1]", typeof(Single))]
+        [FieldAttribute("wind acceleration weight:[0,1]", typeof(Single))]
         public Single WindAccelerationWeight;
-        [Abide.Guerilla.Tags.FieldAttribute("wind perpendicular weight:[0,1]", typeof(Single))]
+        [FieldAttribute("wind perpendicular weight:[0,1]", typeof(Single))]
         public Single WindPerpendicularWeight;
-        [Abide.Guerilla.Tags.FieldAttribute("wind constant velocity x:world units per second", typeof(Single))]
+        [FieldAttribute("wind constant velocity x:world units per second", typeof(Single))]
         public Single WindConstantVelocityX;
-        [Abide.Guerilla.Tags.FieldAttribute("wind constant velocity y:world units per second", typeof(Single))]
+        [FieldAttribute("wind constant velocity y:world units per second", typeof(Single))]
         public Single WindConstantVelocityY;
-        [Abide.Guerilla.Tags.FieldAttribute("wind constant velocity z:world units per second", typeof(Single))]
+        [FieldAttribute("wind constant velocity z:world units per second", typeof(Single))]
         public Single WindConstantVelocityZ;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 88;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.EmptyString = new byte[2];
+            this.RotationMultiplier = 0;
+            this.StrafingMultiplier = 0;
+            this.ZoomMultiplier = 0;
+            this.NoiseMapScale = 0;
+            this.NoiseMap = TagReference.Null;
+            this.NoiseVerticalScaleForward = 0;
+            this.NoiseVerticalScaleUp = 0;
+            this.NoiseOpacityScaleUp = 0;
+            this.AnimationPeriod = 0;
+            this.WindAccelerationWeight = 0;
+            this.WindPerpendicularWeight = 0;
+            this.WindConstantVelocityX = 0;
+            this.WindConstantVelocityY = 0;
+            this.WindConstantVelocityZ = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.RotationMultiplier = reader.ReadSingle();
+            this.StrafingMultiplier = reader.ReadSingle();
+            this.ZoomMultiplier = reader.ReadSingle();
+            this.NoiseMapScale = reader.ReadSingle();
+            this.NoiseMap = reader.Read<TagReference>();
+            this.NoiseVerticalScaleForward = reader.ReadSingle();
+            this.NoiseVerticalScaleUp = reader.ReadSingle();
+            this.NoiseOpacityScaleUp = reader.ReadSingle();
+            this.AnimationPeriod = reader.ReadSingle();
+            this.WindAccelerationWeight = reader.ReadSingle();
+            this.WindPerpendicularWeight = reader.ReadSingle();
+            this.WindConstantVelocityX = reader.ReadSingle();
+            this.WindConstantVelocityY = reader.ReadSingle();
+            this.WindConstantVelocityZ = reader.ReadSingle();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             SeparateLayerDepths = 1,
             SortBehindTransparents = 2,

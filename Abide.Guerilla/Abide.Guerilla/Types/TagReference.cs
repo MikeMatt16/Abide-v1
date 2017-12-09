@@ -11,6 +11,12 @@ namespace Abide.Guerilla.Types
     public struct TagReference : IEquatable<TagReference>
     {
         /// <summary>
+        /// Represents a null tag reference.
+        /// This value is read-only.
+        /// </summary>
+        public static readonly TagReference Null = new TagReference() { tag = "null", id = TagId.Null };
+
+        /// <summary>
         /// Gets or sets the tag group.
         /// </summary>
         public Tag Tag

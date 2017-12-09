@@ -14,62 +14,111 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("vertex_shader", 1987212408u, 4294967293u, typeof(VertexShaderBlock))]
-    public sealed class VertexShaderBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(20, 4)]
+    [TagGroupAttribute("vertex_shader", 1987212408u, 4294967293u, typeof(VertexShaderBlock))]
+    public sealed class VertexShaderBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("platform", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PlatformOptions), false)]
-        public Int16 Platform;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        private TagBlockList<VertexShaderClassificationBlock> geometryClassificationsList = new TagBlockList<VertexShaderClassificationBlock>(12);
+        [FieldAttribute("platform", typeof(PlatformOptions))]
+        [OptionsAttribute(typeof(PlatformOptions), false)]
+        public PlatformOptions Platform;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("geometry classifications", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("classification", 12, typeof(VertexShaderClassificationBlock))]
+        [FieldAttribute("geometry classifications", typeof(TagBlock))]
+        [BlockAttribute("classification", 12, typeof(VertexShaderClassificationBlock))]
         public TagBlock GeometryClassifications;
-        [Abide.Guerilla.Tags.FieldAttribute("output swizzles", typeof(Int32))]
+        [FieldAttribute("output swizzles", typeof(Int32))]
         public Int32 OutputSwizzles;
-        public int Size
+        public TagBlockList<VertexShaderClassificationBlock> GeometryClassificationsList
+        {
+            get
+            {
+                return this.geometryClassificationsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 20;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.geometryClassificationsList.Clear();
+            this.Platform = ((PlatformOptions)(0));
+            this.EmptyString = new byte[2];
+            this.GeometryClassifications = TagBlock.Zero;
+            this.OutputSwizzles = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Platform = ((PlatformOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.GeometryClassifications = reader.ReadInt64();
+            this.geometryClassificationsList.Read(reader, this.GeometryClassifications);
+            this.OutputSwizzles = reader.ReadInt32();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(44, 4)]
+        public sealed class VertexShaderClassificationBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(44, 4)]
-        public sealed class VertexShaderClassificationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            private DataList compiledShaderList = new DataList(8192);
+            private DataList codeList = new DataList(65535);
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            public int Size
+            [FieldAttribute("compiled shader", typeof(TagBlock))]
+            [DataAttribute(8192)]
+            public TagBlock CompiledShader;
+            [FieldAttribute("code", typeof(TagBlock))]
+            [DataAttribute(65535)]
+            public TagBlock Code;
+            public DataList CompiledShaderList
+            {
+                get
+                {
+                    return this.compiledShaderList;
+                }
+            }
+            public DataList CodeList
+            {
+                get
+                {
+                    return this.codeList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 44;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.compiledShaderList.Clear();
+                this.codeList.Clear();
+                this.EmptyString = new byte[4];
+                this.CompiledShader = TagBlock.Zero;
+                this.Code = TagBlock.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadBytes(4);
+                this.CompiledShader = reader.ReadInt64();
+                this.Code = reader.ReadInt64();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum PlatformOptions
+        public enum PlatformOptions : Int16
         {
             Pc = 0,
             Xbox = 1,

@@ -14,73 +14,102 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_structure_lighting_resource", 1936944244u, 4294967293u, typeof(ScenarioStructureLightingResourceBlock))]
-    public sealed class ScenarioStructureLightingResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("scenario_structure_lighting_resource", 1936944244u, 4294967293u, typeof(ScenarioStructureLightingResourceBlock))]
+    public sealed class ScenarioStructureLightingResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Structure Lighting", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_structure_bsp_spherical_harmonic_lighting_block", 16, typeof(ScenarioStructureBspSphericalHarmonicLightingBlock))]
+        private TagBlockList<ScenarioStructureBspSphericalHarmonicLightingBlock> structureLightingList = new TagBlockList<ScenarioStructureBspSphericalHarmonicLightingBlock>(16);
+        [FieldAttribute("Structure Lighting", typeof(TagBlock))]
+        [BlockAttribute("scenario_structure_bsp_spherical_harmonic_lighting_block", 16, typeof(ScenarioStructureBspSphericalHarmonicLightingBlock))]
         public TagBlock StructureLighting;
-        public int Size
+        public TagBlockList<ScenarioStructureBspSphericalHarmonicLightingBlock> StructureLightingList
+        {
+            get
+            {
+                return this.structureLightingList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.structureLightingList.Clear();
+            this.StructureLighting = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.StructureLighting = reader.ReadInt64();
+            this.structureLightingList.Read(reader, this.StructureLighting);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(28, 4)]
+        public sealed class ScenarioStructureBspSphericalHarmonicLightingBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(28, 4)]
-        public sealed class ScenarioStructureBspSphericalHarmonicLightingBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("BSP*", typeof(TagReference))]
+            private TagBlockList<ScenarioSphericalHarmonicLightingPoint> lightingPointsList = new TagBlockList<ScenarioSphericalHarmonicLightingPoint>(32768);
+            [FieldAttribute("BSP*", typeof(TagReference))]
             public TagReference Bsp;
-            [Abide.Guerilla.Tags.FieldAttribute("Lighting Points", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("scenario_spherical_harmonic_lighting_point", 32768, typeof(ScenarioSphericalHarmonicLightingPoint))]
+            [FieldAttribute("Lighting Points", typeof(TagBlock))]
+            [BlockAttribute("scenario_spherical_harmonic_lighting_point", 32768, typeof(ScenarioSphericalHarmonicLightingPoint))]
             public TagBlock LightingPoints;
-            public int Size
+            public TagBlockList<ScenarioSphericalHarmonicLightingPoint> LightingPointsList
+            {
+                get
+                {
+                    return this.lightingPointsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 28;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.lightingPointsList.Clear();
+                this.Bsp = TagReference.Null;
+                this.LightingPoints = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Bsp = reader.Read<TagReference>();
+                this.LightingPoints = reader.ReadInt64();
+                this.lightingPointsList.Read(reader, this.LightingPoints);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class ScenarioSphericalHarmonicLightingPoint : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class ScenarioSphericalHarmonicLightingPoint : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("Position", typeof(Vector3))]
+                [FieldAttribute("Position", typeof(Vector3))]
                 public Vector3 Position;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.Position = Vector3.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.Position = reader.Read<Vector3>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }

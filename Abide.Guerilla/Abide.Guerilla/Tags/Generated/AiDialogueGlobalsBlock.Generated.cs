@@ -14,169 +14,304 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("ai_dialogue_globals", 1633971303u, 4294967293u, typeof(AiDialogueGlobalsBlock))]
-    public sealed class AiDialogueGlobalsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("ai_dialogue_globals", 1633971303u, 4294967293u, typeof(AiDialogueGlobalsBlock))]
+    public sealed class AiDialogueGlobalsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("vocalizations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_0", 500, typeof(VocalizationDefinitionsBlock0))]
+        private TagBlockList<VocalizationDefinitionsBlock0> vocalizationsList = new TagBlockList<VocalizationDefinitionsBlock0>(500);
+        private TagBlockList<VocalizationPatternsBlock> patternsList = new TagBlockList<VocalizationPatternsBlock>(1000);
+        private TagBlockList<DialogueDataBlock> dialogueDataList = new TagBlockList<DialogueDataBlock>(200);
+        private TagBlockList<InvoluntaryDataBlock> involuntaryDataList = new TagBlockList<InvoluntaryDataBlock>(100);
+        [FieldAttribute("vocalizations", typeof(TagBlock))]
+        [BlockAttribute("vocalization_definitions_block_0", 500, typeof(VocalizationDefinitionsBlock0))]
         public TagBlock Vocalizations;
-        [Abide.Guerilla.Tags.FieldAttribute("patterns", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("vocalization_patterns_block", 1000, typeof(VocalizationPatternsBlock))]
+        [FieldAttribute("patterns", typeof(TagBlock))]
+        [BlockAttribute("vocalization_patterns_block", 1000, typeof(VocalizationPatternsBlock))]
         public TagBlock Patterns;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(12)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(12)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("dialogue data", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("dialogue_data_block", 200, typeof(DialogueDataBlock))]
+        [FieldAttribute("dialogue data", typeof(TagBlock))]
+        [BlockAttribute("dialogue_data_block", 200, typeof(DialogueDataBlock))]
         public TagBlock DialogueData;
-        [Abide.Guerilla.Tags.FieldAttribute("involuntary data", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("involuntary_data_block", 100, typeof(InvoluntaryDataBlock))]
+        [FieldAttribute("involuntary data", typeof(TagBlock))]
+        [BlockAttribute("involuntary_data_block", 100, typeof(InvoluntaryDataBlock))]
         public TagBlock InvoluntaryData;
-        public int Size
+        public TagBlockList<VocalizationDefinitionsBlock0> VocalizationsList
+        {
+            get
+            {
+                return this.vocalizationsList;
+            }
+        }
+        public TagBlockList<VocalizationPatternsBlock> PatternsList
+        {
+            get
+            {
+                return this.patternsList;
+            }
+        }
+        public TagBlockList<DialogueDataBlock> DialogueDataList
+        {
+            get
+            {
+                return this.dialogueDataList;
+            }
+        }
+        public TagBlockList<InvoluntaryDataBlock> InvoluntaryDataList
+        {
+            get
+            {
+                return this.involuntaryDataList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.vocalizationsList.Clear();
+            this.patternsList.Clear();
+            this.dialogueDataList.Clear();
+            this.involuntaryDataList.Clear();
+            this.Vocalizations = TagBlock.Zero;
+            this.Patterns = TagBlock.Zero;
+            this.EmptyString = new byte[12];
+            this.DialogueData = TagBlock.Zero;
+            this.InvoluntaryData = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Vocalizations = reader.ReadInt64();
+            this.vocalizationsList.Read(reader, this.Vocalizations);
+            this.Patterns = reader.ReadInt64();
+            this.patternsList.Read(reader, this.Patterns);
+            this.EmptyString = reader.ReadBytes(12);
+            this.DialogueData = reader.ReadInt64();
+            this.dialogueDataList.Read(reader, this.DialogueData);
+            this.InvoluntaryData = reader.ReadInt64();
+            this.involuntaryDataList.Read(reader, this.InvoluntaryData);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(104, 4)]
+        public sealed class VocalizationDefinitionsBlock0 : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-        public sealed class VocalizationDefinitionsBlock0 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+            private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+            private TagBlockList<VocalizationDefinitionsBlock1> childrenList = new TagBlockList<VocalizationDefinitionsBlock1>(500);
+            [FieldAttribute("vocalization^", typeof(StringId))]
             public StringId Vocalization;
-            [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+            [FieldAttribute("parent vocalization", typeof(StringId))]
             public StringId ParentVocalization;
-            [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+            [FieldAttribute("parent index*", typeof(Int16))]
             public Int16 ParentIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-            public Int16 Priority;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-            public Int16 GlanceBehavior;
-            [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-            public Int16 GlanceRecipientBehavior;
-            [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-            public Int16 PerceptionType;
-            [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-            public Int16 MaxCombatStatus;
-            [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-            public Int16 AnimationImpulse;
-            [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-            public Int16 OverlapPriority;
-            [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+            [FieldAttribute("priority", typeof(PriorityOptions))]
+            [OptionsAttribute(typeof(PriorityOptions), false)]
+            public PriorityOptions Priority;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+            [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+            public GlanceBehaviorOptions GlanceBehavior;
+            [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+            [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+            public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+            [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+            [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+            public PerceptionTypeOptions PerceptionType;
+            [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+            [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+            public MaxCombatStatusOptions MaxCombatStatus;
+            [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+            [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+            public AnimationImpulseOptions AnimationImpulse;
+            [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+            [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+            public OverlapPriorityOptions OverlapPriority;
+            [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                 "ation", typeof(Single))]
             public Single SoundRepetitionDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+            [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                 "", typeof(Single))]
             public Single AllowableQueueDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+            [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
             public Single PreVocDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+            [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                 "ed", typeof(Single))]
             public Single NotificationDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+            [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                 "vocalizing", typeof(Single))]
             public Single PostVocDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+            [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
             public Single RepeatDelay;
-            [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+            [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
             public Single Weight;
-            [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+            [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
             public Single SpeakerFreezeTime;
-            [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+            [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                 " of vocalization)", typeof(Single))]
             public Single ListenerFreezeTime;
-            [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-            public Int16 SpeakerEmotion;
-            [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-            public Int16 ListenerEmotion;
-            [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+            [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+            [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+            public SpeakerEmotionOptions SpeakerEmotion;
+            [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+            [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+            public ListenerEmotionOptions ListenerEmotion;
+            [FieldAttribute("player skip fraction", typeof(Single))]
             public Single PlayerSkipFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+            [FieldAttribute("skip fraction", typeof(Single))]
             public Single SkipFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+            [FieldAttribute("Sample line", typeof(StringId))]
             public StringId SampleLine;
-            [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+            [FieldAttribute("reponses", typeof(TagBlock))]
+            [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
             public TagBlock Reponses;
-            [Abide.Guerilla.Tags.FieldAttribute("children", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_1", 500, typeof(VocalizationDefinitionsBlock1))]
+            [FieldAttribute("children", typeof(TagBlock))]
+            [BlockAttribute("vocalization_definitions_block_1", 500, typeof(VocalizationDefinitionsBlock1))]
             public TagBlock Children;
-            public int Size
+            public TagBlockList<ResponseBlock> ReponsesList
+            {
+                get
+                {
+                    return this.reponsesList;
+                }
+            }
+            public TagBlockList<VocalizationDefinitionsBlock1> ChildrenList
+            {
+                get
+                {
+                    return this.childrenList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 104;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.reponsesList.Clear();
+                this.childrenList.Clear();
+                this.Vocalization = StringId.Zero;
+                this.ParentVocalization = StringId.Zero;
+                this.ParentIndex = 0;
+                this.Priority = ((PriorityOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                this.PerceptionType = ((PerceptionTypeOptions)(0));
+                this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                this.SoundRepetitionDelay = 0;
+                this.AllowableQueueDelay = 0;
+                this.PreVocDelay = 0;
+                this.NotificationDelay = 0;
+                this.PostVocDelay = 0;
+                this.RepeatDelay = 0;
+                this.Weight = 0;
+                this.SpeakerFreezeTime = 0;
+                this.ListenerFreezeTime = 0;
+                this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                this.PlayerSkipFraction = 0;
+                this.SkipFraction = 0;
+                this.SampleLine = StringId.Zero;
+                this.Reponses = TagBlock.Zero;
+                this.Children = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Vocalization = reader.ReadInt32();
+                this.ParentVocalization = reader.ReadInt32();
+                this.ParentIndex = reader.ReadInt16();
+                this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                this.SoundRepetitionDelay = reader.ReadSingle();
+                this.AllowableQueueDelay = reader.ReadSingle();
+                this.PreVocDelay = reader.ReadSingle();
+                this.NotificationDelay = reader.ReadSingle();
+                this.PostVocDelay = reader.ReadSingle();
+                this.RepeatDelay = reader.ReadSingle();
+                this.Weight = reader.ReadSingle();
+                this.SpeakerFreezeTime = reader.ReadSingle();
+                this.ListenerFreezeTime = reader.ReadSingle();
+                this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                this.PlayerSkipFraction = reader.ReadSingle();
+                this.SkipFraction = reader.ReadSingle();
+                this.SampleLine = reader.ReadInt32();
+                this.Reponses = reader.ReadInt64();
+                this.reponsesList.Read(reader, this.Reponses);
+                this.Children = reader.ReadInt64();
+                this.childrenList.Read(reader, this.Children);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class ResponseBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                [FieldAttribute("vocalization name", typeof(StringId))]
                 public StringId VocalizationName;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                 public Int16 VocalizationIndexPostProcess;
-                [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                public Int16 ResponseType;
-                [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                public ResponseTypeOptions ResponseType;
+                [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                 public Int16 DialogueIndexImport;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.VocalizationName = StringId.Zero;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.VocalizationIndexPostProcess = 0;
+                    this.ResponseType = ((ResponseTypeOptions)(0));
+                    this.DialogueIndexImport = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.VocalizationName = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.VocalizationIndexPostProcess = reader.ReadInt16();
+                    this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                    this.DialogueIndexImport = reader.ReadInt16();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     Nonexclusive = 1,
                     TriggerResponse = 2,
                 }
-                public enum ResponseTypeOptions
+                public enum ResponseTypeOptions : Int16
                 {
                     Friend = 0,
                     Enemy = 1,
@@ -185,133 +320,217 @@ namespace Abide.Guerilla.Tags
                     Peer = 4,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-            public sealed class VocalizationDefinitionsBlock1 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(104, 4)]
+            public sealed class VocalizationDefinitionsBlock1 : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+                private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+                private TagBlockList<VocalizationDefinitionsBlock2> childrenList = new TagBlockList<VocalizationDefinitionsBlock2>(500);
+                [FieldAttribute("vocalization^", typeof(StringId))]
                 public StringId Vocalization;
-                [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+                [FieldAttribute("parent vocalization", typeof(StringId))]
                 public StringId ParentVocalization;
-                [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+                [FieldAttribute("parent index*", typeof(Int16))]
                 public Int16 ParentIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-                public Int16 Priority;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-                public Int16 GlanceBehavior;
-                [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-                public Int16 GlanceRecipientBehavior;
-                [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-                public Int16 PerceptionType;
-                [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-                public Int16 MaxCombatStatus;
-                [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-                public Int16 AnimationImpulse;
-                [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-                public Int16 OverlapPriority;
-                [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+                [FieldAttribute("priority", typeof(PriorityOptions))]
+                [OptionsAttribute(typeof(PriorityOptions), false)]
+                public PriorityOptions Priority;
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+                [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+                public GlanceBehaviorOptions GlanceBehavior;
+                [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+                [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+                public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+                [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+                [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+                public PerceptionTypeOptions PerceptionType;
+                [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+                [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+                public MaxCombatStatusOptions MaxCombatStatus;
+                [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+                [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+                public AnimationImpulseOptions AnimationImpulse;
+                [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+                [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+                public OverlapPriorityOptions OverlapPriority;
+                [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                     "ation", typeof(Single))]
                 public Single SoundRepetitionDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+                [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                     "", typeof(Single))]
                 public Single AllowableQueueDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+                [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
                 public Single PreVocDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+                [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                     "ed", typeof(Single))]
                 public Single NotificationDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+                [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                     "vocalizing", typeof(Single))]
                 public Single PostVocDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+                [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
                 public Single RepeatDelay;
-                [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+                [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
                 public Single Weight;
-                [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+                [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
                 public Single SpeakerFreezeTime;
-                [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+                [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                     " of vocalization)", typeof(Single))]
                 public Single ListenerFreezeTime;
-                [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-                public Int16 SpeakerEmotion;
-                [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-                public Int16 ListenerEmotion;
-                [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+                [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+                [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+                public SpeakerEmotionOptions SpeakerEmotion;
+                [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+                [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+                public ListenerEmotionOptions ListenerEmotion;
+                [FieldAttribute("player skip fraction", typeof(Single))]
                 public Single PlayerSkipFraction;
-                [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+                [FieldAttribute("skip fraction", typeof(Single))]
                 public Single SkipFraction;
-                [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+                [FieldAttribute("Sample line", typeof(StringId))]
                 public StringId SampleLine;
-                [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+                [FieldAttribute("reponses", typeof(TagBlock))]
+                [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
                 public TagBlock Reponses;
-                [Abide.Guerilla.Tags.FieldAttribute("children", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_2", 500, typeof(VocalizationDefinitionsBlock2))]
+                [FieldAttribute("children", typeof(TagBlock))]
+                [BlockAttribute("vocalization_definitions_block_2", 500, typeof(VocalizationDefinitionsBlock2))]
                 public TagBlock Children;
-                public int Size
+                public TagBlockList<ResponseBlock> ReponsesList
+                {
+                    get
+                    {
+                        return this.reponsesList;
+                    }
+                }
+                public TagBlockList<VocalizationDefinitionsBlock2> ChildrenList
+                {
+                    get
+                    {
+                        return this.childrenList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 104;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.reponsesList.Clear();
+                    this.childrenList.Clear();
+                    this.Vocalization = StringId.Zero;
+                    this.ParentVocalization = StringId.Zero;
+                    this.ParentIndex = 0;
+                    this.Priority = ((PriorityOptions)(0));
+                    this.Flags = ((FlagsOptions)(0));
+                    this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                    this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                    this.PerceptionType = ((PerceptionTypeOptions)(0));
+                    this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                    this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                    this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                    this.SoundRepetitionDelay = 0;
+                    this.AllowableQueueDelay = 0;
+                    this.PreVocDelay = 0;
+                    this.NotificationDelay = 0;
+                    this.PostVocDelay = 0;
+                    this.RepeatDelay = 0;
+                    this.Weight = 0;
+                    this.SpeakerFreezeTime = 0;
+                    this.ListenerFreezeTime = 0;
+                    this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                    this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                    this.PlayerSkipFraction = 0;
+                    this.SkipFraction = 0;
+                    this.SampleLine = StringId.Zero;
+                    this.Reponses = TagBlock.Zero;
+                    this.Children = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Vocalization = reader.ReadInt32();
+                    this.ParentVocalization = reader.ReadInt32();
+                    this.ParentIndex = reader.ReadInt16();
+                    this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                    this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                    this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                    this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                    this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                    this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                    this.SoundRepetitionDelay = reader.ReadSingle();
+                    this.AllowableQueueDelay = reader.ReadSingle();
+                    this.PreVocDelay = reader.ReadSingle();
+                    this.NotificationDelay = reader.ReadSingle();
+                    this.PostVocDelay = reader.ReadSingle();
+                    this.RepeatDelay = reader.ReadSingle();
+                    this.Weight = reader.ReadSingle();
+                    this.SpeakerFreezeTime = reader.ReadSingle();
+                    this.ListenerFreezeTime = reader.ReadSingle();
+                    this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                    this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                    this.PlayerSkipFraction = reader.ReadSingle();
+                    this.SkipFraction = reader.ReadSingle();
+                    this.SampleLine = reader.ReadInt32();
+                    this.Reponses = reader.ReadInt64();
+                    this.reponsesList.Read(reader, this.Reponses);
+                    this.Children = reader.ReadInt64();
+                    this.childrenList.Read(reader, this.Children);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(12, 4)]
+                public sealed class ResponseBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                    [FieldAttribute("vocalization name", typeof(StringId))]
                     public StringId VocalizationName;
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Int16 Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                     public Int16 VocalizationIndexPostProcess;
-                    [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                    public Int16 ResponseType;
-                    [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                    [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                    [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                    public ResponseTypeOptions ResponseType;
+                    [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                     public Int16 DialogueIndexImport;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 12;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.VocalizationName = StringId.Zero;
+                        this.Flags = ((FlagsOptions)(0));
+                        this.VocalizationIndexPostProcess = 0;
+                        this.ResponseType = ((ResponseTypeOptions)(0));
+                        this.DialogueIndexImport = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.VocalizationName = reader.ReadInt32();
+                        this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                        this.VocalizationIndexPostProcess = reader.ReadInt16();
+                        this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                        this.DialogueIndexImport = reader.ReadInt16();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Int16
                     {
                         Nonexclusive = 1,
                         TriggerResponse = 2,
                     }
-                    public enum ResponseTypeOptions
+                    public enum ResponseTypeOptions : Int16
                     {
                         Friend = 0,
                         Enemy = 1,
@@ -320,133 +539,217 @@ namespace Abide.Guerilla.Tags
                         Peer = 4,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-                public sealed class VocalizationDefinitionsBlock2 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(104, 4)]
+                public sealed class VocalizationDefinitionsBlock2 : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+                    private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+                    private TagBlockList<VocalizationDefinitionsBlock3> childrenList = new TagBlockList<VocalizationDefinitionsBlock3>(500);
+                    [FieldAttribute("vocalization^", typeof(StringId))]
                     public StringId Vocalization;
-                    [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+                    [FieldAttribute("parent vocalization", typeof(StringId))]
                     public StringId ParentVocalization;
-                    [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+                    [FieldAttribute("parent index*", typeof(Int16))]
                     public Int16 ParentIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-                    public Int16 Priority;
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Int32 Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-                    public Int16 GlanceBehavior;
-                    [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-                    public Int16 GlanceRecipientBehavior;
-                    [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-                    public Int16 PerceptionType;
-                    [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-                    public Int16 MaxCombatStatus;
-                    [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-                    public Int16 AnimationImpulse;
-                    [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-                    public Int16 OverlapPriority;
-                    [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+                    [FieldAttribute("priority", typeof(PriorityOptions))]
+                    [OptionsAttribute(typeof(PriorityOptions), false)]
+                    public PriorityOptions Priority;
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+                    [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+                    public GlanceBehaviorOptions GlanceBehavior;
+                    [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+                    [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+                    public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+                    [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+                    [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+                    public PerceptionTypeOptions PerceptionType;
+                    [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+                    [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+                    public MaxCombatStatusOptions MaxCombatStatus;
+                    [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+                    [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+                    public AnimationImpulseOptions AnimationImpulse;
+                    [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+                    [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+                    public OverlapPriorityOptions OverlapPriority;
+                    [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                         "ation", typeof(Single))]
                     public Single SoundRepetitionDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+                    [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                         "", typeof(Single))]
                     public Single AllowableQueueDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+                    [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
                     public Single PreVocDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+                    [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                         "ed", typeof(Single))]
                     public Single NotificationDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+                    [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                         "vocalizing", typeof(Single))]
                     public Single PostVocDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+                    [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
                     public Single RepeatDelay;
-                    [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+                    [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
                     public Single Weight;
-                    [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+                    [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
                     public Single SpeakerFreezeTime;
-                    [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+                    [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                         " of vocalization)", typeof(Single))]
                     public Single ListenerFreezeTime;
-                    [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-                    public Int16 SpeakerEmotion;
-                    [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-                    public Int16 ListenerEmotion;
-                    [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+                    [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+                    [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+                    public SpeakerEmotionOptions SpeakerEmotion;
+                    [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+                    [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+                    public ListenerEmotionOptions ListenerEmotion;
+                    [FieldAttribute("player skip fraction", typeof(Single))]
                     public Single PlayerSkipFraction;
-                    [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+                    [FieldAttribute("skip fraction", typeof(Single))]
                     public Single SkipFraction;
-                    [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+                    [FieldAttribute("Sample line", typeof(StringId))]
                     public StringId SampleLine;
-                    [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+                    [FieldAttribute("reponses", typeof(TagBlock))]
+                    [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
                     public TagBlock Reponses;
-                    [Abide.Guerilla.Tags.FieldAttribute("children", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_3", 500, typeof(VocalizationDefinitionsBlock3))]
+                    [FieldAttribute("children", typeof(TagBlock))]
+                    [BlockAttribute("vocalization_definitions_block_3", 500, typeof(VocalizationDefinitionsBlock3))]
                     public TagBlock Children;
-                    public int Size
+                    public TagBlockList<ResponseBlock> ReponsesList
+                    {
+                        get
+                        {
+                            return this.reponsesList;
+                        }
+                    }
+                    public TagBlockList<VocalizationDefinitionsBlock3> ChildrenList
+                    {
+                        get
+                        {
+                            return this.childrenList;
+                        }
+                    }
+                    public override int Size
                     {
                         get
                         {
                             return 104;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.reponsesList.Clear();
+                        this.childrenList.Clear();
+                        this.Vocalization = StringId.Zero;
+                        this.ParentVocalization = StringId.Zero;
+                        this.ParentIndex = 0;
+                        this.Priority = ((PriorityOptions)(0));
+                        this.Flags = ((FlagsOptions)(0));
+                        this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                        this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                        this.PerceptionType = ((PerceptionTypeOptions)(0));
+                        this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                        this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                        this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                        this.SoundRepetitionDelay = 0;
+                        this.AllowableQueueDelay = 0;
+                        this.PreVocDelay = 0;
+                        this.NotificationDelay = 0;
+                        this.PostVocDelay = 0;
+                        this.RepeatDelay = 0;
+                        this.Weight = 0;
+                        this.SpeakerFreezeTime = 0;
+                        this.ListenerFreezeTime = 0;
+                        this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                        this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                        this.PlayerSkipFraction = 0;
+                        this.SkipFraction = 0;
+                        this.SampleLine = StringId.Zero;
+                        this.Reponses = TagBlock.Zero;
+                        this.Children = TagBlock.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.Vocalization = reader.ReadInt32();
+                        this.ParentVocalization = reader.ReadInt32();
+                        this.ParentIndex = reader.ReadInt16();
+                        this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                        this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                        this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                        this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                        this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                        this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                        this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                        this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                        this.SoundRepetitionDelay = reader.ReadSingle();
+                        this.AllowableQueueDelay = reader.ReadSingle();
+                        this.PreVocDelay = reader.ReadSingle();
+                        this.NotificationDelay = reader.ReadSingle();
+                        this.PostVocDelay = reader.ReadSingle();
+                        this.RepeatDelay = reader.ReadSingle();
+                        this.Weight = reader.ReadSingle();
+                        this.SpeakerFreezeTime = reader.ReadSingle();
+                        this.ListenerFreezeTime = reader.ReadSingle();
+                        this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                        this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                        this.PlayerSkipFraction = reader.ReadSingle();
+                        this.SkipFraction = reader.ReadSingle();
+                        this.SampleLine = reader.ReadInt32();
+                        this.Reponses = reader.ReadInt64();
+                        this.reponsesList.Read(reader, this.Reponses);
+                        this.Children = reader.ReadInt64();
+                        this.childrenList.Read(reader, this.Children);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(12, 4)]
+                    public sealed class ResponseBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                    public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                        [FieldAttribute("vocalization name", typeof(StringId))]
                         public StringId VocalizationName;
-                        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                        public Int16 Flags;
-                        [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                        [FieldAttribute("flags", typeof(FlagsOptions))]
+                        [OptionsAttribute(typeof(FlagsOptions), true)]
+                        public FlagsOptions Flags;
+                        [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                         public Int16 VocalizationIndexPostProcess;
-                        [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                        public Int16 ResponseType;
-                        [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                        [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                        [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                        public ResponseTypeOptions ResponseType;
+                        [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                         public Int16 DialogueIndexImport;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 12;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
+                        {
+                            this.VocalizationName = StringId.Zero;
+                            this.Flags = ((FlagsOptions)(0));
+                            this.VocalizationIndexPostProcess = 0;
+                            this.ResponseType = ((ResponseTypeOptions)(0));
+                            this.DialogueIndexImport = 0;
+                        }
+                        public override void Read(BinaryReader reader)
+                        {
+                            this.VocalizationName = reader.ReadInt32();
+                            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                            this.VocalizationIndexPostProcess = reader.ReadInt16();
+                            this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                            this.DialogueIndexImport = reader.ReadInt16();
+                        }
+                        public override void Write(BinaryWriter writer)
                         {
                         }
-                        public void Read(System.IO.BinaryReader reader)
-                        {
-                        }
-                        public void Write(System.IO.BinaryWriter writer)
-                        {
-                        }
-                        public enum FlagsOptions
+                        public enum FlagsOptions : Int16
                         {
                             Nonexclusive = 1,
                             TriggerResponse = 2,
                         }
-                        public enum ResponseTypeOptions
+                        public enum ResponseTypeOptions : Int16
                         {
                             Friend = 0,
                             Enemy = 1,
@@ -455,133 +758,217 @@ namespace Abide.Guerilla.Tags
                             Peer = 4,
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-                    public sealed class VocalizationDefinitionsBlock3 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(104, 4)]
+                    public sealed class VocalizationDefinitionsBlock3 : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+                        private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+                        private TagBlockList<VocalizationDefinitionsBlock4> childrenList = new TagBlockList<VocalizationDefinitionsBlock4>(500);
+                        [FieldAttribute("vocalization^", typeof(StringId))]
                         public StringId Vocalization;
-                        [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+                        [FieldAttribute("parent vocalization", typeof(StringId))]
                         public StringId ParentVocalization;
-                        [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+                        [FieldAttribute("parent index*", typeof(Int16))]
                         public Int16 ParentIndex;
-                        [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-                        public Int16 Priority;
-                        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                        public Int32 Flags;
-                        [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-                        public Int16 GlanceBehavior;
-                        [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-                        public Int16 GlanceRecipientBehavior;
-                        [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-                        public Int16 PerceptionType;
-                        [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-                        public Int16 MaxCombatStatus;
-                        [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-                        public Int16 AnimationImpulse;
-                        [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-                        public Int16 OverlapPriority;
-                        [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+                        [FieldAttribute("priority", typeof(PriorityOptions))]
+                        [OptionsAttribute(typeof(PriorityOptions), false)]
+                        public PriorityOptions Priority;
+                        [FieldAttribute("flags", typeof(FlagsOptions))]
+                        [OptionsAttribute(typeof(FlagsOptions), true)]
+                        public FlagsOptions Flags;
+                        [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+                        [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+                        public GlanceBehaviorOptions GlanceBehavior;
+                        [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+                        [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+                        public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+                        [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+                        [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+                        public PerceptionTypeOptions PerceptionType;
+                        [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+                        [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+                        public MaxCombatStatusOptions MaxCombatStatus;
+                        [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+                        [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+                        public AnimationImpulseOptions AnimationImpulse;
+                        [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+                        [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+                        public OverlapPriorityOptions OverlapPriority;
+                        [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                             "ation", typeof(Single))]
                         public Single SoundRepetitionDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+                        [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                             "", typeof(Single))]
                         public Single AllowableQueueDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+                        [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
                         public Single PreVocDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+                        [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                             "ed", typeof(Single))]
                         public Single NotificationDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+                        [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                             "vocalizing", typeof(Single))]
                         public Single PostVocDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+                        [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
                         public Single RepeatDelay;
-                        [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+                        [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
                         public Single Weight;
-                        [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+                        [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
                         public Single SpeakerFreezeTime;
-                        [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+                        [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                             " of vocalization)", typeof(Single))]
                         public Single ListenerFreezeTime;
-                        [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-                        public Int16 SpeakerEmotion;
-                        [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-                        public Int16 ListenerEmotion;
-                        [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+                        [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+                        [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+                        public SpeakerEmotionOptions SpeakerEmotion;
+                        [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+                        [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+                        public ListenerEmotionOptions ListenerEmotion;
+                        [FieldAttribute("player skip fraction", typeof(Single))]
                         public Single PlayerSkipFraction;
-                        [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+                        [FieldAttribute("skip fraction", typeof(Single))]
                         public Single SkipFraction;
-                        [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+                        [FieldAttribute("Sample line", typeof(StringId))]
                         public StringId SampleLine;
-                        [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-                        [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+                        [FieldAttribute("reponses", typeof(TagBlock))]
+                        [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
                         public TagBlock Reponses;
-                        [Abide.Guerilla.Tags.FieldAttribute("children", typeof(TagBlock))]
-                        [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_4", 500, typeof(VocalizationDefinitionsBlock4))]
+                        [FieldAttribute("children", typeof(TagBlock))]
+                        [BlockAttribute("vocalization_definitions_block_4", 500, typeof(VocalizationDefinitionsBlock4))]
                         public TagBlock Children;
-                        public int Size
+                        public TagBlockList<ResponseBlock> ReponsesList
+                        {
+                            get
+                            {
+                                return this.reponsesList;
+                            }
+                        }
+                        public TagBlockList<VocalizationDefinitionsBlock4> ChildrenList
+                        {
+                            get
+                            {
+                                return this.childrenList;
+                            }
+                        }
+                        public override int Size
                         {
                             get
                             {
                                 return 104;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
+                        {
+                            this.reponsesList.Clear();
+                            this.childrenList.Clear();
+                            this.Vocalization = StringId.Zero;
+                            this.ParentVocalization = StringId.Zero;
+                            this.ParentIndex = 0;
+                            this.Priority = ((PriorityOptions)(0));
+                            this.Flags = ((FlagsOptions)(0));
+                            this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                            this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                            this.PerceptionType = ((PerceptionTypeOptions)(0));
+                            this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                            this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                            this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                            this.SoundRepetitionDelay = 0;
+                            this.AllowableQueueDelay = 0;
+                            this.PreVocDelay = 0;
+                            this.NotificationDelay = 0;
+                            this.PostVocDelay = 0;
+                            this.RepeatDelay = 0;
+                            this.Weight = 0;
+                            this.SpeakerFreezeTime = 0;
+                            this.ListenerFreezeTime = 0;
+                            this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                            this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                            this.PlayerSkipFraction = 0;
+                            this.SkipFraction = 0;
+                            this.SampleLine = StringId.Zero;
+                            this.Reponses = TagBlock.Zero;
+                            this.Children = TagBlock.Zero;
+                        }
+                        public override void Read(BinaryReader reader)
+                        {
+                            this.Vocalization = reader.ReadInt32();
+                            this.ParentVocalization = reader.ReadInt32();
+                            this.ParentIndex = reader.ReadInt16();
+                            this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                            this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                            this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                            this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                            this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                            this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                            this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                            this.SoundRepetitionDelay = reader.ReadSingle();
+                            this.AllowableQueueDelay = reader.ReadSingle();
+                            this.PreVocDelay = reader.ReadSingle();
+                            this.NotificationDelay = reader.ReadSingle();
+                            this.PostVocDelay = reader.ReadSingle();
+                            this.RepeatDelay = reader.ReadSingle();
+                            this.Weight = reader.ReadSingle();
+                            this.SpeakerFreezeTime = reader.ReadSingle();
+                            this.ListenerFreezeTime = reader.ReadSingle();
+                            this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                            this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                            this.PlayerSkipFraction = reader.ReadSingle();
+                            this.SkipFraction = reader.ReadSingle();
+                            this.SampleLine = reader.ReadInt32();
+                            this.Reponses = reader.ReadInt64();
+                            this.reponsesList.Read(reader, this.Reponses);
+                            this.Children = reader.ReadInt64();
+                            this.childrenList.Read(reader, this.Children);
+                        }
+                        public override void Write(BinaryWriter writer)
                         {
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        [FieldSetAttribute(12, 4)]
+                        public sealed class ResponseBlock : AbideTagBlock
                         {
-                        }
-                        public void Write(System.IO.BinaryWriter writer)
-                        {
-                        }
-                        [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                        public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                        {
-                            [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                            [FieldAttribute("vocalization name", typeof(StringId))]
                             public StringId VocalizationName;
-                            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                            public Int16 Flags;
-                            [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                            [FieldAttribute("flags", typeof(FlagsOptions))]
+                            [OptionsAttribute(typeof(FlagsOptions), true)]
+                            public FlagsOptions Flags;
+                            [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                             public Int16 VocalizationIndexPostProcess;
-                            [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                            public Int16 ResponseType;
-                            [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                            [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                            [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                            public ResponseTypeOptions ResponseType;
+                            [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                             public Int16 DialogueIndexImport;
-                            public int Size
+                            public override int Size
                             {
                                 get
                                 {
                                     return 12;
                                 }
                             }
-                            public void Initialize()
+                            public override void Initialize()
+                            {
+                                this.VocalizationName = StringId.Zero;
+                                this.Flags = ((FlagsOptions)(0));
+                                this.VocalizationIndexPostProcess = 0;
+                                this.ResponseType = ((ResponseTypeOptions)(0));
+                                this.DialogueIndexImport = 0;
+                            }
+                            public override void Read(BinaryReader reader)
+                            {
+                                this.VocalizationName = reader.ReadInt32();
+                                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                                this.VocalizationIndexPostProcess = reader.ReadInt16();
+                                this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                                this.DialogueIndexImport = reader.ReadInt16();
+                            }
+                            public override void Write(BinaryWriter writer)
                             {
                             }
-                            public void Read(System.IO.BinaryReader reader)
-                            {
-                            }
-                            public void Write(System.IO.BinaryWriter writer)
-                            {
-                            }
-                            public enum FlagsOptions
+                            public enum FlagsOptions : Int16
                             {
                                 Nonexclusive = 1,
                                 TriggerResponse = 2,
                             }
-                            public enum ResponseTypeOptions
+                            public enum ResponseTypeOptions : Int16
                             {
                                 Friend = 0,
                                 Enemy = 1,
@@ -590,133 +977,217 @@ namespace Abide.Guerilla.Tags
                                 Peer = 4,
                             }
                         }
-                        [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-                        public sealed class VocalizationDefinitionsBlock4 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                        [FieldSetAttribute(104, 4)]
+                        public sealed class VocalizationDefinitionsBlock4 : AbideTagBlock
                         {
-                            [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+                            private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+                            private TagBlockList<VocalizationDefinitionsBlock5> childrenList = new TagBlockList<VocalizationDefinitionsBlock5>(500);
+                            [FieldAttribute("vocalization^", typeof(StringId))]
                             public StringId Vocalization;
-                            [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+                            [FieldAttribute("parent vocalization", typeof(StringId))]
                             public StringId ParentVocalization;
-                            [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+                            [FieldAttribute("parent index*", typeof(Int16))]
                             public Int16 ParentIndex;
-                            [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-                            public Int16 Priority;
-                            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                            public Int32 Flags;
-                            [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-                            public Int16 GlanceBehavior;
-                            [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-                            public Int16 GlanceRecipientBehavior;
-                            [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-                            public Int16 PerceptionType;
-                            [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-                            public Int16 MaxCombatStatus;
-                            [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-                            public Int16 AnimationImpulse;
-                            [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-                            public Int16 OverlapPriority;
-                            [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+                            [FieldAttribute("priority", typeof(PriorityOptions))]
+                            [OptionsAttribute(typeof(PriorityOptions), false)]
+                            public PriorityOptions Priority;
+                            [FieldAttribute("flags", typeof(FlagsOptions))]
+                            [OptionsAttribute(typeof(FlagsOptions), true)]
+                            public FlagsOptions Flags;
+                            [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+                            [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+                            public GlanceBehaviorOptions GlanceBehavior;
+                            [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+                            [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+                            public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+                            [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+                            [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+                            public PerceptionTypeOptions PerceptionType;
+                            [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+                            [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+                            public MaxCombatStatusOptions MaxCombatStatus;
+                            [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+                            [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+                            public AnimationImpulseOptions AnimationImpulse;
+                            [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+                            [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+                            public OverlapPriorityOptions OverlapPriority;
+                            [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                                 "ation", typeof(Single))]
                             public Single SoundRepetitionDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+                            [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                                 "", typeof(Single))]
                             public Single AllowableQueueDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+                            [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
                             public Single PreVocDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+                            [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                                 "ed", typeof(Single))]
                             public Single NotificationDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+                            [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                                 "vocalizing", typeof(Single))]
                             public Single PostVocDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+                            [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
                             public Single RepeatDelay;
-                            [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+                            [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
                             public Single Weight;
-                            [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+                            [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
                             public Single SpeakerFreezeTime;
-                            [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+                            [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                                 " of vocalization)", typeof(Single))]
                             public Single ListenerFreezeTime;
-                            [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-                            public Int16 SpeakerEmotion;
-                            [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-                            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-                            public Int16 ListenerEmotion;
-                            [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+                            [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+                            [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+                            public SpeakerEmotionOptions SpeakerEmotion;
+                            [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+                            [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+                            public ListenerEmotionOptions ListenerEmotion;
+                            [FieldAttribute("player skip fraction", typeof(Single))]
                             public Single PlayerSkipFraction;
-                            [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+                            [FieldAttribute("skip fraction", typeof(Single))]
                             public Single SkipFraction;
-                            [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+                            [FieldAttribute("Sample line", typeof(StringId))]
                             public StringId SampleLine;
-                            [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-                            [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+                            [FieldAttribute("reponses", typeof(TagBlock))]
+                            [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
                             public TagBlock Reponses;
-                            [Abide.Guerilla.Tags.FieldAttribute("children", typeof(TagBlock))]
-                            [Abide.Guerilla.Tags.BlockAttribute("vocalization_definitions_block_5", 500, typeof(VocalizationDefinitionsBlock5))]
+                            [FieldAttribute("children", typeof(TagBlock))]
+                            [BlockAttribute("vocalization_definitions_block_5", 500, typeof(VocalizationDefinitionsBlock5))]
                             public TagBlock Children;
-                            public int Size
+                            public TagBlockList<ResponseBlock> ReponsesList
+                            {
+                                get
+                                {
+                                    return this.reponsesList;
+                                }
+                            }
+                            public TagBlockList<VocalizationDefinitionsBlock5> ChildrenList
+                            {
+                                get
+                                {
+                                    return this.childrenList;
+                                }
+                            }
+                            public override int Size
                             {
                                 get
                                 {
                                     return 104;
                                 }
                             }
-                            public void Initialize()
+                            public override void Initialize()
+                            {
+                                this.reponsesList.Clear();
+                                this.childrenList.Clear();
+                                this.Vocalization = StringId.Zero;
+                                this.ParentVocalization = StringId.Zero;
+                                this.ParentIndex = 0;
+                                this.Priority = ((PriorityOptions)(0));
+                                this.Flags = ((FlagsOptions)(0));
+                                this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                                this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                                this.PerceptionType = ((PerceptionTypeOptions)(0));
+                                this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                                this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                                this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                                this.SoundRepetitionDelay = 0;
+                                this.AllowableQueueDelay = 0;
+                                this.PreVocDelay = 0;
+                                this.NotificationDelay = 0;
+                                this.PostVocDelay = 0;
+                                this.RepeatDelay = 0;
+                                this.Weight = 0;
+                                this.SpeakerFreezeTime = 0;
+                                this.ListenerFreezeTime = 0;
+                                this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                                this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                                this.PlayerSkipFraction = 0;
+                                this.SkipFraction = 0;
+                                this.SampleLine = StringId.Zero;
+                                this.Reponses = TagBlock.Zero;
+                                this.Children = TagBlock.Zero;
+                            }
+                            public override void Read(BinaryReader reader)
+                            {
+                                this.Vocalization = reader.ReadInt32();
+                                this.ParentVocalization = reader.ReadInt32();
+                                this.ParentIndex = reader.ReadInt16();
+                                this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                                this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                                this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                                this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                                this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                                this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                                this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                                this.SoundRepetitionDelay = reader.ReadSingle();
+                                this.AllowableQueueDelay = reader.ReadSingle();
+                                this.PreVocDelay = reader.ReadSingle();
+                                this.NotificationDelay = reader.ReadSingle();
+                                this.PostVocDelay = reader.ReadSingle();
+                                this.RepeatDelay = reader.ReadSingle();
+                                this.Weight = reader.ReadSingle();
+                                this.SpeakerFreezeTime = reader.ReadSingle();
+                                this.ListenerFreezeTime = reader.ReadSingle();
+                                this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                                this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                                this.PlayerSkipFraction = reader.ReadSingle();
+                                this.SkipFraction = reader.ReadSingle();
+                                this.SampleLine = reader.ReadInt32();
+                                this.Reponses = reader.ReadInt64();
+                                this.reponsesList.Read(reader, this.Reponses);
+                                this.Children = reader.ReadInt64();
+                                this.childrenList.Read(reader, this.Children);
+                            }
+                            public override void Write(BinaryWriter writer)
                             {
                             }
-                            public void Read(System.IO.BinaryReader reader)
+                            [FieldSetAttribute(12, 4)]
+                            public sealed class ResponseBlock : AbideTagBlock
                             {
-                            }
-                            public void Write(System.IO.BinaryWriter writer)
-                            {
-                            }
-                            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                            public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                            {
-                                [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                                [FieldAttribute("vocalization name", typeof(StringId))]
                                 public StringId VocalizationName;
-                                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                                public Int16 Flags;
-                                [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                                [FieldAttribute("flags", typeof(FlagsOptions))]
+                                [OptionsAttribute(typeof(FlagsOptions), true)]
+                                public FlagsOptions Flags;
+                                [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                                 public Int16 VocalizationIndexPostProcess;
-                                [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                                public Int16 ResponseType;
-                                [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                                [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                                [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                                public ResponseTypeOptions ResponseType;
+                                [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                                 public Int16 DialogueIndexImport;
-                                public int Size
+                                public override int Size
                                 {
                                     get
                                     {
                                         return 12;
                                     }
                                 }
-                                public void Initialize()
+                                public override void Initialize()
+                                {
+                                    this.VocalizationName = StringId.Zero;
+                                    this.Flags = ((FlagsOptions)(0));
+                                    this.VocalizationIndexPostProcess = 0;
+                                    this.ResponseType = ((ResponseTypeOptions)(0));
+                                    this.DialogueIndexImport = 0;
+                                }
+                                public override void Read(BinaryReader reader)
+                                {
+                                    this.VocalizationName = reader.ReadInt32();
+                                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                                    this.VocalizationIndexPostProcess = reader.ReadInt16();
+                                    this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                                    this.DialogueIndexImport = reader.ReadInt16();
+                                }
+                                public override void Write(BinaryWriter writer)
                                 {
                                 }
-                                public void Read(System.IO.BinaryReader reader)
-                                {
-                                }
-                                public void Write(System.IO.BinaryWriter writer)
-                                {
-                                }
-                                public enum FlagsOptions
+                                public enum FlagsOptions : Int16
                                 {
                                     Nonexclusive = 1,
                                     TriggerResponse = 2,
                                 }
-                                public enum ResponseTypeOptions
+                                public enum ResponseTypeOptions : Int16
                                 {
                                     Friend = 0,
                                     Enemy = 1,
@@ -725,133 +1196,217 @@ namespace Abide.Guerilla.Tags
                                     Peer = 4,
                                 }
                             }
-                            [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-                            public sealed class VocalizationDefinitionsBlock5 : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                            [FieldSetAttribute(104, 4)]
+                            public sealed class VocalizationDefinitionsBlock5 : AbideTagBlock
                             {
-                                [Abide.Guerilla.Tags.FieldAttribute("vocalization^", typeof(StringId))]
+                                private TagBlockList<ResponseBlock> reponsesList = new TagBlockList<ResponseBlock>(20);
+                                private TagBlockList<GNullBlock> emptyStringList = new TagBlockList<GNullBlock>(0);
+                                [FieldAttribute("vocalization^", typeof(StringId))]
                                 public StringId Vocalization;
-                                [Abide.Guerilla.Tags.FieldAttribute("parent vocalization", typeof(StringId))]
+                                [FieldAttribute("parent vocalization", typeof(StringId))]
                                 public StringId ParentVocalization;
-                                [Abide.Guerilla.Tags.FieldAttribute("parent index*", typeof(Int16))]
+                                [FieldAttribute("parent index*", typeof(Int16))]
                                 public Int16 ParentIndex;
-                                [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(PriorityOptions), false)]
-                                public Int16 Priority;
-                                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                                public Int32 Flags;
-                                [Abide.Guerilla.Tags.FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
-                                public Int16 GlanceBehavior;
-                                [Abide.Guerilla.Tags.FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
-                                public Int16 GlanceRecipientBehavior;
-                                [Abide.Guerilla.Tags.FieldAttribute("perception type", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(PerceptionTypeOptions), false)]
-                                public Int16 PerceptionType;
-                                [Abide.Guerilla.Tags.FieldAttribute("max combat status", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
-                                public Int16 MaxCombatStatus;
-                                [Abide.Guerilla.Tags.FieldAttribute("animation impulse", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationImpulseOptions), false)]
-                                public Int16 AnimationImpulse;
-                                [Abide.Guerilla.Tags.FieldAttribute("overlap priority", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(OverlapPriorityOptions), false)]
-                                public Int16 OverlapPriority;
-                                [Abide.Guerilla.Tags.FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
+                                [FieldAttribute("priority", typeof(PriorityOptions))]
+                                [OptionsAttribute(typeof(PriorityOptions), false)]
+                                public PriorityOptions Priority;
+                                [FieldAttribute("flags", typeof(FlagsOptions))]
+                                [OptionsAttribute(typeof(FlagsOptions), true)]
+                                public FlagsOptions Flags;
+                                [FieldAttribute("glance behavior#how does the speaker of this vocalization direct his gaze?", typeof(GlanceBehaviorOptions))]
+                                [OptionsAttribute(typeof(GlanceBehaviorOptions), false)]
+                                public GlanceBehaviorOptions GlanceBehavior;
+                                [FieldAttribute("glance recipient behavior#how does someone who hears me behave?", typeof(GlanceRecipientBehaviorOptions))]
+                                [OptionsAttribute(typeof(GlanceRecipientBehaviorOptions), false)]
+                                public GlanceRecipientBehaviorOptions GlanceRecipientBehavior;
+                                [FieldAttribute("perception type", typeof(PerceptionTypeOptions))]
+                                [OptionsAttribute(typeof(PerceptionTypeOptions), false)]
+                                public PerceptionTypeOptions PerceptionType;
+                                [FieldAttribute("max combat status", typeof(MaxCombatStatusOptions))]
+                                [OptionsAttribute(typeof(MaxCombatStatusOptions), false)]
+                                public MaxCombatStatusOptions MaxCombatStatus;
+                                [FieldAttribute("animation impulse", typeof(AnimationImpulseOptions))]
+                                [OptionsAttribute(typeof(AnimationImpulseOptions), false)]
+                                public AnimationImpulseOptions AnimationImpulse;
+                                [FieldAttribute("overlap priority", typeof(OverlapPriorityOptions))]
+                                [OptionsAttribute(typeof(OverlapPriorityOptions), false)]
+                                public OverlapPriorityOptions OverlapPriority;
+                                [FieldAttribute("sound repetition delay:minutes#Minimum delay time between playing the same permut" +
                                     "ation", typeof(Single))]
                                 public Single SoundRepetitionDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
+                                [FieldAttribute("allowable queue delay:seconds#How long to wait to actually start the vocalization" +
                                     "", typeof(Single))]
                                 public Single AllowableQueueDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
+                                [FieldAttribute("pre voc. delay:seconds#How long to wait to actually start the vocalization", typeof(Single))]
                                 public Single PreVocDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
+                                [FieldAttribute("notification delay:seconds#How long into the vocalization the AI should be notifi" +
                                     "ed", typeof(Single))]
                                 public Single NotificationDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
+                                [FieldAttribute("post voc. delay:seconds#How long speech is suppressed in the speaking unit after " +
                                     "vocalizing", typeof(Single))]
                                 public Single PostVocDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
+                                [FieldAttribute("repeat delay:seconds#How long before the same vocalization can be repeated", typeof(Single))]
                                 public Single RepeatDelay;
-                                [Abide.Guerilla.Tags.FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
+                                [FieldAttribute("weight:[0-1]#Inherent weight of this vocalization", typeof(Single))]
                                 public Single Weight;
-                                [Abide.Guerilla.Tags.FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
+                                [FieldAttribute("speaker freeze time#speaker won\'t move for the given amount of time", typeof(Single))]
                                 public Single SpeakerFreezeTime;
-                                [Abide.Guerilla.Tags.FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
+                                [FieldAttribute("listener freeze time#listener won\'t move for the given amount of time (from start" +
                                     " of vocalization)", typeof(Single))]
                                 public Single ListenerFreezeTime;
-                                [Abide.Guerilla.Tags.FieldAttribute("speaker emotion", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
-                                public Int16 SpeakerEmotion;
-                                [Abide.Guerilla.Tags.FieldAttribute("listener emotion", typeof(Int16))]
-                                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenerEmotionOptions), false)]
-                                public Int16 ListenerEmotion;
-                                [Abide.Guerilla.Tags.FieldAttribute("player skip fraction", typeof(Single))]
+                                [FieldAttribute("speaker emotion", typeof(SpeakerEmotionOptions))]
+                                [OptionsAttribute(typeof(SpeakerEmotionOptions), false)]
+                                public SpeakerEmotionOptions SpeakerEmotion;
+                                [FieldAttribute("listener emotion", typeof(ListenerEmotionOptions))]
+                                [OptionsAttribute(typeof(ListenerEmotionOptions), false)]
+                                public ListenerEmotionOptions ListenerEmotion;
+                                [FieldAttribute("player skip fraction", typeof(Single))]
                                 public Single PlayerSkipFraction;
-                                [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
+                                [FieldAttribute("skip fraction", typeof(Single))]
                                 public Single SkipFraction;
-                                [Abide.Guerilla.Tags.FieldAttribute("Sample line", typeof(StringId))]
+                                [FieldAttribute("Sample line", typeof(StringId))]
                                 public StringId SampleLine;
-                                [Abide.Guerilla.Tags.FieldAttribute("reponses", typeof(TagBlock))]
-                                [Abide.Guerilla.Tags.BlockAttribute("response_block", 20, typeof(ResponseBlock))]
+                                [FieldAttribute("reponses", typeof(TagBlock))]
+                                [BlockAttribute("response_block", 20, typeof(ResponseBlock))]
                                 public TagBlock Reponses;
-                                [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-                                [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+                                [FieldAttribute("", typeof(TagBlock))]
+                                [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
                                 public TagBlock EmptyString;
-                                public int Size
+                                public TagBlockList<ResponseBlock> ReponsesList
+                                {
+                                    get
+                                    {
+                                        return this.reponsesList;
+                                    }
+                                }
+                                public TagBlockList<GNullBlock> EmptyStringList
+                                {
+                                    get
+                                    {
+                                        return this.emptyStringList;
+                                    }
+                                }
+                                public override int Size
                                 {
                                     get
                                     {
                                         return 104;
                                     }
                                 }
-                                public void Initialize()
+                                public override void Initialize()
+                                {
+                                    this.reponsesList.Clear();
+                                    this.emptyStringList.Clear();
+                                    this.Vocalization = StringId.Zero;
+                                    this.ParentVocalization = StringId.Zero;
+                                    this.ParentIndex = 0;
+                                    this.Priority = ((PriorityOptions)(0));
+                                    this.Flags = ((FlagsOptions)(0));
+                                    this.GlanceBehavior = ((GlanceBehaviorOptions)(0));
+                                    this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(0));
+                                    this.PerceptionType = ((PerceptionTypeOptions)(0));
+                                    this.MaxCombatStatus = ((MaxCombatStatusOptions)(0));
+                                    this.AnimationImpulse = ((AnimationImpulseOptions)(0));
+                                    this.OverlapPriority = ((OverlapPriorityOptions)(0));
+                                    this.SoundRepetitionDelay = 0;
+                                    this.AllowableQueueDelay = 0;
+                                    this.PreVocDelay = 0;
+                                    this.NotificationDelay = 0;
+                                    this.PostVocDelay = 0;
+                                    this.RepeatDelay = 0;
+                                    this.Weight = 0;
+                                    this.SpeakerFreezeTime = 0;
+                                    this.ListenerFreezeTime = 0;
+                                    this.SpeakerEmotion = ((SpeakerEmotionOptions)(0));
+                                    this.ListenerEmotion = ((ListenerEmotionOptions)(0));
+                                    this.PlayerSkipFraction = 0;
+                                    this.SkipFraction = 0;
+                                    this.SampleLine = StringId.Zero;
+                                    this.Reponses = TagBlock.Zero;
+                                    this.EmptyString = TagBlock.Zero;
+                                }
+                                public override void Read(BinaryReader reader)
+                                {
+                                    this.Vocalization = reader.ReadInt32();
+                                    this.ParentVocalization = reader.ReadInt32();
+                                    this.ParentIndex = reader.ReadInt16();
+                                    this.Priority = ((PriorityOptions)(reader.ReadInt16()));
+                                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                                    this.GlanceBehavior = ((GlanceBehaviorOptions)(reader.ReadInt16()));
+                                    this.GlanceRecipientBehavior = ((GlanceRecipientBehaviorOptions)(reader.ReadInt16()));
+                                    this.PerceptionType = ((PerceptionTypeOptions)(reader.ReadInt16()));
+                                    this.MaxCombatStatus = ((MaxCombatStatusOptions)(reader.ReadInt16()));
+                                    this.AnimationImpulse = ((AnimationImpulseOptions)(reader.ReadInt16()));
+                                    this.OverlapPriority = ((OverlapPriorityOptions)(reader.ReadInt16()));
+                                    this.SoundRepetitionDelay = reader.ReadSingle();
+                                    this.AllowableQueueDelay = reader.ReadSingle();
+                                    this.PreVocDelay = reader.ReadSingle();
+                                    this.NotificationDelay = reader.ReadSingle();
+                                    this.PostVocDelay = reader.ReadSingle();
+                                    this.RepeatDelay = reader.ReadSingle();
+                                    this.Weight = reader.ReadSingle();
+                                    this.SpeakerFreezeTime = reader.ReadSingle();
+                                    this.ListenerFreezeTime = reader.ReadSingle();
+                                    this.SpeakerEmotion = ((SpeakerEmotionOptions)(reader.ReadInt16()));
+                                    this.ListenerEmotion = ((ListenerEmotionOptions)(reader.ReadInt16()));
+                                    this.PlayerSkipFraction = reader.ReadSingle();
+                                    this.SkipFraction = reader.ReadSingle();
+                                    this.SampleLine = reader.ReadInt32();
+                                    this.Reponses = reader.ReadInt64();
+                                    this.reponsesList.Read(reader, this.Reponses);
+                                    this.EmptyString = reader.ReadInt64();
+                                    this.emptyStringList.Read(reader, this.EmptyString);
+                                }
+                                public override void Write(BinaryWriter writer)
                                 {
                                 }
-                                public void Read(System.IO.BinaryReader reader)
+                                [FieldSetAttribute(12, 4)]
+                                public sealed class ResponseBlock : AbideTagBlock
                                 {
-                                }
-                                public void Write(System.IO.BinaryWriter writer)
-                                {
-                                }
-                                [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                                public sealed class ResponseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                                {
-                                    [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+                                    [FieldAttribute("vocalization name", typeof(StringId))]
                                     public StringId VocalizationName;
-                                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                                    public Int16 Flags;
-                                    [Abide.Guerilla.Tags.FieldAttribute("vocalization index (post process)*", typeof(Int16))]
+                                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                                    public FlagsOptions Flags;
+                                    [FieldAttribute("vocalization index (post process)*", typeof(Int16))]
                                     public Int16 VocalizationIndexPostProcess;
-                                    [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                                    public Int16 ResponseType;
-                                    [Abide.Guerilla.Tags.FieldAttribute("dialogue index (import)*", typeof(Int16))]
+                                    [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                                    [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                                    public ResponseTypeOptions ResponseType;
+                                    [FieldAttribute("dialogue index (import)*", typeof(Int16))]
                                     public Int16 DialogueIndexImport;
-                                    public int Size
+                                    public override int Size
                                     {
                                         get
                                         {
                                             return 12;
                                         }
                                     }
-                                    public void Initialize()
+                                    public override void Initialize()
+                                    {
+                                        this.VocalizationName = StringId.Zero;
+                                        this.Flags = ((FlagsOptions)(0));
+                                        this.VocalizationIndexPostProcess = 0;
+                                        this.ResponseType = ((ResponseTypeOptions)(0));
+                                        this.DialogueIndexImport = 0;
+                                    }
+                                    public override void Read(BinaryReader reader)
+                                    {
+                                        this.VocalizationName = reader.ReadInt32();
+                                        this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                                        this.VocalizationIndexPostProcess = reader.ReadInt16();
+                                        this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                                        this.DialogueIndexImport = reader.ReadInt16();
+                                    }
+                                    public override void Write(BinaryWriter writer)
                                     {
                                     }
-                                    public void Read(System.IO.BinaryReader reader)
-                                    {
-                                    }
-                                    public void Write(System.IO.BinaryWriter writer)
-                                    {
-                                    }
-                                    public enum FlagsOptions
+                                    public enum FlagsOptions : Int16
                                     {
                                         Nonexclusive = 1,
                                         TriggerResponse = 2,
                                     }
-                                    public enum ResponseTypeOptions
+                                    public enum ResponseTypeOptions : Int16
                                     {
                                         Friend = 0,
                                         Enemy = 1,
@@ -860,27 +1415,27 @@ namespace Abide.Guerilla.Tags
                                         Peer = 4,
                                     }
                                 }
-                                [Abide.Guerilla.Tags.FieldSetAttribute(0, 4)]
-                                public sealed class GNullBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                                [FieldSetAttribute(0, 4)]
+                                public sealed class GNullBlock : AbideTagBlock
                                 {
-                                    public int Size
+                                    public override int Size
                                     {
                                         get
                                         {
                                             return 0;
                                         }
                                     }
-                                    public void Initialize()
+                                    public override void Initialize()
                                     {
                                     }
-                                    public void Read(System.IO.BinaryReader reader)
+                                    public override void Read(BinaryReader reader)
                                     {
                                     }
-                                    public void Write(System.IO.BinaryWriter writer)
+                                    public override void Write(BinaryWriter writer)
                                     {
                                     }
                                 }
-                                public enum PriorityOptions
+                                public enum PriorityOptions : Int16
                                 {
                                     None = 0,
                                     Recall = 1,
@@ -899,13 +1454,13 @@ namespace Abide.Guerilla.Tags
                                     Scripted = 14,
                                     Death = 15,
                                 }
-                                public enum FlagsOptions
+                                public enum FlagsOptions : Int32
                                 {
                                     Immediate = 1,
                                     Interrupt = 2,
                                     CancelLowPriority = 4,
                                 }
-                                public enum GlanceBehaviorOptions
+                                public enum GlanceBehaviorOptions : Int16
                                 {
                                     None = 0,
                                     GlanceSubjectShort = 1,
@@ -915,7 +1470,7 @@ namespace Abide.Guerilla.Tags
                                     GlanceFriendShort = 5,
                                     GlanceFriendLong = 6,
                                 }
-                                public enum GlanceRecipientBehaviorOptions
+                                public enum GlanceRecipientBehaviorOptions : Int16
                                 {
                                     None = 0,
                                     GlanceSubjectShort = 1,
@@ -925,13 +1480,13 @@ namespace Abide.Guerilla.Tags
                                     GlanceFriendShort = 5,
                                     GlanceFriendLong = 6,
                                 }
-                                public enum PerceptionTypeOptions
+                                public enum PerceptionTypeOptions : Int16
                                 {
                                     None = 0,
                                     Speaker = 1,
                                     Listener = 2,
                                 }
-                                public enum MaxCombatStatusOptions
+                                public enum MaxCombatStatusOptions : Int16
                                 {
                                     Asleep = 0,
                                     Idle = 1,
@@ -944,7 +1499,7 @@ namespace Abide.Guerilla.Tags
                                     ClearLos = 8,
                                     Dangerous = 9,
                                 }
-                                public enum AnimationImpulseOptions
+                                public enum AnimationImpulseOptions : Int16
                                 {
                                     None = 0,
                                     Shakefist = 1,
@@ -959,7 +1514,7 @@ namespace Abide.Guerilla.Tags
                                     Advance = 10,
                                     Fallback = 11,
                                 }
-                                public enum OverlapPriorityOptions
+                                public enum OverlapPriorityOptions : Int16
                                 {
                                     None = 0,
                                     Recall = 1,
@@ -978,7 +1533,7 @@ namespace Abide.Guerilla.Tags
                                     Scripted = 14,
                                     Death = 15,
                                 }
-                                public enum SpeakerEmotionOptions
+                                public enum SpeakerEmotionOptions : Int16
                                 {
                                     None = 0,
                                     Asleep = 1,
@@ -995,7 +1550,7 @@ namespace Abide.Guerilla.Tags
                                     Pensive = 12,
                                     Pain = 13,
                                 }
-                                public enum ListenerEmotionOptions
+                                public enum ListenerEmotionOptions : Int16
                                 {
                                     None = 0,
                                     Asleep = 1,
@@ -1013,7 +1568,7 @@ namespace Abide.Guerilla.Tags
                                     Pain = 13,
                                 }
                             }
-                            public enum PriorityOptions
+                            public enum PriorityOptions : Int16
                             {
                                 None = 0,
                                 Recall = 1,
@@ -1032,13 +1587,13 @@ namespace Abide.Guerilla.Tags
                                 Scripted = 14,
                                 Death = 15,
                             }
-                            public enum FlagsOptions
+                            public enum FlagsOptions : Int32
                             {
                                 Immediate = 1,
                                 Interrupt = 2,
                                 CancelLowPriority = 4,
                             }
-                            public enum GlanceBehaviorOptions
+                            public enum GlanceBehaviorOptions : Int16
                             {
                                 None = 0,
                                 GlanceSubjectShort = 1,
@@ -1048,7 +1603,7 @@ namespace Abide.Guerilla.Tags
                                 GlanceFriendShort = 5,
                                 GlanceFriendLong = 6,
                             }
-                            public enum GlanceRecipientBehaviorOptions
+                            public enum GlanceRecipientBehaviorOptions : Int16
                             {
                                 None = 0,
                                 GlanceSubjectShort = 1,
@@ -1058,13 +1613,13 @@ namespace Abide.Guerilla.Tags
                                 GlanceFriendShort = 5,
                                 GlanceFriendLong = 6,
                             }
-                            public enum PerceptionTypeOptions
+                            public enum PerceptionTypeOptions : Int16
                             {
                                 None = 0,
                                 Speaker = 1,
                                 Listener = 2,
                             }
-                            public enum MaxCombatStatusOptions
+                            public enum MaxCombatStatusOptions : Int16
                             {
                                 Asleep = 0,
                                 Idle = 1,
@@ -1077,7 +1632,7 @@ namespace Abide.Guerilla.Tags
                                 ClearLos = 8,
                                 Dangerous = 9,
                             }
-                            public enum AnimationImpulseOptions
+                            public enum AnimationImpulseOptions : Int16
                             {
                                 None = 0,
                                 Shakefist = 1,
@@ -1092,7 +1647,7 @@ namespace Abide.Guerilla.Tags
                                 Advance = 10,
                                 Fallback = 11,
                             }
-                            public enum OverlapPriorityOptions
+                            public enum OverlapPriorityOptions : Int16
                             {
                                 None = 0,
                                 Recall = 1,
@@ -1111,7 +1666,7 @@ namespace Abide.Guerilla.Tags
                                 Scripted = 14,
                                 Death = 15,
                             }
-                            public enum SpeakerEmotionOptions
+                            public enum SpeakerEmotionOptions : Int16
                             {
                                 None = 0,
                                 Asleep = 1,
@@ -1128,7 +1683,7 @@ namespace Abide.Guerilla.Tags
                                 Pensive = 12,
                                 Pain = 13,
                             }
-                            public enum ListenerEmotionOptions
+                            public enum ListenerEmotionOptions : Int16
                             {
                                 None = 0,
                                 Asleep = 1,
@@ -1146,7 +1701,7 @@ namespace Abide.Guerilla.Tags
                                 Pain = 13,
                             }
                         }
-                        public enum PriorityOptions
+                        public enum PriorityOptions : Int16
                         {
                             None = 0,
                             Recall = 1,
@@ -1165,13 +1720,13 @@ namespace Abide.Guerilla.Tags
                             Scripted = 14,
                             Death = 15,
                         }
-                        public enum FlagsOptions
+                        public enum FlagsOptions : Int32
                         {
                             Immediate = 1,
                             Interrupt = 2,
                             CancelLowPriority = 4,
                         }
-                        public enum GlanceBehaviorOptions
+                        public enum GlanceBehaviorOptions : Int16
                         {
                             None = 0,
                             GlanceSubjectShort = 1,
@@ -1181,7 +1736,7 @@ namespace Abide.Guerilla.Tags
                             GlanceFriendShort = 5,
                             GlanceFriendLong = 6,
                         }
-                        public enum GlanceRecipientBehaviorOptions
+                        public enum GlanceRecipientBehaviorOptions : Int16
                         {
                             None = 0,
                             GlanceSubjectShort = 1,
@@ -1191,13 +1746,13 @@ namespace Abide.Guerilla.Tags
                             GlanceFriendShort = 5,
                             GlanceFriendLong = 6,
                         }
-                        public enum PerceptionTypeOptions
+                        public enum PerceptionTypeOptions : Int16
                         {
                             None = 0,
                             Speaker = 1,
                             Listener = 2,
                         }
-                        public enum MaxCombatStatusOptions
+                        public enum MaxCombatStatusOptions : Int16
                         {
                             Asleep = 0,
                             Idle = 1,
@@ -1210,7 +1765,7 @@ namespace Abide.Guerilla.Tags
                             ClearLos = 8,
                             Dangerous = 9,
                         }
-                        public enum AnimationImpulseOptions
+                        public enum AnimationImpulseOptions : Int16
                         {
                             None = 0,
                             Shakefist = 1,
@@ -1225,7 +1780,7 @@ namespace Abide.Guerilla.Tags
                             Advance = 10,
                             Fallback = 11,
                         }
-                        public enum OverlapPriorityOptions
+                        public enum OverlapPriorityOptions : Int16
                         {
                             None = 0,
                             Recall = 1,
@@ -1244,7 +1799,7 @@ namespace Abide.Guerilla.Tags
                             Scripted = 14,
                             Death = 15,
                         }
-                        public enum SpeakerEmotionOptions
+                        public enum SpeakerEmotionOptions : Int16
                         {
                             None = 0,
                             Asleep = 1,
@@ -1261,7 +1816,7 @@ namespace Abide.Guerilla.Tags
                             Pensive = 12,
                             Pain = 13,
                         }
-                        public enum ListenerEmotionOptions
+                        public enum ListenerEmotionOptions : Int16
                         {
                             None = 0,
                             Asleep = 1,
@@ -1279,7 +1834,7 @@ namespace Abide.Guerilla.Tags
                             Pain = 13,
                         }
                     }
-                    public enum PriorityOptions
+                    public enum PriorityOptions : Int16
                     {
                         None = 0,
                         Recall = 1,
@@ -1298,13 +1853,13 @@ namespace Abide.Guerilla.Tags
                         Scripted = 14,
                         Death = 15,
                     }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Int32
                     {
                         Immediate = 1,
                         Interrupt = 2,
                         CancelLowPriority = 4,
                     }
-                    public enum GlanceBehaviorOptions
+                    public enum GlanceBehaviorOptions : Int16
                     {
                         None = 0,
                         GlanceSubjectShort = 1,
@@ -1314,7 +1869,7 @@ namespace Abide.Guerilla.Tags
                         GlanceFriendShort = 5,
                         GlanceFriendLong = 6,
                     }
-                    public enum GlanceRecipientBehaviorOptions
+                    public enum GlanceRecipientBehaviorOptions : Int16
                     {
                         None = 0,
                         GlanceSubjectShort = 1,
@@ -1324,13 +1879,13 @@ namespace Abide.Guerilla.Tags
                         GlanceFriendShort = 5,
                         GlanceFriendLong = 6,
                     }
-                    public enum PerceptionTypeOptions
+                    public enum PerceptionTypeOptions : Int16
                     {
                         None = 0,
                         Speaker = 1,
                         Listener = 2,
                     }
-                    public enum MaxCombatStatusOptions
+                    public enum MaxCombatStatusOptions : Int16
                     {
                         Asleep = 0,
                         Idle = 1,
@@ -1343,7 +1898,7 @@ namespace Abide.Guerilla.Tags
                         ClearLos = 8,
                         Dangerous = 9,
                     }
-                    public enum AnimationImpulseOptions
+                    public enum AnimationImpulseOptions : Int16
                     {
                         None = 0,
                         Shakefist = 1,
@@ -1358,7 +1913,7 @@ namespace Abide.Guerilla.Tags
                         Advance = 10,
                         Fallback = 11,
                     }
-                    public enum OverlapPriorityOptions
+                    public enum OverlapPriorityOptions : Int16
                     {
                         None = 0,
                         Recall = 1,
@@ -1377,7 +1932,7 @@ namespace Abide.Guerilla.Tags
                         Scripted = 14,
                         Death = 15,
                     }
-                    public enum SpeakerEmotionOptions
+                    public enum SpeakerEmotionOptions : Int16
                     {
                         None = 0,
                         Asleep = 1,
@@ -1394,7 +1949,7 @@ namespace Abide.Guerilla.Tags
                         Pensive = 12,
                         Pain = 13,
                     }
-                    public enum ListenerEmotionOptions
+                    public enum ListenerEmotionOptions : Int16
                     {
                         None = 0,
                         Asleep = 1,
@@ -1412,7 +1967,7 @@ namespace Abide.Guerilla.Tags
                         Pain = 13,
                     }
                 }
-                public enum PriorityOptions
+                public enum PriorityOptions : Int16
                 {
                     None = 0,
                     Recall = 1,
@@ -1431,13 +1986,13 @@ namespace Abide.Guerilla.Tags
                     Scripted = 14,
                     Death = 15,
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     Immediate = 1,
                     Interrupt = 2,
                     CancelLowPriority = 4,
                 }
-                public enum GlanceBehaviorOptions
+                public enum GlanceBehaviorOptions : Int16
                 {
                     None = 0,
                     GlanceSubjectShort = 1,
@@ -1447,7 +2002,7 @@ namespace Abide.Guerilla.Tags
                     GlanceFriendShort = 5,
                     GlanceFriendLong = 6,
                 }
-                public enum GlanceRecipientBehaviorOptions
+                public enum GlanceRecipientBehaviorOptions : Int16
                 {
                     None = 0,
                     GlanceSubjectShort = 1,
@@ -1457,13 +2012,13 @@ namespace Abide.Guerilla.Tags
                     GlanceFriendShort = 5,
                     GlanceFriendLong = 6,
                 }
-                public enum PerceptionTypeOptions
+                public enum PerceptionTypeOptions : Int16
                 {
                     None = 0,
                     Speaker = 1,
                     Listener = 2,
                 }
-                public enum MaxCombatStatusOptions
+                public enum MaxCombatStatusOptions : Int16
                 {
                     Asleep = 0,
                     Idle = 1,
@@ -1476,7 +2031,7 @@ namespace Abide.Guerilla.Tags
                     ClearLos = 8,
                     Dangerous = 9,
                 }
-                public enum AnimationImpulseOptions
+                public enum AnimationImpulseOptions : Int16
                 {
                     None = 0,
                     Shakefist = 1,
@@ -1491,7 +2046,7 @@ namespace Abide.Guerilla.Tags
                     Advance = 10,
                     Fallback = 11,
                 }
-                public enum OverlapPriorityOptions
+                public enum OverlapPriorityOptions : Int16
                 {
                     None = 0,
                     Recall = 1,
@@ -1510,7 +2065,7 @@ namespace Abide.Guerilla.Tags
                     Scripted = 14,
                     Death = 15,
                 }
-                public enum SpeakerEmotionOptions
+                public enum SpeakerEmotionOptions : Int16
                 {
                     None = 0,
                     Asleep = 1,
@@ -1527,7 +2082,7 @@ namespace Abide.Guerilla.Tags
                     Pensive = 12,
                     Pain = 13,
                 }
-                public enum ListenerEmotionOptions
+                public enum ListenerEmotionOptions : Int16
                 {
                     None = 0,
                     Asleep = 1,
@@ -1545,7 +2100,7 @@ namespace Abide.Guerilla.Tags
                     Pain = 13,
                 }
             }
-            public enum PriorityOptions
+            public enum PriorityOptions : Int16
             {
                 None = 0,
                 Recall = 1,
@@ -1564,13 +2119,13 @@ namespace Abide.Guerilla.Tags
                 Scripted = 14,
                 Death = 15,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 Immediate = 1,
                 Interrupt = 2,
                 CancelLowPriority = 4,
             }
-            public enum GlanceBehaviorOptions
+            public enum GlanceBehaviorOptions : Int16
             {
                 None = 0,
                 GlanceSubjectShort = 1,
@@ -1580,7 +2135,7 @@ namespace Abide.Guerilla.Tags
                 GlanceFriendShort = 5,
                 GlanceFriendLong = 6,
             }
-            public enum GlanceRecipientBehaviorOptions
+            public enum GlanceRecipientBehaviorOptions : Int16
             {
                 None = 0,
                 GlanceSubjectShort = 1,
@@ -1590,13 +2145,13 @@ namespace Abide.Guerilla.Tags
                 GlanceFriendShort = 5,
                 GlanceFriendLong = 6,
             }
-            public enum PerceptionTypeOptions
+            public enum PerceptionTypeOptions : Int16
             {
                 None = 0,
                 Speaker = 1,
                 Listener = 2,
             }
-            public enum MaxCombatStatusOptions
+            public enum MaxCombatStatusOptions : Int16
             {
                 Asleep = 0,
                 Idle = 1,
@@ -1609,7 +2164,7 @@ namespace Abide.Guerilla.Tags
                 ClearLos = 8,
                 Dangerous = 9,
             }
-            public enum AnimationImpulseOptions
+            public enum AnimationImpulseOptions : Int16
             {
                 None = 0,
                 Shakefist = 1,
@@ -1624,7 +2179,7 @@ namespace Abide.Guerilla.Tags
                 Advance = 10,
                 Fallback = 11,
             }
-            public enum OverlapPriorityOptions
+            public enum OverlapPriorityOptions : Int16
             {
                 None = 0,
                 Recall = 1,
@@ -1643,7 +2198,7 @@ namespace Abide.Guerilla.Tags
                 Scripted = 14,
                 Death = 15,
             }
-            public enum SpeakerEmotionOptions
+            public enum SpeakerEmotionOptions : Int16
             {
                 None = 0,
                 Asleep = 1,
@@ -1660,7 +2215,7 @@ namespace Abide.Guerilla.Tags
                 Pensive = 12,
                 Pain = 13,
             }
-            public enum ListenerEmotionOptions
+            public enum ListenerEmotionOptions : Int16
             {
                 None = 0,
                 Asleep = 1,
@@ -1678,91 +2233,137 @@ namespace Abide.Guerilla.Tags
                 Pain = 13,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class VocalizationPatternsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(64, 4)]
+        public sealed class VocalizationPatternsBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("dialogue type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DialogueTypeOptions), false)]
-            public Int16 DialogueType;
-            [Abide.Guerilla.Tags.FieldAttribute("vocalization index", typeof(Int16))]
+            [FieldAttribute("dialogue type", typeof(DialogueTypeOptions))]
+            [OptionsAttribute(typeof(DialogueTypeOptions), false)]
+            public DialogueTypeOptions DialogueType;
+            [FieldAttribute("vocalization index", typeof(Int16))]
             public Int16 VocalizationIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("vocalization name", typeof(StringId))]
+            [FieldAttribute("vocalization name", typeof(StringId))]
             public StringId VocalizationName;
-            [Abide.Guerilla.Tags.FieldAttribute("speaker type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpeakerTypeOptions), false)]
-            public Int16 SpeakerType;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("listener/target#who/what am I speaking to/of?", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ListenertargetOptions), false)]
-            public Int16 Listenertarget;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("speaker type", typeof(SpeakerTypeOptions))]
+            [OptionsAttribute(typeof(SpeakerTypeOptions), false)]
+            public SpeakerTypeOptions SpeakerType;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("listener/target#who/what am I speaking to/of?", typeof(ListenertargetOptions))]
+            [OptionsAttribute(typeof(ListenertargetOptions), false)]
+            public ListenertargetOptions Listenertarget;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("hostility#The relationship between the subject and the cause", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(HostilityOptions), false)]
-            public Int16 Hostility;
-            [Abide.Guerilla.Tags.FieldAttribute("damage type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DamageTypeOptions), false)]
-            public Int16 DamageType;
-            [Abide.Guerilla.Tags.FieldAttribute("danger level#Speaker must have danger level of at least this much", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DangerLevelOptions), false)]
-            public Int16 DangerLevel;
-            [Abide.Guerilla.Tags.FieldAttribute("attitude", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AttitudeOptions), false)]
-            public Int16 Attitude;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("hostility#The relationship between the subject and the cause", typeof(HostilityOptions))]
+            [OptionsAttribute(typeof(HostilityOptions), false)]
+            public HostilityOptions Hostility;
+            [FieldAttribute("damage type", typeof(DamageTypeOptions))]
+            [OptionsAttribute(typeof(DamageTypeOptions), false)]
+            public DamageTypeOptions DamageType;
+            [FieldAttribute("danger level#Speaker must have danger level of at least this much", typeof(DangerLevelOptions))]
+            [OptionsAttribute(typeof(DangerLevelOptions), false)]
+            public DangerLevelOptions DangerLevel;
+            [FieldAttribute("attitude", typeof(AttitudeOptions))]
+            [OptionsAttribute(typeof(AttitudeOptions), false)]
+            public AttitudeOptions Attitude;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("subject actor type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SubjectActorTypeOptions), false)]
-            public Int16 SubjectActorType;
-            [Abide.Guerilla.Tags.FieldAttribute("cause actor type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CauseActorTypeOptions), false)]
-            public Int16 CauseActorType;
-            [Abide.Guerilla.Tags.FieldAttribute("cause type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CauseTypeOptions), false)]
-            public Int16 CauseType;
-            [Abide.Guerilla.Tags.FieldAttribute("subject type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SubjectTypeOptions), false)]
-            public Int16 SubjectType;
-            [Abide.Guerilla.Tags.FieldAttribute("cause ai type name", typeof(StringId))]
+            [FieldAttribute("subject actor type", typeof(SubjectActorTypeOptions))]
+            [OptionsAttribute(typeof(SubjectActorTypeOptions), false)]
+            public SubjectActorTypeOptions SubjectActorType;
+            [FieldAttribute("cause actor type", typeof(CauseActorTypeOptions))]
+            [OptionsAttribute(typeof(CauseActorTypeOptions), false)]
+            public CauseActorTypeOptions CauseActorType;
+            [FieldAttribute("cause type", typeof(CauseTypeOptions))]
+            [OptionsAttribute(typeof(CauseTypeOptions), false)]
+            public CauseTypeOptions CauseType;
+            [FieldAttribute("subject type", typeof(SubjectTypeOptions))]
+            [OptionsAttribute(typeof(SubjectTypeOptions), false)]
+            public SubjectTypeOptions SubjectType;
+            [FieldAttribute("cause ai type name", typeof(StringId))]
             public StringId CauseAiTypeName;
-            [Abide.Guerilla.Tags.FieldAttribute("spatial relation#with respect to the subject, the cause is ...", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(SpatialRelationOptions), false)]
-            public Int16 SpatialRelation;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("spatial relation#with respect to the subject, the cause is ...", typeof(SpatialRelationOptions))]
+            [OptionsAttribute(typeof(SpatialRelationOptions), false)]
+            public SpatialRelationOptions SpatialRelation;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("subject ai type name", typeof(StringId))]
+            [FieldAttribute("subject ai type name", typeof(StringId))]
             public StringId SubjectAiTypeName;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("Conditions", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ConditionsOptions), true)]
-            public Int32 Conditions;
-            public int Size
+            [FieldAttribute("Conditions", typeof(ConditionsOptions))]
+            [OptionsAttribute(typeof(ConditionsOptions), true)]
+            public ConditionsOptions Conditions;
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.DialogueType = ((DialogueTypeOptions)(0));
+                this.VocalizationIndex = 0;
+                this.VocalizationName = StringId.Zero;
+                this.SpeakerType = ((SpeakerTypeOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.Listenertarget = ((ListenertargetOptions)(0));
+                this.EmptyString = new byte[2];
+                this.EmptyString1 = new byte[4];
+                this.Hostility = ((HostilityOptions)(0));
+                this.DamageType = ((DamageTypeOptions)(0));
+                this.DangerLevel = ((DangerLevelOptions)(0));
+                this.Attitude = ((AttitudeOptions)(0));
+                this.EmptyString2 = new byte[4];
+                this.SubjectActorType = ((SubjectActorTypeOptions)(0));
+                this.CauseActorType = ((CauseActorTypeOptions)(0));
+                this.CauseType = ((CauseTypeOptions)(0));
+                this.SubjectType = ((SubjectTypeOptions)(0));
+                this.CauseAiTypeName = StringId.Zero;
+                this.SpatialRelation = ((SpatialRelationOptions)(0));
+                this.EmptyString3 = new byte[2];
+                this.SubjectAiTypeName = StringId.Zero;
+                this.EmptyString4 = new byte[8];
+                this.Conditions = ((ConditionsOptions)(0));
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.DialogueType = ((DialogueTypeOptions)(reader.ReadInt16()));
+                this.VocalizationIndex = reader.ReadInt16();
+                this.VocalizationName = reader.ReadInt32();
+                this.SpeakerType = ((SpeakerTypeOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Listenertarget = ((ListenertargetOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.EmptyString1 = reader.ReadBytes(4);
+                this.Hostility = ((HostilityOptions)(reader.ReadInt16()));
+                this.DamageType = ((DamageTypeOptions)(reader.ReadInt16()));
+                this.DangerLevel = ((DangerLevelOptions)(reader.ReadInt16()));
+                this.Attitude = ((AttitudeOptions)(reader.ReadInt16()));
+                this.EmptyString2 = reader.ReadBytes(4);
+                this.SubjectActorType = ((SubjectActorTypeOptions)(reader.ReadInt16()));
+                this.CauseActorType = ((CauseActorTypeOptions)(reader.ReadInt16()));
+                this.CauseType = ((CauseTypeOptions)(reader.ReadInt16()));
+                this.SubjectType = ((SubjectTypeOptions)(reader.ReadInt16()));
+                this.CauseAiTypeName = reader.ReadInt32();
+                this.SpatialRelation = ((SpatialRelationOptions)(reader.ReadInt16()));
+                this.EmptyString3 = reader.ReadBytes(2);
+                this.SubjectAiTypeName = reader.ReadInt32();
+                this.EmptyString4 = reader.ReadBytes(8);
+                this.Conditions = ((ConditionsOptions)(reader.ReadInt32()));
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum DialogueTypeOptions
+            public enum DialogueTypeOptions : Int16
             {
                 Death = 0,
                 Unused = 1,
@@ -1965,7 +2566,7 @@ namespace Abide.Guerilla.Tags
                 Reanimate = 198,
                 Unused90 = 199,
             }
-            public enum SpeakerTypeOptions
+            public enum SpeakerTypeOptions : Int16
             {
                 Subject = 0,
                 Cause = 1,
@@ -1980,7 +2581,7 @@ namespace Abide.Guerilla.Tags
                 Clump = 10,
                 Peer = 11,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 SubjectVisible = 1,
                 CauseVisible = 2,
@@ -1992,7 +2593,7 @@ namespace Abide.Guerilla.Tags
                 SpeakerIsFollowingPlayer = 128,
                 CauseIsPrimaryPlayerAlly = 256,
             }
-            public enum ListenertargetOptions
+            public enum ListenertargetOptions : Int16
             {
                 Subject = 0,
                 Cause = 1,
@@ -2007,7 +2608,7 @@ namespace Abide.Guerilla.Tags
                 Clump = 10,
                 Peer = 11,
             }
-            public enum HostilityOptions
+            public enum HostilityOptions : Int16
             {
                 None = 0,
                 Self = 1,
@@ -2016,7 +2617,7 @@ namespace Abide.Guerilla.Tags
                 Enemy = 4,
                 Traitor = 5,
             }
-            public enum DamageTypeOptions
+            public enum DamageTypeOptions : Int16
             {
                 None = 0,
                 Falling = 1,
@@ -2032,7 +2633,7 @@ namespace Abide.Guerilla.Tags
                 Needle = 11,
                 Shotgun = 12,
             }
-            public enum DangerLevelOptions
+            public enum DangerLevelOptions : Int16
             {
                 None = 0,
                 BroadlyFacing = 1,
@@ -2044,13 +2645,13 @@ namespace Abide.Guerilla.Tags
                 BodyDamage = 7,
                 BodyExtendedDamage = 8,
             }
-            public enum AttitudeOptions
+            public enum AttitudeOptions : Int16
             {
                 Normal = 0,
                 Timid = 1,
                 Aggressive = 2,
             }
-            public enum SubjectActorTypeOptions
+            public enum SubjectActorTypeOptions : Int16
             {
                 None = 0,
                 Elite = 1,
@@ -2074,7 +2675,7 @@ namespace Abide.Guerilla.Tags
                 Bugger = 19,
                 Juggernaut = 20,
             }
-            public enum CauseActorTypeOptions
+            public enum CauseActorTypeOptions : Int16
             {
                 None = 0,
                 Elite = 1,
@@ -2098,7 +2699,7 @@ namespace Abide.Guerilla.Tags
                 Bugger = 19,
                 Juggernaut = 20,
             }
-            public enum CauseTypeOptions
+            public enum CauseTypeOptions : Int16
             {
                 None = 0,
                 Player = 1,
@@ -2126,7 +2727,7 @@ namespace Abide.Guerilla.Tags
                 Female = 23,
                 Grenade = 24,
             }
-            public enum SubjectTypeOptions
+            public enum SubjectTypeOptions : Int16
             {
                 None = 0,
                 Player = 1,
@@ -2154,7 +2755,7 @@ namespace Abide.Guerilla.Tags
                 Female = 23,
                 Grenade = 24,
             }
-            public enum SpatialRelationOptions
+            public enum SpatialRelationOptions : Int16
             {
                 None = 0,
                 VeryNearLessThan1wu = 1,
@@ -2167,7 +2768,7 @@ namespace Abide.Guerilla.Tags
                 AboveDeltaGreaterThan1Wu = 8,
                 BelowDeltaGreaterThan1Wu = 9,
             }
-            public enum ConditionsOptions
+            public enum ConditionsOptions : Int32
             {
                 Asleep = 1,
                 Idle = 2,
@@ -2184,52 +2785,60 @@ namespace Abide.Guerilla.Tags
                 VehiclePassenger = 4096,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class DialogueDataBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(4, 4)]
+        public sealed class DialogueDataBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("start index (postprocess)*", typeof(Int16))]
+            [FieldAttribute("start index (postprocess)*", typeof(Int16))]
             public Int16 StartIndexPostprocess;
-            [Abide.Guerilla.Tags.FieldAttribute("length (postprocess)*", typeof(Int16))]
+            [FieldAttribute("length (postprocess)*", typeof(Int16))]
             public Int16 LengthPostprocess;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.StartIndexPostprocess = 0;
+                this.LengthPostprocess = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.StartIndexPostprocess = reader.ReadInt16();
+                this.LengthPostprocess = reader.ReadInt16();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class InvoluntaryDataBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(4, 4)]
+        public sealed class InvoluntaryDataBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("involuntary vocalization index*", typeof(Int16))]
+            [FieldAttribute("involuntary vocalization index*", typeof(Int16))]
             public Int16 InvoluntaryVocalizationIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.InvoluntaryVocalizationIndex = 0;
+                this.EmptyString = new byte[2];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.InvoluntaryVocalizationIndex = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

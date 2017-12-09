@@ -14,51 +14,60 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenery", 1935893870u, 1868720741u, typeof(SceneryBlock))]
-    public sealed class SceneryBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(8, 4)]
+    [TagGroupAttribute("scenery", 1935893870u, 1868720741u, typeof(SceneryBlock))]
+    public sealed class SceneryBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("pathfinding policy", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PathfindingPolicyOptions), false)]
-        public Int16 PathfindingPolicy;
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("lightmapping policy", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(LightmappingPolicyOptions), false)]
-        public Int16 LightmappingPolicy;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("pathfinding policy", typeof(PathfindingPolicyOptions))]
+        [OptionsAttribute(typeof(PathfindingPolicyOptions), false)]
+        public PathfindingPolicyOptions PathfindingPolicy;
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("lightmapping policy", typeof(LightmappingPolicyOptions))]
+        [OptionsAttribute(typeof(LightmappingPolicyOptions), false)]
+        public LightmappingPolicyOptions LightmappingPolicy;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 8;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.PathfindingPolicy = ((PathfindingPolicyOptions)(0));
+            this.Flags = ((FlagsOptions)(0));
+            this.LightmappingPolicy = ((LightmappingPolicyOptions)(0));
+            this.EmptyString = new byte[2];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.PathfindingPolicy = ((PathfindingPolicyOptions)(reader.ReadInt16()));
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.LightmappingPolicy = ((LightmappingPolicyOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum PathfindingPolicyOptions
+        public enum PathfindingPolicyOptions : Int16
         {
             PathfindingCutOut = 0,
             PathfindingStatic = 1,
             PathfindingDynamic = 2,
             PathfindingNone = 3,
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             PhysicallySimulates = 1,
         }
-        public enum LightmappingPolicyOptions
+        public enum LightmappingPolicyOptions : Int16
         {
             PerVertex = 0,
             PerPixelNotImplemented = 1,

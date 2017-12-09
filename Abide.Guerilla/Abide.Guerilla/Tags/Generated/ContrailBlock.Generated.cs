@@ -14,174 +14,283 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(260, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("contrail", 1668247156u, 4294967293u, typeof(ContrailBlock))]
-    public sealed class ContrailBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(260, 4)]
+    [TagGroupAttribute("contrail", 1668247156u, 4294967293u, typeof(ContrailBlock))]
+    public sealed class ContrailBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("scale flags#these flags determine which fields are scaled by the contrail density" +
-            "", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ScaleFlagsOptions), true)]
-        public Int16 ScaleFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("point generation rate:points per second#this many points are generated per second" +
+        private TagBlockList<ContrailPointStatesBlock> pointStatesList = new TagBlockList<ContrailPointStatesBlock>(16);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("scale flags#these flags determine which fields are scaled by the contrail density" +
+            "", typeof(ScaleFlagsOptions))]
+        [OptionsAttribute(typeof(ScaleFlagsOptions), true)]
+        public ScaleFlagsOptions ScaleFlags;
+        [FieldAttribute("point generation rate:points per second#this many points are generated per second" +
             "", typeof(Single))]
         public Single PointGenerationRate;
-        [Abide.Guerilla.Tags.FieldAttribute("point velocity cone angle:degrees#initial velocity is inside the cone defined by " +
+        [FieldAttribute("point velocity cone angle:degrees#initial velocity is inside the cone defined by " +
             "the marker\'s forward vector and this angle", typeof(Single))]
         public Single PointVelocityConeAngle;
-        [Abide.Guerilla.Tags.FieldAttribute("inherited velocity fraction#fraction of parent object\'s velocity that is inherite" +
+        [FieldAttribute("inherited velocity fraction#fraction of parent object\'s velocity that is inherite" +
             "d by contrail points.", typeof(Single))]
         public Single InheritedVelocityFraction;
-        [Abide.Guerilla.Tags.FieldAttribute("render type#this specifies how the contrail is oriented in space", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(RenderTypeOptions), false)]
-        public Int16 RenderType;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("render type#this specifies how the contrail is oriented in space", typeof(RenderTypeOptions))]
+        [OptionsAttribute(typeof(RenderTypeOptions), false)]
+        public RenderTypeOptions RenderType;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("texture repeats u#texture repeats per contrail segment", typeof(Single))]
+        [FieldAttribute("texture repeats u#texture repeats per contrail segment", typeof(Single))]
         public Single TextureRepeatsU;
-        [Abide.Guerilla.Tags.FieldAttribute("texture repeats v#texture repeats across contrail width", typeof(Single))]
+        [FieldAttribute("texture repeats v#texture repeats across contrail width", typeof(Single))]
         public Single TextureRepeatsV;
-        [Abide.Guerilla.Tags.FieldAttribute("texture animation u:repeats per second#the texture along the contrail is animated" +
+        [FieldAttribute("texture animation u:repeats per second#the texture along the contrail is animated" +
             " by this value", typeof(Single))]
         public Single TextureAnimationU;
-        [Abide.Guerilla.Tags.FieldAttribute("texture animation v:repeats per second#the texture across the contrail is animate" +
+        [FieldAttribute("texture animation v:repeats per second#the texture across the contrail is animate" +
             "d by this value", typeof(Single))]
         public Single TextureAnimationV;
-        [Abide.Guerilla.Tags.FieldAttribute("animation rate:frames per second", typeof(Single))]
+        [FieldAttribute("animation rate:frames per second", typeof(Single))]
         public Single AnimationRate;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+        [FieldAttribute("bitmap", typeof(TagReference))]
         public TagReference Bitmap;
-        [Abide.Guerilla.Tags.FieldAttribute("first sequence index", typeof(Int16))]
+        [FieldAttribute("first sequence index", typeof(Int16))]
         public Int16 FirstSequenceIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("sequence count", typeof(Int16))]
+        [FieldAttribute("sequence count", typeof(Int16))]
         public Int16 SequenceCount;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(40)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(40)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("shader flags", typeof(ShaderFlagsOptions))]
+        [OptionsAttribute(typeof(ShaderFlagsOptions), true)]
+        public ShaderFlagsOptions ShaderFlags;
+        [FieldAttribute("framebuffer blend function", typeof(FramebufferBlendFunctionOptions))]
+        [OptionsAttribute(typeof(FramebufferBlendFunctionOptions), false)]
+        public FramebufferBlendFunctionOptions FramebufferBlendFunction;
+        [FieldAttribute("framebuffer fade mode", typeof(FramebufferFadeModeOptions))]
+        [OptionsAttribute(typeof(FramebufferFadeModeOptions), false)]
+        public FramebufferFadeModeOptions FramebufferFadeMode;
+        [FieldAttribute("map flags", typeof(MapFlagsOptions))]
+        [OptionsAttribute(typeof(MapFlagsOptions), true)]
+        public MapFlagsOptions MapFlags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(28)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("shader flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ShaderFlagsOptions), true)]
-        public Int16 ShaderFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("framebuffer blend function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FramebufferBlendFunctionOptions), false)]
-        public Int16 FramebufferBlendFunction;
-        [Abide.Guerilla.Tags.FieldAttribute("framebuffer fade mode", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FramebufferFadeModeOptions), false)]
-        public Int16 FramebufferFadeMode;
-        [Abide.Guerilla.Tags.FieldAttribute("map flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(MapFlagsOptions), true)]
-        public Int16 MapFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(28)]
-        public Byte[] EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("bitmap", typeof(TagReference))]
+        [FieldAttribute("bitmap", typeof(TagReference))]
         public TagReference Bitmap1;
-        [Abide.Guerilla.Tags.FieldAttribute("anchor", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnchorOptions), false)]
-        public Int16 Anchor;
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions1), true)]
-        public Int16 Flags1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("u-animation function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(UAnimationFunctionOptions), false)]
-        public Int16 UAnimationFunction;
-        [Abide.Guerilla.Tags.FieldAttribute("u-animation period:seconds#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("anchor", typeof(AnchorOptions))]
+        [OptionsAttribute(typeof(AnchorOptions), false)]
+        public AnchorOptions Anchor;
+        [FieldAttribute("flags", typeof(FlagsOptions1))]
+        [OptionsAttribute(typeof(FlagsOptions1), true)]
+        public FlagsOptions1 Flags1;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString3;
+        [FieldAttribute("u-animation function", typeof(UAnimationFunctionOptions))]
+        [OptionsAttribute(typeof(UAnimationFunctionOptions), false)]
+        public UAnimationFunctionOptions UAnimationFunction;
+        [FieldAttribute("u-animation period:seconds#0 defaults to 1", typeof(Single))]
         public Single UAnimationPeriod;
-        [Abide.Guerilla.Tags.FieldAttribute("u-animation phase", typeof(Single))]
+        [FieldAttribute("u-animation phase", typeof(Single))]
         public Single UAnimationPhase;
-        [Abide.Guerilla.Tags.FieldAttribute("u-animation scale:repeats#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("u-animation scale:repeats#0 defaults to 1", typeof(Single))]
         public Single UAnimationScale;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString5;
-        [Abide.Guerilla.Tags.FieldAttribute("v-animation function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(VAnimationFunctionOptions), false)]
-        public Int16 VAnimationFunction;
-        [Abide.Guerilla.Tags.FieldAttribute("v-animation period:seconds#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString4;
+        [FieldAttribute("v-animation function", typeof(VAnimationFunctionOptions))]
+        [OptionsAttribute(typeof(VAnimationFunctionOptions), false)]
+        public VAnimationFunctionOptions VAnimationFunction;
+        [FieldAttribute("v-animation period:seconds#0 defaults to 1", typeof(Single))]
         public Single VAnimationPeriod;
-        [Abide.Guerilla.Tags.FieldAttribute("v-animation phase", typeof(Single))]
+        [FieldAttribute("v-animation phase", typeof(Single))]
         public Single VAnimationPhase;
-        [Abide.Guerilla.Tags.FieldAttribute("v-animation scale:repeats#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("v-animation scale:repeats#0 defaults to 1", typeof(Single))]
         public Single VAnimationScale;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation-animation function", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(RotationAnimationFunctionOptions), false)]
-        public Int16 RotationAnimationFunction;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation-animation period:seconds#0 defaults to 1", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
+        public Byte[] EmptyString5;
+        [FieldAttribute("rotation-animation function", typeof(RotationAnimationFunctionOptions))]
+        [OptionsAttribute(typeof(RotationAnimationFunctionOptions), false)]
+        public RotationAnimationFunctionOptions RotationAnimationFunction;
+        [FieldAttribute("rotation-animation period:seconds#0 defaults to 1", typeof(Single))]
         public Single RotationAnimationPeriod;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation-animation phase", typeof(Single))]
+        [FieldAttribute("rotation-animation phase", typeof(Single))]
         public Single RotationAnimationPhase;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation-animation scale:degrees#0 defaults to 360", typeof(Single))]
+        [FieldAttribute("rotation-animation scale:degrees#0 defaults to 360", typeof(Single))]
         public Single RotationAnimationScale;
-        [Abide.Guerilla.Tags.FieldAttribute("rotation-animation center", typeof(Vector2))]
+        [FieldAttribute("rotation-animation center", typeof(Vector2))]
         public Vector2 RotationAnimationCenter;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString7;
-        [Abide.Guerilla.Tags.FieldAttribute("zsprite radius scale", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString6;
+        [FieldAttribute("zsprite radius scale", typeof(Single))]
         public Single ZspriteRadiusScale;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(20)]
-        public Byte[] EmptyString8;
-        [Abide.Guerilla.Tags.FieldAttribute("point states", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("contrail_point_states_block", 16, typeof(ContrailPointStatesBlock))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(20)]
+        public Byte[] EmptyString7;
+        [FieldAttribute("point states", typeof(TagBlock))]
+        [BlockAttribute("contrail_point_states_block", 16, typeof(ContrailPointStatesBlock))]
         public TagBlock PointStates;
-        public int Size
+        public TagBlockList<ContrailPointStatesBlock> PointStatesList
+        {
+            get
+            {
+                return this.pointStatesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 260;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.pointStatesList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.ScaleFlags = ((ScaleFlagsOptions)(0));
+            this.PointGenerationRate = 0;
+            this.PointVelocityConeAngle = 0;
+            this.InheritedVelocityFraction = 0;
+            this.RenderType = ((RenderTypeOptions)(0));
+            this.EmptyString = new byte[2];
+            this.TextureRepeatsU = 0;
+            this.TextureRepeatsV = 0;
+            this.TextureAnimationU = 0;
+            this.TextureAnimationV = 0;
+            this.AnimationRate = 0;
+            this.Bitmap = TagReference.Null;
+            this.FirstSequenceIndex = 0;
+            this.SequenceCount = 0;
+            this.EmptyString1 = new byte[40];
+            this.ShaderFlags = ((ShaderFlagsOptions)(0));
+            this.FramebufferBlendFunction = ((FramebufferBlendFunctionOptions)(0));
+            this.FramebufferFadeMode = ((FramebufferFadeModeOptions)(0));
+            this.MapFlags = ((MapFlagsOptions)(0));
+            this.EmptyString2 = new byte[28];
+            this.Bitmap1 = TagReference.Null;
+            this.Anchor = ((AnchorOptions)(0));
+            this.Flags1 = ((FlagsOptions1)(0));
+            this.EmptyString3 = new byte[2];
+            this.UAnimationFunction = ((UAnimationFunctionOptions)(0));
+            this.UAnimationPeriod = 0;
+            this.UAnimationPhase = 0;
+            this.UAnimationScale = 0;
+            this.EmptyString4 = new byte[2];
+            this.VAnimationFunction = ((VAnimationFunctionOptions)(0));
+            this.VAnimationPeriod = 0;
+            this.VAnimationPhase = 0;
+            this.VAnimationScale = 0;
+            this.EmptyString5 = new byte[2];
+            this.RotationAnimationFunction = ((RotationAnimationFunctionOptions)(0));
+            this.RotationAnimationPeriod = 0;
+            this.RotationAnimationPhase = 0;
+            this.RotationAnimationScale = 0;
+            this.RotationAnimationCenter = Vector2.Zero;
+            this.EmptyString6 = new byte[4];
+            this.ZspriteRadiusScale = 0;
+            this.EmptyString7 = new byte[20];
+            this.PointStates = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.ScaleFlags = ((ScaleFlagsOptions)(reader.ReadInt16()));
+            this.PointGenerationRate = reader.ReadSingle();
+            this.PointVelocityConeAngle = reader.ReadSingle();
+            this.InheritedVelocityFraction = reader.ReadSingle();
+            this.RenderType = ((RenderTypeOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.TextureRepeatsU = reader.ReadSingle();
+            this.TextureRepeatsV = reader.ReadSingle();
+            this.TextureAnimationU = reader.ReadSingle();
+            this.TextureAnimationV = reader.ReadSingle();
+            this.AnimationRate = reader.ReadSingle();
+            this.Bitmap = reader.Read<TagReference>();
+            this.FirstSequenceIndex = reader.ReadInt16();
+            this.SequenceCount = reader.ReadInt16();
+            this.EmptyString1 = reader.ReadBytes(40);
+            this.ShaderFlags = ((ShaderFlagsOptions)(reader.ReadInt16()));
+            this.FramebufferBlendFunction = ((FramebufferBlendFunctionOptions)(reader.ReadInt16()));
+            this.FramebufferFadeMode = ((FramebufferFadeModeOptions)(reader.ReadInt16()));
+            this.MapFlags = ((MapFlagsOptions)(reader.ReadInt16()));
+            this.EmptyString2 = reader.ReadBytes(28);
+            this.Bitmap1 = reader.Read<TagReference>();
+            this.Anchor = ((AnchorOptions)(reader.ReadInt16()));
+            this.Flags1 = ((FlagsOptions1)(reader.ReadInt16()));
+            this.EmptyString3 = reader.ReadBytes(2);
+            this.UAnimationFunction = ((UAnimationFunctionOptions)(reader.ReadInt16()));
+            this.UAnimationPeriod = reader.ReadSingle();
+            this.UAnimationPhase = reader.ReadSingle();
+            this.UAnimationScale = reader.ReadSingle();
+            this.EmptyString4 = reader.ReadBytes(2);
+            this.VAnimationFunction = ((VAnimationFunctionOptions)(reader.ReadInt16()));
+            this.VAnimationPeriod = reader.ReadSingle();
+            this.VAnimationPhase = reader.ReadSingle();
+            this.VAnimationScale = reader.ReadSingle();
+            this.EmptyString5 = reader.ReadBytes(2);
+            this.RotationAnimationFunction = ((RotationAnimationFunctionOptions)(reader.ReadInt16()));
+            this.RotationAnimationPeriod = reader.ReadSingle();
+            this.RotationAnimationPhase = reader.ReadSingle();
+            this.RotationAnimationScale = reader.ReadSingle();
+            this.RotationAnimationCenter = reader.Read<Vector2>();
+            this.EmptyString6 = reader.ReadBytes(4);
+            this.ZspriteRadiusScale = reader.ReadSingle();
+            this.EmptyString7 = reader.ReadBytes(20);
+            this.PointStates = reader.ReadInt64();
+            this.pointStatesList.Read(reader, this.PointStates);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(72, 4)]
+        public sealed class ContrailPointStatesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(72, 4)]
-        public sealed class ContrailPointStatesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("physics", typeof(TagReference))]
+            [FieldAttribute("physics", typeof(TagReference))]
             public TagReference Physics;
-            [Abide.Guerilla.Tags.FieldAttribute("width:world units#contrail width at this point", typeof(Single))]
+            [FieldAttribute("width:world units#contrail width at this point", typeof(Single))]
             public Single Width;
-            [Abide.Guerilla.Tags.FieldAttribute("color lower bound#contrail color at this point", typeof(ColorArgbF))]
+            [FieldAttribute("color lower bound#contrail color at this point", typeof(ColorArgbF))]
             public ColorArgbF ColorLowerBound;
-            [Abide.Guerilla.Tags.FieldAttribute("color upper bound#contrail color at this point", typeof(ColorArgbF))]
+            [FieldAttribute("color upper bound#contrail color at this point", typeof(ColorArgbF))]
             public ColorArgbF ColorUpperBound;
-            [Abide.Guerilla.Tags.FieldAttribute("scale flags#these flags determine which fields are scaled by the contrail density" +
-                "", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ScaleFlagsOptions), true)]
-            public Int32 ScaleFlags;
-            public int Size
+            [FieldAttribute("scale flags#these flags determine which fields are scaled by the contrail density" +
+                "", typeof(ScaleFlagsOptions))]
+            [OptionsAttribute(typeof(ScaleFlagsOptions), true)]
+            public ScaleFlagsOptions ScaleFlags;
+            public override int Size
             {
                 get
                 {
                     return 72;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Physics = TagReference.Null;
+                this.Width = 0;
+                this.ColorLowerBound = ColorArgbF.Zero;
+                this.ColorUpperBound = ColorArgbF.Zero;
+                this.ScaleFlags = ((ScaleFlagsOptions)(0));
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Physics = reader.Read<TagReference>();
+                this.Width = reader.ReadSingle();
+                this.ColorLowerBound = reader.Read<ColorArgbF>();
+                this.ColorUpperBound = reader.Read<ColorArgbF>();
+                this.ScaleFlags = ((ScaleFlagsOptions)(reader.ReadInt32()));
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum ScaleFlagsOptions
+            public enum ScaleFlagsOptions : Int32
             {
                 Duration = 1,
                 DurationDelta = 2,
@@ -191,7 +300,7 @@ namespace Abide.Guerilla.Tags
                 Color = 32,
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             FirstPointUnfaded = 1,
             LastPointUnfaded = 2,
@@ -202,7 +311,7 @@ namespace Abide.Guerilla.Tags
             EdgeEffectFadesSlowly = 64,
             DonttInheritObjectChangeColor = 128,
         }
-        public enum ScaleFlagsOptions
+        public enum ScaleFlagsOptions : Int16
         {
             PointGenerationRate = 1,
             PointVelocity = 2,
@@ -215,7 +324,7 @@ namespace Abide.Guerilla.Tags
             TextureAnimationU = 256,
             TextureAnimationV = 512,
         }
-        public enum RenderTypeOptions
+        public enum RenderTypeOptions : Int16
         {
             VerticalOrientation = 0,
             HorizontalOrientation = 1,
@@ -224,13 +333,13 @@ namespace Abide.Guerilla.Tags
             ViewerFacing = 4,
             DoubleMarkerLinked = 5,
         }
-        public enum ShaderFlagsOptions
+        public enum ShaderFlagsOptions : Int16
         {
             SortBias = 1,
             NonlinearTint = 2,
             DontOverdrawFpWeapon = 4,
         }
-        public enum FramebufferBlendFunctionOptions
+        public enum FramebufferBlendFunctionOptions : Int16
         {
             AlphaBlend = 0,
             Multiply = 1,
@@ -244,27 +353,27 @@ namespace Abide.Guerilla.Tags
             InverseConstantColorBlend = 9,
             None = 10,
         }
-        public enum FramebufferFadeModeOptions
+        public enum FramebufferFadeModeOptions : Int16
         {
             None = 0,
             FadeWhenPerpendicular = 1,
             FadeWhenParallel = 2,
         }
-        public enum MapFlagsOptions
+        public enum MapFlagsOptions : Int16
         {
             Unfiltered = 1,
         }
-        public enum AnchorOptions
+        public enum AnchorOptions : Int16
         {
             WithPrimary = 0,
             WithScreenSpace = 1,
             Zsprite = 2,
         }
-        public enum FlagsOptions1
+        public enum FlagsOptions1 : Int16
         {
             Unfiltered = 1,
         }
-        public enum UAnimationFunctionOptions
+        public enum UAnimationFunctionOptions : Int16
         {
             One = 0,
             Zero = 1,
@@ -279,7 +388,7 @@ namespace Abide.Guerilla.Tags
             Wander = 10,
             Spark = 11,
         }
-        public enum VAnimationFunctionOptions
+        public enum VAnimationFunctionOptions : Int16
         {
             One = 0,
             Zero = 1,
@@ -294,7 +403,7 @@ namespace Abide.Guerilla.Tags
             Wander = 10,
             Spark = 11,
         }
-        public enum RotationAnimationFunctionOptions
+        public enum RotationAnimationFunctionOptions : Int16
         {
             One = 0,
             Zero = 1,

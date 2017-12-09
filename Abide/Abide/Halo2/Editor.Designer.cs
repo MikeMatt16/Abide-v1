@@ -123,8 +123,8 @@
             // 
             this.TagImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TagImageList.ImageStream")));
             this.TagImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.TagImageList.Images.SetKeyName(0, "Folder16.png");
-            this.TagImageList.Images.SetKeyName(1, "Reference16.png");
+            this.TagImageList.Images.SetKeyName(0, "abide_folder_16.png");
+            this.TagImageList.Images.SetKeyName(1, "abide_reference_16.png");
             // 
             // tagSearchBox
             // 
@@ -222,7 +222,7 @@
             // 
             this.openToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = global::Abide.Properties.Resources.Folder16;
+            this.openToolStripButton.Image = global::Abide.Properties.Resources.abide_folder_16;
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);

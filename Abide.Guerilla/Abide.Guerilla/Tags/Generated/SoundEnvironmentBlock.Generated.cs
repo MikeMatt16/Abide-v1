@@ -14,63 +14,96 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(72, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_environment", 1936614501u, 4294967293u, typeof(SoundEnvironmentBlock))]
-    public sealed class SoundEnvironmentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(72, 4)]
+    [TagGroupAttribute("sound_environment", 1936614501u, 4294967293u, typeof(SoundEnvironmentBlock))]
+    public sealed class SoundEnvironmentBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("priority#when multiple listeners are in different sound environments in split scr" +
+        [FieldAttribute("priority#when multiple listeners are in different sound environments in split scr" +
             "een, the combined environment will be the one with the highest priority.", typeof(Int16))]
         public Int16 Priority;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("room intensity:dB#intensity of the room effect", typeof(Single))]
+        [FieldAttribute("room intensity:dB#intensity of the room effect", typeof(Single))]
         public Single RoomIntensity;
-        [Abide.Guerilla.Tags.FieldAttribute("room intensity hf:dB#intensity of the room effect above the reference high freque" +
+        [FieldAttribute("room intensity hf:dB#intensity of the room effect above the reference high freque" +
             "ncy", typeof(Single))]
         public Single RoomIntensityHf;
-        [Abide.Guerilla.Tags.FieldAttribute("room rolloff (0 to 10)#how quickly the room effect rolls off, from 0.0 to 10.0", typeof(Single))]
+        [FieldAttribute("room rolloff (0 to 10)#how quickly the room effect rolls off, from 0.0 to 10.0", typeof(Single))]
         public Single RoomRolloff0To10;
-        [Abide.Guerilla.Tags.FieldAttribute("decay time (.1 to 20):seconds", typeof(Single))]
+        [FieldAttribute("decay time (.1 to 20):seconds", typeof(Single))]
         public Single DecayTime1To20;
-        [Abide.Guerilla.Tags.FieldAttribute("decay hf ratio (.1 to 2)", typeof(Single))]
+        [FieldAttribute("decay hf ratio (.1 to 2)", typeof(Single))]
         public Single DecayHfRatio1To2;
-        [Abide.Guerilla.Tags.FieldAttribute("reflections intensity:dB[-100,10]", typeof(Single))]
+        [FieldAttribute("reflections intensity:dB[-100,10]", typeof(Single))]
         public Single ReflectionsIntensity;
-        [Abide.Guerilla.Tags.FieldAttribute("reflections delay (0 to .3):seconds", typeof(Single))]
+        [FieldAttribute("reflections delay (0 to .3):seconds", typeof(Single))]
         public Single ReflectionsDelay0To3;
-        [Abide.Guerilla.Tags.FieldAttribute("reverb intensity:dB[-100,20]", typeof(Single))]
+        [FieldAttribute("reverb intensity:dB[-100,20]", typeof(Single))]
         public Single ReverbIntensity;
-        [Abide.Guerilla.Tags.FieldAttribute("reverb delay (0 to .1):seconds", typeof(Single))]
+        [FieldAttribute("reverb delay (0 to .1):seconds", typeof(Single))]
         public Single ReverbDelay0To1;
-        [Abide.Guerilla.Tags.FieldAttribute("diffusion", typeof(Single))]
+        [FieldAttribute("diffusion", typeof(Single))]
         public Single Diffusion;
-        [Abide.Guerilla.Tags.FieldAttribute("density", typeof(Single))]
+        [FieldAttribute("density", typeof(Single))]
         public Single Density;
-        [Abide.Guerilla.Tags.FieldAttribute("hf reference(20 to 20,000):Hz#for hf values, what frequency defines hf, from 20 t" +
+        [FieldAttribute("hf reference(20 to 20,000):Hz#for hf values, what frequency defines hf, from 20 t" +
             "o 20,000", typeof(Single))]
         public Single HfReference20To20000;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(16)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(16)]
         public Byte[] EmptyString2;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 72;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.EmptyString = new byte[4];
+            this.Priority = 0;
+            this.EmptyString1 = new byte[2];
+            this.RoomIntensity = 0;
+            this.RoomIntensityHf = 0;
+            this.RoomRolloff0To10 = 0;
+            this.DecayTime1To20 = 0;
+            this.DecayHfRatio1To2 = 0;
+            this.ReflectionsIntensity = 0;
+            this.ReflectionsDelay0To3 = 0;
+            this.ReverbIntensity = 0;
+            this.ReverbDelay0To1 = 0;
+            this.Diffusion = 0;
+            this.Density = 0;
+            this.HfReference20To20000 = 0;
+            this.EmptyString2 = new byte[16];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.EmptyString = reader.ReadBytes(4);
+            this.Priority = reader.ReadInt16();
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.RoomIntensity = reader.ReadSingle();
+            this.RoomIntensityHf = reader.ReadSingle();
+            this.RoomRolloff0To10 = reader.ReadSingle();
+            this.DecayTime1To20 = reader.ReadSingle();
+            this.DecayHfRatio1To2 = reader.ReadSingle();
+            this.ReflectionsIntensity = reader.ReadSingle();
+            this.ReflectionsDelay0To3 = reader.ReadSingle();
+            this.ReverbIntensity = reader.ReadSingle();
+            this.ReverbDelay0To1 = reader.ReadSingle();
+            this.Diffusion = reader.ReadSingle();
+            this.Density = reader.ReadSingle();
+            this.HfReference20To20000 = reader.ReadSingle();
+            this.EmptyString2 = reader.ReadBytes(16);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

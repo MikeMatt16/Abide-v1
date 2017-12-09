@@ -6,6 +6,12 @@
     public struct Quaternion
     {
         /// <summary>
+        /// Represents a zero value quaternion.
+        /// This value is read-only.
+        /// </summary>
+        public static readonly Quaternion Zero = new Quaternion() { w = 1, i = 0, j = 0, k = 0 };
+
+        /// <summary>
         /// Gets the w-component of the quaternion.
         /// </summary>
         public float W

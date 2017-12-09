@@ -14,46 +14,61 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(76, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("colony", 1668246638u, 4294967293u, typeof(ColonyBlock))]
-    public sealed class ColonyBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(76, 4)]
+    [TagGroupAttribute("colony", 1668246638u, 4294967293u, typeof(ColonyBlock))]
+    public sealed class ColonyBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(12)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(12)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("debug color", typeof(ColorArgbF))]
+        [FieldAttribute("debug color", typeof(ColorArgbF))]
         public ColorArgbF DebugColor;
-        [Abide.Guerilla.Tags.FieldAttribute("base map", typeof(TagReference))]
+        [FieldAttribute("base map", typeof(TagReference))]
         public TagReference BaseMap;
-        [Abide.Guerilla.Tags.FieldAttribute("detail map", typeof(TagReference))]
+        [FieldAttribute("detail map", typeof(TagReference))]
         public TagReference DetailMap;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 76;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.EmptyString = new byte[2];
+            this.EmptyString1 = new byte[4];
+            this.EmptyString2 = new byte[12];
+            this.DebugColor = ColorArgbF.Zero;
+            this.BaseMap = TagReference.Null;
+            this.DetailMap = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.EmptyString = reader.ReadBytes(2);
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.EmptyString2 = reader.ReadBytes(12);
+            this.DebugColor = reader.Read<ColorArgbF>();
+            this.BaseMap = reader.Read<TagReference>();
+            this.DetailMap = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             Unused = 1,
         }

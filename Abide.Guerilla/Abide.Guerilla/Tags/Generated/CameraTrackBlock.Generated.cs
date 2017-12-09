@@ -14,58 +14,77 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("camera_track", 1953653099u, 4294967293u, typeof(CameraTrackBlock))]
-    public sealed class CameraTrackBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(16, 4)]
+    [TagGroupAttribute("camera_track", 1953653099u, 4294967293u, typeof(CameraTrackBlock))]
+    public sealed class CameraTrackBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("control points", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("camera_track_control_point_block", 16, typeof(CameraTrackControlPointBlock))]
+        private TagBlockList<CameraTrackControlPointBlock> controlPointsList = new TagBlockList<CameraTrackControlPointBlock>(16);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("control points", typeof(TagBlock))]
+        [BlockAttribute("camera_track_control_point_block", 16, typeof(CameraTrackControlPointBlock))]
         public TagBlock ControlPoints;
-        public int Size
+        public TagBlockList<CameraTrackControlPointBlock> ControlPointsList
+        {
+            get
+            {
+                return this.controlPointsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 16;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.controlPointsList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.ControlPoints = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.ControlPoints = reader.ReadInt64();
+            this.controlPointsList.Read(reader, this.ControlPoints);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(28, 4)]
+        public sealed class CameraTrackControlPointBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(28, 4)]
-        public sealed class CameraTrackControlPointBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("position", typeof(Vector3))]
+            [FieldAttribute("position", typeof(Vector3))]
             public Vector3 Position;
-            [Abide.Guerilla.Tags.FieldAttribute("orientation", typeof(Quaternion))]
+            [FieldAttribute("orientation", typeof(Quaternion))]
             public Quaternion Orientation;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 28;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Position = Vector3.Zero;
+                this.Orientation = Quaternion.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Position = reader.Read<Vector3>();
+                this.Orientation = reader.Read<Quaternion>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
         }
     }

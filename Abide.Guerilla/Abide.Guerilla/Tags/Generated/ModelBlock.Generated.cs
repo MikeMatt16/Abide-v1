@@ -14,272 +14,517 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(348, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("model", 1751936372u, 4294967293u, typeof(ModelBlock))]
-    public sealed class ModelBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(348, 4)]
+    [TagGroupAttribute("model", 1751936372u, 4294967293u, typeof(ModelBlock))]
+    public sealed class ModelBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("render model", typeof(TagReference))]
+        private TagBlockList<ModelVariantBlock> variantsList = new TagBlockList<ModelVariantBlock>(64);
+        private TagBlockList<ModelMaterialBlock> materialsList = new TagBlockList<ModelMaterialBlock>(32);
+        private TagBlockList<GlobalDamageInfoBlock> newDamageInfoList = new TagBlockList<GlobalDamageInfoBlock>(1);
+        private TagBlockList<ModelTargetBlock> targetsList = new TagBlockList<ModelTargetBlock>(32);
+        private TagBlockList<ModelRegionBlock> emptyStringList = new TagBlockList<ModelRegionBlock>(16);
+        private TagBlockList<ModelNodeBlock> emptyStringList1 = new TagBlockList<ModelNodeBlock>(255);
+        private TagBlockList<ModelObjectDataBlock> modelObjectDataList = new TagBlockList<ModelObjectDataBlock>(1);
+        private TagBlockList<GlobalScenarioLoadParametersBlock> scenarioLoadParametersList = new TagBlockList<GlobalScenarioLoadParametersBlock>(32);
+        [FieldAttribute("render model", typeof(TagReference))]
         public TagReference RenderModel;
-        [Abide.Guerilla.Tags.FieldAttribute("collision model", typeof(TagReference))]
+        [FieldAttribute("collision model", typeof(TagReference))]
         public TagReference CollisionModel;
-        [Abide.Guerilla.Tags.FieldAttribute("animation", typeof(TagReference))]
+        [FieldAttribute("animation", typeof(TagReference))]
         public TagReference Animation;
-        [Abide.Guerilla.Tags.FieldAttribute("physics", typeof(TagReference))]
+        [FieldAttribute("physics", typeof(TagReference))]
         public TagReference Physics;
-        [Abide.Guerilla.Tags.FieldAttribute("physics_model", typeof(TagReference))]
+        [FieldAttribute("physics_model", typeof(TagReference))]
         public TagReference PhysicsModel;
-        [Abide.Guerilla.Tags.FieldAttribute("disappear distance:world units", typeof(Single))]
+        [FieldAttribute("disappear distance:world units", typeof(Single))]
         public Single DisappearDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("begin fade distance:world units", typeof(Single))]
+        [FieldAttribute("begin fade distance:world units", typeof(Single))]
         public Single BeginFadeDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("reduce to L1:world units (super low)", typeof(Single))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString;
+        [FieldAttribute("reduce to L1:world units (super low)", typeof(Single))]
         public Single ReduceToL1;
-        [Abide.Guerilla.Tags.FieldAttribute("reduce to L2:world units (low)", typeof(Single))]
+        [FieldAttribute("reduce to L2:world units (low)", typeof(Single))]
         public Single ReduceToL2;
-        [Abide.Guerilla.Tags.FieldAttribute("reduce to L3:world units (medium)", typeof(Single))]
+        [FieldAttribute("reduce to L3:world units (medium)", typeof(Single))]
         public Single ReduceToL3;
-        [Abide.Guerilla.Tags.FieldAttribute("reduce to L4:world units (high)", typeof(Single))]
+        [FieldAttribute("reduce to L4:world units (high)", typeof(Single))]
         public Single ReduceToL4;
-        [Abide.Guerilla.Tags.FieldAttribute("reduce to L5:world units (super high)", typeof(Single))]
+        [FieldAttribute("reduce to L5:world units (super high)", typeof(Single))]
         public Single ReduceToL5;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString1;
+        [FieldAttribute("shadow fade distance", typeof(ShadowFadeDistanceOptions))]
+        [OptionsAttribute(typeof(ShadowFadeDistanceOptions), false)]
+        public ShadowFadeDistanceOptions ShadowFadeDistance;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("shadow fade distance", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(ShadowFadeDistanceOptions), false)]
-        public Int16 ShadowFadeDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
-        public Byte[] EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("variants", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("variant", 64, typeof(ModelVariantBlock))]
+        [FieldAttribute("variants", typeof(TagBlock))]
+        [BlockAttribute("variant", 64, typeof(ModelVariantBlock))]
         public TagBlock Variants;
-        [Abide.Guerilla.Tags.FieldAttribute("materials", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("material", 32, typeof(ModelMaterialBlock))]
+        [FieldAttribute("materials", typeof(TagBlock))]
+        [BlockAttribute("material", 32, typeof(ModelMaterialBlock))]
         public TagBlock Materials;
-        [Abide.Guerilla.Tags.FieldAttribute("new damage info", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("global_damage_info_block", 1, typeof(GlobalDamageInfoBlock))]
+        [FieldAttribute("new damage info", typeof(TagBlock))]
+        [BlockAttribute("global_damage_info_block", 1, typeof(GlobalDamageInfoBlock))]
         public TagBlock NewDamageInfo;
-        [Abide.Guerilla.Tags.FieldAttribute("targets", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("model_target_block", 32, typeof(ModelTargetBlock))]
+        [FieldAttribute("targets", typeof(TagBlock))]
+        [BlockAttribute("model_target_block", 32, typeof(ModelTargetBlock))]
         public TagBlock Targets;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("model_region_block", 16, typeof(ModelRegionBlock))]
+        [FieldAttribute("", typeof(TagBlock))]
+        [BlockAttribute("model_region_block", 16, typeof(ModelRegionBlock))]
+        public TagBlock EmptyString3;
+        [FieldAttribute("", typeof(TagBlock))]
+        [BlockAttribute("model_node_block", 255, typeof(ModelNodeBlock))]
         public TagBlock EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("model_node_block", 255, typeof(ModelNodeBlock))]
-        public TagBlock EmptyString5;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
-        public Byte[] EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("model object data", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("model_object_data_block", 1, typeof(ModelObjectDataBlock))]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
+        public Byte[] EmptyString5;
+        [FieldAttribute("model object data", typeof(TagBlock))]
+        [BlockAttribute("model_object_data_block", 1, typeof(ModelObjectDataBlock))]
         public TagBlock ModelObjectData;
-        [Abide.Guerilla.Tags.FieldAttribute("default dialogue#The default dialogue tag for this model (overriden by variants)", typeof(TagReference))]
+        [FieldAttribute("default dialogue#The default dialogue tag for this model (overriden by variants)", typeof(TagReference))]
         public TagReference DefaultDialogue;
-        [Abide.Guerilla.Tags.FieldAttribute("UNUSED*", typeof(TagReference))]
+        [FieldAttribute("UNUSED*", typeof(TagReference))]
         public TagReference Unused;
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("default dialogue effect#The default dialogue tag for this model (overriden by var" +
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("default dialogue effect#The default dialogue tag for this model (overriden by var" +
             "iants)", typeof(StringId))]
         public StringId DefaultDialogueEffect;
-        [Abide.Guerilla.Tags.FieldAttribute("render-only node flags*", typeof(RenderOnlyNodeFlagsElement[]))]
-        [Abide.Guerilla.Tags.ArrayAttribute(32, typeof(RenderOnlyNodeFlagsElement))]
+        [FieldAttribute("render-only node flags*", typeof(RenderOnlyNodeFlagsElement[]))]
+        [ArrayAttribute(32, typeof(RenderOnlyNodeFlagsElement))]
         public RenderOnlyNodeFlagsElement[] RenderOnlyNodeFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("render-only section flags*", typeof(RenderOnlySectionFlagsElement[]))]
-        [Abide.Guerilla.Tags.ArrayAttribute(32, typeof(RenderOnlySectionFlagsElement))]
+        [FieldAttribute("render-only section flags*", typeof(RenderOnlySectionFlagsElement[]))]
+        [ArrayAttribute(32, typeof(RenderOnlySectionFlagsElement))]
         public RenderOnlySectionFlagsElement[] RenderOnlySectionFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("runtime flags*", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(RuntimeFlagsOptions), true)]
-        public Int32 RuntimeFlags;
-        [Abide.Guerilla.Tags.FieldAttribute("scenario load parameters", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario load parameters", 32, typeof(GlobalScenarioLoadParametersBlock))]
+        [FieldAttribute("runtime flags*", typeof(RuntimeFlagsOptions))]
+        [OptionsAttribute(typeof(RuntimeFlagsOptions), true)]
+        public RuntimeFlagsOptions RuntimeFlags;
+        [FieldAttribute("scenario load parameters", typeof(TagBlock))]
+        [BlockAttribute("scenario load parameters", 32, typeof(GlobalScenarioLoadParametersBlock))]
         public TagBlock ScenarioLoadParameters;
-        [Abide.Guerilla.Tags.FieldAttribute("hologram shader", typeof(TagReference))]
+        [FieldAttribute("hologram shader", typeof(TagReference))]
         public TagReference HologramShader;
-        [Abide.Guerilla.Tags.FieldAttribute("hologram control function", typeof(StringId))]
+        [FieldAttribute("hologram control function", typeof(StringId))]
         public StringId HologramControlFunction;
-        public int Size
+        public TagBlockList<ModelVariantBlock> VariantsList
+        {
+            get
+            {
+                return this.variantsList;
+            }
+        }
+        public TagBlockList<ModelMaterialBlock> MaterialsList
+        {
+            get
+            {
+                return this.materialsList;
+            }
+        }
+        public TagBlockList<GlobalDamageInfoBlock> NewDamageInfoList
+        {
+            get
+            {
+                return this.newDamageInfoList;
+            }
+        }
+        public TagBlockList<ModelTargetBlock> TargetsList
+        {
+            get
+            {
+                return this.targetsList;
+            }
+        }
+        public TagBlockList<ModelRegionBlock> EmptyStringList
+        {
+            get
+            {
+                return this.emptyStringList;
+            }
+        }
+        public TagBlockList<ModelNodeBlock> EmptyStringList1
+        {
+            get
+            {
+                return this.emptyStringList1;
+            }
+        }
+        public TagBlockList<ModelObjectDataBlock> ModelObjectDataList
+        {
+            get
+            {
+                return this.modelObjectDataList;
+            }
+        }
+        public TagBlockList<GlobalScenarioLoadParametersBlock> ScenarioLoadParametersList
+        {
+            get
+            {
+                return this.scenarioLoadParametersList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 348;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.variantsList.Clear();
+            this.materialsList.Clear();
+            this.newDamageInfoList.Clear();
+            this.targetsList.Clear();
+            this.emptyStringList.Clear();
+            this.emptyStringList1.Clear();
+            this.modelObjectDataList.Clear();
+            this.scenarioLoadParametersList.Clear();
+            this.RenderModel = TagReference.Null;
+            this.CollisionModel = TagReference.Null;
+            this.Animation = TagReference.Null;
+            this.Physics = TagReference.Null;
+            this.PhysicsModel = TagReference.Null;
+            this.DisappearDistance = 0;
+            this.BeginFadeDistance = 0;
+            this.EmptyString = new byte[4];
+            this.ReduceToL1 = 0;
+            this.ReduceToL2 = 0;
+            this.ReduceToL3 = 0;
+            this.ReduceToL4 = 0;
+            this.ReduceToL5 = 0;
+            this.EmptyString1 = new byte[4];
+            this.ShadowFadeDistance = ((ShadowFadeDistanceOptions)(0));
+            this.EmptyString2 = new byte[2];
+            this.Variants = TagBlock.Zero;
+            this.Materials = TagBlock.Zero;
+            this.NewDamageInfo = TagBlock.Zero;
+            this.Targets = TagBlock.Zero;
+            this.EmptyString3 = TagBlock.Zero;
+            this.EmptyString4 = TagBlock.Zero;
+            this.EmptyString5 = new byte[4];
+            this.ModelObjectData = TagBlock.Zero;
+            this.DefaultDialogue = TagReference.Null;
+            this.Unused = TagReference.Null;
+            this.Flags = ((FlagsOptions)(0));
+            this.DefaultDialogueEffect = StringId.Zero;
+            this.RenderOnlyNodeFlags = new RenderOnlyNodeFlagsElement[32];
+            this.RenderOnlySectionFlags = new RenderOnlySectionFlagsElement[32];
+            this.RuntimeFlags = ((RuntimeFlagsOptions)(0));
+            this.ScenarioLoadParameters = TagBlock.Zero;
+            this.HologramShader = TagReference.Null;
+            this.HologramControlFunction = StringId.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.RenderModel = reader.Read<TagReference>();
+            this.CollisionModel = reader.Read<TagReference>();
+            this.Animation = reader.Read<TagReference>();
+            this.Physics = reader.Read<TagReference>();
+            this.PhysicsModel = reader.Read<TagReference>();
+            this.DisappearDistance = reader.ReadSingle();
+            this.BeginFadeDistance = reader.ReadSingle();
+            this.EmptyString = reader.ReadBytes(4);
+            this.ReduceToL1 = reader.ReadSingle();
+            this.ReduceToL2 = reader.ReadSingle();
+            this.ReduceToL3 = reader.ReadSingle();
+            this.ReduceToL4 = reader.ReadSingle();
+            this.ReduceToL5 = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(4);
+            this.ShadowFadeDistance = ((ShadowFadeDistanceOptions)(reader.ReadInt16()));
+            this.EmptyString2 = reader.ReadBytes(2);
+            this.Variants = reader.ReadInt64();
+            this.variantsList.Read(reader, this.Variants);
+            this.Materials = reader.ReadInt64();
+            this.materialsList.Read(reader, this.Materials);
+            this.NewDamageInfo = reader.ReadInt64();
+            this.newDamageInfoList.Read(reader, this.NewDamageInfo);
+            this.Targets = reader.ReadInt64();
+            this.targetsList.Read(reader, this.Targets);
+            this.EmptyString3 = reader.ReadInt64();
+            this.emptyStringList.Read(reader, this.EmptyString3);
+            this.EmptyString4 = reader.ReadInt64();
+            this.emptyStringList1.Read(reader, this.EmptyString4);
+            this.EmptyString5 = reader.ReadBytes(4);
+            this.ModelObjectData = reader.ReadInt64();
+            this.modelObjectDataList.Read(reader, this.ModelObjectData);
+            this.DefaultDialogue = reader.Read<TagReference>();
+            this.Unused = reader.Read<TagReference>();
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.DefaultDialogueEffect = reader.ReadInt32();
+            this.RuntimeFlags = ((RuntimeFlagsOptions)(reader.ReadInt32()));
+            this.ScenarioLoadParameters = reader.ReadInt64();
+            this.scenarioLoadParametersList.Read(reader, this.ScenarioLoadParameters);
+            this.HologramShader = reader.Read<TagReference>();
+            this.HologramControlFunction = reader.ReadInt32();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(72, 4)]
+        public sealed class ModelVariantBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(72, 4)]
-        public sealed class ModelVariantBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(StringId))]
+            private TagBlockList<ModelVariantRegionBlock> regionsList = new TagBlockList<ModelVariantRegionBlock>(16);
+            private TagBlockList<ModelVariantObjectBlock> objectsList = new TagBlockList<ModelVariantObjectBlock>(16);
+            [FieldAttribute("name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(16)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(16)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("regions", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("region", 16, typeof(ModelVariantRegionBlock))]
+            [FieldAttribute("regions", typeof(TagBlock))]
+            [BlockAttribute("region", 16, typeof(ModelVariantRegionBlock))]
             public TagBlock Regions;
-            [Abide.Guerilla.Tags.FieldAttribute("objects", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("object", 16, typeof(ModelVariantObjectBlock))]
+            [FieldAttribute("objects", typeof(TagBlock))]
+            [BlockAttribute("object", 16, typeof(ModelVariantObjectBlock))]
             public TagBlock Objects;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(8)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(8)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("dialogue sound effect", typeof(StringId))]
+            [FieldAttribute("dialogue sound effect", typeof(StringId))]
             public StringId DialogueSoundEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("dialogue", typeof(TagReference))]
+            [FieldAttribute("dialogue", typeof(TagReference))]
             public TagReference Dialogue;
-            public int Size
+            public TagBlockList<ModelVariantRegionBlock> RegionsList
+            {
+                get
+                {
+                    return this.regionsList;
+                }
+            }
+            public TagBlockList<ModelVariantObjectBlock> ObjectsList
+            {
+                get
+                {
+                    return this.objectsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 72;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.regionsList.Clear();
+                this.objectsList.Clear();
+                this.Name = StringId.Zero;
+                this.EmptyString = new byte[16];
+                this.Regions = TagBlock.Zero;
+                this.Objects = TagBlock.Zero;
+                this.EmptyString1 = new byte[8];
+                this.DialogueSoundEffect = StringId.Zero;
+                this.Dialogue = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.EmptyString = reader.ReadBytes(16);
+                this.Regions = reader.ReadInt64();
+                this.regionsList.Read(reader, this.Regions);
+                this.Objects = reader.ReadInt64();
+                this.objectsList.Read(reader, this.Objects);
+                this.EmptyString1 = reader.ReadBytes(8);
+                this.DialogueSoundEffect = reader.ReadInt32();
+                this.Dialogue = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(24, 4)]
+            public sealed class ModelVariantRegionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class ModelVariantRegionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("region name^:must match region name in render_model", typeof(StringId))]
+                private TagBlockList<ModelVariantPermutationBlock> permutationsList = new TagBlockList<ModelVariantPermutationBlock>(32);
+                [FieldAttribute("region name^:must match region name in render_model", typeof(StringId))]
                 public StringId RegionName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("parent variant", typeof(Int16))]
+                [FieldAttribute("parent variant", typeof(Int16))]
                 public Int16 ParentVariant;
-                [Abide.Guerilla.Tags.FieldAttribute("permutations", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("permutation", 32, typeof(ModelVariantPermutationBlock))]
+                [FieldAttribute("permutations", typeof(TagBlock))]
+                [BlockAttribute("permutation", 32, typeof(ModelVariantPermutationBlock))]
                 public TagBlock Permutations;
-                [Abide.Guerilla.Tags.FieldAttribute("sort order#negative values mean closer to the camera", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(SortOrderOptions), false)]
-                public Int16 SortOrder;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("sort order#negative values mean closer to the camera", typeof(SortOrderOptions))]
+                [OptionsAttribute(typeof(SortOrderOptions), false)]
+                public SortOrderOptions SortOrder;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString2;
-                public int Size
+                public TagBlockList<ModelVariantPermutationBlock> PermutationsList
+                {
+                    get
+                    {
+                        return this.permutationsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.permutationsList.Clear();
+                    this.RegionName = StringId.Zero;
+                    this.EmptyString = new byte[1];
+                    this.EmptyString1 = new byte[1];
+                    this.ParentVariant = 0;
+                    this.Permutations = TagBlock.Zero;
+                    this.SortOrder = ((SortOrderOptions)(0));
+                    this.EmptyString2 = new byte[2];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.RegionName = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(1);
+                    this.EmptyString1 = reader.ReadBytes(1);
+                    this.ParentVariant = reader.ReadInt16();
+                    this.Permutations = reader.ReadInt64();
+                    this.permutationsList.Read(reader, this.Permutations);
+                    this.SortOrder = ((SortOrderOptions)(reader.ReadInt16()));
+                    this.EmptyString2 = reader.ReadBytes(2);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(36, 4)]
+                public sealed class ModelVariantPermutationBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-                public sealed class ModelVariantPermutationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("permutation name^", typeof(StringId))]
+                    private TagBlockList<ModelVariantStateBlock> statesList = new TagBlockList<ModelVariantStateBlock>(10);
+                    [FieldAttribute("permutation name^", typeof(StringId))]
                     public StringId PermutationName;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(1)]
                     public Byte[] EmptyString;
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Byte))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Byte Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(2)]
                     public Byte[] EmptyString1;
-                    [Abide.Guerilla.Tags.FieldAttribute("probability:(0,+inf)", typeof(Single))]
+                    [FieldAttribute("probability:(0,+inf)", typeof(Single))]
                     public Single Probability;
-                    [Abide.Guerilla.Tags.FieldAttribute("states", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("model_variant_state_block", 10, typeof(ModelVariantStateBlock))]
+                    [FieldAttribute("states", typeof(TagBlock))]
+                    [BlockAttribute("model_variant_state_block", 10, typeof(ModelVariantStateBlock))]
                     public TagBlock States;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(5)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(5)]
                     public Byte[] EmptyString2;
-                    [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                    [Abide.Guerilla.Tags.PaddingAttribute(7)]
+                    [FieldAttribute("", typeof(Byte[]))]
+                    [PaddingAttribute(7)]
                     public Byte[] EmptyString3;
-                    public int Size
+                    public TagBlockList<ModelVariantStateBlock> StatesList
+                    {
+                        get
+                        {
+                            return this.statesList;
+                        }
+                    }
+                    public override int Size
                     {
                         get
                         {
                             return 36;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.statesList.Clear();
+                        this.PermutationName = StringId.Zero;
+                        this.EmptyString = new byte[1];
+                        this.Flags = ((FlagsOptions)(0));
+                        this.EmptyString1 = new byte[2];
+                        this.Probability = 0;
+                        this.States = TagBlock.Zero;
+                        this.EmptyString2 = new byte[5];
+                        this.EmptyString3 = new byte[7];
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.PermutationName = reader.ReadInt32();
+                        this.EmptyString = reader.ReadBytes(1);
+                        this.Flags = ((FlagsOptions)(reader.ReadByte()));
+                        this.EmptyString1 = reader.ReadBytes(2);
+                        this.Probability = reader.ReadSingle();
+                        this.States = reader.ReadInt64();
+                        this.statesList.Read(reader, this.States);
+                        this.EmptyString2 = reader.ReadBytes(5);
+                        this.EmptyString3 = reader.ReadBytes(7);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(32, 4)]
+                    public sealed class ModelVariantStateBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-                    public sealed class ModelVariantStateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("permutation name", typeof(StringId))]
+                        [FieldAttribute("permutation name", typeof(StringId))]
                         public StringId PermutationName;
-                        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                        [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                        [FieldAttribute("", typeof(Byte[]))]
+                        [PaddingAttribute(1)]
                         public Byte[] EmptyString;
-                        [Abide.Guerilla.Tags.FieldAttribute("property flags", typeof(Byte))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(PropertyFlagsOptions), true)]
-                        public Byte PropertyFlags;
-                        [Abide.Guerilla.Tags.FieldAttribute("state^", typeof(Int16))]
-                        [Abide.Guerilla.Tags.OptionsAttribute(typeof(StateOptions), false)]
-                        public Int16 State;
-                        [Abide.Guerilla.Tags.FieldAttribute("looping effect#played while the model is in this state", typeof(TagReference))]
+                        [FieldAttribute("property flags", typeof(PropertyFlagsOptions))]
+                        [OptionsAttribute(typeof(PropertyFlagsOptions), true)]
+                        public PropertyFlagsOptions PropertyFlags;
+                        [FieldAttribute("state^", typeof(StateOptions))]
+                        [OptionsAttribute(typeof(StateOptions), false)]
+                        public StateOptions State;
+                        [FieldAttribute("looping effect#played while the model is in this state", typeof(TagReference))]
                         public TagReference LoopingEffect;
-                        [Abide.Guerilla.Tags.FieldAttribute("looping effect marker name", typeof(StringId))]
+                        [FieldAttribute("looping effect marker name", typeof(StringId))]
                         public StringId LoopingEffectMarkerName;
-                        [Abide.Guerilla.Tags.FieldAttribute("initial probability", typeof(Single))]
+                        [FieldAttribute("initial probability", typeof(Single))]
                         public Single InitialProbability;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 32;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
+                        {
+                            this.PermutationName = StringId.Zero;
+                            this.EmptyString = new byte[1];
+                            this.PropertyFlags = ((PropertyFlagsOptions)(0));
+                            this.State = ((StateOptions)(0));
+                            this.LoopingEffect = TagReference.Null;
+                            this.LoopingEffectMarkerName = StringId.Zero;
+                            this.InitialProbability = 0;
+                        }
+                        public override void Read(BinaryReader reader)
+                        {
+                            this.PermutationName = reader.ReadInt32();
+                            this.EmptyString = reader.ReadBytes(1);
+                            this.PropertyFlags = ((PropertyFlagsOptions)(reader.ReadByte()));
+                            this.State = ((StateOptions)(reader.ReadInt16()));
+                            this.LoopingEffect = reader.Read<TagReference>();
+                            this.LoopingEffectMarkerName = reader.ReadInt32();
+                            this.InitialProbability = reader.ReadSingle();
+                        }
+                        public override void Write(BinaryWriter writer)
                         {
                         }
-                        public void Read(System.IO.BinaryReader reader)
-                        {
-                        }
-                        public void Write(System.IO.BinaryWriter writer)
-                        {
-                        }
-                        public enum PropertyFlagsOptions
+                        public enum PropertyFlagsOptions : Byte
                         {
                             Blurred = 1,
                             HellaBlurred = 2,
                             Shielded = 4,
                         }
-                        public enum StateOptions
+                        public enum StateOptions : Int16
                         {
                             Default = 0,
                             MinorDamage = 1,
@@ -288,12 +533,12 @@ namespace Abide.Guerilla.Tags
                             Destroyed = 4,
                         }
                     }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Byte
                     {
                         CopyStatesToAllPermutations = 1,
                     }
                 }
-                public enum SortOrderOptions
+                public enum SortOrderOptions : Int16
                 {
                     NoSorting = 0,
                     _5Closest = 1,
@@ -309,71 +554,91 @@ namespace Abide.Guerilla.Tags
                     _5Farthest = 11,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class ModelVariantObjectBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(24, 4)]
+            public sealed class ModelVariantObjectBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("parent marker^", typeof(StringId))]
+                [FieldAttribute("parent marker^", typeof(StringId))]
                 public StringId ParentMarker;
-                [Abide.Guerilla.Tags.FieldAttribute("child marker", typeof(StringId))]
+                [FieldAttribute("child marker", typeof(StringId))]
                 public StringId ChildMarker;
-                [Abide.Guerilla.Tags.FieldAttribute("child object", typeof(TagReference))]
+                [FieldAttribute("child object", typeof(TagReference))]
                 public TagReference ChildObject;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.ParentMarker = StringId.Zero;
+                    this.ChildMarker = StringId.Zero;
+                    this.ChildObject = TagReference.Null;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.ParentMarker = reader.ReadInt32();
+                    this.ChildMarker = reader.ReadInt32();
+                    this.ChildObject = reader.Read<TagReference>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class ModelMaterialBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class ModelMaterialBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("material name", typeof(StringId))]
+            [FieldAttribute("material name", typeof(StringId))]
             public StringId MaterialName;
-            [Abide.Guerilla.Tags.FieldAttribute("material type", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(MaterialTypeOptions), false)]
-            public Int16 MaterialType;
-            [Abide.Guerilla.Tags.FieldAttribute("damage section", typeof(Int16))]
+            [FieldAttribute("material type", typeof(MaterialTypeOptions))]
+            [OptionsAttribute(typeof(MaterialTypeOptions), false)]
+            public MaterialTypeOptions MaterialType;
+            [FieldAttribute("damage section", typeof(Int16))]
             public Int16 DamageSection;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("global material name", typeof(StringId))]
+            [FieldAttribute("global material name", typeof(StringId))]
             public StringId GlobalMaterialName;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString2;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.MaterialName = StringId.Zero;
+                this.MaterialType = ((MaterialTypeOptions)(0));
+                this.DamageSection = 0;
+                this.EmptyString = new byte[2];
+                this.EmptyString1 = new byte[2];
+                this.GlobalMaterialName = StringId.Zero;
+                this.EmptyString2 = new byte[4];
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.MaterialName = reader.ReadInt32();
+                this.MaterialType = ((MaterialTypeOptions)(reader.ReadInt16()));
+                this.DamageSection = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.EmptyString1 = reader.ReadBytes(2);
+                this.GlobalMaterialName = reader.ReadInt32();
+                this.EmptyString2 = reader.ReadBytes(4);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum MaterialTypeOptions
+            public enum MaterialTypeOptions : Int16
             {
                 Dirt = 0,
                 Sand = 1,
@@ -410,278 +675,475 @@ namespace Abide.Guerilla.Tags
                 HunterShield = 32,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(320, 4)]
-        public sealed class GlobalDamageInfoBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(320, 4)]
+        public sealed class GlobalDamageInfoBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("global indirect material name#absorbes AOE or child damage", typeof(StringId))]
+            private TagBlockList<GlobalDamageSectionBlock> damageSectionsList = new TagBlockList<GlobalDamageSectionBlock>(16);
+            private TagBlockList<GlobalDamageNodesBlock> nodesList = new TagBlockList<GlobalDamageNodesBlock>(255);
+            private TagBlockList<DamageSeatInfoBlock> damageSeatsList = new TagBlockList<DamageSeatInfoBlock>(16);
+            private TagBlockList<DamageConstraintInfoBlock> damageConstraintsList = new TagBlockList<DamageConstraintInfoBlock>(16);
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("global indirect material name#absorbes AOE or child damage", typeof(StringId))]
             public StringId GlobalIndirectMaterialName;
-            [Abide.Guerilla.Tags.FieldAttribute("indirect damage section#absorbes AOE or child damage", typeof(Int16))]
+            [FieldAttribute("indirect damage section#absorbes AOE or child damage", typeof(Int16))]
             public Int16 IndirectDamageSection;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("collision damage reporting type", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CollisionDamageReportingTypeOptions), false)]
-            public Byte CollisionDamageReportingType;
-            [Abide.Guerilla.Tags.FieldAttribute("response damage reporting type", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseDamageReportingTypeOptions), false)]
-            public Byte ResponseDamageReportingType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("collision damage reporting type", typeof(CollisionDamageReportingTypeOptions))]
+            [OptionsAttribute(typeof(CollisionDamageReportingTypeOptions), false)]
+            public CollisionDamageReportingTypeOptions CollisionDamageReportingType;
+            [FieldAttribute("response damage reporting type", typeof(ResponseDamageReportingTypeOptions))]
+            [OptionsAttribute(typeof(ResponseDamageReportingTypeOptions), false)]
+            public ResponseDamageReportingTypeOptions ResponseDamageReportingType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(20)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(20)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("maximum vitality", typeof(Single))]
+            [FieldAttribute("maximum vitality", typeof(Single))]
             public Single MaximumVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum stun damage#the minimum damage required to stun this object\'s health", typeof(Single))]
+            [FieldAttribute("minimum stun damage#the minimum damage required to stun this object\'s health", typeof(Single))]
             public Single MinimumStunDamage;
-            [Abide.Guerilla.Tags.FieldAttribute("stun time:seconds#the length of time the health stay stunned (do not recharge) af" +
+            [FieldAttribute("stun time:seconds#the length of time the health stay stunned (do not recharge) af" +
                 "ter taking damage", typeof(Single))]
             public Single StunTime;
-            [Abide.Guerilla.Tags.FieldAttribute("recharge time:seconds#the length of time it would take for the shields to fully r" +
+            [FieldAttribute("recharge time:seconds#the length of time it would take for the shields to fully r" +
                 "echarge after being completely depleted", typeof(Single))]
             public Single RechargeTime;
-            [Abide.Guerilla.Tags.FieldAttribute("recharge fraction#0 defaults to 1 - to what maximum level the body health will be" +
+            [FieldAttribute("recharge fraction#0 defaults to 1 - to what maximum level the body health will be" +
                 " allowed to recharge", typeof(Single))]
             public Single RechargeFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(64)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(64)]
             public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("shield damaged first person shader", typeof(TagReference))]
+            [FieldAttribute("shield damaged first person shader", typeof(TagReference))]
             public TagReference ShieldDamagedFirstPersonShader;
-            [Abide.Guerilla.Tags.FieldAttribute("shield damaged shader", typeof(TagReference))]
+            [FieldAttribute("shield damaged shader", typeof(TagReference))]
             public TagReference ShieldDamagedShader;
-            [Abide.Guerilla.Tags.FieldAttribute("maximum shield vitality#the default initial and maximum shield vitality of this o" +
+            [FieldAttribute("maximum shield vitality#the default initial and maximum shield vitality of this o" +
                 "bject", typeof(Single))]
             public Single MaximumShieldVitality;
-            [Abide.Guerilla.Tags.FieldAttribute("global shield material name", typeof(StringId))]
+            [FieldAttribute("global shield material name", typeof(StringId))]
             public StringId GlobalShieldMaterialName;
-            [Abide.Guerilla.Tags.FieldAttribute("minimum stun damage#the minimum damage required to stun this object\'s shields", typeof(Single))]
+            [FieldAttribute("minimum stun damage#the minimum damage required to stun this object\'s shields", typeof(Single))]
             public Single MinimumStunDamage1;
-            [Abide.Guerilla.Tags.FieldAttribute("stun time:seconds#the length of time the shields stay stunned (do not recharge) a" +
+            [FieldAttribute("stun time:seconds#the length of time the shields stay stunned (do not recharge) a" +
                 "fter taking damage", typeof(Single))]
             public Single StunTime1;
-            [Abide.Guerilla.Tags.FieldAttribute("recharge time:seconds#the length of time it would take for the shields to fully r" +
+            [FieldAttribute("recharge time:seconds#the length of time it would take for the shields to fully r" +
                 "echarge after being completely depleted", typeof(Single))]
             public Single RechargeTime1;
-            [Abide.Guerilla.Tags.FieldAttribute("shield damaged threshold", typeof(Single))]
+            [FieldAttribute("shield damaged threshold", typeof(Single))]
             public Single ShieldDamagedThreshold;
-            [Abide.Guerilla.Tags.FieldAttribute("shield damaged effect", typeof(TagReference))]
+            [FieldAttribute("shield damaged effect", typeof(TagReference))]
             public TagReference ShieldDamagedEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("shield depleted effect", typeof(TagReference))]
+            [FieldAttribute("shield depleted effect", typeof(TagReference))]
             public TagReference ShieldDepletedEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("shield recharging effect", typeof(TagReference))]
+            [FieldAttribute("shield recharging effect", typeof(TagReference))]
             public TagReference ShieldRechargingEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("damage sections", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("global_damage_section_block", 16, typeof(GlobalDamageSectionBlock))]
+            [FieldAttribute("damage sections", typeof(TagBlock))]
+            [BlockAttribute("global_damage_section_block", 16, typeof(GlobalDamageSectionBlock))]
             public TagBlock DamageSections;
-            [Abide.Guerilla.Tags.FieldAttribute("nodes*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("global_damage_nodes_block", 255, typeof(GlobalDamageNodesBlock))]
+            [FieldAttribute("nodes*", typeof(TagBlock))]
+            [BlockAttribute("global_damage_nodes_block", 255, typeof(GlobalDamageNodesBlock))]
             public TagBlock Nodes;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString5;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString6;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString7;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString8;
-            [Abide.Guerilla.Tags.FieldAttribute("damage seats", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("damage_seat_info_block", 16, typeof(DamageSeatInfoBlock))]
+            [FieldAttribute("damage seats", typeof(TagBlock))]
+            [BlockAttribute("damage_seat_info_block", 16, typeof(DamageSeatInfoBlock))]
             public TagBlock DamageSeats;
-            [Abide.Guerilla.Tags.FieldAttribute("damage constraints", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("damage_constraint_info_block", 16, typeof(DamageConstraintInfoBlock))]
+            [FieldAttribute("damage constraints", typeof(TagBlock))]
+            [BlockAttribute("damage_constraint_info_block", 16, typeof(DamageConstraintInfoBlock))]
             public TagBlock DamageConstraints;
-            [Abide.Guerilla.Tags.FieldAttribute("overshield first person shader", typeof(TagReference))]
+            [FieldAttribute("overshield first person shader", typeof(TagReference))]
             public TagReference OvershieldFirstPersonShader;
-            [Abide.Guerilla.Tags.FieldAttribute("overshield shader", typeof(TagReference))]
+            [FieldAttribute("overshield shader", typeof(TagReference))]
             public TagReference OvershieldShader;
-            public int Size
+            public TagBlockList<GlobalDamageSectionBlock> DamageSectionsList
+            {
+                get
+                {
+                    return this.damageSectionsList;
+                }
+            }
+            public TagBlockList<GlobalDamageNodesBlock> NodesList
+            {
+                get
+                {
+                    return this.nodesList;
+                }
+            }
+            public TagBlockList<DamageSeatInfoBlock> DamageSeatsList
+            {
+                get
+                {
+                    return this.damageSeatsList;
+                }
+            }
+            public TagBlockList<DamageConstraintInfoBlock> DamageConstraintsList
+            {
+                get
+                {
+                    return this.damageConstraintsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 320;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.damageSectionsList.Clear();
+                this.nodesList.Clear();
+                this.damageSeatsList.Clear();
+                this.damageConstraintsList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.GlobalIndirectMaterialName = StringId.Zero;
+                this.IndirectDamageSection = 0;
+                this.EmptyString = new byte[2];
+                this.EmptyString1 = new byte[4];
+                this.CollisionDamageReportingType = ((CollisionDamageReportingTypeOptions)(0));
+                this.ResponseDamageReportingType = ((ResponseDamageReportingTypeOptions)(0));
+                this.EmptyString2 = new byte[2];
+                this.EmptyString3 = new byte[20];
+                this.MaximumVitality = 0;
+                this.MinimumStunDamage = 0;
+                this.StunTime = 0;
+                this.RechargeTime = 0;
+                this.RechargeFraction = 0;
+                this.EmptyString4 = new byte[64];
+                this.ShieldDamagedFirstPersonShader = TagReference.Null;
+                this.ShieldDamagedShader = TagReference.Null;
+                this.MaximumShieldVitality = 0;
+                this.GlobalShieldMaterialName = StringId.Zero;
+                this.MinimumStunDamage1 = 0;
+                this.StunTime1 = 0;
+                this.RechargeTime1 = 0;
+                this.ShieldDamagedThreshold = 0;
+                this.ShieldDamagedEffect = TagReference.Null;
+                this.ShieldDepletedEffect = TagReference.Null;
+                this.ShieldRechargingEffect = TagReference.Null;
+                this.DamageSections = TagBlock.Zero;
+                this.Nodes = TagBlock.Zero;
+                this.EmptyString5 = new byte[2];
+                this.EmptyString6 = new byte[2];
+                this.EmptyString7 = new byte[4];
+                this.EmptyString8 = new byte[4];
+                this.DamageSeats = TagBlock.Zero;
+                this.DamageConstraints = TagBlock.Zero;
+                this.OvershieldFirstPersonShader = TagReference.Null;
+                this.OvershieldShader = TagReference.Null;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.GlobalIndirectMaterialName = reader.ReadInt32();
+                this.IndirectDamageSection = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.EmptyString1 = reader.ReadBytes(4);
+                this.CollisionDamageReportingType = ((CollisionDamageReportingTypeOptions)(reader.ReadByte()));
+                this.ResponseDamageReportingType = ((ResponseDamageReportingTypeOptions)(reader.ReadByte()));
+                this.EmptyString2 = reader.ReadBytes(2);
+                this.EmptyString3 = reader.ReadBytes(20);
+                this.MaximumVitality = reader.ReadSingle();
+                this.MinimumStunDamage = reader.ReadSingle();
+                this.StunTime = reader.ReadSingle();
+                this.RechargeTime = reader.ReadSingle();
+                this.RechargeFraction = reader.ReadSingle();
+                this.EmptyString4 = reader.ReadBytes(64);
+                this.ShieldDamagedFirstPersonShader = reader.Read<TagReference>();
+                this.ShieldDamagedShader = reader.Read<TagReference>();
+                this.MaximumShieldVitality = reader.ReadSingle();
+                this.GlobalShieldMaterialName = reader.ReadInt32();
+                this.MinimumStunDamage1 = reader.ReadSingle();
+                this.StunTime1 = reader.ReadSingle();
+                this.RechargeTime1 = reader.ReadSingle();
+                this.ShieldDamagedThreshold = reader.ReadSingle();
+                this.ShieldDamagedEffect = reader.Read<TagReference>();
+                this.ShieldDepletedEffect = reader.Read<TagReference>();
+                this.ShieldRechargingEffect = reader.Read<TagReference>();
+                this.DamageSections = reader.ReadInt64();
+                this.damageSectionsList.Read(reader, this.DamageSections);
+                this.Nodes = reader.ReadInt64();
+                this.nodesList.Read(reader, this.Nodes);
+                this.EmptyString5 = reader.ReadBytes(2);
+                this.EmptyString6 = reader.ReadBytes(2);
+                this.EmptyString7 = reader.ReadBytes(4);
+                this.EmptyString8 = reader.ReadBytes(4);
+                this.DamageSeats = reader.ReadInt64();
+                this.damageSeatsList.Read(reader, this.DamageSeats);
+                this.DamageConstraints = reader.ReadInt64();
+                this.damageConstraintsList.Read(reader, this.DamageConstraints);
+                this.OvershieldFirstPersonShader = reader.Read<TagReference>();
+                this.OvershieldShader = reader.Read<TagReference>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(68, 4)]
+            public sealed class GlobalDamageSectionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-            public sealed class GlobalDamageSectionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(StringId))]
+                private TagBlockList<InstantaneousDamageRepsonseBlock> instantResponsesList = new TagBlockList<InstantaneousDamageRepsonseBlock>(16);
+                private TagBlockList<GNullBlock> emptyStringList = new TagBlockList<GNullBlock>(0);
+                [FieldAttribute("name^", typeof(StringId))]
                 public StringId Name;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("vitality percentage:[0.1]#percentage of total object vitality", typeof(Single))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("vitality percentage:[0.1]#percentage of total object vitality", typeof(Single))]
                 public Single VitalityPercentage;
-                [Abide.Guerilla.Tags.FieldAttribute("instant responses", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("instantaneous_damage_repsonse_block", 16, typeof(InstantaneousDamageRepsonseBlock))]
+                [FieldAttribute("instant responses", typeof(TagBlock))]
+                [BlockAttribute("instantaneous_damage_repsonse_block", 16, typeof(InstantaneousDamageRepsonseBlock))]
                 public TagBlock InstantResponses;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+                [FieldAttribute("", typeof(TagBlock))]
+                [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
                 public TagBlock EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
+                [FieldAttribute("", typeof(TagBlock))]
+                [BlockAttribute("g_null_block", 0, typeof(GNullBlock))]
                 public TagBlock EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("stun time:seconds", typeof(Single))]
+                [FieldAttribute("stun time:seconds", typeof(Single))]
                 public Single StunTime;
-                [Abide.Guerilla.Tags.FieldAttribute("recharge time:seconds", typeof(Single))]
+                [FieldAttribute("recharge time:seconds", typeof(Single))]
                 public Single RechargeTime;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString2;
-                [Abide.Guerilla.Tags.FieldAttribute("resurrection restored region name", typeof(StringId))]
+                [FieldAttribute("resurrection restored region name", typeof(StringId))]
                 public StringId ResurrectionRestoredRegionName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString3;
-                public int Size
+                public TagBlockList<InstantaneousDamageRepsonseBlock> InstantResponsesList
+                {
+                    get
+                    {
+                        return this.instantResponsesList;
+                    }
+                }
+                public TagBlockList<GNullBlock> EmptyStringList
+                {
+                    get
+                    {
+                        return this.emptyStringList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 68;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.instantResponsesList.Clear();
+                    this.emptyStringList.Clear();
+                    this.Name = StringId.Zero;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.VitalityPercentage = 0;
+                    this.InstantResponses = TagBlock.Zero;
+                    this.EmptyString = TagBlock.Zero;
+                    this.EmptyString1 = TagBlock.Zero;
+                    this.StunTime = 0;
+                    this.RechargeTime = 0;
+                    this.EmptyString2 = new byte[4];
+                    this.ResurrectionRestoredRegionName = StringId.Zero;
+                    this.EmptyString3 = new byte[4];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Name = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.VitalityPercentage = reader.ReadSingle();
+                    this.InstantResponses = reader.ReadInt64();
+                    this.instantResponsesList.Read(reader, this.InstantResponses);
+                    this.EmptyString = reader.ReadInt64();
+                    this.emptyStringList.Read(reader, this.EmptyString);
+                    this.EmptyString1 = reader.ReadInt64();
+                    this.emptyStringList.Read(reader, this.EmptyString1);
+                    this.StunTime = reader.ReadSingle();
+                    this.RechargeTime = reader.ReadSingle();
+                    this.EmptyString2 = reader.ReadBytes(4);
+                    this.ResurrectionRestoredRegionName = reader.ReadInt32();
+                    this.EmptyString3 = reader.ReadBytes(4);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(104, 4)]
+                public sealed class InstantaneousDamageRepsonseBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(104, 4)]
-                public sealed class InstantaneousDamageRepsonseBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("response type", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ResponseTypeOptions), false)]
-                    public Int16 ResponseType;
-                    [Abide.Guerilla.Tags.FieldAttribute("constraint damage type", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ConstraintDamageTypeOptions), false)]
-                    public Int16 ConstraintDamageType1;
-                    [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                    public Int32 Flags;
-                    [Abide.Guerilla.Tags.FieldAttribute("damage threshold#repsonse fires after crossing this threshold.  1=full health", typeof(Single))]
+                    [FieldAttribute("response type", typeof(ResponseTypeOptions))]
+                    [OptionsAttribute(typeof(ResponseTypeOptions), false)]
+                    public ResponseTypeOptions ResponseType;
+                    [FieldAttribute("constraint damage type", typeof(ConstraintDamageTypeOptions))]
+                    [OptionsAttribute(typeof(ConstraintDamageTypeOptions), false)]
+                    public ConstraintDamageTypeOptions ConstraintDamageType;
+                    [FieldAttribute("flags", typeof(FlagsOptions))]
+                    [OptionsAttribute(typeof(FlagsOptions), true)]
+                    public FlagsOptions Flags;
+                    [FieldAttribute("damage threshold#repsonse fires after crossing this threshold.  1=full health", typeof(Single))]
                     public Single DamageThreshold;
-                    [Abide.Guerilla.Tags.FieldAttribute("transition effect", typeof(TagReference))]
+                    [FieldAttribute("transition effect", typeof(TagReference))]
                     public TagReference TransitionEffect;
-                    [Abide.Guerilla.Tags.FieldAttribute("damage effect", typeof(InstantaneousResponseDamageEffectStructBlock))]
+                    [FieldAttribute("damage effect", typeof(InstantaneousResponseDamageEffectStructBlock))]
                     public InstantaneousResponseDamageEffectStructBlock DamageEffect;
-                    [Abide.Guerilla.Tags.FieldAttribute("region", typeof(StringId))]
+                    [FieldAttribute("region", typeof(StringId))]
                     public StringId Region;
-                    [Abide.Guerilla.Tags.FieldAttribute("new state", typeof(Int16))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(NewStateOptions), false)]
-                    public Int16 NewState;
-                    [Abide.Guerilla.Tags.FieldAttribute("runtime region index*", typeof(Int16))]
+                    [FieldAttribute("new state", typeof(NewStateOptions))]
+                    [OptionsAttribute(typeof(NewStateOptions), false)]
+                    public NewStateOptions NewState;
+                    [FieldAttribute("runtime region index*", typeof(Int16))]
                     public Int16 RuntimeRegionIndex;
-                    [Abide.Guerilla.Tags.FieldAttribute("effect marker name", typeof(StringId))]
+                    [FieldAttribute("effect marker name", typeof(StringId))]
                     public StringId EffectMarkerName;
-                    [Abide.Guerilla.Tags.FieldAttribute("damage effect marker", typeof(InstantaneousResponseDamageEffectMarkerStructBlock))]
+                    [FieldAttribute("damage effect marker", typeof(InstantaneousResponseDamageEffectMarkerStructBlock))]
                     public InstantaneousResponseDamageEffectMarkerStructBlock DamageEffectMarker;
-                    [Abide.Guerilla.Tags.FieldAttribute("response delay#in seconds", typeof(Single))]
-                    public Single ResponseDelay1;
-                    [Abide.Guerilla.Tags.FieldAttribute("delay effect", typeof(TagReference))]
+                    [FieldAttribute("response delay#in seconds", typeof(Single))]
+                    public Single ResponseDelay;
+                    [FieldAttribute("delay effect", typeof(TagReference))]
                     public TagReference DelayEffect;
-                    [Abide.Guerilla.Tags.FieldAttribute("delay effect marker name", typeof(StringId))]
+                    [FieldAttribute("delay effect marker name", typeof(StringId))]
                     public StringId DelayEffectMarkerName;
-                    [Abide.Guerilla.Tags.FieldAttribute("constraint/group name", typeof(StringId))]
+                    [FieldAttribute("constraint/group name", typeof(StringId))]
                     public StringId ConstraintgroupName;
-                    [Abide.Guerilla.Tags.FieldAttribute("ejecting seat label", typeof(StringId))]
+                    [FieldAttribute("ejecting seat label", typeof(StringId))]
                     public StringId EjectingSeatLabel;
-                    [Abide.Guerilla.Tags.FieldAttribute("skip fraction", typeof(Single))]
-                    public Single SkipFraction1;
-                    [Abide.Guerilla.Tags.FieldAttribute("destroyed child object marker name", typeof(StringId))]
-                    public StringId DestroyedChildObjectMarkerName1;
-                    [Abide.Guerilla.Tags.FieldAttribute("total damage threshold", typeof(Single))]
-                    public Single TotalDamageThreshold1;
-                    public int Size
+                    [FieldAttribute("skip fraction", typeof(Single))]
+                    public Single SkipFraction;
+                    [FieldAttribute("destroyed child object marker name", typeof(StringId))]
+                    public StringId DestroyedChildObjectMarkerName;
+                    [FieldAttribute("total damage threshold", typeof(Single))]
+                    public Single TotalDamageThreshold;
+                    public override int Size
                     {
                         get
                         {
                             return 104;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.ResponseType = ((ResponseTypeOptions)(0));
+                        this.ConstraintDamageType = ((ConstraintDamageTypeOptions)(0));
+                        this.Flags = ((FlagsOptions)(0));
+                        this.DamageThreshold = 0;
+                        this.TransitionEffect = TagReference.Null;
+                        this.DamageEffect = new InstantaneousResponseDamageEffectStructBlock();
+                        this.Region = StringId.Zero;
+                        this.NewState = ((NewStateOptions)(0));
+                        this.RuntimeRegionIndex = 0;
+                        this.EffectMarkerName = StringId.Zero;
+                        this.DamageEffectMarker = new InstantaneousResponseDamageEffectMarkerStructBlock();
+                        this.ResponseDelay = 0;
+                        this.DelayEffect = TagReference.Null;
+                        this.DelayEffectMarkerName = StringId.Zero;
+                        this.ConstraintgroupName = StringId.Zero;
+                        this.EjectingSeatLabel = StringId.Zero;
+                        this.SkipFraction = 0;
+                        this.DestroyedChildObjectMarkerName = StringId.Zero;
+                        this.TotalDamageThreshold = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.ResponseType = ((ResponseTypeOptions)(reader.ReadInt16()));
+                        this.ConstraintDamageType = ((ConstraintDamageTypeOptions)(reader.ReadInt16()));
+                        this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                        this.DamageThreshold = reader.ReadSingle();
+                        this.TransitionEffect = reader.Read<TagReference>();
+                        this.DamageEffect = reader.ReadDataStructure<InstantaneousResponseDamageEffectStructBlock>();
+                        this.Region = reader.ReadInt32();
+                        this.NewState = ((NewStateOptions)(reader.ReadInt16()));
+                        this.RuntimeRegionIndex = reader.ReadInt16();
+                        this.EffectMarkerName = reader.ReadInt32();
+                        this.DamageEffectMarker = reader.ReadDataStructure<InstantaneousResponseDamageEffectMarkerStructBlock>();
+                        this.ResponseDelay = reader.ReadSingle();
+                        this.DelayEffect = reader.Read<TagReference>();
+                        this.DelayEffectMarkerName = reader.ReadInt32();
+                        this.ConstraintgroupName = reader.ReadInt32();
+                        this.EjectingSeatLabel = reader.ReadInt32();
+                        this.SkipFraction = reader.ReadSingle();
+                        this.DestroyedChildObjectMarkerName = reader.ReadInt32();
+                        this.TotalDamageThreshold = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(16, 4)]
+                    public sealed class InstantaneousResponseDamageEffectStructBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                    public sealed class InstantaneousResponseDamageEffectStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("transition damage effect", typeof(TagReference))]
+                        [FieldAttribute("transition damage effect", typeof(TagReference))]
                         public TagReference TransitionDamageEffect;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 16;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.TransitionDamageEffect = TagReference.Null;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.TransitionDamageEffect = reader.Read<TagReference>();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                    public sealed class InstantaneousResponseDamageEffectMarkerStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                    [FieldSetAttribute(4, 4)]
+                    public sealed class InstantaneousResponseDamageEffectMarkerStructBlock : AbideTagBlock
                     {
-                        [Abide.Guerilla.Tags.FieldAttribute("damage effect marker name", typeof(StringId))]
+                        [FieldAttribute("damage effect marker name", typeof(StringId))]
                         public StringId DamageEffectMarkerName;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 4;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.DamageEffectMarkerName = StringId.Zero;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.DamageEffectMarkerName = reader.ReadInt32();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
-                    public enum ResponseTypeOptions
+                    public enum ResponseTypeOptions : Int16
                     {
                         ReceivesAllDamage = 0,
                         ReceivesAreaEffectDamage = 1,
                         ReceivesLocalDamage = 2,
                     }
-                    public enum ConstraintDamageTypeOptions
+                    public enum ConstraintDamageTypeOptions : Int16
                     {
                         None = 0,
                         DestroyOneOfGroup = 1,
@@ -689,7 +1151,7 @@ namespace Abide.Guerilla.Tags
                         LoosenOneOfGroup = 3,
                         LoosenEntireGroup = 4,
                     }
-                    public enum FlagsOptions
+                    public enum FlagsOptions : Int32
                     {
                         KillsObject = 1,
                         InhibitsMeleeAttack = 2,
@@ -717,7 +1179,7 @@ namespace Abide.Guerilla.Tags
                         OnlyOnSpecialDeath = 8388608,
                         OnlyNotOnSpecialDeath = 16777216,
                     }
-                    public enum NewStateOptions
+                    public enum NewStateOptions : Int16
                     {
                         Default = 0,
                         MinorDamage = 1,
@@ -726,27 +1188,27 @@ namespace Abide.Guerilla.Tags
                         Destroyed = 4,
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(0, 4)]
-                public sealed class GNullBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(0, 4)]
+                public sealed class GNullBlock : AbideTagBlock
                 {
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 0;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     AbsorbsBodyDamage = 1,
                     TakesFullDmgWhenObjectDies = 2,
@@ -759,97 +1221,123 @@ namespace Abide.Guerilla.Tags
                     IgnoresShields = 256,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-            public sealed class GlobalDamageNodesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(16, 4)]
+            public sealed class GlobalDamageNodesBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(12)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(12)]
                 public Byte[] EmptyString2;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 16;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[2];
+                    this.EmptyString1 = new byte[2];
+                    this.EmptyString2 = new byte[12];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.EmptyString1 = reader.ReadBytes(2);
+                    this.EmptyString2 = reader.ReadBytes(12);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class DamageSeatInfoBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(20, 4)]
+            public sealed class DamageSeatInfoBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("seat label^", typeof(StringId))]
+                [FieldAttribute("seat label^", typeof(StringId))]
                 public StringId SeatLabel;
-                [Abide.Guerilla.Tags.FieldAttribute("direct damage scale#0==no damage, 1==full damage", typeof(Single))]
+                [FieldAttribute("direct damage scale#0==no damage, 1==full damage", typeof(Single))]
                 public Single DirectDamageScale;
-                [Abide.Guerilla.Tags.FieldAttribute("damage transfer fall-off radius", typeof(Single))]
+                [FieldAttribute("damage transfer fall-off radius", typeof(Single))]
                 public Single DamageTransferFallOffRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("maximum transfer damage scale", typeof(Single))]
+                [FieldAttribute("maximum transfer damage scale", typeof(Single))]
                 public Single MaximumTransferDamageScale;
-                [Abide.Guerilla.Tags.FieldAttribute("minimum transfer damage scale", typeof(Single))]
+                [FieldAttribute("minimum transfer damage scale", typeof(Single))]
                 public Single MinimumTransferDamageScale;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.SeatLabel = StringId.Zero;
+                    this.DirectDamageScale = 0;
+                    this.DamageTransferFallOffRadius = 0;
+                    this.MaximumTransferDamageScale = 0;
+                    this.MinimumTransferDamageScale = 0;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.SeatLabel = reader.ReadInt32();
+                    this.DirectDamageScale = reader.ReadSingle();
+                    this.DamageTransferFallOffRadius = reader.ReadSingle();
+                    this.MaximumTransferDamageScale = reader.ReadSingle();
+                    this.MinimumTransferDamageScale = reader.ReadSingle();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class DamageConstraintInfoBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(20, 4)]
+            public sealed class DamageConstraintInfoBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("physics model constraint name", typeof(StringId))]
+                [FieldAttribute("physics model constraint name", typeof(StringId))]
                 public StringId PhysicsModelConstraintName;
-                [Abide.Guerilla.Tags.FieldAttribute("damage constraint name", typeof(StringId))]
+                [FieldAttribute("damage constraint name", typeof(StringId))]
                 public StringId DamageConstraintName;
-                [Abide.Guerilla.Tags.FieldAttribute("damage constraint group name", typeof(StringId))]
+                [FieldAttribute("damage constraint group name", typeof(StringId))]
                 public StringId DamageConstraintGroupName;
-                [Abide.Guerilla.Tags.FieldAttribute("group probability scale", typeof(Single))]
+                [FieldAttribute("group probability scale", typeof(Single))]
                 public Single GroupProbabilityScale;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.PhysicsModelConstraintName = StringId.Zero;
+                    this.DamageConstraintName = StringId.Zero;
+                    this.DamageConstraintGroupName = StringId.Zero;
+                    this.GroupProbabilityScale = 0;
+                    this.EmptyString = new byte[4];
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.PhysicsModelConstraintName = reader.ReadInt32();
+                    this.DamageConstraintName = reader.ReadInt32();
+                    this.DamageConstraintGroupName = reader.ReadInt32();
+                    this.GroupProbabilityScale = reader.ReadSingle();
+                    this.EmptyString = reader.ReadBytes(4);
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 TakesShieldDamageForChildren = 1,
                 TakesBodyDamageForChildren = 2,
@@ -861,7 +1349,7 @@ namespace Abide.Guerilla.Tags
                 CannotDieFromDamage = 128,
                 PassesAttachedDamageToRiders = 256,
             }
-            public enum CollisionDamageReportingTypeOptions
+            public enum CollisionDamageReportingTypeOptions : Byte
             {
                 TehGuardians11 = 0,
                 FallingDamage = 1,
@@ -906,7 +1394,7 @@ namespace Abide.Guerilla.Tags
                 SentinelRpg = 40,
                 Teleporter = 41,
             }
-            public enum ResponseDamageReportingTypeOptions
+            public enum ResponseDamageReportingTypeOptions : Byte
             {
                 TehGuardians11 = 0,
                 FallingDamage = 1,
@@ -952,65 +1440,83 @@ namespace Abide.Guerilla.Tags
                 Teleporter = 41,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(28, 4)]
-        public sealed class ModelTargetBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(28, 4)]
+        public sealed class ModelTargetBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("marker name^#multiple markers become multiple spheres of the same radius", typeof(StringId))]
+            [FieldAttribute("marker name^#multiple markers become multiple spheres of the same radius", typeof(StringId))]
             public StringId MarkerName;
-            [Abide.Guerilla.Tags.FieldAttribute("size#sphere radius", typeof(Single))]
+            [FieldAttribute("size#sphere radius", typeof(Single))]
             public Single Size1;
-            [Abide.Guerilla.Tags.FieldAttribute("cone angle#the target is only visible when viewed within this angle of the marker" +
+            [FieldAttribute("cone angle#the target is only visible when viewed within this angle of the marker" +
                 "\'s x axis", typeof(Single))]
             public Single ConeAngle;
-            [Abide.Guerilla.Tags.FieldAttribute("damage section#the target is associated with this damage section", typeof(Int16))]
+            [FieldAttribute("damage section#the target is associated with this damage section", typeof(Int16))]
             public Int16 DamageSection;
-            [Abide.Guerilla.Tags.FieldAttribute("variant#the target will only appear with this variant", typeof(Int16))]
+            [FieldAttribute("variant#the target will only appear with this variant", typeof(Int16))]
             public Int16 Variant;
-            [Abide.Guerilla.Tags.FieldAttribute("targeting relevance#higher relevances turn into stronger magnetisms", typeof(Single))]
+            [FieldAttribute("targeting relevance#higher relevances turn into stronger magnetisms", typeof(Single))]
             public Single TargetingRelevance;
-            [Abide.Guerilla.Tags.FieldAttribute("lock-on data", typeof(ModelTargetLockOnDataStructBlock))]
+            [FieldAttribute("lock-on data", typeof(ModelTargetLockOnDataStructBlock))]
             public ModelTargetLockOnDataStructBlock LockOnData;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 28;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.MarkerName = StringId.Zero;
+                this.Size1 = 0;
+                this.ConeAngle = 0;
+                this.DamageSection = 0;
+                this.Variant = 0;
+                this.TargetingRelevance = 0;
+                this.LockOnData = new ModelTargetLockOnDataStructBlock();
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.MarkerName = reader.ReadInt32();
+                this.Size1 = reader.ReadSingle();
+                this.ConeAngle = reader.ReadSingle();
+                this.DamageSection = reader.ReadInt16();
+                this.Variant = reader.ReadInt16();
+                this.TargetingRelevance = reader.ReadSingle();
+                this.LockOnData = reader.ReadDataStructure<ModelTargetLockOnDataStructBlock>();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(8, 4)]
+            public sealed class ModelTargetLockOnDataStructBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class ModelTargetLockOnDataStructBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("lock on distance", typeof(Single))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("lock on distance", typeof(Single))]
                 public Single LockOnDistance;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.LockOnDistance = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.LockOnDistance = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     LockedByHumanTracking = 1,
                     LockedByPlasmaTracking = 2,
@@ -1020,221 +1526,303 @@ namespace Abide.Guerilla.Tags
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class ModelRegionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class ModelRegionBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name*^", typeof(StringId))]
+            private TagBlockList<ModelPermutationBlock> permutationsList = new TagBlockList<ModelPermutationBlock>(32);
+            [FieldAttribute("name*^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("collision region index*", typeof(Byte))]
+            [FieldAttribute("collision region index*", typeof(Byte))]
             public Byte CollisionRegionIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("physics region index*", typeof(Byte))]
+            [FieldAttribute("physics region index*", typeof(Byte))]
             public Byte PhysicsRegionIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("permutations*", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("model_permutation_block", 32, typeof(ModelPermutationBlock))]
+            [FieldAttribute("permutations*", typeof(TagBlock))]
+            [BlockAttribute("model_permutation_block", 32, typeof(ModelPermutationBlock))]
             public TagBlock Permutations;
-            public int Size
+            public TagBlockList<ModelPermutationBlock> PermutationsList
+            {
+                get
+                {
+                    return this.permutationsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.permutationsList.Clear();
+                this.Name = StringId.Zero;
+                this.CollisionRegionIndex = 0;
+                this.PhysicsRegionIndex = 0;
+                this.EmptyString = new byte[2];
+                this.Permutations = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.CollisionRegionIndex = reader.ReadByte();
+                this.PhysicsRegionIndex = reader.ReadByte();
+                this.EmptyString = reader.ReadBytes(2);
+                this.Permutations = reader.ReadInt64();
+                this.permutationsList.Read(reader, this.Permutations);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(8, 4)]
+            public sealed class ModelPermutationBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(8, 4)]
-            public sealed class ModelPermutationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("name*^", typeof(StringId))]
+                [FieldAttribute("name*^", typeof(StringId))]
                 public StringId Name;
-                [Abide.Guerilla.Tags.FieldAttribute("flags*", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Byte Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("collision permutation index*", typeof(Byte))]
+                [FieldAttribute("flags*", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("collision permutation index*", typeof(Byte))]
                 public Byte CollisionPermutationIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 8;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Name = StringId.Zero;
+                    this.Flags = ((FlagsOptions)(0));
+                    this.CollisionPermutationIndex = 0;
+                    this.EmptyString = new byte[2];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Name = reader.ReadInt32();
+                    this.Flags = ((FlagsOptions)(reader.ReadByte()));
+                    this.CollisionPermutationIndex = reader.ReadByte();
+                    this.EmptyString = reader.ReadBytes(2);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Byte
                 {
                     CannotBeChosenRandomly = 1,
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(92, 4)]
-        public sealed class ModelNodeBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(92, 4)]
+        public sealed class ModelNodeBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name*^", typeof(StringId))]
+            [FieldAttribute("name*^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("parent node*", typeof(Int16))]
+            [FieldAttribute("parent node*", typeof(Int16))]
             public Int16 ParentNode;
-            [Abide.Guerilla.Tags.FieldAttribute("first child node*", typeof(Int16))]
+            [FieldAttribute("first child node*", typeof(Int16))]
             public Int16 FirstChildNode;
-            [Abide.Guerilla.Tags.FieldAttribute("next sibling node*", typeof(Int16))]
+            [FieldAttribute("next sibling node*", typeof(Int16))]
             public Int16 NextSiblingNode;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("default translation*", typeof(Vector3))]
+            [FieldAttribute("default translation*", typeof(Vector3))]
             public Vector3 DefaultTranslation;
-            [Abide.Guerilla.Tags.FieldAttribute("default rotation*", typeof(Quaternion))]
+            [FieldAttribute("default rotation*", typeof(Quaternion))]
             public Quaternion DefaultRotation;
-            [Abide.Guerilla.Tags.FieldAttribute("default inverse scale*", typeof(Single))]
+            [FieldAttribute("default inverse scale*", typeof(Single))]
             public Single DefaultInverseScale;
-            [Abide.Guerilla.Tags.FieldAttribute("default inverse forward*", typeof(Vector3))]
+            [FieldAttribute("default inverse forward*", typeof(Vector3))]
             public Vector3 DefaultInverseForward;
-            [Abide.Guerilla.Tags.FieldAttribute("default inverse left*", typeof(Vector3))]
+            [FieldAttribute("default inverse left*", typeof(Vector3))]
             public Vector3 DefaultInverseLeft;
-            [Abide.Guerilla.Tags.FieldAttribute("default inverse up*", typeof(Vector3))]
+            [FieldAttribute("default inverse up*", typeof(Vector3))]
             public Vector3 DefaultInverseUp;
-            [Abide.Guerilla.Tags.FieldAttribute("default inverse position*", typeof(Vector3))]
+            [FieldAttribute("default inverse position*", typeof(Vector3))]
             public Vector3 DefaultInversePosition;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 92;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = StringId.Zero;
+                this.ParentNode = 0;
+                this.FirstChildNode = 0;
+                this.NextSiblingNode = 0;
+                this.EmptyString = new byte[2];
+                this.DefaultTranslation = Vector3.Zero;
+                this.DefaultRotation = Quaternion.Zero;
+                this.DefaultInverseScale = 0;
+                this.DefaultInverseForward = Vector3.Zero;
+                this.DefaultInverseLeft = Vector3.Zero;
+                this.DefaultInverseUp = Vector3.Zero;
+                this.DefaultInversePosition = Vector3.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.ReadInt32();
+                this.ParentNode = reader.ReadInt16();
+                this.FirstChildNode = reader.ReadInt16();
+                this.NextSiblingNode = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.DefaultTranslation = reader.Read<Vector3>();
+                this.DefaultRotation = reader.Read<Quaternion>();
+                this.DefaultInverseScale = reader.ReadSingle();
+                this.DefaultInverseForward = reader.Read<Vector3>();
+                this.DefaultInverseLeft = reader.Read<Vector3>();
+                this.DefaultInverseUp = reader.Read<Vector3>();
+                this.DefaultInversePosition = reader.Read<Vector3>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class ModelObjectDataBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class ModelObjectDataBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("type*", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-            public Int16 Type;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("type*", typeof(TypeOptions))]
+            [OptionsAttribute(typeof(TypeOptions), false)]
+            public TypeOptions Type;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("offset*", typeof(Vector3))]
+            [FieldAttribute("offset*", typeof(Vector3))]
             public Vector3 Offset;
-            [Abide.Guerilla.Tags.FieldAttribute("radius*", typeof(Single))]
+            [FieldAttribute("radius*", typeof(Single))]
             public Single Radius;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Type = ((TypeOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Offset = Vector3.Zero;
+                this.Radius = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Type = ((TypeOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Offset = reader.Read<Vector3>();
+                this.Radius = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum TypeOptions
+            public enum TypeOptions : Int16
             {
                 NotSet = 0,
                 UserDefined = 1,
                 AutoGenerated = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-        public sealed class GlobalScenarioLoadParametersBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(68, 4)]
+        public sealed class GlobalScenarioLoadParametersBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("scenario^", typeof(TagReference))]
+            private DataList parametersList = new DataList(65535);
+            [FieldAttribute("scenario^", typeof(TagReference))]
             public TagReference Scenario;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(32)]
+            [FieldAttribute("parameters", typeof(TagBlock))]
+            [DataAttribute(65535)]
+            public TagBlock Parameters;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(32)]
             public Byte[] EmptyString;
-            public int Size
+            public DataList ParametersList
+            {
+                get
+                {
+                    return this.parametersList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 68;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.parametersList.Clear();
+                this.Scenario = TagReference.Null;
+                this.Parameters = TagBlock.Zero;
+                this.EmptyString = new byte[32];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Scenario = reader.Read<TagReference>();
+                this.Parameters = reader.ReadInt64();
+                this.EmptyString = reader.ReadBytes(32);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public sealed class RenderOnlyNodeFlagsElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        public sealed class RenderOnlyNodeFlagsElement : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte))]
+            [FieldAttribute("", typeof(Byte))]
             public Byte EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 0;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadByte();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public sealed class RenderOnlySectionFlagsElement : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        public sealed class RenderOnlySectionFlagsElement : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte))]
+            [FieldAttribute("", typeof(Byte))]
             public Byte EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 0;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.EmptyString = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.EmptyString = reader.ReadByte();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum ShadowFadeDistanceOptions
+        public enum ShadowFadeDistanceOptions : Int16
         {
             FadeAtSuperHighDetailLevel = 0,
             FadeAtHighDetailLevel = 1,
@@ -1243,13 +1831,13 @@ namespace Abide.Guerilla.Tags
             FadeAtSuperLowDetailLevel = 4,
             FadeNever = 5,
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             ActiveCamoAlwaysOn = 1,
             ActiveCamoAlwaysMerge = 2,
             ActiveCamoNeverMerge = 4,
         }
-        public enum RuntimeFlagsOptions
+        public enum RuntimeFlagsOptions : Int32
         {
             ContainsRunTimeNodes = 1,
         }

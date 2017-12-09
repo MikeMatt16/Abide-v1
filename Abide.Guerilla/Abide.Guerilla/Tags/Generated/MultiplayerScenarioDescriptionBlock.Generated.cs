@@ -14,57 +14,78 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("multiplayer_scenario_description", 1836084345u, 4294967293u, typeof(MultiplayerScenarioDescriptionBlock))]
-    public sealed class MultiplayerScenarioDescriptionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("multiplayer_scenario_description", 1836084345u, 4294967293u, typeof(MultiplayerScenarioDescriptionBlock))]
+    public sealed class MultiplayerScenarioDescriptionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("multiplayer scenarios", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_description_block", 32, typeof(ScenarioDescriptionBlock))]
+        private TagBlockList<ScenarioDescriptionBlock> multiplayerScenariosList = new TagBlockList<ScenarioDescriptionBlock>(32);
+        [FieldAttribute("multiplayer scenarios", typeof(TagBlock))]
+        [BlockAttribute("scenario_description_block", 32, typeof(ScenarioDescriptionBlock))]
         public TagBlock MultiplayerScenarios;
-        public int Size
+        public TagBlockList<ScenarioDescriptionBlock> MultiplayerScenariosList
+        {
+            get
+            {
+                return this.multiplayerScenariosList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.multiplayerScenariosList.Clear();
+            this.MultiplayerScenarios = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.MultiplayerScenarios = reader.ReadInt64();
+            this.multiplayerScenariosList.Read(reader, this.MultiplayerScenarios);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(68, 4)]
+        public sealed class ScenarioDescriptionBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(68, 4)]
-        public sealed class ScenarioDescriptionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("descriptive bitmap", typeof(TagReference))]
+            [FieldAttribute("descriptive bitmap", typeof(TagReference))]
             public TagReference DescriptiveBitmap;
-            [Abide.Guerilla.Tags.FieldAttribute("displayed map name", typeof(TagReference))]
+            [FieldAttribute("displayed map name", typeof(TagReference))]
             public TagReference DisplayedMapName;
-            [Abide.Guerilla.Tags.FieldAttribute("scenario tag directory path#this is the path to the directory containing the scen" +
+            [FieldAttribute("scenario tag directory path#this is the path to the directory containing the scen" +
                 "ario tag file of the same name", typeof(String32))]
             public String32 ScenarioTagDirectoryPath;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 68;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.DescriptiveBitmap = TagReference.Null;
+                this.DisplayedMapName = TagReference.Null;
+                this.ScenarioTagDirectoryPath = String32.Empty;
+                this.EmptyString = new byte[4];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.DescriptiveBitmap = reader.Read<TagReference>();
+                this.DisplayedMapName = reader.Read<TagReference>();
+                this.ScenarioTagDirectoryPath = reader.Read<String32>();
+                this.EmptyString = reader.ReadBytes(4);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

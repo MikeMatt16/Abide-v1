@@ -14,27 +14,30 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("stereo_system", 1114599245u, 4294967293u, typeof(StereoSystemBlock))]
-    public sealed class StereoSystemBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(4, 4)]
+    [TagGroupAttribute("stereo_system", 1114599245u, 4294967293u, typeof(StereoSystemBlock))]
+    public sealed class StereoSystemBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("unused", typeof(Int32))]
+        [FieldAttribute("unused", typeof(Int32))]
         public Int32 Unused;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 4;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.Unused = 0;
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.Unused = reader.ReadInt32();
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

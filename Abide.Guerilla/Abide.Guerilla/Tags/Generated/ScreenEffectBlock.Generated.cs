@@ -14,204 +14,323 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(156, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("screen_effect", 1701277554u, 4294967293u, typeof(ScreenEffectBlock))]
-    public sealed class ScreenEffectBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(156, 4)]
+    [TagGroupAttribute("screen_effect", 1701277554u, 4294967293u, typeof(ScreenEffectBlock))]
+    public sealed class ScreenEffectBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(64)]
+        private TagBlockList<RasterizerScreenEffectPassReferenceBlock> passReferencesList = new TagBlockList<RasterizerScreenEffectPassReferenceBlock>(8);
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(64)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("shader", typeof(TagReference))]
+        [FieldAttribute("shader", typeof(TagReference))]
         public TagReference Shader;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(64)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(64)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("pass references", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("pass reference", 8, typeof(RasterizerScreenEffectPassReferenceBlock))]
+        [FieldAttribute("pass references", typeof(TagBlock))]
+        [BlockAttribute("pass reference", 8, typeof(RasterizerScreenEffectPassReferenceBlock))]
         public TagBlock PassReferences;
-        public int Size
+        public TagBlockList<RasterizerScreenEffectPassReferenceBlock> PassReferencesList
+        {
+            get
+            {
+                return this.passReferencesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 156;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.passReferencesList.Clear();
+            this.EmptyString = new byte[64];
+            this.Shader = TagReference.Null;
+            this.EmptyString1 = new byte[64];
+            this.PassReferences = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.EmptyString = reader.ReadBytes(64);
+            this.Shader = reader.Read<TagReference>();
+            this.EmptyString1 = reader.ReadBytes(64);
+            this.PassReferences = reader.ReadInt64();
+            this.passReferencesList.Read(reader, this.PassReferences);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(192, 4)]
+        public sealed class RasterizerScreenEffectPassReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(192, 4)]
-        public sealed class RasterizerScreenEffectPassReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("layer pass index*:leave as -1 unless debugging", typeof(Int16))]
+            private DataList explanationList = new DataList(65535);
+            private TagBlockList<RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock> advancedControlList = new TagBlockList<RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock>(1);
+            private TagBlockList<RasterizerScreenEffectConvolutionBlock> convolutionList = new TagBlockList<RasterizerScreenEffectConvolutionBlock>(2);
+            [FieldAttribute("explanation", typeof(TagBlock))]
+            [DataAttribute(65535)]
+            public TagBlock Explanation;
+            [FieldAttribute("layer pass index*:leave as -1 unless debugging", typeof(Int16))]
             public Int16 LayerPassIndex;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("primary=0 and secondary=0:implementation index", typeof(Byte))]
+            [FieldAttribute("primary=0 and secondary=0:implementation index", typeof(Byte))]
             public Byte PrimaryEquals0AndSecondaryEquals0;
-            [Abide.Guerilla.Tags.FieldAttribute("primary>0 and secondary=0:implementation index", typeof(Byte))]
+            [FieldAttribute("primary>0 and secondary=0:implementation index", typeof(Byte))]
             public Byte PrimaryGreaterThan0AndSecondaryEquals0;
-            [Abide.Guerilla.Tags.FieldAttribute("primary=0 and secondary>0:implementation index", typeof(Byte))]
+            [FieldAttribute("primary=0 and secondary>0:implementation index", typeof(Byte))]
             public Byte PrimaryEquals0AndSecondaryGreaterThan0;
-            [Abide.Guerilla.Tags.FieldAttribute("primary>0 and secondary>0:implementation index", typeof(Byte))]
+            [FieldAttribute("primary>0 and secondary>0:implementation index", typeof(Byte))]
             public Byte PrimaryGreaterThan0AndSecondaryGreaterThan0;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(64)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(64)]
             public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("stage 0 mode", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage0ModeOptions), false)]
-            public Int16 Stage0Mode;
-            [Abide.Guerilla.Tags.FieldAttribute("stage 1 mode", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage1ModeOptions), false)]
-            public Int16 Stage1Mode;
-            [Abide.Guerilla.Tags.FieldAttribute("stage 2 mode", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage2ModeOptions), false)]
-            public Int16 Stage2Mode;
-            [Abide.Guerilla.Tags.FieldAttribute("stage 3 mode", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage3ModeOptions), false)]
-            public Int16 Stage3Mode;
-            [Abide.Guerilla.Tags.FieldAttribute("advanced control", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("advanced control", 1, typeof(RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock))]
+            [FieldAttribute("stage 0 mode", typeof(Stage0ModeOptions))]
+            [OptionsAttribute(typeof(Stage0ModeOptions), false)]
+            public Stage0ModeOptions Stage0Mode;
+            [FieldAttribute("stage 1 mode", typeof(Stage1ModeOptions))]
+            [OptionsAttribute(typeof(Stage1ModeOptions), false)]
+            public Stage1ModeOptions Stage1Mode;
+            [FieldAttribute("stage 2 mode", typeof(Stage2ModeOptions))]
+            [OptionsAttribute(typeof(Stage2ModeOptions), false)]
+            public Stage2ModeOptions Stage2Mode;
+            [FieldAttribute("stage 3 mode", typeof(Stage3ModeOptions))]
+            [OptionsAttribute(typeof(Stage3ModeOptions), false)]
+            public Stage3ModeOptions Stage3Mode;
+            [FieldAttribute("advanced control", typeof(TagBlock))]
+            [BlockAttribute("advanced control", 1, typeof(RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock))]
             public TagBlock AdvancedControl;
-            [Abide.Guerilla.Tags.FieldAttribute("target", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(TargetOptions), false)]
-            public Int16 Target1;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
+            [FieldAttribute("target", typeof(TargetOptions))]
+            [OptionsAttribute(typeof(TargetOptions), false)]
+            public TargetOptions Target;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
             public Byte[] EmptyString2;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(64)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(64)]
             public Byte[] EmptyString3;
-            [Abide.Guerilla.Tags.FieldAttribute("convolution", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("convolution", 2, typeof(RasterizerScreenEffectConvolutionBlock))]
+            [FieldAttribute("convolution", typeof(TagBlock))]
+            [BlockAttribute("convolution", 2, typeof(RasterizerScreenEffectConvolutionBlock))]
             public TagBlock Convolution;
-            public int Size
+            public DataList ExplanationList
+            {
+                get
+                {
+                    return this.explanationList;
+                }
+            }
+            public TagBlockList<RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock> AdvancedControlList
+            {
+                get
+                {
+                    return this.advancedControlList;
+                }
+            }
+            public TagBlockList<RasterizerScreenEffectConvolutionBlock> ConvolutionList
+            {
+                get
+                {
+                    return this.convolutionList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 192;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.explanationList.Clear();
+                this.advancedControlList.Clear();
+                this.convolutionList.Clear();
+                this.Explanation = TagBlock.Zero;
+                this.LayerPassIndex = 0;
+                this.EmptyString = new byte[2];
+                this.PrimaryEquals0AndSecondaryEquals0 = 0;
+                this.PrimaryGreaterThan0AndSecondaryEquals0 = 0;
+                this.PrimaryEquals0AndSecondaryGreaterThan0 = 0;
+                this.PrimaryGreaterThan0AndSecondaryGreaterThan0 = 0;
+                this.EmptyString1 = new byte[64];
+                this.Stage0Mode = ((Stage0ModeOptions)(0));
+                this.Stage1Mode = ((Stage1ModeOptions)(0));
+                this.Stage2Mode = ((Stage2ModeOptions)(0));
+                this.Stage3Mode = ((Stage3ModeOptions)(0));
+                this.AdvancedControl = TagBlock.Zero;
+                this.Target = ((TargetOptions)(0));
+                this.EmptyString2 = new byte[2];
+                this.EmptyString3 = new byte[64];
+                this.Convolution = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Explanation = reader.ReadInt64();
+                this.LayerPassIndex = reader.ReadInt16();
+                this.EmptyString = reader.ReadBytes(2);
+                this.PrimaryEquals0AndSecondaryEquals0 = reader.ReadByte();
+                this.PrimaryGreaterThan0AndSecondaryEquals0 = reader.ReadByte();
+                this.PrimaryEquals0AndSecondaryGreaterThan0 = reader.ReadByte();
+                this.PrimaryGreaterThan0AndSecondaryGreaterThan0 = reader.ReadByte();
+                this.EmptyString1 = reader.ReadBytes(64);
+                this.Stage0Mode = ((Stage0ModeOptions)(reader.ReadInt16()));
+                this.Stage1Mode = ((Stage1ModeOptions)(reader.ReadInt16()));
+                this.Stage2Mode = ((Stage2ModeOptions)(reader.ReadInt16()));
+                this.Stage3Mode = ((Stage3ModeOptions)(reader.ReadInt16()));
+                this.AdvancedControl = reader.ReadInt64();
+                this.advancedControlList.Read(reader, this.AdvancedControl);
+                this.Target = ((TargetOptions)(reader.ReadInt16()));
+                this.EmptyString2 = reader.ReadBytes(2);
+                this.EmptyString3 = reader.ReadBytes(64);
+                this.Convolution = reader.ReadInt64();
+                this.convolutionList.Read(reader, this.Convolution);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(72, 4)]
+            public sealed class RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(72, 4)]
-            public sealed class RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("stage 0 flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage0FlagsOptions), true)]
-                public Int16 Stage0Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 1 flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage1FlagsOptions), true)]
-                public Int16 Stage1Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 2 flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage2FlagsOptions), true)]
-                public Int16 Stage2Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 3 flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(Stage3FlagsOptions), true)]
-                public Int16 Stage3Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 0 offset", typeof(Vector4))]
+                [FieldAttribute("stage 0 flags", typeof(Stage0FlagsOptions))]
+                [OptionsAttribute(typeof(Stage0FlagsOptions), true)]
+                public Stage0FlagsOptions Stage0Flags;
+                [FieldAttribute("stage 1 flags", typeof(Stage1FlagsOptions))]
+                [OptionsAttribute(typeof(Stage1FlagsOptions), true)]
+                public Stage1FlagsOptions Stage1Flags;
+                [FieldAttribute("stage 2 flags", typeof(Stage2FlagsOptions))]
+                [OptionsAttribute(typeof(Stage2FlagsOptions), true)]
+                public Stage2FlagsOptions Stage2Flags;
+                [FieldAttribute("stage 3 flags", typeof(Stage3FlagsOptions))]
+                [OptionsAttribute(typeof(Stage3FlagsOptions), true)]
+                public Stage3FlagsOptions Stage3Flags;
+                [FieldAttribute("stage 0 offset", typeof(Vector4))]
                 public Vector4 Stage0Offset;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 1 offset", typeof(Vector4))]
+                [FieldAttribute("stage 1 offset", typeof(Vector4))]
                 public Vector4 Stage1Offset;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 2 offset", typeof(Vector4))]
+                [FieldAttribute("stage 2 offset", typeof(Vector4))]
                 public Vector4 Stage2Offset;
-                [Abide.Guerilla.Tags.FieldAttribute("stage 3 offset", typeof(Vector4))]
+                [FieldAttribute("stage 3 offset", typeof(Vector4))]
                 public Vector4 Stage3Offset;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 72;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Stage0Flags = ((Stage0FlagsOptions)(0));
+                    this.Stage1Flags = ((Stage1FlagsOptions)(0));
+                    this.Stage2Flags = ((Stage2FlagsOptions)(0));
+                    this.Stage3Flags = ((Stage3FlagsOptions)(0));
+                    this.Stage0Offset = Vector4.Zero;
+                    this.Stage1Offset = Vector4.Zero;
+                    this.Stage2Offset = Vector4.Zero;
+                    this.Stage3Offset = Vector4.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Stage0Flags = ((Stage0FlagsOptions)(reader.ReadInt16()));
+                    this.Stage1Flags = ((Stage1FlagsOptions)(reader.ReadInt16()));
+                    this.Stage2Flags = ((Stage2FlagsOptions)(reader.ReadInt16()));
+                    this.Stage3Flags = ((Stage3FlagsOptions)(reader.ReadInt16()));
+                    this.Stage0Offset = reader.Read<Vector4>();
+                    this.Stage1Offset = reader.Read<Vector4>();
+                    this.Stage2Offset = reader.Read<Vector4>();
+                    this.Stage3Offset = reader.Read<Vector4>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum Stage0FlagsOptions
+                public enum Stage0FlagsOptions : Int16
                 {
                     XyScaledByZFar = 1,
                 }
-                public enum Stage1FlagsOptions
+                public enum Stage1FlagsOptions : Int16
                 {
                     XyScaledByZFar = 1,
                 }
-                public enum Stage2FlagsOptions
+                public enum Stage2FlagsOptions : Int16
                 {
                     XyScaledByZFar = 1,
                 }
-                public enum Stage3FlagsOptions
+                public enum Stage3FlagsOptions : Int16
                 {
                     XyScaledByZFar = 1,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(92, 4)]
-            public sealed class RasterizerScreenEffectConvolutionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(92, 4)]
+            public sealed class RasterizerScreenEffectConvolutionBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(64)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(64)]
                 public Byte[] EmptyString1;
-                [Abide.Guerilla.Tags.FieldAttribute("convolution amount:[0,+inf)", typeof(Single))]
+                [FieldAttribute("convolution amount:[0,+inf)", typeof(Single))]
                 public Single ConvolutionAmount;
-                [Abide.Guerilla.Tags.FieldAttribute("filter scale", typeof(Single))]
+                [FieldAttribute("filter scale", typeof(Single))]
                 public Single FilterScale;
-                [Abide.Guerilla.Tags.FieldAttribute("filter box factor:[0,1] not used for zoom", typeof(Single))]
+                [FieldAttribute("filter box factor:[0,1] not used for zoom", typeof(Single))]
                 public Single FilterBoxFactor;
-                [Abide.Guerilla.Tags.FieldAttribute("zoom falloff radius", typeof(Single))]
+                [FieldAttribute("zoom falloff radius", typeof(Single))]
                 public Single ZoomFalloffRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("zoom cutoff radius", typeof(Single))]
+                [FieldAttribute("zoom cutoff radius", typeof(Single))]
                 public Single ZoomCutoffRadius;
-                [Abide.Guerilla.Tags.FieldAttribute("resolution scale:[0,1]", typeof(Single))]
+                [FieldAttribute("resolution scale:[0,1]", typeof(Single))]
                 public Single ResolutionScale;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 92;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.EmptyString = new byte[2];
+                    this.EmptyString1 = new byte[64];
+                    this.ConvolutionAmount = 0;
+                    this.FilterScale = 0;
+                    this.FilterBoxFactor = 0;
+                    this.ZoomFalloffRadius = 0;
+                    this.ZoomCutoffRadius = 0;
+                    this.ResolutionScale = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.EmptyString1 = reader.ReadBytes(64);
+                    this.ConvolutionAmount = reader.ReadSingle();
+                    this.FilterScale = reader.ReadSingle();
+                    this.FilterBoxFactor = reader.ReadSingle();
+                    this.ZoomFalloffRadius = reader.ReadSingle();
+                    this.ZoomCutoffRadius = reader.ReadSingle();
+                    this.ResolutionScale = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     OnlyWhenPrimaryIsActive = 1,
                     OnlyWhenSecondaryIsActive = 2,
                     PredatorZoom = 4,
                 }
             }
-            public enum Stage0ModeOptions
+            public enum Stage0ModeOptions : Int16
             {
                 Default = 0,
                 ViewportNormalized = 1,
@@ -219,7 +338,7 @@ namespace Abide.Guerilla.Tags
                 FramebufferRelative = 3,
                 Zero = 4,
             }
-            public enum Stage1ModeOptions
+            public enum Stage1ModeOptions : Int16
             {
                 Default = 0,
                 ViewportNormalized = 1,
@@ -227,7 +346,7 @@ namespace Abide.Guerilla.Tags
                 FramebufferRelative = 3,
                 Zero = 4,
             }
-            public enum Stage2ModeOptions
+            public enum Stage2ModeOptions : Int16
             {
                 Default = 0,
                 ViewportNormalized = 1,
@@ -235,7 +354,7 @@ namespace Abide.Guerilla.Tags
                 FramebufferRelative = 3,
                 Zero = 4,
             }
-            public enum Stage3ModeOptions
+            public enum Stage3ModeOptions : Int16
             {
                 Default = 0,
                 ViewportNormalized = 1,
@@ -243,7 +362,7 @@ namespace Abide.Guerilla.Tags
                 FramebufferRelative = 3,
                 Zero = 4,
             }
-            public enum TargetOptions
+            public enum TargetOptions : Int16
             {
                 Framebuffer = 0,
                 Texaccum = 1,

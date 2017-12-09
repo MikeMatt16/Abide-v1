@@ -14,97 +14,150 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(132, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("planar_fog", 1718576928u, 4294967293u, typeof(PlanarFogBlock))]
-    public sealed class PlanarFogBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(132, 4)]
+    [TagGroupAttribute("planar_fog", 1718576928u, 4294967293u, typeof(PlanarFogBlock))]
+    public sealed class PlanarFogBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("priority", typeof(Int16))]
+        private TagBlockList<PlanarFogPatchyFogBlock> patchyFogList = new TagBlockList<PlanarFogPatchyFogBlock>(1);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("priority", typeof(Int16))]
         public Int16 Priority;
-        [Abide.Guerilla.Tags.FieldAttribute("global material name", typeof(StringId))]
+        [FieldAttribute("global material name", typeof(StringId))]
         public StringId GlobalMaterialName;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum density:[0,1]#planar fog density is clamped to this value", typeof(Single))]
+        [FieldAttribute("maximum density:[0,1]#planar fog density is clamped to this value", typeof(Single))]
         public Single MaximumDensity;
-        [Abide.Guerilla.Tags.FieldAttribute("opaque distance:world units#the fog becomes opaque (maximum density) at this dist" +
+        [FieldAttribute("opaque distance:world units#the fog becomes opaque (maximum density) at this dist" +
             "ance from the viewer", typeof(Single))]
         public Single OpaqueDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("opaque depth:world units#the fog becomes opaque at this distance below fog plane", typeof(Single))]
+        [FieldAttribute("opaque depth:world units#the fog becomes opaque at this distance below fog plane", typeof(Single))]
         public Single OpaqueDepth;
-        [Abide.Guerilla.Tags.FieldAttribute("eye offset scale:[-1,1]#negative numbers are bad, mmmkay?", typeof(Single))]
+        [FieldAttribute("eye offset scale:[-1,1]#negative numbers are bad, mmmkay?", typeof(Single))]
         public Single EyeOffsetScale;
-        [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorRgbF))]
-        public ColorRgbF Color1;
-        [Abide.Guerilla.Tags.FieldAttribute("patchy fog", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("planar_fog_patchy_fog_block", 1, typeof(PlanarFogPatchyFogBlock))]
+        [FieldAttribute("color", typeof(ColorRgbF))]
+        public ColorRgbF Color;
+        [FieldAttribute("patchy fog", typeof(TagBlock))]
+        [BlockAttribute("planar_fog_patchy_fog_block", 1, typeof(PlanarFogPatchyFogBlock))]
         public TagBlock PatchyFog;
-        [Abide.Guerilla.Tags.FieldAttribute("background sound", typeof(TagReference))]
+        [FieldAttribute("background sound", typeof(TagReference))]
         public TagReference BackgroundSound;
-        [Abide.Guerilla.Tags.FieldAttribute("sound environment", typeof(TagReference))]
+        [FieldAttribute("sound environment", typeof(TagReference))]
         public TagReference SoundEnvironment;
-        [Abide.Guerilla.Tags.FieldAttribute("environment damping factor#scales the surrounding background sound by this much", typeof(Single))]
+        [FieldAttribute("environment damping factor#scales the surrounding background sound by this much", typeof(Single))]
         public Single EnvironmentDampingFactor;
-        [Abide.Guerilla.Tags.FieldAttribute("background sound gain#scale for fog background sound", typeof(Single))]
+        [FieldAttribute("background sound gain#scale for fog background sound", typeof(Single))]
         public Single BackgroundSoundGain;
-        [Abide.Guerilla.Tags.FieldAttribute("enter sound", typeof(TagReference))]
+        [FieldAttribute("enter sound", typeof(TagReference))]
         public TagReference EnterSound;
-        [Abide.Guerilla.Tags.FieldAttribute("exit sound", typeof(TagReference))]
+        [FieldAttribute("exit sound", typeof(TagReference))]
         public TagReference ExitSound;
-        public int Size
+        public TagBlockList<PlanarFogPatchyFogBlock> PatchyFogList
+        {
+            get
+            {
+                return this.patchyFogList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 132;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.patchyFogList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.Priority = 0;
+            this.GlobalMaterialName = StringId.Zero;
+            this.EmptyString = new byte[2];
+            this.EmptyString1 = new byte[2];
+            this.MaximumDensity = 0;
+            this.OpaqueDistance = 0;
+            this.OpaqueDepth = 0;
+            this.EyeOffsetScale = 0;
+            this.Color = ColorRgbF.Zero;
+            this.PatchyFog = TagBlock.Zero;
+            this.BackgroundSound = TagReference.Null;
+            this.SoundEnvironment = TagReference.Null;
+            this.EnvironmentDampingFactor = 0;
+            this.BackgroundSoundGain = 0;
+            this.EnterSound = TagReference.Null;
+            this.ExitSound = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.Priority = reader.ReadInt16();
+            this.GlobalMaterialName = reader.ReadInt32();
+            this.EmptyString = reader.ReadBytes(2);
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.MaximumDensity = reader.ReadSingle();
+            this.OpaqueDistance = reader.ReadSingle();
+            this.OpaqueDepth = reader.ReadSingle();
+            this.EyeOffsetScale = reader.ReadSingle();
+            this.Color = reader.Read<ColorRgbF>();
+            this.PatchyFog = reader.ReadInt64();
+            this.patchyFogList.Read(reader, this.PatchyFog);
+            this.BackgroundSound = reader.Read<TagReference>();
+            this.SoundEnvironment = reader.Read<TagReference>();
+            this.EnvironmentDampingFactor = reader.ReadSingle();
+            this.BackgroundSoundGain = reader.ReadSingle();
+            this.EnterSound = reader.Read<TagReference>();
+            this.ExitSound = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(60, 4)]
+        public sealed class PlanarFogPatchyFogBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-        public sealed class PlanarFogPatchyFogBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorRgbF))]
+            [FieldAttribute("color", typeof(ColorRgbF))]
             public ColorRgbF Color;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(12)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(12)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("min depth fraction:[0,1]#in range (0,max_depth) world units, where patchy fog sta" +
+            [FieldAttribute("min depth fraction:[0,1]#in range (0,max_depth) world units, where patchy fog sta" +
                 "rts fading in", typeof(Single))]
             public Single MinDepthFraction;
-            [Abide.Guerilla.Tags.FieldAttribute("patchy fog", typeof(TagReference))]
+            [FieldAttribute("patchy fog", typeof(TagReference))]
             public TagReference PatchyFog;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 60;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Color = ColorRgbF.Zero;
+                this.EmptyString = new byte[12];
+                this.MinDepthFraction = 0;
+                this.PatchyFog = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Color = reader.Read<ColorRgbF>();
+                this.EmptyString = reader.ReadBytes(12);
+                this.MinDepthFraction = reader.ReadSingle();
+                this.PatchyFog = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             RenderOnlySubmergedGeometry = 1,
             ExtendInfinitelyWhileVisible = 2,

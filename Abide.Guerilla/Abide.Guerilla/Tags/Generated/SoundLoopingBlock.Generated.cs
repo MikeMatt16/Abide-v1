@@ -14,102 +14,169 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_looping", 1819504228u, 4294967293u, typeof(SoundLoopingBlock))]
-    public sealed class SoundLoopingBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("sound_looping", 1819504228u, 4294967293u, typeof(SoundLoopingBlock))]
+    public sealed class SoundLoopingBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("marty\'s music time: seconds", typeof(Single))]
+        private TagBlockList<LoopingSoundTrackBlock> tracksList = new TagBlockList<LoopingSoundTrackBlock>(3);
+        private TagBlockList<LoopingSoundDetailBlock> detailSoundsList = new TagBlockList<LoopingSoundDetailBlock>(12);
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("marty\'s music time: seconds", typeof(Single))]
         public Single MartysMusicTime;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Single))]
+        [FieldAttribute("", typeof(Single))]
         public Single EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("tracks#tracks play in parallel and loop continuously for the duration of the loop" +
+        [FieldAttribute("tracks#tracks play in parallel and loop continuously for the duration of the loop" +
             "ing sound.", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("looping_sound_track_block", 3, typeof(LoopingSoundTrackBlock))]
+        [BlockAttribute("looping_sound_track_block", 3, typeof(LoopingSoundTrackBlock))]
         public TagBlock Tracks;
-        [Abide.Guerilla.Tags.FieldAttribute("detail sounds#detail sounds play at random throughout the duration of the looping" +
+        [FieldAttribute("detail sounds#detail sounds play at random throughout the duration of the looping" +
             " sound.", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("looping_sound_detail_block", 12, typeof(LoopingSoundDetailBlock))]
+        [BlockAttribute("looping_sound_detail_block", 12, typeof(LoopingSoundDetailBlock))]
         public TagBlock DetailSounds;
-        public int Size
+        public TagBlockList<LoopingSoundTrackBlock> TracksList
+        {
+            get
+            {
+                return this.tracksList;
+            }
+        }
+        public TagBlockList<LoopingSoundDetailBlock> DetailSoundsList
+        {
+            get
+            {
+                return this.detailSoundsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.tracksList.Clear();
+            this.detailSoundsList.Clear();
+            this.Flags = ((FlagsOptions)(0));
+            this.MartysMusicTime = 0;
+            this.EmptyString = 0;
+            this.EmptyString1 = new byte[8];
+            this.EmptyString2 = TagReference.Null;
+            this.Tracks = TagBlock.Zero;
+            this.DetailSounds = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.MartysMusicTime = reader.ReadSingle();
+            this.EmptyString = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(8);
+            this.EmptyString2 = reader.Read<TagReference>();
+            this.Tracks = reader.ReadInt64();
+            this.tracksList.Read(reader, this.Tracks);
+            this.DetailSounds = reader.ReadInt64();
+            this.detailSoundsList.Read(reader, this.DetailSounds);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(144, 4)]
+        public sealed class LoopingSoundTrackBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(144, 4)]
-        public sealed class LoopingSoundTrackBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(StringId))]
+            [FieldAttribute("name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("gain:dB", typeof(Single))]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("gain:dB", typeof(Single))]
             public Single Gain;
-            [Abide.Guerilla.Tags.FieldAttribute("fade in duration:seconds", typeof(Single))]
+            [FieldAttribute("fade in duration:seconds", typeof(Single))]
             public Single FadeInDuration;
-            [Abide.Guerilla.Tags.FieldAttribute("fade out duration:seconds", typeof(Single))]
+            [FieldAttribute("fade out duration:seconds", typeof(Single))]
             public Single FadeOutDuration;
-            [Abide.Guerilla.Tags.FieldAttribute("in", typeof(TagReference))]
+            [FieldAttribute("in", typeof(TagReference))]
             public TagReference In;
-            [Abide.Guerilla.Tags.FieldAttribute("loop", typeof(TagReference))]
+            [FieldAttribute("loop", typeof(TagReference))]
             public TagReference Loop;
-            [Abide.Guerilla.Tags.FieldAttribute("out", typeof(TagReference))]
+            [FieldAttribute("out", typeof(TagReference))]
             public TagReference Out;
-            [Abide.Guerilla.Tags.FieldAttribute("alt loop", typeof(TagReference))]
+            [FieldAttribute("alt loop", typeof(TagReference))]
             public TagReference AltLoop;
-            [Abide.Guerilla.Tags.FieldAttribute("alt out", typeof(TagReference))]
+            [FieldAttribute("alt out", typeof(TagReference))]
             public TagReference AltOut;
-            [Abide.Guerilla.Tags.FieldAttribute("output effect", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(OutputEffectOptions), false)]
-            public Int16 OutputEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("alt trans in", typeof(TagReference))]
+            [FieldAttribute("output effect", typeof(OutputEffectOptions))]
+            [OptionsAttribute(typeof(OutputEffectOptions), false)]
+            public OutputEffectOptions OutputEffect;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString;
+            [FieldAttribute("alt trans in", typeof(TagReference))]
             public TagReference AltTransIn;
-            [Abide.Guerilla.Tags.FieldAttribute("alt trans out", typeof(TagReference))]
+            [FieldAttribute("alt trans out", typeof(TagReference))]
             public TagReference AltTransOut;
-            [Abide.Guerilla.Tags.FieldAttribute("alt crossfade duration:seconds", typeof(Single))]
+            [FieldAttribute("alt crossfade duration:seconds", typeof(Single))]
             public Single AltCrossfadeDuration;
-            [Abide.Guerilla.Tags.FieldAttribute("alt fade out duration:seconds", typeof(Single))]
+            [FieldAttribute("alt fade out duration:seconds", typeof(Single))]
             public Single AltFadeOutDuration;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 144;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = StringId.Zero;
+                this.Flags = ((FlagsOptions)(0));
+                this.Gain = 0;
+                this.FadeInDuration = 0;
+                this.FadeOutDuration = 0;
+                this.In = TagReference.Null;
+                this.Loop = TagReference.Null;
+                this.Out = TagReference.Null;
+                this.AltLoop = TagReference.Null;
+                this.AltOut = TagReference.Null;
+                this.OutputEffect = ((OutputEffectOptions)(0));
+                this.EmptyString = new byte[2];
+                this.AltTransIn = TagReference.Null;
+                this.AltTransOut = TagReference.Null;
+                this.AltCrossfadeDuration = 0;
+                this.AltFadeOutDuration = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.Gain = reader.ReadSingle();
+                this.FadeInDuration = reader.ReadSingle();
+                this.FadeOutDuration = reader.ReadSingle();
+                this.In = reader.Read<TagReference>();
+                this.Loop = reader.Read<TagReference>();
+                this.Out = reader.Read<TagReference>();
+                this.AltLoop = reader.Read<TagReference>();
+                this.AltOut = reader.Read<TagReference>();
+                this.OutputEffect = ((OutputEffectOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.AltTransIn = reader.Read<TagReference>();
+                this.AltTransOut = reader.Read<TagReference>();
+                this.AltCrossfadeDuration = reader.ReadSingle();
+                this.AltFadeOutDuration = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 FadeInAtStart = 1,
                 FadeOutAtStop = 2,
@@ -117,7 +184,7 @@ namespace Abide.Guerilla.Tags
                 MasterSurroundSoundTrack = 8,
                 FadeOutAtAltStop = 16,
             }
-            public enum OutputEffectOptions
+            public enum OutputEffectOptions : Int16
             {
                 None = 0,
                 OutputFrontSpeakers = 1,
@@ -125,42 +192,50 @@ namespace Abide.Guerilla.Tags
                 OutputCenterSpeakers = 3,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-        public sealed class LoopingSoundDetailBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(60, 4)]
+        public sealed class LoopingSoundDetailBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(StringId))]
+            [FieldAttribute("name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("sound", typeof(TagReference))]
+            [FieldAttribute("sound", typeof(TagReference))]
             public TagReference Sound;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Single))]
+            [FieldAttribute("", typeof(Single))]
             public Single EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            public int Size
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            public override int Size
             {
                 get
                 {
                     return 60;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.Name = StringId.Zero;
+                this.Sound = TagReference.Null;
+                this.EmptyString = 0;
+                this.Flags = ((FlagsOptions)(0));
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.Sound = reader.Read<TagReference>();
+                this.EmptyString = reader.ReadSingle();
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 DontPlayWithAlternate = 1,
                 DontPlayWithoutAlternate = 2,
                 StartImmediatelyWithLoop = 4,
             }
         }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             DeafeningToAis = 1,
             NotALoop = 2,

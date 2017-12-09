@@ -1,17 +1,165 @@
-﻿using Abide.Guerilla.Tags;
-using Abide.HaloLibrary;
+﻿using Abide.HaloLibrary;
+using Abide.HaloLibrary.Halo2Map;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using static Abide.HaloLibrary.Halo2Map.MapFile;
 
 namespace Abide.Guerilla.Tags
 {
+    /// <summary>
+    /// Represents an Abide tag block.
+    /// </summary>
+    public abstract class AbideTagBlock : IDataStructure, IWritable, IReadable
+    {
+        /// <summary>
+        /// Gets or sets the string list.
+        /// </summary>
+        public StringList StringList { get => stringList; set => stringList = value; }
+        /// <summary>
+        /// Gets or sets the tag list.
+        /// </summary>
+        public IndexEntryList TagList { get => indexEntryList; set => indexEntryList = value; }
+
+        private StringList stringList = new StringList();
+        private IndexEntryList indexEntryList = new IndexEntryList();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbideTagBlock"/> class.
+        /// </summary>
+        public AbideTagBlock() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbideTagBlock"/> class using the supplied string list and index entry list.
+        /// </summary>
+        /// <param name="stringList">The list of strings.</param>
+        /// <param name="indexEntryList">The list of index entries.</param>
+        public AbideTagBlock(StringList stringList, IndexEntryList indexEntryList)
+        {
+            this.stringList = stringList;
+            this.indexEntryList = indexEntryList;
+        }
+
+        /// <summary>
+        /// Gets the size of the tag block in bytes.
+        /// </summary>
+        public abstract int Size { get; }
+        /// <summary>
+        /// Initializes the tag block.
+        /// </summary>
+        public abstract void Initialize();
+        /// <summary>
+        /// Reads the tag block from the base stream of the supplied <see cref="BinaryReader"/>.
+        /// </summary>
+        /// <param name="reader">The binary reader whose underlying stream is to have the data structure read from.</param>
+        public abstract void Read(BinaryReader reader);
+        /// <summary>
+        /// Writes the tag block to the base stream of the supplied <see cref="BinaryWriter"/>.
+        /// </summary>
+        /// <param name="writer">The binary writer whose underlying stream is to have the data structure written to.</param>
+        public abstract void Write(BinaryWriter writer);
+        /// <summary>
+        /// Retrieves a string representation of this tag block.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            //Prepare
+            string name = base.ToString();
+            FieldAttribute fieldAttribute = null;
+
+            //Loop
+            foreach (var fieldInfo in GetType().GetFields())
+            {
+                //Get field attribute
+                fieldAttribute = fieldInfo.GetCustomAttribute<FieldAttribute>();
+
+                //Check
+                if (fieldAttribute != null)
+                {
+                    //Check if is block name
+                    if (fieldAttribute.Name.Contains("^"))
+                    {
+                        //Get value string
+                        object value = fieldInfo.GetValue(this);
+                        name = value.ToString();
+
+                        //Check
+                        if (fieldAttribute.Type == typeof(Types.TagReference) && indexEntryList.ContainsID(((Types.TagReference)value).Id))
+                            name = $"{indexEntryList[((Types.TagReference)value).Id].Filename}.{((Types.TagReference)value).Tag}";
+                        else if (fieldAttribute.Type == typeof(StringId) && stringList.Count > ((StringId)value).Index)
+                            name = stringList[((StringId)value).Index];
+                        else if (fieldAttribute.Type.IsEnum) name = Enum.GetName(fieldAttribute.Type, value);
+                        break;
+                    }
+                }
+            }
+
+            //Return
+            return name;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the specified tag block type.
+        /// </summary>
+        /// <typeparam name="T">The tag block type.</typeparam>
+        /// <param name="stringList">The list of strings in a Halo 2 map.</param>
+        /// <param name="indexEntryList">The list of index entries in a Halo 2 map.</param>
+        /// <returns>A new instance of <typeparamref name="T"/>.</returns>
+        public static T Instantiate<T>(StringList stringList, IndexEntryList indexEntryList) where T : AbideTagBlock, new()
+        {
+            //Create
+            T tagBlock = new T
+            {
+                stringList = stringList,
+                indexEntryList = indexEntryList
+            };
+
+            //Initialize
+            tagBlock.Initialize();
+
+            //Return
+            return tagBlock;
+        }
+        /// <summary>
+        /// Creates a new instance of the specified tag block type.
+        /// </summary>
+        /// <typeparam name="T">The tag block type.</typeparam>
+        /// <param name="mapFile">The Halo 2 map file.</param>
+        /// <returns>A new instance of <typeparamref name="T"/>.</returns>
+        public static T Instantiate<T>(MapFile mapFile) where T : AbideTagBlock, new()
+        {
+            //Create
+            T tagBlock = new T
+            {
+                stringList = mapFile.Strings,
+                indexEntryList = mapFile.IndexEntries
+            };
+
+            //Initialize
+            tagBlock.Initialize();
+
+            //Return
+            return tagBlock;
+        }
+    }
+
     /// <summary>
     /// Represents a base block list.
     /// </summary>
     /// <typeparam name="T">The block type.</typeparam>
     public abstract class BlockList<T> : ICollection<T>, IEnumerable<T>
     {
+        /// <summary>
+        /// Gets and returns the block at the given index within the list.
+        /// </summary>
+        /// <param name="index">The zero-based index of the block.</param>
+        /// <returns>A block.</returns>
+        public T this[int index]
+        {
+            get { if (index < 0 || index >= list.Count) throw new ArgumentOutOfRangeException(nameof(index)); return list[index]; }
+        }
         /// <summary>
         /// Determines whether the <see cref="BlockList{T}"/> is full.
         /// </summary>
@@ -160,8 +308,8 @@ namespace Abide.Guerilla.Tags
     /// <summary>
     /// Represents a tag block list.
     /// </summary>
-    /// <typeparam name="T">The <see cref="IDataStructure"/> type.</typeparam>
-    public sealed class TagBlockList<T> : BlockList<T> where T: IReadable, IWritable, IDataStructure, new()
+    /// <typeparam name="T">The <see cref="AbideTagBlock"/> type.</typeparam>
+    public sealed class TagBlockList<T> : BlockList<T> where T: AbideTagBlock, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagBlockList{T}"/>.
@@ -189,7 +337,17 @@ namespace Abide.Guerilla.Tags
 
                 //Read
                 for (int i = 0; i < tagBlock.Count; i++)
-                    Add(reader.ReadDataStructure<T>());
+                {
+                    //Create
+                    T block = new T();
+                    block.Initialize();
+
+                    //Read
+                    block.Read(reader);
+
+                    //Add
+                    Add(block);
+                }
             }
 
             //Goto

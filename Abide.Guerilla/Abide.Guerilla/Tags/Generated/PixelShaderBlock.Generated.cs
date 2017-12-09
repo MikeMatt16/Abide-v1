@@ -14,28 +14,45 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("pixel_shader", 1885960300u, 4294967293u, typeof(PixelShaderBlock))]
-    public sealed class PixelShaderBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(24, 4)]
+    [TagGroupAttribute("pixel_shader", 1885960300u, 4294967293u, typeof(PixelShaderBlock))]
+    public sealed class PixelShaderBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(4)]
+        private DataList compiledShaderList = new DataList(4096);
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(4)]
         public Byte[] EmptyString;
-        public int Size
+        [FieldAttribute("compiled_shader", typeof(TagBlock))]
+        [DataAttribute(4096)]
+        public TagBlock CompiledShader;
+        public DataList CompiledShaderList
+        {
+            get
+            {
+                return this.compiledShaderList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 24;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.compiledShaderList.Clear();
+            this.EmptyString = new byte[4];
+            this.CompiledShader = TagBlock.Zero;
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.EmptyString = reader.ReadBytes(4);
+            this.CompiledShader = reader.ReadInt64();
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

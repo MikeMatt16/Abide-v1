@@ -14,80 +14,115 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("scenario_decals_resource", 1684366122u, 4294967293u, typeof(ScenarioDecalsResourceBlock))]
-    public sealed class ScenarioDecalsResourceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(24, 4)]
+    [TagGroupAttribute("scenario_decals_resource", 1684366122u, 4294967293u, typeof(ScenarioDecalsResourceBlock))]
+    public sealed class ScenarioDecalsResourceBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("Palette", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_decal_palette_block", 128, typeof(ScenarioDecalPaletteBlock))]
+        private TagBlockList<ScenarioDecalPaletteBlock> paletteList = new TagBlockList<ScenarioDecalPaletteBlock>(128);
+        private TagBlockList<ScenarioDecalsBlock> decalsList = new TagBlockList<ScenarioDecalsBlock>(65536);
+        [FieldAttribute("Palette", typeof(TagBlock))]
+        [BlockAttribute("scenario_decal_palette_block", 128, typeof(ScenarioDecalPaletteBlock))]
         public TagBlock Palette;
-        [Abide.Guerilla.Tags.FieldAttribute("Decals", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("scenario_decals_block", 65536, typeof(ScenarioDecalsBlock))]
+        [FieldAttribute("Decals", typeof(TagBlock))]
+        [BlockAttribute("scenario_decals_block", 65536, typeof(ScenarioDecalsBlock))]
         public TagBlock Decals;
-        public int Size
+        public TagBlockList<ScenarioDecalPaletteBlock> PaletteList
+        {
+            get
+            {
+                return this.paletteList;
+            }
+        }
+        public TagBlockList<ScenarioDecalsBlock> DecalsList
+        {
+            get
+            {
+                return this.decalsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 24;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.paletteList.Clear();
+            this.decalsList.Clear();
+            this.Palette = TagBlock.Zero;
+            this.Decals = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Palette = reader.ReadInt64();
+            this.paletteList.Read(reader, this.Palette);
+            this.Decals = reader.ReadInt64();
+            this.decalsList.Read(reader, this.Decals);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(16, 4)]
+        public sealed class ScenarioDecalPaletteBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class ScenarioDecalPaletteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("Reference^", typeof(TagReference))]
+            [FieldAttribute("Reference^", typeof(TagReference))]
             public TagReference Reference;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Reference = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Reference = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class ScenarioDecalsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class ScenarioDecalsBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("Decal Type^", typeof(Int16))]
+            [FieldAttribute("Decal Type^", typeof(Int16))]
             public Int16 DecalType;
-            [Abide.Guerilla.Tags.FieldAttribute("Yaw[-127,127]*", typeof(Byte))]
+            [FieldAttribute("Yaw[-127,127]*", typeof(Byte))]
             public Byte Yaw127127;
-            [Abide.Guerilla.Tags.FieldAttribute("Pitch[-127,127]*", typeof(Byte))]
+            [FieldAttribute("Pitch[-127,127]*", typeof(Byte))]
             public Byte Pitch127127;
-            [Abide.Guerilla.Tags.FieldAttribute("Position*", typeof(Vector3))]
+            [FieldAttribute("Position*", typeof(Vector3))]
             public Vector3 Position;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.DecalType = 0;
+                this.Yaw127127 = 0;
+                this.Pitch127127 = 0;
+                this.Position = Vector3.Zero;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.DecalType = reader.ReadInt16();
+                this.Yaw127127 = reader.ReadByte();
+                this.Pitch127127 = reader.ReadByte();
+                this.Position = reader.Read<Vector3>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

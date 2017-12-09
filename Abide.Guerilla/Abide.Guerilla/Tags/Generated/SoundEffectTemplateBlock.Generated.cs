@@ -14,321 +14,484 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_effect_template", 1013348414u, 4294967293u, typeof(SoundEffectTemplateBlock))]
-    public sealed class SoundEffectTemplateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(40, 4)]
+    [TagGroupAttribute("sound_effect_template", 1013348414u, 4294967293u, typeof(SoundEffectTemplateBlock))]
+    public sealed class SoundEffectTemplateBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("template collection", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("sound_effect_templates_block", 8, typeof(SoundEffectTemplatesBlock))]
+        private TagBlockList<SoundEffectTemplatesBlock> templateCollectionList = new TagBlockList<SoundEffectTemplatesBlock>(8);
+        private TagBlockList<SoundEffectTemplateAdditionalSoundInputBlock> additionalSoundInputsList = new TagBlockList<SoundEffectTemplateAdditionalSoundInputBlock>(1);
+        private TagBlockList<PlatformSoundEffectTemplateCollectionBlock> emptyStringList = new TagBlockList<PlatformSoundEffectTemplateCollectionBlock>(1);
+        [FieldAttribute("template collection", typeof(TagBlock))]
+        [BlockAttribute("sound_effect_templates_block", 8, typeof(SoundEffectTemplatesBlock))]
         public TagBlock TemplateCollection;
-        [Abide.Guerilla.Tags.FieldAttribute("input effect name", typeof(StringId))]
+        [FieldAttribute("input effect name", typeof(StringId))]
         public StringId InputEffectName;
-        [Abide.Guerilla.Tags.FieldAttribute("additional sound inputs", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("sound_effect_template_additional_sound_input_block", 1, typeof(SoundEffectTemplateAdditionalSoundInputBlock))]
+        [FieldAttribute("additional sound inputs", typeof(TagBlock))]
+        [BlockAttribute("sound_effect_template_additional_sound_input_block", 1, typeof(SoundEffectTemplateAdditionalSoundInputBlock))]
         public TagBlock AdditionalSoundInputs;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("platform_sound_effect_template_collection_block", 1, typeof(PlatformSoundEffectTemplateCollectionBlock))]
+        [FieldAttribute("", typeof(TagBlock))]
+        [BlockAttribute("platform_sound_effect_template_collection_block", 1, typeof(PlatformSoundEffectTemplateCollectionBlock))]
         public TagBlock EmptyString;
-        public int Size
+        public TagBlockList<SoundEffectTemplatesBlock> TemplateCollectionList
+        {
+            get
+            {
+                return this.templateCollectionList;
+            }
+        }
+        public TagBlockList<SoundEffectTemplateAdditionalSoundInputBlock> AdditionalSoundInputsList
+        {
+            get
+            {
+                return this.additionalSoundInputsList;
+            }
+        }
+        public TagBlockList<PlatformSoundEffectTemplateCollectionBlock> EmptyStringList
+        {
+            get
+            {
+                return this.emptyStringList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 40;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.templateCollectionList.Clear();
+            this.additionalSoundInputsList.Clear();
+            this.emptyStringList.Clear();
+            this.TemplateCollection = TagBlock.Zero;
+            this.InputEffectName = StringId.Zero;
+            this.AdditionalSoundInputs = TagBlock.Zero;
+            this.EmptyString = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.TemplateCollection = reader.ReadInt64();
+            this.templateCollectionList.Read(reader, this.TemplateCollection);
+            this.InputEffectName = reader.ReadInt32();
+            this.AdditionalSoundInputs = reader.ReadInt64();
+            this.additionalSoundInputsList.Read(reader, this.AdditionalSoundInputs);
+            this.EmptyString = reader.ReadInt64();
+            this.emptyStringList.Read(reader, this.EmptyString);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(44, 4)]
+        public sealed class SoundEffectTemplatesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(44, 4)]
-        public sealed class SoundEffectTemplatesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("dsp effect", typeof(StringId))]
+            private DataList explanationList = new DataList(65536);
+            private TagBlockList<SoundEffectTemplateParameterBlock> parametersList = new TagBlockList<SoundEffectTemplateParameterBlock>(128);
+            [FieldAttribute("dsp effect", typeof(StringId))]
             public StringId DspEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Int16))]
+            [FieldAttribute("explanation", typeof(TagBlock))]
+            [DataAttribute(65536)]
+            public TagBlock Explanation;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("", typeof(Int16))]
             public Int16 EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Int16))]
+            [FieldAttribute("", typeof(Int16))]
             public Int16 EmptyString1;
-            [Abide.Guerilla.Tags.FieldAttribute("parameters", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("sound_effect_template_parameter_block", 128, typeof(SoundEffectTemplateParameterBlock))]
+            [FieldAttribute("parameters", typeof(TagBlock))]
+            [BlockAttribute("sound_effect_template_parameter_block", 128, typeof(SoundEffectTemplateParameterBlock))]
             public TagBlock Parameters;
-            public int Size
+            public DataList ExplanationList
+            {
+                get
+                {
+                    return this.explanationList;
+                }
+            }
+            public TagBlockList<SoundEffectTemplateParameterBlock> ParametersList
+            {
+                get
+                {
+                    return this.parametersList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 44;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.explanationList.Clear();
+                this.parametersList.Clear();
+                this.DspEffect = StringId.Zero;
+                this.Explanation = TagBlock.Zero;
+                this.Flags = ((FlagsOptions)(0));
+                this.EmptyString = 0;
+                this.EmptyString1 = 0;
+                this.Parameters = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.DspEffect = reader.ReadInt32();
+                this.Explanation = reader.ReadInt64();
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.EmptyString = reader.ReadInt16();
+                this.EmptyString1 = reader.ReadInt16();
+                this.Parameters = reader.ReadInt64();
+                this.parametersList.Read(reader, this.Parameters);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(40, 4)]
+            public sealed class SoundEffectTemplateParameterBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(40, 4)]
-            public sealed class SoundEffectTemplateParameterBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("name", typeof(StringId))]
+                [FieldAttribute("name", typeof(StringId))]
                 public StringId Name;
-                [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-                public Int16 Type;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("hardware offset", typeof(Int32))]
+                [FieldAttribute("type", typeof(TypeOptions))]
+                [OptionsAttribute(typeof(TypeOptions), false)]
+                public TypeOptions Type;
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("hardware offset", typeof(Int32))]
                 public Int32 HardwareOffset;
-                [Abide.Guerilla.Tags.FieldAttribute("default enum integer value", typeof(Int32))]
+                [FieldAttribute("default enum integer value", typeof(Int32))]
                 public Int32 DefaultEnumIntegerValue;
-                [Abide.Guerilla.Tags.FieldAttribute("default scalar value", typeof(Single))]
+                [FieldAttribute("default scalar value", typeof(Single))]
                 public Single DefaultScalarValue;
-                [Abide.Guerilla.Tags.FieldAttribute("default function", typeof(MappingFunctionBlock))]
-                public MappingFunctionBlock DefaultFunction1;
-                [Abide.Guerilla.Tags.FieldAttribute("minimum scalar value", typeof(Single))]
+                [FieldAttribute("default function", typeof(MappingFunctionBlock))]
+                public MappingFunctionBlock DefaultFunction;
+                [FieldAttribute("minimum scalar value", typeof(Single))]
                 public Single MinimumScalarValue;
-                [Abide.Guerilla.Tags.FieldAttribute("maximum scalar value", typeof(Single))]
+                [FieldAttribute("maximum scalar value", typeof(Single))]
                 public Single MaximumScalarValue;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 40;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Name = StringId.Zero;
+                    this.Type = ((TypeOptions)(0));
+                    this.Flags = ((FlagsOptions)(0));
+                    this.HardwareOffset = 0;
+                    this.DefaultEnumIntegerValue = 0;
+                    this.DefaultScalarValue = 0;
+                    this.DefaultFunction = new MappingFunctionBlock();
+                    this.MinimumScalarValue = 0;
+                    this.MaximumScalarValue = 0;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Name = reader.ReadInt32();
+                    this.Type = ((TypeOptions)(reader.ReadInt16()));
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.HardwareOffset = reader.ReadInt32();
+                    this.DefaultEnumIntegerValue = reader.ReadInt32();
+                    this.DefaultScalarValue = reader.ReadSingle();
+                    this.DefaultFunction = reader.ReadDataStructure<MappingFunctionBlock>();
+                    this.MinimumScalarValue = reader.ReadSingle();
+                    this.MaximumScalarValue = reader.ReadSingle();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(12, 4)]
+                public sealed class MappingFunctionBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-                public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                    [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                    private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                    [FieldAttribute("data", typeof(TagBlock))]
+                    [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                     public TagBlock Data;
-                    public int Size
+                    public TagBlockList<ByteBlock> DataList
+                    {
+                        get
+                        {
+                            return this.dataList;
+                        }
+                    }
+                    public override int Size
                     {
                         get
                         {
                             return 12;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.dataList.Clear();
+                        this.Data = TagBlock.Zero;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.Data = reader.ReadInt64();
+                        this.dataList.Read(reader, this.Data);
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    [FieldSetAttribute(1, 4)]
+                    public sealed class ByteBlock : AbideTagBlock
                     {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                    public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                    {
-                        [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                        [FieldAttribute("Value", typeof(Byte))]
                         public Byte Value;
-                        public int Size
+                        public override int Size
                         {
                             get
                             {
                                 return 1;
                             }
                         }
-                        public void Initialize()
+                        public override void Initialize()
                         {
+                            this.Value = 0;
                         }
-                        public void Read(System.IO.BinaryReader reader)
+                        public override void Read(BinaryReader reader)
                         {
+                            this.Value = reader.ReadByte();
                         }
-                        public void Write(System.IO.BinaryWriter writer)
+                        public override void Write(BinaryWriter writer)
                         {
                         }
                     }
                 }
-                public enum TypeOptions
+                public enum TypeOptions : Int16
                 {
                     Integer = 0,
                     Real = 1,
                     FilterType = 2,
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     ExposeAsFunction = 1,
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 UseHighLevelParameters = 1,
                 CustomParameters = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class SoundEffectTemplateAdditionalSoundInputBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class SoundEffectTemplateAdditionalSoundInputBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("dsp effect", typeof(StringId))]
+            [FieldAttribute("dsp effect", typeof(StringId))]
             public StringId DspEffect;
-            [Abide.Guerilla.Tags.FieldAttribute("low frequency sound", typeof(MappingFunctionBlock))]
-            public MappingFunctionBlock LowFrequencySound1;
-            [Abide.Guerilla.Tags.FieldAttribute("time period: seconds", typeof(Single))]
+            [FieldAttribute("low frequency sound", typeof(MappingFunctionBlock))]
+            public MappingFunctionBlock LowFrequencySound;
+            [FieldAttribute("time period: seconds", typeof(Single))]
             public Single TimePeriod;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.DspEffect = StringId.Zero;
+                this.LowFrequencySound = new MappingFunctionBlock();
+                this.TimePeriod = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.DspEffect = reader.ReadInt32();
+                this.LowFrequencySound = reader.ReadDataStructure<MappingFunctionBlock>();
+                this.TimePeriod = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(12, 4)]
+            public sealed class MappingFunctionBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-            public sealed class MappingFunctionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("data", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
+                private TagBlockList<ByteBlock> dataList = new TagBlockList<ByteBlock>(1024);
+                [FieldAttribute("data", typeof(TagBlock))]
+                [BlockAttribute("byte_block", 1024, typeof(ByteBlock))]
                 public TagBlock Data;
-                public int Size
+                public TagBlockList<ByteBlock> DataList
+                {
+                    get
+                    {
+                        return this.dataList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 12;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.dataList.Clear();
+                    this.Data = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Data = reader.ReadInt64();
+                    this.dataList.Read(reader, this.Data);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(1, 4)]
+                public sealed class ByteBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(1, 4)]
-                public sealed class ByteBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("Value", typeof(Byte))]
+                    [FieldAttribute("Value", typeof(Byte))]
                     public Byte Value;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 1;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Value = 0;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Value = reader.ReadByte();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class PlatformSoundEffectTemplateCollectionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class PlatformSoundEffectTemplateCollectionBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("platform effect templates", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("platform_sound_effect_template_block", 8, typeof(PlatformSoundEffectTemplateBlock))]
+            private TagBlockList<PlatformSoundEffectTemplateBlock> platformEffectTemplatesList = new TagBlockList<PlatformSoundEffectTemplateBlock>(8);
+            [FieldAttribute("platform effect templates", typeof(TagBlock))]
+            [BlockAttribute("platform_sound_effect_template_block", 8, typeof(PlatformSoundEffectTemplateBlock))]
             public TagBlock PlatformEffectTemplates;
-            [Abide.Guerilla.Tags.FieldAttribute("input dsp effect name", typeof(StringId))]
+            [FieldAttribute("input dsp effect name", typeof(StringId))]
             public StringId InputDspEffectName;
-            public int Size
+            public TagBlockList<PlatformSoundEffectTemplateBlock> PlatformEffectTemplatesList
+            {
+                get
+                {
+                    return this.platformEffectTemplatesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.platformEffectTemplatesList.Clear();
+                this.PlatformEffectTemplates = TagBlock.Zero;
+                this.InputDspEffectName = StringId.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.PlatformEffectTemplates = reader.ReadInt64();
+                this.platformEffectTemplatesList.Read(reader, this.PlatformEffectTemplates);
+                this.InputDspEffectName = reader.ReadInt32();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(28, 4)]
+            public sealed class PlatformSoundEffectTemplateBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(28, 4)]
-            public sealed class PlatformSoundEffectTemplateBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("input dsp effect name", typeof(StringId))]
+                private TagBlockList<PlatformSoundEffectTemplateComponentBlock> componentsList = new TagBlockList<PlatformSoundEffectTemplateComponentBlock>(16);
+                [FieldAttribute("input dsp effect name", typeof(StringId))]
                 public StringId InputDspEffectName;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(12)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(12)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("components", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("platform_sound_effect_template_component_block", 16, typeof(PlatformSoundEffectTemplateComponentBlock))]
+                [FieldAttribute("components", typeof(TagBlock))]
+                [BlockAttribute("platform_sound_effect_template_component_block", 16, typeof(PlatformSoundEffectTemplateComponentBlock))]
                 public TagBlock Components;
-                public int Size
+                public TagBlockList<PlatformSoundEffectTemplateComponentBlock> ComponentsList
+                {
+                    get
+                    {
+                        return this.componentsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 28;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.componentsList.Clear();
+                    this.InputDspEffectName = StringId.Zero;
+                    this.EmptyString = new byte[12];
+                    this.Components = TagBlock.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.InputDspEffectName = reader.ReadInt32();
+                    this.EmptyString = reader.ReadBytes(12);
+                    this.Components = reader.ReadInt64();
+                    this.componentsList.Read(reader, this.Components);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(16, 4)]
+                public sealed class PlatformSoundEffectTemplateComponentBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-                public sealed class PlatformSoundEffectTemplateComponentBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("value type", typeof(Int32))]
-                    [Abide.Guerilla.Tags.OptionsAttribute(typeof(ValueTypeOptions), false)]
-                    public Int32 ValueType;
-                    [Abide.Guerilla.Tags.FieldAttribute("default value", typeof(Single))]
+                    [FieldAttribute("value type", typeof(ValueTypeOptions))]
+                    [OptionsAttribute(typeof(ValueTypeOptions), false)]
+                    public ValueTypeOptions ValueType;
+                    [FieldAttribute("default value", typeof(Single))]
                     public Single DefaultValue;
-                    [Abide.Guerilla.Tags.FieldAttribute("minimum value", typeof(Single))]
+                    [FieldAttribute("minimum value", typeof(Single))]
                     public Single MinimumValue;
-                    [Abide.Guerilla.Tags.FieldAttribute("maximum value", typeof(Single))]
+                    [FieldAttribute("maximum value", typeof(Single))]
                     public Single MaximumValue;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 16;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
+                    {
+                        this.ValueType = ((ValueTypeOptions)(0));
+                        this.DefaultValue = 0;
+                        this.MinimumValue = 0;
+                        this.MaximumValue = 0;
+                    }
+                    public override void Read(BinaryReader reader)
+                    {
+                        this.ValueType = ((ValueTypeOptions)(reader.ReadInt32()));
+                        this.DefaultValue = reader.ReadSingle();
+                        this.MinimumValue = reader.ReadSingle();
+                        this.MaximumValue = reader.ReadSingle();
+                    }
+                    public override void Write(BinaryWriter writer)
                     {
                     }
-                    public void Read(System.IO.BinaryReader reader)
-                    {
-                    }
-                    public void Write(System.IO.BinaryWriter writer)
-                    {
-                    }
-                    public enum ValueTypeOptions
+                    public enum ValueTypeOptions : Int32
                     {
                         Zero = 0,
                         Time = 1,

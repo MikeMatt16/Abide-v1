@@ -8,6 +8,12 @@ namespace Abide.Guerilla.Types
     public struct FloatRange : IEquatable<FloatRange>
     {
         /// <summary>
+        /// Represents a zero value float range.
+        /// This value is read-only.
+        /// </summary>
+        public static FloatRange Zero = new FloatRange() { from = 0, to = 0 };
+
+        /// <summary>
         /// Represents the lower end the boundaries.
         /// </summary>
         public float From

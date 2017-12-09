@@ -14,79 +14,114 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("ai_mission_dialogue", 1835297895u, 4294967293u, typeof(AiMissionDialogueBlock))]
-    public sealed class AiMissionDialogueBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("ai_mission_dialogue", 1835297895u, 4294967293u, typeof(AiMissionDialogueBlock))]
+    public sealed class AiMissionDialogueBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("lines", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("mission_dialogue_lines_block", 500, typeof(MissionDialogueLinesBlock))]
+        private TagBlockList<MissionDialogueLinesBlock> linesList = new TagBlockList<MissionDialogueLinesBlock>(500);
+        [FieldAttribute("lines", typeof(TagBlock))]
+        [BlockAttribute("mission_dialogue_lines_block", 500, typeof(MissionDialogueLinesBlock))]
         public TagBlock Lines;
-        public int Size
+        public TagBlockList<MissionDialogueLinesBlock> LinesList
+        {
+            get
+            {
+                return this.linesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.linesList.Clear();
+            this.Lines = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Lines = reader.ReadInt64();
+            this.linesList.Read(reader, this.Lines);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(20, 4)]
+        public sealed class MissionDialogueLinesBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class MissionDialogueLinesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("name^", typeof(StringId))]
+            private TagBlockList<MissionDialogueVariantsBlock> variantsList = new TagBlockList<MissionDialogueVariantsBlock>(10);
+            [FieldAttribute("name^", typeof(StringId))]
             public StringId Name;
-            [Abide.Guerilla.Tags.FieldAttribute("variants", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("mission_dialogue_variants_block", 10, typeof(MissionDialogueVariantsBlock))]
+            [FieldAttribute("variants", typeof(TagBlock))]
+            [BlockAttribute("mission_dialogue_variants_block", 10, typeof(MissionDialogueVariantsBlock))]
             public TagBlock Variants;
-            [Abide.Guerilla.Tags.FieldAttribute("default sound effect", typeof(StringId))]
+            [FieldAttribute("default sound effect", typeof(StringId))]
             public StringId DefaultSoundEffect;
-            public int Size
+            public TagBlockList<MissionDialogueVariantsBlock> VariantsList
+            {
+                get
+                {
+                    return this.variantsList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.variantsList.Clear();
+                this.Name = StringId.Zero;
+                this.Variants = TagBlock.Zero;
+                this.DefaultSoundEffect = StringId.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Name = reader.ReadInt32();
+                this.Variants = reader.ReadInt64();
+                this.variantsList.Read(reader, this.Variants);
+                this.DefaultSoundEffect = reader.ReadInt32();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(24, 4)]
+            public sealed class MissionDialogueVariantsBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class MissionDialogueVariantsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("variant designation#3-letter designation for the character^", typeof(StringId))]
+                [FieldAttribute("variant designation#3-letter designation for the character^", typeof(StringId))]
                 public StringId VariantDesignation;
-                [Abide.Guerilla.Tags.FieldAttribute("sound", typeof(TagReference))]
+                [FieldAttribute("sound", typeof(TagReference))]
                 public TagReference Sound;
-                [Abide.Guerilla.Tags.FieldAttribute("sound effect", typeof(StringId))]
+                [FieldAttribute("sound effect", typeof(StringId))]
                 public StringId SoundEffect;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.VariantDesignation = StringId.Zero;
+                    this.Sound = TagReference.Null;
+                    this.SoundEffect = StringId.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.VariantDesignation = reader.ReadInt32();
+                    this.Sound = reader.Read<TagReference>();
+                    this.SoundEffect = reader.ReadInt32();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }

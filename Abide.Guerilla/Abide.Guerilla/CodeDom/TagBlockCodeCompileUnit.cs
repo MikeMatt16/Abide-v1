@@ -27,6 +27,7 @@ namespace Abide.Guerilla.CodeDom
         }
 
         private const string SystemNamespace = "System";
+        private const string IONamespace = "System.IO";
         private const string TagsNamespace = "Abide.Guerilla.Tags";
         private const string TypesNamespace = "Abide.Guerilla.Types";
         private const string HaloLibraryNamespace = "Abide.HaloLibrary";
@@ -52,6 +53,7 @@ namespace Abide.Guerilla.CodeDom
             tagsCodeNamespace.Imports.Add(new CodeNamespaceImport(TypesNamespace));
             tagsCodeNamespace.Imports.Add(new CodeNamespaceImport(HaloLibraryNamespace));
             tagsCodeNamespace.Imports.Add(new CodeNamespaceImport(SystemNamespace));
+            tagsCodeNamespace.Imports.Add(new CodeNamespaceImport(IONamespace));
 
             //Get valid name
             blockName = tagBlockDefinition.Name.ToPascalCasedMember(membersList);
@@ -59,55 +61,25 @@ namespace Abide.Guerilla.CodeDom
             blockNameDictionary.Add(tagBlockDefinition, blockName);
 
             //Create declaration
-            tagBlockCodeTypeDeclaration = new CodeFieldsContainerTypeDeclaration(guerilla, blockName, tagBlockDefinition.GetLatestFieldDefinitions());
-            tagBlockCodeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(Tags.IReadable)));
-            tagBlockCodeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(Tags.IWritable)));
-            tagBlockCodeTypeDeclaration.TypeAttributes = System.Reflection.TypeAttributes.Public | System.Reflection.TypeAttributes.Sealed;
-            tagBlockCodeTypeDeclaration.IsClass = true;
+            tagBlockCodeTypeDeclaration = new CodeFieldsContainerTypeDeclaration(guerilla, blockName, tagBlockDefinition.GetLatestFieldDefinitions())
+            {
+                TypeAttributes = System.Reflection.TypeAttributes.Public | System.Reflection.TypeAttributes.Sealed,
+                IsClass = true
+            };
+            tagBlockCodeTypeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(Tags.AbideTagBlock).Name));
 
             //Create Size property
             CodeMemberProperty sizeCodeMemberProperty = new CodeMemberProperty
             {
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                Attributes = MemberAttributes.Public | MemberAttributes.Override,
                 Name = "Size",
                 Type = new CodeTypeReference(typeof(int))
             };
             sizeCodeMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagBlockDefinition.GetLatestFieldSet().Size)));
-
-            //Create Initialize method
-            CodeMemberMethod initializeCodeMethod = new CodeMemberMethod
-            {
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = "Initialize",
-                ReturnType = new CodeTypeReference(typeof(void))
-            };
-
-            //Create Read method
-            CodeMemberMethod readCodeMemberMethod = new CodeMemberMethod
-            {
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = "Read",
-                ReturnType = new CodeTypeReference(typeof(void))
-            };
-            readCodeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(typeof(System.IO.BinaryReader)), "reader"));
-
-            //Create Write method
-            CodeMemberMethod writeCodeMemberMethod = new CodeMemberMethod
-            {
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = "Write",
-                ReturnType = new CodeTypeReference(typeof(void))
-            };
-            writeCodeMemberMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(typeof(System.IO.BinaryWriter)), "writer"));
-
-            //Add implemented members
             tagBlockCodeTypeDeclaration.Members.Add(sizeCodeMemberProperty);
-            tagBlockCodeTypeDeclaration.Members.Add(initializeCodeMethod);
-            tagBlockCodeTypeDeclaration.Members.Add(readCodeMemberMethod);
-            tagBlockCodeTypeDeclaration.Members.Add(writeCodeMemberMethod);
 
             //Create field set attribute
-            CodeAttributeDeclaration fieldSetCodeAttributeDeclaration = new CodeAttributeDeclaration(new CodeTypeReference(typeof(Tags.FieldSetAttribute)));
+            CodeAttributeDeclaration fieldSetCodeAttributeDeclaration = new CodeAttributeDeclaration(new CodeAttributeTypeReference<Tags.FieldSetAttribute>());
             fieldSetCodeAttributeDeclaration.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(tagBlockDefinition.GetLatestFieldSet().Size)));
             fieldSetCodeAttributeDeclaration.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(tagBlockDefinition.GetLatestFieldSet().Alignment)));
             

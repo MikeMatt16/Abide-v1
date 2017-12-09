@@ -14,91 +14,148 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(128, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("hud_message_text", 1752003616u, 4294967293u, typeof(HudMessageTextBlock))]
-    public sealed class HudMessageTextBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(128, 4)]
+    [TagGroupAttribute("hud_message_text", 1752003616u, 4294967293u, typeof(HudMessageTextBlock))]
+    public sealed class HudMessageTextBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("message elements*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("hud_message_elements_block", 8192, typeof(HudMessageElementsBlock))]
+        private DataList textDataList = new DataList(65536);
+        private TagBlockList<HudMessageElementsBlock> messageElementsList = new TagBlockList<HudMessageElementsBlock>(8192);
+        private TagBlockList<HudMessagesBlock> messagesList = new TagBlockList<HudMessagesBlock>(1024);
+        [FieldAttribute("text data*", typeof(TagBlock))]
+        [DataAttribute(65536)]
+        public TagBlock TextData;
+        [FieldAttribute("message elements*", typeof(TagBlock))]
+        [BlockAttribute("hud_message_elements_block", 8192, typeof(HudMessageElementsBlock))]
         public TagBlock MessageElements;
-        [Abide.Guerilla.Tags.FieldAttribute("messages*", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("hud_messages_block", 1024, typeof(HudMessagesBlock))]
+        [FieldAttribute("messages*", typeof(TagBlock))]
+        [BlockAttribute("hud_messages_block", 1024, typeof(HudMessagesBlock))]
         public TagBlock Messages;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(84)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(84)]
         public Byte[] EmptyString;
-        public int Size
+        public DataList TextDataList
+        {
+            get
+            {
+                return this.textDataList;
+            }
+        }
+        public TagBlockList<HudMessageElementsBlock> MessageElementsList
+        {
+            get
+            {
+                return this.messageElementsList;
+            }
+        }
+        public TagBlockList<HudMessagesBlock> MessagesList
+        {
+            get
+            {
+                return this.messagesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 128;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.textDataList.Clear();
+            this.messageElementsList.Clear();
+            this.messagesList.Clear();
+            this.TextData = TagBlock.Zero;
+            this.MessageElements = TagBlock.Zero;
+            this.Messages = TagBlock.Zero;
+            this.EmptyString = new byte[84];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.TextData = reader.ReadInt64();
+            this.MessageElements = reader.ReadInt64();
+            this.messageElementsList.Read(reader, this.MessageElements);
+            this.Messages = reader.ReadInt64();
+            this.messagesList.Read(reader, this.Messages);
+            this.EmptyString = reader.ReadBytes(84);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(2, 4)]
+        public sealed class HudMessageElementsBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(2, 4)]
-        public sealed class HudMessageElementsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("type*", typeof(Byte))]
+            [FieldAttribute("type*", typeof(Byte))]
             public Byte Type;
-            [Abide.Guerilla.Tags.FieldAttribute("data*", typeof(Byte))]
+            [FieldAttribute("data*", typeof(Byte))]
             public Byte Data;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 2;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Type = 0;
+                this.Data = 0;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Type = reader.ReadByte();
+                this.Data = reader.ReadByte();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-        public sealed class HudMessagesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(64, 4)]
+        public sealed class HudMessagesBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("name*", typeof(String32))]
+            [FieldAttribute("name*", typeof(String32))]
             public String32 Name;
-            [Abide.Guerilla.Tags.FieldAttribute("start index into text blob*", typeof(Int16))]
+            [FieldAttribute("start index into text blob*", typeof(Int16))]
             public Int16 StartIndexIntoTextBlob;
-            [Abide.Guerilla.Tags.FieldAttribute("start index of message block*", typeof(Int16))]
+            [FieldAttribute("start index of message block*", typeof(Int16))]
             public Int16 StartIndexOfMessageBlock;
-            [Abide.Guerilla.Tags.FieldAttribute("panel count*", typeof(Byte))]
+            [FieldAttribute("panel count*", typeof(Byte))]
             public Byte PanelCount;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(3)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(3)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(24)]
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(24)]
             public Byte[] EmptyString1;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 64;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.Name = String32.Empty;
+                this.StartIndexIntoTextBlob = 0;
+                this.StartIndexOfMessageBlock = 0;
+                this.PanelCount = 0;
+                this.EmptyString = new byte[3];
+                this.EmptyString1 = new byte[24];
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.Name = reader.Read<String32>();
+                this.StartIndexIntoTextBlob = reader.ReadInt16();
+                this.StartIndexOfMessageBlock = reader.ReadInt16();
+                this.PanelCount = reader.ReadByte();
+                this.EmptyString = reader.ReadBytes(3);
+                this.EmptyString1 = reader.ReadBytes(24);
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

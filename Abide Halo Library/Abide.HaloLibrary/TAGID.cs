@@ -11,6 +11,7 @@ namespace Abide.HaloLibrary
     {
         /// <summary>
         /// Represents a null tag id.
+        /// This value is read-only.
         /// </summary>
         public static readonly TagId Null = new TagId(-1);
 

@@ -14,105 +14,164 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(12, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("sound_classes", 1936614252u, 4294967293u, typeof(SoundClassesBlock))]
-    public sealed class SoundClassesBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(12, 4)]
+    [TagGroupAttribute("sound_classes", 1936614252u, 4294967293u, typeof(SoundClassesBlock))]
+    public sealed class SoundClassesBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("sound classes", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("sound_class_block", 54, typeof(SoundClassBlock))]
+        private TagBlockList<SoundClassBlock> soundClassesList = new TagBlockList<SoundClassBlock>(54);
+        [FieldAttribute("sound classes", typeof(TagBlock))]
+        [BlockAttribute("sound_class_block", 54, typeof(SoundClassBlock))]
         public TagBlock SoundClasses;
-        public int Size
+        public TagBlockList<SoundClassBlock> SoundClassesList
+        {
+            get
+            {
+                return this.soundClassesList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 12;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.soundClassesList.Clear();
+            this.SoundClasses = TagBlock.Zero;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.SoundClasses = reader.ReadInt64();
+            this.soundClassesList.Read(reader, this.SoundClasses);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(92, 4)]
+        public sealed class SoundClassBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(92, 4)]
-        public sealed class SoundClassBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("max sounds per tag [1,16]#maximum number of sounds playing per individual sound t" +
+            [FieldAttribute("max sounds per tag [1,16]#maximum number of sounds playing per individual sound t" +
                 "ag", typeof(Int16))]
             public Int16 MaxSoundsPerTag116;
-            [Abide.Guerilla.Tags.FieldAttribute("max sounds per object [1,16]#maximum number of sounds of this type playing on an " +
+            [FieldAttribute("max sounds per object [1,16]#maximum number of sounds of this type playing on an " +
                 "object", typeof(Int16))]
             public Int16 MaxSoundsPerObject116;
-            [Abide.Guerilla.Tags.FieldAttribute("preemption time:ms#replaces other instances after this many milliseconds", typeof(Int32))]
+            [FieldAttribute("preemption time:ms#replaces other instances after this many milliseconds", typeof(Int32))]
             public Int32 PreemptionTime;
-            [Abide.Guerilla.Tags.FieldAttribute("internal flags*", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(InternalFlagsOptions), true)]
-            public Int16 InternalFlags;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("priority*", typeof(Int16))]
+            [FieldAttribute("internal flags*", typeof(InternalFlagsOptions))]
+            [OptionsAttribute(typeof(InternalFlagsOptions), true)]
+            public InternalFlagsOptions InternalFlags;
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("priority*", typeof(Int16))]
             public Int16 Priority;
-            [Abide.Guerilla.Tags.FieldAttribute("cache miss mode*", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(CacheMissModeOptions), false)]
-            public Int16 CacheMissMode;
-            [Abide.Guerilla.Tags.FieldAttribute("reverb gain:dB#how much reverb applies to this sound class", typeof(Single))]
+            [FieldAttribute("cache miss mode*", typeof(CacheMissModeOptions))]
+            [OptionsAttribute(typeof(CacheMissModeOptions), false)]
+            public CacheMissModeOptions CacheMissMode;
+            [FieldAttribute("reverb gain:dB#how much reverb applies to this sound class", typeof(Single))]
             public Single ReverbGain;
-            [Abide.Guerilla.Tags.FieldAttribute("override speaker gain:dB", typeof(Single))]
+            [FieldAttribute("override speaker gain:dB", typeof(Single))]
             public Single OverrideSpeakerGain;
-            [Abide.Guerilla.Tags.FieldAttribute("cutscene ducking:dB", typeof(Single))]
+            [FieldAttribute("cutscene ducking:dB", typeof(Single))]
             public Single CutsceneDucking;
-            [Abide.Guerilla.Tags.FieldAttribute("cutscene ducking fade in time:seconds", typeof(Single))]
+            [FieldAttribute("cutscene ducking fade in time:seconds", typeof(Single))]
             public Single CutsceneDuckingFadeInTime;
-            [Abide.Guerilla.Tags.FieldAttribute("cutscene ducking sustain time:seconds#how long this lasts after the cutscene ends" +
+            [FieldAttribute("cutscene ducking sustain time:seconds#how long this lasts after the cutscene ends" +
                 "", typeof(Single))]
             public Single CutsceneDuckingSustainTime;
-            [Abide.Guerilla.Tags.FieldAttribute("cutscene ducking fade out time:seconds", typeof(Single))]
+            [FieldAttribute("cutscene ducking fade out time:seconds", typeof(Single))]
             public Single CutsceneDuckingFadeOutTime;
-            [Abide.Guerilla.Tags.FieldAttribute("scripted dialog ducking:dB", typeof(Single))]
+            [FieldAttribute("scripted dialog ducking:dB", typeof(Single))]
             public Single ScriptedDialogDucking;
-            [Abide.Guerilla.Tags.FieldAttribute("scripted dialog ducking fade in time:seconds", typeof(Single))]
+            [FieldAttribute("scripted dialog ducking fade in time:seconds", typeof(Single))]
             public Single ScriptedDialogDuckingFadeInTime;
-            [Abide.Guerilla.Tags.FieldAttribute("scripted dialog ducking sustain time:seconds#how long this lasts after the script" +
+            [FieldAttribute("scripted dialog ducking sustain time:seconds#how long this lasts after the script" +
                 "ed dialog ends", typeof(Single))]
             public Single ScriptedDialogDuckingSustainTime;
-            [Abide.Guerilla.Tags.FieldAttribute("scripted dialog ducking fade out time:seconds", typeof(Single))]
+            [FieldAttribute("scripted dialog ducking fade out time:seconds", typeof(Single))]
             public Single ScriptedDialogDuckingFadeOutTime;
-            [Abide.Guerilla.Tags.FieldAttribute("doppler factor", typeof(Single))]
+            [FieldAttribute("doppler factor", typeof(Single))]
             public Single DopplerFactor;
-            [Abide.Guerilla.Tags.FieldAttribute("stereo playback type", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(StereoPlaybackTypeOptions), false)]
-            public Byte StereoPlaybackType;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(3)]
+            [FieldAttribute("stereo playback type", typeof(StereoPlaybackTypeOptions))]
+            [OptionsAttribute(typeof(StereoPlaybackTypeOptions), false)]
+            public StereoPlaybackTypeOptions StereoPlaybackType;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(3)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("transmission multiplier", typeof(Single))]
+            [FieldAttribute("transmission multiplier", typeof(Single))]
             public Single TransmissionMultiplier;
-            [Abide.Guerilla.Tags.FieldAttribute("obstruction max bend", typeof(Single))]
+            [FieldAttribute("obstruction max bend", typeof(Single))]
             public Single ObstructionMaxBend;
-            [Abide.Guerilla.Tags.FieldAttribute("occlusion max bend", typeof(Single))]
+            [FieldAttribute("occlusion max bend", typeof(Single))]
             public Single OcclusionMaxBend;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 92;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.MaxSoundsPerTag116 = 0;
+                this.MaxSoundsPerObject116 = 0;
+                this.PreemptionTime = 0;
+                this.InternalFlags = ((InternalFlagsOptions)(0));
+                this.Flags = ((FlagsOptions)(0));
+                this.Priority = 0;
+                this.CacheMissMode = ((CacheMissModeOptions)(0));
+                this.ReverbGain = 0;
+                this.OverrideSpeakerGain = 0;
+                this.CutsceneDucking = 0;
+                this.CutsceneDuckingFadeInTime = 0;
+                this.CutsceneDuckingSustainTime = 0;
+                this.CutsceneDuckingFadeOutTime = 0;
+                this.ScriptedDialogDucking = 0;
+                this.ScriptedDialogDuckingFadeInTime = 0;
+                this.ScriptedDialogDuckingSustainTime = 0;
+                this.ScriptedDialogDuckingFadeOutTime = 0;
+                this.DopplerFactor = 0;
+                this.StereoPlaybackType = ((StereoPlaybackTypeOptions)(0));
+                this.EmptyString = new byte[3];
+                this.TransmissionMultiplier = 0;
+                this.ObstructionMaxBend = 0;
+                this.OcclusionMaxBend = 0;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.MaxSoundsPerTag116 = reader.ReadInt16();
+                this.MaxSoundsPerObject116 = reader.ReadInt16();
+                this.PreemptionTime = reader.ReadInt32();
+                this.InternalFlags = ((InternalFlagsOptions)(reader.ReadInt16()));
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.Priority = reader.ReadInt16();
+                this.CacheMissMode = ((CacheMissModeOptions)(reader.ReadInt16()));
+                this.ReverbGain = reader.ReadSingle();
+                this.OverrideSpeakerGain = reader.ReadSingle();
+                this.CutsceneDucking = reader.ReadSingle();
+                this.CutsceneDuckingFadeInTime = reader.ReadSingle();
+                this.CutsceneDuckingSustainTime = reader.ReadSingle();
+                this.CutsceneDuckingFadeOutTime = reader.ReadSingle();
+                this.ScriptedDialogDucking = reader.ReadSingle();
+                this.ScriptedDialogDuckingFadeInTime = reader.ReadSingle();
+                this.ScriptedDialogDuckingSustainTime = reader.ReadSingle();
+                this.ScriptedDialogDuckingFadeOutTime = reader.ReadSingle();
+                this.DopplerFactor = reader.ReadSingle();
+                this.StereoPlaybackType = ((StereoPlaybackTypeOptions)(reader.ReadByte()));
+                this.EmptyString = reader.ReadBytes(3);
+                this.TransmissionMultiplier = reader.ReadSingle();
+                this.ObstructionMaxBend = reader.ReadSingle();
+                this.OcclusionMaxBend = reader.ReadSingle();
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
-            {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            public enum InternalFlagsOptions
+            public enum InternalFlagsOptions : Int16
             {
                 Valid = 1,
                 IsSpeech = 2,
@@ -123,7 +182,7 @@ namespace Abide.Guerilla.Tags
                 ValidObstructionFactor = 64,
                 Multilingual = 128,
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 PlaysDuringPause = 1,
                 DryStereoMix = 2,
@@ -139,12 +198,12 @@ namespace Abide.Guerilla.Tags
                 StopWhenObjectDies = 2048,
                 AllowCacheFileEditing = 4096,
             }
-            public enum CacheMissModeOptions
+            public enum CacheMissModeOptions : Int16
             {
                 Discard = 0,
                 Postpone = 1,
             }
-            public enum StereoPlaybackTypeOptions
+            public enum StereoPlaybackTypeOptions : Byte
             {
                 FirstPerson = 0,
                 Ambient = 1,

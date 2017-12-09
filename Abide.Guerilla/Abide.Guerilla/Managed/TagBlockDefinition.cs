@@ -21,8 +21,8 @@ namespace Abide.Guerilla.Managed
         /// </summary>
         public int TagFieldSetLatestIndex
         {
-            get { return tagFieldSetLatestIndex; }
-            internal set { tagFieldSetLatestIndex = value; }
+            get { return fieldSetLatestAddress; }
+            internal set { fieldSetLatestAddress = value; }
         }
         /// <summary>
         /// Gets and returns this tag block definition's name.

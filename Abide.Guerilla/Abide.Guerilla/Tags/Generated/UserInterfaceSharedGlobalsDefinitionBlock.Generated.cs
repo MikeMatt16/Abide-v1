@@ -14,250 +14,477 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(652, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("user_interface_shared_globals_definition", 2003396460u, 4294967293u, typeof(UserInterfaceSharedGlobalsDefinitionBlock))]
-    public sealed class UserInterfaceSharedGlobalsDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(652, 4)]
+    [TagGroupAttribute("user_interface_shared_globals_definition", 2003396460u, 4294967293u, typeof(UserInterfaceSharedGlobalsDefinitionBlock))]
+    public sealed class UserInterfaceSharedGlobalsDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        private TagBlockList<UiErrorCategoryBlock> errorsList = new TagBlockList<UiErrorCategoryBlock>(100);
+        private TagBlockList<AnimationReferenceBlock> screenAnimationsList = new TagBlockList<AnimationReferenceBlock>(64);
+        private TagBlockList<ShapeGroupReferenceBlock> shapeGroupsList = new TagBlockList<ShapeGroupReferenceBlock>(64);
+        private TagBlockList<PersistentBackgroundAnimationBlock> animationsList = new TagBlockList<PersistentBackgroundAnimationBlock>(100);
+        private TagBlockList<ListSkinReferenceBlock> listItemSkinsList = new TagBlockList<ListSkinReferenceBlock>(32);
+        private TagBlockList<SkillToRankMappingBlock> skillMappingsList = new TagBlockList<SkillToRankMappingBlock>(65535);
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(2)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(2)]
         public Byte[] EmptyString1;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(16)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(16)]
         public Byte[] EmptyString2;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString3;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString4;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(16)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(16)]
         public Byte[] EmptyString5;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString6;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(8)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(8)]
         public Byte[] EmptyString7;
-        [Abide.Guerilla.Tags.FieldAttribute("overlayed screen alpha mod", typeof(Single))]
+        [FieldAttribute("overlayed screen alpha mod", typeof(Single))]
         public Single OverlayedScreenAlphaMod;
-        [Abide.Guerilla.Tags.FieldAttribute("inc. text update period:milliseconds", typeof(Int16))]
+        [FieldAttribute("inc. text update period:milliseconds", typeof(Int16))]
         public Int16 IncTextUpdatePeriod;
-        [Abide.Guerilla.Tags.FieldAttribute("inc. text block character:ASCII code", typeof(Int16))]
+        [FieldAttribute("inc. text block character:ASCII code", typeof(Int16))]
         public Int16 IncTextBlockCharacter;
-        [Abide.Guerilla.Tags.FieldAttribute("callout text scale", typeof(Single))]
+        [FieldAttribute("callout text scale", typeof(Single))]
         public Single CalloutTextScale;
-        [Abide.Guerilla.Tags.FieldAttribute("progress bar color", typeof(ColorArgbF))]
+        [FieldAttribute("progress bar color", typeof(ColorArgbF))]
         public ColorArgbF ProgressBarColor;
-        [Abide.Guerilla.Tags.FieldAttribute("near clip plane distance:objects closer than this are not drawn", typeof(Single))]
+        [FieldAttribute("near clip plane distance:objects closer than this are not drawn", typeof(Single))]
         public Single NearClipPlaneDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("projection plane distance:distance at which objects are rendered when z=0 (normal" +
+        [FieldAttribute("projection plane distance:distance at which objects are rendered when z=0 (normal" +
             " size)", typeof(Single))]
         public Single ProjectionPlaneDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("far clip plane distance:objects farther than this are not drawn", typeof(Single))]
+        [FieldAttribute("far clip plane distance:objects farther than this are not drawn", typeof(Single))]
         public Single FarClipPlaneDistance;
-        [Abide.Guerilla.Tags.FieldAttribute("overlayed interface color", typeof(ColorArgbF))]
+        [FieldAttribute("overlayed interface color", typeof(ColorArgbF))]
         public ColorArgbF OverlayedInterfaceColor;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(12)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(12)]
         public Byte[] EmptyString8;
-        [Abide.Guerilla.Tags.FieldAttribute("errors", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("ui_error_category_block", 100, typeof(UiErrorCategoryBlock))]
+        [FieldAttribute("errors", typeof(TagBlock))]
+        [BlockAttribute("ui_error_category_block", 100, typeof(UiErrorCategoryBlock))]
         public TagBlock Errors;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag1;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag2;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag3;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag4;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag5;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag6;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag7;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag8;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag9;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag10;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString9;
-        [Abide.Guerilla.Tags.FieldAttribute("sound tag", typeof(TagReference))]
+        [FieldAttribute("sound tag", typeof(TagReference))]
         public TagReference SoundTag11;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString10;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString11;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString12;
-        [Abide.Guerilla.Tags.FieldAttribute("global bitmaps tag", typeof(TagReference))]
+        [FieldAttribute("global bitmaps tag", typeof(TagReference))]
         public TagReference GlobalBitmapsTag;
-        [Abide.Guerilla.Tags.FieldAttribute("unicode string list tag", typeof(TagReference))]
+        [FieldAttribute("unicode string list tag", typeof(TagReference))]
         public TagReference UnicodeStringListTag;
-        [Abide.Guerilla.Tags.FieldAttribute("screen animations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("animation_reference_block", 64, typeof(AnimationReferenceBlock))]
-        public TagBlock ScreenAnimations1;
-        [Abide.Guerilla.Tags.FieldAttribute("shape groups", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("shape_group_reference_block", 64, typeof(ShapeGroupReferenceBlock))]
+        [FieldAttribute("screen animations", typeof(TagBlock))]
+        [BlockAttribute("animation_reference_block", 64, typeof(AnimationReferenceBlock))]
+        public TagBlock ScreenAnimations;
+        [FieldAttribute("shape groups", typeof(TagBlock))]
+        [BlockAttribute("shape_group_reference_block", 64, typeof(ShapeGroupReferenceBlock))]
         public TagBlock ShapeGroups;
-        [Abide.Guerilla.Tags.FieldAttribute("animations", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("persistent_background_animation_block", 100, typeof(PersistentBackgroundAnimationBlock))]
+        [FieldAttribute("animations", typeof(TagBlock))]
+        [BlockAttribute("persistent_background_animation_block", 100, typeof(PersistentBackgroundAnimationBlock))]
         public TagBlock Animations;
-        [Abide.Guerilla.Tags.FieldAttribute("list item skins", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("list_skin_reference_block", 32, typeof(ListSkinReferenceBlock))]
+        [FieldAttribute("list item skins", typeof(TagBlock))]
+        [BlockAttribute("list_skin_reference_block", 32, typeof(ListSkinReferenceBlock))]
         public TagBlock ListItemSkins;
-        [Abide.Guerilla.Tags.FieldAttribute("button key type strings", typeof(TagReference))]
+        [FieldAttribute("button key type strings", typeof(TagReference))]
         public TagReference ButtonKeyTypeStrings;
-        [Abide.Guerilla.Tags.FieldAttribute("game type strings", typeof(TagReference))]
+        [FieldAttribute("game type strings", typeof(TagReference))]
         public TagReference GameTypeStrings;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(TagReference))]
+        [FieldAttribute("", typeof(TagReference))]
         public TagReference EmptyString13;
-        [Abide.Guerilla.Tags.FieldAttribute("skill mappings", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("skill_to_rank_mapping_block", 65535, typeof(SkillToRankMappingBlock))]
+        [FieldAttribute("skill mappings", typeof(TagBlock))]
+        [BlockAttribute("skill_to_rank_mapping_block", 65535, typeof(SkillToRankMappingBlock))]
         public TagBlock SkillMappings;
-        [Abide.Guerilla.Tags.FieldAttribute("full screen header text font", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FullScreenHeaderTextFontOptions), false)]
-        public Int16 FullScreenHeaderTextFont;
-        [Abide.Guerilla.Tags.FieldAttribute("large dialog header text font", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(LargeDialogHeaderTextFontOptions), false)]
-        public Int16 LargeDialogHeaderTextFont;
-        [Abide.Guerilla.Tags.FieldAttribute("half dialog header text font", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(HalfDialogHeaderTextFontOptions), false)]
-        public Int16 HalfDialogHeaderTextFont;
-        [Abide.Guerilla.Tags.FieldAttribute("qtr dialog header text font", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(QtrDialogHeaderTextFontOptions), false)]
-        public Int16 QtrDialogHeaderTextFont;
-        [Abide.Guerilla.Tags.FieldAttribute("default text color", typeof(ColorArgbF))]
+        [FieldAttribute("full screen header text font", typeof(FullScreenHeaderTextFontOptions))]
+        [OptionsAttribute(typeof(FullScreenHeaderTextFontOptions), false)]
+        public FullScreenHeaderTextFontOptions FullScreenHeaderTextFont;
+        [FieldAttribute("large dialog header text font", typeof(LargeDialogHeaderTextFontOptions))]
+        [OptionsAttribute(typeof(LargeDialogHeaderTextFontOptions), false)]
+        public LargeDialogHeaderTextFontOptions LargeDialogHeaderTextFont;
+        [FieldAttribute("half dialog header text font", typeof(HalfDialogHeaderTextFontOptions))]
+        [OptionsAttribute(typeof(HalfDialogHeaderTextFontOptions), false)]
+        public HalfDialogHeaderTextFontOptions HalfDialogHeaderTextFont;
+        [FieldAttribute("qtr dialog header text font", typeof(QtrDialogHeaderTextFontOptions))]
+        [OptionsAttribute(typeof(QtrDialogHeaderTextFontOptions), false)]
+        public QtrDialogHeaderTextFontOptions QtrDialogHeaderTextFont;
+        [FieldAttribute("default text color", typeof(ColorArgbF))]
         public ColorArgbF DefaultTextColor;
-        [Abide.Guerilla.Tags.FieldAttribute("full screen header text bounds", typeof(Vector2))]
+        [FieldAttribute("full screen header text bounds", typeof(Vector2))]
         public Vector2 FullScreenHeaderTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("full screen button key text bounds", typeof(Vector2))]
+        [FieldAttribute("full screen button key text bounds", typeof(Vector2))]
         public Vector2 FullScreenButtonKeyTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("large dialog header text bounds", typeof(Vector2))]
+        [FieldAttribute("large dialog header text bounds", typeof(Vector2))]
         public Vector2 LargeDialogHeaderTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("large dialog button key text bounds", typeof(Vector2))]
+        [FieldAttribute("large dialog button key text bounds", typeof(Vector2))]
         public Vector2 LargeDialogButtonKeyTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("half dialog header text bounds", typeof(Vector2))]
+        [FieldAttribute("half dialog header text bounds", typeof(Vector2))]
         public Vector2 HalfDialogHeaderTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("half dialog button key text bounds", typeof(Vector2))]
+        [FieldAttribute("half dialog button key text bounds", typeof(Vector2))]
         public Vector2 HalfDialogButtonKeyTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("qtr dialog header text bounds", typeof(Vector2))]
+        [FieldAttribute("qtr dialog header text bounds", typeof(Vector2))]
         public Vector2 QtrDialogHeaderTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("qtr dialog button key text bounds", typeof(Vector2))]
+        [FieldAttribute("qtr dialog button key text bounds", typeof(Vector2))]
         public Vector2 QtrDialogButtonKeyTextBounds;
-        [Abide.Guerilla.Tags.FieldAttribute("main menu music", typeof(TagReference))]
-        public TagReference MainMenuMusic1;
-        [Abide.Guerilla.Tags.FieldAttribute("music fade time:milliseconds", typeof(Int32))]
+        [FieldAttribute("main menu music", typeof(TagReference))]
+        public TagReference MainMenuMusic;
+        [FieldAttribute("music fade time:milliseconds", typeof(Int32))]
         public Int32 MusicFadeTime;
-        public int Size
+        public TagBlockList<UiErrorCategoryBlock> ErrorsList
+        {
+            get
+            {
+                return this.errorsList;
+            }
+        }
+        public TagBlockList<AnimationReferenceBlock> ScreenAnimationsList
+        {
+            get
+            {
+                return this.screenAnimationsList;
+            }
+        }
+        public TagBlockList<ShapeGroupReferenceBlock> ShapeGroupsList
+        {
+            get
+            {
+                return this.shapeGroupsList;
+            }
+        }
+        public TagBlockList<PersistentBackgroundAnimationBlock> AnimationsList
+        {
+            get
+            {
+                return this.animationsList;
+            }
+        }
+        public TagBlockList<ListSkinReferenceBlock> ListItemSkinsList
+        {
+            get
+            {
+                return this.listItemSkinsList;
+            }
+        }
+        public TagBlockList<SkillToRankMappingBlock> SkillMappingsList
+        {
+            get
+            {
+                return this.skillMappingsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 652;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.errorsList.Clear();
+            this.screenAnimationsList.Clear();
+            this.shapeGroupsList.Clear();
+            this.animationsList.Clear();
+            this.listItemSkinsList.Clear();
+            this.skillMappingsList.Clear();
+            this.EmptyString = new byte[2];
+            this.EmptyString1 = new byte[2];
+            this.EmptyString2 = new byte[16];
+            this.EmptyString3 = new byte[8];
+            this.EmptyString4 = new byte[8];
+            this.EmptyString5 = new byte[16];
+            this.EmptyString6 = new byte[8];
+            this.EmptyString7 = new byte[8];
+            this.OverlayedScreenAlphaMod = 0;
+            this.IncTextUpdatePeriod = 0;
+            this.IncTextBlockCharacter = 0;
+            this.CalloutTextScale = 0;
+            this.ProgressBarColor = ColorArgbF.Zero;
+            this.NearClipPlaneDistance = 0;
+            this.ProjectionPlaneDistance = 0;
+            this.FarClipPlaneDistance = 0;
+            this.OverlayedInterfaceColor = ColorArgbF.Zero;
+            this.EmptyString8 = new byte[12];
+            this.Errors = TagBlock.Zero;
+            this.SoundTag = TagReference.Null;
+            this.SoundTag1 = TagReference.Null;
+            this.SoundTag2 = TagReference.Null;
+            this.SoundTag3 = TagReference.Null;
+            this.SoundTag4 = TagReference.Null;
+            this.SoundTag5 = TagReference.Null;
+            this.SoundTag6 = TagReference.Null;
+            this.SoundTag7 = TagReference.Null;
+            this.SoundTag8 = TagReference.Null;
+            this.SoundTag9 = TagReference.Null;
+            this.SoundTag10 = TagReference.Null;
+            this.EmptyString9 = TagReference.Null;
+            this.SoundTag11 = TagReference.Null;
+            this.EmptyString10 = TagReference.Null;
+            this.EmptyString11 = TagReference.Null;
+            this.EmptyString12 = TagReference.Null;
+            this.GlobalBitmapsTag = TagReference.Null;
+            this.UnicodeStringListTag = TagReference.Null;
+            this.ScreenAnimations = TagBlock.Zero;
+            this.ShapeGroups = TagBlock.Zero;
+            this.Animations = TagBlock.Zero;
+            this.ListItemSkins = TagBlock.Zero;
+            this.ButtonKeyTypeStrings = TagReference.Null;
+            this.GameTypeStrings = TagReference.Null;
+            this.EmptyString13 = TagReference.Null;
+            this.SkillMappings = TagBlock.Zero;
+            this.FullScreenHeaderTextFont = ((FullScreenHeaderTextFontOptions)(0));
+            this.LargeDialogHeaderTextFont = ((LargeDialogHeaderTextFontOptions)(0));
+            this.HalfDialogHeaderTextFont = ((HalfDialogHeaderTextFontOptions)(0));
+            this.QtrDialogHeaderTextFont = ((QtrDialogHeaderTextFontOptions)(0));
+            this.DefaultTextColor = ColorArgbF.Zero;
+            this.FullScreenHeaderTextBounds = Vector2.Zero;
+            this.FullScreenButtonKeyTextBounds = Vector2.Zero;
+            this.LargeDialogHeaderTextBounds = Vector2.Zero;
+            this.LargeDialogButtonKeyTextBounds = Vector2.Zero;
+            this.HalfDialogHeaderTextBounds = Vector2.Zero;
+            this.HalfDialogButtonKeyTextBounds = Vector2.Zero;
+            this.QtrDialogHeaderTextBounds = Vector2.Zero;
+            this.QtrDialogButtonKeyTextBounds = Vector2.Zero;
+            this.MainMenuMusic = TagReference.Null;
+            this.MusicFadeTime = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.EmptyString = reader.ReadBytes(2);
+            this.EmptyString1 = reader.ReadBytes(2);
+            this.EmptyString2 = reader.ReadBytes(16);
+            this.EmptyString3 = reader.ReadBytes(8);
+            this.EmptyString4 = reader.ReadBytes(8);
+            this.EmptyString5 = reader.ReadBytes(16);
+            this.EmptyString6 = reader.ReadBytes(8);
+            this.EmptyString7 = reader.ReadBytes(8);
+            this.OverlayedScreenAlphaMod = reader.ReadSingle();
+            this.IncTextUpdatePeriod = reader.ReadInt16();
+            this.IncTextBlockCharacter = reader.ReadInt16();
+            this.CalloutTextScale = reader.ReadSingle();
+            this.ProgressBarColor = reader.Read<ColorArgbF>();
+            this.NearClipPlaneDistance = reader.ReadSingle();
+            this.ProjectionPlaneDistance = reader.ReadSingle();
+            this.FarClipPlaneDistance = reader.ReadSingle();
+            this.OverlayedInterfaceColor = reader.Read<ColorArgbF>();
+            this.EmptyString8 = reader.ReadBytes(12);
+            this.Errors = reader.ReadInt64();
+            this.errorsList.Read(reader, this.Errors);
+            this.SoundTag = reader.Read<TagReference>();
+            this.SoundTag1 = reader.Read<TagReference>();
+            this.SoundTag2 = reader.Read<TagReference>();
+            this.SoundTag3 = reader.Read<TagReference>();
+            this.SoundTag4 = reader.Read<TagReference>();
+            this.SoundTag5 = reader.Read<TagReference>();
+            this.SoundTag6 = reader.Read<TagReference>();
+            this.SoundTag7 = reader.Read<TagReference>();
+            this.SoundTag8 = reader.Read<TagReference>();
+            this.SoundTag9 = reader.Read<TagReference>();
+            this.SoundTag10 = reader.Read<TagReference>();
+            this.EmptyString9 = reader.Read<TagReference>();
+            this.SoundTag11 = reader.Read<TagReference>();
+            this.EmptyString10 = reader.Read<TagReference>();
+            this.EmptyString11 = reader.Read<TagReference>();
+            this.EmptyString12 = reader.Read<TagReference>();
+            this.GlobalBitmapsTag = reader.Read<TagReference>();
+            this.UnicodeStringListTag = reader.Read<TagReference>();
+            this.ScreenAnimations = reader.ReadInt64();
+            this.screenAnimationsList.Read(reader, this.ScreenAnimations);
+            this.ShapeGroups = reader.ReadInt64();
+            this.shapeGroupsList.Read(reader, this.ShapeGroups);
+            this.Animations = reader.ReadInt64();
+            this.animationsList.Read(reader, this.Animations);
+            this.ListItemSkins = reader.ReadInt64();
+            this.listItemSkinsList.Read(reader, this.ListItemSkins);
+            this.ButtonKeyTypeStrings = reader.Read<TagReference>();
+            this.GameTypeStrings = reader.Read<TagReference>();
+            this.EmptyString13 = reader.Read<TagReference>();
+            this.SkillMappings = reader.ReadInt64();
+            this.skillMappingsList.Read(reader, this.SkillMappings);
+            this.FullScreenHeaderTextFont = ((FullScreenHeaderTextFontOptions)(reader.ReadInt16()));
+            this.LargeDialogHeaderTextFont = ((LargeDialogHeaderTextFontOptions)(reader.ReadInt16()));
+            this.HalfDialogHeaderTextFont = ((HalfDialogHeaderTextFontOptions)(reader.ReadInt16()));
+            this.QtrDialogHeaderTextFont = ((QtrDialogHeaderTextFontOptions)(reader.ReadInt16()));
+            this.DefaultTextColor = reader.Read<ColorArgbF>();
+            this.FullScreenHeaderTextBounds = reader.Read<Vector2>();
+            this.FullScreenButtonKeyTextBounds = reader.Read<Vector2>();
+            this.LargeDialogHeaderTextBounds = reader.Read<Vector2>();
+            this.LargeDialogButtonKeyTextBounds = reader.Read<Vector2>();
+            this.HalfDialogHeaderTextBounds = reader.Read<Vector2>();
+            this.HalfDialogButtonKeyTextBounds = reader.Read<Vector2>();
+            this.QtrDialogHeaderTextBounds = reader.Read<Vector2>();
+            this.QtrDialogButtonKeyTextBounds = reader.Read<Vector2>();
+            this.MainMenuMusic = reader.Read<TagReference>();
+            this.MusicFadeTime = reader.ReadInt32();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(52, 4)]
+        public sealed class UiErrorCategoryBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-        public sealed class UiErrorCategoryBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("category name^", typeof(StringId))]
+            private TagBlockList<UiErrorBlock> errorBlockList = new TagBlockList<UiErrorBlock>(100);
+            [FieldAttribute("category name^", typeof(StringId))]
             public StringId CategoryName;
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int16 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("default button", typeof(Byte))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(DefaultButtonOptions), false)]
-            public Byte DefaultButton;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(1)]
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("default button", typeof(DefaultButtonOptions))]
+            [OptionsAttribute(typeof(DefaultButtonOptions), false)]
+            public DefaultButtonOptions DefaultButton;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(1)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("string tag", typeof(TagReference))]
+            [FieldAttribute("string tag", typeof(TagReference))]
             public TagReference StringTag;
-            [Abide.Guerilla.Tags.FieldAttribute("default title", typeof(StringId))]
+            [FieldAttribute("default title", typeof(StringId))]
             public StringId DefaultTitle;
-            [Abide.Guerilla.Tags.FieldAttribute("default message", typeof(StringId))]
+            [FieldAttribute("default message", typeof(StringId))]
             public StringId DefaultMessage;
-            [Abide.Guerilla.Tags.FieldAttribute("default ok", typeof(StringId))]
+            [FieldAttribute("default ok", typeof(StringId))]
             public StringId DefaultOk;
-            [Abide.Guerilla.Tags.FieldAttribute("default cancel", typeof(StringId))]
+            [FieldAttribute("default cancel", typeof(StringId))]
             public StringId DefaultCancel;
-            [Abide.Guerilla.Tags.FieldAttribute("error block", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("ui_error_block", 100, typeof(UiErrorBlock))]
+            [FieldAttribute("error block", typeof(TagBlock))]
+            [BlockAttribute("ui_error_block", 100, typeof(UiErrorBlock))]
             public TagBlock ErrorBlock;
-            public int Size
+            public TagBlockList<UiErrorBlock> ErrorBlockList
+            {
+                get
+                {
+                    return this.errorBlockList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 52;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.errorBlockList.Clear();
+                this.CategoryName = StringId.Zero;
+                this.Flags = ((FlagsOptions)(0));
+                this.DefaultButton = ((DefaultButtonOptions)(0));
+                this.EmptyString = new byte[1];
+                this.StringTag = TagReference.Null;
+                this.DefaultTitle = StringId.Zero;
+                this.DefaultMessage = StringId.Zero;
+                this.DefaultOk = StringId.Zero;
+                this.DefaultCancel = StringId.Zero;
+                this.ErrorBlock = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.CategoryName = reader.ReadInt32();
+                this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                this.DefaultButton = ((DefaultButtonOptions)(reader.ReadByte()));
+                this.EmptyString = reader.ReadBytes(1);
+                this.StringTag = reader.Read<TagReference>();
+                this.DefaultTitle = reader.ReadInt32();
+                this.DefaultMessage = reader.ReadInt32();
+                this.DefaultOk = reader.ReadInt32();
+                this.DefaultCancel = reader.ReadInt32();
+                this.ErrorBlock = reader.ReadInt64();
+                this.errorBlockList.Read(reader, this.ErrorBlock);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(24, 4)]
+            public sealed class UiErrorBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(24, 4)]
-            public sealed class UiErrorBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("error", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(ErrorOptions), false)]
-                public Int32 Error;
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int16 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("default button", typeof(Byte))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(DefaultButtonOptions), false)]
-                public Byte DefaultButton;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(1)]
+                [FieldAttribute("error", typeof(ErrorOptions))]
+                [OptionsAttribute(typeof(ErrorOptions), false)]
+                public ErrorOptions Error;
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("default button", typeof(DefaultButtonOptions))]
+                [OptionsAttribute(typeof(DefaultButtonOptions), false)]
+                public DefaultButtonOptions DefaultButton;
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(1)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("title", typeof(StringId))]
+                [FieldAttribute("title", typeof(StringId))]
                 public StringId Title;
-                [Abide.Guerilla.Tags.FieldAttribute("message", typeof(StringId))]
+                [FieldAttribute("message", typeof(StringId))]
                 public StringId Message;
-                [Abide.Guerilla.Tags.FieldAttribute("ok", typeof(StringId))]
+                [FieldAttribute("ok", typeof(StringId))]
                 public StringId Ok;
-                [Abide.Guerilla.Tags.FieldAttribute("cancel", typeof(StringId))]
+                [FieldAttribute("cancel", typeof(StringId))]
                 public StringId Cancel;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 24;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Error = ((ErrorOptions)(0));
+                    this.Flags = ((FlagsOptions)(0));
+                    this.DefaultButton = ((DefaultButtonOptions)(0));
+                    this.EmptyString = new byte[1];
+                    this.Title = StringId.Zero;
+                    this.Message = StringId.Zero;
+                    this.Ok = StringId.Zero;
+                    this.Cancel = StringId.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Error = ((ErrorOptions)(reader.ReadInt32()));
+                    this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+                    this.DefaultButton = ((DefaultButtonOptions)(reader.ReadByte()));
+                    this.EmptyString = reader.ReadBytes(1);
+                    this.Title = reader.ReadInt32();
+                    this.Message = reader.ReadInt32();
+                    this.Ok = reader.ReadInt32();
+                    this.Cancel = reader.ReadInt32();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum ErrorOptions
+                public enum ErrorOptions : Int32
                 {
                     ErrorUnknown = 0,
                     ErrorGeneric = 1,
@@ -514,103 +741,139 @@ namespace Abide.Guerilla.Tags
                     ChooseNewCheckpointLocationCheckpointsExistLocally = 252,
                     Xxx = 253,
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int16
                 {
                     UseLargeDialog = 1,
                 }
-                public enum DefaultButtonOptions
+                public enum DefaultButtonOptions : Byte
                 {
                     NoDefault = 0,
                     DefaultOk = 1,
                     DefaultCancel = 2,
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int16
             {
                 UseLargeDialog = 1,
             }
-            public enum DefaultButtonOptions
+            public enum DefaultButtonOptions : Byte
             {
                 NoDefault = 0,
                 DefaultOk = 1,
                 DefaultCancel = 2,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(56, 4)]
-        public sealed class AnimationReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(56, 4)]
+        public sealed class AnimationReferenceBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-            public Int32 Flags;
-            [Abide.Guerilla.Tags.FieldAttribute("animation period:milliseconds", typeof(Int32))]
+            private TagBlockList<ScreenAnimationKeyframeReferenceBlock> keyframesList = new TagBlockList<ScreenAnimationKeyframeReferenceBlock>(64);
+            [FieldAttribute("flags", typeof(FlagsOptions))]
+            [OptionsAttribute(typeof(FlagsOptions), true)]
+            public FlagsOptions Flags;
+            [FieldAttribute("animation period:milliseconds", typeof(Int32))]
             public Int32 AnimationPeriod;
-            [Abide.Guerilla.Tags.FieldAttribute("keyframes", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
+            [FieldAttribute("keyframes", typeof(TagBlock))]
+            [BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
             public TagBlock Keyframes;
-            [Abide.Guerilla.Tags.FieldAttribute("animation period:milliseconds", typeof(Int32))]
+            [FieldAttribute("animation period:milliseconds", typeof(Int32))]
             public Int32 AnimationPeriod1;
-            [Abide.Guerilla.Tags.FieldAttribute("keyframes", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
+            [FieldAttribute("keyframes", typeof(TagBlock))]
+            [BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
             public TagBlock Keyframes1;
-            [Abide.Guerilla.Tags.FieldAttribute("animation period:milliseconds", typeof(Int32))]
+            [FieldAttribute("animation period:milliseconds", typeof(Int32))]
             public Int32 AnimationPeriod2;
-            [Abide.Guerilla.Tags.FieldAttribute("ambient animation looping style", typeof(Int16))]
-            [Abide.Guerilla.Tags.OptionsAttribute(typeof(AmbientAnimationLoopingStyleOptions), false)]
-            public Int16 AmbientAnimationLoopingStyle;
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(2)]
-            public Byte[] EmptyString4;
-            [Abide.Guerilla.Tags.FieldAttribute("keyframes", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
+            [FieldAttribute("ambient animation looping style", typeof(AmbientAnimationLoopingStyleOptions))]
+            [OptionsAttribute(typeof(AmbientAnimationLoopingStyleOptions), false)]
+            public AmbientAnimationLoopingStyleOptions AmbientAnimationLoopingStyle;
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(2)]
+            public Byte[] EmptyString;
+            [FieldAttribute("keyframes", typeof(TagBlock))]
+            [BlockAttribute("screen_animation_keyframe_reference_block", 64, typeof(ScreenAnimationKeyframeReferenceBlock))]
             public TagBlock Keyframes2;
-            public int Size
+            public TagBlockList<ScreenAnimationKeyframeReferenceBlock> KeyframesList
+            {
+                get
+                {
+                    return this.keyframesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 56;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.keyframesList.Clear();
+                this.Flags = ((FlagsOptions)(0));
+                this.AnimationPeriod = 0;
+                this.Keyframes = TagBlock.Zero;
+                this.AnimationPeriod1 = 0;
+                this.Keyframes1 = TagBlock.Zero;
+                this.AnimationPeriod2 = 0;
+                this.AmbientAnimationLoopingStyle = ((AmbientAnimationLoopingStyleOptions)(0));
+                this.EmptyString = new byte[2];
+                this.Keyframes2 = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                this.AnimationPeriod = reader.ReadInt32();
+                this.Keyframes = reader.ReadInt64();
+                this.keyframesList.Read(reader, this.Keyframes);
+                this.AnimationPeriod1 = reader.ReadInt32();
+                this.Keyframes1 = reader.ReadInt64();
+                this.keyframesList.Read(reader, this.Keyframes1);
+                this.AnimationPeriod2 = reader.ReadInt32();
+                this.AmbientAnimationLoopingStyle = ((AmbientAnimationLoopingStyleOptions)(reader.ReadInt16()));
+                this.EmptyString = reader.ReadBytes(2);
+                this.Keyframes2 = reader.ReadInt64();
+                this.keyframesList.Read(reader, this.Keyframes2);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(20, 4)]
+            public sealed class ScreenAnimationKeyframeReferenceBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class ScreenAnimationKeyframeReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(4)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(4)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha", typeof(Single))]
+                [FieldAttribute("alpha", typeof(Single))]
                 public Single Alpha;
-                [Abide.Guerilla.Tags.FieldAttribute("position", typeof(Vector3))]
+                [FieldAttribute("position", typeof(Vector3))]
                 public Vector3 Position;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.EmptyString = new byte[4];
+                    this.Alpha = 0;
+                    this.Position = Vector3.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.EmptyString = reader.ReadBytes(4);
+                    this.Alpha = reader.ReadSingle();
+                    this.Position = reader.Read<Vector3>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
-            public enum FlagsOptions
+            public enum FlagsOptions : Int32
             {
                 Unused = 1,
             }
-            public enum AmbientAnimationLoopingStyleOptions
+            public enum AmbientAnimationLoopingStyleOptions : Int16
             {
                 None = 0,
                 ReverseLoop = 1,
@@ -618,98 +881,160 @@ namespace Abide.Guerilla.Tags
                 DontLoop = 3,
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(36, 4)]
-        public sealed class ShapeGroupReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(36, 4)]
+        public sealed class ShapeGroupReferenceBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("shapes", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("shape_block_reference_block", 32, typeof(ShapeBlockReferenceBlock))]
+            private TagBlockList<ShapeBlockReferenceBlock> shapesList = new TagBlockList<ShapeBlockReferenceBlock>(32);
+            private TagBlockList<UiModelSceneReferenceBlock> modelSceneBlocksList = new TagBlockList<UiModelSceneReferenceBlock>(32);
+            private TagBlockList<BitmapBlockReferenceBlock> bitmapBlocksList = new TagBlockList<BitmapBlockReferenceBlock>(64);
+            [FieldAttribute("shapes", typeof(TagBlock))]
+            [BlockAttribute("shape_block_reference_block", 32, typeof(ShapeBlockReferenceBlock))]
             public TagBlock Shapes;
-            [Abide.Guerilla.Tags.FieldAttribute("model scene blocks", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("ui_model_scene_reference_block", 32, typeof(UiModelSceneReferenceBlock))]
+            [FieldAttribute("model scene blocks", typeof(TagBlock))]
+            [BlockAttribute("ui_model_scene_reference_block", 32, typeof(UiModelSceneReferenceBlock))]
             public TagBlock ModelSceneBlocks;
-            [Abide.Guerilla.Tags.FieldAttribute("bitmap blocks", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("bitmap_block_reference_block", 64, typeof(BitmapBlockReferenceBlock))]
+            [FieldAttribute("bitmap blocks", typeof(TagBlock))]
+            [BlockAttribute("bitmap_block_reference_block", 64, typeof(BitmapBlockReferenceBlock))]
             public TagBlock BitmapBlocks;
-            public int Size
+            public TagBlockList<ShapeBlockReferenceBlock> ShapesList
+            {
+                get
+                {
+                    return this.shapesList;
+                }
+            }
+            public TagBlockList<UiModelSceneReferenceBlock> ModelSceneBlocksList
+            {
+                get
+                {
+                    return this.modelSceneBlocksList;
+                }
+            }
+            public TagBlockList<BitmapBlockReferenceBlock> BitmapBlocksList
+            {
+                get
+                {
+                    return this.bitmapBlocksList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 36;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.shapesList.Clear();
+                this.modelSceneBlocksList.Clear();
+                this.bitmapBlocksList.Clear();
+                this.Shapes = TagBlock.Zero;
+                this.ModelSceneBlocks = TagBlock.Zero;
+                this.BitmapBlocks = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.Shapes = reader.ReadInt64();
+                this.shapesList.Read(reader, this.Shapes);
+                this.ModelSceneBlocks = reader.ReadInt64();
+                this.modelSceneBlocksList.Read(reader, this.ModelSceneBlocks);
+                this.BitmapBlocks = reader.ReadInt64();
+                this.bitmapBlocksList.Read(reader, this.BitmapBlocks);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(52, 4)]
+            public sealed class ShapeBlockReferenceBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(52, 4)]
-            public sealed class ShapeBlockReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("animation index", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationIndexOptions), false)]
-                public Int16 AnimationIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
+                private TagBlockList<PointBlockReferenceBlock> pointsList = new TagBlockList<PointBlockReferenceBlock>(16);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("animation index", typeof(AnimationIndexOptions))]
+                [OptionsAttribute(typeof(AnimationIndexOptions), false)]
+                public AnimationIndexOptions AnimationIndex;
+                [FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
                 public Int16 IntroAnimationDelayMilliseconds;
-                [Abide.Guerilla.Tags.FieldAttribute("color", typeof(ColorArgbF))]
+                [FieldAttribute("color", typeof(ColorArgbF))]
                 public ColorArgbF Color;
-                [Abide.Guerilla.Tags.FieldAttribute("points", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("point_block_reference_block", 16, typeof(PointBlockReferenceBlock))]
+                [FieldAttribute("points", typeof(TagBlock))]
+                [BlockAttribute("point_block_reference_block", 16, typeof(PointBlockReferenceBlock))]
                 public TagBlock Points;
-                [Abide.Guerilla.Tags.FieldAttribute("render depth bias", typeof(Int16))]
+                [FieldAttribute("render depth bias", typeof(Int16))]
                 public Int16 RenderDepthBias;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(14)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(14)]
                 public Byte[] EmptyString;
-                public int Size
+                public TagBlockList<PointBlockReferenceBlock> PointsList
+                {
+                    get
+                    {
+                        return this.pointsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 52;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.pointsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.AnimationIndex = ((AnimationIndexOptions)(0));
+                    this.IntroAnimationDelayMilliseconds = 0;
+                    this.Color = ColorArgbF.Zero;
+                    this.Points = TagBlock.Zero;
+                    this.RenderDepthBias = 0;
+                    this.EmptyString = new byte[14];
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.AnimationIndex = ((AnimationIndexOptions)(reader.ReadInt16()));
+                    this.IntroAnimationDelayMilliseconds = reader.ReadInt16();
+                    this.Color = reader.Read<ColorArgbF>();
+                    this.Points = reader.ReadInt64();
+                    this.pointsList.Read(reader, this.Points);
+                    this.RenderDepthBias = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(14);
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(4, 4)]
+                public sealed class PointBlockReferenceBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-                public sealed class PointBlockReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("coordinates", typeof(Vector2))]
+                    [FieldAttribute("coordinates", typeof(Vector2))]
                     public Vector2 Coordinates;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 4;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Coordinates = Vector2.Zero;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Coordinates = reader.Read<Vector2>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     Unused = 1,
                 }
-                public enum AnimationIndexOptions
+                public enum AnimationIndexOptions : Int16
                 {
                     None = 0,
                     _00 = 1,
@@ -778,107 +1103,159 @@ namespace Abide.Guerilla.Tags
                     _63 = 64,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(84, 4)]
-            public sealed class UiModelSceneReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(84, 4)]
+            public sealed class UiModelSceneReferenceBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("animation index", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationIndexOptions), false)]
-                public Int16 AnimationIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
+                private TagBlockList<UiObjectReferenceBlock> objectsList = new TagBlockList<UiObjectReferenceBlock>(32);
+                private TagBlockList<UiLightReferenceBlock> lightsList = new TagBlockList<UiLightReferenceBlock>(8);
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("animation index", typeof(AnimationIndexOptions))]
+                [OptionsAttribute(typeof(AnimationIndexOptions), false)]
+                public AnimationIndexOptions AnimationIndex;
+                [FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
                 public Int16 IntroAnimationDelayMilliseconds;
-                [Abide.Guerilla.Tags.FieldAttribute("render depth bias", typeof(Int16))]
+                [FieldAttribute("render depth bias", typeof(Int16))]
                 public Int16 RenderDepthBias;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("objects", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("ui_object_reference_block", 32, typeof(UiObjectReferenceBlock))]
+                [FieldAttribute("objects", typeof(TagBlock))]
+                [BlockAttribute("ui_object_reference_block", 32, typeof(UiObjectReferenceBlock))]
                 public TagBlock Objects;
-                [Abide.Guerilla.Tags.FieldAttribute("lights", typeof(TagBlock))]
-                [Abide.Guerilla.Tags.BlockAttribute("ui_light_reference_block", 8, typeof(UiLightReferenceBlock))]
+                [FieldAttribute("lights", typeof(TagBlock))]
+                [BlockAttribute("ui_light_reference_block", 8, typeof(UiLightReferenceBlock))]
                 public TagBlock Lights;
-                [Abide.Guerilla.Tags.FieldAttribute("animation scale factor", typeof(Vector3))]
+                [FieldAttribute("animation scale factor", typeof(Vector3))]
                 public Vector3 AnimationScaleFactor;
-                [Abide.Guerilla.Tags.FieldAttribute("camera position", typeof(Vector3))]
+                [FieldAttribute("camera position", typeof(Vector3))]
                 public Vector3 CameraPosition;
-                [Abide.Guerilla.Tags.FieldAttribute("fov degress", typeof(Single))]
+                [FieldAttribute("fov degress", typeof(Single))]
                 public Single FovDegress;
-                [Abide.Guerilla.Tags.FieldAttribute("ui viewport", typeof(Vector2))]
+                [FieldAttribute("ui viewport", typeof(Vector2))]
                 public Vector2 UiViewport;
-                [Abide.Guerilla.Tags.FieldAttribute("UNUSED intro anim", typeof(StringId))]
+                [FieldAttribute("UNUSED intro anim", typeof(StringId))]
                 public StringId UnusedIntroAnim;
-                [Abide.Guerilla.Tags.FieldAttribute("UNUSED outro anim", typeof(StringId))]
+                [FieldAttribute("UNUSED outro anim", typeof(StringId))]
                 public StringId UnusedOutroAnim;
-                [Abide.Guerilla.Tags.FieldAttribute("UNUSED ambient anim", typeof(StringId))]
+                [FieldAttribute("UNUSED ambient anim", typeof(StringId))]
                 public StringId UnusedAmbientAnim;
-                public int Size
+                public TagBlockList<UiObjectReferenceBlock> ObjectsList
+                {
+                    get
+                    {
+                        return this.objectsList;
+                    }
+                }
+                public TagBlockList<UiLightReferenceBlock> LightsList
+                {
+                    get
+                    {
+                        return this.lightsList;
+                    }
+                }
+                public override int Size
                 {
                     get
                     {
                         return 84;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.objectsList.Clear();
+                    this.lightsList.Clear();
+                    this.Flags = ((FlagsOptions)(0));
+                    this.AnimationIndex = ((AnimationIndexOptions)(0));
+                    this.IntroAnimationDelayMilliseconds = 0;
+                    this.RenderDepthBias = 0;
+                    this.EmptyString = new byte[2];
+                    this.Objects = TagBlock.Zero;
+                    this.Lights = TagBlock.Zero;
+                    this.AnimationScaleFactor = Vector3.Zero;
+                    this.CameraPosition = Vector3.Zero;
+                    this.FovDegress = 0;
+                    this.UiViewport = Vector2.Zero;
+                    this.UnusedIntroAnim = StringId.Zero;
+                    this.UnusedOutroAnim = StringId.Zero;
+                    this.UnusedAmbientAnim = StringId.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.AnimationIndex = ((AnimationIndexOptions)(reader.ReadInt16()));
+                    this.IntroAnimationDelayMilliseconds = reader.ReadInt16();
+                    this.RenderDepthBias = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.Objects = reader.ReadInt64();
+                    this.objectsList.Read(reader, this.Objects);
+                    this.Lights = reader.ReadInt64();
+                    this.lightsList.Read(reader, this.Lights);
+                    this.AnimationScaleFactor = reader.Read<Vector3>();
+                    this.CameraPosition = reader.Read<Vector3>();
+                    this.FovDegress = reader.ReadSingle();
+                    this.UiViewport = reader.Read<Vector2>();
+                    this.UnusedIntroAnim = reader.ReadInt32();
+                    this.UnusedOutroAnim = reader.ReadInt32();
+                    this.UnusedAmbientAnim = reader.ReadInt32();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
+                [FieldSetAttribute(32, 4)]
+                public sealed class UiObjectReferenceBlock : AbideTagBlock
                 {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-                public sealed class UiObjectReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-                {
-                    [Abide.Guerilla.Tags.FieldAttribute("name", typeof(String32))]
+                    [FieldAttribute("name", typeof(String32))]
                     public String32 Name;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 32;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Name = String32.Empty;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Name = reader.Read<String32>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                [Abide.Guerilla.Tags.FieldSetAttribute(32, 4)]
-                public sealed class UiLightReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+                [FieldSetAttribute(32, 4)]
+                public sealed class UiLightReferenceBlock : AbideTagBlock
                 {
-                    [Abide.Guerilla.Tags.FieldAttribute("name", typeof(String32))]
+                    [FieldAttribute("name", typeof(String32))]
                     public String32 Name;
-                    public int Size
+                    public override int Size
                     {
                         get
                         {
                             return 32;
                         }
                     }
-                    public void Initialize()
+                    public override void Initialize()
                     {
+                        this.Name = String32.Empty;
                     }
-                    public void Read(System.IO.BinaryReader reader)
+                    public override void Read(BinaryReader reader)
                     {
+                        this.Name = reader.Read<String32>();
                     }
-                    public void Write(System.IO.BinaryWriter writer)
+                    public override void Write(BinaryWriter writer)
                     {
                     }
                 }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     Unused = 1,
                 }
-                public enum AnimationIndexOptions
+                public enum AnimationIndexOptions : Int16
                 {
                     None = 0,
                     _00 = 1,
@@ -947,66 +1324,96 @@ namespace Abide.Guerilla.Tags
                     _63 = 64,
                 }
             }
-            [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-            public sealed class BitmapBlockReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+            [FieldSetAttribute(64, 4)]
+            public sealed class BitmapBlockReferenceBlock : AbideTagBlock
             {
-                [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-                public Int32 Flags;
-                [Abide.Guerilla.Tags.FieldAttribute("animation index", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(AnimationIndexOptions), false)]
-                public Int16 AnimationIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
+                [FieldAttribute("flags", typeof(FlagsOptions))]
+                [OptionsAttribute(typeof(FlagsOptions), true)]
+                public FlagsOptions Flags;
+                [FieldAttribute("animation index", typeof(AnimationIndexOptions))]
+                [OptionsAttribute(typeof(AnimationIndexOptions), false)]
+                public AnimationIndexOptions AnimationIndex;
+                [FieldAttribute("intro animation delay milliseconds", typeof(Int16))]
                 public Int16 IntroAnimationDelayMilliseconds;
-                [Abide.Guerilla.Tags.FieldAttribute("bitmap blend method", typeof(Int16))]
-                [Abide.Guerilla.Tags.OptionsAttribute(typeof(BitmapBlendMethodOptions), false)]
-                public Int16 BitmapBlendMethod;
-                [Abide.Guerilla.Tags.FieldAttribute("initial sprite frame", typeof(Int16))]
+                [FieldAttribute("bitmap blend method", typeof(BitmapBlendMethodOptions))]
+                [OptionsAttribute(typeof(BitmapBlendMethodOptions), false)]
+                public BitmapBlendMethodOptions BitmapBlendMethod;
+                [FieldAttribute("initial sprite frame", typeof(Int16))]
                 public Int16 InitialSpriteFrame;
-                [Abide.Guerilla.Tags.FieldAttribute("top-left", typeof(Vector2))]
+                [FieldAttribute("top-left", typeof(Vector2))]
                 public Vector2 TopLeft;
-                [Abide.Guerilla.Tags.FieldAttribute("horiz texture wraps/second", typeof(Single))]
+                [FieldAttribute("horiz texture wraps/second", typeof(Single))]
                 public Single HorizTextureWrapssecond;
-                [Abide.Guerilla.Tags.FieldAttribute("vert texture wraps/second", typeof(Single))]
+                [FieldAttribute("vert texture wraps/second", typeof(Single))]
                 public Single VertTextureWrapssecond;
-                [Abide.Guerilla.Tags.FieldAttribute("bitmap tag", typeof(TagReference))]
+                [FieldAttribute("bitmap tag", typeof(TagReference))]
                 public TagReference BitmapTag;
-                [Abide.Guerilla.Tags.FieldAttribute("render depth bias", typeof(Int16))]
+                [FieldAttribute("render depth bias", typeof(Int16))]
                 public Int16 RenderDepthBias;
-                [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-                [Abide.Guerilla.Tags.PaddingAttribute(2)]
+                [FieldAttribute("", typeof(Byte[]))]
+                [PaddingAttribute(2)]
                 public Byte[] EmptyString;
-                [Abide.Guerilla.Tags.FieldAttribute("sprite animation speed fps", typeof(Single))]
+                [FieldAttribute("sprite animation speed fps", typeof(Single))]
                 public Single SpriteAnimationSpeedFps;
-                [Abide.Guerilla.Tags.FieldAttribute("progress bottom-left", typeof(Vector2))]
+                [FieldAttribute("progress bottom-left", typeof(Vector2))]
                 public Vector2 ProgressBottomLeft;
-                [Abide.Guerilla.Tags.FieldAttribute("string identifier", typeof(StringId))]
+                [FieldAttribute("string identifier", typeof(StringId))]
                 public StringId StringIdentifier;
-                [Abide.Guerilla.Tags.FieldAttribute("progress scale", typeof(Vector2))]
+                [FieldAttribute("progress scale", typeof(Vector2))]
                 public Vector2 ProgressScale;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 64;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
+                {
+                    this.Flags = ((FlagsOptions)(0));
+                    this.AnimationIndex = ((AnimationIndexOptions)(0));
+                    this.IntroAnimationDelayMilliseconds = 0;
+                    this.BitmapBlendMethod = ((BitmapBlendMethodOptions)(0));
+                    this.InitialSpriteFrame = 0;
+                    this.TopLeft = Vector2.Zero;
+                    this.HorizTextureWrapssecond = 0;
+                    this.VertTextureWrapssecond = 0;
+                    this.BitmapTag = TagReference.Null;
+                    this.RenderDepthBias = 0;
+                    this.EmptyString = new byte[2];
+                    this.SpriteAnimationSpeedFps = 0;
+                    this.ProgressBottomLeft = Vector2.Zero;
+                    this.StringIdentifier = StringId.Zero;
+                    this.ProgressScale = Vector2.Zero;
+                }
+                public override void Read(BinaryReader reader)
+                {
+                    this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+                    this.AnimationIndex = ((AnimationIndexOptions)(reader.ReadInt16()));
+                    this.IntroAnimationDelayMilliseconds = reader.ReadInt16();
+                    this.BitmapBlendMethod = ((BitmapBlendMethodOptions)(reader.ReadInt16()));
+                    this.InitialSpriteFrame = reader.ReadInt16();
+                    this.TopLeft = reader.Read<Vector2>();
+                    this.HorizTextureWrapssecond = reader.ReadSingle();
+                    this.VertTextureWrapssecond = reader.ReadSingle();
+                    this.BitmapTag = reader.Read<TagReference>();
+                    this.RenderDepthBias = reader.ReadInt16();
+                    this.EmptyString = reader.ReadBytes(2);
+                    this.SpriteAnimationSpeedFps = reader.ReadSingle();
+                    this.ProgressBottomLeft = reader.Read<Vector2>();
+                    this.StringIdentifier = reader.ReadInt32();
+                    this.ProgressScale = reader.Read<Vector2>();
+                }
+                public override void Write(BinaryWriter writer)
                 {
                 }
-                public void Read(System.IO.BinaryReader reader)
-                {
-                }
-                public void Write(System.IO.BinaryWriter writer)
-                {
-                }
-                public enum FlagsOptions
+                public enum FlagsOptions : Int32
                 {
                     IgnoreForListSkinSizeCalculation = 1,
                     SwapOnRelativeListPosition = 2,
                     RenderAsProgressBar = 4,
                 }
-                public enum AnimationIndexOptions
+                public enum AnimationIndexOptions : Int16
                 {
                     None = 0,
                     _00 = 1,
@@ -1074,7 +1481,7 @@ namespace Abide.Guerilla.Tags
                     _62 = 63,
                     _63 = 64,
                 }
-                public enum BitmapBlendMethodOptions
+                public enum BitmapBlendMethodOptions : Int16
                 {
                     Standard = 0,
                     Multiply = 1,
@@ -1082,103 +1489,127 @@ namespace Abide.Guerilla.Tags
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-        public sealed class PersistentBackgroundAnimationBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(20, 4)]
+        public sealed class PersistentBackgroundAnimationBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-            [Abide.Guerilla.Tags.PaddingAttribute(4)]
+            private TagBlockList<BackgroundAnimationKeyframeReferenceBlock> interpolatedKeyframesList = new TagBlockList<BackgroundAnimationKeyframeReferenceBlock>(64);
+            [FieldAttribute("", typeof(Byte[]))]
+            [PaddingAttribute(4)]
             public Byte[] EmptyString;
-            [Abide.Guerilla.Tags.FieldAttribute("animation period:milliseconds", typeof(Int32))]
+            [FieldAttribute("animation period:milliseconds", typeof(Int32))]
             public Int32 AnimationPeriod;
-            [Abide.Guerilla.Tags.FieldAttribute("interpolated keyframes", typeof(TagBlock))]
-            [Abide.Guerilla.Tags.BlockAttribute("background_animation_keyframe_reference_block", 64, typeof(BackgroundAnimationKeyframeReferenceBlock))]
+            [FieldAttribute("interpolated keyframes", typeof(TagBlock))]
+            [BlockAttribute("background_animation_keyframe_reference_block", 64, typeof(BackgroundAnimationKeyframeReferenceBlock))]
             public TagBlock InterpolatedKeyframes;
-            public int Size
+            public TagBlockList<BackgroundAnimationKeyframeReferenceBlock> InterpolatedKeyframesList
+            {
+                get
+                {
+                    return this.interpolatedKeyframesList;
+                }
+            }
+            public override int Size
             {
                 get
                 {
                     return 20;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
+            {
+                this.interpolatedKeyframesList.Clear();
+                this.EmptyString = new byte[4];
+                this.AnimationPeriod = 0;
+                this.InterpolatedKeyframes = TagBlock.Zero;
+            }
+            public override void Read(BinaryReader reader)
+            {
+                this.EmptyString = reader.ReadBytes(4);
+                this.AnimationPeriod = reader.ReadInt32();
+                this.InterpolatedKeyframes = reader.ReadInt64();
+                this.interpolatedKeyframesList.Read(reader, this.InterpolatedKeyframes);
+            }
+            public override void Write(BinaryWriter writer)
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            [FieldSetAttribute(20, 4)]
+            public sealed class BackgroundAnimationKeyframeReferenceBlock : AbideTagBlock
             {
-            }
-            public void Write(System.IO.BinaryWriter writer)
-            {
-            }
-            [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-            public sealed class BackgroundAnimationKeyframeReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-            {
-                [Abide.Guerilla.Tags.FieldAttribute("start transition index", typeof(Int32))]
+                [FieldAttribute("start transition index", typeof(Int32))]
                 public Int32 StartTransitionIndex;
-                [Abide.Guerilla.Tags.FieldAttribute("alpha", typeof(Single))]
+                [FieldAttribute("alpha", typeof(Single))]
                 public Single Alpha;
-                [Abide.Guerilla.Tags.FieldAttribute("position", typeof(Vector3))]
+                [FieldAttribute("position", typeof(Vector3))]
                 public Vector3 Position;
-                public int Size
+                public override int Size
                 {
                     get
                     {
                         return 20;
                     }
                 }
-                public void Initialize()
+                public override void Initialize()
                 {
+                    this.StartTransitionIndex = 0;
+                    this.Alpha = 0;
+                    this.Position = Vector3.Zero;
                 }
-                public void Read(System.IO.BinaryReader reader)
+                public override void Read(BinaryReader reader)
                 {
+                    this.StartTransitionIndex = reader.ReadInt32();
+                    this.Alpha = reader.ReadSingle();
+                    this.Position = reader.Read<Vector3>();
                 }
-                public void Write(System.IO.BinaryWriter writer)
+                public override void Write(BinaryWriter writer)
                 {
                 }
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class ListSkinReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(16, 4)]
+        public sealed class ListSkinReferenceBlock : AbideTagBlock
         {
-            [Abide.Guerilla.Tags.FieldAttribute("list item skins", typeof(TagReference))]
+            [FieldAttribute("list item skins", typeof(TagReference))]
             public TagReference ListItemSkins;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.ListItemSkins = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.ListItemSkins = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        [Abide.Guerilla.Tags.FieldSetAttribute(4, 4)]
-        public sealed class SkillToRankMappingBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+        [FieldSetAttribute(4, 4)]
+        public sealed class SkillToRankMappingBlock : AbideTagBlock
         {
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 4;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }
-        public enum FullScreenHeaderTextFontOptions
+        public enum FullScreenHeaderTextFontOptions : Int16
         {
             Terminal = 0,
             BodyText = 1,
@@ -1193,7 +1624,7 @@ namespace Abide.Guerilla.Tags
             MainMenuFont = 10,
             TextChatFont = 11,
         }
-        public enum LargeDialogHeaderTextFontOptions
+        public enum LargeDialogHeaderTextFontOptions : Int16
         {
             Terminal = 0,
             BodyText = 1,
@@ -1208,7 +1639,7 @@ namespace Abide.Guerilla.Tags
             MainMenuFont = 10,
             TextChatFont = 11,
         }
-        public enum HalfDialogHeaderTextFontOptions
+        public enum HalfDialogHeaderTextFontOptions : Int16
         {
             Terminal = 0,
             BodyText = 1,
@@ -1223,7 +1654,7 @@ namespace Abide.Guerilla.Tags
             MainMenuFont = 10,
             TextChatFont = 11,
         }
-        public enum QtrDialogHeaderTextFontOptions
+        public enum QtrDialogHeaderTextFontOptions : Int16
         {
             Terminal = 0,
             BodyText = 1,

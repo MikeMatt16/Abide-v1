@@ -14,28 +14,31 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(168, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("garbage", 1734439522u, 1769235821u, typeof(GarbageBlock))]
-    public sealed class GarbageBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(168, 4)]
+    [TagGroupAttribute("garbage", 1734439522u, 1769235821u, typeof(GarbageBlock))]
+    public sealed class GarbageBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(168)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(168)]
         public Byte[] EmptyString;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 168;
             }
         }
-        public void Initialize()
+        public override void Initialize()
         {
+            this.EmptyString = new byte[168];
         }
-        public void Read(System.IO.BinaryReader reader)
+        public override void Read(BinaryReader reader)
         {
+            this.EmptyString = reader.ReadBytes(168);
         }
-        public void Write(System.IO.BinaryWriter writer)
+        public override void Write(BinaryWriter writer)
         {
         }
     }

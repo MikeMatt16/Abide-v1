@@ -11,10 +11,12 @@ namespace Abide.Guerilla.Types
     {
         /// <summary>
         /// The size of the string.
+        /// This value is constant.
         /// </summary>
         public const int Size = 32;
         /// <summary>
         /// Represents an empty string.
+        /// This value is read-only.
         /// </summary>
         public static readonly String32 Empty = new String32();
 
@@ -103,12 +105,14 @@ namespace Abide.Guerilla.Types
     {
         /// <summary>
         /// The size of the string.
+        /// This value is constant.
         /// </summary>
         public const int Size = 256;
         /// <summary>
         /// Represents an empty string.
+        /// This value is read-only.
         /// </summary>
-        public static readonly String32 Empty = new String32();
+        public static readonly String256 Empty = new String256();
 
         /// <summary>
         /// Gets or sets the string value of this guerilla string.

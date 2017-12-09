@@ -14,59 +14,86 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(20, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("cache_file_sound", 606282027u, 4294967293u, typeof(CacheFileSoundBlock))]
-    public sealed class CacheFileSoundBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(20, 4)]
+    [TagGroupAttribute("cache_file_sound", 606282027u, 4294967293u, typeof(CacheFileSoundBlock))]
+    public sealed class CacheFileSoundBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int16 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("sound class*", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SoundClassOptions), false)]
-        public Byte SoundClass;
-        [Abide.Guerilla.Tags.FieldAttribute("sample rate*", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(SampleRateOptions), false)]
-        public Byte SampleRate;
-        [Abide.Guerilla.Tags.FieldAttribute("encoding*", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(EncodingOptions), false)]
-        public Byte Encoding;
-        [Abide.Guerilla.Tags.FieldAttribute("compression*", typeof(Byte))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(CompressionOptions), false)]
-        public Byte Compression;
-        [Abide.Guerilla.Tags.FieldAttribute("playback index", typeof(Int16))]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("sound class*", typeof(SoundClassOptions))]
+        [OptionsAttribute(typeof(SoundClassOptions), false)]
+        public SoundClassOptions SoundClass;
+        [FieldAttribute("sample rate*", typeof(SampleRateOptions))]
+        [OptionsAttribute(typeof(SampleRateOptions), false)]
+        public SampleRateOptions SampleRate;
+        [FieldAttribute("encoding*", typeof(EncodingOptions))]
+        [OptionsAttribute(typeof(EncodingOptions), false)]
+        public EncodingOptions Encoding;
+        [FieldAttribute("compression*", typeof(CompressionOptions))]
+        [OptionsAttribute(typeof(CompressionOptions), false)]
+        public CompressionOptions Compression;
+        [FieldAttribute("playback index", typeof(Int16))]
         public Int16 PlaybackIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("first pitch range index", typeof(Int16))]
+        [FieldAttribute("first pitch range index", typeof(Int16))]
         public Int16 FirstPitchRangeIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("pitch range count", typeof(Byte))]
+        [FieldAttribute("pitch range count", typeof(Byte))]
         public Byte PitchRangeCount;
-        [Abide.Guerilla.Tags.FieldAttribute("scale index", typeof(Byte))]
+        [FieldAttribute("scale index", typeof(Byte))]
         public Byte ScaleIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("promotion index", typeof(Byte))]
+        [FieldAttribute("promotion index", typeof(Byte))]
         public Byte PromotionIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("custom playback index", typeof(Byte))]
+        [FieldAttribute("custom playback index", typeof(Byte))]
         public Byte CustomPlaybackIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("extra info index", typeof(Int16))]
+        [FieldAttribute("extra info index", typeof(Int16))]
         public Int16 ExtraInfoIndex;
-        [Abide.Guerilla.Tags.FieldAttribute("maximum play time:ms", typeof(Int32))]
+        [FieldAttribute("maximum play time:ms", typeof(Int32))]
         public Int32 MaximumPlayTime;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 20;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.SoundClass = ((SoundClassOptions)(0));
+            this.SampleRate = ((SampleRateOptions)(0));
+            this.Encoding = ((EncodingOptions)(0));
+            this.Compression = ((CompressionOptions)(0));
+            this.PlaybackIndex = 0;
+            this.FirstPitchRangeIndex = 0;
+            this.PitchRangeCount = 0;
+            this.ScaleIndex = 0;
+            this.PromotionIndex = 0;
+            this.CustomPlaybackIndex = 0;
+            this.ExtraInfoIndex = 0;
+            this.MaximumPlayTime = 0;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt16()));
+            this.SoundClass = ((SoundClassOptions)(reader.ReadByte()));
+            this.SampleRate = ((SampleRateOptions)(reader.ReadByte()));
+            this.Encoding = ((EncodingOptions)(reader.ReadByte()));
+            this.Compression = ((CompressionOptions)(reader.ReadByte()));
+            this.PlaybackIndex = reader.ReadInt16();
+            this.FirstPitchRangeIndex = reader.ReadInt16();
+            this.PitchRangeCount = reader.ReadByte();
+            this.ScaleIndex = reader.ReadByte();
+            this.PromotionIndex = reader.ReadByte();
+            this.CustomPlaybackIndex = reader.ReadByte();
+            this.ExtraInfoIndex = reader.ReadInt16();
+            this.MaximumPlayTime = reader.ReadInt32();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int16
         {
             FitToAdpcmBlocksize = 1,
             SplitLongSoundIntoPermutations = 2,
@@ -79,7 +106,7 @@ namespace Abide.Guerilla.Tags
             DontUseSoundClassSpeakerFlag = 256,
             DontUseLipsyncData = 512,
         }
-        public enum SoundClassOptions
+        public enum SoundClassOptions : Byte
         {
             ProjectileImpact = 0,
             ProjectileDetonation = 1,
@@ -136,19 +163,19 @@ namespace Abide.Guerilla.Tags
             Test = 52,
             MultilingualTest = 53,
         }
-        public enum SampleRateOptions
+        public enum SampleRateOptions : Byte
         {
             _22khz = 0,
             _44khz = 1,
             _32khz = 2,
         }
-        public enum EncodingOptions
+        public enum EncodingOptions : Byte
         {
             Mono = 0,
             Stereo = 1,
             Codec = 2,
         }
-        public enum CompressionOptions
+        public enum CompressionOptions : Byte
         {
             NoneBigEndian = 0,
             XboxAdpcm = 1,

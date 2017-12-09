@@ -54,8 +54,8 @@
             // 
             this.largeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("largeImageList.ImageStream")));
             this.largeImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.largeImageList.Images.SetKeyName(0, "Folder48.png");
-            this.largeImageList.Images.SetKeyName(1, "Reference48.png");
+            this.largeImageList.Images.SetKeyName(0, "abide_folder_48.png");
+            this.largeImageList.Images.SetKeyName(1, "abide_reference_48.png");
             // 
             // okButton
             // 
@@ -187,8 +187,8 @@
             // 
             this.smallImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("smallImageList.ImageStream")));
             this.smallImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.smallImageList.Images.SetKeyName(0, "Folder16.png");
-            this.smallImageList.Images.SetKeyName(1, "Reference16.png");
+            this.smallImageList.Images.SetKeyName(0, "abide_folder_16.png");
+            this.smallImageList.Images.SetKeyName(1, "abide_reference_16.png");
             // 
             // directoryBox
             // 

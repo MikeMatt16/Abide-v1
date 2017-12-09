@@ -133,8 +133,8 @@ namespace Abide.Guerilla.Ui
             if (e.Node.Tag is TagBlockDefinition block)
             {
                 //Prepare
-                StringBuilder cSharpBuilder = new StringBuilder();
-                StringBuilder xmlBuilder = new StringBuilder();
+                StringBuilder codeDomStringBuilder = new StringBuilder();
+                StringBuilder xmlStringBuilder = new StringBuilder();
                 XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
 
                 //Create CodeDOM
@@ -143,12 +143,12 @@ namespace Abide.Guerilla.Ui
                 //Initialize
                 using (CSharpCodeProvider provider = new CSharpCodeProvider())
                 {
-                    using (StringWriter writer = new StringWriter(cSharpBuilder))
+                    using (StringWriter writer = new StringWriter(codeDomStringBuilder))
                         provider.GenerateCodeFromCompileUnit(compileUnit, writer, new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false });
                 }
 
                 //Initialize
-                using (XmlWriter xmlWriter = XmlWriter.Create(xmlBuilder, settings))
+                using (XmlWriter xmlWriter = XmlWriter.Create(xmlStringBuilder, settings))
                 {
                     //Write Start
                     xmlWriter.WriteStartDocument();
@@ -163,22 +163,22 @@ namespace Abide.Guerilla.Ui
                 }
 
                 //Inititalize
-                TextForm ifpTextForm = new TextForm();
-                ifpTextForm.TextContent = xmlBuilder.ToString();
-                ifpTextForm.Text = $"Ifp Content - {block.Name}";
-                ifpTextForm.MdiParent = this;
+                TextForm ifpTextForm = new TextForm
+                {
+                    TextContent = xmlStringBuilder.ToString(),
+                    Text = $"Ifp Content - {block.Name}",
+                    MdiParent = this
+                };
                 ifpTextForm.Show();
-                
-                //Inititalize
-                TextForm codeDomTextForm = new TextForm();
-                codeDomTextForm.TextContent = cSharpBuilder.ToString();
-                codeDomTextForm.Text = $"C# Content - {block.Name}";
-                codeDomTextForm.MdiParent = this;
-                codeDomTextForm.Show();
 
-                //Clear
-                //xmlRichTextBox.Clear();
-                //xmlRichTextBox.AppendText(xmlBuilder.ToString());
+                //Inititalize
+                TextForm codeDomTextForm = new TextForm
+                {
+                    TextContent = codeDomStringBuilder.ToString(),
+                    Text = $"C# Content - {block.Name}",
+                    MdiParent = this
+                };
+                codeDomTextForm.Show();
             }
         }
 

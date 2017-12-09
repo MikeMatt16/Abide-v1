@@ -14,49 +14,66 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(64, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("point_physics", 1886414969u, 4294967293u, typeof(PointPhysicsBlock))]
-    public sealed class PointPhysicsBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(64, 4)]
+    [TagGroupAttribute("point_physics", 1886414969u, 4294967293u, typeof(PointPhysicsBlock))]
+    public sealed class PointPhysicsBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("flags", typeof(Int32))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(FlagsOptions), true)]
-        public Int32 Flags;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(28)]
+        [FieldAttribute("flags", typeof(FlagsOptions))]
+        [OptionsAttribute(typeof(FlagsOptions), true)]
+        public FlagsOptions Flags;
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(28)]
         public Byte[] EmptyString;
-        [Abide.Guerilla.Tags.FieldAttribute("density:g/mL", typeof(Single))]
+        [FieldAttribute("density:g/mL", typeof(Single))]
         public Single Density;
-        [Abide.Guerilla.Tags.FieldAttribute("air friction", typeof(Single))]
+        [FieldAttribute("air friction", typeof(Single))]
         public Single AirFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("water friction", typeof(Single))]
+        [FieldAttribute("water friction", typeof(Single))]
         public Single WaterFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("surface friction#when hitting the ground or interior, percentage of velocity lost" +
+        [FieldAttribute("surface friction#when hitting the ground or interior, percentage of velocity lost" +
             " in one collision", typeof(Single))]
         public Single SurfaceFriction;
-        [Abide.Guerilla.Tags.FieldAttribute("elasticity#0.0 is inelastic collisions (no bounce) 1.0 is perfectly elastic (refl" +
+        [FieldAttribute("elasticity#0.0 is inelastic collisions (no bounce) 1.0 is perfectly elastic (refl" +
             "ected velocity equals incoming velocity)", typeof(Single))]
         public Single Elasticity;
-        [Abide.Guerilla.Tags.FieldAttribute("", typeof(Byte[]))]
-        [Abide.Guerilla.Tags.PaddingAttribute(12)]
+        [FieldAttribute("", typeof(Byte[]))]
+        [PaddingAttribute(12)]
         public Byte[] EmptyString1;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 64;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Flags = ((FlagsOptions)(0));
+            this.EmptyString = new byte[28];
+            this.Density = 0;
+            this.AirFriction = 0;
+            this.WaterFriction = 0;
+            this.SurfaceFriction = 0;
+            this.Elasticity = 0;
+            this.EmptyString1 = new byte[12];
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Flags = ((FlagsOptions)(reader.ReadInt32()));
+            this.EmptyString = reader.ReadBytes(28);
+            this.Density = reader.ReadSingle();
+            this.AirFriction = reader.ReadSingle();
+            this.WaterFriction = reader.ReadSingle();
+            this.SurfaceFriction = reader.ReadSingle();
+            this.Elasticity = reader.ReadSingle();
+            this.EmptyString1 = reader.ReadBytes(12);
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum FlagsOptions
+        public enum FlagsOptions : Int32
         {
             Unused = 1,
             CollidesWithStructures = 2,

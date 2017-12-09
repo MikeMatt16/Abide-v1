@@ -14,55 +14,76 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("user_interface_globals_definition", 2003268730u, 4294967293u, typeof(UserInterfaceGlobalsDefinitionBlock))]
-    public sealed class UserInterfaceGlobalsDefinitionBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("user_interface_globals_definition", 2003268730u, 4294967293u, typeof(UserInterfaceGlobalsDefinitionBlock))]
+    public sealed class UserInterfaceGlobalsDefinitionBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("shared globals", typeof(TagReference))]
-        public TagReference SharedGlobals1;
-        [Abide.Guerilla.Tags.FieldAttribute("screen widgets", typeof(TagBlock))]
-        [Abide.Guerilla.Tags.BlockAttribute("user_interface_widget_reference_block", 256, typeof(UserInterfaceWidgetReferenceBlock))]
-        public TagBlock ScreenWidgets1;
-        [Abide.Guerilla.Tags.FieldAttribute("mp variant settings ui", typeof(TagReference))]
+        private TagBlockList<UserInterfaceWidgetReferenceBlock> screenWidgetsList = new TagBlockList<UserInterfaceWidgetReferenceBlock>(256);
+        [FieldAttribute("shared globals", typeof(TagReference))]
+        public TagReference SharedGlobals;
+        [FieldAttribute("screen widgets", typeof(TagBlock))]
+        [BlockAttribute("user_interface_widget_reference_block", 256, typeof(UserInterfaceWidgetReferenceBlock))]
+        public TagBlock ScreenWidgets;
+        [FieldAttribute("mp variant settings ui", typeof(TagReference))]
         public TagReference MpVariantSettingsUi;
-        [Abide.Guerilla.Tags.FieldAttribute("game hopper descriptions", typeof(TagReference))]
+        [FieldAttribute("game hopper descriptions", typeof(TagReference))]
         public TagReference GameHopperDescriptions;
-        public int Size
+        public TagBlockList<UserInterfaceWidgetReferenceBlock> ScreenWidgetsList
+        {
+            get
+            {
+                return this.screenWidgetsList;
+            }
+        }
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.screenWidgetsList.Clear();
+            this.SharedGlobals = TagReference.Null;
+            this.ScreenWidgets = TagBlock.Zero;
+            this.MpVariantSettingsUi = TagReference.Null;
+            this.GameHopperDescriptions = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.SharedGlobals = reader.Read<TagReference>();
+            this.ScreenWidgets = reader.ReadInt64();
+            this.screenWidgetsList.Read(reader, this.ScreenWidgets);
+            this.MpVariantSettingsUi = reader.Read<TagReference>();
+            this.GameHopperDescriptions = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
+        [FieldSetAttribute(16, 4)]
+        public sealed class UserInterfaceWidgetReferenceBlock : AbideTagBlock
         {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        [Abide.Guerilla.Tags.FieldSetAttribute(16, 4)]
-        public sealed class UserInterfaceWidgetReferenceBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
-        {
-            [Abide.Guerilla.Tags.FieldAttribute("widget tag", typeof(TagReference))]
+            [FieldAttribute("widget tag", typeof(TagReference))]
             public TagReference WidgetTag;
-            public int Size
+            public override int Size
             {
                 get
                 {
                     return 16;
                 }
             }
-            public void Initialize()
+            public override void Initialize()
             {
+                this.WidgetTag = TagReference.Null;
             }
-            public void Read(System.IO.BinaryReader reader)
+            public override void Read(BinaryReader reader)
             {
+                this.WidgetTag = reader.Read<TagReference>();
             }
-            public void Write(System.IO.BinaryWriter writer)
+            public override void Write(BinaryWriter writer)
             {
             }
         }

@@ -14,51 +14,66 @@ namespace Abide.Guerilla.Tags
     using Abide.Guerilla.Types;
     using Abide.HaloLibrary;
     using System;
+    using System.IO;
     
-    [Abide.Guerilla.Tags.FieldSetAttribute(60, 4)]
-    [Abide.Guerilla.Tags.TagGroupAttribute("device_control", 1668575852u, 1684371049u, typeof(DeviceControlBlock))]
-    public sealed class DeviceControlBlock : Abide.Guerilla.Tags.IReadable, Abide.Guerilla.Tags.IWritable
+    [FieldSetAttribute(60, 4)]
+    [TagGroupAttribute("device_control", 1668575852u, 1684371049u, typeof(DeviceControlBlock))]
+    public sealed class DeviceControlBlock : AbideTagBlock
     {
-        [Abide.Guerilla.Tags.FieldAttribute("type", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(TypeOptions), false)]
-        public Int16 Type;
-        [Abide.Guerilla.Tags.FieldAttribute("triggers when", typeof(Int16))]
-        [Abide.Guerilla.Tags.OptionsAttribute(typeof(TriggersWhenOptions), false)]
-        public Int16 TriggersWhen;
-        [Abide.Guerilla.Tags.FieldAttribute("call value:[0,1]", typeof(Single))]
+        [FieldAttribute("type", typeof(TypeOptions))]
+        [OptionsAttribute(typeof(TypeOptions), false)]
+        public TypeOptions Type;
+        [FieldAttribute("triggers when", typeof(TriggersWhenOptions))]
+        [OptionsAttribute(typeof(TriggersWhenOptions), false)]
+        public TriggersWhenOptions TriggersWhen;
+        [FieldAttribute("call value:[0,1]", typeof(Single))]
         public Single CallValue;
-        [Abide.Guerilla.Tags.FieldAttribute("action string", typeof(StringId))]
+        [FieldAttribute("action string", typeof(StringId))]
         public StringId ActionString;
-        [Abide.Guerilla.Tags.FieldAttribute("on", typeof(TagReference))]
+        [FieldAttribute("on", typeof(TagReference))]
         public TagReference On;
-        [Abide.Guerilla.Tags.FieldAttribute("off", typeof(TagReference))]
+        [FieldAttribute("off", typeof(TagReference))]
         public TagReference Off;
-        [Abide.Guerilla.Tags.FieldAttribute("deny", typeof(TagReference))]
+        [FieldAttribute("deny", typeof(TagReference))]
         public TagReference Deny;
-        public int Size
+        public override int Size
         {
             get
             {
                 return 60;
             }
         }
-        public void Initialize()
+        public override void Initialize()
+        {
+            this.Type = ((TypeOptions)(0));
+            this.TriggersWhen = ((TriggersWhenOptions)(0));
+            this.CallValue = 0;
+            this.ActionString = StringId.Zero;
+            this.On = TagReference.Null;
+            this.Off = TagReference.Null;
+            this.Deny = TagReference.Null;
+        }
+        public override void Read(BinaryReader reader)
+        {
+            this.Type = ((TypeOptions)(reader.ReadInt16()));
+            this.TriggersWhen = ((TriggersWhenOptions)(reader.ReadInt16()));
+            this.CallValue = reader.ReadSingle();
+            this.ActionString = reader.ReadInt32();
+            this.On = reader.Read<TagReference>();
+            this.Off = reader.Read<TagReference>();
+            this.Deny = reader.Read<TagReference>();
+        }
+        public override void Write(BinaryWriter writer)
         {
         }
-        public void Read(System.IO.BinaryReader reader)
-        {
-        }
-        public void Write(System.IO.BinaryWriter writer)
-        {
-        }
-        public enum TypeOptions
+        public enum TypeOptions : Int16
         {
             ToggleSwitch = 0,
             OnButton = 1,
             OffButton = 2,
             CallButton = 3,
         }
-        public enum TriggersWhenOptions
+        public enum TriggersWhenOptions : Int16
         {
             TouchedByPlayer = 0,
             Destroyed = 1,
