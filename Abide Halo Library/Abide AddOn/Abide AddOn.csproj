@@ -30,11 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abide.AddOnApi, Version=1.4.6571.32583, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Abide.AddOnApi, Version=1.4.6596.935, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Abide.AddOnApi.dll</HintPath>
     </Reference>
-    <Reference Include="Abide.HaloLibrary, Version=1.1.6571.32583, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Abide.HaloLibrary, Version=1.1.6596.935, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Abide.HaloLibrary.dll</HintPath>
     </Reference>
@@ -58,11 +58,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Abide.AddOnApi.dll" />
-    <Content Include="Libraries\Abide.AddOnApi.XML" />
-    <Content Include="Libraries\Abide.HaloLibrary.dll" />
-    <Content Include="Libraries\Abide.HaloLibrary.xml" />
-    <Content Include="Libraries\YeloDebug.dll" />
+    <Content Include="Abide.AddOnApi.dll" />
+    <Content Include="Abide.AddOnApi.XML" />
+    <Content Include="Abide.HaloLibrary.dll" />
+    <Content Include="Abide.HaloLibrary.xml" />
+    <Content Include="YeloDebug.dll" />
     <Resource Include="YeloDebugSettings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

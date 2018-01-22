@@ -460,27 +460,27 @@
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTabPage.OnIntialize(Abide.AddOnApi.AddOnHostEventArgs)">
             <summary>
-            Occurs when the AddOn instance is being initialized.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTabPage.Initialize"/> event.
             </summary>
-            <param name="e">The AddOn host event arguments.</param>
+            <param name="e">An <see cref="T:Abide.AddOnApi.AddOnHostEventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTabPage.OnMapLoad(System.EventArgs)">
             <summary>
-            Occurs when the host instance loads or reloads its Halo Map instance.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTabPage.MapLoad"/> event.
             </summary>
-            <param name="e">The Event arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTabPage.OnXboxChanged(System.EventArgs)">
             <summary>
-            Occurs when the host instance changes its debug Xbox connection.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTabPage.XboxChanged"/> event.
             </summary>
-            <param name="e">The Event Arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTabPage.OnSelectedEntryChanged(System.EventArgs)">
             <summary>
-            Occurs when the host instance changes its selected Halo Index entry.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTabPage.SelectedEntryChanged"/> event.
             </summary>
-            <param name="e">The Event Arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="T:Abide.AddOnApi.Halo2.AbideTool">
             <summary>
@@ -562,27 +562,27 @@
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTool.OnIntialize(Abide.AddOnApi.AddOnHostEventArgs)">
             <summary>
-            Occurs when the AddOn instance is being initialized.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTool.Initialize"/> event.
             </summary>
-            <param name="e">The AddOn host event arguments.</param>
+            <param name="e">An <see cref="T:Abide.AddOnApi.AddOnHostEventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTool.OnMapLoad(System.EventArgs)">
             <summary>
-            Occurs when the host instance loads or reloads its Halo Map instance.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTool.MapLoad"/> event.
             </summary>
-            <param name="e">The Event arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTool.OnXboxChanged(System.EventArgs)">
             <summary>
-            Occurs when the host instance changes its debug Xbox connection.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTool.XboxChanged"/> event.
             </summary>
-            <param name="e">The Event Arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="M:Abide.AddOnApi.Halo2.AbideTool.OnSelectedEntryChanged(System.EventArgs)">
             <summary>
-            Occurs when the host instance changes its selected Halo Index entry.
+            Raises the <see cref="E:Abide.AddOnApi.Halo2.AbideTool.SelectedEntryChanged"/> event.
             </summary>
-            <param name="e">The Event Arguments.</param>
+            <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         </member>
         <member name="T:Abide.AddOnApi.Halo2.AbideMenuButton">
             <summary>
