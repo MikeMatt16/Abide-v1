@@ -1,6 +1,6 @@
-﻿namespace Abide.AddOnApi.Test
+﻿namespace Abide_AddOn_Templates
 {
-    partial class TabPageTest
+    partial class Tab_Page
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,18 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabPageTest));
             this.SuspendLayout();
             // 
-            // TabPageTest
+            // Tab_Page
             // 
+            this.Author = "$username$";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "TabPageTest";
-            this.TagFilter.Add(((Abide.HaloLibrary.TAG)(resources.GetObject("$this.TagFilter"))));
-            this.TagFilter.Add(((Abide.HaloLibrary.TAG)(resources.GetObject("$this.TagFilter1"))));
-            this.TagFilter.Add(((Abide.HaloLibrary.TAG)(resources.GetObject("$this.TagFilter2"))));
-            this.TagFilter.Add(((Abide.HaloLibrary.TAG)(resources.GetObject("$this.TagFilter3"))));
+            this.Name = "Tab_Page";
+            this.Size = new System.Drawing.Size(1856, 999);
+            this.TabPageText = "$itemname$";
             this.ResumeLayout(false);
 
         }

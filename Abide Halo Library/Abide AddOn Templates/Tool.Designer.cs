@@ -1,6 +1,6 @@
-﻿namespace Abide.AddOnApi.Test
+﻿namespace Abide_AddOn
 {
-    partial class ToolTest
+    partial class Tool
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,8 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Tool
+            // 
+            this.Author = "Name";
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "Tool";
+            this.ToolName = "Tool";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

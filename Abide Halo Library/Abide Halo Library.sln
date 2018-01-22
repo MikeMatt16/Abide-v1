@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "Abide.AddOnApi\Abide.AddOnApi.csproj", "{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YeloDebug", "YeloDebug\YeloDebug.csproj", "{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary", "Abide.HaloLibrary\Abide.HaloLibrary.csproj", "{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide AddOn", "Abide AddOn\Abide AddOn.csproj", "{EFF22FED-E2B4-466C-B617-C84A398A50FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide AddOn Templates", "Abide AddOn Templates\Abide AddOn Templates.csproj", "{790A4D1C-6ACA-45DA-9B13-558AD324EC63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +37,19 @@ Global
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF22FED-E2B4-466C-B617-C84A398A50FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF22FED-E2B4-466C-B617-C84A398A50FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF22FED-E2B4-466C-B617-C84A398A50FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF22FED-E2B4-466C-B617-C84A398A50FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{790A4D1C-6ACA-45DA-9B13-558AD324EC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{790A4D1C-6ACA-45DA-9B13-558AD324EC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{790A4D1C-6ACA-45DA-9B13-558AD324EC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{790A4D1C-6ACA-45DA-9B13-558AD324EC63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D17C94C-4E0E-4148-B941-CD11C685562C}
 	EndGlobalSection
 EndGlobal

@@ -140,10 +140,9 @@ namespace Unicode_Editor.Halo2
             {
                 //Check
                 if (characterBytes == null) throw new ArgumentNullException(nameof(characterBytes));
-                if (readable == null) throw new ArgumentNullException(nameof(readable));
 
                 //Set
-                decodedValue = readable;
+                decodedValue = readable ?? throw new ArgumentNullException(nameof(readable));
                 encodedValue = Encoding.UTF8.GetString(characterBytes);
             }
             /// <summary>

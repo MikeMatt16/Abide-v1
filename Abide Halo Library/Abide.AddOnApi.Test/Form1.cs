@@ -2,18 +2,51 @@
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Abide.AddOnApi.Test
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IHost
     {
-        private Halo2Manager manager = new Halo2Manager();
+        public MapFile Map
+        {
+            get { return map; }
+        }
+        public IndexEntry SelectedEntry
+        {
+            get { return selectedEntry; }
+            set { OnIndexEntryChanged(value); }
+        }
+
+        private readonly MapFile map = new MapFile();
+        private readonly List<IHaloAddOn<MapFile, IndexEntry>> addOns = new List<IHaloAddOn<MapFile, IndexEntry>>();
+        private IndexEntry selectedEntry = null;
 
         public Form1()
         {
             InitializeComponent();
             tagTreeView.TreeViewNodeSorter = new CustomSorter();
+        }
+
+        public object Request(IAddOn sender, string request, params object[] args)
+        {
+            switch (request)
+            {
+                case "SelectedEntry": return selectedEntry;
+                case "Map": return map;
+
+                default: return null;
+            }
+        }
+
+        protected void OnIndexEntryChanged(IndexEntry entry)
+        {
+            //Set
+            selectedEntry = entry;
+
+            //Trigger Updates
+            addOns.ForEach(a => a.OnSelectedEntryChanged());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,14 +72,14 @@ namespace Abide.AddOnApi.Test
             if (open)
             {
                 //Load...
-                manager.LoadMap(fileName);
+                map.Load(fileName);
 
                 //Begin
                 tagTreeView.BeginUpdate();
                 tagTreeView.Nodes.Clear();
 
                 //Loop
-                foreach (IndexEntry entry in manager.Map.IndexEntries)
+                foreach (IndexEntry entry in map.IndexEntries)
                 {
                     //Split
                     string[] parts = entry.Filename.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
@@ -63,9 +96,11 @@ namespace Abide.AddOnApi.Test
                     string name = $"{parts[parts.Length - 1]}.{entry.Root}";
 
                     //Create
-                    TreeNode node = new TreeNode(name);
-                    node.Tag = entry.ID;
-                    node.Name = name;
+                    TreeNode node = new TreeNode(name)
+                    {
+                        Tag = entry.Id,
+                        Name = name
+                    };
 
                     //Add
                     currentCollection.Add(node);
@@ -85,12 +120,9 @@ namespace Abide.AddOnApi.Test
 
         private void tagTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is TAGID)
-            {
-                TAGID selectedId = (TAGID)e.Node.Tag;
-                manager.SelectedEntry = manager.Map.IndexEntries[selectedId];
-            }
-            else manager.SelectedEntry = null;
+            if (e.Node.Tag is TagId selectedId)
+                selectedEntry = map.IndexEntries[selectedId];
+            else selectedEntry = null;
         }
 
         private class CustomSorter : IComparer
@@ -104,9 +136,9 @@ namespace Abide.AddOnApi.Test
 
             private int CompareNodes(TreeNode x, TreeNode y)
             {
-                if (x.Tag is TAGID && y.Tag == null)
+                if (x.Tag is TagId && y.Tag == null)
                     return 1;
-                else if (x.Tag == null && y.Tag is TAGID)
+                else if (x.Tag == null && y.Tag is TagId)
                     return -1;
                 else
                 {

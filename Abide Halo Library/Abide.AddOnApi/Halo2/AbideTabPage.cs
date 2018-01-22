@@ -157,27 +157,44 @@ namespace Abide.AddOnApi.Halo2
         public AbideTabPage()
         {
             name = Name;
+            base.Dock = DockStyle.Fill;
         }
         /// <summary>
-        /// Occurs when the AddOn instance is being initialized.
+        /// Raises the <see cref="Initialize"/> event.
         /// </summary>
-        /// <param name="e">The AddOn host event arguments.</param>
-        protected virtual void OnIntialize(AddOnHostEventArgs e) { }
+        /// <param name="e">An <see cref="AddOnHostEventArgs"/> that contains the event data.</param>
+        protected virtual void OnIntialize(AddOnHostEventArgs e)
+        {
+            //Invoke
+            initialize?.Invoke(this, e);
+        }
         /// <summary>
-        /// Occurs when the host instance loads or reloads its Halo Map instance.
+        /// Raises the <see cref="MapLoad"/> event.
         /// </summary>
-        /// <param name="e">The Event arguments.</param>
-        protected virtual void OnMapLoad(EventArgs e) { }
+        /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+        protected virtual void OnMapLoad(EventArgs e)
+        {
+            //Invoke
+            mapLoad?.Invoke(this, e);
+        }
         /// <summary>
-        /// Occurs when the host instance changes its debug Xbox connection.
+        /// Raises the <see cref="XboxChanged"/> event.
         /// </summary>
-        /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnXboxChanged(EventArgs e) { }
+        /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+        protected virtual void OnXboxChanged(EventArgs e)
+        {
+            //Invoke
+            xboxChanged?.Invoke(this, e);
+        }
         /// <summary>
-        /// Occurs when the host instance changes its selected Halo Index entry.
+        /// Raises the <see cref="SelectedEntryChanged"/> event.
         /// </summary>
-        /// <param name="e">The Event Arguments.</param>
-        protected virtual void OnSelectedEntryChanged(EventArgs e) { }
+        /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+        protected virtual void OnSelectedEntryChanged(EventArgs e)
+        {
+            //Invoke
+            selectedEntryChanged?.Invoke(this, e);
+        }
 
         string IAddOn.Author
         {
@@ -227,9 +244,6 @@ namespace Abide.AddOnApi.Halo2
 
             //Xbox Changed
             OnXboxChanged(new EventArgs());
-
-            //Invoke
-            xboxChanged?.Invoke(this, e);
         }
         void IAddOn.Initialize(IHost host)
         {
@@ -241,9 +255,6 @@ namespace Abide.AddOnApi.Halo2
 
             //Initialize
             OnIntialize(e);
-
-            //Trigger
-            initialize?.Invoke(this, e);
         }
         void IHaloAddOn<MapFile, IndexEntry>.OnMapLoad()
         {
@@ -252,9 +263,6 @@ namespace Abide.AddOnApi.Halo2
 
             //Map Load
             OnMapLoad(e);
-
-            //Invoke
-            mapLoad?.Invoke(this, e);
         }
         void IHaloAddOn<MapFile, IndexEntry>.OnSelectedEntryChanged()
         {
@@ -263,9 +271,6 @@ namespace Abide.AddOnApi.Halo2
 
             //Selected Entry Changed
             OnSelectedEntryChanged(e);
-
-            //Invoke
-            selectedEntryChanged?.Invoke(this, e);
         }
         void IDisposable.Dispose()
         {
