@@ -66,6 +66,7 @@
             this.windowToolStripMenuItem,
             this.xboxToolStripMenuItem,
             this.helpToolStripMenuItem});
+            this.mainMenuStrip.Renderer = new AbideToolStripRenderer();
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowToolStripMenuItem;
             this.mainMenuStrip.Name = "mainMenuStrip";

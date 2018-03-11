@@ -7,6 +7,7 @@ namespace Abide.HaloLibrary
     /// <summary>
     /// Represents a 32-bit tag ID number.
     /// </summary>
+    [Serializable, StructLayout(LayoutKind.Sequential)]
     public struct TagId : IComparable<int>, IComparable<uint>, IComparable<TagId>, IEquatable<int>, IEquatable<uint>, IEquatable<TagId>
     {
         /// <summary>

@@ -104,10 +104,6 @@ namespace Abide
 
         private void Main_Load(object sender, EventArgs e)
         {
-            //Extend
-            if (main_ExtendFrame()) mainMenuStrip.Renderer = new AeroToolStripRenderer();
-            else mainMenuStrip.Renderer = new AbideToolStripRenderer();
-
             //Get Version string...
             versionToolStripMenuItem.Text = typeof(Main).Assembly.GetName().Version.ToString();
 
@@ -363,98 +359,6 @@ namespace Abide
 
             //Return
             return update;
-        }
-
-        private bool main_ExtendFrame()
-        {
-            //Return
-            return false;
-            //TODO implement AeroToolStripRenderer.
-
-            //Prepare
-            bool success = false;
-
-            //Check
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
-                if (DwmIsCompositionEnabled(out success) == IntPtr.Zero && success)
-                    success = DwmExtendFrameIntoClientArea(Handle, new MARGINS(0, 0, mainMenuStrip.Height, 0)) == IntPtr.Zero;
-            }
-            else return false;
-
-            //Return
-            return success;
-        }
-
-        /// <summary>
-        /// Extends the window frame into the client area.
-        /// </summary>
-        /// <param name="hWnd">The handle to the window in which the frame will be extended into the client area.</param>
-        /// <param name="pMarInset">A <see cref="MARGINS"/> structure that describes the margins to use when extending the frame into the client area.</param>
-        /// <returns>If this function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-        [DllImport("Dwmapi.dll")]
-        private static extern IntPtr DwmExtendFrameIntoClientArea(IntPtr hWnd, MARGINS pMarInset);
-
-        /// <summary>
-        /// Obtains a value that indicates whether Desktop Window Manager (DWM) composition is enabled.
-        /// </summary>
-        /// <param name="pfEnabled">When this function returns successfully, receives true if DWM composition is enabled; otherwise, false.</param>
-        /// <returns>If this function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-        [DllImport("Dwmapi.dll")]
-        private static extern IntPtr DwmIsCompositionEnabled(out bool pfEnabled);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct MARGINS
-        {
-            /// <summary>
-            /// Gets or sets the width of the left border that retains its size.
-            /// </summary>
-            public int Left
-            {
-                get { return left; }
-                set { left = value; }
-            }
-            /// <summary>
-            /// Gets or sets the width of the right border that retains its size.
-            /// </summary>
-            public int Right
-            {
-                get { return right; }
-                set { right = value; }
-            }
-            /// <summary>
-            /// Gets or sets the height of the top border that retains its size.
-            /// </summary>
-            public int Top
-            {
-                get { return top; }
-                set { top = value; }
-            }
-            /// <summary>
-            /// Gets or sets the height of the bottom border that retains its size.
-            /// </summary>
-            public int Bottom
-            {
-                get { return bottom; }
-                set { bottom = value; }
-            }
-
-            private int left, right, top, bottom;
-
-            /// <summary>
-            /// Initializes a new <see cref="MARGINS"/> structure using the specified left, right, top, and bottom values.
-            /// </summary>
-            /// <param name="left">The width of the left border.</param>
-            /// <param name="right">The width of the right border.</param>
-            /// <param name="top">The height of the top border.</param>
-            /// <param name="bottom">The height of the bottom border.</param>
-            public MARGINS(int left, int right, int top, int bottom)
-            {
-                this.left = left;
-                this.right = right;
-                this.top = top;
-                this.bottom = bottom;
-            }
         }
     }
 }

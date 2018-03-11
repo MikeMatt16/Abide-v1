@@ -11,10 +11,9 @@ namespace Abide
     {
         private static readonly Color Abide1 = Color.FromArgb(213, 221, 229);
         private static readonly Color Abide2 = Color.FromArgb(186, 203, 219);
-
+        
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
-            base.OnRenderToolStripBackground(e);
             using (Brush b = new LinearGradientBrush(e.AffectedBounds, Color.White, Abide1, LinearGradientMode.Vertical))
                 e.Graphics.FillRectangle(b, e.AffectedBounds);
         }
@@ -26,7 +25,6 @@ namespace Abide
 
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
         {
-            base.OnRenderImageMargin(e);
             using (Brush b = new LinearGradientBrush(e.AffectedBounds, Abide1, Abide2, LinearGradientMode.Vertical))
                 e.Graphics.FillRectangle(b, e.AffectedBounds);
             e.Graphics.DrawRectangle(Pens.LightGray, e.AffectedBounds);

@@ -1,6 +1,7 @@
 ﻿using Abide.AddOnApi;
 using Abide.Classes;
 using Abide.Dialogs;
+using Abide.Halo2.Designer;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.HaloLibrary.IO;
@@ -66,10 +67,10 @@ namespace Abide.Halo2
             InitializeComponent();
 
             //Setup
-            int result = SetWindowTheme(TagTree.Handle, "explorer", null).ToInt32();
-            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, TagTree.Handle);
+            int result = SetWindowTheme(tagTreeView.Handle, "explorer", null).ToInt32();
+            if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, tagTreeView.Handle);
             
-            TagTree.TreeViewNodeSorter = new TagIdSorter();
+            tagTreeView.TreeViewNodeSorter = new TagIdSorter();
             entries = new Dictionary<TagId, IndexEntryWrapper>();
             map = new MapFile();
 
@@ -143,7 +144,7 @@ namespace Abide.Halo2
                 tabPages.Add(page);
 
                 //Check
-                if (!tabPage.ApplyFilter) TagTabControl.TabPages.Add(page);
+                if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
             }
         }
         /// <summary>
@@ -183,9 +184,9 @@ namespace Abide.Halo2
             entries.Clear();
 
             //Begin
-            TagTree.BeginUpdate();
-            TagTree.Nodes.Clear();
-            TagTree.EndUpdate();
+            tagTreeView.BeginUpdate();
+            tagTreeView.Nodes.Clear();
+            tagTreeView.EndUpdate();
 
             //Setup
             Text = "Halo 2";
@@ -201,8 +202,8 @@ namespace Abide.Halo2
         private void map_Load()
         {
             //Begin
-            TagTree.BeginUpdate();
-            TagTree.Nodes.Clear();
+            tagTreeView.BeginUpdate();
+            tagTreeView.Nodes.Clear();
             entries.Clear();
 
             //Load Entries
@@ -213,8 +214,8 @@ namespace Abide.Halo2
             mapWrapper = new MapFileWrapper(map.Name, map.Strings, entries[map.Scenario.Id]);
 
             //End
-            TagTree.Sort();
-            TagTree.EndUpdate();
+            tagTreeView.Sort();
+            tagTreeView.EndUpdate();
 
             //Setup
             Text = $"Halo 2 - {map.Name}";
@@ -246,7 +247,7 @@ namespace Abide.Halo2
             if ((!string.IsNullOrEmpty(tagSearchBox.Text) && string.Join(".", last, entry.Root).ToLower().Contains(tagSearchBox.Text.ToLower())) || string.IsNullOrEmpty(tagSearchBox.Text))
             {
                 //Prepare
-                collection = TagTree.Nodes;
+                collection = tagTreeView.Nodes;
 
                 //Loop
                 for (int i = 0; i < parts.Length - 1; i++)
@@ -279,7 +280,7 @@ namespace Abide.Halo2
         {
             //Prepare...
             IndexEntryWrapper wrapper = sender as IndexEntryWrapper;
-            TreeNode node = TagTree.SelectedNode;
+            TreeNode node = tagTreeView.SelectedNode;
 
             //Check
             if (wrapper != null && node != null)
@@ -288,7 +289,7 @@ namespace Abide.Halo2
                 map.IndexEntries[wrapper.ID].Filename = wrapper.Filename;
 
                 //Prepare
-                TreeNodeCollection collection = TagTree.Nodes;
+                TreeNodeCollection collection = tagTreeView.Nodes;
                 TreeNode parent = null;
 
                 //Loop
@@ -306,18 +307,18 @@ namespace Abide.Halo2
                 }
 
                 //Remove from tree...
-                if (node.Nodes.Count == 0) TagTree.Nodes.Remove(node);
+                if (node.Nodes.Count == 0) tagTreeView.Nodes.Remove(node);
 
                 //Build
                 node = entry_BuildTagTree(map.IndexEntries[wrapper.ID]);
 
                 //Re-sort...
-                TagTree.BeginUpdate();
-                TagTree.Sort();
-                TagTree.EndUpdate();
+                tagTreeView.BeginUpdate();
+                tagTreeView.Sort();
+                tagTreeView.EndUpdate();
 
                 //Select
-                TagTree.SelectedNode = node;
+                tagTreeView.SelectedNode = node;
                 node.EnsureVisible();
             }
         }
@@ -441,10 +442,10 @@ namespace Abide.Halo2
                     if (page.ApplyFilter)
                         if (page.Filter.Contains(selectedEntry.Root))
                         {
-                            if (!TagTabControl.TabPages.ContainsKey(tabPage.Name))
-                            { TagTabControl.TabPages.Add(tabPage); TagTabControl.SelectedTab = tabPage; }
+                            if (!tagTabControl.TabPages.ContainsKey(tabPage.Name))
+                            { tagTabControl.TabPages.Add(tabPage); tagTabControl.SelectedTab = tabPage; }
                         }
-                        else TagTabControl.TabPages.RemoveByKey(tabPage.Name);
+                        else tagTabControl.TabPages.RemoveByKey(tabPage.Name);
                 }
 
                 //Check Menu Buttons
@@ -532,8 +533,8 @@ namespace Abide.Halo2
             if (e.KeyCode == Keys.Return)
             {
                 //Begin
-                TagTree.BeginUpdate();
-                TagTree.Nodes.Clear();
+                tagTreeView.BeginUpdate();
+                tagTreeView.Nodes.Clear();
                 entries.Clear();
 
                 //Load Entries
@@ -541,11 +542,11 @@ namespace Abide.Halo2
                     entry_BuildTagTree(entry);
 
                 //End
-                TagTree.Sort();
-                TagTree.EndUpdate();
+                tagTreeView.Sort();
+                tagTreeView.EndUpdate();
 
                 //Expand?
-                if (!string.IsNullOrEmpty(tagSearchBox.Text)) TagTree.ExpandAll();
+                if (!string.IsNullOrEmpty(tagSearchBox.Text)) tagTreeView.ExpandAll();
             }
 
             //Check for escape...
@@ -555,8 +556,8 @@ namespace Abide.Halo2
                 tagSearchBox.Text = string.Empty;
 
                 //Begin
-                TagTree.BeginUpdate();
-                TagTree.Nodes.Clear();
+                tagTreeView.BeginUpdate();
+                tagTreeView.Nodes.Clear();
                 entries.Clear();
 
                 //Load Entries
@@ -564,8 +565,8 @@ namespace Abide.Halo2
                     entry_BuildTagTree(entry);
 
                 //End
-                TagTree.Sort();
-                TagTree.EndUpdate();
+                tagTreeView.Sort();
+                tagTreeView.EndUpdate();
             }
         }
 
@@ -681,7 +682,7 @@ namespace Abide.Halo2
                         //Select
                         var wrapper = entries[tagId];
                         string[] parts = $"{wrapper.Filename}.{wrapper.Root}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                        TreeNodeCollection collection = TagTree.Nodes; TreeNode node = null;
+                        TreeNodeCollection collection = tagTreeView.Nodes; TreeNode node = null;
                         for (int i = 0; i < parts.Length; i++)
                         {
                             //Get Node
@@ -695,7 +696,7 @@ namespace Abide.Halo2
                         if(node != null)
                         {
                             //Select and goto
-                            TagTree.SelectedNode = node;
+                            tagTreeView.SelectedNode = node;
                             node.EnsureVisible();
                         }
                     }
@@ -784,7 +785,7 @@ namespace Abide.Halo2
             /// Gets and returns the map's string list.
             /// </summary>
             [Category("Map Properties"), Description("The map's string list.")]
-            [Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
+            [Editor(typeof(StringsListEditor), typeof(UITypeEditor))]
             public MapFile.StringList Strings
             {
                 get { return strings; }

@@ -62,10 +62,10 @@
     <Compile Include="AbideToolStripRenderer.cs" />
     <Compile Include="AddOnManifest.cs" />
     <Compile Include="AddOnPackageManifest.cs" />
-    <Compile Include="AeroToolStripRenderer.cs" />
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Classes\AddOnFactoryManager.cs" />
     <Compile Include="AbideRegistry.cs" />
+    <Compile Include="Classes\HaloAddOnContainer.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\SettingsAddOnContainer.cs" />
     <Compile Include="Compression\AddOnPackage.cs" />
@@ -110,7 +110,6 @@
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="FileHelper.cs" />
-    <Compile Include="Classes\HaloAddOnContainer.cs" />
     <Compile Include="Forms\AddOnInstaller.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +133,12 @@
     </Compile>
     <Compile Include="Forms\XboxForm.Designer.cs">
       <DependentUpon>XboxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Halo2\Designer\StringListEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Halo2\Designer\StringListEditorDialog.Designer.cs">
+      <DependentUpon>StringListEditorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Halo2\PatchFile.cs" />
     <Compile Include="Halo2\Editor.cs">
@@ -179,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddOnPackageManager.resx">
       <DependentUpon>AddOnPackageManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2\Designer\StringListEditorDialog.resx">
+      <DependentUpon>StringListEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Halo2\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>

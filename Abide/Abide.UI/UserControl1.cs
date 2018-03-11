@@ -1,5 +1,4 @@
-﻿using Abide.AddOnApi.Halo2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Abide_AddOn
+namespace Abide.UI
 {
-    public partial class Tool : AbideTool
+    public partial class UserControl1: UserControl
     {
-        public Tool()
+        public UserControl1()
         {
             InitializeComponent();
         }

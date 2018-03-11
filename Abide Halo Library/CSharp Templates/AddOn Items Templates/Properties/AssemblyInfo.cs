@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abide AddOn Templates")]
+[assembly: AssemblyTitle("AddOn Items Templates")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Abide AddOn Templates")]
+[assembly: AssemblyProduct("AddOn Items Templates")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("790a4d1c-6aca-45da-9b13-558ad324ec63")]
+[assembly: Guid("22ee58d5-faf9-4d5a-9c54-e77628ec1e70")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -96,11 +96,11 @@ namespace Abide.Compression
                 using (BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read Header
-                    header = reader.ReadStructure<Header>();
+                    header = reader.Read<Header>();
                     if (header.AaoTag == AaoFourCc)  //Quick sanity check...
                     {
                         fileEntries = new FileEntry[header.EntryCount];
-                        for (uint i = 0; i < header.EntryCount; i++) fileEntries[i] = new FileEntry(reader.ReadStructure<Entry>());
+                        for (uint i = 0; i < header.EntryCount; i++) fileEntries[i] = new FileEntry(reader.Read<Entry>());
                         string[] filenames = reader.ReadUTF8StringTable(header.FileNamesOffset, header.FileIndexOffset, (int)header.EntryCount);
 
                         //Loop

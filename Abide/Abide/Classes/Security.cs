@@ -45,10 +45,7 @@ namespace Abide.Classes
             foreach (string arg in arguments)
                 startInfo.Arguments += string.Format("\"{0}\" ", arg);
 
-            try
-            {
-                Process p = Process.Start(startInfo);
-            }
+            try { Process p = Process.Start(startInfo); }
             catch (System.ComponentModel.Win32Exception) { failed = true; }
 
             if (!failed)
@@ -58,19 +55,13 @@ namespace Abide.Classes
         }
         public static bool RestartElevated()
         {
-            //Prepare
-            Process p = null;
-
             //Execute
-            return ExecuteElevated(out p, Environment.CurrentDirectory, Application.ExecutablePath, null);
+            return ExecuteElevated(out Process p, Environment.CurrentDirectory, Application.ExecutablePath, null);
         }
         public static bool RestartElevated(params string[] arguments)
         {
-            //Prepare
-            Process p = null;
-
             //Execute
-            return ExecuteElevated(out p, Environment.CurrentDirectory, Application.ExecutablePath, arguments);
+            return ExecuteElevated(out Process p, Environment.CurrentDirectory, Application.ExecutablePath, arguments);
         }
         public static bool RestartElevated(out Process process, params string[] arguments)
         {
@@ -79,19 +70,13 @@ namespace Abide.Classes
         }
         public static bool ExecuteElevated(string fileName, string workingDirectory)
         {
-            //Prepare
-            Process p = null;
-
             //Execute
-            return ExecuteElevated(out p, workingDirectory, fileName, null);
+            return ExecuteElevated(out Process p, workingDirectory, fileName, null);
         }
         public static bool ExecuteElevated(string fileName, string workingDirectory, string[] arguments)
         {
-            //Prepare
-            Process p = null;
-
             //Execute
-            return ExecuteElevated(out p, workingDirectory, fileName, arguments);
+            return ExecuteElevated(out Process p, workingDirectory, fileName, arguments);
         }
         public static bool ExecuteElevated(out Process process, string workingDirectory, string fileName, string[] arguments)
         {

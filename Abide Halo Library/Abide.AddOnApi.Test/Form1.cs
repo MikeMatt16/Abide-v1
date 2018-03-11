@@ -3,6 +3,8 @@ using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace Abide.AddOnApi.Test
@@ -116,6 +118,31 @@ namespace Abide.AddOnApi.Test
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //Prepare
+            BinaryFormatter formatter = new BinaryFormatter();
+            string fileName = string.Empty;
+            bool save = false;
+
+            //Check map
+            if (map != null)
+            {
+                //Initialize
+                using(SaveFileDialog saveDlg = new SaveFileDialog())
+                {
+                    saveDlg.FileName = map.Name;
+                    saveDlg.Filter = "Serialized map files (*.smap)|*.smap";
+                    saveDlg.Title = "Save File...";
+                    if (saveDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        fileName = saveDlg.FileName;
+                        save = true;
+                    }
+                }
+
+                if (save)
+                    using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+                        formatter.Serialize(fs, map);
+            }
         }
 
         private void tagTreeView_AfterSelect(object sender, TreeViewEventArgs e)

@@ -1999,6 +1999,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Represents a Halo 2 string list.
         /// </summary>
+        [Serializable]
         public sealed class StringList : IEnumerable<string>, ICollection<string>
         {
             /// <summary>
@@ -2139,6 +2140,16 @@ namespace Abide.HaloLibrary.Halo2Map
 
                 //Return
                 return strings.Remove(value);
+            }
+            /// <summary>
+            /// Attempts to remove a string value from this list at the specified index.
+            /// </summary>
+            /// <param name="index">The zero-based index of the string to remove.</param>
+            public void RemoveAt(int index)
+            {
+                //Check
+                if (index >= 0 && index < strings.Count)
+                    strings.RemoveAt(index);
             }
             /// <summary>
             /// Reset's the map's strings table, leaving the zero-string.

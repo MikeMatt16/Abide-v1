@@ -50,15 +50,6 @@ namespace Abide.AddOnApi.Halo2
             remove { xboxChanged -= value; }
         }
         /// <summary>
-        /// Gets or sets the Halo Map version the AddOn is compatible with.
-        /// </summary>
-        [Category("Abide"), Description("The Halo Map version the AddOn is compatible with.")]
-        public MapVersion MapVersion
-        {
-            get { return mapVersion; }
-            set { mapVersion = value; }
-        }
-        /// <summary>
         /// Gets or sets the description of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The description of the AddOn.")]
@@ -145,7 +136,6 @@ namespace Abide.AddOnApi.Halo2
         private event EventHandler<AddOnHostEventArgs> initialize;
         private List<Tag> tagFilter = new List<Tag>();
         private bool applyTagFilter = false;
-        private MapVersion mapVersion = MapVersion.Halo2;
         private string name = string.Empty;
         private string description = string.Empty;
         private string author = string.Empty;
@@ -230,7 +220,7 @@ namespace Abide.AddOnApi.Halo2
         }
         MapVersion IHaloAddOn<MapFile, IndexEntry>.Version
         {
-            get { return mapVersion; }
+            get { return MapVersion.Halo2; }
         }
         Xbox IDebugXboxAddOn<Xbox>.Xbox
         {

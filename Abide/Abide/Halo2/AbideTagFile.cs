@@ -107,7 +107,7 @@ namespace Abide.Halo2
                 using(BinaryReader reader = new BinaryReader(inStream))
                 {
                     //Read
-                    header = reader.ReadStructure<Header>();
+                    header = reader.Read<Header>();
 
                     //Load Data
                     byte[] buffer = new byte[header.DataLength];

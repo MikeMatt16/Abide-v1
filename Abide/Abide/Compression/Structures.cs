@@ -77,7 +77,9 @@ namespace Abide.Compression
         private uint fileIndexOffset;
         private uint fileNamesOffset;
         private uint entryCount;
+#pragma warning disable 0169
         private uint reserved0;
+#pragma warning restore 0169
     }
 
     /// <summary>
