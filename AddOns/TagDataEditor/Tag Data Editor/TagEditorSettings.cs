@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Tag_Data_Editor
 {
+    [AddOn]
     public partial class TagEditorSettings : SettingsPage
     {
         public TagEditorSettings()

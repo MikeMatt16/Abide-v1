@@ -40,14 +40,15 @@
             this.tagTabControl = new System.Windows.Forms.TabControl();
             this.tagPropertiesTabPage = new System.Windows.Forms.TabPage();
             this.TagPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.tabPageImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolPanel = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.mapToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tabPageImageList = new System.Windows.Forms.ImageList(this.components);
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TagPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tagSplitContainer)).BeginInit();
             this.tagSplitContainer.Panel1.SuspendLayout();
@@ -173,6 +174,12 @@
             this.TagPropertyGrid.TabIndex = 0;
             this.TagPropertyGrid.ToolbarVisible = false;
             // 
+            // tabPageImageList
+            // 
+            this.tabPageImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tabPageImageList.ImageStream")));
+            this.tabPageImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.tabPageImageList.Images.SetKeyName(0, "Tools.png");
+            // 
             // toolPanel
             // 
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -211,17 +218,6 @@
             this.toolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
             this.toolStripDropDownButton.Text = "&Tools";
             // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = global::Abide.Properties.Resources.Save;
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
-            // 
             // openToolStripButton
             // 
             this.openToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -246,11 +242,27 @@
             this.optionsToolStripButton.Visible = false;
             this.optionsToolStripButton.Click += new System.EventHandler(this.optionsToolStripButton_Click);
             // 
-            // tabPageImageList
+            // saveToolStripButton
             // 
-            this.tabPageImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tabPageImageList.ImageStream")));
-            this.tabPageImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.tabPageImageList.Images.SetKeyName(0, "Tools.png");
+            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsToolStripMenuItem});
+            this.saveToolStripButton.Image = global::Abide.Properties.Resources.Save;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(32, 22);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.saveAsToolStripMenuItem.Text = "Save &As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // Editor
             // 
@@ -294,12 +306,13 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
-        private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ToolStripButton optionsToolStripButton;
         private System.Windows.Forms.ContextMenuStrip tagContextMenu;
         private System.Windows.Forms.ToolStripMenuItem saveTagToolStripMenuItem;
         private Abide.Controls.CueTextBox tagSearchBox;
         private System.Windows.Forms.ImageList tabPageImageList;
+        private System.Windows.Forms.ToolStripSplitButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }

@@ -21,6 +21,7 @@ namespace Abide.AddOnApi.Test
             set { OnIndexEntryChanged(value); }
         }
 
+        private readonly AddOnFactory factory = new AddOnFactory(true);
         private readonly MapFile map = new MapFile();
         private readonly List<IHaloAddOn<MapFile, IndexEntry>> addOns = new List<IHaloAddOn<MapFile, IndexEntry>>();
         private IndexEntry selectedEntry = null;
@@ -142,6 +143,42 @@ namespace Abide.AddOnApi.Test
                 if (save)
                     using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                         formatter.Serialize(fs, map);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string fileName = string.Empty;
+            bool open = false;
+
+            //Initialize
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Setup
+                openDlg.Filter = ".NET Assemblies (*.dll;*.exe)|*.dll;*.exe";
+                openDlg.Title = "Open Assembly...";
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    fileName = openDlg.FileName;
+                    open = true;
+                }
+            }
+
+            //Check
+            if (open)
+            {
+                //Load
+                factory.LoadAssembly(fileName);
+                factory.AddOnDirectory = Path.GetDirectoryName(fileName);
+
+                //Create Instances
+                List<IAddOn> addOns = new List<IAddOn>();
+                foreach (Type addOnType in factory.GetAddOnTypes())
+                    addOns.Add(factory.CreateInstance<IAddOn>(addOnType));
+
+                //Initialize
+                addOns.ForEach(a => a.Initialize(this));
             }
         }
 

@@ -142,8 +142,9 @@ namespace Abide.AddOnApi
             foreach (Type type in assembly.GetExportedTypes())
                 try
                 {
-                    if (type.GetInterface(typeof(IAddOn).Name) != null)
-                    { addOns.Add(type); }
+                    //Check interface and attribute usage.
+                    if (type.GetInterface(nameof(IAddOn)) != null && type.GetCustomAttribute<AddOnAttribute>() != null)
+                        addOns.Add(type);
                 }
                 catch (AmbiguousMatchException) { }
         }

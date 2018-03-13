@@ -23,6 +23,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Abide AddOn Project Templat
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AddOn Items Templates", "VisualBasic Templates\AddOn Items Templates\AddOn Items Templates.vbproj", "{855CE692-3009-475D-AD72-FFB30F368365}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi.AddOnTest", "Abide.AddOnApi.AddOnTest\Abide.AddOnApi.AddOnTest.csproj", "{B8835215-61B1-4E18-8B94-A5848FF2D7D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{855CE692-3009-475D-AD72-FFB30F368365}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855CE692-3009-475D-AD72-FFB30F368365}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855CE692-3009-475D-AD72-FFB30F368365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8835215-61B1-4E18-8B94-A5848FF2D7D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8835215-61B1-4E18-8B94-A5848FF2D7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8835215-61B1-4E18-8B94-A5848FF2D7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8835215-61B1-4E18-8B94-A5848FF2D7D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,7 +40,7 @@ namespace Abide.AddOnApi
         private readonly IHost host;
 
         /// <summary>
-        /// Initializes a new <see cref="AddOnHostEventArgs"/> instance.
+        /// Initializes a new instance of the <see cref="AddOnHostEventArgs"/> class using the supplied AddOn host.
         /// </summary>
         /// <param name="host">The AddOn Host instance.</param>
         public AddOnHostEventArgs(IHost host)

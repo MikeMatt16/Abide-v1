@@ -212,6 +212,7 @@ namespace Abide.Halo2
 
             //Load Map Wrapper
             mapWrapper = new MapFileWrapper(map.Name, map.Strings, entries[map.Scenario.Id]);
+            mapWrapper.NameChanged += MapWrapper_NameChanged;
 
             //End
             tagTreeView.Sort();
@@ -226,6 +227,26 @@ namespace Abide.Halo2
             foreach (var addOn in container.GetHaloAddOns())
                 try { addOn.OnMapLoad(); }
                 catch (Exception ex) { errors.Add(ex); }
+        }
+
+        private void map_SoftLoad()
+        {
+            //Setup
+            Text = $"Halo 2 - {map.Name}";
+            TagPropertyGrid.SelectedObject = mapWrapper;
+
+            //Send trigger
+            List<Exception> errors = new List<Exception>();
+            foreach (var addOn in container.GetHaloAddOns())
+                try { addOn.OnMapLoad(); }
+                catch (Exception ex) { errors.Add(ex); }
+        }
+
+        private void MapWrapper_NameChanged(object sender, EventArgs e)
+        {
+            //Set Name
+            if(sender is MapFileWrapper wrapper)
+                map.Name = wrapper.Name;
         }
 
         private TreeNode entry_BuildTagTree(IndexEntry entry)
@@ -263,9 +284,11 @@ namespace Abide.Halo2
 
                 //Create Node
                 string name = $"{parts[parts.Length - 1]}.{entry.Root}";
-                node = new TreeNode(name, 1, 1);
-                node.Name = name;
-                node.Tag = entry.Id;
+                node = new TreeNode(name, 1, 1)
+                {
+                    Name = name,
+                    Tag = entry.Id
+                };
 
                 //Add
                 collection.Add(node);
@@ -368,6 +391,47 @@ namespace Abide.Halo2
 
             //Save
             map.Save(filename);
+
+            //Soft Load
+            map_SoftLoad();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string filename = string.Empty;
+            bool save = false;
+
+            //Create
+            using (SaveFileDialog saveDlg = new SaveFileDialog())
+            {
+                //Setup
+                saveDlg.Filter = "Halo 2 Map Files (*.map)|*.map";
+                saveDlg.Title = "Save Halo 2 Map As...";
+                saveDlg.FileName = map.Name;
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = saveDlg.FileName;
+                    save = true;
+                }
+            }
+
+            //Check
+            if (save)
+            {
+                //Save?
+                bool success = false;
+                try { map.Save(filename); success = true; }
+                catch { MessageBox.Show("Unable to save map to target file location.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+                //Check
+                if (success)
+                {
+                    //Set
+                    this.filename = filename;
+                    map_SoftLoad();
+                }
+            }
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
@@ -763,13 +827,22 @@ namespace Abide.Halo2
         private class MapFileWrapper
         {
             /// <summary>
+            /// Occurs when the map wrapper's name is changed.
+            /// </summary>
+            [Category("Property Changed"), Description("Occurs when the map's name is changed.")]
+            public event EventHandler NameChanged
+            {
+                add { nameChanged += value; }
+                remove { nameChanged -= value; }
+            }
+            /// <summary>
             /// Gets or sets the name of the map.
             /// </summary>
             [Category("Map Properties"), Description("The name of the map.")]
             public string Name
             {
                 get { return name; }
-                set { name = value; }
+                set { bool changed = name != value; name = value; if (changed) OnNameChanged(new EventArgs()); }
             }
             /// <summary>
             /// Gets or sets the map's scenario.
@@ -790,7 +863,9 @@ namespace Abide.Halo2
             {
                 get { return strings; }
             }
-            
+
+            private event EventHandler nameChanged;
+
             private string name;
             private IndexEntryWrapper scenario;
             private readonly MapFile.StringList strings;
@@ -814,6 +889,15 @@ namespace Abide.Halo2
             public override string ToString()
             {
                 return name;
+            }
+            /// <summary>
+            /// Raises the <see cref="NameChanged"/> event.
+            /// </summary>
+            /// <param name="e">The <see cref="EventArgs"/> that contains the event data.</param>
+            protected virtual void OnNameChanged(EventArgs e)
+            {
+                //Raise event
+                nameChanged?.Invoke(this, e);
             }
         }
 

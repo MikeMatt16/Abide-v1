@@ -1,4 +1,5 @@
-﻿using Abide.AddOnApi.Halo2;
+﻿using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.Ifp;
@@ -12,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Tag_Data_Editor.Halo2
 {
-    [ComVisible(true)]
+    [ComVisible(true), AddOn]
     public partial class TagEditor : AbideTool
     {
         private IEnumerable<DataObject> dataObjects;
