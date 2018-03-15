@@ -324,6 +324,9 @@ namespace Abide
 
         private void quickConnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Get Current State
+            bool state = debugXbox.Connected;
+
             //Connect/Disconnect...
             if (debugXbox.Connected) debugXbox.Disconnect();
             else try { debugXbox.Connect(); }
@@ -332,6 +335,10 @@ namespace Abide
             //Set Text
             if (debugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect {debugXbox.DebugName}";
             else quickConnectToolStripMenuItem.Text = "Quick Connect";
+
+            //State Changed
+            if (state != debugXbox.Connected)
+                Classes.Globals.OnXboxChanged(e);
         }
         
         private bool main_CheckForUpdate(UpdateManifest manifest)

@@ -23,6 +23,7 @@ namespace Abide.Classes
 
         private readonly List<IAddOn> addOns;
         private readonly List<IHaloAddOn<TMap, TEntry>> haloAddOns;
+        private readonly List<IDebugXboxAddOn<TXbox>> xboxAddOns;
         private readonly List<ITabPage<TMap, TEntry, TXbox>> tabPages;
         private readonly List<IMenuButton<TMap, TEntry, TXbox>> menuButtons;
         private readonly List<IContextMenuItem<TMap, TEntry, TXbox>> contextMenuItems;
@@ -40,6 +41,7 @@ namespace Abide.Classes
             this.version = version;
             addOns = new List<IAddOn>();
             haloAddOns = new List<IHaloAddOn<TMap, TEntry>>();
+            xboxAddOns = new List<IDebugXboxAddOn<TXbox>>();
             tabPages = new List<ITabPage<TMap, TEntry, TXbox>>();
             menuButtons = new List<IMenuButton<TMap, TEntry, TXbox>>();
             contextMenuItems = new List<IContextMenuItem<TMap, TEntry, TXbox>>();
@@ -95,6 +97,14 @@ namespace Abide.Classes
             return haloAddOns.ToArray();
         }
         /// <summary>
+        /// Retrieves all of the <see cref="IDebugXboxAddOn{TXbox}"/> instances within the container.
+        /// </summary>
+        /// <returns>An array of <see cref="IDebugXboxAddOn{TXbox}"/> instances loaded and initializded by the container.</returns>
+        public IDebugXboxAddOn<TXbox>[] GetXboxAddOns()
+        {
+            return xboxAddOns.ToArray();
+        }
+        /// <summary>
         /// Begins the AddOn initialization process.
         /// </summary>
         /// <param name="host">The AddOn host.</param>
@@ -134,12 +144,13 @@ namespace Abide.Classes
                 //Prepare...
                 var halo = type.GetInterface(typeof(IHaloAddOn<TMap, TEntry>).Name);
                 var tool = type.GetInterface(typeof(ITool<TMap, TEntry, TXbox>).Name);
+                var xbox = type.GetInterface(typeof(IDebugXboxAddOn<TXbox>).Name);
                 var menuButton = type.GetInterface(typeof(IMenuButton<TMap, TEntry, TXbox>).Name);
                 var contextMenuItem = type.GetInterface(typeof(IContextMenuItem<TMap, TEntry, TXbox>).Name);
                 var tabPage = type.GetInterface(typeof(ITabPage<TMap, TEntry, TXbox>).Name);
                 var assemblyName = type.Assembly.GetName().Name;
                 if (!errors.ContainsKey(factory)) errors.Add(factory, new List<Exception>());
-
+                
                 //Check Halo based AddOns
                 if (halo != null)
                     using (var haloAddOn = factory.CreateInstance<IHaloAddOn<TMap, TEntry>>(assemblyName, type.FullName))
@@ -166,6 +177,7 @@ namespace Abide.Classes
             //Add
             addOns.Add(tool);
             haloAddOns.Add(tool);
+            xboxAddOns.Add(tool);
             tools.Add(tool);
         }
         private void Factory_InitializeMenuButton(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
@@ -177,6 +189,7 @@ namespace Abide.Classes
             //Add
             addOns.Add(menuButton);
             haloAddOns.Add(menuButton);
+            xboxAddOns.Add(menuButton);
             menuButtons.Add(menuButton);
         }
         private void Factory_InitializeTabPage(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)
@@ -188,6 +201,7 @@ namespace Abide.Classes
             //Add
             addOns.Add(tabPage);
             haloAddOns.Add(tabPage);
+            xboxAddOns.Add(tabPage);
             tabPages.Add(tabPage);
         }
         private void Factory_InitializeContextMenuItem(AddOnFactory factory, string assemblyName, string typeFullName, IHost host)

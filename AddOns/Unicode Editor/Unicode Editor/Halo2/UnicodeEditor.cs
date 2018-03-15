@@ -1,8 +1,10 @@
-﻿using Abide.AddOnApi.Halo2;
+﻿using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
 using System;
 
 namespace Unicode_Editor.Halo2
 {
+    [AddOn]
     public partial class UnicodeEditor : AbideMenuButton
     {
         private const string unicTag = "unic";

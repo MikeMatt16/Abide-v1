@@ -20,13 +20,13 @@ namespace Mode.Halo2
                 selectedEntry.TagData.Seek(selectedEntry.Offset, SeekOrigin.Begin);
 
                 //Read Tag Header
-                mode = reader.ReadStructure<ModeTagGroup>();
+                mode = reader.Read<ModeTagGroup>();
 
                 //Read Sections
                 sections = new ModeTagGroup.Section[mode.Sections.Count];
                 selectedEntry.TagData.Seek(mode.Sections.Offset, SeekOrigin.Begin);
                 for (int i = 0; i < mode.Sections.Count; i++)
-                    sections[i] = reader.ReadStructure<ModeTagGroup.Section>();
+                    sections[i] = reader.Read<ModeTagGroup.Section>();
 
                 //Read Resources
                 resources = new ModeTagGroup.Section.Resource[mode.Sections.Count][];
@@ -35,7 +35,7 @@ namespace Mode.Halo2
                     resources[i] = new ModeTagGroup.Section.Resource[sections[i].Resources.Count];
                     selectedEntry.TagData.Seek(sections[i].Resources.Offset, SeekOrigin.Begin);
                     for (int j = 0; j < sections[i].Resources.Count; j++)
-                        resources[i][j] = reader.ReadStructure<ModeTagGroup.Section.Resource>();
+                        resources[i][j] = reader.Read<ModeTagGroup.Section.Resource>();
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using Abide.AddOnApi.Halo2;
+﻿using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary.Halo2Map;
 using System;
 using System.Collections.Generic;
@@ -403,6 +404,7 @@ namespace HUD_Editor.Halo2
         /// <summary>
         /// Represents the HUD Editor menu button.
         /// </summary>
+        [AddOn]
         public sealed class HudEditorButton : AbideMenuButton
         {
             /// <summary>

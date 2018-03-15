@@ -130,6 +130,7 @@
             this.Name = "HudEditorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HUD Editor";
+            this.Icon = global::HUD_Editor.Properties.Resources.motion_sensor;
             this.Load += new System.EventHandler(this.HudEditorForm_Load);
             this.propertiesPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.hudBox)).EndInit();

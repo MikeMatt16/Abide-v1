@@ -65,6 +65,7 @@
     <Compile Include="Classes\AddOnContainer.cs" />
     <Compile Include="Classes\AddOnFactoryManager.cs" />
     <Compile Include="AbideRegistry.cs" />
+    <Compile Include="Classes\Globals.cs" />
     <Compile Include="Classes\HaloAddOnContainer.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\SettingsAddOnContainer.cs" />

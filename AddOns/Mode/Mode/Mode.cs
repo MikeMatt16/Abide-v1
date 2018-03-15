@@ -1,4 +1,5 @@
-﻿using Abide.AddOnApi.Halo2;
+﻿using Abide.AddOnApi;
+using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary.Halo2Map;
 using Mode.Halo2;
 using System;
@@ -6,6 +7,7 @@ using System.Drawing;
 
 namespace Mode
 {
+    [AddOn]
     public partial class Mode : AbideTool
     {
         private Vector3 vec = Vector3.Zero;

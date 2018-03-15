@@ -189,7 +189,7 @@
             this.Description = "Mode Model Editor";
             this.Icon = global::Mode.Properties.Resources.Mode;
             this.Name = "Mode";
-            this.Size = new System.Drawing.Size(500, 500);
+            this.Size = new System.Drawing.Size(1502, 999);
             this.ToolName = "Mode";
             this.SelectedEntryChanged += new System.EventHandler(this.Mode_SelectedEntryChanged);
             ((System.ComponentModel.ISupportInitialize)(this.alphaBox)).EndInit();

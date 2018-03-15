@@ -58,7 +58,7 @@ namespace Abide.Halo2
         private MapFileWrapper mapWrapper;
         private IndexEntry selectedEntry = null;
         private string filename = string.Empty;
-        
+
         /// <summary>
         /// Initializes a new <see cref="Editor"/>.
         /// </summary>
@@ -69,7 +69,7 @@ namespace Abide.Halo2
             //Setup
             int result = SetWindowTheme(tagTreeView.Handle, "explorer", null).ToInt32();
             if (result == 1) Console.WriteLine("P/Invoke Function SetWindowTheme in Uxtheme.dll returned {0} on handle {1}", result, tagTreeView.Handle);
-            
+
             tagTreeView.TreeViewNodeSorter = new TagIdSorter();
             entries = new Dictionary<TagId, IndexEntryWrapper>();
             map = new MapFile();
@@ -95,12 +95,14 @@ namespace Abide.Halo2
             foreach (var menuButton in container.GetMenuButtons())
             {
                 //Create Button
-                ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon);
-                button.ToolTipText = $"{menuButton.Name} by {menuButton.Author}{Environment.NewLine}{menuButton.Description}";
+                ToolStripButton button = new ToolStripButton(menuButton.Name, menuButton.Icon)
+                {
+                    ToolTipText = $"{menuButton.Name} by {menuButton.Author}{Environment.NewLine}{menuButton.Description}",
+                    Name = menuButton.Name,
+                    Tag = menuButton
+                };
                 button.Click += MenuButton_Click;
-                button.Name = menuButton.Name;
-                button.Tag = menuButton;
-                
+
                 //Add
                 menuButtons.Add(button);
 
@@ -113,11 +115,13 @@ namespace Abide.Halo2
             foreach (var contextMenuItem in container.GetContextMenuItems())
             {
                 //Create Button
-                ToolStripMenuItem item = new ToolStripMenuItem(contextMenuItem.Name, contextMenuItem.Icon);
-                item.ToolTipText = $"{contextMenuItem.Name} by {contextMenuItem.Author}{Environment.NewLine}{contextMenuItem.Description}";
+                ToolStripMenuItem item = new ToolStripMenuItem(contextMenuItem.Name, contextMenuItem.Icon)
+                {
+                    ToolTipText = $"{contextMenuItem.Name} by {contextMenuItem.Author}{Environment.NewLine}{contextMenuItem.Description}",
+                    Name = contextMenuItem.Name,
+                    Tag = contextMenuItem
+                };
                 item.Click += MenuButton_Click;
-                item.Name = contextMenuItem.Name;
-                item.Tag = contextMenuItem;
 
                 //Add
                 contextMenuItems.Add(item);
@@ -134,18 +138,23 @@ namespace Abide.Halo2
                 tabPage.UserInterface.Dock = DockStyle.Fill;
 
                 //Create Tab Page
-                TabPage page = new TabPage(tabPage.Name);
-                page.ToolTipText = $"{tabPage.Name} by {tabPage.Author}{Environment.NewLine}{tabPage.Description}";
+                TabPage page = new TabPage(tabPage.Name)
+                {
+                    ToolTipText = $"{tabPage.Name} by {tabPage.Author}{Environment.NewLine}{tabPage.Description}",
+                    Name = tabPage.Name,
+                    Tag = tabPage
+                };
                 page.Controls.Add(tabPage.UserInterface);
-                page.Name = tabPage.Name;
-                page.Tag = tabPage;
-                
+
                 //Add
                 tabPages.Add(page);
 
                 //Check
                 if (!tabPage.ApplyFilter) tagTabControl.TabPages.Add(page);
             }
+
+            //Hook Xbox Changed
+            Globals.XboxChanged += Globals_XboxChanged;
         }
         /// <summary>
         /// Initializes a new <see cref="Editor"/> using the specified Halo map file.
@@ -167,17 +176,24 @@ namespace Abide.Halo2
         public Editor(string filename) : this(new MapFile())
         {
             //Close
-            map_Close();
+            Map_Close();
 
             //Load
             map.Load(filename);
             this.filename = filename;
 
             //Load
-            map_Load();
+            Map_Load();
         }
 
-        private void map_Close()
+        private void Globals_XboxChanged(object sender, EventArgs e)
+        {
+            //Loop
+            foreach (var addOn in container.GetXboxAddOns())
+                addOn.DebugXboxChanged();
+        }
+
+        private void Map_Close()
         {
             //Close
             map.Close();
@@ -199,7 +215,7 @@ namespace Abide.Halo2
                 catch (Exception ex) { errors.Add(ex); }
         }
 
-        private void map_Load()
+        private void Map_Load()
         {
             //Begin
             tagTreeView.BeginUpdate();
@@ -229,7 +245,7 @@ namespace Abide.Halo2
                 catch (Exception ex) { errors.Add(ex); }
         }
 
-        private void map_SoftLoad()
+        private void Map_SoftLoad()
         {
             //Setup
             Text = $"Halo 2 - {map.Name}";
@@ -393,7 +409,7 @@ namespace Abide.Halo2
             map.Save(filename);
 
             //Soft Load
-            map_SoftLoad();
+            Map_SoftLoad();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -429,7 +445,7 @@ namespace Abide.Halo2
                 {
                     //Set
                     this.filename = filename;
-                    map_SoftLoad();
+                    Map_SoftLoad();
                 }
             }
         }
@@ -457,7 +473,7 @@ namespace Abide.Halo2
             if (open)
             {
                 //Close
-                map_Close();
+                Map_Close();
 
                 //Load
                 map.Load(filename);
@@ -470,7 +486,7 @@ namespace Abide.Halo2
                     addOn.OnMapLoad();
 
                 //Load
-                map_Load();
+                Map_Load();
             }
         }
 
@@ -550,7 +566,7 @@ namespace Abide.Halo2
         private void Halo2Editor_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Close Map
-            map_Close();
+            Map_Close();
             
             //Dispose
             container.Dispose();

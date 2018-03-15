@@ -462,6 +462,8 @@ namespace HUD_Editor.Halo2
         
         private sealed class HudTag
         {
+            private readonly bool HaloHudWriteTextWidgets = false;
+
             public NewHudTagGroup Header;
             public NewHudTagGroup.BitmapWidget[] BitmapWidgets;
             public NewHudTagGroup.Effect[][] BitmapEffects;
@@ -701,48 +703,51 @@ namespace HUD_Editor.Halo2
                                 writer.Write(BitmapFunction5[i][j][k]);
                         }
 
-                    //Write Text Widgets
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        writer.Write(TextWidgets[i]);
+                    if (HaloHudWriteTextWidgets)
+                    {
+                        //Write Text Widgets
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            writer.Write(TextWidgets[i]);
 
-                    //Write Text Widget Effects
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            writer.Write(TextEffects[i][j]);
+                        //Write Text Widget Effects
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                writer.Write(TextEffects[i][j]);
 
-                    //Write Text Widget Scale Data
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            for (int k = 0; k < TextFunction1[i][j].Length; k++)
-                                writer.Write(TextFunction1[i][j][k]);
+                        //Write Text Widget Scale Data
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                for (int k = 0; k < TextFunction1[i][j].Length; k++)
+                                    writer.Write(TextFunction1[i][j][k]);
 
-                    //Write Text Widget Clockwise Data
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            for (int k = 0; k < TextFunction2[i][j].Length; k++)
-                                writer.Write(TextFunction2[i][j][k]);
+                        //Write Text Widget Clockwise Data
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                for (int k = 0; k < TextFunction2[i][j].Length; k++)
+                                    writer.Write(TextFunction2[i][j][k]);
 
-                    //Write Text Widget Anticlockwise Data
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            for (int k = 0; k < TextRotation[i][j].Length; k++)
-                                writer.Write(TextRotation[i][j][k]);
+                        //Write Text Widget Anticlockwise Data
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                for (int k = 0; k < TextRotation[i][j].Length; k++)
+                                    writer.Write(TextRotation[i][j][k]);
 
-                    //Write Text Widget Offset X Data
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            for (int k = 0; k < TextFunction4[i][j].Length; k++)
-                                writer.Write(TextFunction4[i][j][k]);
+                        //Write Text Widget Offset X Data
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                for (int k = 0; k < TextFunction4[i][j].Length; k++)
+                                    writer.Write(TextFunction4[i][j][k]);
 
-                    //Write Text Widget Offset Y Data
-                    for (int i = 0; i < TextWidgets.Length; i++)
-                        for (int j = 0; j < TextEffects[i].Length; j++)
-                            for (int k = 0; k < TextFunction5[i][j].Length; k++)
-                                writer.Write(TextFunction5[i][j][k]);
+                        //Write Text Widget Offset Y Data
+                        for (int i = 0; i < TextWidgets.Length; i++)
+                            for (int j = 0; j < TextEffects[i].Length; j++)
+                                for (int k = 0; k < TextFunction5[i][j].Length; k++)
+                                    writer.Write(TextFunction5[i][j][k]);
 
-                    //Write Effect Widgets
-                    for (int i = 0; i < EffectWidgets.Length; i++)
-                        writer.Write(EffectWidgets[i]);
+                        //Write Effect Widgets
+                        for (int i = 0; i < EffectWidgets.Length; i++)
+                            writer.Write(EffectWidgets[i]);
+                    }
                 }
             }
         }
