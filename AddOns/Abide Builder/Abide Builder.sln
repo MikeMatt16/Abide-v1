@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide Builder", "Abide Builder\Abide Builder.csproj", "{1A031FB1-09CD-430D-8C87-23929A95F1B8}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Ifp", "..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj", "{55B8FBAD-8570-4371-BA33-62E85351DB66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla", "..\..\Abide.Guerilla\Abide.Guerilla\Abide.Guerilla.csproj", "{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary.Builder", "Abide.HaloLibrary.Builder\Abide.HaloLibrary.Builder.csproj", "{163A067A-CCCD-42F3-817C-F19BAA4235D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary.Builder.Test", "Abide.HaloLibrary.Builder.Test\Abide.HaloLibrary.Builder.Test.csproj", "{051386A1-BA2C-4ABD-9B64-7A022CF61393}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163A067A-CCCD-42F3-817C-F19BAA4235D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163A067A-CCCD-42F3-817C-F19BAA4235D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163A067A-CCCD-42F3-817C-F19BAA4235D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163A067A-CCCD-42F3-817C-F19BAA4235D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051386A1-BA2C-4ABD-9B64-7A022CF61393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051386A1-BA2C-4ABD-9B64-7A022CF61393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051386A1-BA2C-4ABD-9B64-7A022CF61393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051386A1-BA2C-4ABD-9B64-7A022CF61393}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

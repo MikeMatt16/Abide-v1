@@ -18,8 +18,8 @@ namespace Abide
         {
             //Prepare
             MapVersion version = MapVersion.None;
+            string buildString = null;
             int mapVersion = 0;
-            int signature = 0;
 
             //Check stream
             if (inStream.Length < 2048 + 4096) return version;
@@ -36,14 +36,32 @@ namespace Abide
                     inStream.Seek(4, SeekOrigin.Begin);
                     mapVersion = reader.ReadInt32();
 
-                    //Set Basic Halo 2
-                    version = MapVersion.Halo2;
+                    //Check
+                    if(mapVersion == 8) //Some type of Halo 2 map...
+                    {
+                        //Vista is weird
+                        bool mightBeVista = false;
 
-                    //Check Signature
-                    inStream.Seek(720, SeekOrigin.Begin);
-                    signature = reader.ReadInt32();
-                    if (signature == 0)
-                        version = MapVersion.Halo2b;
+                        //Read build string
+                        inStream.Seek(288, SeekOrigin.Begin);
+                        buildString = new string(reader.ReadChars(32)).Trim('\0');
+
+                        //Check build
+                        switch (buildString)
+                        {
+                            case "02.09.27.09809": version = MapVersion.Halo2; break;
+                            case "02.06.28.07902": version = MapVersion.Halo2b; break;
+                            default: mightBeVista = true; break;
+                        }
+
+                        //Check
+                        if (mightBeVista)
+                        {
+                            inStream.Seek(304, SeekOrigin.Begin);
+                            buildString = new string(reader.ReadChars(32)).Trim('\0');
+                            if (buildString == "1.07.04.30.0934.main") version = MapVersion.Halo2v;
+                        }
+                    }
                 }
             }
 

@@ -45,8 +45,8 @@ namespace Abide.HaloLibrary
         /// </summary>
         public ushort HiWord
         {
-            get { return (ushort)(id << 16 & 0xFFFF); }
-            set { id = (id & 0xFFFF) | (uint)(value) >> 16; }
+            get { return (ushort)(id >> 16 & 0xFFFF); }
+            set { id = (id & 0xFFFF) | (uint)(value) << 16; }
         }
         /// <summary>
         /// Gets and returns true if the ID is null, otherwise, false.

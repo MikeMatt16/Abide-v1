@@ -912,9 +912,9 @@ namespace Abide.Guerilla.Ui
                     break;
                 case FieldType.FieldExplanation:
                     explanationDefinition = (TagFieldExplanationDefinition)tagField;
-                    writer.WriteStartElement("explanation");
-                    writer.WriteValue(explanationDefinition.Explanation);
-                    writer.WriteEndElement();
+                    //writer.WriteStartElement("explanation");
+                    //writer.WriteValue(explanationDefinition.Explanation);
+                    //writer.WriteEndElement();
                     break;
                 case FieldType.FieldStruct:
                     structDefinition = (TagFieldStructDefinition)tagField;

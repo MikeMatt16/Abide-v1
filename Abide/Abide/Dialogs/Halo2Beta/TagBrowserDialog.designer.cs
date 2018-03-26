@@ -1,4 +1,4 @@
-﻿namespace Abide.Dialogs
+﻿namespace Abide.Dialogs.Halo2Beta
 {
     partial class TagBrowserDialog
     {

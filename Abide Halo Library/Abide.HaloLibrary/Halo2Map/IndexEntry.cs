@@ -94,12 +94,12 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             get { return strings; }
         }
-        
-        private FixedMemoryMappedStream tagData;
+
         private readonly StringContainer strings;
         private readonly RawContainer raws;
         private readonly TagHierarchy tagHierarchy;
-        private readonly ObjectEntry objectEntry;
+        private FixedMemoryMappedStream tagData;
+        private ObjectEntry objectEntry;
         private int postProcessedOffset;
         private int postProcessedSize;
         private string filename;
@@ -118,6 +118,31 @@ namespace Abide.HaloLibrary.Halo2Map
             this.filename = filename;
             raws = new RawContainer();
             strings = new StringContainer();
+        }
+        /// <summary>
+        /// Sets the index entry's internal object entry.
+        /// </summary>
+        /// <param name="objectEntry">The object entry.</param>
+        public void SetObjectEntry(ObjectEntry objectEntry)
+        {
+            this.objectEntry = objectEntry;
+        }
+        /// <summary>
+        /// Sets the index entry's internal object entry.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <param name="id">The tag identifier.</param>
+        /// <param name="size">The length of the data.</param>
+        /// <param name="address">The memory address of the data.</param>
+        public void SetObjectEntry(Tag tag, TagId id, uint size, uint address)
+        {
+            objectEntry = new ObjectEntry()
+            {
+                Tag = tag,
+                Id = id,
+                Size = size,
+                Offset = address
+            };
         }
         /// <summary>
         /// Returns this index entry's index object entry.

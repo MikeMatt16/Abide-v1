@@ -35,8 +35,7 @@
             this.pokeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tagBlockIndexToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.xboxConnectionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
-            this.connectXboxToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tagDataWebBrowser = new Tag_Data_Editor.Halo2.TagEditorWebBrowser();
+            this.tagDataWebBrowser = new Tag_Data_Editor.TagEditorWebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.tagDataSplitter)).BeginInit();
             this.tagDataSplitter.Panel1.SuspendLayout();
             this.tagDataSplitter.Panel2.SuspendLayout();
@@ -61,9 +60,10 @@
             // tagDataSplitter.Panel2
             // 
             this.tagDataSplitter.Panel2.Controls.Add(this.tagDataWebBrowser);
-            this.tagDataSplitter.Size = new System.Drawing.Size(600, 500);
+            this.tagDataSplitter.Size = new System.Drawing.Size(1502, 916);
             this.tagDataSplitter.SplitterDistance = 200;
             this.tagDataSplitter.TabIndex = 1;
+            this.tagDataSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tagDataSplitter_SplitterMoved);
             // 
             // structureView
             // 
@@ -73,7 +73,7 @@
             this.structureView.HideSelection = false;
             this.structureView.Location = new System.Drawing.Point(0, 0);
             this.structureView.Name = "structureView";
-            this.structureView.Size = new System.Drawing.Size(600, 175);
+            this.structureView.Size = new System.Drawing.Size(1502, 175);
             this.structureView.TabIndex = 1;
             this.structureView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.structureView_AfterSelect);
             // 
@@ -84,12 +84,11 @@
             this.tagEditorToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pokeToolStripButton,
             this.tagBlockIndexToolStripComboBox,
-            this.xboxConnectionToolStripLabel,
-            this.connectXboxToolStripButton});
+            this.xboxConnectionToolStripLabel});
             this.tagEditorToolStrip.Location = new System.Drawing.Point(0, 175);
             this.tagEditorToolStrip.Name = "tagEditorToolStrip";
             this.tagEditorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tagEditorToolStrip.Size = new System.Drawing.Size(600, 25);
+            this.tagEditorToolStrip.Size = new System.Drawing.Size(1502, 25);
             this.tagEditorToolStrip.TabIndex = 0;
             this.tagEditorToolStrip.Text = "toolStrip1";
             // 
@@ -122,16 +121,6 @@
             this.xboxConnectionToolStripLabel.Size = new System.Drawing.Size(88, 22);
             this.xboxConnectionToolStripLabel.Text = "Not Connected";
             // 
-            // connectXboxToolStripButton
-            // 
-            this.connectXboxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.connectXboxToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("connectXboxToolStripButton.Image")));
-            this.connectXboxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.connectXboxToolStripButton.Name = "connectXboxToolStripButton";
-            this.connectXboxToolStripButton.Size = new System.Drawing.Size(118, 22);
-            this.connectXboxToolStripButton.Text = "Connect Xbox HEHE";
-            this.connectXboxToolStripButton.Click += new System.EventHandler(this.connectXboxToolStripButton_Click);
-            // 
             // tagDataWebBrowser
             // 
             this.tagDataWebBrowser.BitmaskSetCallback = null;
@@ -140,7 +129,7 @@
             this.tagDataWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.tagDataWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.tagDataWebBrowser.Name = "tagDataWebBrowser";
-            this.tagDataWebBrowser.Size = new System.Drawing.Size(600, 296);
+            this.tagDataWebBrowser.Size = new System.Drawing.Size(1502, 712);
             this.tagDataWebBrowser.StringIdButtonClickCallback = null;
             this.tagDataWebBrowser.StringSetCallback = null;
             this.tagDataWebBrowser.TabIndex = 0;
@@ -159,7 +148,7 @@
             this.Description = "GUI based tag editor.";
             this.Icon = global::Tag_Data_Editor.Properties.Resources.Meta_Editor;
             this.Name = "TagEditor";
-            this.Size = new System.Drawing.Size(600, 500);
+            this.Size = new System.Drawing.Size(1502, 916);
             this.ToolName = "Tag Editor";
             this.SelectedEntryChanged += new System.EventHandler(this.TagEditor_SelectedEntryChanged);
             this.XboxChanged += new System.EventHandler(this.TagEditor_XboxChanged);
@@ -179,10 +168,9 @@
         private System.Windows.Forms.SplitContainer tagDataSplitter;
         private System.Windows.Forms.TreeView structureView;
         private System.Windows.Forms.ToolStrip tagEditorToolStrip;
-        private Tag_Data_Editor.Halo2.TagEditorWebBrowser tagDataWebBrowser;
+        private Tag_Data_Editor.TagEditorWebBrowser tagDataWebBrowser;
         private System.Windows.Forms.ToolStripComboBox tagBlockIndexToolStripComboBox;
         private System.Windows.Forms.ToolStripButton pokeToolStripButton;
         private System.Windows.Forms.ToolStripLabel xboxConnectionToolStripLabel;
-        private System.Windows.Forms.ToolStripButton connectXboxToolStripButton;
     }
 }

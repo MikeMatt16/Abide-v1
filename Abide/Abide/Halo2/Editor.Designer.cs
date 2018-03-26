@@ -45,10 +45,10 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.mapToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripSplitButton();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.TagPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tagSplitContainer)).BeginInit();
             this.tagSplitContainer.Panel1.SuspendLayout();
@@ -66,7 +66,7 @@
             this.TagPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.TagPanel.Location = new System.Drawing.Point(0, 0);
             this.TagPanel.Name = "TagPanel";
-            this.TagPanel.Size = new System.Drawing.Size(260, 681);
+            this.TagPanel.Size = new System.Drawing.Size(260, 741);
             this.TagPanel.TabIndex = 0;
             // 
             // tagSplitContainer
@@ -85,8 +85,8 @@
             // tagSplitContainer.Panel2
             // 
             this.tagSplitContainer.Panel2.Controls.Add(this.tagTabControl);
-            this.tagSplitContainer.Size = new System.Drawing.Size(260, 681);
-            this.tagSplitContainer.SplitterDistance = 396;
+            this.tagSplitContainer.Size = new System.Drawing.Size(260, 741);
+            this.tagSplitContainer.SplitterDistance = 456;
             this.tagSplitContainer.TabIndex = 0;
             // 
             // tagTreeView
@@ -101,7 +101,7 @@
             this.tagTreeView.Location = new System.Drawing.Point(0, 20);
             this.tagTreeView.Name = "tagTreeView";
             this.tagTreeView.SelectedImageIndex = 0;
-            this.tagTreeView.Size = new System.Drawing.Size(260, 376);
+            this.tagTreeView.Size = new System.Drawing.Size(260, 436);
             this.tagTreeView.TabIndex = 0;
             this.tagTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TagTree_AfterSelect);
             this.tagTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TagTree_DragDrop);
@@ -185,14 +185,14 @@
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolPanel.Location = new System.Drawing.Point(263, 25);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(571, 656);
+            this.toolPanel.Size = new System.Drawing.Size(781, 716);
             this.toolPanel.TabIndex = 3;
             // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(260, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 681);
+            this.splitter1.Size = new System.Drawing.Size(3, 741);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
@@ -206,7 +206,7 @@
             this.optionsToolStripButton});
             this.mapToolStrip.Location = new System.Drawing.Point(263, 0);
             this.mapToolStrip.Name = "mapToolStrip";
-            this.mapToolStrip.Size = new System.Drawing.Size(571, 25);
+            this.mapToolStrip.Size = new System.Drawing.Size(781, 25);
             this.mapToolStrip.TabIndex = 2;
             this.mapToolStrip.Text = "toolStrip1";
             // 
@@ -217,6 +217,28 @@
             this.toolStripDropDownButton.Name = "toolStripDropDownButton";
             this.toolStripDropDownButton.Size = new System.Drawing.Size(64, 22);
             this.toolStripDropDownButton.Text = "&Tools";
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveAsToolStripMenuItem});
+            this.saveToolStripButton.Image = global::Abide.Properties.Resources.Save;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(32, 22);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.saveAsToolStripMenuItem.Text = "Save &As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripButton
             // 
@@ -242,33 +264,11 @@
             this.optionsToolStripButton.Visible = false;
             this.optionsToolStripButton.Click += new System.EventHandler(this.optionsToolStripButton_Click);
             // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAsToolStripMenuItem});
-            this.saveToolStripButton.Image = global::Abide.Properties.Resources.Save;
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(32, 22);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.saveAsToolStripMenuItem.Text = "Save &As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 681);
+            this.ClientSize = new System.Drawing.Size(1044, 741);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.mapToolStrip);
             this.Controls.Add(this.splitter1);

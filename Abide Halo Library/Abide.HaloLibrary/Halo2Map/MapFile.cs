@@ -145,7 +145,7 @@ namespace Abide.HaloLibrary.Halo2Map
             if (!inStream.CanSeek) throw new ArgumentException("Stream does not support seeking.", nameof(inStream));
 
             //Check file...
-            if (inStream.Length < 6144)
+            if (inStream.Length < MinLength)
                 throw new MapFileExcption("Invalid map file.");
 
             try
@@ -379,7 +379,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Attempts to read any internal raw data reference by the supplied tag group.
         /// </summary>
-        /// <param name="inStream">The Halo 2 cached map file stream.</param>
+        /// <param name="inStream">The Halo 2 map file stream.</param>
         /// <param name="reader">The reader for the map stream.</param>
         private void ReadRaws(Stream inStream, BinaryReader reader)
         {
@@ -543,9 +543,9 @@ namespace Abide.HaloLibrary.Halo2Map
                             {
                                 //Read
                                 inStream.Seek(rawOffset, SeekOrigin.Begin);
-                                if (entry.Raws[RawSection.Decorator].ContainsRawOffset(rawOffset))
-                                    rawData = entry.Raws[RawSection.Decorator][rawOffset];
-                                else { rawData = new RawStream(reader.ReadBytes(rawSize), rawOffset); entry.Raws[RawSection.Decorator].Add(rawData); }
+                                if (entry.Raws[RawSection.DecoratorSet].ContainsRawOffset(rawOffset))
+                                    rawData = entry.Raws[RawSection.DecoratorSet][rawOffset];
+                                else { rawData = new RawStream(reader.ReadBytes(rawSize), rawOffset); entry.Raws[RawSection.DecoratorSet].Add(rawData); }
                                 rawData.OffsetAddresses.Add(offsetAddress);
                                 rawData.LengthAddresses.Add(lengthAddress);
                             }
@@ -1053,7 +1053,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     case HaloTags.mode: modelDatas.AddRange(entry.Raws[RawSection.Model]); break;
                     case HaloTags.sbsp: sbspDatas[bspIndexLookup[entry.Id]].AddRange(entry.Raws[RawSection.BSP]); break;
                     case HaloTags.weat: weatherDatas.AddRange(entry.Raws[RawSection.Weather]); break;
-                    case HaloTags.DECR: decoratorDatas.AddRange(entry.Raws[RawSection.Decorator]); break;
+                    case HaloTags.DECR: decoratorDatas.AddRange(entry.Raws[RawSection.DecoratorSet]); break;
                     case HaloTags.PRTM: particleModelDatas.AddRange(entry.Raws[RawSection.ParticleModel]); break;
                     case HaloTags.jmad: animationDatas.AddRange(entry.Raws[RawSection.Animation]); break;
                     case HaloTags.bitm: bitmapDatas.AddRange(entry.Raws[RawSection.Bitmap]); break;
@@ -1246,6 +1246,9 @@ namespace Abide.HaloLibrary.Halo2Map
                     int sbspsOffset = metaReader.ReadInt32();
                     for (int i = 0; i < sbspTagDatas.Length; i++)
                     {
+                        tagData.Seek(sbspsOffset + (i * 68) + 8, SeekOrigin.Begin);
+                        uint testValue = metaReader.ReadUInt32();
+
                         offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                         tagData.Seek(sbspsOffset + (i * 68), SeekOrigin.Begin);
                         metaWriter.Write(offset);
@@ -1564,6 +1567,23 @@ namespace Abide.HaloLibrary.Halo2Map
             //Dispose?
             if (tagData != null) tagData.Dispose();
             tagData = new FixedMemoryMappedStream((byte[])dataBuffer.Clone(), Index.IndexMemoryAddress + header.IndexLength);
+
+            //Fix Entries
+            foreach (IndexEntry entry in indexList)
+                if (entry.Root != HaloTags.sbsp && entry.Root != HaloTags.ltmp) entry.TagData = tagData;
+        }
+        /// <summary>
+        /// Adds an index entry to the map's index entry list.
+        /// </summary>
+        /// <param name="entry">The entry to add.</param>
+        public void AddIndexEntry(IndexEntry entry)
+        {
+            //Get Entries
+            var list = indexList.ToList();
+            list.Add(entry);
+
+            //Re-initialize list
+            indexList = new IndexEntryList(list.ToArray());
         }
         /// <summary>
         /// Returns the map's name.
@@ -1983,12 +2003,46 @@ namespace Abide.HaloLibrary.Halo2Map
                 return string.Format("Count = {0}", entries.Count);
             }
             /// <summary>
-            /// Returns an enumerator that iterates through the <see cref="TagHierarchyList"/>.
+            /// Returns an enumerator that iterates through the <see cref="IndexEntryList"/>.
             /// </summary>
             /// <returns>An enumerator.</returns>
             public IEnumerator<IndexEntry> GetEnumerator()
             {
                 return entries.Values.GetEnumerator();
+            }
+            /// <summary>
+            /// Attempts to remove an index entry from the list whose ID matches the supplied ID.
+            /// </summary>
+            /// <param name="id">The ID of the index entry to remove.</param>
+            public bool Remove(TagId id)
+            {
+                //Prepare
+                bool removed = false;
+                
+                //Remove?
+                if (indexLookup.ContainsKey(id))
+                    removed = entries.Remove(id);
+
+                //Check
+                if(removed)
+                {
+                    var list = entries.ToList();
+                    for (int i = 0; i < list.Count; i++)
+                        indexLookup.Add(i, list[i].Key);
+                }
+
+                //Return
+                return removed;
+            }
+            /// <summary>
+            /// Attempts to add an index entry to the list.
+            /// Not currently implemented.
+            /// </summary>
+            /// <param name="entry">The index entry to add.</param>
+            /// <returns></returns>
+            public bool Add(IndexEntry entry)
+            {
+                throw new NotImplementedException();
             }
             IEnumerator IEnumerable.GetEnumerator()
             {
@@ -2230,7 +2284,7 @@ namespace Abide.HaloLibrary.Halo2Map
     }
 
     /// <summary>
-    /// Represents an error that occurs while handling a map file.
+    /// Represents an error that occurs while handling a Halo 2 map file.
     /// </summary>
     public sealed class MapFileExcption : Exception
     {

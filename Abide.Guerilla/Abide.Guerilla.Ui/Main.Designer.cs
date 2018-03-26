@@ -111,6 +111,7 @@
             // tagGroupTreeView
             // 
             this.tagGroupTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tagGroupTreeView.HideSelection = false;
             this.tagGroupTreeView.Location = new System.Drawing.Point(0, 0);
             this.tagGroupTreeView.Name = "tagGroupTreeView";
             this.tagGroupTreeView.Size = new System.Drawing.Size(340, 637);

@@ -203,6 +203,12 @@
             <param name="dataBuffer">The data buffer to swap the tag data stream with.</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="dataBuffer"/> is null.</exception>
         </member>
+        <member name="M:Abide.HaloLibrary.Halo2Map.MapFile.AddIndexEntry(Abide.HaloLibrary.Halo2Map.IndexEntry)">
+            <summary>
+            Adds an index entry to the map's index entry list.
+            </summary>
+            <param name="entry">The entry to add.</param>
+        </member>
         <member name="M:Abide.HaloLibrary.Halo2Map.MapFile.ToString">
             <summary>
             Returns the map's name.
@@ -460,6 +466,12 @@
             <param name="value">The string to remove.</param>
             <returns>true if the string is found and removed; otherwise false.</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="value"/> is null.</exception>
+        </member>
+        <member name="M:Abide.HaloLibrary.Halo2Map.MapFile.StringList.RemoveAt(System.Int32)">
+            <summary>
+            Attempts to remove a string value from this list at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the string to remove.</param>
         </member>
         <member name="M:Abide.HaloLibrary.Halo2Map.MapFile.StringList.Reset">
             <summary>
@@ -1210,6 +1222,16 @@
         <member name="P:Abide.HaloLibrary.Halo2Map.SbspHeader.LightmapOffset">
             <summary>
             Gets or sets the header's lightmap offset.
+            </summary>
+        </member>
+        <member name="T:Abide.HaloLibrary.Halo2Map.String256">
+            <summary>
+            Represents a 256-byte length string.
+            </summary>
+        </member>
+        <member name="T:Abide.HaloLibrary.Halo2Map.String32">
+            <summary>
+            Represents a 32-byte length string.
             </summary>
         </member>
         <member name="T:Abide.HaloLibrary.Halo2Map.HaloTags">

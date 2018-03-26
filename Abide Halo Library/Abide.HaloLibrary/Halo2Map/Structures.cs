@@ -7,7 +7,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 map file header.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = Length), Serializable]
-    public unsafe struct Header
+    public struct Header
     {
         /// <summary>
         /// Gets and returns the length of a <see cref="Header"/> structure in bytes.
@@ -280,7 +280,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 index table header.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 32), Serializable]
-    internal unsafe struct Index
+    internal struct Index
     {
         /// <summary>
         /// Represents the address of the index table in Xbox memory.
@@ -372,11 +372,13 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <returns>An <see cref="Index"/> instance.</returns>
         public static Index CreateDefault()
         {
-            Index index = new Index();
-            index.IndexAddress = IndexMemoryAddress;
-            index.ScenarioId = TagId.Null;
-            index.GlobalsId = TagId.Null;
-            index.Tags = "tags";
+            Index index = new Index
+            {
+                IndexAddress = IndexMemoryAddress,
+                ScenarioId = TagId.Null,
+                GlobalsId = TagId.Null,
+                Tags = "tags"
+            };
             return index;
         }
     }

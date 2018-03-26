@@ -238,10 +238,12 @@ namespace Abide.Guerilla.Managed
                 input.Seek(fieldAddress, SeekOrigin.Begin);
                 field.Read(reader);
 
+                //Debug
+                if (definition.Name == "bitmap_block" && field is TagFieldDataDefinition) throw new Exception();
+
                 //Add
-                if (definition.Name == "bitmap_block" && index < 31)
-                    definition.tagFields.Add(field);
-                
+                definition.tagFields.Add(field);
+
                 //Handle special field type
                 switch (field.Type)
                 {

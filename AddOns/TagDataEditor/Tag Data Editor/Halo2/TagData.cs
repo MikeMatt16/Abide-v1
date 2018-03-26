@@ -376,11 +376,9 @@ namespace Tag_Data_Editor.Halo2
         /// <param name="dataStream">The tag's data stream.</param>
         public DataObject(DataObject parent, IfpNode node, FixedMemoryMappedStream dataStream) : this(node, dataStream)
         {
-            //Check
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
 
             //Set
-            this.parent = parent;
+            this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
             parent.children.Add(this);
         }
         /// <summary>
@@ -390,13 +388,61 @@ namespace Tag_Data_Editor.Halo2
         /// <param name="dataStream">The tag's data stream.</param>
         public DataObject(IfpNode node, FixedMemoryMappedStream dataStream)
         {
-            //Check
-            if (node == null) throw new ArgumentNullException(nameof(node));
-            if (dataStream == null) throw new ArgumentNullException(nameof(dataStream));
-
             //Set
-            this.node = node;
-            this.dataStream = dataStream;
+            this.node = node ?? throw new ArgumentNullException(nameof(node));
+            this.dataStream = dataStream ?? throw new ArgumentNullException(nameof(dataStream));
+        }
+        /// <summary>
+        /// Gets and returns the display name(s) of the data object using the supplied map file.
+        /// </summary>
+        /// <returns>An array of string elements.</returns>
+        /// <param name="map">The map file.</param>
+        public string[] GetDisplayNames(MapFile map)
+        {
+            //Prepare
+            List<string> names = new List<string>();
+            string name = node.Name;
+
+            //Check
+            if (IsTagBlock && value is TagBlock tagBlock)
+            {
+                //Check Label
+                if (!string.IsNullOrEmpty(node.Label))
+                {
+                    //Check Count
+                    if (tagBlock.Count > 0)
+                    {
+                        //Get Node
+                        IfpNode labelNode = node.Nodes[node.Label];
+
+                        //Loop
+                        if (labelNode != null)
+                            using (BinaryReader reader = new BinaryReader(dataStream))
+                                for (int i = 0; i < tagBlock.Count; i++)
+                                {
+                                    //Set name...
+                                    name = GetNodeDisplayName(labelNode.Type, dataStream, tagBlock.Offset + (uint)(i * node.Length), map);
+
+                                    //Check
+                                    if (!string.IsNullOrEmpty(name))
+                                        names.Add(name);
+                                    else names.Add(node.Name);
+                                }
+                    }
+                }
+                else
+                {
+                    //Add names...
+                    for (int i = 0; i < tagBlock.Count; i++)
+                        names.Add(name);
+                }
+            }
+
+            //Add element name once if no names are retrieved
+            if (names.Count == 0) names.Add(name);
+
+            //Return
+            return names.ToArray();
         }
         /// <summary>
         /// Reads and returns the value of this data object.
@@ -440,10 +486,10 @@ namespace Tag_Data_Editor.Halo2
                     case IfpNodeType.Unicode128: value = reader.ReadUTF8(128).Trim('\0'); break;
                     case IfpNodeType.Unicode256: value = reader.ReadUTF8(256).Trim('\0'); break;
 
-                    case IfpNodeType.Tag: value = reader.ReadStructure<Tag>(); break;
-                    case IfpNodeType.TagId: value = reader.ReadStructure<TagId>(); break;
-                    case IfpNodeType.StringId: value = reader.ReadStructure<StringId>(); break;
-                    case IfpNodeType.TagBlock: value = reader.ReadStructure<TagBlock>(); break;
+                    case IfpNodeType.Tag: value = reader.Read<Tag>(); break;
+                    case IfpNodeType.TagId: value = reader.Read<TagId>(); break;
+                    case IfpNodeType.StringId: value = reader.Read<StringId>(); break;
+                    case IfpNodeType.TagBlock: value = reader.Read<TagBlock>(); break;
                 }
 
             //Return
@@ -591,6 +637,48 @@ namespace Tag_Data_Editor.Halo2
         public override string ToString()
         {
             return $"{node.Name} = {value.ToString()}";
+        }
+
+        /// <summary>
+        /// Gets and returns a display string from a specified node type, stream, address, and map file.
+        /// </summary>
+        /// <param name="itemType">The item type.</param>
+        /// <param name="dataStream">The data stream.</param>
+        /// <param name="address">The address of the data.</param>
+        /// <param name="map">The map file.</param>
+        /// <returns>A string.</returns>
+        private static string GetNodeDisplayName(IfpNodeType itemType, Stream dataStream, long address, MapFile map)
+        {
+            //Goto
+            dataStream.Seek(address, SeekOrigin.Begin);
+            using (BinaryReader reader = new BinaryReader(dataStream))
+                try
+                {
+                    switch (itemType)
+                    {
+                        case IfpNodeType.Byte: return reader.ReadByte().ToString();
+                        case IfpNodeType.SignedByte: return reader.ReadSByte().ToString();
+                        case IfpNodeType.Short: return reader.ReadInt16().ToString();
+                        case IfpNodeType.UnsignedShort: return reader.ReadUInt16().ToString();
+                        case IfpNodeType.Int: return reader.ReadInt32().ToString();
+                        case IfpNodeType.UnsignedInt: return reader.ReadUInt32().ToString();
+                        case IfpNodeType.Long: return reader.ReadInt64().ToString();
+                        case IfpNodeType.UnsignedLong: return reader.ReadUInt64().ToString();
+                        case IfpNodeType.Single: return reader.ReadSingle().ToString();
+                        case IfpNodeType.Double: return reader.ReadDouble().ToString();
+                        case IfpNodeType.String32: return reader.ReadUTF8(32).Trim('\0');
+                        case IfpNodeType.String64: return reader.ReadUTF8(64).Trim('\0');
+                        case IfpNodeType.Unicode128: return reader.ReadUTF8(128).Trim('\0');
+                        case IfpNodeType.Unicode256: return reader.ReadUTF8(256).Trim('\0');
+                        case IfpNodeType.TagId:
+                            IndexEntry entry = map.IndexEntries[reader.Read<TagId>()];
+                            if (entry == null) return "Null";
+                            else return $"{entry.Filename}.{entry.Root}";
+                        case IfpNodeType.StringId: return map.Strings[reader.Read<StringId>().Index];
+                    }
+                }
+                catch { }
+            return string.Empty;
         }
         IEnumerator IEnumerable.GetEnumerator()
         {

@@ -14,6 +14,7 @@ namespace Tag_Data_Editor
         private static readonly RegistryKey classes = Registry.CurrentUser.CreateSubKey(@"Software\Classes");
         private static readonly RegistryKey abide = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2\Abide");
         private static readonly RegistryKey halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
+        private static readonly RegistryKey halo2b = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2 Beta");
 
         public static string AddOnsDirectory
         {
@@ -78,6 +79,16 @@ namespace Tag_Data_Editor
             }
             set
             { SetValue(halo2, "Paths", "SPShared", value); }
+        }
+        public static string Halo2bPluginsDirectory
+        {
+            get
+            {
+                SetDefault(halo2b, "Paths", "Plugins", string.Empty);
+                return GetValue<string>(halo2b, "Paths", "Plugins");
+            }
+            set
+            { SetValue(halo2b, "Paths", "Plugins", value); }
         }
         public static string Halo2Mainmenu
         {

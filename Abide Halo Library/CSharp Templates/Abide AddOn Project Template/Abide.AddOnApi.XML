@@ -4,6 +4,17 @@
         <name>Abide.AddOnApi</name>
     </assembly>
     <members>
+        <member name="T:Abide.AddOnApi.AddOnAttribute">
+            <summary>
+            Indicates that a class is an AddOn.
+            This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:Abide.AddOnApi.AddOnAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Abide.AddOnApi.AddOnAttribute"/> class.
+            </summary>
+        </member>
         <member name="T:Abide.AddOnApi.AddOnFactory">
             <summary>
             Represents a factory for creating and managing AddOn instances.
@@ -400,11 +411,6 @@
             Occurs when the host instance changes its Xbox connection.
             </summary>
         </member>
-        <member name="P:Abide.AddOnApi.Halo2.AbideTabPage.MapVersion">
-            <summary>
-            Gets or sets the Halo Map version the AddOn is compatible with.
-            </summary>
-        </member>
         <member name="P:Abide.AddOnApi.Halo2.AbideTabPage.Description">
             <summary>
             Gets or sets the description of the AddOn.
@@ -505,11 +511,6 @@
         <member name="E:Abide.AddOnApi.Halo2.AbideTool.XboxChanged">
             <summary>
             Occurs when the host instance changes its Xbox connection.
-            </summary>
-        </member>
-        <member name="P:Abide.AddOnApi.Halo2.AbideTool.MapVersion">
-            <summary>
-            Gets or sets the Halo Map version the AddOn is compatible with.
             </summary>
         </member>
         <member name="P:Abide.AddOnApi.Halo2.AbideTool.Description">
@@ -1241,7 +1242,7 @@
         </member>
         <member name="M:Abide.AddOnApi.AddOnHostEventArgs.#ctor(Abide.AddOnApi.IHost)">
             <summary>
-            Initializes a new <see cref="T:Abide.AddOnApi.AddOnHostEventArgs"/> instance.
+            Initializes a new instance of the <see cref="T:Abide.AddOnApi.AddOnHostEventArgs"/> class using the supplied AddOn host.
             </summary>
             <param name="host">The AddOn Host instance.</param>
         </member>

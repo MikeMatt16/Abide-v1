@@ -469,7 +469,6 @@ namespace Texture_Editor.Halo2
             if (bitmapIndex >= bitmap.BitmapCount) return false;
 
             //Prepare
-            bool deleteLods, swizzle, linear;
             HaloBitmap.BitmapFormat format;
             int lodLevels = 0;
 
@@ -478,7 +477,7 @@ namespace Texture_Editor.Halo2
             format = bitmap.Bitmaps[bitmapIndex].Format;
 
             //Create Data Buffers
-            byte[][] buffers = ddsFile_CreateBuffer(ddsFile, out format, ref lodLevels, out linear, out swizzle, out deleteLods);
+            byte[][] buffers = ddsFile_CreateBuffer(ddsFile, out format, ref lodLevels, out bool linear, out bool swizzle, out bool deleteLods);
             if (buffers == null) return false;
 
             //Check

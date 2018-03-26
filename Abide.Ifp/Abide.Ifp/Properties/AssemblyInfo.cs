@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Potential Software")]
 [assembly: AssemblyProduct("Abide.Ifp")]
-[assembly: AssemblyCopyright("Copyright © Potential Software 2017")]
+[assembly: AssemblyCopyright("Copyright © Potential Software 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

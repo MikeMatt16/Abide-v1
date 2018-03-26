@@ -36,6 +36,9 @@
             this.recentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearRecentHalo2MapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recentHalo2MapsToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.recentHalo2BetaMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearRecentHalo2BetaMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recentHalo2BetaMapsToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.fileToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +69,6 @@
             this.windowToolStripMenuItem,
             this.xboxToolStripMenuItem,
             this.helpToolStripMenuItem});
-            this.mainMenuStrip.Renderer = new AbideToolStripRenderer();
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowToolStripMenuItem;
             this.mainMenuStrip.Name = "mainMenuStrip";
@@ -80,6 +82,7 @@
             this.openToolStripMenuItem,
             this.fileToolStripSeparator1,
             this.recentHalo2MapsToolStripMenuItem,
+            this.recentHalo2BetaMapsToolStripMenuItem,
             this.fileToolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -90,14 +93,14 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // fileToolStripSeparator1
             // 
             this.fileToolStripSeparator1.Name = "fileToolStripSeparator1";
-            this.fileToolStripSeparator1.Size = new System.Drawing.Size(176, 6);
+            this.fileToolStripSeparator1.Size = new System.Drawing.Size(202, 6);
             // 
             // recentHalo2MapsToolStripMenuItem
             // 
@@ -105,7 +108,7 @@
             this.clearRecentHalo2MapsToolStripMenuItem,
             this.recentHalo2MapsToolStripSeparator1});
             this.recentHalo2MapsToolStripMenuItem.Name = "recentHalo2MapsToolStripMenuItem";
-            this.recentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.recentHalo2MapsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.recentHalo2MapsToolStripMenuItem.Text = "Recent Halo &2 Maps";
             this.recentHalo2MapsToolStripMenuItem.Visible = false;
             // 
@@ -121,17 +124,39 @@
             this.recentHalo2MapsToolStripSeparator1.Name = "recentHalo2MapsToolStripSeparator1";
             this.recentHalo2MapsToolStripSeparator1.Size = new System.Drawing.Size(169, 6);
             // 
+            // recentHalo2BetaMapsToolStripMenuItem
+            // 
+            this.recentHalo2BetaMapsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearRecentHalo2BetaMapsToolStripMenuItem,
+            this.recentHalo2BetaMapsToolStripSeparator1});
+            this.recentHalo2BetaMapsToolStripMenuItem.Name = "recentHalo2BetaMapsToolStripMenuItem";
+            this.recentHalo2BetaMapsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.recentHalo2BetaMapsToolStripMenuItem.Text = "Recent Halo 2 &Beta Maps";
+            this.recentHalo2BetaMapsToolStripMenuItem.Visible = false;
+            // 
+            // clearRecentHalo2BetaMapsToolStripMenuItem
+            // 
+            this.clearRecentHalo2BetaMapsToolStripMenuItem.Name = "clearRecentHalo2BetaMapsToolStripMenuItem";
+            this.clearRecentHalo2BetaMapsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.clearRecentHalo2BetaMapsToolStripMenuItem.Text = "&Clear Recent Maps";
+            this.clearRecentHalo2BetaMapsToolStripMenuItem.Click += new System.EventHandler(this.clearRecentHalo2BetaMapsToolStripMenuItem_Click);
+            // 
+            // recentHalo2BetaMapsToolStripSeparator1
+            // 
+            this.recentHalo2BetaMapsToolStripSeparator1.Name = "recentHalo2BetaMapsToolStripSeparator1";
+            this.recentHalo2BetaMapsToolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            // 
             // fileToolStripSeparator2
             // 
             this.fileToolStripSeparator2.Name = "fileToolStripSeparator2";
-            this.fileToolStripSeparator2.Size = new System.Drawing.Size(176, 6);
+            this.fileToolStripSeparator2.Size = new System.Drawing.Size(202, 6);
             this.fileToolStripSeparator2.Visible = false;
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -313,6 +338,9 @@
         private System.Windows.Forms.ToolStripMenuItem xboxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quickConnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem recentHalo2BetaMapsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearRecentHalo2BetaMapsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator recentHalo2BetaMapsToolStripSeparator1;
     }
 }
 

@@ -781,7 +781,7 @@ namespace Texture_Editor.Halo2
                     entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
 
                     //Read
-                    Header = reader.ReadStructure<BitmapTagGroup>();
+                    Header = reader.Read<BitmapTagGroup>();
 
                     //Setup tag blocks
                     Sequences = new BitmapTagGroup.Sequence[Header.sequences.Count];
@@ -791,7 +791,7 @@ namespace Texture_Editor.Halo2
                     //Loop
                     entry.TagData.Seek(Header.sequences.Offset, SeekOrigin.Begin);
                     for (int i = 0; i < Header.sequences.Count; i++)
-                        Sequences[i] = reader.ReadStructure<BitmapTagGroup.Sequence>();
+                        Sequences[i] = reader.Read<BitmapTagGroup.Sequence>();
                     for (int i = 0; i < Header.sequences.Count; i++)
                     {
                         //Setup tag blocks
@@ -800,13 +800,13 @@ namespace Texture_Editor.Halo2
                         //Loop
                         entry.TagData.Seek(Sequences[i].sprites.Offset);
                         for (int j = 0; j < Sequences[i].sprites.Count; j++)
-                            Sprites[i][j] = reader.ReadStructure<BitmapTagGroup.Sequence.Sprite>();
+                            Sprites[i][j] = reader.Read<BitmapTagGroup.Sequence.Sprite>();
                     }
 
                     //Loop
                     entry.TagData.Seek(Header.bitmaps.Offset, SeekOrigin.Begin);
                     for (int i = 0; i < Header.bitmaps.Count; i++)
-                        Bitmaps[i] = reader.ReadStructure<BitmapTagGroup.Bitmap>();
+                        Bitmaps[i] = reader.Read<BitmapTagGroup.Bitmap>();
                 }
             }
             /// <summary>

@@ -52,6 +52,13 @@
     <Compile Include="FileHelper.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="Formatter.cs" />
+    <Compile Include="Halo2Beta\TagData.cs" />
+    <Compile Include="Halo2Beta\TagEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\TagEditor.Designer.cs">
+      <DependentUpon>TagEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Halo2\TagData.cs" />
     <Compile Include="Halo2\TagEditor.cs">
       <SubType>UserControl</SubType>
@@ -59,7 +66,7 @@
     <Compile Include="Halo2\TagEditor.Designer.cs">
       <DependentUpon>TagEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Halo2\TagEditorWebBrowser.cs">
+    <Compile Include="TagEditorWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +74,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="TagEditorSettings.cs">
       <SubType>UserControl</SubType>
@@ -94,6 +106,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Halo2Beta\TagEditor.resx">
+      <DependentUpon>TagEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Halo2\TagEditor.resx">
       <DependentUpon>TagEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,6 +122,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\Meta Editor.png" />
   </ItemGroup>
   <ItemGroup>

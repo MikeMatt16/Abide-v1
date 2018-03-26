@@ -1,5 +1,5 @@
 ﻿using Abide.HaloLibrary;
-using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.Halo2BetaMap;
 using Abide.Properties;
 using System;
 using System.Collections;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Abide.Dialogs
+namespace Abide.Dialogs.Halo2Beta
 {
     internal partial class TagBrowserDialog : Form
     {

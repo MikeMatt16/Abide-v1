@@ -57,14 +57,14 @@ namespace Abide.Guerilla.Ui.Forms
         private void TagTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Create
-            ScenarioBlock scenario = AbideTagBlock.Instantiate<ScenarioBlock>(map);
+            BitmapBlock bitmap = AbideTagBlock.Instantiate<BitmapBlock>(map);
 
             //Check
             if (e.Node.Tag is IndexEntry entry)
             {
-                if (entry.Root == HaloTags.scnr)
+                if (entry.Root == HaloTags.bitm)
                     using (BinaryReader reader = new BinaryReader(entry.TagData))
-                    { entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin); scenario.Read(reader); }
+                    { entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin); bitmap.Read(reader); }
             }
         }
     }

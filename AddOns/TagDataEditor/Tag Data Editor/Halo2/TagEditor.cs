@@ -26,6 +26,12 @@ namespace Tag_Data_Editor.Halo2
             formatter = new TagDocumentFormatter();
             InitializeComponent();
 
+            //Load Splitter Distance
+            if(Properties.Settings.Default.SplitterDistance >= 0)
+            {
+                tagDataSplitter.SplitterDistance = Properties.Settings.Default.SplitterDistance;
+            }
+
             //Setup browser
             tagDataWebBrowser.TagButtonClickCallback = tagButton_Click;
             tagDataWebBrowser.StringIdButtonClickCallback = stringIdButton_Click;
@@ -34,6 +40,13 @@ namespace Tag_Data_Editor.Halo2
             tagDataWebBrowser.BitmaskSetCallback = bitmask_Set;
             tagDataWebBrowser.StringSetCallback = string_Set;
             tagDataWebBrowser.UnicodeSetCallback = unicode_Set;
+        }
+
+        private void tagDataSplitter_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            //Set
+            Properties.Settings.Default.SplitterDistance = tagDataSplitter.SplitterDistance;
+            Properties.Settings.Default.Save();
         }
 
         private void TagEditor_XboxChanged(object sender, EventArgs e)
@@ -47,10 +60,9 @@ namespace Tag_Data_Editor.Halo2
         {
             //Prepare
             IfpDocument document = null;
-            string ifpFile = null;
-            
+
             //Check
-            if (wrapper.Root != SelectedEntry.Root && plugin_GetPath(SelectedEntry.Root, out ifpFile))
+            if (wrapper.Root != SelectedEntry.Root && plugin_GetPath(SelectedEntry.Root, out string ifpFile))
             {
                 //Load
                 try { document = new IfpDocument(); document.Load(ifpFile); }
@@ -156,9 +168,12 @@ namespace Tag_Data_Editor.Halo2
                     //Get block
                     block = (TagBlock)dataNode.DataObject.Value;
 
+                    //Get Names
+                    string[] names = dataNode.DataObject.GetDisplayNames(Map);
+
                     //Loop
                     for (int i = 0; i < block.Count; i++)
-                        tagBlockIndexToolStripComboBox.Items.Add($"{i}: {dataNode.DataObject.Node.Name}");
+                        tagBlockIndexToolStripComboBox.Items.Add($"{i}: {names[i]}");
 
                     //Select
                     if (block.Count > dataNode.SelectedIndex) tagBlockIndexToolStripComboBox.SelectedIndex = dataNode.SelectedIndex;
@@ -284,7 +299,7 @@ namespace Tag_Data_Editor.Halo2
                     switch (dataObject.Node.Layer)
                     {
                         case "root":
-                            dataObject.DataStream.Seek(SelectedEntry.Offset + dataObject.Node.TagBlockOffset, SeekOrigin.Begin);
+                            dataObject.DataStream.Seek(SelectedEntry.PostProcessedOffset + dataObject.Node.TagBlockOffset, SeekOrigin.Begin);
                             using (BinaryReader reader = new BinaryReader(dataObject.DataStream))
                                 block = reader.ReadInt64();
                             for (int i = 0; i < block.Count; i++)
@@ -362,10 +377,10 @@ namespace Tag_Data_Editor.Halo2
                     case IfpNodeType.Unicode128: return reader.ReadUTF8(128).Trim('\0');
                     case IfpNodeType.Unicode256: return reader.ReadUTF8(256).Trim('\0');
                     case IfpNodeType.TagId:
-                        IndexEntry entry = Map.IndexEntries[reader.ReadStructure<TagId>()];
+                        IndexEntry entry = Map.IndexEntries[reader.Read<TagId>()];
                         if (entry == null) return "Null";
                         else return $"{entry.Filename}.{entry.Root}";
-                    case IfpNodeType.StringId: return Map.Strings[reader.ReadStructure<StringId>().Index];
+                    case IfpNodeType.StringId: return Map.Strings[reader.Read<StringId>().Index];
                 }
             return string.Empty;
         }
@@ -711,14 +726,6 @@ namespace Tag_Data_Editor.Halo2
                 foreach (TagDataNode node in Nodes)
                     node.Update();
             }
-        }
-
-        private void connectXboxToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (Xbox.Connected) Xbox.Disconnect();
-            else Xbox.Connect();
-
-            TagEditor_XboxChanged(sender, e);
         }
     }
 }

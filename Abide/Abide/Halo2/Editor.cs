@@ -1,6 +1,7 @@
 ﻿using Abide.AddOnApi;
 using Abide.Classes;
 using Abide.Dialogs;
+using Abide.Dialogs.Halo2;
 using Abide.Halo2.Designer;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
@@ -9,7 +10,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.IO;
 using System.Linq;

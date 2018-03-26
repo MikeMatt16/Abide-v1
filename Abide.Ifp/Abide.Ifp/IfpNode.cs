@@ -140,9 +140,9 @@ namespace Abide.Ifp
         /// <summary>
         /// Gets or sets the class of the element.
         /// </summary>
-        public Tag Class
+        public string Class
         {
-            get { return @class; }
+            get { return @class.FourCc.Trim('\0'); }
             set { @class = value; }
         }
         /// <summary>
@@ -541,6 +541,10 @@ namespace Abide.Ifp
         /// <summary>
         /// Represents a 32-bit String ID value.
         /// </summary>
-        StringId
+        StringId,
+        /// <summary>
+        /// Represents an unused data section.
+        /// </summary>
+        Unused
     }
 }

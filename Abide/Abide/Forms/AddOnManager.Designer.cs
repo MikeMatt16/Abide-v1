@@ -34,6 +34,7 @@
             this.directoryHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.deleteButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
+            this.openAddOnsFolderButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addOnListView
@@ -94,12 +95,24 @@
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // openAddOnsFolderButton
+            // 
+            this.openAddOnsFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.openAddOnsFolderButton.Location = new System.Drawing.Point(93, 369);
+            this.openAddOnsFolderButton.Name = "openAddOnsFolderButton";
+            this.openAddOnsFolderButton.Size = new System.Drawing.Size(120, 23);
+            this.openAddOnsFolderButton.TabIndex = 3;
+            this.openAddOnsFolderButton.Text = "Open &AddOns Folder";
+            this.openAddOnsFolderButton.UseVisualStyleBackColor = true;
+            this.openAddOnsFolderButton.Click += new System.EventHandler(this.openAddOnsFolderButton_Click);
+            // 
             // AddOnManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
             this.ClientSize = new System.Drawing.Size(678, 404);
+            this.Controls.Add(this.openAddOnsFolderButton);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.addOnListView);
@@ -120,5 +133,6 @@
         private System.Windows.Forms.ColumnHeader directoryHeader;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Button openAddOnsFolderButton;
     }
 }

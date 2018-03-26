@@ -27,14 +27,27 @@ namespace Abide
         public Main()
         {
             InitializeComponent();
-            recentFiles_InitUiHalo2();
+            recentFiles_Init();
         }
-        
-        private void recentFiles_InitUiHalo2()
+
+        private void recentFiles_Init()
         {
+            //Init
+            bool showSeparator = false;
+            showSeparator |= recentFiles_InitUiHalo2();
+            showSeparator |= recentFiles_InitUiHalo2b();
+
+            //Show
+            fileToolStripSeparator2.Visible = showSeparator;
+        }
+
+        private bool recentFiles_InitUiHalo2()
+        {
+            //Prepare
+            bool containsItems = false;
+
             //Hide
             recentHalo2MapsToolStripMenuItem.Visible = false;
-            fileToolStripSeparator2.Visible = false;
 
             //Clear
             recentHalo2MapsToolStripMenuItem.DropDownItems.Clear();
@@ -48,7 +61,8 @@ namespace Abide
             {
                 //Set
                 recentHalo2MapsToolStripMenuItem.Visible = true;
-                fileToolStripSeparator2.Visible = true;
+                containsItems = true;
+
                 //Loop
                 for (int i = 0; i < AbideRegistry.Halo2RecentFiles.Length; i++)
                 {
@@ -61,10 +75,56 @@ namespace Abide
                     recentHalo2MapsToolStripMenuItem.DropDownItems.Add(recentItem);
                 }
             }
+
+            //Return
+            return containsItems;
+        }
+
+        private bool recentFiles_InitUiHalo2b()
+        {
+            //Prepare
+            bool containsItems = false;
+
+            //Hide
+            recentHalo2BetaMapsToolStripMenuItem.Visible = false;
+
+            //Clear
+            recentHalo2BetaMapsToolStripMenuItem.DropDownItems.Clear();
+
+            //Add...
+            recentHalo2BetaMapsToolStripMenuItem.DropDownItems.Add(clearRecentHalo2BetaMapsToolStripMenuItem);
+            recentHalo2BetaMapsToolStripMenuItem.DropDownItems.Add(recentHalo2BetaMapsToolStripSeparator1);
+
+            //Check
+            if (AbideRegistry.Halo2bRecentFiles.Length > 0)
+            {
+                //Set
+                recentHalo2BetaMapsToolStripMenuItem.Visible = true;
+                containsItems = true;
+
+                //Loop
+                for (int i = 0; i < AbideRegistry.Halo2bRecentFiles.Length; i++)
+                {
+                    //Create
+                    ToolStripMenuItem recentItem = new ToolStripMenuItem($"&{i + 1}: {AbideRegistry.Halo2bRecentFiles[i].GetCompactPath(40)}");
+                    recentItem.Tag = AbideRegistry.Halo2bRecentFiles[i];
+                    recentItem.Click += recentItem_Click;
+
+                    //Add
+                    recentHalo2BetaMapsToolStripMenuItem.DropDownItems.Add(recentItem);
+                }
+            }
+
+            //Return
+            return containsItems;
         }
 
         private void mapFile_Open(string filename)
         {
+            //Prepare
+            List<string> files = null;
+            Form editor = null;
+
             //Check
             if (!File.Exists(filename)) return;
 
@@ -77,19 +137,25 @@ namespace Abide
                     break;
                 case HaloLibrary.MapVersion.Halo2:
                     //Add
-                    List<string> files = new List<string>(AbideRegistry.Halo2RecentFiles);
+                    files = new List<string>(AbideRegistry.Halo2RecentFiles);
                     files.Remove(filename); files.Insert(0, filename);
                     AbideRegistry.Halo2RecentFiles = files.ToArray();
-                    recentFiles_InitUiHalo2();
+                    recentFiles_Init();
 
                     //Setup Editor
-                    Form editor = new Halo2.Editor(filename);
-                    editor.MdiParent = this;
-
-                    //Show
+                    editor = new Halo2.Editor(filename) { MdiParent = this };
                     editor.Show();
                     break;
                 case HaloLibrary.MapVersion.Halo2b:
+                    //Add
+                    files = new List<string>(AbideRegistry.Halo2bRecentFiles);
+                    files.Remove(filename); files.Insert(0, filename);
+                    AbideRegistry.Halo2bRecentFiles = files.ToArray();
+                    recentFiles_Init();
+
+                    //Setup Editor
+                    editor = new Halo2Beta.Editor(filename) { MdiParent = this };
+                    editor.Show();
                     break;
                 case HaloLibrary.MapVersion.Halo2v:
                     break;
@@ -270,7 +336,20 @@ namespace Abide
             AbideRegistry.Halo2RecentFiles = files;
 
             //Init
-            recentFiles_InitUiHalo2();
+            recentFiles_Init();
+        }
+
+        private void clearRecentHalo2BetaMapsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create
+            string[] files = new string[10];
+            for (int i = 0; i < 10; i++) files[i] = string.Empty;
+
+            //Set
+            AbideRegistry.Halo2bRecentFiles = files;
+
+            //Init
+            recentFiles_Init();
         }
 
         private void registerFileTypesToolStripMenuItem_Click(object sender, EventArgs e)

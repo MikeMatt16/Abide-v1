@@ -148,9 +148,23 @@ namespace Abide
             if (addOnInstaller != null)
                 mainForm = addOnInstaller;
             else
+            {
+                //Prepare
+                System.Reflection.Assembly builtin = null;
+
+                //Add Texture Editor
+                builtin = typeof(Texture_Editor.Halo2.TextureEditor).Assembly;
+                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
+
+                //Add Tag Editor
+                builtin = typeof(Tag_Data_Editor.Halo2.TagEditor).Assembly;
+                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
+
+                //Add AddOn Assemblies
                 foreach (string assembly in addOnAssemblies)
                     if (safeMode) addOns.AddAssemblySafe(assembly);
                     else addOns.AddAssembly(assembly);
+            }
 
             //Check Main Form
             if (mainForm == null) mainForm = new Main();

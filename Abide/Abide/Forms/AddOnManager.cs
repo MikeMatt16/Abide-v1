@@ -31,6 +31,13 @@ namespace Abide.Forms
             }
         }
 
+        private void openAddOnsFolderButton_Click(object sender, EventArgs e)
+        {
+            //Check
+            if (Directory.Exists(AbideRegistry.AddOnsDirectory))
+                System.Diagnostics.Process.Start(AbideRegistry.AddOnsDirectory);
+        }
+
         private void closeButton_Click(object sender, EventArgs e)
         {
             Close();

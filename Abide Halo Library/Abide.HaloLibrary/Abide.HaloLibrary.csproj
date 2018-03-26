@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Halo2BetaMap\IndexEntry.cs" />
+    <Compile Include="Halo2BetaMap\MapFile.cs" />
+    <Compile Include="Halo2BetaMap\RawContainer.cs" />
+    <Compile Include="Halo2BetaMap\StringContainer.cs" />
+    <Compile Include="Halo2BetaMap\Structures.cs" />
+    <Compile Include="Halo2BetaMap\Tags.cs" />
     <Compile Include="Halo2Map\IndexEntry.cs" />
     <Compile Include="Halo2Map\MapFile.cs" />
     <Compile Include="Halo2Map\RawContainer.cs" />

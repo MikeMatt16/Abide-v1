@@ -43,7 +43,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup>
-    <Win32Resource>G:\Github\Abide\Abide\Abide\Resources\Resource.res</Win32Resource>
+    <Win32Resource>Resources\Resource.res</Win32Resource>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,6 +80,12 @@
     <Compile Include="Dialogs\FileTypeRegistrationDialog.Designer.cs">
       <DependentUpon>FileTypeRegistrationDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\Halo2Beta\TagBrowserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\Halo2Beta\TagBrowserDialog.designer.cs">
+      <DependentUpon>TagBrowserDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,10 +104,10 @@
     <Compile Include="Dialogs\StringSelectDialog.designer.cs">
       <DependentUpon>StringSelectDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\TagBrowserDialog.cs">
+    <Compile Include="Dialogs\Halo2\TagBrowserDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\TagBrowserDialog.designer.cs">
+    <Compile Include="Dialogs\Halo2\TagBrowserDialog.designer.cs">
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\UpdateDialog.cs">
@@ -135,6 +141,18 @@
     <Compile Include="Forms\XboxForm.Designer.cs">
       <DependentUpon>XboxForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Halo2Beta\Designer\StringListEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\Designer\StringListEditorDialog.Designer.cs">
+      <DependentUpon>StringListEditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Halo2Beta\Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\Editor.Designer.cs">
+      <DependentUpon>Editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Halo2\Designer\StringListEditorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +180,9 @@
     <EmbeddedResource Include="Dialogs\FileTypeRegistrationDialog.resx">
       <DependentUpon>FileTypeRegistrationDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\Halo2Beta\TagBrowserDialog.resx">
+      <DependentUpon>TagBrowserDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,7 +192,7 @@
     <EmbeddedResource Include="Dialogs\StringSelectDialog.resx">
       <DependentUpon>StringSelectDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\TagBrowserDialog.resx">
+    <EmbeddedResource Include="Dialogs\Halo2\TagBrowserDialog.resx">
       <DependentUpon>TagBrowserDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\UpdateDialog.resx">
@@ -185,6 +206,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddOnPackageManager.resx">
       <DependentUpon>AddOnPackageManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2Beta\Designer\StringListEditorDialog.resx">
+      <DependentUpon>StringListEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2Beta\Editor.resx">
+      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Halo2\Designer\StringListEditorDialog.resx">
       <DependentUpon>StringListEditorDialog.cs</DependentUpon>
@@ -229,6 +256,18 @@
       <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
       <Name>YeloDebug</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\AddOns\Bitmap Editor\Bitmap Library\Bitmap Library.csproj">
+      <Project>{e1ee4325-e292-4f17-87ad-5fe9ef1ca71e}</Project>
+      <Name>Bitmap Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AddOns\Bitmap Editor\Texture Editor\Texture Editor.csproj">
+      <Project>{4ae8c470-9a40-4168-95fa-459cbc807cdb}</Project>
+      <Name>Texture Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AddOns\TagDataEditor\Tag Data Editor\Tag Data Editor.csproj">
+      <Project>{af8855ae-f48b-4ef1-acf9-bbdff28172ae}</Project>
+      <Name>Tag Data Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Potential Software.ico" />
@@ -257,6 +296,7 @@
     <None Include="Resources\ExtractFiles.png" />
     <None Include="Resources\AddFiles.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

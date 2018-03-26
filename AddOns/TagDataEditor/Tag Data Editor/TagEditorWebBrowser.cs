@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Tag_Data_Editor.Halo2
+namespace Tag_Data_Editor
 {
     [ComVisible(true)]
     public sealed class TagEditorWebBrowser : WebBrowser
@@ -57,50 +57,43 @@ namespace Tag_Data_Editor.Halo2
         public void TagButtonClick(string uidString, string id)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 tagButtonClick?.Invoke(uid, id ?? string.Empty);
         }
         public void StringIDButtonClick(string uidString, string id)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 stringIdButtonClick?.Invoke(uid, id ?? string.Empty);
         }
         public void SetValue(string uidString, string value)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 valueSet?.Invoke(uid, value ?? string.Empty);
         }
         public void SetEnum(string uidString, string value)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 enumSet?.Invoke(uid, value ?? string.Empty);
         }
         public void SetBitmask(string uidString, string value)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 bitmaskSet?.Invoke(uid, value ?? string.Empty);
         }
         public void SetString(string uidString, string value)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 stringSet?.Invoke(uid, value ?? string.Empty);
         }
         public void SetUnicode(string uidString, string value)
         {
             //Parse
-            int uid;
-            if (int.TryParse(uidString, out uid))
+            if (int.TryParse(uidString, out int uid))
                 unicodeSet?.Invoke(uid, value ?? string.Empty);
         }
     }

@@ -27,9 +27,9 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         Weather,
         /// <summary>
-        /// Represents Halo 2 decorator raw data.
+        /// Represents Halo 2 decorator set raw data.
         /// </summary>
-        Decorator,
+        DecoratorSet,
         /// <summary>
         /// Represents Halo 2 particle model raw data.
         /// </summary>

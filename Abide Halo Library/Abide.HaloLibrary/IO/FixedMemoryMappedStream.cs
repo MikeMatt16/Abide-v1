@@ -30,11 +30,9 @@ namespace Abide.HaloLibrary.IO
         /// <exception cref="ArgumentNullException"><paramref name="buffer"/> is null.</exception>
         public FixedMemoryMappedStream(byte[] buffer, long memoryAddress)
         {
-            //Check
-            if (buffer == null) throw new ArgumentNullException("buffer");
 
             //Setup
-            this.buffer = buffer;
+            this.buffer = buffer ?? throw new ArgumentNullException("buffer");
             this.memoryAddress = memoryAddress;
         }
         /// <summary>
