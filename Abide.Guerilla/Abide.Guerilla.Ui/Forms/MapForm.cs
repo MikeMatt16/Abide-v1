@@ -57,15 +57,36 @@ namespace Abide.Guerilla.Ui.Forms
         private void TagTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Create
-            BitmapBlock bitmap = AbideTagBlock.Instantiate<BitmapBlock>(map);
+            AbideTagBlock tagGroup = null;
 
             //Check
             if (e.Node.Tag is IndexEntry entry)
-            {
-                if (entry.Root == HaloTags.bitm)
-                    using (BinaryReader reader = new BinaryReader(entry.TagData))
-                    { entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin); bitmap.Read(reader); }
-            }
+                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                {
+                    //Goto
+                    entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin);
+
+                    //Handle root
+                    switch (entry.Root)
+                    {
+                        case HaloTags.ugh_:
+                            tagGroup = AbideTagBlock.Instantiate<SoundCacheFileGestaltBlock>(map);
+                            tagGroup.Read(reader);
+                            break;
+                        case HaloTags.vehi:
+                            tagGroup = AbideTagBlock.Instantiate<VehicleBlock>(map);
+                            tagGroup.Read(reader);
+                            break;
+                        case HaloTags.bitm:
+                            tagGroup = AbideTagBlock.Instantiate<BitmapBlock>(map);
+                            tagGroup.Read(reader);
+                            break;
+                        case HaloTags.phmo:
+                            tagGroup = AbideTagBlock.Instantiate<PhysicsModelBlock>(map);
+                            tagGroup.Read(reader);
+                            break;
+                    }
+                }
         }
     }
 }

@@ -46,11 +46,12 @@
   <ItemGroup>
     <Compile Include="DataTypes.cs" />
     <Compile Include="Halo2\Compression.cs" />
-    <Compile Include="Halo2\ModelTagGroup.cs" />
-    <Compile Include="Mode.cs">
+    <Compile Include="Halo2\Halo2Settings.cs" />
+    <Compile Include="Halo2\HaloModel.cs" />
+    <Compile Include="Halo2\Mode.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Mode.Designer.cs">
+    <Compile Include="Halo2\Mode.Designer.cs">
       <DependentUpon>Mode.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +60,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TagblockBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
@@ -75,7 +77,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mode.resx">
+    <EmbeddedResource Include="Halo2\Mode.resx">
       <DependentUpon>Mode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

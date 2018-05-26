@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbideRegistry.cs" />
+    <Compile Include="BrowserEmulation.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="Formatter.cs" />
@@ -130,45 +131,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Poke.png" />
-    <Content Include="Tag Editor\Bitmask.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Editor Styles.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Editor.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\BlockSelect.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Enum.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\EnumOption.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Reflexive.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Script.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\String.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\StringID.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Tag.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Unicode.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tag Editor\Value.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Tag Editor\Bitmask.html" />
+    <Resource Include="Tag Editor\Editor Styles.css" />
+    <Resource Include="Tag Editor\Editor.html" />
+    <Resource Include="Tag Editor\BlockSelect.html" />
+    <Resource Include="Tag Editor\Enum.html" />
+    <Resource Include="Tag Editor\EnumOption.html" />
+    <Resource Include="Tag Editor\Reflexive.html" />
+    <Resource Include="Tag Editor\Script.js" />
+    <Resource Include="Tag Editor\String.html" />
+    <Resource Include="Tag Editor\StringID.html" />
+    <Resource Include="Tag Editor\Tag.html" />
+    <Resource Include="Tag Editor\Unicode.html" />
+    <Resource Include="Tag Editor\Value.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

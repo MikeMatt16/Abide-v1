@@ -49,6 +49,20 @@ namespace Tag_Data_Editor.Halo2
             Properties.Settings.Default.Save();
         }
 
+        private void TagEditor_Initialize(object sender, AddOnHostEventArgs e)
+        {
+            //Get Version
+            string versionString = BrowserEmulation.ServiceVersion ?? BrowserEmulation.Version;
+            if (!string.IsNullOrEmpty(versionString) && int.TryParse(versionString.Substring(0, versionString.IndexOf('.')), out int major))
+            {
+                //Check
+                if (BrowserEmulation.Abide < major * 1000)
+                    BrowserEmulation.Abide = major * 1000;
+                else if (BrowserEmulation.Abide > major * 1000)
+                    BrowserEmulation.Abide = major * 1000;
+            }
+        }
+
         private void TagEditor_XboxChanged(object sender, EventArgs e)
         {
             //Set

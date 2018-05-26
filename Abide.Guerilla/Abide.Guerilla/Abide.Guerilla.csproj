@@ -77,6 +77,8 @@
     <Compile Include="Managed\TagFieldStructDefinition.cs" />
     <Compile Include="ParsedTag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags2\Generated\bitmap.cs" />
+    <Compile Include="Tags2\TagDefinition.cs" />
     <Compile Include="Tags\Attributes.cs" />
     <Compile Include="Tags\Generated\AiDialogueGlobalsBlock.Generated.cs" />
     <Compile Include="Tags\Generated\AiMissionDialogueBlock.Generated.cs" />

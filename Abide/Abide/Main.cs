@@ -27,6 +27,7 @@ namespace Abide
         public Main()
         {
             InitializeComponent();
+            mainMenuStrip.Renderer = new AbideToolStripRenderer();
             recentFiles_Init();
         }
 

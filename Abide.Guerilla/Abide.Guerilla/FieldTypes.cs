@@ -40,21 +40,24 @@
         FieldRealArgbColor,
         FieldRealHsvColor,
         FieldRealAhsvColor,
-        FieldRealShortBounds,
-        FieldRealAngleBounds,
+        FieldShortBounds,
+        FieldAngleBounds,
         FieldRealBounds,
         FieldRealFractionBounds,
         FieldTagReference,
         FieldBlock,
+
         FieldLongBlockFlags,
         FieldWordBlockFlags,
         FieldByteBlockFlags,
+
         FieldCharBlockIndex1,
         FieldCharBlockIndex2,
         FieldShortBlockIndex1,
         FieldShortBlockIndex2,
         FieldLongBlockIndex1,
         FieldLongBlockIndex2,
+
         FieldData,
         FieldVertexBuffer,
         FieldArrayStart,
@@ -67,11 +70,5 @@
         FieldStruct,
         FieldTerminator,
 #pragma warning restore CS1591
-
-        /// <summary>
-        /// Used to get count of field types.
-        /// </summary>
-        /// <example>FieldType[] types = new FieldType[(int)FieldType.TypeCount]; // types.Count = 60.</example>
-        TypeCount,
     }
 }

@@ -190,7 +190,7 @@ namespace Tag_Data_Editor
         }
         public static Stream GetEnumOptionStream()
         {
-            return GetFileStream("EnumOption.html", Properties.Resources.Value);
+            return GetFileStream("EnumOption.html", Properties.Resources.EnumOption);
         }
         private static Stream GetFileStream(string fileName, string defaultContents)
         {
@@ -217,8 +217,8 @@ namespace Tag_Data_Editor
 
         private static string GetPath(string filePath)
         {
-            string codeBase = new Uri(ExecutingCodeBase).LocalPath;
-            return Path.Combine(Path.GetDirectoryName(codeBase), filePath);
+            string abide = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Abide");
+            return Path.Combine(abide, filePath);
         }
     }
 }

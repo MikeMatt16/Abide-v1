@@ -172,13 +172,9 @@ namespace Abide.Guerilla.H2Guerilla
             StringBuilder builder = new StringBuilder();
             char c = (char)0;
 
-            //Read char(s)
-            c = ReadChar();
-            while (c != '\0')
-            {
+            //Read
+            while((c = ReadChar()) != '\0')
                 builder.Append(c);
-                c = ReadChar();
-            }
 
             //Get string
             return builder.ToString();
@@ -198,8 +194,7 @@ namespace Abide.Guerilla.H2Guerilla
             string s = string.Empty;
 
             //Check
-            if (num < Guerilla.BaseAddress)
-                try { s = localizationLibrary.LoadString(num); } catch { }
+            if (num < Guerilla.BaseAddress) try { s = localizationLibrary.LoadString(num); } catch { }
             else if (num > Guerilla.BaseAddress && (num - Guerilla.BaseAddress) < BaseStream.Length)
             {
                 BaseStream.Seek(num - Guerilla.BaseAddress, SeekOrigin.Begin);

@@ -49,6 +49,27 @@
     <Compile Include="Controls\TextureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Halo2Beta\Dialogs\NewTextureDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\Dialogs\NewTextureDialog.Designer.cs">
+      <DependentUpon>NewTextureDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Halo2Beta\Dialogs\TextureImportOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\Dialogs\TextureImportOptionsDialog.designer.cs">
+      <DependentUpon>TextureImportOptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Halo2Beta\Halo2BetaSettings.cs" />
+    <Compile Include="Halo2Beta\HaloBitmap.cs" />
+    <Compile Include="Halo2Beta\NewTextureButton.cs" />
+    <Compile Include="Halo2Beta\TextureEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Halo2Beta\TextureEditor.Designer.cs">
+      <DependentUpon>TextureEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Halo2\Dialogs\TextureImportOptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +114,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Halo2Beta\Dialogs\NewTextureDialog.resx">
+      <DependentUpon>NewTextureDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2Beta\Dialogs\TextureImportOptionsDialog.resx">
+      <DependentUpon>TextureImportOptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2Beta\TextureEditor.resx">
+      <DependentUpon>TextureEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Halo2\Dialogs\TextureImportOptionsDialog.resx">
       <DependentUpon>TextureImportOptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -115,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\font-1.tif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new_texture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

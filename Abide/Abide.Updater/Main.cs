@@ -36,11 +36,17 @@ namespace Abide.Updater
             installButton.Enabled = false;
 
             //Loop through
-            string filename = null;
+            string filename = null, directoryName = null;
             foreach (var entry in package.Entries)
             {
-                //Get and create file...
+                //Get file and directory...
                 filename = Path.Combine(abideDirectory, entry.Filename);
+                directoryName = Path.GetDirectoryName(Path.Combine(abideDirectory, entry.Filename));
+
+                //Check
+                if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+                //Create
                 using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     //Write

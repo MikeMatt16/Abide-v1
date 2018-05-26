@@ -33,15 +33,21 @@
             this.okButton = new System.Windows.Forms.Button();
             this.settingsTabControl = new System.Windows.Forms.TabControl();
             this.abideSettingsTab = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.spSharedBrowseButton = new System.Windows.Forms.Button();
+            this.sharedBetaBrowseButton = new System.Windows.Forms.Button();
+            this.halo2SpSharedFilePathTextBox = new System.Windows.Forms.TextBox();
+            this.halo2BetaSharedFilePathTextBox = new System.Windows.Forms.TextBox();
+            this.sharedBrowseButton = new System.Windows.Forms.Button();
+            this.mainmenuBetaBrowseButton = new System.Windows.Forms.Button();
+            this.halo2SharedFilePathTextBox = new System.Windows.Forms.TextBox();
+            this.halo2BetaMainmenuFilePathTextBox = new System.Windows.Forms.TextBox();
             this.mainmenuBrowseButton = new System.Windows.Forms.Button();
             this.halo2MainmenuFilePathTextBox = new System.Windows.Forms.TextBox();
-            this.halo2SharedFilePathTextBox = new System.Windows.Forms.TextBox();
-            this.sharedBrowseButton = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.halo2SpSharedFilePathTextBox = new System.Windows.Forms.TextBox();
-            this.spSharedBrowseButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.dialogControlsPanel.SuspendLayout();
             this.settingsTabControl.SuspendLayout();
             this.abideSettingsTab.SuspendLayout();
@@ -91,12 +97,18 @@
             // abideSettingsTab
             // 
             this.abideSettingsTab.Controls.Add(this.label3);
+            this.abideSettingsTab.Controls.Add(this.label5);
             this.abideSettingsTab.Controls.Add(this.label2);
+            this.abideSettingsTab.Controls.Add(this.label4);
             this.abideSettingsTab.Controls.Add(this.label1);
             this.abideSettingsTab.Controls.Add(this.spSharedBrowseButton);
+            this.abideSettingsTab.Controls.Add(this.sharedBetaBrowseButton);
             this.abideSettingsTab.Controls.Add(this.halo2SpSharedFilePathTextBox);
+            this.abideSettingsTab.Controls.Add(this.halo2BetaSharedFilePathTextBox);
             this.abideSettingsTab.Controls.Add(this.sharedBrowseButton);
+            this.abideSettingsTab.Controls.Add(this.mainmenuBetaBrowseButton);
             this.abideSettingsTab.Controls.Add(this.halo2SharedFilePathTextBox);
+            this.abideSettingsTab.Controls.Add(this.halo2BetaMainmenuFilePathTextBox);
             this.abideSettingsTab.Controls.Add(this.mainmenuBrowseButton);
             this.abideSettingsTab.Controls.Add(this.halo2MainmenuFilePathTextBox);
             this.abideSettingsTab.Location = new System.Drawing.Point(4, 22);
@@ -107,6 +119,42 @@
             this.abideSettingsTab.Text = "Abide Settings";
             this.abideSettingsTab.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Halo 2 SPShared:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 98);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Halo 2 Beta Shared:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Halo 2 Shared:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 127);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(118, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Halo 2 Beta Mainmenu:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -115,6 +163,78 @@
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Halo 2 Mainmenu:";
+            // 
+            // spSharedBrowseButton
+            // 
+            this.spSharedBrowseButton.Location = new System.Drawing.Point(283, 6);
+            this.spSharedBrowseButton.Name = "spSharedBrowseButton";
+            this.spSharedBrowseButton.Size = new System.Drawing.Size(31, 23);
+            this.spSharedBrowseButton.TabIndex = 1;
+            this.spSharedBrowseButton.Text = "...";
+            this.spSharedBrowseButton.UseVisualStyleBackColor = true;
+            this.spSharedBrowseButton.Click += new System.EventHandler(this.spSharedBrowseButton_Click);
+            // 
+            // sharedBetaBrowseButton
+            // 
+            this.sharedBetaBrowseButton.Location = new System.Drawing.Point(283, 93);
+            this.sharedBetaBrowseButton.Name = "sharedBetaBrowseButton";
+            this.sharedBetaBrowseButton.Size = new System.Drawing.Size(31, 23);
+            this.sharedBetaBrowseButton.TabIndex = 3;
+            this.sharedBetaBrowseButton.Text = "...";
+            this.sharedBetaBrowseButton.UseVisualStyleBackColor = true;
+            this.sharedBetaBrowseButton.Click += new System.EventHandler(this.sharedBetaBrowseButton_Click);
+            // 
+            // halo2SpSharedFilePathTextBox
+            // 
+            this.halo2SpSharedFilePathTextBox.Location = new System.Drawing.Point(109, 8);
+            this.halo2SpSharedFilePathTextBox.Name = "halo2SpSharedFilePathTextBox";
+            this.halo2SpSharedFilePathTextBox.ReadOnly = true;
+            this.halo2SpSharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
+            this.halo2SpSharedFilePathTextBox.TabIndex = 0;
+            // 
+            // halo2BetaSharedFilePathTextBox
+            // 
+            this.halo2BetaSharedFilePathTextBox.Location = new System.Drawing.Point(134, 95);
+            this.halo2BetaSharedFilePathTextBox.Name = "halo2BetaSharedFilePathTextBox";
+            this.halo2BetaSharedFilePathTextBox.ReadOnly = true;
+            this.halo2BetaSharedFilePathTextBox.Size = new System.Drawing.Size(143, 20);
+            this.halo2BetaSharedFilePathTextBox.TabIndex = 2;
+            // 
+            // sharedBrowseButton
+            // 
+            this.sharedBrowseButton.Location = new System.Drawing.Point(283, 35);
+            this.sharedBrowseButton.Name = "sharedBrowseButton";
+            this.sharedBrowseButton.Size = new System.Drawing.Size(31, 23);
+            this.sharedBrowseButton.TabIndex = 3;
+            this.sharedBrowseButton.Text = "...";
+            this.sharedBrowseButton.UseVisualStyleBackColor = true;
+            this.sharedBrowseButton.Click += new System.EventHandler(this.sharedBrowseButton_Click);
+            // 
+            // mainmenuBetaBrowseButton
+            // 
+            this.mainmenuBetaBrowseButton.Location = new System.Drawing.Point(283, 122);
+            this.mainmenuBetaBrowseButton.Name = "mainmenuBetaBrowseButton";
+            this.mainmenuBetaBrowseButton.Size = new System.Drawing.Size(31, 23);
+            this.mainmenuBetaBrowseButton.TabIndex = 5;
+            this.mainmenuBetaBrowseButton.Text = "...";
+            this.mainmenuBetaBrowseButton.UseVisualStyleBackColor = true;
+            this.mainmenuBetaBrowseButton.Click += new System.EventHandler(this.mainmenuBetaBrowseButton_Click);
+            // 
+            // halo2SharedFilePathTextBox
+            // 
+            this.halo2SharedFilePathTextBox.Location = new System.Drawing.Point(109, 37);
+            this.halo2SharedFilePathTextBox.Name = "halo2SharedFilePathTextBox";
+            this.halo2SharedFilePathTextBox.ReadOnly = true;
+            this.halo2SharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
+            this.halo2SharedFilePathTextBox.TabIndex = 2;
+            // 
+            // halo2BetaMainmenuFilePathTextBox
+            // 
+            this.halo2BetaMainmenuFilePathTextBox.Location = new System.Drawing.Point(134, 124);
+            this.halo2BetaMainmenuFilePathTextBox.Name = "halo2BetaMainmenuFilePathTextBox";
+            this.halo2BetaMainmenuFilePathTextBox.ReadOnly = true;
+            this.halo2BetaMainmenuFilePathTextBox.Size = new System.Drawing.Size(143, 20);
+            this.halo2BetaMainmenuFilePathTextBox.TabIndex = 4;
             // 
             // mainmenuBrowseButton
             // 
@@ -133,60 +253,6 @@
             this.halo2MainmenuFilePathTextBox.ReadOnly = true;
             this.halo2MainmenuFilePathTextBox.Size = new System.Drawing.Size(168, 20);
             this.halo2MainmenuFilePathTextBox.TabIndex = 4;
-            // 
-            // halo2SharedFilePathTextBox
-            // 
-            this.halo2SharedFilePathTextBox.Location = new System.Drawing.Point(109, 37);
-            this.halo2SharedFilePathTextBox.Name = "halo2SharedFilePathTextBox";
-            this.halo2SharedFilePathTextBox.ReadOnly = true;
-            this.halo2SharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
-            this.halo2SharedFilePathTextBox.TabIndex = 2;
-            // 
-            // sharedBrowseButton
-            // 
-            this.sharedBrowseButton.Location = new System.Drawing.Point(283, 35);
-            this.sharedBrowseButton.Name = "sharedBrowseButton";
-            this.sharedBrowseButton.Size = new System.Drawing.Size(31, 23);
-            this.sharedBrowseButton.TabIndex = 3;
-            this.sharedBrowseButton.Text = "...";
-            this.sharedBrowseButton.UseVisualStyleBackColor = true;
-            this.sharedBrowseButton.Click += new System.EventHandler(this.sharedBrowseButton_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Halo 2 Shared:";
-            // 
-            // halo2SpSharedFilePathTextBox
-            // 
-            this.halo2SpSharedFilePathTextBox.Location = new System.Drawing.Point(109, 8);
-            this.halo2SpSharedFilePathTextBox.Name = "halo2SpSharedFilePathTextBox";
-            this.halo2SpSharedFilePathTextBox.ReadOnly = true;
-            this.halo2SpSharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
-            this.halo2SpSharedFilePathTextBox.TabIndex = 0;
-            // 
-            // spSharedBrowseButton
-            // 
-            this.spSharedBrowseButton.Location = new System.Drawing.Point(283, 6);
-            this.spSharedBrowseButton.Name = "spSharedBrowseButton";
-            this.spSharedBrowseButton.Size = new System.Drawing.Size(31, 23);
-            this.spSharedBrowseButton.TabIndex = 1;
-            this.spSharedBrowseButton.Text = "...";
-            this.spSharedBrowseButton.UseVisualStyleBackColor = true;
-            this.spSharedBrowseButton.Click += new System.EventHandler(this.spSharedBrowseButton_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(92, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Halo 2 SPShared:";
             // 
             // OptionsDialog
             // 
@@ -226,5 +292,11 @@
         private System.Windows.Forms.TextBox halo2SpSharedFilePathTextBox;
         private System.Windows.Forms.Button sharedBrowseButton;
         private System.Windows.Forms.TextBox halo2SharedFilePathTextBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button sharedBetaBrowseButton;
+        private System.Windows.Forms.TextBox halo2BetaSharedFilePathTextBox;
+        private System.Windows.Forms.Button mainmenuBetaBrowseButton;
+        private System.Windows.Forms.TextBox halo2BetaMainmenuFilePathTextBox;
     }
 }

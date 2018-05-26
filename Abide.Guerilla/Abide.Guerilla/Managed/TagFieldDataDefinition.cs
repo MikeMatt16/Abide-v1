@@ -49,18 +49,26 @@ namespace Abide.Guerilla.Managed
         {
             get { return maximumSize; }
         }
+        /// <summary>
+        /// Gets or sets the data element size.
+        /// </summary>
+        public int ElementSize
+        {
+            get { return elementSize; }
+            set { elementSize = value; }
+        }
         
         private int flags;
         private int alignmentBit;
         private int maximumSize;
         private string definitionName;
         private string maximumSizeString;
+        private int elementSize = 1;
 
         /// <summary>
         /// Intializes a new instance of the <see cref="TagFieldDataDefinition"/> class.
         /// </summary>
         public TagFieldDataDefinition() : base() { }
-
         /// <summary>
         /// Reads the field using the supplied guerilla binary reader.
         /// </summary>

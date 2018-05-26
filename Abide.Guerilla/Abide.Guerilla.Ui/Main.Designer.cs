@@ -38,6 +38,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tagGroupTreeView = new System.Windows.Forms.TreeView();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.exportAbideTagDefinitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +48,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.exportToolStripMenuItem,
-            this.mapFormToolStripMenuItem});
+            this.mapFormToolStripMenuItem,
+            this.exportAbideTagDefinitionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1284, 24);
@@ -126,6 +128,13 @@
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
+            // exportAbideTagDefinitionToolStripMenuItem
+            // 
+            this.exportAbideTagDefinitionToolStripMenuItem.Name = "exportAbideTagDefinitionToolStripMenuItem";
+            this.exportAbideTagDefinitionToolStripMenuItem.Size = new System.Drawing.Size(168, 20);
+            this.exportAbideTagDefinitionToolStripMenuItem.Text = "&Export Abide Tag Definitions";
+            this.exportAbideTagDefinitionToolStripMenuItem.Click += new System.EventHandler(this.ExportAbideTagDefinitionToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -159,5 +168,6 @@
         private System.Windows.Forms.TreeView tagGroupTreeView;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ToolStripMenuItem mapFormToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAbideTagDefinitionToolStripMenuItem;
     }
 }

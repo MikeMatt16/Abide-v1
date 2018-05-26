@@ -7,6 +7,7 @@ namespace Abide.Ifp
     /// <summary>
     /// Represents an IronForgePlugin document.
     /// </summary>
+    [Serializable]
     public sealed class IfpDocument
     {
         /// <summary>

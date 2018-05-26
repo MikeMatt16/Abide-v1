@@ -49,6 +49,20 @@ namespace Tag_Data_Editor.Halo2Beta
             Properties.Settings.Default.Save();
         }
 
+        private void TagEditor_Initialize(object sender, AddOnHostEventArgs e)
+        {
+            //Get Version
+            string versionString = BrowserEmulation.ServiceVersion ?? BrowserEmulation.Version;
+            if (!string.IsNullOrEmpty(versionString) && int.TryParse(versionString.Substring(0, versionString.IndexOf('.')), out int major))
+            {
+                //Check
+                if (BrowserEmulation.Abide < major * 1000)
+                    BrowserEmulation.Abide = major * 1000;
+                else if (BrowserEmulation.Abide > major * 1000)
+                    BrowserEmulation.Abide = major * 1000;
+            }
+        }
+
         private void TagEditor_XboxChanged(object sender, EventArgs e)
         {
             //Set
@@ -60,16 +74,21 @@ namespace Tag_Data_Editor.Halo2Beta
         {
             //Prepare
             IfpDocument document = null;
+            bool load = true;
 
             //Check
             if (wrapper.Root != SelectedEntry.Root && plugin_GetPath(SelectedEntry.Root, out string ifpFile))
             {
                 //Load
-                try { document = new IfpDocument(); document.Load(ifpFile); }
-                finally { wrapper.Layout(document, SelectedEntry); }
+                try { document = new IfpDocument(); document.Load(ifpFile); wrapper.Layout(document, SelectedEntry); }
+                catch { load = false; }
             }
-            else
+
+            //Check
+            if (!load)
             {
+                MessageBox.Show("Plugin error, I think?");
+                return;
             }
 
             //Read
@@ -631,6 +650,9 @@ namespace Tag_Data_Editor.Halo2Beta
             //Get Object
             dataObject = wrapper.ObjectFromUniqueId(uid);
             dataObject.Value = valueString;
+
+            //Write
+            dataObject.WriteValue();
         }
 
         private void unicode_Set(int uid, string valueString)
@@ -642,6 +664,9 @@ namespace Tag_Data_Editor.Halo2Beta
             //Get Object
             dataObject = wrapper.ObjectFromUniqueId(uid);
             dataObject.Value = valueString;
+
+            //Write
+            dataObject.WriteValue();
         }
 
         /// <summary>

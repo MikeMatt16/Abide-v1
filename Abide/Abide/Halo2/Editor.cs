@@ -507,10 +507,20 @@ namespace Abide.Halo2
                 TagPropertyGrid.SelectedObject = entries[selectedEntry.Id];
 
                 //Send trigger
-                List<Exception> errors = new List<Exception>();
-                foreach (var addOn in container.GetHaloAddOns())
-                    try { addOn.OnSelectedEntryChanged(); }
-                    catch(Exception ex) { errors.Add(ex); }
+                if (!Program.DebugMode)
+                {
+                    //If not debug mode, catch exceptions.
+                    List<Exception> errors = new List<Exception>();
+                    foreach (var addOn in container.GetHaloAddOns())
+                        try { addOn.OnSelectedEntryChanged(); }
+                        catch (Exception ex) { errors.Add(ex); }
+                }
+                else
+                {
+                    //If debug mode, don't catch exceptions.
+                    foreach (var addOn in container.GetHaloAddOns())
+                        addOn.OnSelectedEntryChanged();
+                }
 
                 //Check Tab Pages
                 foreach (TabPage tabPage in tabPages)

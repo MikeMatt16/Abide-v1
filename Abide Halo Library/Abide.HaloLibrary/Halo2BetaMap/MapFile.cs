@@ -955,6 +955,8 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                     header.CrazyOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                     writer.Write(crazyData.GetBuffer());
 
+                    long test = stream.Position.PadTo(512);
+
                     //Write Bitmaps and fix addresses
                     foreach (RawStream data in bitmapDatas)
                     {
@@ -1018,6 +1020,14 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                 //Read
                 ReadRaws(stream, reader);
             }
+        }
+        /// <summary>
+        /// Returns the map's name.
+        /// </summary>
+        /// <returns>The map's name.</returns>
+        public override string ToString()
+        {
+            return header.Name;
         }
         /// <summary>
         /// Closes the map file, clearing all used buffers.

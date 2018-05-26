@@ -75,6 +75,7 @@
             this.tagDataSplitter.Size = new System.Drawing.Size(1502, 916);
             this.tagDataSplitter.SplitterDistance = 200;
             this.tagDataSplitter.TabIndex = 2;
+            this.tagDataSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tagDataSplitter_SplitterMoved);
             // 
             // tagEditorToolStrip
             // 
@@ -149,6 +150,7 @@
             this.Name = "TagEditor";
             this.Size = new System.Drawing.Size(1502, 916);
             this.ToolName = "Tag Editor";
+            this.Initialize += new System.EventHandler<Abide.AddOnApi.AddOnHostEventArgs>(this.TagEditor_Initialize);
             this.SelectedEntryChanged += new System.EventHandler(this.TagEditor_SelectedEntryChanged);
             this.XboxChanged += new System.EventHandler(this.TagEditor_XboxChanged);
             this.tagDataSplitter.Panel1.ResumeLayout(false);

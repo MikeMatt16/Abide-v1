@@ -9,14 +9,14 @@ namespace Abide.Guerilla.Managed
     public sealed class TagFieldStructDefinition : TagFieldDefinition
     {
         /// <summary>
-        /// Gets and returns the field's structure name.
+        /// Gets and returns the structure's name.
         /// </summary>
         public string StructName
         {
             get { return name; }
         }
         /// <summary>
-        /// Gets and returns the field's display name.
+        /// Gets and returns the structure's display name.
         /// </summary>
         public string DisplayName
         {

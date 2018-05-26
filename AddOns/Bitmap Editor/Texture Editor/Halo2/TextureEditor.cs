@@ -18,11 +18,6 @@ namespace Texture_Editor.Halo2
         public TextureEditor()
         {
             InitializeComponent();
-            using (BitmapSheet sheet = new BitmapSheet(Properties.Resources.numbers_1))
-            using (Image img = sheet.GetBitmap(0))
-            {
-
-            }
         }
 
         private void BitmapEditor_SelectedEntryChanged(object sender, EventArgs e)

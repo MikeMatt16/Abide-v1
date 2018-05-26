@@ -1503,6 +1503,5 @@ namespace Abide.HaloLibrary.Halo2Map
         private byte string29;
         private byte string30;
         private byte string31;
-
     }
 }

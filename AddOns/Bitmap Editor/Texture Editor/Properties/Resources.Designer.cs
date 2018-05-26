@@ -73,6 +73,16 @@ namespace Texture_Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap new_texture {
+            get {
+                object obj = ResourceManager.GetObject("new_texture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap numbers_1 {
             get {
                 object obj = ResourceManager.GetObject("numbers_1", resourceCulture);

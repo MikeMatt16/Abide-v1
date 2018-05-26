@@ -396,8 +396,8 @@ namespace Abide.Guerilla.CodeDom
                         case FieldType.FieldRealHsvColor: rightExpression = new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(typeof(Types.ColorHsvF).Name), "Zero"); break;
                         case FieldType.FieldRealAhsvColor: rightExpression = new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(typeof(Types.ColorAhsvF).Name), "Zero"); break;
 
-                        case FieldType.FieldRealShortBounds:
-                        case FieldType.FieldRealAngleBounds:
+                        case FieldType.FieldShortBounds:
+                        case FieldType.FieldAngleBounds:
                         case FieldType.FieldRealBounds:
                         case FieldType.FieldRealFractionBounds: rightExpression = new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(typeof(Types.FloatRange).Name), "Zero"); break;
 
@@ -529,8 +529,8 @@ namespace Abide.Guerilla.CodeDom
                         case FieldType.FieldRealHsvColor: rightExpression = new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodeArgumentReferenceExpression("reader"), "Read", new CodeTypeReference(typeof(Types.ColorHsvF).Name))); break;
                         case FieldType.FieldRealAhsvColor: rightExpression = new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodeArgumentReferenceExpression("reader"), "Read", new CodeTypeReference(typeof(Types.ColorAhsvF).Name))); break;
 
-                        case FieldType.FieldRealShortBounds:
-                        case FieldType.FieldRealAngleBounds:
+                        case FieldType.FieldShortBounds:
+                        case FieldType.FieldAngleBounds:
                         case FieldType.FieldRealBounds:
                         case FieldType.FieldRealFractionBounds: rightExpression = new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodeArgumentReferenceExpression("reader"), "Read", new CodeTypeReference(typeof(Types.FloatRange).Name))); break;
 

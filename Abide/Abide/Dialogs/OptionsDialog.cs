@@ -38,6 +38,8 @@ namespace Abide.Dialogs
             halo2SpSharedFilePathTextBox.Text = AbideRegistry.Halo2SpShared.GetCompactPath(35);
             halo2SharedFilePathTextBox.Text = AbideRegistry.Halo2Shared.GetCompactPath(35);
             halo2MainmenuFilePathTextBox.Text = AbideRegistry.Halo2Mainmenu.GetCompactPath(35);
+            halo2BetaMainmenuFilePathTextBox.Text = AbideRegistry.Halo2bMainmenu.GetCompactPath(26);
+            halo2BetaSharedFilePathTextBox.Text = AbideRegistry.Halo2bShared.GetCompactPath(26);
         }
 
         private void spSharedBrowseButton_Click(object sender, EventArgs e)
@@ -178,6 +180,62 @@ namespace Abide.Dialogs
                             AbideRegistry.Halo2SpShared = foundResourceMap.Value;
                             break;
                     }
+        }
+
+        private void sharedBetaBrowseButton_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string filename = string.Empty;
+            bool open = false;
+
+            //Initialize
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Setup
+                openDlg.Filter = "Shared Maps (shared.map)|shared.map";
+                openDlg.Title = "Open Shared...";
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = openDlg.FileName;
+                    open = true;
+                }
+            }
+
+            //Check
+            if (open)
+            {
+                //Set...
+                halo2BetaSharedFilePathTextBox.Text = filename.GetCompactPath(26);
+                AbideRegistry.Halo2bShared = filename;
+            }
+        }
+
+        private void mainmenuBetaBrowseButton_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            string filename = string.Empty;
+            bool open = false;
+
+            //Initialize
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Setup
+                openDlg.Filter = "Mainmenu Maps (mainmenu.map)|mainmenu.map";
+                openDlg.Title = "Open Mainmenu...";
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    filename = openDlg.FileName;
+                    open = true;
+                }
+            }
+
+            //Check
+            if (open)
+            {
+                //Set...
+                halo2BetaMainmenuFilePathTextBox.Text = filename.GetCompactPath(26);
+                AbideRegistry.Halo2bMainmenu = filename;
+            }
         }
 
         object IHost.Request(IAddOn sender, string request, params object[] args)

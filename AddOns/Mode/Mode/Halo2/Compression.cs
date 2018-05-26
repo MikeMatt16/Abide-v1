@@ -354,8 +354,24 @@ namespace Mode.Halo2
             get { return v; }
             set { v = value; }
         }
+        /// <summary>
+        /// Gets or sets the secondary U-component range.
+        /// </summary>
+        public Range SecondaryU
+        {
+            get { return secondaryU; }
+            set { secondaryU = value; }
+        }
+        /// <summary>
+        /// Gets or sets the secondary V-component range.
+        /// </summary>
+        public Range SecondaryV
+        {
+            get { return secondaryV; }
+            set { secondaryV = value; }
+        }
 
-        private Range x, y, z, u, v;
+        private Range x, y, z, u, v, secondaryU, secondaryV;
 
         /// <summary>
         /// Inflates a 16-bit normalized component value.
@@ -367,11 +383,13 @@ namespace Mode.Halo2
         {
             switch (component)
             {
-                case Component.X: return (value + shortConst) * ushortInverse + (X.Max - x.Min) + x.Min;
-                case Component.Y: return (value + shortConst) * ushortInverse + (Y.Max - y.Min) + y.Min;
-                case Component.Z: return (value + shortConst) * ushortInverse + (Z.Max - z.Min) + z.Min;
-                case Component.U: return (value + shortConst) * ushortInverse + (U.Max - u.Min) + u.Min;
-                case Component.V: return (value + shortConst) * ushortInverse + (V.Max - v.Min) + v.Min;
+                case Component.X: return (value + shortConst) * ushortInverse + (x.Max - x.Min) + x.Min;
+                case Component.Y: return (value + shortConst) * ushortInverse + (y.Max - y.Min) + y.Min;
+                case Component.Z: return (value + shortConst) * ushortInverse + (z.Max - z.Min) + z.Min;
+                case Component.U: return (value + shortConst) * ushortInverse + (u.Max - u.Min) + u.Min;
+                case Component.V: return (value + shortConst) * ushortInverse + (v.Max - v.Min) + v.Min;
+                case Component.SecondaryU: return (value + shortConst) * ushortInverse + (secondaryU.Min - secondaryU.Min) + secondaryU.Min;
+                case Component.SecondaryV: return (value + shortConst) * ushortInverse + (secondaryV.Min - secondaryV.Min) + secondaryV.Min;
                 default: return 0;
             }
         }
@@ -381,7 +399,7 @@ namespace Mode.Halo2
         /// <param name="component">The component to normalize.</param>
         /// <param name="value">The value.</param>
         /// <returns>A normalized value.</returns>
-        public float Normailze(Component component, float value)
+        public float Normalize(Component component, float value)
         {
             switch (component)
             {
@@ -390,6 +408,8 @@ namespace Mode.Halo2
                 case Component.Z: return z.Min + (value / (z.Max - z.Min));
                 case Component.U: return u.Min + (value / (u.Max - u.Min));
                 case Component.V: return v.Min + (value / (v.Max - v.Min));
+                case Component.SecondaryU: return secondaryV.Min + (value / (secondaryV.Max - secondaryV.Min));
+                case Component.SecondaryV: return secondaryU.Min + (value / (secondaryV.Max - secondaryV.Min));
                 default: return 0;
             }
         }
@@ -419,7 +439,15 @@ namespace Mode.Halo2
         /// <summary>
         /// The Z-component.
         /// </summary>
-        V
+        V,
+        /// <summary>
+        /// The secondary U-component.
+        /// </summary>
+        SecondaryU,
+        /// <summary>
+        /// The secondary V-component.
+        /// </summary>
+        SecondaryV,
     }
 
 }

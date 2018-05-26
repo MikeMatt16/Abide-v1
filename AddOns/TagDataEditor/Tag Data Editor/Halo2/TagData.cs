@@ -413,15 +413,18 @@ namespace Tag_Data_Editor.Halo2
                     if (tagBlock.Count > 0)
                     {
                         //Get Node
-                        IfpNode labelNode = node.Nodes[node.Label];
+                        IfpNode[] labelNodes = node.Nodes[node.Label];
 
                         //Loop
-                        if (labelNode != null)
+                        if (labelNodes.Length > 0)
                             using (BinaryReader reader = new BinaryReader(dataStream))
                                 for (int i = 0; i < tagBlock.Count; i++)
                                 {
+                                    //Hacky
+                                    IfpNode hack = labelNodes[0];
+
                                     //Set name...
-                                    name = GetNodeDisplayName(labelNode.Type, dataStream, tagBlock.Offset + (uint)(i * node.Length), map);
+                                    name = GetNodeDisplayName(hack.Type, dataStream, tagBlock.Offset + (uint)(i * node.Length), map);
 
                                     //Check
                                     if (!string.IsNullOrEmpty(name))

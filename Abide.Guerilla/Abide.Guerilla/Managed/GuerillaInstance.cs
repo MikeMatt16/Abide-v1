@@ -217,6 +217,7 @@ namespace Abide.Guerilla.Managed
                 //Read the field type
                 switch ((FieldType)reader.ReadInt16())
                 {
+                    case FieldType.FieldSkip: field = new TagFieldDefinition(); break;
                     case FieldType.FieldTagReference: field = new TagReferenceDefinition(); break;
                     case FieldType.FieldStruct: field = new TagFieldStructDefinition(); break;
                     case FieldType.FieldData: field = new TagFieldDataDefinition(); break;
@@ -237,10 +238,7 @@ namespace Abide.Guerilla.Managed
                 //Goto field
                 input.Seek(fieldAddress, SeekOrigin.Begin);
                 field.Read(reader);
-
-                //Debug
-                if (definition.Name == "bitmap_block" && field is TagFieldDataDefinition) throw new Exception();
-
+                
                 //Add
                 definition.tagFields.Add(field);
 
@@ -258,7 +256,8 @@ namespace Abide.Guerilla.Managed
                             ReadTagBlockDefinition(input, reader, field.DefinitionAddress, definition);
                         break;
                     case FieldType.FieldStruct:
-                        ReadTagBlockDefinition(input, reader, ((TagFieldStructDefinition)field).BlockDefinitionAddresss, definition);
+                        if (((TagFieldStructDefinition)field).BlockDefinitionAddresss != 0)
+                            ReadTagBlockDefinition(input, reader, ((TagFieldStructDefinition)field).BlockDefinitionAddresss, definition);
                         break;
                 }
 
@@ -311,6 +310,14 @@ namespace Abide.Guerilla.Managed
         public TagGroupDefinition[] GetTagGroups()
         {
             return tagGroups.ToArray();
+        }
+        /// <summary>
+        /// Returns an array of the tag blocks currently loaded into this instance.
+        /// </summary>
+        /// <returns>An array of <see cref="TagBlockDefinition"/> elements.</returns>
+        public TagBlockDefinition[] GetTagBlocks()
+        {
+            return tagBlocks.ToArray();
         }
         /// <summary>
         /// Searches the tag group list for a tag group with the specified address.

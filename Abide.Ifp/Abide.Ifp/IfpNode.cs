@@ -1,13 +1,16 @@
 ﻿using Abide.HaloLibrary;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System.Linq;
 
 namespace Abide.Ifp
 {
     /// <summary>
     /// Represents a single node in the IFP document.
     /// </summary>
+    [Serializable]
     public sealed class IfpNode
     {
         /// <summary>
@@ -258,7 +261,7 @@ namespace Abide.Ifp
             {
                 case "option": return IfpNodeType.Option;
                 case "struct": return IfpNodeType.TagBlock;
-                case "unused": return IfpNodeType.Buffer;
+                case "unused": return IfpNodeType.UnusedArray;
                 case "byte": return IfpNodeType.Byte;
                 case "sbyte": return IfpNodeType.SignedByte;
                 case "short": return IfpNodeType.Short;
@@ -320,13 +323,16 @@ namespace Abide.Ifp
             set { nodes[index] = value; }
         }
         /// <summary>
-        /// Gets and returns an <see cref="IfpNode"/> with a given name.
+        /// Gets and returns an array of <see cref="IfpNode"/> elements whose name matches the supplied name.
         /// </summary>
-        /// <param name="name">The name of the node.</param>
-        /// <returns>An <see cref="IfpNode"/> instance if a node was found; otherwise null.</returns>
-        public IfpNode this[string name]
+        /// <param name="name">The name of the node to search for.</param>
+        /// <returns>An array of <see cref="IfpNode"/> elements.</returns>
+        public IfpNode[] this[string name]
         {
-            get { return nodes.Find(n => n.Name == name); }
+            get
+            {
+                return nodes.Where(n => n.Name == name).ToArray();
+            }
         }
 
         private readonly List<IfpNode> nodes;
@@ -441,7 +447,7 @@ namespace Abide.Ifp
         /// <summary>
         /// Represents a data buffer.
         /// </summary>
-        Buffer,
+        UnusedArray,
         /// <summary>
         /// Represents an unsigned 8-bit integer.
         /// </summary>

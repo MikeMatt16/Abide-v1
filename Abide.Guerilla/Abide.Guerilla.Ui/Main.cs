@@ -15,6 +15,7 @@ namespace Abide.Guerilla.Ui
 {
     public partial class Main : Form
     {
+        private const string empty_string = "EMPTY STRING";
         private readonly GuerillaInstance guerilla = new GuerillaInstance();
 
         public Main()
@@ -77,8 +78,10 @@ namespace Abide.Guerilla.Ui
                     TagBlockDefinition block = guerilla.FindTagBlock(tagGroup.DefinitionAddress);
 
                     //Create group node
-                    TreeNode groupNode = new TreeNode($"[{tagGroup.GroupTag}] - {block?.DisplayName ?? tagGroup.Name}");
-                    groupNode.Tag = block;
+                    TreeNode groupNode = new TreeNode($"[{tagGroup.GroupTag}] - {block?.DisplayName ?? tagGroup.Name}")
+                    {
+                        Tag = block
+                    };
 
                     //Build Node hierarchy
                     if (block != null) LoadBlock(block, groupNode, block);
@@ -135,7 +138,12 @@ namespace Abide.Guerilla.Ui
                 //Prepare
                 StringBuilder codeDomStringBuilder = new StringBuilder();
                 StringBuilder xmlStringBuilder = new StringBuilder();
-                XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 };
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Indent = true,
+                    IndentChars = "\t",
+                    Encoding = Encoding.UTF8
+                };
 
                 //Create CodeDOM
                 TagGroupCodeCompileUnit compileUnit = new TagGroupCodeCompileUnit(guerilla, guerilla.FindTagGroup(block.Address), block);
@@ -154,7 +162,7 @@ namespace Abide.Guerilla.Ui
                     xmlWriter.WriteStartDocument();
 
                     //Write XML
-                    GenerateXml(xmlWriter, block);
+                    GenerateIfp(xmlWriter, block);
 
                     //End
                     xmlWriter.WriteEndDocument();
@@ -220,6 +228,46 @@ namespace Abide.Guerilla.Ui
             }
         }
 
+        private void ExportAbideTagDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            XmlWriterSettings settings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t",
+                Encoding = Encoding.UTF8
+            };
+
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create Abide Tag Definition files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Loop through each tag block
+                    foreach (TagBlockDefinition tagBlock in guerilla.GetTagBlocks())
+                    {
+                        //Create tag block file
+                        using (FileStream fs = new FileStream(Path.Combine(folderDlg.SelectedPath, $"{tagBlock.Name}.atb"), FileMode.Create, FileAccess.Write, FileShare.Read))
+                        using (XmlWriter xmlWriter = XmlWriter.Create(fs, settings))
+                            GenerateAtb(xmlWriter, tagBlock);
+                    }
+
+                    //Loop through each tag group
+                    foreach (TagGroupDefinition tagGroup in guerilla.GetTagGroups())
+                    {
+                        //Create tag block file
+                        using (FileStream fs = new FileStream(Path.Combine(folderDlg.SelectedPath, $"{tagGroup.Name}.atg"), FileMode.Create, FileAccess.Write, FileShare.Read))
+                        using (XmlWriter xmlWriter = XmlWriter.Create(fs, settings))
+                            GenerateAtg(xmlWriter, tagGroup);
+                    }
+                }
+            }
+        }
+        
         private void MapFormToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Prepare
@@ -248,16 +296,247 @@ namespace Abide.Guerilla.Ui
             mapForm.Show();
         }
 
-        private void GenerateXml(XmlWriter writer, TagBlockDefinition tagBlock)
+        private void GenerateAtg(XmlWriter xmlWriter, TagGroupDefinition tagGroup)
+        {
+            //Start Document
+            xmlWriter.WriteStartDocument();
+
+            //Start tag block
+            xmlWriter.WriteStartElement("AbideTagGroup");
+            xmlWriter.WriteStartAttribute("Version");
+            xmlWriter.WriteValue("1.0");
+            xmlWriter.WriteEndAttribute();
+
+            //Write group tag
+            xmlWriter.WriteStartAttribute("GroupTag");
+            xmlWriter.WriteValue(tagGroup.GroupTag);
+            xmlWriter.WriteEndAttribute();
+
+            //Write parent group tag
+            xmlWriter.WriteStartAttribute("ParentGroupTag");
+            xmlWriter.WriteValue((tagGroup.ParentGroupTag.Dword != 0xFFFFFFFD) ? tagGroup.ParentGroupTag.FourCc : string.Empty);
+            xmlWriter.WriteEndAttribute();
+
+            //Write name
+            xmlWriter.WriteStartAttribute("Name");
+            xmlWriter.WriteValue(tagGroup.Name);
+            xmlWriter.WriteEndAttribute();
+
+            //Write block
+            xmlWriter.WriteStartAttribute("Block");
+            xmlWriter.WriteValue(guerilla.FindTagBlock(tagGroup.DefinitionAddress).Name);
+            xmlWriter.WriteEndAttribute();
+
+            //End Document
+            xmlWriter.WriteEndDocument();
+        }
+
+        private void GenerateAtb(XmlWriter xmlWriter, TagBlockDefinition tagBlock)
+        {
+            //Prepare
+            TagBlockDefinition referencedBlockDefinition = null;
+
+            //Start Document
+            xmlWriter.WriteStartDocument();
+
+            //Start tag block
+            xmlWriter.WriteStartElement("AbideTagBlock");
+            xmlWriter.WriteStartAttribute("Version");
+            xmlWriter.WriteValue("1.0");
+            xmlWriter.WriteEndAttribute();
+
+            //Write name
+            xmlWriter.WriteStartAttribute("Name");
+            xmlWriter.WriteValue(tagBlock.Name);
+            xmlWriter.WriteEndAttribute();
+
+            //Write display Name
+            xmlWriter.WriteStartAttribute("DisplayName");
+            xmlWriter.WriteValue(tagBlock.DisplayName);
+            xmlWriter.WriteEndAttribute();
+
+            //Write max element count
+            xmlWriter.WriteStartAttribute("MaximumElementCount");
+            xmlWriter.WriteValue(tagBlock.MaximumElementCount);
+            xmlWriter.WriteEndAttribute();
+
+            //Start field set
+            xmlWriter.WriteStartElement("FieldSet");
+            
+            //Get Field Set
+            TagFieldSet fieldSet = tagBlock.GetLatestFieldSet();
+            TagFieldDefinition[] fields = tagBlock.GetLatestFieldDefinitions();
+
+            //Write alignment
+            xmlWriter.WriteStartAttribute("Alignment");
+            xmlWriter.WriteValue(fieldSet.Alignment);
+            xmlWriter.WriteEndAttribute();
+
+            //Write count
+            xmlWriter.WriteStartAttribute("Count");
+            xmlWriter.WriteValue(fields.Length);
+            xmlWriter.WriteEndAttribute();
+
+            //Loop through fields
+            string fieldType = string.Empty; int fieldIndex = 0;
+            foreach (TagFieldDefinition field in fields)
+            {
+#if DEBUG
+                //Check
+                switch (field.Type)
+                {
+                    case FieldType.FieldVertexBuffer:
+                        Console.WriteLine($"{field.Type} found in {tagBlock.Name}");
+                        break;
+                }
+#endif
+
+                //Increment
+                fieldIndex++;
+
+                //Get Type string
+                fieldType = Enum.GetName(field.Type.GetType(), field.Type);
+
+                //Start field
+                xmlWriter.WriteStartElement(fieldType);
+
+                //Write index
+                xmlWriter.WriteStartAttribute("Index");
+                xmlWriter.WriteValue(fieldIndex - 1);
+                xmlWriter.WriteEndAttribute();
+
+                //Write name
+                xmlWriter.WriteStartAttribute("Name");
+                xmlWriter.WriteValue(field.Name.Replace(empty_string, string.Empty));
+                xmlWriter.WriteEndAttribute();
+
+                //Handle type
+                switch (field.Type)
+                {
+                    case FieldType.FieldExplanation:
+                        if (field is TagFieldExplanationDefinition explanationField)
+                        {
+                            //Write explanation
+                            xmlWriter.WriteStartAttribute("Explanation");
+                            if (!string.IsNullOrEmpty(explanationField.Explanation))
+                                xmlWriter.WriteValue(explanationField.Explanation.Replace("\n", "|n").Replace(empty_string, string.Empty));
+                            xmlWriter.WriteEndAttribute();
+                        }
+                        break;
+
+                    case FieldType.FieldCharEnum:
+                    case FieldType.FieldEnum:
+                    case FieldType.FieldLongEnum:
+                    case FieldType.FieldLongFlags:
+                    case FieldType.FieldWordFlags:
+                    case FieldType.FieldByteFlags:
+                        if (field is TagFieldEnumDefinition enumField)
+                            foreach (string option in enumField.Options)
+                            {
+                                //Write option
+                                xmlWriter.WriteStartElement("Option");
+                                xmlWriter.WriteStartAttribute("Name");
+                                xmlWriter.WriteValue(option.Replace(empty_string, string.Empty));
+                                xmlWriter.WriteEndAttribute();
+                                xmlWriter.WriteEndElement();
+                            }
+                        break;
+
+                    case FieldType.FieldLongBlockFlags:
+                    case FieldType.FieldWordBlockFlags:
+                    case FieldType.FieldByteBlockFlags:
+                        break;
+                        
+                    case FieldType.FieldArrayStart:
+                        if(field is TagFieldDefinitionArray arrayField)
+                        {
+                            //Write element count
+                            xmlWriter.WriteStartAttribute("Length");
+                            xmlWriter.WriteValue(arrayField.ElementCount);
+                            xmlWriter.WriteEndAttribute();
+                        }
+                        break;
+
+                    case FieldType.FieldPad:
+                        //Write length
+                        xmlWriter.WriteStartAttribute("Length");
+                        xmlWriter.WriteValue(field.DefinitionAddress);
+                        xmlWriter.WriteEndAttribute();
+                        break;
+
+                    case FieldType.FieldSkip:
+                        //Write length
+                        xmlWriter.WriteStartAttribute("Length");
+                        xmlWriter.WriteValue(field.DefinitionAddress);
+                        xmlWriter.WriteEndAttribute();
+                        break;
+
+                    case FieldType.FieldData:
+                        if(field is TagFieldDataDefinition dataDefinition)
+                        {
+                            //Write alignment
+                            xmlWriter.WriteStartAttribute("Alignment");
+                            xmlWriter.WriteValue(dataDefinition.Alignment);
+                            xmlWriter.WriteEndAttribute();
+
+                            //Write maximum size
+                            xmlWriter.WriteStartAttribute("MaximumSize");
+                            xmlWriter.WriteValue(dataDefinition.MaximumSize);
+                            xmlWriter.WriteEndAttribute();
+
+                            //Write element size
+                            xmlWriter.WriteStartAttribute("ElementSize");
+                            xmlWriter.WriteValue(dataDefinition.ElementSize);
+                            xmlWriter.WriteEndAttribute();
+                        }
+                        break;
+
+                    case FieldType.FieldBlock:
+                        if ((referencedBlockDefinition = guerilla.FindTagBlock(field.DefinitionAddress)) != null)
+                        {
+                            //Write block name
+                            xmlWriter.WriteStartAttribute("BlockName");
+                            xmlWriter.WriteValue(referencedBlockDefinition.Name);
+                            xmlWriter.WriteEndAttribute();
+                        }
+                        break;
+
+                    case FieldType.FieldStruct:
+                        if (field is TagFieldStructDefinition structDefinition)
+                            if ((referencedBlockDefinition = guerilla.FindTagBlock(structDefinition.BlockDefinitionAddresss)) != null)
+                            {
+                                //Write struct name
+                                xmlWriter.WriteStartAttribute("StructName");
+                                xmlWriter.WriteValue(referencedBlockDefinition.Name);
+                                xmlWriter.WriteEndAttribute();
+                            }
+                        break;
+                }
+
+                //End field
+                xmlWriter.WriteEndElement();
+            }
+            
+            //End field set
+            xmlWriter.WriteEndElement();
+
+            //End tag block
+            xmlWriter.WriteEndElement();
+
+            //End Document
+            xmlWriter.WriteEndDocument();
+        }
+
+        private void GenerateIfp(XmlWriter writer, TagBlockDefinition tagBlock)
         {
             //Prepare
             int offset = 0;
 
             //Generate
-            GenerateXml(writer, tagBlock, ref offset);
+            GenerateIfp(writer, tagBlock, ref offset);
         }
 
-        private void GenerateXml(XmlWriter writer, TagBlockDefinition tagBlock, ref int offset)
+        private void GenerateIfp(XmlWriter writer, TagBlockDefinition tagBlock, ref int offset)
         {
             //Get Data
             TagFieldSet fieldSet = tagBlock.GetFieldSet(tagBlock.TagFieldSetLatestIndex);
@@ -294,7 +573,7 @@ namespace Abide.Guerilla.Ui
                         writer.WriteStartAttribute("size"); writer.WriteValue(childSet.Size); writer.WriteEndAttribute();
                         writer.WriteStartAttribute("maxcount"); writer.WriteValue(childBlock.MaximumElementCount); writer.WriteEndAttribute();
                         writer.WriteStartAttribute("padalign"); writer.WriteValue(fieldSet.Alignment); writer.WriteEndAttribute();
-                        GenerateXml(writer, childBlock);
+                        GenerateIfp(writer, childBlock);
                         writer.WriteEndElement();
                         offset += 8;
                         break;
@@ -806,7 +1085,7 @@ namespace Abide.Guerilla.Ui
                     writer.WriteEndElement();
                     offset += 4;
                     break;
-                case FieldType.FieldRealShortBounds:
+                case FieldType.FieldShortBounds:
                     writer.WriteStartElement("float");
                     writer.WriteStartAttribute("name"); writer.WriteValue($"{tagField.Name}..."); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -820,7 +1099,7 @@ namespace Abide.Guerilla.Ui
                     writer.WriteEndElement();
                     offset += 4;
                     break;
-                case FieldType.FieldRealAngleBounds:
+                case FieldType.FieldAngleBounds:
                     writer.WriteStartElement("float");
                     writer.WriteStartAttribute("name"); writer.WriteValue($"{tagField.Name}..."); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("offset"); writer.WriteValue(offset); writer.WriteEndAttribute();
@@ -880,7 +1159,7 @@ namespace Abide.Guerilla.Ui
                     writer.WriteStartAttribute("padalign"); writer.WriteValue(childFieldSet.Alignment); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("maxcount"); writer.WriteValue(childBlock.MaximumElementCount); writer.WriteEndAttribute();
                     writer.WriteStartAttribute("visible"); writer.WriteValue("true"); writer.WriteEndAttribute();
-                    GenerateXml(writer, childBlock);
+                    GenerateIfp(writer, childBlock);
                     writer.WriteEndElement();
                     break;
                 case FieldType.FieldData:
@@ -919,7 +1198,7 @@ namespace Abide.Guerilla.Ui
                 case FieldType.FieldStruct:
                     structDefinition = (TagFieldStructDefinition)tagField;
                     childBlock = guerilla.FindTagBlock(structDefinition.BlockDefinitionAddresss);
-                    GenerateXml(writer, childBlock, ref offset);
+                    GenerateIfp(writer, childBlock, ref offset);
                     break;
                 case FieldType.FieldArrayStart:
                 case FieldType.FieldArrayEnd: break;
@@ -1239,8 +1518,8 @@ namespace Abide.Guerilla.Ui
                         csWriter.WriteField("ColorAhsvF", fieldName, "public");
                         break;
 
-                    case FieldType.FieldRealShortBounds:
-                    case FieldType.FieldRealAngleBounds:
+                    case FieldType.FieldShortBounds:
+                    case FieldType.FieldAngleBounds:
                     case FieldType.FieldRealBounds:
                     case FieldType.FieldRealFractionBounds:
                         csWriter.WriteAttribute("Field", $"\"{friendlyFieldName}\"", "typeof(FloatBounds)");

@@ -33,7 +33,8 @@ namespace Abide.Classes
         public static void ElevateButton(Button btn)
         {
             btn.FlatStyle = FlatStyle.System;
-            SendMessage(btn.Handle, BCM_SETSHIELD, IntPtr.Zero, (IntPtr)0xFFFFFFFF);
+            try { SendMessage(btn.Handle, BCM_SETSHIELD, IntPtr.Zero, (IntPtr)0xFFFFFFFF); }
+            catch (OverflowException) { }
         }
         public static bool Restart(params string[] arguments)
         {

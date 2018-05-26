@@ -48,21 +48,15 @@ namespace Abide.HaloLibrary.Builder
             uint coconutsOffset = (newOffset + length).PadTo(4);
             uint totalShift = coconutsOffset - last.Offset;
 
-            //Shfit raw addresses
-            foreach (var container in last.Raws[RawSection.Sound])
-            {
-                for (int i = 0; i < container.OffsetAddresses.Count; i++)
-                    container.OffsetAddresses[i] = container.OffsetAddresses[i] + totalShift;
-                for (int i = 0; i < container.LengthAddresses.Count; i++)
-                    container.LengthAddresses[i] = container.LengthAddresses[i] + totalShift;
-            }
-            foreach (var container in last.Raws[RawSection.LipSync])
-            {
-                for (int i = 0; i < container.OffsetAddresses.Count; i++)
-                    container.OffsetAddresses[i] = container.OffsetAddresses[i] + totalShift;
-                for (int i = 0; i < container.LengthAddresses.Count; i++)
-                    container.LengthAddresses[i] = container.LengthAddresses[i] + totalShift;
-            }
+            //Shift raw addresses
+            foreach (RawSection rawSection in Enum.GetValues(typeof(RawSection)))
+                foreach (var container in last.Raws[rawSection])
+                {
+                    for (int i = 0; i < container.OffsetAddresses.Count; i++)
+                        container.OffsetAddresses[i] = container.OffsetAddresses[i] + totalShift;
+                    for (int i = 0; i < container.LengthAddresses.Count; i++)
+                        container.LengthAddresses[i] = container.LengthAddresses[i] + totalShift;
+                }
 
             //Shift Coconuts
             ShiftCoconuts(last, totalShift);
@@ -80,17 +74,17 @@ namespace Abide.HaloLibrary.Builder
             using (BinaryReader reader = new BinaryReader(coconuts.TagData))
             using (BinaryWriter writer = new BinaryWriter(coconuts.TagData))
             {
-                TagBlock Playbacks = reader.ReadInt64();
-                TagBlock Scales = reader.ReadInt64();
-                TagBlock ImportNames = reader.ReadInt64();
-                TagBlock PitchRangeParameters = reader.ReadInt64();
-                TagBlock PitchRanges = reader.ReadInt64();
-                TagBlock Permutations = reader.ReadInt64();
-                TagBlock CustomPlaybacks = reader.ReadInt64();
-                TagBlock RuntimePermutationFlags = reader.ReadInt64();
-                TagBlock Chunks = reader.ReadInt64();
-                TagBlock Promotions = reader.ReadInt64();
-                TagBlock ExtraInfos = reader.ReadInt64();
+                TagBlock Playbacks = reader.Read<TagBlock>();
+                TagBlock Scales = reader.Read<TagBlock>();
+                TagBlock ImportNames = reader.Read<TagBlock>();
+                TagBlock PitchRangeParameters = reader.Read<TagBlock>();
+                TagBlock PitchRanges = reader.Read<TagBlock>();
+                TagBlock Permutations = reader.Read<TagBlock>();
+                TagBlock CustomPlaybacks = reader.Read<TagBlock>();
+                TagBlock RuntimePermutationFlags = reader.Read<TagBlock>();
+                TagBlock Chunks = reader.Read<TagBlock>();
+                TagBlock Promotions = reader.Read<TagBlock>();
+                TagBlock ExtraInfos = reader.Read<TagBlock>();
                 TagBlock[] PromotionRules = new TagBlock[Promotions.Count];
                 TagBlock[] EmptyString = new TagBlock[Promotions.Count];
                 TagBlock[] EncodedPermutationSection = new TagBlock[ExtraInfos.Count];

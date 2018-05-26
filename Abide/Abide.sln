@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitmap Library", "..\AddOns
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Ifp", "..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj", "{55B8FBAD-8570-4371-BA33-62E85351DB66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mode", "..\AddOns\Mode\Mode\Mode.csproj", "{D3F4B74E-4E22-4D13-AD1B-EF182926815B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hex Editor", "..\AddOns\Hex Editor\Hex Editor\Hex Editor.csproj", "{681EBEB1-8AA2-4725-85E4-815D2A1239E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,22 @@ Global
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|x86.ActiveCfg = Release|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|x86.Build.0 = Release|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3F4B74E-4E22-4D13-AD1B-EF182926815B}.Release|x86.Build.0 = Release|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Debug|x86.Build.0 = Debug|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Release|x86.ActiveCfg = Release|Any CPU
+		{681EBEB1-8AA2-4725-85E4-815D2A1239E4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

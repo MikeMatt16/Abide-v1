@@ -40,6 +40,13 @@ namespace Abide
             get { return safeMode; }
         }
         /// <summary>
+        /// Gets and returns true if the application is in debug mode.
+        /// </summary>
+        public static bool DebugMode
+        {
+            get { return debugMode; }
+        }
+        /// <summary>
         /// Gets and returns true if the application should force update, false if not.
         /// </summary>
         public static bool ForceUpdate
@@ -62,6 +69,7 @@ namespace Abide
         private static bool forceUpdate;
         private static Form mainForm;
         private static bool safeMode;
+        private static bool debugMode;
 
         /// <summary>
         /// The main entry point for the application.
@@ -151,13 +159,21 @@ namespace Abide
             {
                 //Prepare
                 System.Reflection.Assembly builtin = null;
-
+                
                 //Add Texture Editor
                 builtin = typeof(Texture_Editor.Halo2.TextureEditor).Assembly;
                 addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
 
                 //Add Tag Editor
                 builtin = typeof(Tag_Data_Editor.Halo2.TagEditor).Assembly;
+                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
+
+                //Add Mode Model Editor
+                builtin = typeof(Mode.Halo2.Mode).Assembly;
+                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
+
+                //Add Hex Editor
+                builtin = typeof(Hex_Editor.Halo2.HexEditor).Assembly;
                 addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
 
                 //Add AddOn Assemblies
@@ -211,7 +227,7 @@ namespace Abide
                 switch (arg)
                 {
                     case "-d":  //Debug Mode
-                        Debugger.Launch(); break;
+                        Debugger.Launch(); debugMode = true; break;
 
                     case "-s":  //Safe Mode
                         safeMode = true; break;
