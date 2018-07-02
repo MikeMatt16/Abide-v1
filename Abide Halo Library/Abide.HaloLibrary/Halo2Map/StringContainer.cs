@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Abide.HaloLibrary.Halo2Map
@@ -113,7 +114,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 unicode string container.
     /// </summary>
     [Serializable]
-    public sealed class StringContainer : IDisposable
+    public sealed class StringContainer : IEnumerable<List<StringEntry>>, IDisposable
     {
         /// <summary>
         /// Gets and returns the string entry list for a given localiztion.
@@ -256,6 +257,27 @@ namespace Abide.HaloLibrary.Halo2Map
             kr = null;
             zh = null;
             pr = null;
+        }
+        /// <summary>
+        /// Gets an enumerator that iterates the string container.
+        /// </summary>
+        /// <returns>An enumerator.</returns>
+        public IEnumerator<List<StringEntry>> GetEnumerator()
+        {
+            yield return en;
+            yield return jp;
+            yield return nl;
+            yield return fr;
+            yield return es;
+            yield return it;
+            yield return kr;
+            yield return zh;
+            yield return pr;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

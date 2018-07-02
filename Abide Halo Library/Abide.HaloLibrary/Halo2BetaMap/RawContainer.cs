@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Abide.HaloLibrary.Halo2BetaMap
 {
@@ -343,7 +345,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
     /// Represents a Halo 2 raw data stream.
     /// </summary>
     [Serializable]
-    public sealed class RawStream : FixedMemoryMappedStream, ICloneable
+    public sealed class RawStream : MemoryStream, ICloneable
     {
         /// <summary>
         /// Gets and returns the offset of the raw data.
@@ -382,6 +384,40 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             this.rawOffset = rawOffset;
             offsetAddresses = new List<long>();
             lengthAddresses = new List<long>();
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryReader"/> class based on the current stream and UTF-8 charecter encoding that leaves the current stream open.
+        /// </summary>
+        /// <returns>A new instance of the <see cref="BinaryReader"/> class whose underlying stream is this instance.</returns>
+        public BinaryReader CreateReader()
+        {
+            return CreateReader(true);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryReader"/> class based on the current stream and UTF-8 charecter encoding, and optionally leaves the current stream open.
+        /// </summary>
+        /// <param name="leaveOpen"><see langword="true"/> to leave the current stream open after the <see cref="BinaryReader"/> object is disposed; otherwise, <see langword="false"/>.</param>
+        /// <returns>A new instance of the <see cref="BinaryReader"/> class whose underlying stream is this instance.</returns>
+        public BinaryReader CreateReader(bool leaveOpen)
+        {
+            return new BinaryReader(this, Encoding.UTF8, leaveOpen);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryWriter"/> class based on the current stream and UTF-8 charecter encoding that leaves the current stream open.
+        /// </summary>
+        /// <returns>A new instance of the <see cref="BinaryWriter"/> class whose underlying stream is this instance.</returns>
+        public BinaryWriter CreateWriter()
+        {
+            return CreateWriter(true);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryWriter"/> class based on the current stream and UTF-8 charecter encoding, and optionally leaves the current stream open.
+        /// </summary>
+        /// <param name="leaveOpen"><see langword="true"/> to leave the current stream open after the <see cref="BinaryWriter"/> object is disposed; otherwise, <see langword="false"/>.</param>
+        /// <returns>A new instance of the <see cref="BinaryWriter"/> class whose underlying stream is this instance.</returns>
+        public BinaryWriter CreateWriter(bool leaveOpen)
+        {
+            return new BinaryWriter(this, Encoding.UTF8, leaveOpen);
         }
         /// <summary>
         /// Creates a copy of this stream.

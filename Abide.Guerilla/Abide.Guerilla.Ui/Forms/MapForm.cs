@@ -1,9 +1,8 @@
-﻿using Abide.Guerilla.Tags;
-using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary.Halo2Map;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Abide.Guerilla.Ui.Forms
+namespace Abide.H2Guerilla.Ui.Forms
 {
     public partial class MapForm : Form
     {
@@ -56,37 +55,6 @@ namespace Abide.Guerilla.Ui.Forms
 
         private void TagTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //Create
-            AbideTagBlock tagGroup = null;
-
-            //Check
-            if (e.Node.Tag is IndexEntry entry)
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
-                {
-                    //Goto
-                    entry.TagData.Seek(entry.PostProcessedOffset, SeekOrigin.Begin);
-
-                    //Handle root
-                    switch (entry.Root)
-                    {
-                        case HaloTags.ugh_:
-                            tagGroup = AbideTagBlock.Instantiate<SoundCacheFileGestaltBlock>(map);
-                            tagGroup.Read(reader);
-                            break;
-                        case HaloTags.vehi:
-                            tagGroup = AbideTagBlock.Instantiate<VehicleBlock>(map);
-                            tagGroup.Read(reader);
-                            break;
-                        case HaloTags.bitm:
-                            tagGroup = AbideTagBlock.Instantiate<BitmapBlock>(map);
-                            tagGroup.Read(reader);
-                            break;
-                        case HaloTags.phmo:
-                            tagGroup = AbideTagBlock.Instantiate<PhysicsModelBlock>(map);
-                            tagGroup.Read(reader);
-                            break;
-                    }
-                }
         }
     }
 }

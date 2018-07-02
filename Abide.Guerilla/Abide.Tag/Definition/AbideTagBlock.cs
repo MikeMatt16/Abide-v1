@@ -7,7 +7,7 @@ namespace Abide.Tag.Definition
     /// <summary>
     /// Represents an Abide tag block definition.
     /// </summary>
-    public sealed class AbideTagBlock
+    public sealed class AbideTagBlock : ICloneable
     {
         /// <summary>
         /// Gets or sets the name of the tag block.
@@ -56,6 +56,25 @@ namespace Abide.Tag.Definition
             displayName = string.Empty;
             maximumElementCount = 0;
             fieldSet = new AbideFieldSet(this);
+        }
+        /// <summary>
+        /// Returns a copy of the <see cref="AbideTagBlock"/>.
+        /// </summary>
+        /// <returns>A copy of the current <see cref="AbideTagBlock"/> object.</returns>
+        public object Clone()
+        {
+            //Create
+            AbideTagBlock block = new AbideTagBlock()
+            {
+                name = name,
+                displayName = displayName,
+                maximumElementCount = maximumElementCount,
+                fieldSet = (AbideFieldSet)fieldSet.Clone()
+            };
+            block.fieldSet.Owner = this;
+
+            //Return
+            return block;
         }
         /// <summary>
         /// Loads the Abide tag block document from the specified URL.

@@ -576,7 +576,7 @@ namespace Texture_Editor.Halo2
         {
             //Get source data
             byte[] sourceData = null; RawLocation rawLocation = (RawLocation)(bitmap.Bitmaps[bitmapIndex].RawOffsets[lodIndex] & 0xC0000000);
-            if (rawLocation == RawLocation.Local) sourceData = SelectedEntry.Raws[RawSection.Bitmap][(int)bitmap.Bitmaps[bitmapIndex].RawOffsets[lodIndex]].GetBuffer();
+            if (rawLocation == RawLocation.Local) sourceData = SelectedEntry.Raws[RawSection.Bitmap][(int)bitmap.Bitmaps[bitmapIndex].RawOffsets[lodIndex]].ToArray();
             else
             {
                 string filelocation = string.Empty;

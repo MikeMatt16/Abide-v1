@@ -2,6 +2,7 @@
 using Abide.AddOnApi.Halo2;
 using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.IO;
 using Abide.Ifp;
 using System;
 using System.Collections.Generic;
@@ -268,7 +269,7 @@ namespace Tag_Data_Editor.Halo2
             }
         }
 
-        private bool plugin_GetPath(Tag root, out string path)
+        private bool plugin_GetPath(TagFourCc root, out string path)
         {
             //Set path
             path = Path.Combine(AbideRegistry.Halo2PluginsDirectory, $"{root.FourCc.Replace('<', '_').Replace('>', '_')}.ent");
@@ -314,7 +315,7 @@ namespace Tag_Data_Editor.Halo2
                     {
                         case "root":
                             dataObject.DataStream.Seek(SelectedEntry.PostProcessedOffset + dataObject.Node.TagBlockOffset, SeekOrigin.Begin);
-                            using (BinaryReader reader = new BinaryReader(dataObject.DataStream))
+                            using (BinaryReader reader = dataObject.DataStream.CreateReader())
                                 block = reader.ReadInt64();
                             for (int i = 0; i < block.Count; i++)
                                 options.AppendLine(TagDataFormatter.CreateOption(i, $"{i}: {value_GetLabel(dataObject.Node.ItemType, dataObject.DataStream, block.Offset + (dataObject.Node.TagBlockSize * i) + dataObject.Node.ItemOffset)}"));
@@ -369,11 +370,11 @@ namespace Tag_Data_Editor.Halo2
             tagDataWebBrowser.DocumentText = formatter.GetHtml();
         }
 
-        private string value_GetLabel(IfpNodeType itemType, Stream dataStream, long address)
+        private string value_GetLabel(IfpNodeType itemType, VirtualStream dataStream, long address)
         {
             //Goto
             dataStream.Seek(address, SeekOrigin.Begin);
-            using (BinaryReader reader = new BinaryReader(dataStream))
+            using (BinaryReader reader = dataStream.CreateReader())
                 switch (itemType)
                 {
                     case IfpNodeType.Byte: return reader.ReadByte().ToString();
@@ -596,7 +597,7 @@ namespace Tag_Data_Editor.Halo2
             {
                 switch (dataObject.Node.Type)
                 {
-                    case IfpNodeType.Enumerator8: dataObject.Value = sbyte.Parse(valueString); break;
+                    case IfpNodeType.Enumerator8: dataObject.Value = byte.Parse(valueString); break;
                     case IfpNodeType.Enumerator16: dataObject.Value = ushort.Parse(valueString); break;
                     case IfpNodeType.Enumerator32: dataObject.Value = uint.Parse(valueString); break;
                     case IfpNodeType.Enumerator64: dataObject.Value = ulong.Parse(valueString); break;
@@ -620,7 +621,7 @@ namespace Tag_Data_Editor.Halo2
             {
                 switch (dataObject.Node.Type)
                 {
-                    case IfpNodeType.Bitfield8: dataObject.Value = sbyte.Parse(bitString); break;
+                    case IfpNodeType.Bitfield8: dataObject.Value = byte.Parse(bitString); break;
                     case IfpNodeType.Bitfield16: dataObject.Value = ushort.Parse(bitString); break;
                     case IfpNodeType.Bitfield32: dataObject.Value = uint.Parse(bitString); break;
                     case IfpNodeType.Bitfield64: dataObject.Value = ulong.Parse(bitString); break;

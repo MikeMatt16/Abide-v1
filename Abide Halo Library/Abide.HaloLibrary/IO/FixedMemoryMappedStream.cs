@@ -8,6 +8,7 @@ namespace Abide.HaloLibrary.IO
     /// This type of stream is used to translate memory-mapped data blocks into file-addressed blocks, or when a fixed length buffer is required.
     /// </summary>
     [Serializable]
+    [Obsolete("Use Abide.HaloLibrary.IO.VirtualStream instead.", false)]
     public class FixedMemoryMappedStream : Stream
     {
         /// <summary>
@@ -18,7 +19,6 @@ namespace Abide.HaloLibrary.IO
             get { return new FixedMemoryMappedStream(new byte[0]); }
         }
 
-        private readonly long memoryAddress;
         private readonly byte[] buffer;
         private long position = 0;
 
@@ -33,7 +33,7 @@ namespace Abide.HaloLibrary.IO
 
             //Setup
             this.buffer = buffer ?? throw new ArgumentNullException("buffer");
-            this.memoryAddress = memoryAddress;
+            MemoryAddress = memoryAddress;
         }
         /// <summary>
         /// Initializes a new <see cref="FixedMemoryMappedStream"/> with the supplied buffer.
@@ -42,14 +42,11 @@ namespace Abide.HaloLibrary.IO
         /// <exception cref="ArgumentNullException"><paramref name="buffer"/> is null.</exception>
         public FixedMemoryMappedStream(byte[] buffer) : this(buffer, 0)
         { }
-        
+
         /// <summary>
         /// Gets the memory-address of the stream.
         /// </summary>
-        public long MemoryAddress
-        {
-            get { return memoryAddress; }
-        }
+        public long MemoryAddress { get; }
         /// <summary>
         /// Determines if this stream supports reading.
         /// <see cref="CanRead"/> will always return true.
@@ -93,10 +90,10 @@ namespace Abide.HaloLibrary.IO
         /// </summary>
         public override long Position
         {
-            get { return position + memoryAddress; }
+            get { return position + MemoryAddress; }
             set
             {
-                long translated = value - memoryAddress;
+                long translated = value - MemoryAddress;
                 if (translated > buffer.LongLength || translated < 0)
                     throw new ArgumentOutOfRangeException("Value outside of range.", "value");
                 else position = translated;
@@ -152,7 +149,7 @@ namespace Abide.HaloLibrary.IO
             //Handle...
             switch (origin)
             {
-                case SeekOrigin.Begin: newPosition = (int)(offset - memoryAddress); break;
+                case SeekOrigin.Begin: newPosition = (int)(offset - MemoryAddress); break;
                 case SeekOrigin.Current: newPosition += (int)offset; break;
                 case SeekOrigin.End: newPosition -= (int)offset; break;
             }

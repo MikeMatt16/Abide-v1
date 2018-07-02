@@ -18,17 +18,11 @@ namespace Abide.HaloLibrary.IO
         /// <summary>
         /// The readeor of this IO instance.
         /// </summary>
-        public BinaryReader In
-        {
-            get { return reader; }
-        }
+        public BinaryReader In { get; }
         /// <summary>
         /// The writer of this IO instance.
         /// </summary>
-        public BinaryWriter Out
-        {
-            get { return writer; }
-        }
+        public BinaryWriter Out { get; }
         /// <summary>
         /// The position of the underlying stream.
         /// </summary>
@@ -45,10 +39,8 @@ namespace Abide.HaloLibrary.IO
             get { return (ms != null && ms.CanRead && ms.CanWrite && !isDisposed); }
         }
 
-        private readonly byte[] buffer;
-        private readonly MemoryStream ms;
-        private readonly BinaryWriter writer;
-        private readonly BinaryReader reader;
+        private byte[] buffer;
+        private MemoryStream ms;
         private bool isDisposed;
 
         /// <summary>
@@ -61,8 +53,8 @@ namespace Abide.HaloLibrary.IO
             isDisposed = false;
             this.buffer = buffer;
             ms = new MemoryStream(this.buffer);
-            writer = new BinaryWriter(ms);
-            reader = new BinaryReader(ms);
+            Out = new BinaryWriter(ms);
+            In = new BinaryReader(ms);
         }
         /// <summary>
         /// Closes the IO instance, stopping the ability to write and read.
@@ -70,13 +62,12 @@ namespace Abide.HaloLibrary.IO
         public void Close()
         {
             //Check
-            if (!Open)
-                return;
+            if (!Open) return;
 
             //Close
             ms.Close();
-            writer.Close();
-            reader.Close();
+            Out.Close();
+            In.Close();
         }
         /// <summary>
         /// Releases any resources used by this instance.
@@ -89,9 +80,13 @@ namespace Abide.HaloLibrary.IO
 
             //Dispose
             ms.Dispose();
-            writer.Dispose();
-            reader.Dispose();
+            Out.Dispose();
+            In.Dispose();
             isDisposed = true;
+
+            //Null
+            ms = null;
+            buffer = null;
         }
     }
 }

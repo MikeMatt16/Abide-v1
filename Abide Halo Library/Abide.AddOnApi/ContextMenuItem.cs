@@ -99,7 +99,7 @@ namespace Abide.AddOnApi
         /// Gets or sets the tag filter of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The tag filter of the AddOn."), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<Tag> TagFilter
+        public List<TagFourCc> TagFilter
         {
             get { return tagFilter; }
             set { tagFilter = value; }
@@ -157,7 +157,7 @@ namespace Abide.AddOnApi
         private event EventHandler xboxChanged;
         private event EventHandler disposing;
         private event EventHandler<AddOnHostEventArgs> initialize;
-        private List<Tag> tagFilter = new List<Tag>();
+        private List<TagFourCc> tagFilter = new List<TagFourCc>();
         private bool applyTagFilter = false;
         private MapVersion mapVersion = MapVersion.Halo2;
         private string name;
@@ -224,7 +224,7 @@ namespace Abide.AddOnApi
         {
             get { return description; }
         }
-        Tag[] ITagFilter.Filter
+        TagFourCc[] ITagFilter.Filter
         {
             get { return tagFilter.ToArray(); }
         }

@@ -11,98 +11,82 @@ namespace Abide.HaloLibrary.Halo2Map
     public sealed class IndexEntry : MarshalByRefObject, IDisposable
     {
         /// <summary>
+        /// Gets and returns the owner of this index entry.
+        /// </summary>
+        public MapFile Owner
+        {
+            get { return owner; }
+            internal set { owner = value; }
+        }
+        /// <summary>
         /// Gets and returns the root of the tag. 
         /// </summary>
         [Category("Object Properties"), Description("The root tag of the object.")]
-        public Tag Root
+        public TagFourCc Root
         {
             get { return tagHierarchy.Root; }
         }
         /// <summary>
-        /// Gets and returns the ID of the object entry.
+        /// Gets or sets returns the ID of the object entry.
         /// </summary>
         [Category("Object Properties"), Description("The Tag Identifier of the object.")]
         public TagId Id
         {
             get { return objectEntry.Id; }
+            set { objectEntry.Id = value; }
         }
         /// <summary>
-        /// Gets and returns the offset of the object entry's tag data.
+        /// Gets or sets the offset of the object entry's tag data.
         /// </summary>
         [Category("Object Properties"), Description("The offset of the the object tag data.")]
         public uint Offset
         {
             get { return objectEntry.Offset; }
+            set { objectEntry.Offset = value; }
         }
         /// <summary>
-        /// Gets and returns the size of the object entry's tag data.
+        /// Gets or sets returns the size of the object entry's tag data.
         /// </summary>
         [Category("Object Properties"), Description("The length of the the object tag data.")]
         public int Size
         {
             get { return (int)objectEntry.Size; }
+            set { objectEntry.Size = (uint)value; }
         }
         /// <summary>
         /// Gets or sets the filename of the index entry.
         /// </summary>
         [Category("Entry Properties"), Description("The file name of the tag entry.")]
-        public string Filename
-        {
-            get { return filename; }
-            set { filename = value; }
-        }
+        public string Filename { get; set; }
         /// <summary>
         /// Gets or sets the post-processed offset of this entry's tag data.
         /// </summary>
         [Category("Post Processed Properties"), Description("The post-processed offset of the object tag data.")]
-        public int PostProcessedOffset
-        {
-            get { return postProcessedOffset; }
-            set { postProcessedOffset = value; }
-        }
+        public int PostProcessedOffset { get; set; }
         /// <summary>
         /// Gets or sets the post-processed size of this entry's tag data.
         /// </summary>
         [Category("Post Processed Properties"), Description("The post-processed length of the object tag data.")]
-        public int PostProcessedSize
-        {
-            get { return postProcessedSize; }
-            set { postProcessedSize = value; }
-        }
+        public int PostProcessedSize { get; set; }
         /// <summary>
         /// Gets or sets the stream that contains this tag's data.
         /// </summary>
         [Browsable(false)]
-        public FixedMemoryMappedStream TagData
-        {
-            get { return tagData; }
-            set { tagData = value; }
-        }
+        public VirtualStream TagData { get; set; }
         /// <summary>
         /// Gets and returns a list of internal raw datas contained within this tag data. 
         /// </summary>
         [Browsable(false)]
-        public RawContainer Raws
-        {
-            get { return raws; }
-        }
+        public RawContainer Raws { get; }
         /// <summary>
         /// Gets and returns a list of localized strings contained within this tag data.
         /// </summary>
         [Browsable(false)]
-        public StringContainer Strings
-        {
-            get { return strings; }
-        }
+        public StringContainer Strings { get; }
 
-        private readonly StringContainer strings;
-        private readonly RawContainer raws;
-        private readonly TagHierarchy tagHierarchy;
-        private FixedMemoryMappedStream tagData;
+        private MapFile owner;
+        private TagHierarchy tagHierarchy;
         private ObjectEntry objectEntry;
-        private int postProcessedOffset;
-        private int postProcessedSize;
-        private string filename;
 
         /// <summary>
         /// Initializes a new <see cref="IndexEntry"/> using the supplied object entry, file name, and tag hierarchy.
@@ -115,14 +99,22 @@ namespace Abide.HaloLibrary.Halo2Map
             //Setup
             this.tagHierarchy = tagHierarchy;
             this.objectEntry = objectEntry;
-            this.filename = filename;
-            raws = new RawContainer();
-            strings = new StringContainer();
+            Filename = filename;
+            Raws = new RawContainer();
+            Strings = new StringContainer();
+        }
+        /// <summary>
+        /// Sets the index entry's internal tag hierarchy.
+        /// </summary>
+        /// <param name="tagHierarchy">The tag hierarchy value.</param>
+        public void SetTagHeirarchy(TagHierarchy tagHierarchy)
+        {
+            this.tagHierarchy = tagHierarchy;
         }
         /// <summary>
         /// Sets the index entry's internal object entry.
         /// </summary>
-        /// <param name="objectEntry">The object entry.</param>
+        /// <param name="objectEntry">The object entry value.</param>
         public void SetObjectEntry(ObjectEntry objectEntry)
         {
             this.objectEntry = objectEntry;
@@ -134,7 +126,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <param name="id">The tag identifier.</param>
         /// <param name="size">The length of the data.</param>
         /// <param name="address">The memory address of the data.</param>
-        public void SetObjectEntry(Tag tag, TagId id, uint size, uint address)
+        public void SetObjectEntry(TagFourCc tag, TagId id, uint size, uint address)
         {
             objectEntry = new ObjectEntry()
             {
@@ -166,7 +158,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <returns>A string representation of the index entry.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2} {3}", filename, tagHierarchy.Root, tagHierarchy, objectEntry.Id);
+            return string.Format("{0}.{1} {2} {3}", Filename, tagHierarchy.Root, tagHierarchy, objectEntry.Id);
         }
         /// <summary>
         /// Releases any resources used by the index entry.
@@ -174,9 +166,9 @@ namespace Abide.HaloLibrary.Halo2Map
         public void Dispose()
         {
             //Dispose
-            raws.Dispose();
-            strings.Dispose();
-            tagData = null;
+            Raws.Dispose();
+            Strings.Dispose();
+            TagData = null;
         }
     }
 }

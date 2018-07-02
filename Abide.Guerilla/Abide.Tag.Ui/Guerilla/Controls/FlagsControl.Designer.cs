@@ -98,6 +98,7 @@
             this.flagsListBox.Name = "flagsListBox";
             this.flagsListBox.Size = new System.Drawing.Size(200, 139);
             this.flagsListBox.TabIndex = 4;
+            this.flagsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.flagsListBox_ItemCheck);
             this.flagsListBox.MouseHover += new System.EventHandler(this.flagsListBox_MouseHover);
             // 
             // FlagsControl

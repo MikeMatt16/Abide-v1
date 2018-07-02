@@ -181,7 +181,7 @@ namespace Abide.Ifp
         private int tagBlockSize;
         private int itemOffset;
         private bool visible;
-        private Tag @class;
+        private TagFourCc @class;
         private int headerSize;
         private int optionValue;
 

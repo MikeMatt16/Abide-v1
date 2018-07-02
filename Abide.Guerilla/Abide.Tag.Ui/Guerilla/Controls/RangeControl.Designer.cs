@@ -28,45 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.fromTextBox = new System.Windows.Forms.TextBox();
+            this.toLabel = new System.Windows.Forms.Label();
+            this.toTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // textBox1
+            // fromTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(230, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(80, 20);
-            this.textBox1.TabIndex = 4;
+            this.fromTextBox.Location = new System.Drawing.Point(230, 3);
+            this.fromTextBox.Name = "fromTextBox";
+            this.fromTextBox.Size = new System.Drawing.Size(80, 20);
+            this.fromTextBox.TabIndex = 4;
             // 
-            // label1
+            // toLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(316, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "to";
+            this.toLabel.AutoSize = true;
+            this.toLabel.Location = new System.Drawing.Point(316, 6);
+            this.toLabel.Name = "toLabel";
+            this.toLabel.Size = new System.Drawing.Size(16, 13);
+            this.toLabel.TabIndex = 5;
+            this.toLabel.Text = "to";
             // 
-            // textBox2
+            // toTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(338, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(80, 20);
-            this.textBox2.TabIndex = 4;
+            this.toTextBox.Location = new System.Drawing.Point(338, 3);
+            this.toTextBox.Name = "toTextBox";
+            this.toTextBox.Size = new System.Drawing.Size(80, 20);
+            this.toTextBox.TabIndex = 4;
             // 
             // RangeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.toLabel);
+            this.Controls.Add(this.toTextBox);
+            this.Controls.Add(this.fromTextBox);
             this.Name = "RangeControl";
-            this.Controls.SetChildIndex(this.textBox1, 0);
-            this.Controls.SetChildIndex(this.textBox2, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.fromTextBox, 0);
+            this.Controls.SetChildIndex(this.toTextBox, 0);
+            this.Controls.SetChildIndex(this.toLabel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -74,8 +74,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox fromTextBox;
+        private System.Windows.Forms.Label toLabel;
+        private System.Windows.Forms.TextBox toTextBox;
     }
 }

@@ -6,8 +6,14 @@ namespace Abide
 {
     internal sealed class AddOnPackageManifest
     {
+        private string ActiveDirectory { get; set; }
+
         public AddOnPackageManifest(string primaryFile)
         {
+            //Resolve
+            AppDomain.CurrentDomain.AssemblyResolve += PackageManifest_AssemblyResolve;
+            ActiveDirectory = Path.GetDirectoryName(primaryFile);
+
             //Check
             if (primaryFile == null) throw new ArgumentNullException(nameof(primaryFile));
             if (!File.Exists(primaryFile)) throw new FileNotFoundException("File does not exist.", primaryFile);
@@ -16,6 +22,20 @@ namespace Abide
             Assembly primary = LoadAssemblyMemory(primaryFile);
             if (primary != null)
                 new AssemblyReference(primary, $"package:\\{primaryFile}");
+
+            //Remove
+            AppDomain.CurrentDomain.AssemblyResolve -= PackageManifest_AssemblyResolve;
+        }
+
+        private Assembly PackageManifest_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            //Get assembly name
+            AssemblyName assemblyName = new AssemblyName(args.Name);
+
+            //Check for files
+            if (File.Exists(Path.Combine(ActiveDirectory, $"{assemblyName.Name}.dll"))) return LoadAssemblyMemory(Path.Combine(ActiveDirectory, $"{assemblyName.Name}.dll"));
+            else if (File.Exists(Path.Combine(ActiveDirectory, $"{assemblyName.Name}.exe"))) return LoadAssemblyMemory(Path.Combine(ActiveDirectory, $"{assemblyName.Name}.dll"));
+            else return null;
         }
 
         private Assembly LoadAssemblyMemory(string filename)

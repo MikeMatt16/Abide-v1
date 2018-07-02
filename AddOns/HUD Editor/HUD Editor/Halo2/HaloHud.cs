@@ -479,13 +479,14 @@ namespace HUD_Editor.Halo2
             /// <param name="entry">The new hud object index entry.</param>
             public HudTag(IndexEntry entry)
             {
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                //Initialize reader
+                using (BinaryReader reader = entry.TagData.CreateReader())
                 {
                     //Goto
                     entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
 
                     //Read
-                    Header = reader.ReadStructure<NewHudTagGroup>();
+                    Header = reader.Read<NewHudTagGroup>();
 
                     //Prepare Structures and arrays
                     BitmapWidgets = new NewHudTagGroup.BitmapWidget[Header.bitmapWidgets.Count];
@@ -507,12 +508,12 @@ namespace HUD_Editor.Halo2
                     //Read Bitmap Widgets
                     entry.TagData.Seek(Header.bitmapWidgets.Offset, SeekOrigin.Begin);
                     for (int i = 0; i < Header.bitmapWidgets.Count; i++)
-                        BitmapWidgets[i] = reader.ReadStructure<NewHudTagGroup.BitmapWidget>();
+                        BitmapWidgets[i] = reader.Read<NewHudTagGroup.BitmapWidget>();
 
                     //Read Text Widgets
                     entry.TagData.Seek(Header.textWidgets.Offset, SeekOrigin.Begin);
                     for (int i = 0; i < Header.textWidgets.Count; i++)
-                        TextWidgets[i] = reader.ReadStructure<NewHudTagGroup.TextWidget>();
+                        TextWidgets[i] = reader.Read<NewHudTagGroup.TextWidget>();
 
                     //Read Effect Widgets
                     entry.TagData.Seek(Header.effectWidgets.Offset, SeekOrigin.Begin);

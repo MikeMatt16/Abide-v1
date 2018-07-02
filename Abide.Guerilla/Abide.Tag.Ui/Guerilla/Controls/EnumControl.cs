@@ -5,6 +5,16 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class EnumControl : GuerillaControl
     {
+        public override object Value
+        {
+            get { return enumComboBox.SelectedIndex.ToString(); }
+            set
+            {
+                int index = int.Parse(value.ToString());
+                if (index > enumComboBox.Items.Count || index < 0) enumComboBox.SelectedIndex = -1;
+                else enumComboBox.SelectedIndex = int.Parse(value.ToString());
+            }
+        }
         public string[] Options
         {
             set
@@ -30,13 +40,8 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             get { return enumComboBox.Enabled; }
             set { enumComboBox.Enabled = value; }
         }
-        public EventHandler ValueChanged
-        {
-            get { return valueChanged; }
-            set { valueChanged = value; }
-        }
-
-        private EventHandler valueChanged;
+        public EventHandler ValueChanged { get; set; }
+        
         private string information = string.Empty;
         
         public EnumControl()
@@ -48,6 +53,11 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         {
             if (!string.IsNullOrEmpty(information))
                 informationToolTip.Show(information, (Control)sender);
+        }
+        private void enumComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Invoke
+            ValueChanged?.Invoke(this, e);
         }
     }
 }

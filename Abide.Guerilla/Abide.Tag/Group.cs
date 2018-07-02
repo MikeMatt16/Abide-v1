@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using HaloTag = Abide.HaloLibrary.Tag;
+using HaloTag = Abide.HaloLibrary.TagFourCc;
 
 namespace Abide.Tag
 {
@@ -10,6 +11,10 @@ namespace Abide.Tag
     /// </summary>
     public abstract class Group : ITagGroup
     {
+        /// <summary>
+        /// Gets and returns the number of tag blocks within the tag group.
+        /// </summary>
+        public int Count => TagBlocks.Count;
         /// <summary>
         /// Gets and returns the name of the tag group.
         /// </summary>
@@ -21,15 +26,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the list of tag blocks in the tag group.
         /// </summary>
-        public List<Block> TagBlocks { get; }
-
+        public List<ITagBlock> TagBlocks { get; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Group"/> class.
         /// </summary>
         public Group()
         {
             //Initialize
-            TagBlocks = new List<Block>();
+            TagBlocks = new List<ITagBlock>();
         }
         /// <summary>
         /// Reads the tag group using the specified binary reader.
@@ -39,7 +44,7 @@ namespace Abide.Tag
         {
             //Check
             if (reader == null) throw new ArgumentNullException(nameof(reader));
-
+            
             //Read
             foreach (Block block in TagBlocks)
                 block.Read(reader);
@@ -53,9 +58,13 @@ namespace Abide.Tag
             //Check
             if (writer == null) throw new ArgumentNullException(nameof(writer));
 
-            //Read
+            //Write
             foreach (Block block in TagBlocks)
                 block.Write(writer);
+
+            //Post-write
+            foreach (Block block in TagBlocks)
+                block.PostWrite(writer);
         }
         /// <summary>
         /// Returns a string representation of the tag group.
@@ -65,7 +74,31 @@ namespace Abide.Tag
         {
             return Name ?? base.ToString();
         }
+        /// <summary>
+        /// Releases all resources used by this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            //Dispose
+            TagBlocks.ForEach(b => b.Dispose());
 
+            //Clear
+            TagBlocks.Clear();
+        }
+        /// <summary>
+        /// Gets an enumerator that iterates the <see cref="Block"/> objects in the <see cref="Group"/>.
+        /// </summary>
+        /// <returns>An enumerator.</returns>
+        public IEnumerator<ITagBlock> GetEnumerator()
+        {
+            return TagBlocks.GetEnumerator();
+        }
+
+        ITagBlock ITagGroup.this[int index]
+        {
+            get { return TagBlocks[index]; }
+            set { TagBlocks[index] = value; }
+        }
         string ITagGroup.Name => Name;
         HaloTag ITagGroup.GroupTag => GroupTag;
         ITagBlock[] ITagGroup.TagBlocks => TagBlocks.ToArray();
@@ -79,13 +112,27 @@ namespace Abide.Tag
             //Write
             Write(writer);
         }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     /// <summary>
     /// Represents a tag group object.
     /// </summary>
-    public interface ITagGroup : IReadWrite
+    public interface ITagGroup : IReadWrite, IDisposable, IEnumerable<ITagBlock>
     {
+        /// <summary>
+        /// Gets and returns the number of <see cref="ITagBlock"/> elements within the <see cref="ITagGroup"/>.
+        /// </summary>
+        int Count { get; }
+        /// <summary>
+        /// Gets or sets a tag block within the the <see cref="ITagGroup"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the tag block.</param>
+        /// <returns>A <see cref="ITagBlock"/> instance if one is found at the given index, otherwise <see langword="null"/>.</returns>
+        ITagBlock this[int index] { get; set; }
         /// <summary>
         /// Gets and returns the name of the <see cref="ITagGroup"/>.
         /// </summary>
@@ -97,6 +144,7 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the tag block of the <see cref="ITagGroup"/>.
         /// </summary>
+        [Obsolete("ITagBlock[] ITagGroup.TagBlocks is deprecated, use ITagBlock this[int index] instead.")]
         ITagBlock[] TagBlocks { get; }
     }
 }

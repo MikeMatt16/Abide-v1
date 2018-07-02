@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5597C44C-BC70-4122-A084-7E01FE39E88A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Guerilla</RootNamespace>
+    <AssemblyName>Guerilla</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Guerilla.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\EnumControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EnumControl.Designer.cs">
+      <DependentUpon>EnumControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FlagsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FlagsControl.Designer.cs">
+      <DependentUpon>FlagsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GuerillaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GuerillaControl.Designer.cs">
+      <DependentUpon>GuerillaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Value2Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Value2Control.Designer.cs">
+      <DependentUpon>Value2Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Value3Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Value3Control.Designer.cs">
+      <DependentUpon>Value3Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Value4Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Value4Control.Designer.cs">
+      <DependentUpon>Value4Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ValueControl.Designer.cs">
+      <DependentUpon>ValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuerillaEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GuerillaEditor.Designer.cs">
+      <DependentUpon>GuerillaEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Halo2\Guerilla.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Halo2\Guerilla.Designer.cs">
+      <DependentUpon>Guerilla.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\EnumControl.resx">
+      <DependentUpon>EnumControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FlagsControl.resx">
+      <DependentUpon>FlagsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GuerillaControl.resx">
+      <DependentUpon>GuerillaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Value2Control.resx">
+      <DependentUpon>Value2Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Value3Control.resx">
+      <DependentUpon>Value3Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Value4Control.resx">
+      <DependentUpon>Value4Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ValueControl.resx">
+      <DependentUpon>ValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuerillaEditor.resx">
+      <DependentUpon>GuerillaEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Halo2\Guerilla.resx">
+      <DependentUpon>Guerilla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
+      <Project>{ab0b3a93-6a5b-46ac-8c20-db7b92b221ce}</Project>
+      <Name>Abide.AddOnApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
+      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
+      <Name>YeloDebug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide.Guerilla\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide.Guerilla\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Abide.Guerilla\Abide.Tag\Abide.Tag.csproj">
+      <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>
+      <Name>Abide.Tag</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Guerilla.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\guerilla-16.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

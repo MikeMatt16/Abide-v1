@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Abide.HaloLibrary;
+using System;
 using System.IO;
 using System.Xml;
-using GroupTag = Abide.HaloLibrary.Tag;
 
 namespace Abide.Tag.Definition
 {
@@ -13,34 +13,19 @@ namespace Abide.Tag.Definition
         /// <summary>
         /// Gets and returns the tag group's group tag.
         /// </summary>
-        public GroupTag GroupTag
-        {
-            get { return groupTag; }
-        }
+        public TagFourCc GroupTag { get; private set; }
         /// <summary>
         /// Gets and returns the tag group's parent group tag.
         /// </summary>
-        public GroupTag ParentGroupTag
-        {
-            get { return parentGroupTag; }
-        }
+        public TagFourCc ParentGroupTag { get; private set; }
         /// <summary>
         /// Gets and returns the name of the tag group.
         /// </summary>
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; private set; }
         /// <summary>
         /// Gets and returns the name of the tag group's tag block definition.
         /// </summary>
-        public string BlockName
-        {
-            get { return blockName; }
-        }
-
-        private GroupTag groupTag, parentGroupTag;
-        private string name, blockName;
+        public string BlockName { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagGroup"/> class.
@@ -48,10 +33,10 @@ namespace Abide.Tag.Definition
         public AbideTagGroup()
         {
             //Prepare
-            groupTag = string.Empty;
-            parentGroupTag = string.Empty;
-            name = string.Empty;
-            blockName = string.Empty;
+            GroupTag = string.Empty;
+            ParentGroupTag = string.Empty;
+            Name = string.Empty;
+            BlockName = string.Empty;
         }
         /// <summary>
         /// Loads the Abide tag group document from the specified URL.
@@ -115,10 +100,10 @@ namespace Abide.Tag.Definition
                 XmlNode tagGroup = doc["AbideTagGroup"] ?? throw new TagException("Document doesn't contain a tag group node.");
 
                 //Setup
-                groupTag = tagGroup.Attributes["GroupTag"]?.Value ?? throw new TagException("Tag group node doesn't contain a group tag.");
-                parentGroupTag = tagGroup.Attributes["ParentGroupTag"]?.Value ?? throw new TagException("Tag group node doesn't contain a parent group tag.");
-                name = tagGroup.Attributes["Name"]?.Value ?? throw new TagException("Tag group node doesn't specify a name.");
-                blockName = tagGroup.Attributes["Block"]?.Value ?? throw new TagException("Tag group node doesn't specify a tag block.");
+                GroupTag = tagGroup.Attributes["GroupTag"]?.Value ?? throw new TagException("Tag group node doesn't contain a group tag.");
+                ParentGroupTag = tagGroup.Attributes["ParentGroupTag"]?.Value ?? throw new TagException("Tag group node doesn't contain a parent group tag.");
+                Name = tagGroup.Attributes["Name"]?.Value ?? throw new TagException("Tag group node doesn't specify a name.");
+                BlockName = tagGroup.Attributes["Block"]?.Value ?? throw new TagException("Tag group node doesn't specify a tag block.");
             }
             catch (Exception ex) { throw new TagException("An error occured while loading the tag group document.", ex); }
         }
@@ -128,9 +113,9 @@ namespace Abide.Tag.Definition
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            string groupTag = this.groupTag;
-            if (!string.IsNullOrEmpty(parentGroupTag)) groupTag += $".{parentGroupTag}";
-            return $"{groupTag} {name} ({blockName})";
+            string groupTag = this.GroupTag;
+            if (!string.IsNullOrEmpty(ParentGroupTag)) groupTag += $".{ParentGroupTag}";
+            return $"{groupTag} {Name} ({BlockName})";
         }
     }
 }

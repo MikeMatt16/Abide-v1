@@ -70,8 +70,11 @@ namespace Abide.Dialogs
                     //Working...
                     isWorking = true;
 
-                    //Match
-                    StringID[] matchedIds = strings.Where(sid => Regex.IsMatch(sid.Text, pattern)).ToArray();
+                    //Match (try/catch)
+                    StringID[] matchedIds = new StringID[0];
+                    try { matchedIds = strings.Where(sid => Regex.IsMatch(sid.Text, pattern)).ToArray(); }
+                    catch { }
+
                     Invoke(new MethodInvoker(delegate
                     {
                         //Add to list

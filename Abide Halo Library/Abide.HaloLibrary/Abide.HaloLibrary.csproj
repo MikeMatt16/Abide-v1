@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultStrings.cs" />
     <Compile Include="Halo2BetaMap\IndexEntry.cs" />
     <Compile Include="Halo2BetaMap\MapFile.cs" />
     <Compile Include="Halo2BetaMap\RawContainer.cs" />
@@ -60,15 +61,18 @@
     <Compile Include="Halo2Map\Tags.cs" />
     <Compile Include="IO\FixedMemoryMappedStream.cs" />
     <Compile Include="IO\MemoryIO.cs" />
+    <Compile Include="IO\VirtualStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
     <Compile Include="SystemExtensions.cs" />
-    <Compile Include="Tag.cs" />
+    <Compile Include="TagFourCc.cs" />
     <Compile Include="TagBlock.cs" />
     <Compile Include="TagId.cs" />
     <Compile Include="Versions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Cache\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

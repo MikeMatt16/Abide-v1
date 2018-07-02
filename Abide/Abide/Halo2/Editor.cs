@@ -945,7 +945,7 @@ namespace Abide.Halo2
             /// Gets and returns the root of the index entry.
             /// </summary>
             [Category("Tag Properties"), Description("The root of the index entry.")]
-            public Tag Root
+            public TagFourCc Root
             {
                 get { return root; }
             }
@@ -994,7 +994,7 @@ namespace Abide.Halo2
             private event EventHandler filenameChanged;
             
             private string filename;
-            private readonly Tag root;
+            private readonly TagFourCc root;
             private readonly TagId id;
             private readonly uint offset;
             private readonly uint size;
@@ -1011,7 +1011,7 @@ namespace Abide.Halo2
             /// <param name="tagData">The Tag data stream of the entry.</param>
             /// <param name="offset">The offset of the entry.</param>
             /// <param name="size">The size of the entry.</param>
-            private IndexEntryWrapper(MapFile mapFile, Tag root, string filename, TagId id, FixedMemoryMappedStream tagData, uint offset, uint size)
+            private IndexEntryWrapper(MapFile mapFile, TagFourCc root, string filename, TagId id, VirtualStream tagData, uint offset, uint size)
             {
                 //Setup
                 this.mapFile = mapFile;

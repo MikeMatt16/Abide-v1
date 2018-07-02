@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D71745A-3ECE-4E31-9B90-FAF0CC4185C2}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <ProjectGuid>{0353C1FA-DC9F-42E7-AB22-C1429CA4B335}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Abide.Guerilla</RootNamespace>
-    <AssemblyName>Abide.Guerilla</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>Abide Guerilla</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,25 +21,20 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\Abide.Guerilla.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\Abide.Guerilla.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <ApplicationIcon>Resources\abide-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,173 +43,75 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDom\CodeAttributeTypeReference.cs" />
-    <Compile Include="CodeDom\CodeDomString.cs" />
-    <Compile Include="CodeDom\CodeFieldsContainerTypeDeclaration.cs" />
-    <Compile Include="CodeDom\TagBlockCodeCompileUnit.cs" />
-    <Compile Include="CodeDom\TagGroupCodeCompileUnit.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="FieldTypes.cs" />
-    <Compile Include="Guerilla.cs" />
-    <Compile Include="H2Guerilla\GuerillaBinaryReader.cs" />
-    <Compile Include="Managed\TagFieldBlockIndexCustomSearchDefinition.cs" />
-    <Compile Include="Managed\TagFieldDefinitionArray.cs" />
-    <Compile Include="Managed\TagFieldEnumDefinition.cs" />
-    <Compile Include="Managed\TagFieldExplanationDefinition.cs" />
-    <Compile Include="Managed\GuerillaInstance.cs" />
-    <Compile Include="H2Guerilla\Library.cs" />
-    <Compile Include="H2Guerilla\Structures.cs" />
-    <Compile Include="Managed\TagBlockDefinition.cs" />
-    <Compile Include="Managed\TagFieldDataDefinition.cs" />
-    <Compile Include="Managed\TagFieldDefinition.cs" />
-    <Compile Include="Managed\TagFieldSet.cs" />
-    <Compile Include="Managed\TagGroupDefinition.cs" />
-    <Compile Include="Managed\TagReferenceDefinition.cs" />
-    <Compile Include="Managed\TagFieldStructDefinition.cs" />
-    <Compile Include="ParsedTag.cs" />
+    <Compile Include="AbideGuerilla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbideGuerilla.Designer.cs">
+      <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tags2\Generated\bitmap.cs" />
-    <Compile Include="Tags2\TagDefinition.cs" />
-    <Compile Include="Tags\Attributes.cs" />
-    <Compile Include="Tags\Generated\AiDialogueGlobalsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\AiMissionDialogueBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\AntennaBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\BipedBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\BitmapBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\BreakableSurfaceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CacheFileSoundBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CameraTrackBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CellularAutomata2dBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CellularAutomataBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CharacterBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ChocolateMountainBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ClothBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CollisionModelBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ColonyBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ColorTableBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ContrailBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CrateBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\CreatureBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DamageEffectBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DecalBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DecoratorsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DecoratorSetBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DetailObjectCollectionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DeviceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DeviceControlBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DeviceLightFixtureBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DeviceMachineBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\DialogueBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\EffectBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\EquipmentBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\GarbageBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\GlobalsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\GrenadeHudInterfaceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\HsSourceFilesBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\HudGlobalsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\HudMessageTextBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\HudNumberBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ItemBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ItemCollectionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\LensFlareBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\LightBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\LightVolumeBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\LiquidBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MaterialEffectsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MaterialPhysicsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MeterBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ModelAnimationGraphBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ModelBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MouseCursorDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MultilingualUnicodeStringListBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MultiplayerGlobalsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MultiplayerScenarioDescriptionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\MultiplayerVariantSettingsInterfaceDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\NewHudDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ObjectBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ParticleBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ParticleModelBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ParticlePhysicsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PatchyFogBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PhysicsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PhysicsModelBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PixelShaderBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PlanarFogBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\PointPhysicsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ProjectileBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\RenderModelBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioAiResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioBipedsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioCinematicsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioClusterDataResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioCommentsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioCreatureResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioDecalsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioDecoratorsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioDevicesResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioEquipmentResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioLightsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioSceneryResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioSoundSceneryResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioStructureBspBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioStructureLightingResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioStructureLightmapBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioTriggerVolumesResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioVehiclesResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScenarioWeaponsResourceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SceneryBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ScreenEffectBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ShaderBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ShaderLightResponseBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ShaderPassBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\ShaderTemplateBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SkyBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundCacheFileGestaltBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundClassesBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundDialogueConstantsBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundEffectCollectionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundEffectTemplateBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundEnvironmentBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundLoopingBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundMixBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\SoundSceneryBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\StereoSystemBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\StyleBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\TextValuePairDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UnitBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UnitHudInterfaceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UserInterfaceGlobalsDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UserInterfaceListSkinDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UserInterfaceScreenWidgetDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\UserInterfaceSharedGlobalsDefinitionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\VehicleBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\VehicleCollectionBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\VertexShaderBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\WeaponBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\WeaponHudInterfaceBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\WeatherSystemBlock.Generated.cs" />
-    <Compile Include="Tags\Generated\WindBlock.Generated.cs" />
-    <Compile Include="Tags\Interfaces.cs" />
-    <Compile Include="Types\Color.cs" />
-    <Compile Include="Types\FloatRange.cs" />
-    <Compile Include="Types\Quaternion.cs" />
-    <Compile Include="Types\String.cs" />
-    <Compile Include="Tags\TagBlocks.cs" />
-    <Compile Include="Types\TagReference.cs" />
-    <Compile Include="Types\Vector.cs" />
+    <EmbeddedResource Include="AbideGuerilla.resx">
+      <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
-      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
-      <Name>Abide.HaloLibrary</Name>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abide.Compiler\Abide.Compiler.csproj">
+      <Project>{1152dc23-51c6-44c8-bd69-013eca04f6bf}</Project>
+      <Name>Abide.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Decompiler\Abide.Decompiler.csproj">
+      <Project>{2f339cb4-feac-4cff-bd5a-bdbd1f952e8f}</Project>
+      <Name>Abide.Decompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
+      <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
+      <Name>Abide.Guerilla.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag\Abide.Tag.csproj">
+      <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>
+      <Name>Abide.Tag</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\abide-icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

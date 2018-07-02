@@ -3,7 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Abide.Tag.CodeDOM
+namespace Abide.Tag.CodeDom
 {
     /// <summary>
     /// Represents a tag group for a CodeDOM graph.
@@ -11,7 +11,6 @@ namespace Abide.Tag.CodeDOM
     public sealed class AbideTagBlockCodeCompileUnit : CodeCompileUnit
     {
         private const string c_TagNamespace = "Abide.Tag";
-        private const string c_GeneratedNamespace = "Abide.Tag.Generated";
         private const string c_IoNamespace = "System.IO";
 
         private readonly CodeTypeDeclaration tagGroupCodeTypeDeclaration;
@@ -20,14 +19,15 @@ namespace Abide.Tag.CodeDOM
         /// Initializes a new instance of the <see cref="AbideTagBlockCodeCompileUnit"/> class.
         /// </summary>
         /// <param name="tagBlock">The tag block definition.</param>
-        public AbideTagBlockCodeCompileUnit(AbideTagBlock tagBlock)
+        /// <param name="namespaceString">The optional namespace string. This defaults to "Cache."</param>
+        public AbideTagBlockCodeCompileUnit(AbideTagBlock tagBlock, string namespaceString = "Cache")
         {
             //Prepare
             string blockTypeName = AbideCodeDomGlobals.GetMemberName(tagBlock);
             string baseTypeName = nameof(Block);
-            
+
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace(c_GeneratedNamespace);
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
 
             //Add imports
             generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));
@@ -107,65 +107,41 @@ namespace Abide.Tag.CodeDOM
 
             //Process fields
             List<AbideTagField> processedFields = ProcessTagFields(tagBlock.FieldSet);
-            List<int> tagBlockIndices = new List<int>();
-            List<string> tagBlockTypes = new List<string>();
-            
+
             //Add fields to fields list
             CodeExpression fieldCreateExpression = null; int index = 0;
             foreach (AbideTagField field in processedFields)
             {
-                //Create
-                fieldCreateExpression = CreateFieldCreateExpression(field);
-
-                //Add?
-                if (fieldCreateExpression != null)
+                //Check
+                if (field.FieldType == FieldType.FieldArrayStart)
                 {
-                    //Add Tag Block?
-                    if (field.FieldType == FieldType.FieldBlock)
+                    //Create
+                    foreach (CodeExpression fieldExpression in CreateArrayFieldExpression(field))
                     {
-                        tagBlockIndices.Add(index);
-                        tagBlockTypes.Add($"BlockField<{AbideCodeDomGlobals.GetMemberName(field.ReferencedBlock)}>");
+                        //Add statement
+                        constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
+                            new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldExpression));
+
+                        //Increment
+                        index++;
                     }
-                    
-                    //Add statement
-                    constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
-                        new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
-
-                    //Increment
-                    index++;
                 }
-            }
-
-            //Check
-            if(tagBlockIndices.Count > 0)
-            {
-                //Add IO Namespace
-                generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_IoNamespace));
-
-                //Override Write method
-                CodeMemberMethod writeMethod = new CodeMemberMethod()
+                else
                 {
-                    Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                    Name = nameof(Block.Write),
-                    ReturnType = new CodeTypeReference()
-                };
-                writeMethod.Comments.Add(new CodeCommentStatement("<summary>", true));
-                writeMethod.Comments.Add(new CodeCommentStatement($"Writes the {tagBlock.Name} tag block using the specified binary writer.", true));
-                writeMethod.Comments.Add(new CodeCommentStatement("</summary>", true));
-                writeMethod.Comments.Add(new CodeCommentStatement($"<param name=\"writer\">The <see cref=\"BinaryWriter\"/> used to write the {tagBlock.Name} tag block.</param>"));
-                writeMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(nameof(System.IO.BinaryWriter)), "writer"));
-                writeMethod.Statements.Add(new CodeCommentStatement("Invoke base write procedure."));
-                writeMethod.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(
-                    new CodeBaseReferenceExpression(), nameof(Block.Write)), new CodeVariableReferenceExpression("writer")));
-                writeMethod.Statements.Add(new CodeCommentStatement("Post-write the tag blocks."));
-                for (int i = 0; i < tagBlockIndices.Count; i++)
-                    writeMethod.Statements.Add(new CodeMethodInvokeExpression(
-                        new CodeMethodReferenceExpression(
-                            new CodeCastExpression(
-                                new CodeTypeReference(tagBlockTypes[i]), 
-                                new CodeArrayIndexerExpression(new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), nameof(Block.Fields)), 
-                                new CodePrimitiveExpression(tagBlockIndices[i]))), "WriteChildren"), new CodeVariableReferenceExpression("writer")));
-                tagGroupCodeTypeDeclaration.Members.Add(writeMethod);
+                    //Create
+                    fieldCreateExpression = CreateFieldCreateExpression(field);
+
+                    //Add?
+                    if (fieldCreateExpression != null)
+                    {
+                        //Add statement
+                        constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
+                            new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
+
+                        //Increment
+                        index++;
+                    }
+                }
             }
 
             //Add type to namespace
@@ -240,6 +216,8 @@ namespace Abide.Tag.CodeDOM
                 MaximumSize = originalField.MaximumSize,
                 ElementSize = originalField.ElementSize,
                 Length = originalField.Length,
+                Explanation = originalField.Explanation,
+                GroupTag = originalField.GroupTag,
             };
             field.Options.AddRange(originalField.Options);
 
@@ -252,142 +230,180 @@ namespace Abide.Tag.CodeDOM
             //Prepare
             CodeExpression[] optionExpressions = null;
             CodeExpression nameExpression = new CodePrimitiveExpression(tagField.NameObject.ToString());
+            CodeExpression explanationExpression = new CodePrimitiveExpression(tagField.Explanation ?? string.Empty);
+            CodeExpression groupTagExpression = new CodePrimitiveExpression(tagField.GroupTag ?? string.Empty);
 
             //Check
             switch (tagField.FieldType)
             {
                 case FieldType.FieldString:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(StringField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("StringField"), nameExpression);
                 case FieldType.FieldLongString:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongStringField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongStringField"), nameExpression);
                 case FieldType.FieldStringId:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(StringIdField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("StringIdField"), nameExpression);
                 case FieldType.FieldOldStringId:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(OldStringIdField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("OldStringIdField"), nameExpression);
                 case FieldType.FieldCharInteger:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(CharIntegerField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("CharIntegerField"), nameExpression);
                 case FieldType.FieldShortInteger:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ShortIntegerField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ShortIntegerField"), nameExpression);
                 case FieldType.FieldLongInteger:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongIntegerField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongIntegerField"), nameExpression);
                 case FieldType.FieldAngle:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(AngleField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("AngleField"), nameExpression);
                 case FieldType.FieldTag:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(TagField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("TagField"), nameExpression);
                 case FieldType.FieldCharEnum:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(CharEnumField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("CharEnumField"), optionExpressions);
                 case FieldType.FieldEnum:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(EnumField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("EnumField"), optionExpressions);
                 case FieldType.FieldLongEnum:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongEnumField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongEnumField"), optionExpressions);
                 case FieldType.FieldLongFlags:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongFlagsField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongFlagsField"), optionExpressions);
                 case FieldType.FieldWordFlags:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(WordFlagsField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("WordFlagsField"), optionExpressions);
                 case FieldType.FieldByteFlags:
                     optionExpressions = new CodeExpression[tagField.Options.Count + 1];
                     optionExpressions[0] = nameExpression;
                     for (int i = 0; i < tagField.Options.Count; i++) optionExpressions[i + 1] = new CodePrimitiveExpression(tagField.Options[i].ToString());
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ByteFlagsField)), optionExpressions);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ByteFlagsField"), optionExpressions);
                 case FieldType.FieldPoint2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(Point2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("Point2dField"), nameExpression);
                 case FieldType.FieldRectangle2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(Rectangle2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("Rectangle2dField"), nameExpression);
                 case FieldType.FieldRgbColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RgbColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RgbColorField"), nameExpression);
                 case FieldType.FieldArgbColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ArgbColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ArgbColorField"), nameExpression);
                 case FieldType.FieldReal:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealField"), nameExpression);
                 case FieldType.FieldRealFraction:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealFractionField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealFractionField"), nameExpression);
                 case FieldType.FieldRealPoint2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealPoint2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealPoint2dField"), nameExpression);
                 case FieldType.FieldRealPoint3D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealPoint3dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealPoint3dField"), nameExpression);
                 case FieldType.FieldRealVector2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealVector2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealVector2dField"), nameExpression);
                 case FieldType.FieldRealVector3D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealVector3dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealVector3dField"), nameExpression);
                 case FieldType.FieldQuaternion:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(QuaternionField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("QuaternionField"), nameExpression);
                 case FieldType.FieldEulerAngles2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(EulerAngles2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("EulerAngles2dField"), nameExpression);
                 case FieldType.FieldEulerAngles3D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(EulerAngles3dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("EulerAngles3dField"), nameExpression);
                 case FieldType.FieldRealPlane2D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealPlane2dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealPlane2dField"), nameExpression);
                 case FieldType.FieldRealPlane3D:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealPlane3dField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealPlane3dField"), nameExpression);
                 case FieldType.FieldRealRgbColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealRgbColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealRgbColorField"), nameExpression);
                 case FieldType.FieldRealArgbColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealArgbColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealArgbColorField"), nameExpression);
                 case FieldType.FieldRealHsvColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealHsvColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealHsvColorField"), nameExpression);
                 case FieldType.FieldRealAhsvColor:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealAhsvColorField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealAhsvColorField"), nameExpression);
                 case FieldType.FieldShortBounds:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ShortBoundsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ShortBoundsField"), nameExpression);
                 case FieldType.FieldAngleBounds:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(AngleBoundsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("AngleBoundsField"), nameExpression);
                 case FieldType.FieldRealBounds:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealBoundsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealBoundsField"), nameExpression);
                 case FieldType.FieldRealFractionBounds:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(RealFractionBoundsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("RealFractionBoundsField"), nameExpression);
                 case FieldType.FieldTagReference:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(TagReferenceField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("TagReferenceField"), nameExpression, groupTagExpression);
                 case FieldType.FieldBlock:
                     return new CodeObjectCreateExpression(new CodeTypeReference($"BlockField<{AbideCodeDomGlobals.GetMemberName(tagField.ReferencedBlock)}>"), nameExpression, new CodePrimitiveExpression(tagField.ReferencedBlock.MaximumElementCount));
                 case FieldType.FieldLongBlockFlags:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongFlagsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongFlagsField"), nameExpression);
                 case FieldType.FieldWordBlockFlags:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(WordFlagsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("WordFlagsField"), nameExpression);
                 case FieldType.FieldByteBlockFlags:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ByteFlagsField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ByteFlagsField"), nameExpression);
                 case FieldType.FieldCharBlockIndex1:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(CharBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("CharBlockIndexField"), nameExpression);
                 case FieldType.FieldCharBlockIndex2:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(CharBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("CharBlockIndexField"), nameExpression);
                 case FieldType.FieldShortBlockIndex1:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ShortBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ShortBlockIndexField"), nameExpression);
                 case FieldType.FieldShortBlockIndex2:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ShortBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ShortBlockIndexField"), nameExpression);
                 case FieldType.FieldLongBlockIndex1:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongBlockIndexField"), nameExpression);
                 case FieldType.FieldLongBlockIndex2:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(LongBlockIndexField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("LongBlockIndexField"), nameExpression);
                 case FieldType.FieldData:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(DataField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("DataField"), nameExpression, new CodePrimitiveExpression(tagField.ElementSize), new CodePrimitiveExpression(tagField.Alignment));
                 case FieldType.FieldVertexBuffer:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(VertexBufferField)), nameExpression);
+                    return new CodeObjectCreateExpression(new CodeTypeReference("VertexBufferField"), nameExpression);
                 case FieldType.FieldPad:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(PadField)), nameExpression, new CodePrimitiveExpression(tagField.Length));
+                    return new CodeObjectCreateExpression(new CodeTypeReference("PadField"), nameExpression, new CodePrimitiveExpression(tagField.Length));
                 case FieldType.FieldSkip:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(SkipField)), nameExpression, new CodePrimitiveExpression(tagField.Length));
+                    return new CodeObjectCreateExpression(new CodeTypeReference("SkipField"), nameExpression, new CodePrimitiveExpression(tagField.Length));
                 case FieldType.FieldExplanation:
-                    return new CodeObjectCreateExpression(new CodeTypeReference(nameof(ExplanationField)), nameExpression, new CodePrimitiveExpression(tagField.Explanation));
+                    return new CodeObjectCreateExpression(new CodeTypeReference("ExplanationField"), nameExpression, explanationExpression);
                 case FieldType.FieldStruct:
                     return new CodeObjectCreateExpression(new CodeTypeReference($"StructField<{AbideCodeDomGlobals.GetMemberName(tagField.ReferencedBlock)}>"), nameExpression);
+                case FieldType.FieldTagIndex:
+                    return new CodeObjectCreateExpression(new CodeTypeReference("TagIndexField"), nameExpression);
             }
 
             //Return
             return null;
+        }
+
+        private CodeExpression[] CreateArrayFieldExpression(AbideTagField arrayField)
+        {
+            //Prepare
+            List<CodeExpression> expressions = new List<CodeExpression>();
+            CodeExpression fieldCreateExpression = null;
+
+            //Loop
+            foreach (AbideTagField field in arrayField.Fields)
+            {
+                //Check
+                if (field.FieldType == FieldType.FieldArrayStart)
+                {
+                    //Create
+                    expressions.AddRange(CreateArrayFieldExpression(field));
+                }
+                else
+                {
+                    //Create
+                    fieldCreateExpression = CreateFieldCreateExpression(field);
+
+                    //Add?
+                    if (fieldCreateExpression != null)
+                    {
+                        //Add statement
+                        expressions.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
+                            new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
+                    }
+                }
+            }
+
+            //Return
+            return expressions.ToArray();
         }
     }
 }

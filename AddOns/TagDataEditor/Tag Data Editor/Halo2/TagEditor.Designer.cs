@@ -60,7 +60,7 @@
             // tagDataSplitter.Panel2
             // 
             this.tagDataSplitter.Panel2.Controls.Add(this.tagDataWebBrowser);
-            this.tagDataSplitter.Size = new System.Drawing.Size(1502, 916);
+            this.tagDataSplitter.Size = new System.Drawing.Size(1527, 916);
             this.tagDataSplitter.SplitterDistance = 200;
             this.tagDataSplitter.TabIndex = 1;
             this.tagDataSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tagDataSplitter_SplitterMoved);
@@ -73,7 +73,7 @@
             this.structureView.HideSelection = false;
             this.structureView.Location = new System.Drawing.Point(0, 0);
             this.structureView.Name = "structureView";
-            this.structureView.Size = new System.Drawing.Size(1502, 175);
+            this.structureView.Size = new System.Drawing.Size(1527, 175);
             this.structureView.TabIndex = 1;
             this.structureView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.structureView_AfterSelect);
             // 
@@ -88,7 +88,7 @@
             this.tagEditorToolStrip.Location = new System.Drawing.Point(0, 175);
             this.tagEditorToolStrip.Name = "tagEditorToolStrip";
             this.tagEditorToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tagEditorToolStrip.Size = new System.Drawing.Size(1502, 25);
+            this.tagEditorToolStrip.Size = new System.Drawing.Size(1527, 25);
             this.tagEditorToolStrip.TabIndex = 0;
             this.tagEditorToolStrip.Text = "toolStrip1";
             // 
@@ -129,7 +129,7 @@
             this.tagDataWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.tagDataWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.tagDataWebBrowser.Name = "tagDataWebBrowser";
-            this.tagDataWebBrowser.Size = new System.Drawing.Size(1502, 712);
+            this.tagDataWebBrowser.Size = new System.Drawing.Size(1527, 712);
             this.tagDataWebBrowser.StringIdButtonClickCallback = null;
             this.tagDataWebBrowser.StringSetCallback = null;
             this.tagDataWebBrowser.TabIndex = 0;
@@ -148,7 +148,7 @@
             this.Description = "GUI based tag editor.";
             this.Icon = global::Tag_Data_Editor.Properties.Resources.Meta_Editor;
             this.Name = "TagEditor";
-            this.Size = new System.Drawing.Size(1502, 916);
+            this.Size = new System.Drawing.Size(1527, 916);
             this.ToolName = "Tag Editor";
             this.Initialize += new System.EventHandler<Abide.AddOnApi.AddOnHostEventArgs>(this.TagEditor_Initialize);
             this.SelectedEntryChanged += new System.EventHandler(this.TagEditor_SelectedEntryChanged);

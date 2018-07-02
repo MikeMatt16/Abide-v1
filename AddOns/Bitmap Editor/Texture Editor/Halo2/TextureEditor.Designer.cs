@@ -164,7 +164,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.bitmapProperties);
             this.splitContainer2.Size = new System.Drawing.Size(1527, 209);
-            this.splitContainer2.SplitterDistance = 761;
+            this.splitContainer2.SplitterDistance = 760;
             this.splitContainer2.TabIndex = 0;
             // 
             // importProperties
@@ -175,7 +175,7 @@
             this.importProperties.Location = new System.Drawing.Point(0, 0);
             this.importProperties.Name = "importProperties";
             this.importProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.importProperties.Size = new System.Drawing.Size(761, 209);
+            this.importProperties.Size = new System.Drawing.Size(760, 209);
             this.importProperties.TabIndex = 0;
             this.importProperties.ToolbarVisible = false;
             this.importProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);
@@ -188,7 +188,7 @@
             this.bitmapProperties.Location = new System.Drawing.Point(0, 0);
             this.bitmapProperties.Name = "bitmapProperties";
             this.bitmapProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.bitmapProperties.Size = new System.Drawing.Size(762, 209);
+            this.bitmapProperties.Size = new System.Drawing.Size(763, 209);
             this.bitmapProperties.TabIndex = 2;
             this.bitmapProperties.ToolbarVisible = false;
             this.bitmapProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);

@@ -1,3 +1,0 @@
-﻿About the Abide.Tag.Generated namespace
-
-The classes within the Abide.Tag.Generated namespace are generated via CodeDOM and are not designed to be edited by hand.

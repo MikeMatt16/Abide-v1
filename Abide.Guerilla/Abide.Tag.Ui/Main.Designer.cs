@@ -34,10 +34,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generatecsFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cacheFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guerillaFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tagGroupTreeView = new System.Windows.Forms.TreeView();
             this.controlsPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.mapFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateentFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -50,6 +53,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.generatecsFilesToolStripMenuItem,
+            this.generateentFilesToolStripMenuItem,
             this.mapFormToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -90,10 +94,33 @@
             // 
             // generatecsFilesToolStripMenuItem
             // 
+            this.generatecsFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cacheFilesToolStripMenuItem,
+            this.guerillaFilesToolStripMenuItem});
             this.generatecsFilesToolStripMenuItem.Name = "generatecsFilesToolStripMenuItem";
             this.generatecsFilesToolStripMenuItem.Size = new System.Drawing.Size(114, 20);
             this.generatecsFilesToolStripMenuItem.Text = "&Generate *.cs Files";
-            this.generatecsFilesToolStripMenuItem.Click += new System.EventHandler(this.generatecsFilesToolStripMenuItem_Click);
+            // 
+            // cacheFilesToolStripMenuItem
+            // 
+            this.cacheFilesToolStripMenuItem.Name = "cacheFilesToolStripMenuItem";
+            this.cacheFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cacheFilesToolStripMenuItem.Text = "&Cache Files";
+            this.cacheFilesToolStripMenuItem.Click += new System.EventHandler(this.cacheFilesToolStripMenuItem_Click);
+            // 
+            // guerillaFilesToolStripMenuItem
+            // 
+            this.guerillaFilesToolStripMenuItem.Name = "guerillaFilesToolStripMenuItem";
+            this.guerillaFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.guerillaFilesToolStripMenuItem.Text = "&Guerilla Files";
+            this.guerillaFilesToolStripMenuItem.Click += new System.EventHandler(this.guerillaFilesToolStripMenuItem_Click);
+            // 
+            // mapFormToolStripMenuItem
+            // 
+            this.mapFormToolStripMenuItem.Name = "mapFormToolStripMenuItem";
+            this.mapFormToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.mapFormToolStripMenuItem.Text = "&Map Form";
+            this.mapFormToolStripMenuItem.Click += new System.EventHandler(this.mapFormToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -133,12 +160,12 @@
             this.controlsPanel.TabIndex = 0;
             this.controlsPanel.WrapContents = false;
             // 
-            // mapFormToolStripMenuItem
+            // generateentFilesToolStripMenuItem
             // 
-            this.mapFormToolStripMenuItem.Name = "mapFormToolStripMenuItem";
-            this.mapFormToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.mapFormToolStripMenuItem.Text = "&Map Form";
-            this.mapFormToolStripMenuItem.Click += new System.EventHandler(this.mapFormToolStripMenuItem_Click);
+            this.generateentFilesToolStripMenuItem.Name = "generateentFilesToolStripMenuItem";
+            this.generateentFilesToolStripMenuItem.Size = new System.Drawing.Size(120, 20);
+            this.generateentFilesToolStripMenuItem.Text = "G&enerate *.ent Files";
+            this.generateentFilesToolStripMenuItem.Click += new System.EventHandler(this.generateentFilesToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -173,6 +200,9 @@
         private System.Windows.Forms.FlowLayoutPanel controlsPanel;
         private System.Windows.Forms.ToolStripMenuItem generatecsFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapFormToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cacheFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem guerillaFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateentFilesToolStripMenuItem;
     }
 }
 

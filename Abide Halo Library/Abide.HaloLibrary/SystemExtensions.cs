@@ -143,6 +143,23 @@ namespace System.IO
         private const int NullTerminatedCutoff = 4096;
 
         /// <summary>
+        /// Seeks the stream to align with the specified alignment and returns the new position of the stream.
+        /// </summary>
+        /// <param name="stream">The stream to align.</param>
+        /// <param name="alignment">The alignment.</param>
+        /// <returns>The <see cref="Stream.Position"/> of <paramref name="stream"/>.</returns>
+        public static long Align(this Stream stream, long alignment)
+        {
+            //Check
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (!stream.CanSeek) throw new ArgumentException("Stream does not support seeking.", nameof(stream));
+
+            //Align
+            long remainder = stream.Position % alignment;
+            if (remainder > 0) return stream.Seek(alignment - remainder, SeekOrigin.Current);
+            return stream.Position;
+        }
+        /// <summary>
         /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
         /// </summary>
         /// <param name="stream">The stream to seek within.</param>
@@ -321,16 +338,22 @@ namespace System.IO
         /// <typeparam name="T">A value type structure type to read.</typeparam>
         /// <param name="reader">The <see cref="BinaryReader"/> instance to read the object from the underlying stream.</param>
         /// <returns>An instance of <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="IOException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static T Read<T>(this BinaryReader reader) where T : struct
         {
             //Prepare
             GCHandle handle = new GCHandle();
             T instance = new T();
             byte[] data = null;
+            int length = 0;
+            try { length = Marshal.SizeOf(typeof(T)); }
+            catch (ArgumentException ex) { throw new ArgumentException($"Unable to determine length of given type. ({typeof(T).FullName})", nameof(T), ex); }
 
             //Read
-            try { data = reader.ReadBytes(Marshal.SizeOf(typeof(T))); }
-            catch (Exception ex) { throw new IOException($"Unable to read object of type {typeof(T).FullName}.", ex); }
+            data = reader.ReadBytes(length);
 
             //Check
             if (data != null)

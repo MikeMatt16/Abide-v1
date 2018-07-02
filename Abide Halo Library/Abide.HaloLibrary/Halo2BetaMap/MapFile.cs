@@ -16,11 +16,6 @@ namespace Abide.HaloLibrary.Halo2BetaMap
     public sealed class MapFile : MarshalByRefObject, IDisposable
     {
         /// <summary>
-        /// Represents the minimum length of a Halo 2 beta map file.
-        /// This value is the sum of the length of a <see cref="Header"/> structure, and the minimum length of the index table.
-        /// </summary>
-        private const int MinLength = 6144;
-        /// <summary>
         /// Gets or sets the Halo 2 map's name.
         /// </summary>
         [Category("Map Properties"), Description("The name of the Halo 2 map.")]
@@ -49,10 +44,20 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// Gets and returns the stream containing the tags' data.
         /// </summary>
         [Browsable(false)]
-        public FixedMemoryMappedStream TagDataStream
+        public VirtualStream TagDataStream
         {
             get { return tagData; }
         }
+        /// <summary>
+        /// Gets and returns the number of BSP tag data in the map.
+        /// </summary>
+        [Browsable(false)]
+        public int BspCount => bspTagData?.Length ?? 0;
+        /// <summary>
+        /// Gets and returns the length of the map index in bytes.
+        /// </summary>
+        [Browsable(false)]
+        public int IndexLength => (int)header.IndexLength;
         /// <summary>
         /// Gets and returns a list of the Halo 2 map's string IDs.
         /// </summary>
@@ -70,16 +75,27 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             get { return scenario; }
             set { scenario = value; }
         }
+        /// <summary>
+        /// Gets or sets the Halo 2 map's globals.
+        /// </summary>
+        [Browsable(false)]
+        public IndexEntry Globals
+        {
+            get { return globals; }
+            set { globals = value; }
+        }
 
         private Header header;
-        private FixedMemoryMappedStream[] sbspTagDatas;
+        private VirtualStream[] bspTagData;
         private StringList strings;
-        private FixedMemoryMappedStream crazyData;
+        private MemoryStream crazyData;
         private Index index;
-        private FixedMemoryMappedStream tagData;
+        private VirtualStream tagData;
         private IndexEntryList indexList;
-        private Dictionary<TagId, int> bspIndexLookup;
+        private Dictionary<TagId, int> sbspIndexLookup;
+        private Dictionary<TagId, int> ltmpIndexLookup;
         private IndexEntry scenario;
+        private IndexEntry globals;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapFile"/> class.
@@ -89,12 +105,13 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             //Initialize
             header = new Header();
             index = Index.CreateDefault();
-            sbspTagDatas = new FixedMemoryMappedStream[0];
+            bspTagData = new VirtualStream[0];
             strings = new StringList();
-            crazyData = FixedMemoryMappedStream.Empty;
+            crazyData = new MemoryStream();
             indexList = new IndexEntryList();
-            tagData = FixedMemoryMappedStream.Empty;
-            bspIndexLookup = new Dictionary<TagId, int>();
+            tagData = VirtualStream.Empty;
+            sbspIndexLookup = new Dictionary<TagId, int>();
+            ltmpIndexLookup = new Dictionary<TagId, int>();
         }
         /// <summary>
         /// Loads a Halo 2 beta map file from a specified file path.
@@ -165,7 +182,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                     //Read Index Entries
                     IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount]; string filename = null;
                     inStream.Seek(header.IndexOffset, SeekOrigin.Begin);
-                    using (FixedMemoryMappedStream indexData = new FixedMemoryMappedStream(reader.ReadBytes((int)header.IndexLength), Index.IndexMemoryAddress - Index.Length))
+                    using (VirtualStream indexData = new VirtualStream(Index.IndexMemoryAddress - Index.Length, reader.ReadBytes((int)header.IndexLength)))
                     using (BinaryReader indexReader = new BinaryReader(indexData))
                     {
                         //Loop
@@ -189,7 +206,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
 
                     //Read Crazy
                     inStream.Seek(header.CrazyOffset, SeekOrigin.Begin);
-                    crazyData = new FixedMemoryMappedStream(reader.ReadBytes((int)header.CrazyLength));
+                    crazyData = new MemoryStream(reader.ReadBytes((int)header.CrazyLength));
 
                     //Get Meta Memory-file address
                     uint metaFileMemoryAddress = 0, metaMemoryAddress = 0;
@@ -201,7 +218,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
 
                     //Read Meta
                     inStream.Seek(header.IndexOffset + header.IndexLength, SeekOrigin.Begin);
-                    tagData = new FixedMemoryMappedStream(reader.ReadBytes((int)header.TagDataLength), metaMemoryAddress);
+                    tagData = new VirtualStream(metaMemoryAddress, reader.ReadBytes((int)header.TagDataLength));
 
                     //Loop
                     foreach (IndexEntry entry in indexList)
@@ -217,52 +234,65 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                         //Goto
                         inStream.Seek(indexList[index.ScenarioId].Offset + 828, metaFileMemoryAddress, SeekOrigin.Begin);
                         TagBlock structureBsps = reader.ReadUInt64();
-                        sbspTagDatas = new FixedMemoryMappedStream[structureBsps.Count];
+                        bspTagData = new VirtualStream[structureBsps.Count];
                         for (int i = 0; i < structureBsps.Count; i++)
                         {
                             //Goto
                             inStream.Seek(structureBsps.Offset + (i * 86), metaFileMemoryAddress, SeekOrigin.Begin);
-                            int sbspOffset = reader.ReadInt32();
-                            int sbspSize = reader.ReadInt32();
-                            int bspMagic = reader.ReadInt32();
-                            int bspFileMagic = bspMagic - sbspOffset;
-                            inStream.Seek(4, SeekOrigin.Current);
-                            Tag sbspTag = reader.Read<Tag>();
-                            uint sbspNameAddress = reader.ReadUInt32();
-                            inStream.Seek(4, SeekOrigin.Current);
+                            int structureBspBlockAddress = reader.ReadInt32();
+                            uint structureBspBlockSize = reader.ReadUInt32();
+                            uint structureBspMemoryAddress = reader.ReadUInt32();
+                            int zero = reader.ReadInt32();
+                            TagFourCc sbspTag = reader.Read<TagFourCc>();
+                            uint sbspName = reader.ReadUInt32();
+                            uint sbspZero = reader.ReadUInt32();
                             TagId sbspId = reader.Read<TagId>();
-                            Tag ltmpTag = reader.Read<Tag>();
-                            uint ltmpNameAddress = reader.ReadUInt32();
-                            inStream.Seek(4, SeekOrigin.Current);
+                            TagFourCc ltmpTag = reader.Read<TagFourCc>();
+                            uint ltmpName = reader.ReadUInt32();
+                            uint ltmpZero = reader.ReadUInt32();
                             TagId ltmpId = reader.Read<TagId>();
 
                             //Add
-                            bspIndexLookup.Add(sbspId, i);
+                            sbspIndexLookup.Add(sbspId, i);
+                            if (!ltmpId.IsNull) ltmpIndexLookup.Add(ltmpId, i);
 
                             //Goto
-                            inStream.Seek(sbspOffset, SeekOrigin.Begin);
-                            sbspTagDatas[i] = new FixedMemoryMappedStream(reader.ReadBytes(sbspSize), (uint)bspMagic);
-                            SbspHeader sbspHeader = new SbspHeader();
-                            using (BinaryReader bspHeaderReader = new BinaryReader(sbspTagDatas[i]))
-                                sbspHeader = bspHeaderReader.Read<SbspHeader>();
+                            inStream.Seek(structureBspBlockAddress, SeekOrigin.Begin);
+                            bspTagData[i] = new VirtualStream(structureBspMemoryAddress, reader.ReadBytes((int)structureBspBlockSize));
+
+                            //Read BSP header
+                            uint sbspLength = 0, ltmpLength = 0; StructureBspBlockHeader bspHeader = new StructureBspBlockHeader();
+                            using (BinaryReader bspReader = bspTagData[i].CreateReader())
+                            {
+                                //Read
+                                bspTagData[i].Seek(structureBspMemoryAddress, SeekOrigin.Begin);
+                                bspHeader = bspReader.Read<StructureBspBlockHeader>();
+
+                                //Get structure bsp length
+                                if (ltmpId.IsNull) sbspLength = (structureBspMemoryAddress + structureBspBlockSize) - bspHeader.StructureBspOffset;
+                                else sbspLength = bspHeader.LightmapOffset - bspHeader.StructureBspOffset;
+
+                                //Get lightmap length
+                                if (!ltmpId.IsNull) ltmpLength = (structureBspMemoryAddress + structureBspBlockSize) - bspHeader.LightmapOffset;
+                            }
 
                             //Setup SBSP and Lightmap
                             if (indexList.ContainsID(sbspId))
                             {
-                                indexList[sbspId].TagData = sbspTagDatas[i];
-                                indexList[sbspId].PostProcessedOffset = bspMagic;
-                                indexList[sbspId].PostProcessedSize = sbspSize;
+                                indexList[sbspId].TagData = bspTagData[i];
+                                indexList[sbspId].PostProcessedOffset = (int)bspHeader.StructureBspOffset;
+                                indexList[sbspId].PostProcessedSize = (int)sbspLength;
                             }
                             if (indexList.ContainsID(ltmpId))
                             {
-                                indexList[ltmpId].TagData = sbspTagDatas[i];
-                                indexList[ltmpId].PostProcessedOffset = sbspHeader.LightmapOffset;
-                                indexList[ltmpId].PostProcessedSize = sbspHeader.DataLength - (sbspHeader.LightmapOffset - bspMagic);
+                                indexList[ltmpId].TagData = bspTagData[i];
+                                indexList[ltmpId].PostProcessedOffset = (int)bspHeader.LightmapOffset;
+                                indexList[ltmpId].PostProcessedSize = (int)ltmpLength;
                             }
 
                             //Check
-                            if (sbspOffset < bspStart)
-                                bspStart = sbspOffset;
+                            if (structureBspBlockAddress < bspStart)
+                                bspStart = structureBspBlockAddress;
                         }
 
                         //Zero-out variables
@@ -298,8 +328,8 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                 entry.Raws.Clear();
 
                 //Prepare
-                using (BinaryReader metaReader = new BinaryReader(entry.TagData))
-                using (BinaryWriter metaWriter = new BinaryWriter(entry.TagData))
+                using (BinaryReader metaReader = entry.TagData.CreateReader())
+                using (BinaryWriter metaWriter = entry.TagData.CreateWriter())
                     switch (entry.Root)
                     {
                         #region mode
@@ -554,14 +584,8 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                         #endregion
                         #region sbsp
                         case HaloTags.sbsp:
-                            long bspAddress = entry.PostProcessedOffset;
-
-                            //Get Lightmap address
-                            entry.TagData.Seek(bspAddress + 8);
-                            uint lightmapAddress = metaReader.ReadUInt32();
-
                             //Goto Clusters
-                            entry.TagData.Seek(bspAddress + 228, SeekOrigin.Begin);
+                            entry.TagData.Seek(entry.PostProcessedOffset + 212, SeekOrigin.Begin);
                             uint clusterCount = metaReader.ReadUInt32();
                             uint clusterOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < clusterCount; i++)
@@ -586,7 +610,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                             }
 
                             //Goto Geometries definitions
-                            entry.TagData.Seek(bspAddress + 468, SeekOrigin.Begin);
+                            entry.TagData.Seek(entry.PostProcessedOffset + 452, SeekOrigin.Begin);
                             uint geometriesCount = metaReader.ReadUInt32();
                             uint geometriesOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < geometriesCount; i++)
@@ -610,44 +634,8 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                                 }
                             }
 
-                            //Check for lightmap
-                            if (lightmapAddress != 0)
-                            {
-                                //Goto Lightmap Groups
-                                entry.TagData.Seek(lightmapAddress + 128);
-                                uint groupsCount = metaReader.ReadUInt32();
-                                uint groupsPointer = metaReader.ReadUInt32();
-                                for (int i = 0; i < groupsCount; i++)
-                                {
-                                    //Goto Geometry Buckets
-                                    entry.TagData.Seek(groupsPointer + (i * 196) + 96, SeekOrigin.Begin);
-                                    uint bucketsCount = metaReader.ReadUInt32();
-                                    uint bucketsOffset = metaReader.ReadUInt32();
-                                    for (int j = 0; j < bucketsCount; j++)
-                                    {
-                                        entry.TagData.Seek(bucketsOffset + (j * 68) + 16, SeekOrigin.Begin);
-                                        offsetAddress = entry.TagData.Position;
-                                        rawOffset = metaReader.ReadInt32();
-                                        lengthAddress = entry.TagData.Position;
-                                        rawSize = metaReader.ReadInt32();
-
-                                        //Check
-                                        if ((rawOffset & 0xC0000000) == 0)
-                                        {
-                                            //Read
-                                            inStream.Seek(rawOffset, SeekOrigin.Begin);
-                                            if (entry.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                                                rawData = entry.Raws[RawSection.BSP][rawOffset];
-                                            else { rawData = new RawStream(reader.ReadBytes(rawSize), rawOffset); entry.Raws[RawSection.BSP].Add(rawData); }
-                                            rawData.OffsetAddresses.Add(offsetAddress);
-                                            rawData.LengthAddresses.Add(lengthAddress);
-                                        }
-                                    }
-                                }
-                            }
-
                             //Goto Water definitions
-                            entry.TagData.Seek(bspAddress + 716, SeekOrigin.Begin);
+                            entry.TagData.Seek(entry.PostProcessedOffset + 700, SeekOrigin.Begin);
                             uint watersCount = metaReader.ReadUInt32();
                             uint watersOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < watersCount; i++)
@@ -668,6 +656,41 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                                     else { rawData = new RawStream(reader.ReadBytes(rawSize), rawOffset); entry.Raws[RawSection.BSP].Add(rawData); }
                                     rawData.OffsetAddresses.Add(offsetAddress);
                                     rawData.LengthAddresses.Add(lengthAddress);
+                                }
+                            }
+                            break;
+                        #endregion
+                        #region ltmp
+                        case HaloTags.ltmp:
+                            //Goto Lightmap Groups
+                            entry.TagData.Seek(entry.PostProcessedOffset + 128);
+                            uint groupsCount = metaReader.ReadUInt32();
+                            uint groupsPointer = metaReader.ReadUInt32();
+                            for (int i = 0; i < groupsCount; i++)
+                            {
+                                //Goto Geometry Buckets
+                                entry.TagData.Seek(groupsPointer + (i * 196) + 96, SeekOrigin.Begin);
+                                uint bucketsCount = metaReader.ReadUInt32();
+                                uint bucketsOffset = metaReader.ReadUInt32();
+                                for (int j = 0; j < bucketsCount; j++)
+                                {
+                                    entry.TagData.Seek(bucketsOffset + (j * 68) + 16, SeekOrigin.Begin);
+                                    offsetAddress = entry.TagData.Position;
+                                    rawOffset = metaReader.ReadInt32();
+                                    lengthAddress = entry.TagData.Position;
+                                    rawSize = metaReader.ReadInt32();
+
+                                    //Check
+                                    if ((rawOffset & 0xC0000000) == 0)
+                                    {
+                                        //Read
+                                        inStream.Seek(rawOffset, SeekOrigin.Begin);
+                                        if (entry.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                                            rawData = entry.Raws[RawSection.BSP][rawOffset];
+                                        else { rawData = new RawStream(reader.ReadBytes(rawSize), rawOffset); entry.Raws[RawSection.BSP].Add(rawData); }
+                                        rawData.OffsetAddresses.Add(offsetAddress);
+                                        rawData.LengthAddresses.Add(lengthAddress);
+                                    }
                                 }
                             }
                             break;
@@ -762,29 +785,19 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             int offset = 0;
             char[] string128Buffer = null;
 
-            //Get Datas
-            List<RawStream> soundDatas = new List<RawStream>();
-            List<RawStream> modelDatas = new List<RawStream>();
-            List<RawStream>[] sbspDatas = new List<RawStream>[sbspTagDatas.Length];
-            List<RawStream> decoratorDatas = new List<RawStream>();
-            List<RawStream> decoratorSetDatas = new List<RawStream>();
-            List<RawStream> particleModelDatas = new List<RawStream>();
-            List<RawStream> bitmapDatas = new List<RawStream>();
-            for (int i = 0; i < sbspTagDatas.Length; i++)
-                sbspDatas[i] = new List<RawStream>();
-
-            //Loop
-            foreach (var entry in indexList)
-                switch (entry.Root.FourCc)
-                {
-                    case HaloTags.snd_: soundDatas.AddRange(entry.Raws[RawSection.Sound]); break;
-                    case HaloTags.mode: modelDatas.AddRange(entry.Raws[RawSection.Model]); break;
-                    case HaloTags.sbsp: sbspDatas[bspIndexLookup[entry.Id]].AddRange(entry.Raws[RawSection.BSP]); break;
-                    case HaloTags.DECR: decoratorSetDatas.AddRange(entry.Raws[RawSection.DecoratorSet]); break;
-                    case HaloTags.DECP: decoratorDatas.AddRange(entry.Raws[RawSection.Decorator]); break;
-                    case HaloTags.PRTM: particleModelDatas.AddRange(entry.Raws[RawSection.ParticleModel]); break;
-                    case HaloTags.bitm: bitmapDatas.AddRange(entry.Raws[RawSection.Bitmap]); break;
-                }
+            //Get Data
+            List<RawStream> soundData = indexList.SelectMany(e => e.Raws[RawSection.Sound]).ToList();
+            List<RawStream> modelData = indexList.SelectMany(e => e.Raws[RawSection.Model]).ToList();
+            List<RawStream> weatherData = indexList.SelectMany(e => e.Raws[RawSection.Weather]).ToList();
+            List<RawStream> decoratorData = indexList.SelectMany(e => e.Raws[RawSection.Decorator]).ToList();
+            List<RawStream> decoratorSetData = indexList.SelectMany(e => e.Raws[RawSection.DecoratorSet]).ToList();
+            List<RawStream> particleModelData = indexList.SelectMany(e => e.Raws[RawSection.ParticleModel]).ToList();
+            List<RawStream> lipSyncData = indexList.SelectMany(e => e.Raws[RawSection.LipSync]).ToList();
+            List<RawStream> animationData = indexList.SelectMany(e => e.Raws[RawSection.Animation]).ToList();
+            List<RawStream> bitmapData = indexList.SelectMany(e => e.Raws[RawSection.Bitmap]).ToList();
+            List<RawStream>[] bspData = new List<RawStream>[bspTagData.Length];
+            for (int i = 0; i < bspTagData.Length; i++)
+                bspData[i] = indexList.Where(e => e.TagData == bspTagData[i]).SelectMany(e => e.Raws[RawSection.BSP]).ToList();
 
             //Create I/Os
             using (BinaryReader reader = new BinaryReader(stream))
@@ -801,117 +814,32 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                 stream.Seek(2048, SeekOrigin.Begin);
 
                 //Setup Meta I/O
-                using (BinaryReader metaReader = new BinaryReader(tagData))
-                using (BinaryWriter metaWriter = new BinaryWriter(tagData))
+                using (BinaryReader metaReader = tagData.CreateReader())
+                using (BinaryWriter metaWriter = tagData.CreateWriter())
                 {
                     //Write Models and fix addresses
-                    foreach (RawStream data in modelDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, modelData, metaWriter);
 
                     //Write BSPs and fix addresses
-                    for (int i = 0; i < sbspTagDatas.Length; i++)
-                        using (BinaryWriter bspWriter = new BinaryWriter(sbspTagDatas[i]))
-                            foreach (RawStream data in sbspDatas[i])
-                            {
-                                //Get and write offset and length
-                                offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                                foreach (long address in data.OffsetAddresses)
-                                {
-                                    sbspTagDatas[i].Seek(address, SeekOrigin.Begin);
-                                    bspWriter.Write(offset);
-                                }
-                                foreach (long address in data.LengthAddresses)
-                                {
-                                    sbspTagDatas[i].Seek(address, SeekOrigin.Begin);
-                                    bspWriter.Write(data.IntLength);
-                                }
-
-                                //Write
-                                writer.Write(data.GetBuffer());
-                            }
+                    for (int i = 0; i < bspTagData.Length; i++)
+                        using (BinaryWriter bspWriter = bspTagData[i].CreateWriter())
+                            WriteRawData(writer, bspData[i], bspWriter);
 
                     //Write Decorator and fix addresses
-                    foreach (RawStream data in decoratorDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, decoratorData, metaWriter);
 
                     //Write Decorator set and fix addresses
-                    foreach (RawStream data in decoratorSetDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, decoratorSetData, metaWriter);
 
                     //Write Particle models and fix addresses
-                    foreach (RawStream data in particleModelDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, particleModelData, metaWriter);
 
                     //Write Structure BSP and Lightmap
                     int bspLength = 0;
                     tagData.Seek(scenario.Offset + 828, SeekOrigin.Begin);
                     int sbspsCount = metaReader.ReadInt32();
                     int sbspsOffset = metaReader.ReadInt32();
-                    for (int i = 0; i < sbspTagDatas.Length; i++)
+                    for (int i = 0; i < bspTagData.Length; i++)
                     {
                         tagData.Seek(sbspsOffset + (i * 86) + 8, SeekOrigin.Begin);
                         uint testValue = metaReader.ReadUInt32();
@@ -919,11 +847,11 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                         offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
                         tagData.Seek(sbspsOffset + (i * 86), SeekOrigin.Begin);
                         metaWriter.Write(offset);
-                        metaWriter.Write((int)sbspTagDatas[i].Length);
+                        metaWriter.Write((int)bspTagData[i].Length);
                         metaWriter.Write(Index.IndexMemoryAddress + (index.Length - Index.Length));
-                        writer.Write(sbspTagDatas[i].GetBuffer());
-                        if (sbspTagDatas[i].Length > bspLength)
-                            bspLength = sbspTagDatas[i].IntLength;
+                        writer.Write(bspTagData[i].ToArray());
+                        if (bspTagData[i].Length > bspLength)
+                            bspLength = (int)bspTagData[i].Length;
                     }
                     header.MapDataLength += (uint)bspLength;
 
@@ -951,51 +879,17 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                         writer.WriteUTF8NullTerminated(stringId);
 
                     //Write Crazy
-                    header.CrazyLength = (uint)crazyData.IntLength;
+                    header.CrazyLength = (uint)crazyData.Length;
                     header.CrazyOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                    writer.Write(crazyData.GetBuffer());
+                    writer.Write(crazyData.ToArray());
 
                     long test = stream.Position.PadTo(512);
 
                     //Write Bitmaps and fix addresses
-                    foreach (RawStream data in bitmapDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, bitmapData, metaWriter);
 
                     //Write Sounds and fix addresses
-                    foreach (RawStream data in soundDatas)
-                    {
-                        //Get and write offset and length
-                        offset = (int)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
-                        foreach (long address in data.OffsetAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(offset);
-                        }
-                        foreach (long address in data.LengthAddresses)
-                        {
-                            tagData.Seek(address, SeekOrigin.Begin);
-                            metaWriter.Write(data.IntLength);
-                        }
-
-                        //Write
-                        writer.Write(data.GetBuffer());
-                    }
+                    WriteRawData(writer, soundData, metaWriter);
 
                     //Write Index
                     header.IndexOffset = (uint)stream.Seek(stream.Position.PadTo(512), SeekOrigin.Begin);
@@ -1003,8 +897,8 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                 }
 
                 //Write Meta
-                header.TagDataLength = (uint)tagData.IntLength;
-                writer.Write(tagData.GetBuffer());
+                header.TagDataLength = (uint)tagData.Length;
+                writer.Write(tagData.ToArray());
                 header.MapDataLength += header.TagDataLength;
 
                 //Pad File
@@ -1037,7 +931,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             //Dispose
             foreach (var entry in indexList)
                 entry.Dispose();
-            foreach (var data in sbspTagDatas)
+            foreach (var data in bspTagData)
                 if (data != null)
                     data.Dispose();
             if (crazyData != null)
@@ -1048,12 +942,13 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             //Setup
             header = Header.CreateDefault();
             index = Index.CreateDefault();
-            sbspTagDatas = new FixedMemoryMappedStream[0];
+            bspTagData = new VirtualStream[0];
             strings = new StringList();
-            crazyData = FixedMemoryMappedStream.Empty;
+            crazyData = new MemoryStream();
             indexList = new IndexEntryList();
-            tagData = FixedMemoryMappedStream.Empty;
-            bspIndexLookup = new Dictionary<TagId, int>();
+            tagData = VirtualStream.Empty;
+            sbspIndexLookup = new Dictionary<TagId, int>();
+            ltmpIndexLookup = new Dictionary<TagId, int>();
             scenario = null;
 
             //Collect
@@ -1068,9 +963,9 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             Close();
 
             //Null buffers
-            sbspTagDatas = null;
+            bspTagData = null;
             strings = null;
-            bspIndexLookup = null;
+            sbspIndexLookup = null;
             indexList = null;
             tagData = null;
         }
@@ -1115,6 +1010,38 @@ namespace Abide.HaloLibrary.Halo2BetaMap
 
             //Return
             return indexTable;
+        }
+        /// <summary>
+        /// Writes a raw section to the map using the specified map writer, raw data, and tag writer.
+        /// </summary>
+        /// <param name="mapWriter">The <see cref="BinaryWriter"/> that writes to the map file stream.</param>
+        /// <param name="rawDataStreams">The raw data streams in a section.</param>
+        /// <param name="tagWriter">The <see cref="BinaryWriter"/> that writes to the tag data stream.</param>
+        private void WriteRawData(BinaryWriter mapWriter, IEnumerable<RawStream> rawDataStreams, BinaryWriter tagWriter)
+        {
+            //Loop
+            foreach (RawStream raw in rawDataStreams)
+            {
+                //Align
+                long address = mapWriter.BaseStream.Align(512);
+
+                //Write Lengths
+                foreach (var offset in raw.LengthAddresses)
+                {
+                    tagWriter.BaseStream.Seek(offset, SeekOrigin.Begin);
+                    tagWriter.Write((uint)raw.Length);
+                }
+
+                //Write Addresses
+                foreach (var offset in raw.OffsetAddresses)
+                {
+                    tagWriter.BaseStream.Seek(offset, SeekOrigin.Begin);
+                    tagWriter.Write((uint)address);
+                }
+
+                //Write raw
+                mapWriter.Write(raw.ToArray());
+            }
         }
 
         /// <summary>
@@ -1339,7 +1266,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             /// <summary>
             /// Initializes a new <see cref="StringList"/> instance.
             /// </summary>
-            public StringList() : this(new string[0]) { }
+            public StringList() : this(DefaultStrings.GetDefaultStrings().ToArray()) { }
             /// <summary>
             /// Initializes a new <see cref="StringList"/> instance using the supplied string array.
             /// </summary>

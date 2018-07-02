@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Abide.HaloLibrary.Halo2Map
 {
@@ -90,6 +92,16 @@ namespace Abide.HaloLibrary.Halo2Map
                 lists.Add(list);
                 sectionLookup.Add(section, lists.IndexOf(list));
             }
+        }
+        /// <summary>
+        /// Copies all raws from another raw container.
+        /// </summary>
+        /// <param name="other">The other raw container.</param>
+        public void CopyFrom(RawContainer other)
+        {
+            //Copy from for each list
+            for (int i = 0; i < lists.Count; i++)
+                lists[i].CopyFrom(other.lists[i]);
         }
         /// <summary>
         /// Clears all raws from the container.
@@ -305,9 +317,11 @@ namespace Abide.HaloLibrary.Halo2Map
 
             //Add
             foreach (var item in other.raws)
-                raws.Add((RawStream)item.Clone());
-            foreach (var item in other.offsetLookup)
-                offsetLookup.Add(item.Key, item.Value);
+            {
+                RawStream newRaw = (RawStream)item.Clone();
+                offsetLookup.Add(item.RawOffset, raws.Count);
+                raws.Add(newRaw);
+            }
         }
         /// <summary>
         /// Clears all raw buffers and empties the raw container.
@@ -339,33 +353,20 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a Halo 2 raw data stream.
     /// </summary>
     [Serializable]
-    public sealed class RawStream : FixedMemoryMappedStream, ICloneable
+    public sealed class RawStream : MemoryStream, ICloneable
     {
         /// <summary>
         /// Gets and returns the offset of the raw data.
         /// </summary>
-        public int RawOffset
-        {
-            get { return rawOffset; }
-        }
+        public int RawOffset { get; }
         /// <summary>
         /// Gets and returns a list of addresses where this raw data's offset is referenced.
         /// </summary>
-        public List<long> OffsetAddresses
-        {
-            get { return offsetAddresses; }
-        }
+        public List<long> OffsetAddresses { get; }
         /// <summary>
         /// Gets and returns a list of addresses where this raw data's length is referenced.
         /// </summary>
-        public List<long> LengthAddresses
-        {
-            get { return lengthAddresses; }
-        }
-        
-        private readonly int rawOffset;
-        private readonly List<long> offsetAddresses;
-        private readonly List<long> lengthAddresses;
+        public List<long> LengthAddresses { get; }
 
         /// <summary>
         /// Initializes a new <see cref="RawStream"/> using the supplied raw data buffer and raw data offset.
@@ -375,20 +376,54 @@ namespace Abide.HaloLibrary.Halo2Map
         public RawStream(byte[] rawBuffer, int rawOffset) :
             base(rawBuffer)
         {
-            this.rawOffset = rawOffset;
-            offsetAddresses = new List<long>();
-            lengthAddresses = new List<long>();
+            RawOffset = rawOffset;
+            OffsetAddresses = new List<long>();
+            LengthAddresses = new List<long>();
         }
         /// <summary>
-        /// Creates a copy of this stream.
+        /// Creates a new instance of the <see cref="BinaryReader"/> class based on the current stream and UTF-8 charecter encoding that leaves the current stream open.
         /// </summary>
-        /// <returns>A copy of this stream.</returns>
+        /// <returns>A new instance of the <see cref="BinaryReader"/> class whose underlying stream is this instance.</returns>
+        public BinaryReader CreateReader()
+        {
+            return CreateReader(true);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryReader"/> class based on the current stream and UTF-8 charecter encoding, and optionally leaves the current stream open.
+        /// </summary>
+        /// <param name="leaveOpen"><see langword="true"/> to leave the current stream open after the <see cref="BinaryReader"/> object is disposed; otherwise, <see langword="false"/>.</param>
+        /// <returns>A new instance of the <see cref="BinaryReader"/> class whose underlying stream is this instance.</returns>
+        public BinaryReader CreateReader(bool leaveOpen)
+        {
+            return new BinaryReader(this, Encoding.UTF8, leaveOpen);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryWriter"/> class based on the current stream and UTF-8 charecter encoding that leaves the current stream open.
+        /// </summary>
+        /// <returns>A new instance of the <see cref="BinaryWriter"/> class whose underlying stream is this instance.</returns>
+        public BinaryWriter CreateWriter()
+        {
+            return CreateWriter(true);
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="BinaryWriter"/> class based on the current stream and UTF-8 charecter encoding, and optionally leaves the current stream open.
+        /// </summary>
+        /// <param name="leaveOpen"><see langword="true"/> to leave the current stream open after the <see cref="BinaryWriter"/> object is disposed; otherwise, <see langword="false"/>.</param>
+        /// <returns>A new instance of the <see cref="BinaryWriter"/> class whose underlying stream is this instance.</returns>
+        public BinaryWriter CreateWriter(bool leaveOpen)
+        {
+            return new BinaryWriter(this, Encoding.UTF8, leaveOpen);
+        }
+        /// <summary>
+        /// Creates a copy of the current.
+        /// </summary>
+        /// <returns>A copy of the current.</returns>
         public object Clone()
         {
             //Create
-            RawStream stream = new RawStream(GetBuffer(), rawOffset);
-            stream.offsetAddresses.AddRange(offsetAddresses);
-            stream.lengthAddresses.AddRange(lengthAddresses);
+            RawStream stream = new RawStream(ToArray(), RawOffset);
+            stream.OffsetAddresses.AddRange(OffsetAddresses.ToArray());
+            stream.LengthAddresses.AddRange(LengthAddresses.ToArray());
 
             //Return
             return stream;

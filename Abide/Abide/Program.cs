@@ -14,6 +14,13 @@ namespace Abide
     internal static class Program
     {
         /// <summary>
+        /// Gets and returns true if the build is an alpha build.
+        /// </summary>
+        public static bool IsAlpha
+        {
+            get { return alpha; }
+        }
+        /// <summary>
         /// Gets and returns the URL of the Update Manifest.
         /// This value is constant.
         /// </summary>
@@ -70,6 +77,7 @@ namespace Abide
         private static Form mainForm;
         private static bool safeMode;
         private static bool debugMode;
+        private static bool alpha = true;
 
         /// <summary>
         /// The main entry point for the application.

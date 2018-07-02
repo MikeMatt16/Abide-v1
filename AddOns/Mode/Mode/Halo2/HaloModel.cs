@@ -428,7 +428,7 @@ namespace Mode.Halo2
             public ModelTag(IndexEntry entry)
             {
                 //Prepare
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                using (BinaryReader reader = entry.TagData.CreateReader())
                 {
                     //Goto
                     entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
@@ -711,9 +711,9 @@ namespace Mode.Halo2
 
             public struct Material
             {
-                private Tag oldShaderTag;
+                private TagFourCc oldShaderTag;
                 private TagId oldShaderId;
-                private Tag shaderTag;
+                private TagFourCc shaderTag;
                 private TagId shaderId;
                 private TagBlock properties;
                 private uint unused0;

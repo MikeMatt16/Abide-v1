@@ -14,12 +14,12 @@ namespace Tag_Data_Editor.Halo2Beta
     /// </summary>
     public class DataWrapper : IEnumerable<DataObject>
     {
-        public Tag Root
+        public TagFourCc Root
         {
             get { return root; }
         }
 
-        private Tag root = "null";
+        private TagFourCc root = "null";
         private readonly List<DataObject> objects = new List<DataObject>();
         private readonly Dictionary<int, DataObject> objectLookup = new Dictionary<int, DataObject>();
 
@@ -305,7 +305,7 @@ namespace Tag_Data_Editor.Halo2Beta
         /// <summary>
         /// Gets and returns the tag's data stream.
         /// </summary>
-        public FixedMemoryMappedStream DataStream
+        public VirtualStream DataStream
         {
             get { return dataStream; }
         }
@@ -362,7 +362,7 @@ namespace Tag_Data_Editor.Halo2Beta
         private object value = null;
         private readonly List<DataObject> children = new List<DataObject>();
         private readonly DataObject parent;
-        private readonly FixedMemoryMappedStream dataStream;
+        private readonly VirtualStream dataStream;
         private readonly IfpNode node;
         private uint selectedIndex = 0;
         private uint baseAddress = 0;
@@ -374,7 +374,7 @@ namespace Tag_Data_Editor.Halo2Beta
         /// <param name="parent">The object's parent.</param>
         /// <param name="node">The object's ifp node.</param>
         /// <param name="dataStream">The tag's data stream.</param>
-        public DataObject(DataObject parent, IfpNode node, FixedMemoryMappedStream dataStream) : this(node, dataStream)
+        public DataObject(DataObject parent, IfpNode node, VirtualStream dataStream) : this(node, dataStream)
         {
 
             //Set
@@ -386,7 +386,7 @@ namespace Tag_Data_Editor.Halo2Beta
         /// </summary>
         /// <param name="node">The object's ifp node.</param>
         /// <param name="dataStream">The tag's data stream.</param>
-        public DataObject(IfpNode node, FixedMemoryMappedStream dataStream)
+        public DataObject(IfpNode node, VirtualStream dataStream)
         {
             //Set
             this.node = node ?? throw new ArgumentNullException(nameof(node));
@@ -458,7 +458,7 @@ namespace Tag_Data_Editor.Halo2Beta
 
             //Goto
             dataStream.Seek(address, SeekOrigin.Begin);
-            using (BinaryReader reader = new BinaryReader(dataStream))
+            using (BinaryReader reader = dataStream.CreateReader())
                 switch (node.Type)
                 {
                     case IfpNodeType.Single: value = reader.ReadSingle(); break;
@@ -489,7 +489,7 @@ namespace Tag_Data_Editor.Halo2Beta
                     case IfpNodeType.Unicode128: value = reader.ReadUTF8(128).Trim('\0'); break;
                     case IfpNodeType.Unicode256: value = reader.ReadUTF8(256).Trim('\0'); break;
 
-                    case IfpNodeType.Tag: value = reader.Read<Tag>(); break;
+                    case IfpNodeType.Tag: value = reader.Read<TagFourCc>(); break;
                     case IfpNodeType.TagId: value = reader.Read<TagId>(); break;
                     case IfpNodeType.StringId: value = reader.Read<StringId>(); break;
                     case IfpNodeType.TagBlock: value = reader.Read<TagBlock>(); break;
@@ -509,7 +509,7 @@ namespace Tag_Data_Editor.Halo2Beta
 
             //Goto
             dataStream.Seek(address, SeekOrigin.Begin);
-            using (BinaryWriter writer = new BinaryWriter(dataStream))
+            using (BinaryWriter writer = dataStream.CreateWriter())
                 try
                 {
                     switch (node.Type)
@@ -542,7 +542,7 @@ namespace Tag_Data_Editor.Halo2Beta
                         case IfpNodeType.Unicode128: writer.WriteUTF8(((string)value).PadRight(128, '\0').Substring(0, 128)); break;
                         case IfpNodeType.Unicode256: writer.WriteUTF8(((string)value).PadRight(256, '\0').Substring(0, 256)); break;
 
-                        case IfpNodeType.Tag: writer.Write((Tag)value); break;
+                        case IfpNodeType.Tag: writer.Write((TagFourCc)value); break;
                         case IfpNodeType.TagId: writer.Write((TagId)value); break;
                         case IfpNodeType.StringId: writer.Write((StringId)value); break;
                     }
@@ -650,11 +650,11 @@ namespace Tag_Data_Editor.Halo2Beta
         /// <param name="address">The address of the data.</param>
         /// <param name="map">The map file.</param>
         /// <returns>A string.</returns>
-        private static string GetNodeDisplayName(IfpNodeType itemType, Stream dataStream, long address, MapFile map)
+        private static string GetNodeDisplayName(IfpNodeType itemType, VirtualStream dataStream, long address, MapFile map)
         {
             //Goto
             dataStream.Seek(address, SeekOrigin.Begin);
-            using (BinaryReader reader = new BinaryReader(dataStream))
+            using (BinaryReader reader = dataStream.CreateReader())
                 try
                 {
                     switch (itemType)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Abide.Guerilla.Ui
+namespace Abide.H2Guerilla.Ui
 {
     internal class CsWriter : IDisposable
     {

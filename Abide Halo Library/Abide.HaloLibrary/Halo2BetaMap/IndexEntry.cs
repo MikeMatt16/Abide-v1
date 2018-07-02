@@ -14,7 +14,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// Gets and returns the root of the tag. 
         /// </summary>
         [Category("Object Properties"), Description("The root tag of the object.")]
-        public Tag Root
+        public TagFourCc Root
         {
             get { return objectEntry.Root; }
         }
@@ -82,7 +82,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// Gets or sets the stream that contains this tag's data.
         /// </summary>
         [Browsable(false)]
-        public FixedMemoryMappedStream TagData
+        public VirtualStream TagData
         {
             get { return tagData; }
             set { tagData = value; }
@@ -97,7 +97,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         }
         
         private readonly RawContainer raws;
-        private FixedMemoryMappedStream tagData;
+        private VirtualStream tagData;
         private ObjectEntry objectEntry;
         private int postProcessedOffset;
         private int postProcessedSize;
@@ -132,7 +132,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <param name="id"></param>
         /// <param name="size"></param>
         /// <param name="address"></param>
-        public void SetObjectEntry(Tag root, Tag parent, Tag @class, TagId id, uint size, uint address)
+        public void SetObjectEntry(TagFourCc root, TagFourCc parent, TagFourCc @class, TagId id, uint size, uint address)
         {
             objectEntry = new ObjectEntry()
             {

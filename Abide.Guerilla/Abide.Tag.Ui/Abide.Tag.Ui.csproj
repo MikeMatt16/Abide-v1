@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbideGuerilla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbideGuerilla.Designer.cs">
+      <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guerilla\Controls\BlockControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -68,6 +74,12 @@
     </Compile>
     <Compile Include="Guerilla\Controls\FlagsControl.Designer.cs">
       <DependentUpon>FlagsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Guerilla\Controls\FourTupleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Guerilla\Controls\FourTupleControl.Designer.cs">
+      <DependentUpon>FourTupleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Guerilla\Controls\GuerillaControl.cs">
       <SubType>UserControl</SubType>
@@ -93,25 +105,37 @@
     <Compile Include="Guerilla\Controls\StringControl.Designer.cs">
       <DependentUpon>StringControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Guerilla\Controls\TagReferenceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Guerilla\Controls\TagReferenceControl.Designer.cs">
+      <DependentUpon>TagReferenceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guerilla\Controls\ValueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Guerilla\Controls\ValueControl.Designer.cs">
       <DependentUpon>ValueControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Guerilla\Controls\Vector2Control.cs">
+    <Compile Include="Guerilla\Controls\TwoTupleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Guerilla\Controls\Vector2Control.Designer.cs">
-      <DependentUpon>Vector2Control.cs</DependentUpon>
+    <Compile Include="Guerilla\Controls\TwoTupleControl.Designer.cs">
+      <DependentUpon>TwoTupleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Guerilla\Controls\Vector3Control.cs">
+    <Compile Include="Guerilla\Controls\ThreeTupleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Guerilla\Controls\Vector3Control.Designer.cs">
-      <DependentUpon>Vector3Control.cs</DependentUpon>
+    <Compile Include="Guerilla\Controls\ThreeTupleControl.Designer.cs">
+      <DependentUpon>ThreeTupleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Guerilla\Guerilla.cs" />
+    <Compile Include="Guerilla\TagForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Guerilla\TagForm.Designer.cs">
+      <DependentUpon>TagForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +150,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TreeViewForm.Designer.cs">
+      <DependentUpon>TreeViewForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AbideGuerilla.resx">
+      <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\BlockControl.resx">
       <DependentUpon>BlockControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\FlagsControl.resx">
       <DependentUpon>FlagsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Guerilla\Controls\FourTupleControl.resx">
+      <DependentUpon>FourTupleControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\GuerillaControl.resx">
       <DependentUpon>GuerillaControl.cs</DependentUpon>
@@ -150,14 +186,20 @@
     <EmbeddedResource Include="Guerilla\Controls\StringControl.resx">
       <DependentUpon>StringControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Guerilla\Controls\TagReferenceControl.resx">
+      <DependentUpon>TagReferenceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\ValueControl.resx">
       <DependentUpon>ValueControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Guerilla\Controls\Vector2Control.resx">
-      <DependentUpon>Vector2Control.cs</DependentUpon>
+    <EmbeddedResource Include="Guerilla\Controls\TwoTupleControl.resx">
+      <DependentUpon>TwoTupleControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Guerilla\Controls\Vector3Control.resx">
-      <DependentUpon>Vector3Control.cs</DependentUpon>
+    <EmbeddedResource Include="Guerilla\Controls\ThreeTupleControl.resx">
+      <DependentUpon>ThreeTupleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Guerilla\TagForm.resx">
+      <DependentUpon>TagForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -174,6 +216,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TreeViewForm.resx">
+      <DependentUpon>TreeViewForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -191,6 +236,14 @@
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
       <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
       <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
     </ProjectReference>
     <ProjectReference Include="..\Abide.Tag\Abide.Tag.csproj">
       <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>

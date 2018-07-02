@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace Abide.Guerilla.Ui
+namespace Abide.H2Guerilla.Ui
 {
     static class Program
     {

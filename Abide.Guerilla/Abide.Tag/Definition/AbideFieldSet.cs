@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Abide.Tag.Definition
 {
     /// <summary>
     /// Represents an Abide field set definition.
     /// </summary>
-    public sealed class AbideFieldSet : IList<AbideTagField>, IEnumerable<AbideTagField>
+    public sealed class AbideFieldSet : IList<AbideTagField>, IEnumerable<AbideTagField>, ICloneable
     {
         /// <summary>
         /// Gets and returns the tag block that owns this <see cref="AbideFieldSet"/>.
@@ -15,6 +16,7 @@ namespace Abide.Tag.Definition
         public AbideTagBlock Owner
         {
             get { return owner; }
+            set { owner = value; }
         }
         /// <summary>
         /// Gets or sets the alignment of the field set.
@@ -44,7 +46,7 @@ namespace Abide.Tag.Definition
 
         private int alignment;
         private readonly List<AbideTagField> fieldList;
-        private readonly AbideTagBlock owner;
+        private AbideTagBlock owner;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideFieldSet"/> class.
@@ -66,6 +68,24 @@ namespace Abide.Tag.Definition
         {
             //Setup
             this.alignment = alignment;
+        }
+        /// <summary>
+        /// Returns a copy of the <see cref="AbideFieldSet"/>.
+        /// </summary>
+        /// <returns>A copy of the current <see cref="AbideFieldSet"/> object.</returns>
+        public object Clone()
+        {
+            //Create
+            AbideFieldSet fieldSet = new AbideFieldSet(owner)
+            {
+                alignment = alignment,
+            };
+
+            //Copy fields
+            fieldSet.fieldList.AddRange(fieldList.Select(f => (AbideTagField)f.Clone()));
+
+            //Return
+            return fieldSet;
         }
         /// <summary>
         /// Removes all fields from the <see cref="AbideFieldSet"/>.
@@ -94,7 +114,7 @@ namespace Abide.Tag.Definition
         /// <summary>
         /// Removes the field at the specified index of the <see cref="AbideFieldSet"/>.
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">The zero-based index of the field to remove from the field set.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is outside valid range.</exception>
         public void RemoveAt(int index)
         {

@@ -276,7 +276,7 @@ namespace Tag_Data_Editor.Halo2Beta
             }
         }
 
-        private bool plugin_GetPath(Tag root, out string path)
+        private bool plugin_GetPath(TagFourCc root, out string path)
         {
             //Set path
             path = Path.Combine(AbideRegistry.Halo2bPluginsDirectory, $"{root.FourCc.Replace('<', '_').Replace('>', '_')}.ent");

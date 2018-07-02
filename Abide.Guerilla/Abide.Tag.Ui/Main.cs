@@ -1,10 +1,9 @@
-﻿using Abide.Tag.CodeDOM;
+﻿using Abide.Tag.CodeDom;
 using Abide.Tag.Definition;
 using Microsoft.CSharp;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -12,7 +11,7 @@ namespace Abide.Tag.Ui
 {
     public partial class Main : Form
     {
-        private readonly TagCache cache = new TagCache();
+        private readonly TagDefinitionCollection collection = new TagDefinitionCollection();
 
         public Main()
         {
@@ -37,26 +36,23 @@ namespace Abide.Tag.Ui
                 //Show
                 if (folderDlg.ShowDialog() == DialogResult.OK)
                 {
-                    //Get files
-                    string[] files = Directory.GetFiles(folderDlg.SelectedPath);
-
                     //Build cache
-                    tagDefinitions_BuildCache(files);
+                    tagDefinitions_BuildCache(folderDlg.SelectedPath);
                 }
             }
         }
 
-        private void generatecsFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cacheFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Clear
+            AbideCodeDomGlobals.Clear();
+
             //Prepare
             CodeCompileUnit compileUnit = null;
             CodeGeneratorOptions options = new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false };
 
-            //Prepare Code DOM
-            foreach (AbideTagBlock block in cache.GetTagBlocks())
-                AbideCodeDomGlobals.Preprocess(block);
-            foreach (AbideTagGroup group in cache.GetTagGroups())
-                AbideCodeDomGlobals.Preprocess(group);
+            //Preprocess
+            AbideCodeDomGlobals.PreprocessForCache(collection);
 
             //Initialize
             using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
@@ -66,13 +62,19 @@ namespace Abide.Tag.Ui
 
                 //Show
                 if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Clear directory
+                    foreach (string file in Directory.GetFiles(folderDlg.SelectedPath))
+                        File.Delete(file);
+
+                    //Create Code Files
                     using (CSharpCodeProvider provider = new CSharpCodeProvider())
                     {
                         //Loop through tag blocks
-                        foreach (AbideTagBlock block in cache.GetTagBlocks())
+                        foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagBlockCodeCompileUnit(block);
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Cache");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
@@ -83,10 +85,10 @@ namespace Abide.Tag.Ui
                         }
 
                         //Loop through tag groups
-                        foreach (AbideTagGroup group in cache.GetTagGroups())
+                        foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagGroupCodeCompileUnit(group);
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Cache");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
@@ -95,17 +97,112 @@ namespace Abide.Tag.Ui
                                 provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
                             }
                         }
-                        
+
                         //Create static lookup
                         using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
                         {
                             //Create tag lookup compile unit
-                            compileUnit = new AbideTagLookupCodeCompileUnit();
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Cache");
 
                             //Write
                             provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
                         }
                     }
+                }
+            }
+        }
+
+        private void guerillaFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Clear
+            AbideCodeDomGlobals.Clear();
+
+            //Prepare
+            CodeCompileUnit compileUnit = null;
+            CodeGeneratorOptions options = new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false };
+
+            //Preprocess
+            AbideCodeDomGlobals.PreprocessForGuerilla(collection);
+
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create *.cs files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Clear directory
+                    foreach (string file in Directory.GetFiles(folderDlg.SelectedPath))
+                        File.Delete(file);
+
+                    //Create Code Files
+                    using (CSharpCodeProvider provider = new CSharpCodeProvider())
+                    {
+                        //Loop through tag blocks
+                        foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Guerilla");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Loop through tag groups
+                        foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Guerilla");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Create static lookup
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
+                        {
+                            //Create tag lookup compile unit
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Guerilla");
+
+                            //Write
+                            provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void generateentFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create *.ent files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Clear directory
+                    foreach (string file in Directory.GetFiles(folderDlg.SelectedPath))
+                        File.Delete(file);
+
+                    //Loop through tag groups
+                    foreach (AbideTagGroup tagGroup in collection.GetTagGroups())
+                    {
+
+                    }
+                }
             }
         }
 
@@ -123,38 +220,33 @@ namespace Abide.Tag.Ui
                         Guerilla.Guerilla.GenerateControls(childBlock, controlsPanel);
         }
 
-        private void tagDefinitions_BuildCache(string[] files)
+        private void tagDefinitions_BuildCache(string directory)
         {
             //Clear
-            cache.Clear();
+            collection.Clear();
+
+            //Get files
+            string[] abideTagGroupFiles = Directory.GetFiles(directory, "*.atg");
+            string[] abideTagBlockfiles = Directory.GetFiles(directory, "*.atb");
 
             //Loop
-            FileInfo info = null;
-            foreach (string file in files)
+            foreach (string abideTagGroup in abideTagGroupFiles)
             {
-                //Get Info
-                info = new FileInfo(file);
+                //Load
+                AbideTagGroup group = new AbideTagGroup();
+                group.Load(abideTagGroup);
 
-                //Open
-                using (Stream s = info.OpenRead())
-                    if (info.Extension == ".atg")       //Check for Abide tag group
-                    {
-                        //Load
-                        AbideTagGroup group = new AbideTagGroup();
-                        group.Load(s);
+                //Add
+                collection.Add(group);
+            }
+            foreach (string abideTagGroup in abideTagBlockfiles)
+            {
+                //Load
+                AbideTagBlock block = new AbideTagBlock();
+                block.Load(abideTagGroup);
 
-                        //Add
-                        cache.Add(group);
-                    }
-                    else if (info.Extension == ".atb")  //Check for Abide tag block
-                    {
-                        //Load
-                        AbideTagBlock block = new AbideTagBlock();
-                        block.Load(s);
-
-                        //Add
-                        cache.Add(block);
-                    }
+                //Add
+                collection.Add(block);
             }
 
             //Begin
@@ -181,12 +273,12 @@ namespace Abide.Tag.Ui
                     switch (field.FieldType)
                     {
                         case FieldType.FieldBlock:
-                            block = cache.GetTagBlock(field.BlockName);
+                            block = collection.GetTagBlock(field.BlockName);
                             blockNode.Nodes.Add(createTagBlockNode(block));
                             field.ReferencedBlock = block;
                             break;
                         case FieldType.FieldStruct:
-                            block = cache.GetTagBlock(field.StructName);
+                            block = collection.GetTagBlock(field.StructName);
                             blockNode.Nodes.Add(createTagBlockNode(block));
                             field.ReferencedBlock = block;
                             break;
@@ -203,14 +295,14 @@ namespace Abide.Tag.Ui
             {
                 //Check
                 if (tagGroup.ParentGroupTag.Dword != 0)
-                    createTagGroupNode(cache.GetTagGroup(tagGroup.ParentGroupTag), node);
+                    createTagGroupNode(collection.GetTagGroup(tagGroup.ParentGroupTag), node);
 
                 //Add blocks
-                node.Nodes.Add(createTagBlockNode(cache.GetTagBlock(tagGroup.BlockName)));
+                node.Nodes.Add(createTagBlockNode(collection.GetTagBlock(tagGroup.BlockName)));
             });
 
             //Loop
-            foreach (AbideTagGroup group in cache.GetTagGroups())
+            foreach (AbideTagGroup group in collection.GetTagGroups())
             {
                 //Create Node
                 TreeNode groupNode = new TreeNode($"[{group.GroupTag}] - {group.Name}")
@@ -220,7 +312,7 @@ namespace Abide.Tag.Ui
 
                 //Add parent blocks
                 createTagGroupNode(group, groupNode);
-                
+
                 //Add
                 tagGroupTreeView.Nodes.Add(groupNode);
             }
@@ -233,70 +325,6 @@ namespace Abide.Tag.Ui
         {
             using (MapForm mapForm = new MapForm())
                 mapForm.ShowDialog();
-        }
-    }
-
-    public class TagCache
-    {
-        private readonly List<AbideTagGroup> tagGroups = new List<AbideTagGroup>();
-        private readonly List<AbideTagBlock> tagBlocks = new List<AbideTagBlock>();
-        private readonly Dictionary<string, int> tagGroupLookup = new Dictionary<string, int>();
-        private readonly Dictionary<string, int> tagBlockLookup = new Dictionary<string, int>();
-
-        public void Clear()
-        {
-            //Clear
-            tagGroupLookup.Clear();
-            tagBlockLookup.Clear();
-            tagGroups.Clear();
-            tagBlocks.Clear();
-
-            //Collect
-            GC.Collect();
-        }
-        public void Add(AbideTagGroup tagGroup)
-        {
-            //Check
-            if (tagGroup == null) return;
-
-            //Check
-            if (!tagGroups.Contains(tagGroup) && !tagGroupLookup.ContainsKey(tagGroup.GroupTag))
-            {
-                tagGroupLookup.Add(tagGroup.GroupTag, tagGroups.Count);
-                tagGroups.Add(tagGroup);
-            }
-        }
-        public void Add(AbideTagBlock tagBlock)
-        {
-            //Check
-            if (tagBlock == null) return;
-
-            //Check
-            if (!tagBlocks.Contains(tagBlock) && !tagBlockLookup.ContainsKey(tagBlock.Name))
-            {
-                tagBlockLookup.Add(tagBlock.Name, tagBlocks.Count);
-                tagBlocks.Add(tagBlock);
-            }
-        }
-        public AbideTagGroup GetTagGroup(string groupTag)
-        {
-            if (tagGroupLookup.ContainsKey(groupTag))
-                return tagGroups[tagGroupLookup[groupTag]];
-            else return null;
-        }
-        public AbideTagBlock GetTagBlock(string blockName)
-        {
-            if (tagBlockLookup.ContainsKey(blockName))
-                return tagBlocks[tagBlockLookup[blockName]];
-            else return null;
-        }
-        public AbideTagGroup[] GetTagGroups()
-        {
-            return tagGroups.ToArray();
-        }
-        public AbideTagBlock[] GetTagBlocks()
-        {
-            return tagBlocks.ToArray();
         }
     }
 }

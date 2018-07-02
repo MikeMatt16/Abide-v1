@@ -1,4 +1,4 @@
-﻿namespace Abide.Guerilla.Ui
+﻿namespace Abide.H2Guerilla.Ui
 {
     partial class Main
     {
@@ -33,12 +33,11 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAbideTagDefinitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tagGroupTreeView = new System.Windows.Forms.TreeView();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.exportAbideTagDefinitionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +46,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.exportToolStripMenuItem,
             this.mapFormToolStripMenuItem,
             this.exportAbideTagDefinitionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -87,19 +85,19 @@
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.exportToolStripMenuItem.Text = "&Export";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
-            // 
             // mapFormToolStripMenuItem
             // 
             this.mapFormToolStripMenuItem.Name = "mapFormToolStripMenuItem";
             this.mapFormToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.mapFormToolStripMenuItem.Text = "&Map Form";
             this.mapFormToolStripMenuItem.Click += new System.EventHandler(this.MapFormToolStripMenuItem_Click);
+            // 
+            // exportAbideTagDefinitionToolStripMenuItem
+            // 
+            this.exportAbideTagDefinitionToolStripMenuItem.Name = "exportAbideTagDefinitionToolStripMenuItem";
+            this.exportAbideTagDefinitionToolStripMenuItem.Size = new System.Drawing.Size(168, 20);
+            this.exportAbideTagDefinitionToolStripMenuItem.Text = "&Export Abide Tag Definitions";
+            this.exportAbideTagDefinitionToolStripMenuItem.Click += new System.EventHandler(this.ExportAbideTagDefinitionToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -127,13 +125,6 @@
             this.splitter1.Size = new System.Drawing.Size(3, 637);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
-            // 
-            // exportAbideTagDefinitionToolStripMenuItem
-            // 
-            this.exportAbideTagDefinitionToolStripMenuItem.Name = "exportAbideTagDefinitionToolStripMenuItem";
-            this.exportAbideTagDefinitionToolStripMenuItem.Size = new System.Drawing.Size(168, 20);
-            this.exportAbideTagDefinitionToolStripMenuItem.Text = "&Export Abide Tag Definitions";
-            this.exportAbideTagDefinitionToolStripMenuItem.Click += new System.EventHandler(this.ExportAbideTagDefinitionToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -163,7 +154,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView tagGroupTreeView;
         private System.Windows.Forms.Splitter splitter1;

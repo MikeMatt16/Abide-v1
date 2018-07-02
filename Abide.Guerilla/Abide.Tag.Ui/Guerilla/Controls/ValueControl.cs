@@ -5,6 +5,11 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class ValueControl : GuerillaControl
     {
+        public override object Value
+        {
+            get { return valueTextBox.Text; }
+            set { valueTextBox.Text = value.ToString(); }
+        }
         public string Details
         {
             get { return detailsLabel.Text; }
@@ -20,18 +25,8 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             get { return valueTextBox.ReadOnly; }
             set { valueTextBox.ReadOnly = value; }
         }
-        public string Value
-        {
-            get { return valueTextBox.Text; }
-            set { valueTextBox.Text = value; }
-        }
-        public EventHandler ValueChanged
-        {
-            get { return valueChanged; }
-            set { valueChanged = value; }
-        }
-        
-        private EventHandler valueChanged;
+        public EventHandler ValueChanged { get; set; }
+
         private string information = string.Empty;
 
         public ValueControl()
@@ -40,9 +35,8 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         }
         private void valueTextBox_TextChanged(object sender, EventArgs e)
         {
-            valueChanged?.Invoke(sender, e);
+            ValueChanged?.Invoke(this, e);
         }
-
         private void valueTextBox_MouseHover(object sender, EventArgs e)
         {
             //Check

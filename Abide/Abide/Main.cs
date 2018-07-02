@@ -175,7 +175,7 @@ namespace Abide
             versionToolStripMenuItem.Text = typeof(Main).Assembly.GetName().Version.ToString();
 
             //Check
-            if (Program.UpdateManifest != null && main_CheckForUpdate(Program.UpdateManifest) || Program.ForceUpdate)
+            if (Program.UpdateManifest != null && !Program.IsAlpha && main_CheckForUpdate(Program.UpdateManifest) || Program.ForceUpdate)
                 using (UpdateDialog updateDlg = new UpdateDialog(Program.UpdateManifest))
                     if (updateDlg.ShowDialog() == DialogResult.OK) Application.Exit();
 

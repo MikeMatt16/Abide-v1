@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
 using System.Xml;
 
 namespace Abide.Tag.Definition
@@ -8,7 +8,7 @@ namespace Abide.Tag.Definition
     /// <summary>
     /// Represents an Abide tag field definition.
     /// </summary>
-    public class AbideTagField
+    public class AbideTagField : ICloneable
     {
         /// <summary>
         /// Gets or sets the full field name.
@@ -32,6 +32,21 @@ namespace Abide.Tag.Definition
         public List<ObjectName> Options
         {
             get { return options; }
+        }
+        /// <summary>
+        /// Gets and returns the list of fields in the field.
+        /// </summary>
+        public List<AbideTagField> Fields
+        {
+            get { return fields; }
+        }
+        /// <summary>
+        /// Gets or sets the group tag of the field.
+        /// </summary>
+        public string GroupTag
+        {
+            get { return groupTag; }
+            set { groupTag = value; }
         }
         /// <summary>
         /// Gets or sets the name of the field.
@@ -137,10 +152,11 @@ namespace Abide.Tag.Definition
             get { return length; }
             set { length = value; }
         }
-
+        
+        private readonly List<AbideTagField> fields;
         private readonly List<ObjectName> options;
         private FieldType fieldType;
-        private string explanation, blockName, structName;
+        private string blockName, structName, explanation, groupTag;
         private int alignment, maximumSize, elementSize, length;
         private AbideTagBlock referencedBlock = null;
         private ObjectName fieldName = null;
@@ -152,7 +168,37 @@ namespace Abide.Tag.Definition
         {
             //Prepare
             options = new List<ObjectName>();
+            fields = new List<AbideTagField>();
             fieldName = new ObjectName(string.Empty);
+        }
+        /// <summary>
+        /// Returns a copy of the <see cref="AbideTagField"/> object.
+        /// </summary>
+        /// <returns>A copy of the current <see cref="AbideTagField"/> object.</returns>
+        public object Clone()
+        {
+            //Create field
+            AbideTagField field = new AbideTagField()
+            {
+                fieldType = fieldType,
+                fieldName = new ObjectName(fieldName.ToString()),
+                blockName = blockName,
+                structName = structName,
+                alignment = alignment,
+                maximumSize = maximumSize,
+                elementSize = elementSize,
+                length = length,
+                referencedBlock = (AbideTagBlock)referencedBlock?.Clone() ?? null,
+                explanation = explanation,
+                groupTag = groupTag,
+            };
+
+            //Add children
+            field.fields.AddRange(fields.Select(f => (AbideTagField)f.Clone()));
+            field.options.AddRange(options.Select(o => new ObjectName(o.ToString())));
+
+            //Return
+            return field;
         }
         /// <summary>
         /// Returns a string representation of this <see cref="AbideTagField"/>.
@@ -244,22 +290,27 @@ namespace Abide.Tag.Definition
             //Prepare
             AbideTagField field = new AbideTagField();
 
-            //Get Type
-            if (!Enum.TryParse(xmlNode.Name, out field.fieldType)) throw new TagException($"Unable to parse field node's type. ({xmlNode.Name})");
-
             //Get Attributes
             field.fieldName = new ObjectName(xmlNode.Attributes["Name"]?.Value ?? string.Empty);
             field.explanation = xmlNode.Attributes["Explanation"]?.Value?.Replace("|n", "\n") ?? string.Empty;
             field.blockName = xmlNode.Attributes["BlockName"]?.Value ?? string.Empty;
             field.structName = xmlNode.Attributes["StructName"]?.Value ?? string.Empty;
+            field.groupTag = xmlNode.Attributes["GroupTag"]?.Value ?? string.Empty;
             int.TryParse(xmlNode.Attributes["Alignment"]?.Value, out field.alignment);
             int.TryParse(xmlNode.Attributes["MaximumSize"]?.Value, out field.maximumSize);
             int.TryParse(xmlNode.Attributes["ElementSize"]?.Value, out field.elementSize);
             int.TryParse(xmlNode.Attributes["Length"]?.Value, out field.length);
 
+            //Get Type
+            if (!Enum.TryParse(xmlNode.Name, out field.fieldType)) throw new TagException($"Unable to parse field node's type. ({xmlNode.Name})");
+
             //Check
             switch (field.fieldType)
             {
+                case FieldType.FieldArrayStart:
+                    foreach (XmlNode fieldNode in xmlNode)
+                        field.fields.Add(FromXmlNode(fieldNode));
+                    break;
                 case FieldType.FieldCharEnum:
                 case FieldType.FieldEnum:
                 case FieldType.FieldLongEnum:
@@ -485,6 +536,7 @@ namespace Abide.Tag.Definition
         FieldCustom,
         FieldUselessPad,
         FieldTerminator,
+        FieldTagIndex
 #pragma warning restore CS1591
     }
 }

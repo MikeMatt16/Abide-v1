@@ -55,6 +55,7 @@
             this.enumComboBox.Name = "enumComboBox";
             this.enumComboBox.Size = new System.Drawing.Size(180, 21);
             this.enumComboBox.TabIndex = 3;
+            this.enumComboBox.SelectedIndexChanged += new System.EventHandler(this.enumComboBox_SelectedIndexChanged);
             this.enumComboBox.MouseHover += new System.EventHandler(this.enumComboBox_MouseHover);
             // 
             // EnumControl

@@ -120,12 +120,11 @@ namespace Abide.Tag
         /// Represents a null tag reference.
         /// This value is read-only.
         /// </summary>
-        public static readonly TagReference Null = new TagReference() { Tag = "\0\0\0\0", Id = TagId.Null };
-
+        public static readonly TagReference Null = new TagReference() { Tag = "null", Id = TagId.Null };
         /// <summary>
         /// Gets or sets the tag group.
         /// </summary>
-        public HaloLibrary.Tag Tag { get; set; }
+        public TagFourCc Tag { get; set; }
         /// <summary>
         /// Gets or sets the tag ID.
         /// </summary>
@@ -191,6 +190,14 @@ namespace Abide.Tag
         {
             return Min.Equals(bounds.Min) && Max.Equals(bounds.Max);
         }
+        /// <summary>
+        /// Gets and returns a string representation if this bounds value.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            return $"{Min} - {Max}";
+        }
     }
     /// <summary>
     /// Represents a floating point boundaries value.
@@ -231,6 +238,14 @@ namespace Abide.Tag
         public bool Equals(FloatBounds bounds)
         {
             return Min.Equals(bounds.Min) && Max.Equals(bounds.Max);
+        }
+        /// <summary>
+        /// Gets and returns a string representation if this bounds value.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            return $"{Min} - {Max}";
         }
     }
     #endregion

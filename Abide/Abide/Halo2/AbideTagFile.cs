@@ -195,7 +195,7 @@ namespace Abide.Halo2
             }
 
             private FourCc aTagTag;
-            private Tag tagType;
+            private TagFourCc tagType;
             private uint dataLength;
             private uint memoryAddress;
         }

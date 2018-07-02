@@ -12,6 +12,16 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class RangeControl : GuerillaControl
     {
+        public string[] RangeValue
+        {
+            get { return new string[] { fromTextBox.Text, toTextBox.Text }; }
+            set { fromTextBox.Text = value[0]; toTextBox.Text = value[1]; }
+        }
+        public bool IsReadOnly
+        {
+            get { return fromTextBox.Enabled | toTextBox.Enabled; }
+            set { fromTextBox.Enabled = value; toTextBox.Enabled = value; }
+        }
         public RangeControl()
         {
             InitializeComponent();

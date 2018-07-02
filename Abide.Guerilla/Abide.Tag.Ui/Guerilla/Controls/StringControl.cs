@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class StringControl : GuerillaControl
     {
+        public string StringValue
+        {
+            get { return stringTextBox.Text; }
+            set { stringTextBox.Text = value; }
+        }
         public bool IsReadOnly
         {
             get { return stringTextBox.Enabled; }
@@ -22,9 +19,17 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             get { return stringTextBox.Text; }
             set { stringTextBox.Text = value; }
         }
+        public EventHandler ValueChanged { get; set; }
+
         public StringControl()
         {
             InitializeComponent();
+        }
+
+        private void stringTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //Invoke
+            ValueChanged?.Invoke(this, e);
         }
     }
 }

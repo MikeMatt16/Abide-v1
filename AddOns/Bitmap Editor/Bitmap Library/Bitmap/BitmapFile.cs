@@ -14,11 +14,11 @@ namespace Bitmap_Library.Bitmap
 
         public BITMAPFILEHEADER FileHeader
         {
-            get            {                return fileHeader;            }
+            get { return fileHeader; }
         }
         public BITMAPINFOHEADER InfoHeader
         {
-            get            {                return infoHeader;            }
+            get { return infoHeader; }
         }
         public Color[] Pixels
         {
@@ -48,7 +48,7 @@ namespace Bitmap_Library.Bitmap
         }
         public byte[] Image
         {
-            get            {                return raw;            }
+            get { return raw; }
         }
 
         public BitmapFile()

@@ -29,7 +29,7 @@ namespace Abide
             using(BinaryReader reader = new BinaryReader(inStream))
             {
                 //Read
-                Tag Tag = new string(reader.ReadChars(4));
+                TagFourCc Tag = new string(reader.ReadChars(4));
                 if(Tag == "daeh")
                 {
                     //Read Version

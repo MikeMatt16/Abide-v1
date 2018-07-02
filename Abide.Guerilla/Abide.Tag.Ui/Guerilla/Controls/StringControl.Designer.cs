@@ -33,17 +33,22 @@
             // 
             // stringTextBox
             // 
-            this.stringTextBox.Location = new System.Drawing.Point(307, 4);
+            this.stringTextBox.Location = new System.Drawing.Point(230, 3);
+            this.stringTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.stringTextBox.Name = "stringTextBox";
-            this.stringTextBox.Size = new System.Drawing.Size(180, 22);
+            this.stringTextBox.Size = new System.Drawing.Size(136, 20);
             this.stringTextBox.TabIndex = 4;
+            this.stringTextBox.TextChanged += new System.EventHandler(this.stringTextBox_TextChanged);
             // 
             // StringControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.stringTextBox);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MinimumSize = new System.Drawing.Size(416, 21);
             this.Name = "StringControl";
+            this.Size = new System.Drawing.Size(416, 25);
             this.Controls.SetChildIndex(this.stringTextBox, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -1,4 +1,4 @@
-﻿namespace Abide.Guerilla.Ui.Forms
+﻿namespace Abide.H2Guerilla.Ui.Forms
 {
     partial class MapForm
     {

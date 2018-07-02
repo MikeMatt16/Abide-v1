@@ -69,6 +69,7 @@
             this.blockSelectComboBox.Name = "blockSelectComboBox";
             this.blockSelectComboBox.Size = new System.Drawing.Size(471, 21);
             this.blockSelectComboBox.TabIndex = 2;
+            this.blockSelectComboBox.SelectedIndexChanged += new System.EventHandler(this.blockSelectComboBox_SelectedIndexChanged);
             // 
             // controlsPanel
             // 

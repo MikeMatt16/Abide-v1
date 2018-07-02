@@ -18,7 +18,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// Gets or sets the head four-character code.
         /// </summary>
-        public Tag Head
+        public TagFourCc Head
         {
             get { return head; }
             set { head = value; }
@@ -155,14 +155,14 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// Gets or sets the foot four-character code.
         /// </summary>
-        public Tag Foot
+        public TagFourCc Foot
         {
             get { return foot; }
             set { foot = value; }
         }
 
         [FieldOffset(0)]
-        private Tag head;
+        private TagFourCc head;
         [FieldOffset(4)]
         private uint version;
         [FieldOffset(8)]
@@ -200,7 +200,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         [FieldOffset(408)]
         private String256 name;
         [FieldOffset(2044)]
-        private Tag foot;
+        private TagFourCc foot;
 
         /// <summary>
         /// Creates a <see cref="Header"/> structure instance with pre-defined values.
@@ -276,7 +276,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// Gets or sets the index table's tags four character-code.
         /// </summary>
-        public Tag Tags
+        public TagFourCc Tags
         {
             get { return tags; }
             set { tags = value; }
@@ -291,7 +291,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         [FieldOffset(12)]
         private uint objectCount;
         [FieldOffset(16)]
-        private Tag tags;
+        private TagFourCc tags;
 
         /// <summary>
         /// Creates an <see cref="Index"/> structure instance with pre-defined values.
@@ -323,7 +323,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// The object entry's root tag.
         /// </summary>
-        public Tag Root
+        public TagFourCc Root
         {
             get { return root; }
             set { root = value; }
@@ -331,7 +331,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// The object entry's parent tag.
         /// </summary>
-        public Tag Parent
+        public TagFourCc Parent
         {
             get { return parent; }
             set { parent = value; }
@@ -339,7 +339,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// The object entry's class tag.
         /// </summary>
-        public Tag Class
+        public TagFourCc Class
         {
             get { return @class; }
             set { @class = value; }
@@ -377,55 +377,39 @@ namespace Abide.HaloLibrary.Halo2BetaMap
             set { size = value; }
         }
 
-        private Tag root, parent, @class;
+        private TagFourCc root, parent, @class;
         private TagId id;
         private uint fileNameOffset, tagDataOffset, size, zero0;
     }
 
     /// <summary>
-    /// Represents a Halo 2 beta structure bsp tag data header.
+    /// Represents a Halo 2 scenario structure BSP block header.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    internal struct SbspHeader
+    public struct StructureBspBlockHeader
     {
         /// <summary>
-        /// Represents the length of a <see cref="SbspHeader"/> structure in bytes.
+        /// Represents the length of a <see cref="StructureBspBlockHeader"/> structure in bytes.
         /// This value is constant.
         /// </summary>
-        public const int Length = 28;
+        public const int Length = 16;
 
         /// <summary>
-        /// Gets or sets the header's tag.
+        /// Gets or sets the block length in bytes.
         /// </summary>
-        public Tag Tag
-        {
-            get { return tag; }
-            set { tag = value; }
-        }
+        public int BlockLength { get; set; }
         /// <summary>
-        /// Gets or sets the header's data length.
+        /// Gets or sets the structure BSP virtual offset.
         /// </summary>
-        public int DataLength
-        {
-            get { return dataLength; }
-            set { dataLength = value; }
-        }
+        public uint StructureBspOffset { get; set; }
         /// <summary>
-        /// Gets or sets the header's lightmap offset.
+        /// Gets or sets the lightmap virtual offset.
         /// </summary>
-        public int LightmapOffset
-        {
-            get { return lightmapOffset; }
-            set { lightmapOffset = value; }
-        }
-
-        private int dataLength;
-        private int unknown1;
-        private int lightmapOffset;
-        private Tag tag;
-        private TagId id;
-        private int unknown2;
-        private int unknown3;
+        public uint LightmapOffset { get; set; }
+        /// <summary>
+        /// Gets or sets the Structure BSP header tag.
+        /// </summary>
+        public TagFourCc StructureBsp { get; set; }
     }
 
     /// <summary>

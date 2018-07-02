@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,7 +8,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a tag block.
     /// </summary>
-    public abstract class Block : ITagBlock
+    public abstract class Block : ITagBlock, IEnumerable<Field>
     {
         /// <summary>
         /// Gets and returns the size of the tag block.
@@ -69,7 +70,8 @@ namespace Abide.Tag
             if (reader == null) throw new ArgumentNullException(nameof(reader));
 
             //Read Fields
-            Fields.ForEach(f => f.Read(reader));
+            foreach (Field field in Fields)
+                field.Read(reader);
         }
         /// <summary>
         /// Writes the tag block using the specified binary writer.
@@ -79,9 +81,20 @@ namespace Abide.Tag
         {
             //Check
             if (writer == null) throw new ArgumentNullException(nameof(writer));
-
+            
             //Write Fields
-            Fields.ForEach(f => f.Write(writer));
+            foreach (Field field in Fields)
+                field.Write(writer);
+        }
+        /// <summary>
+        /// Performs any write operations that need to occur at a later time than the <see cref="Write(BinaryWriter)"/> method.
+        /// </summary>
+        /// <param name="writer">The <see cref="BinaryWriter"/> used to post-write the tag block.</param>
+        public virtual void PostWrite(BinaryWriter writer)
+        {
+            //Post-write Fields
+            foreach (Field field in Fields)
+                field.PostWrite(writer);
         }
         /// <summary>
         /// Gets the size in bytes of the tag block.
@@ -98,6 +111,25 @@ namespace Abide.Tag
             //Return
             return size;
         }
+        /// <summary>
+        /// Gets an enumerator that iterates the <see cref="Field"/> objects in the <see cref="Block"/>.
+        /// </summary>
+        /// <returns>An enumerator.</returns>
+        public virtual IEnumerator<Field> GetEnumerator()
+        {
+            return Fields.GetEnumerator();
+        }
+        /// <summary>
+        /// Releases all resources used by this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            //Dispose
+            Fields.ForEach(f => f.Dispose());
+
+            //Clear
+            Fields.Clear();
+        }
 
         int ITagBlock.Size => Size;
         List<Field> ITagBlock.Fields => Fields;
@@ -110,6 +142,11 @@ namespace Abide.Tag
             //Initialize
             Initialize();
         }
+        void ITagBlock.PostWrite(BinaryWriter writer)
+        {
+            //Post-write?
+            PostWrite(writer ?? throw new ArgumentNullException(nameof(writer)));
+        }
         void IReadable.Read(BinaryReader reader)
         {
             //Read
@@ -120,12 +157,16 @@ namespace Abide.Tag
             //Write?
             Write(writer ?? throw new ArgumentNullException(nameof(writer)));
         }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     /// <summary>
     /// Represents a tag block object.
     /// </summary>
-    public interface ITagBlock : IReadWrite
+    public interface ITagBlock : IReadWrite, IDisposable
     {
         /// <summary>
         /// Gets and returns the size of the <see cref="ITagBlock"/>.
@@ -155,5 +196,10 @@ namespace Abide.Tag
         /// Initializes the <see cref="ITagBlock"/>.
         /// </summary>
         void Initialize();
+        /// <summary>
+        /// Writes any late data using the specified binary writer.
+        /// </summary>
+        /// <param name="writer">The <see cref="BinaryWriter"/> used to post-write the tag block data to the underlying stream.</param>
+        void PostWrite(BinaryWriter writer);
     }
 }

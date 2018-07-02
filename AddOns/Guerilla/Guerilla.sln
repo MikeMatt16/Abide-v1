@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guerilla", "Guerilla\Guerilla.csproj", "{5597C44C-BC70-4122-A084-7E01FE39E88A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YeloDebug", "..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj", "{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary", "..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj", "{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj", "{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Tag", "..\..\Abide.Guerilla\Abide.Tag\Abide.Tag.csproj", "{339D8B36-1875-44B0-8F58-2379CBF8E2A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Tag.Cache", "..\..\Abide.Guerilla\Abide.Tag.Cache\Abide.Tag.Cache.csproj", "{764C6399-3A25-4BDB-B746-8648CEDDD652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Tag.Guerilla", "..\..\Abide.Guerilla\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj", "{F35897A7-CEFE-4CA5-B534-C5C6D232C854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5597C44C-BC70-4122-A084-7E01FE39E88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5597C44C-BC70-4122-A084-7E01FE39E88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5597C44C-BC70-4122-A084-7E01FE39E88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5597C44C-BC70-4122-A084-7E01FE39E88A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339D8B36-1875-44B0-8F58-2379CBF8E2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339D8B36-1875-44B0-8F58-2379CBF8E2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339D8B36-1875-44B0-8F58-2379CBF8E2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339D8B36-1875-44B0-8F58-2379CBF8E2A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{764C6399-3A25-4BDB-B746-8648CEDDD652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{764C6399-3A25-4BDB-B746-8648CEDDD652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{764C6399-3A25-4BDB-B746-8648CEDDD652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{764C6399-3A25-4BDB-B746-8648CEDDD652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35897A7-CEFE-4CA5-B534-C5C6D232C854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35897A7-CEFE-4CA5-B534-C5C6D232C854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35897A7-CEFE-4CA5-B534-C5C6D232C854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35897A7-CEFE-4CA5-B534-C5C6D232C854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D1B626E-4618-4CBE-BC6A-BBD89E7CD92A}
+	EndGlobalSection
+EndGlobal

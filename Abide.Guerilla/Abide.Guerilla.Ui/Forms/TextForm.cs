@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Abide.Guerilla.Ui.Forms
+namespace Abide.H2Guerilla.Ui.Forms
 {
     public partial class TextForm : Form
     {

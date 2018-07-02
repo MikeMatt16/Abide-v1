@@ -3,7 +3,7 @@
 namespace Abide.Tag
 {
     /// <summary>
-    /// Represents an object that can be read from a stream.
+    /// Represents an object that can be read from a stream using a <see cref="BinaryReader"/> object.
     /// </summary>
     public interface IReadable
     {
@@ -14,7 +14,7 @@ namespace Abide.Tag
         void Read(BinaryReader reader);
     }
     /// <summary>
-    /// Represents an object that can be written to a stream.
+    /// Represents an object that can be written to a stream using a <see cref="BinaryWriter"/> object.
     /// </summary>
     public interface IWritable
     {
@@ -25,7 +25,8 @@ namespace Abide.Tag
         void Write(BinaryWriter writer);
     }
     /// <summary>
-    /// Represents an object that can be written to and read from a stream.
+    /// Represents an object that can be both written to a stream using a <see cref="BinaryWriter"/> object,
+    /// and read from a stream using a <see cref="BinaryReader"/> object.
     /// </summary>
     public interface IReadWrite : IReadable, IWritable { }
 }

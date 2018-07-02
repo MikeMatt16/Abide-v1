@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abide.AddOnApi")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Abide AddOn API")]
+[assembly: AssemblyDescription("Application programming interface for Abide.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Potential Software")]
-[assembly: AssemblyProduct("Abide.AddOnApi")]
+[assembly: AssemblyProduct("Abide AddOn API")]
 [assembly: AssemblyCopyright("Copyright © Potential Software 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

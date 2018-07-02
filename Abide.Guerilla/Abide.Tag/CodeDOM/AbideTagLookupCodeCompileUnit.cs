@@ -1,8 +1,8 @@
 ﻿using System.CodeDom;
 using System.Reflection;
-using HaloTag = Abide.HaloLibrary.Tag;
+using HaloTag = Abide.HaloLibrary.TagFourCc;
 
-namespace Abide.Tag.CodeDOM
+namespace Abide.Tag.CodeDom
 {
     /// <summary>
     /// Represents a tag lookup for a CodeDOM graph.
@@ -18,10 +18,11 @@ namespace Abide.Tag.CodeDOM
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagLookupCodeCompileUnit"/> class.
         /// </summary>
-        public AbideTagLookupCodeCompileUnit()
+        /// <param name="namespaceString">The optional namespace string. This defaults to "Cache."</param>
+        public AbideTagLookupCodeCompileUnit(string namespaceString = "Cache")
         {
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace(c_GeneratedNamespace);
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
 
             //Add imports
             generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Abide.Guerilla")]
-[assembly: AssemblyDescription("Me want banana")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Potential Sofware")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Abide.Guerilla")]
-[assembly: AssemblyCopyright("Copyright © Potential Software 2017")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4d71745a-3ece-4e31-9b90-faf0cc4185c2")]
+[assembly: Guid("0353c1fa-dc9f-42e7-ab22-c1429ca4b335")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -776,7 +776,7 @@ namespace Texture_Editor.Halo2Beta
             /// <param name="entry">The bitmap object index entry.</param>
             public BitmapTag(IndexEntry entry)
             {
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                using (BinaryReader reader = entry.TagData.CreateReader())
                 {
                     //Goto
                     entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
@@ -923,7 +923,7 @@ namespace Texture_Editor.Halo2Beta
             [StructLayout(LayoutKind.Sequential)]
             public struct Bitmap
             {
-                public Tag signature;
+                public TagFourCc signature;
                 public ushort width;
                 public ushort height;
                 public byte depth;

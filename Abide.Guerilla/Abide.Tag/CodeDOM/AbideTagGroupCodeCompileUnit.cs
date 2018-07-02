@@ -2,9 +2,9 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
-using HaloTag = Abide.HaloLibrary.Tag;
+using HaloTag = Abide.HaloLibrary.TagFourCc;
 
-namespace Abide.Tag.CodeDOM
+namespace Abide.Tag.CodeDom
 {
     /// <summary>
     /// Represents a tag block for a CodeDOM graph.
@@ -13,7 +13,6 @@ namespace Abide.Tag.CodeDOM
     {
         private const string c_HaloTagsNamespace = "HaloTag = Abide.HaloLibrary.Tag";
         private const string c_TagNamespace = "Abide.Tag";
-        private const string c_GeneratedNamespace = "Abide.Tag.Generated";
 
         private readonly CodeTypeDeclaration tagGroupCodeTypeDeclaration;
 
@@ -21,14 +20,15 @@ namespace Abide.Tag.CodeDOM
         /// Initializes a new instance of the <see cref="AbideTagGroupCodeCompileUnit"/> class.
         /// </summary>
         /// <param name="tagGroup">The tag group definition.</param>
-        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup)
+        /// <param name="namespaceString">The optional namespace string. This defaults to "Cache".</param>
+        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup, string namespaceString = "Cache")
         {
             //Prepare
             string blockTypeName = AbideCodeDomGlobals.GetMemberName(AbideCodeDomGlobals.GetTagBlock(tagGroup.BlockName));
             string groupTypeName = AbideCodeDomGlobals.GetMemberName(tagGroup);
-            
+
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace(c_GeneratedNamespace);
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
 
             //Add imports
             generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));
