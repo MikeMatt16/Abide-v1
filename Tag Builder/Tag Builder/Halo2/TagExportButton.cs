@@ -50,7 +50,7 @@ namespace Abide.TagBuilder.Halo2
 
                         //Create manifest file
                         XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, IndentChars = "\t" };
-                        using (FileStream fs = new FileStream(Path.Combine(folderDlg.SelectedPath, $"{SelectedEntry.Filename.Split('\\').Last()}.xml"), FileMode.Create, FileAccess.Write))
+                        using (FileStream fs = new FileStream(Path.Combine(folderDlg.SelectedPath, $"{SelectedEntry.Filename.Split('\\').Last()}.{SelectedEntry.Root}.xml"), FileMode.Create, FileAccess.Write))
                         using (XmlWriter writer = XmlWriter.Create(fs, settings))
                         {
                             //Write document
@@ -147,7 +147,7 @@ namespace Abide.TagBuilder.Halo2
                         tagGroupFile.SetRaw(raw.RawOffset, raw.ToArray());
 
                 //Convert cache to guerilla
-                tagGroup = entry.ToGuerilla();
+                tagGroup = entry.ToGuerilla(Map);
 
                 //Create
                 Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));

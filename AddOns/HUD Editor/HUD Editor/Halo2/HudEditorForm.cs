@@ -11,18 +11,12 @@ namespace HUD_Editor.Halo2
 {
     public partial class HudEditorForm : Form
     {
-        public MapFile Map
-        {
-            get { return owner?.Map; }
-        }
-        public IndexEntry SelectedEntry
-        {
-            get { return owner?.SelectedEntry; }
-        }
         public Xbox Xbox
         {
             get { return owner?.Xbox; }
         }
+        public MapFile Map { get; }
+        public IndexEntry SelectedEntry { get; }
         
         private readonly HudEditorButton owner;
         private Point previousMouseLocation = Point.Empty;
@@ -36,9 +30,8 @@ namespace HUD_Editor.Halo2
         }
         public HudEditorForm (HudEditorButton owner) : this()
         {
-            //
-            // this
-            //
+            Map = owner.Map;
+            SelectedEntry = owner.SelectedEntry;
             this.owner = owner;
         }
 

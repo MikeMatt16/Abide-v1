@@ -790,24 +790,33 @@ namespace Texture_Editor.Halo2Beta
                     Bitmaps = new BitmapTagGroup.Bitmap[Header.bitmaps.Count];
 
                     //Loop
-                    entry.TagData.Seek(Header.sequences.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.sequences.Count; i++)
-                        Sequences[i] = reader.Read<BitmapTagGroup.Sequence>();
-                    for (int i = 0; i < Header.sequences.Count; i++)
+                    if (Header.sequences.Count > 0)
                     {
-                        //Setup tag blocks
-                        Sprites[i] = new BitmapTagGroup.Sequence.Sprite[Sequences[i].sprites.Count];
+                        entry.TagData.Seek(Header.sequences.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.sequences.Count; i++)
+                            Sequences[i] = reader.Read<BitmapTagGroup.Sequence>();
+                        for (int i = 0; i < Header.sequences.Count; i++)
+                        {
+                            //Setup tag blocks
+                            Sprites[i] = new BitmapTagGroup.Sequence.Sprite[Sequences[i].sprites.Count];
 
-                        //Loop
-                        entry.TagData.Seek(Sequences[i].sprites.Offset);
-                        for (int j = 0; j < Sequences[i].sprites.Count; j++)
-                            Sprites[i][j] = reader.Read<BitmapTagGroup.Sequence.Sprite>();
+                            //Loop
+                            if (Sequences[i].sprites.Count > 0)
+                            {
+                                entry.TagData.Seek(Sequences[i].sprites.Offset);
+                                for (int j = 0; j < Sequences[i].sprites.Count; j++)
+                                    Sprites[i][j] = reader.Read<BitmapTagGroup.Sequence.Sprite>();
+                            }
+                        }
                     }
 
                     //Loop
-                    entry.TagData.Seek(Header.bitmaps.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.bitmaps.Count; i++)
-                        Bitmaps[i] = reader.Read<BitmapTagGroup.Bitmap>();
+                    if (Header.bitmaps.Count > 0)
+                    {
+                        entry.TagData.Seek(Header.bitmaps.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.bitmaps.Count; i++)
+                            Bitmaps[i] = reader.Read<BitmapTagGroup.Bitmap>();
+                    }
                 }
             }
             /// <summary>

@@ -35,9 +35,9 @@ namespace Abide.Dialogs
             }
 
             //Load Settings
-            halo2SpSharedFilePathTextBox.Text = AbideRegistry.Halo2SpShared.GetCompactPath(35);
-            halo2SharedFilePathTextBox.Text = AbideRegistry.Halo2Shared.GetCompactPath(35);
-            halo2MainmenuFilePathTextBox.Text = AbideRegistry.Halo2Mainmenu.GetCompactPath(35);
+            halo2SpSharedFilePathTextBox.Text = AbideRegistry.Halo2SpShared.GetCompactPath(34);
+            halo2SharedFilePathTextBox.Text = AbideRegistry.Halo2Shared.GetCompactPath(34);
+            halo2MainmenuFilePathTextBox.Text = AbideRegistry.Halo2Mainmenu.GetCompactPath(34);
             halo2BetaMainmenuFilePathTextBox.Text = AbideRegistry.Halo2bMainmenu.GetCompactPath(26);
             halo2BetaSharedFilePathTextBox.Text = AbideRegistry.Halo2bShared.GetCompactPath(26);
         }

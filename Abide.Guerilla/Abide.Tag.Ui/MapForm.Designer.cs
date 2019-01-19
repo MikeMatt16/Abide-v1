@@ -40,12 +40,16 @@
             this.sizeLabel = new System.Windows.Forms.Label();
             this.rebuildTagButton = new System.Windows.Forms.Button();
             this.tagControlsPanel = new System.Windows.Forms.Panel();
+            this.dumpBuiltTagButton = new System.Windows.Forms.Button();
             this.overwriteButton = new System.Windows.Forms.Button();
             this.duplicateTagButton = new System.Windows.Forms.Button();
             this.rebuildMapButton = new System.Windows.Forms.Button();
             this.rebuildSizeLabel = new System.Windows.Forms.Label();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.tagStructureTreeView = new System.Windows.Forms.TreeView();
+            this.visualizeButton = new System.Windows.Forms.Button();
+            this.offsetLabel = new System.Windows.Forms.Label();
+            this.rebuildWholeMap = new System.Windows.Forms.Button();
             this.tagsPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.tagControlsPanel.SuspendLayout();
@@ -115,10 +119,10 @@
             // dumpTagsButton
             // 
             this.dumpTagsButton.Enabled = false;
-            this.dumpTagsButton.Location = new System.Drawing.Point(3, 3);
+            this.dumpTagsButton.Location = new System.Drawing.Point(6, 16);
             this.dumpTagsButton.Name = "dumpTagsButton";
             this.dumpTagsButton.Size = new System.Drawing.Size(129, 23);
-            this.dumpTagsButton.TabIndex = 2;
+            this.dumpTagsButton.TabIndex = 1;
             this.dumpTagsButton.Text = "&Dump Tags...";
             this.dumpTagsButton.UseVisualStyleBackColor = true;
             this.dumpTagsButton.Click += new System.EventHandler(this.dumpTagsButton_Click);
@@ -126,10 +130,10 @@
             // dumpSelectedTagButton
             // 
             this.dumpSelectedTagButton.Enabled = false;
-            this.dumpSelectedTagButton.Location = new System.Drawing.Point(3, 32);
+            this.dumpSelectedTagButton.Location = new System.Drawing.Point(6, 74);
             this.dumpSelectedTagButton.Name = "dumpSelectedTagButton";
             this.dumpSelectedTagButton.Size = new System.Drawing.Size(129, 23);
-            this.dumpSelectedTagButton.TabIndex = 3;
+            this.dumpSelectedTagButton.TabIndex = 4;
             this.dumpSelectedTagButton.Text = "...";
             this.dumpSelectedTagButton.UseVisualStyleBackColor = true;
             this.dumpSelectedTagButton.Click += new System.EventHandler(this.dumpSelectedTagButton_Click);
@@ -137,25 +141,29 @@
             // sizeLabel
             // 
             this.sizeLabel.AutoSize = true;
-            this.sizeLabel.Location = new System.Drawing.Point(138, 37);
+            this.sizeLabel.Location = new System.Drawing.Point(141, 79);
             this.sizeLabel.Name = "sizeLabel";
             this.sizeLabel.Size = new System.Drawing.Size(16, 13);
-            this.sizeLabel.TabIndex = 0;
+            this.sizeLabel.TabIndex = 5;
             this.sizeLabel.Text = "...";
             // 
             // rebuildTagButton
             // 
             this.rebuildTagButton.Enabled = false;
-            this.rebuildTagButton.Location = new System.Drawing.Point(3, 61);
+            this.rebuildTagButton.Location = new System.Drawing.Point(6, 45);
             this.rebuildTagButton.Name = "rebuildTagButton";
             this.rebuildTagButton.Size = new System.Drawing.Size(129, 23);
-            this.rebuildTagButton.TabIndex = 1;
+            this.rebuildTagButton.TabIndex = 2;
             this.rebuildTagButton.Text = "&Rebuild Tag";
             this.rebuildTagButton.UseVisualStyleBackColor = true;
             this.rebuildTagButton.Click += new System.EventHandler(this.rebuildTagButton_Click);
             // 
             // tagControlsPanel
             // 
+            this.tagControlsPanel.Controls.Add(this.rebuildWholeMap);
+            this.tagControlsPanel.Controls.Add(this.offsetLabel);
+            this.tagControlsPanel.Controls.Add(this.visualizeButton);
+            this.tagControlsPanel.Controls.Add(this.dumpBuiltTagButton);
             this.tagControlsPanel.Controls.Add(this.overwriteButton);
             this.tagControlsPanel.Controls.Add(this.duplicateTagButton);
             this.tagControlsPanel.Controls.Add(this.rebuildMapButton);
@@ -168,34 +176,45 @@
             this.tagControlsPanel.Location = new System.Drawing.Point(263, 24);
             this.tagControlsPanel.Name = "tagControlsPanel";
             this.tagControlsPanel.Size = new System.Drawing.Size(270, 537);
-            this.tagControlsPanel.TabIndex = 2;
+            this.tagControlsPanel.TabIndex = 0;
+            // 
+            // dumpBuiltTagButton
+            // 
+            this.dumpBuiltTagButton.Enabled = false;
+            this.dumpBuiltTagButton.Location = new System.Drawing.Point(6, 103);
+            this.dumpBuiltTagButton.Name = "dumpBuiltTagButton";
+            this.dumpBuiltTagButton.Size = new System.Drawing.Size(129, 23);
+            this.dumpBuiltTagButton.TabIndex = 6;
+            this.dumpBuiltTagButton.Text = "...";
+            this.dumpBuiltTagButton.UseVisualStyleBackColor = true;
+            this.dumpBuiltTagButton.Click += new System.EventHandler(this.dumpBuiltTagButton_Click);
             // 
             // overwriteButton
             // 
-            this.overwriteButton.Location = new System.Drawing.Point(3, 148);
+            this.overwriteButton.Location = new System.Drawing.Point(6, 219);
             this.overwriteButton.Name = "overwriteButton";
             this.overwriteButton.Size = new System.Drawing.Size(129, 23);
-            this.overwriteButton.TabIndex = 6;
+            this.overwriteButton.TabIndex = 9;
             this.overwriteButton.Text = "&Overwrite";
             this.overwriteButton.UseVisualStyleBackColor = true;
             this.overwriteButton.Click += new System.EventHandler(this.overwriteButton_Click);
             // 
             // duplicateTagButton
             // 
-            this.duplicateTagButton.Location = new System.Drawing.Point(3, 119);
+            this.duplicateTagButton.Location = new System.Drawing.Point(6, 190);
             this.duplicateTagButton.Name = "duplicateTagButton";
             this.duplicateTagButton.Size = new System.Drawing.Size(129, 23);
-            this.duplicateTagButton.TabIndex = 5;
+            this.duplicateTagButton.TabIndex = 8;
             this.duplicateTagButton.Text = "&Duplicate";
             this.duplicateTagButton.UseVisualStyleBackColor = true;
             this.duplicateTagButton.Click += new System.EventHandler(this.duplicateTagButton_Click);
             // 
             // rebuildMapButton
             // 
-            this.rebuildMapButton.Location = new System.Drawing.Point(3, 90);
+            this.rebuildMapButton.Location = new System.Drawing.Point(6, 132);
             this.rebuildMapButton.Name = "rebuildMapButton";
             this.rebuildMapButton.Size = new System.Drawing.Size(129, 23);
-            this.rebuildMapButton.TabIndex = 4;
+            this.rebuildMapButton.TabIndex = 7;
             this.rebuildMapButton.Text = "Rebuild &Map...";
             this.rebuildMapButton.UseVisualStyleBackColor = true;
             this.rebuildMapButton.Click += new System.EventHandler(this.rebuildMapButton_Click);
@@ -203,10 +222,10 @@
             // rebuildSizeLabel
             // 
             this.rebuildSizeLabel.AutoSize = true;
-            this.rebuildSizeLabel.Location = new System.Drawing.Point(138, 66);
+            this.rebuildSizeLabel.Location = new System.Drawing.Point(141, 50);
             this.rebuildSizeLabel.Name = "rebuildSizeLabel";
             this.rebuildSizeLabel.Size = new System.Drawing.Size(16, 13);
-            this.rebuildSizeLabel.TabIndex = 0;
+            this.rebuildSizeLabel.TabIndex = 3;
             this.rebuildSizeLabel.Text = "...";
             // 
             // splitter2
@@ -223,7 +242,37 @@
             this.tagStructureTreeView.Location = new System.Drawing.Point(536, 24);
             this.tagStructureTreeView.Name = "tagStructureTreeView";
             this.tagStructureTreeView.Size = new System.Drawing.Size(528, 537);
-            this.tagStructureTreeView.TabIndex = 4;
+            this.tagStructureTreeView.TabIndex = 2;
+            // 
+            // visualizeButton
+            // 
+            this.visualizeButton.Enabled = false;
+            this.visualizeButton.Location = new System.Drawing.Point(6, 248);
+            this.visualizeButton.Name = "visualizeButton";
+            this.visualizeButton.Size = new System.Drawing.Size(129, 23);
+            this.visualizeButton.TabIndex = 10;
+            this.visualizeButton.Text = "&Visualize...";
+            this.visualizeButton.UseVisualStyleBackColor = true;
+            this.visualizeButton.Click += new System.EventHandler(this.visualizeButton_Click);
+            // 
+            // offsetLabel
+            // 
+            this.offsetLabel.AutoSize = true;
+            this.offsetLabel.Location = new System.Drawing.Point(6, 0);
+            this.offsetLabel.Name = "offsetLabel";
+            this.offsetLabel.Size = new System.Drawing.Size(16, 13);
+            this.offsetLabel.TabIndex = 0;
+            this.offsetLabel.Text = "...";
+            // 
+            // rebuildWholeMap
+            // 
+            this.rebuildWholeMap.Location = new System.Drawing.Point(6, 161);
+            this.rebuildWholeMap.Name = "rebuildWholeMap";
+            this.rebuildWholeMap.Size = new System.Drawing.Size(129, 23);
+            this.rebuildWholeMap.TabIndex = 11;
+            this.rebuildWholeMap.Text = "Rebuild &Whole Map...";
+            this.rebuildWholeMap.UseVisualStyleBackColor = true;
+            this.rebuildWholeMap.Click += new System.EventHandler(this.rebuildWholeMap_Click);
             // 
             // MapForm
             // 
@@ -269,5 +318,9 @@
         private System.Windows.Forms.Label rebuildSizeLabel;
         private System.Windows.Forms.Button duplicateTagButton;
         private System.Windows.Forms.Button overwriteButton;
+        private System.Windows.Forms.Button dumpBuiltTagButton;
+        private System.Windows.Forms.Button visualizeButton;
+        private System.Windows.Forms.Label offsetLabel;
+        private System.Windows.Forms.Button rebuildWholeMap;
     }
 }

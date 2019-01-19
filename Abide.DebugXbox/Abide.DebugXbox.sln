@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.DebugXbox", "Abide.De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.DebugXbox.Test", "Abide.Debug.Xbox.Test\Abide.DebugXbox.Test.csproj", "{A816C7A0-705C-413B-8AD9-BA761F5D4A7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XbExplorer", "XbExplorer\XbExplorer.csproj", "{C1154F47-D49E-49C5-B28D-1CC5FFC5C16C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A816C7A0-705C-413B-8AD9-BA761F5D4A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A816C7A0-705C-413B-8AD9-BA761F5D4A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A816C7A0-705C-413B-8AD9-BA761F5D4A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1154F47-D49E-49C5-B28D-1CC5FFC5C16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1154F47-D49E-49C5-B28D-1CC5FFC5C16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1154F47-D49E-49C5-B28D-1CC5FFC5C16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1154F47-D49E-49C5-B28D-1CC5FFC5C16C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

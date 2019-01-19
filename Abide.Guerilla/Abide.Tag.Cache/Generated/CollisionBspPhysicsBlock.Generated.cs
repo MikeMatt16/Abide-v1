@@ -28,7 +28,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new SkipField("", 4));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new SkipField("", 32));
-            this.Fields.Add(new TagIndexField(""));
+            this.Fields.Add(new PadField("", 16));
             this.Fields.Add(new SkipField("", 4));
             this.Fields.Add(new ShortIntegerField("Size*"));
             this.Fields.Add(new ShortIntegerField("Count*"));
@@ -40,7 +40,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new SkipField("", 4));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new DataField("mopp Code Data*", 1, 16));
-            this.Fields.Add(new PadField("", 8));
+            this.Fields.Add(new PadField("", 4));
         }
         /// <summary>
         /// Gets and returns the name of the collision_bsp_physics_block tag block.

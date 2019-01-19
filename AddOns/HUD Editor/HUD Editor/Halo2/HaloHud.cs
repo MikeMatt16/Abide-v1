@@ -506,28 +506,40 @@ namespace HUD_Editor.Halo2
                     TextFunction5 = new byte[Header.textWidgets.Count][][];
 
                     //Read Bitmap Widgets
-                    entry.TagData.Seek(Header.bitmapWidgets.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.bitmapWidgets.Count; i++)
-                        BitmapWidgets[i] = reader.Read<NewHudTagGroup.BitmapWidget>();
+                    if (Header.bitmapWidgets.Count > 0)
+                    {
+                        entry.TagData.Seek(Header.bitmapWidgets.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.bitmapWidgets.Count; i++)
+                            BitmapWidgets[i] = reader.Read<NewHudTagGroup.BitmapWidget>();
+                    }
 
                     //Read Text Widgets
-                    entry.TagData.Seek(Header.textWidgets.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.textWidgets.Count; i++)
-                        TextWidgets[i] = reader.Read<NewHudTagGroup.TextWidget>();
+                    if (Header.textWidgets.Count > 0)
+                    {
+                        entry.TagData.Seek(Header.textWidgets.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.textWidgets.Count; i++)
+                            TextWidgets[i] = reader.Read<NewHudTagGroup.TextWidget>();
+                    }
 
                     //Read Effect Widgets
-                    entry.TagData.Seek(Header.effectWidgets.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.effectWidgets.Count; i++)
-                        EffectWidgets[i] = reader.ReadStructure<NewHudTagGroup.EffectWidget>();
+                    if (Header.effectWidgets.Count > 0)
+                    {
+                        entry.TagData.Seek(Header.effectWidgets.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.effectWidgets.Count; i++)
+                            EffectWidgets[i] = reader.Read<NewHudTagGroup.EffectWidget>();
+                    }
 
                     //Prepare Bitmap Structures
                     for (int i = 0; i < Header.bitmapWidgets.Count; i++)
                     {
                         //Read Bitmap Effects
                         BitmapEffects[i] = new NewHudTagGroup.Effect[BitmapWidgets[i].effect.Count];
-                        entry.TagData.Seek(BitmapWidgets[i].effect.Offset, SeekOrigin.Begin);
-                        for (int j = 0; j < BitmapWidgets[i].effect.Count; j++)
-                            BitmapEffects[i][j] = reader.ReadStructure<NewHudTagGroup.Effect>();
+                        if (BitmapWidgets[i].effect.Count > 0)
+                        {
+                            entry.TagData.Seek(BitmapWidgets[i].effect.Offset, SeekOrigin.Begin);
+                            for (int j = 0; j < BitmapWidgets[i].effect.Count; j++)
+                                BitmapEffects[i][j] = reader.Read<NewHudTagGroup.Effect>();
+                        }
 
                         //Setup Arrays
                         BitmapFunction1[i] = new byte[BitmapWidgets[i].effect.Count][];
@@ -578,9 +590,12 @@ namespace HUD_Editor.Halo2
                     {
                         //Read Text Effects
                         TextEffects[i] = new NewHudTagGroup.Effect[TextWidgets[i].effect.Count];
-                        entry.TagData.Seek(TextWidgets[i].effect.Offset, SeekOrigin.Begin);
-                        for (int j = 0; j < TextWidgets[i].effect.Count; j++)
-                            TextEffects[i][j] = reader.ReadStructure<NewHudTagGroup.Effect>();
+                        if (TextWidgets[i].effect.Count > 0)
+                        {
+                            entry.TagData.Seek(TextWidgets[i].effect.Offset, SeekOrigin.Begin);
+                            for (int j = 0; j < TextWidgets[i].effect.Count; j++)
+                                TextEffects[i][j] = reader.Read<NewHudTagGroup.Effect>();
+                        }
 
                         //Setup Arrays
                         TextFunction1[i] = new byte[TextWidgets[i].effect.Count][];
@@ -758,7 +773,7 @@ namespace HUD_Editor.Halo2
         {
             public static readonly int Size = Marshal.SizeOf(typeof(NewHudTagGroup));
 
-            public Tag donotusetag;
+            public TagFourCc donotusetag;
             public TagId donotuseid;
             public TagBlock bitmapWidgets;
             public TagBlock textWidgets;
@@ -791,9 +806,9 @@ namespace HUD_Editor.Halo2
                 public byte unused1;
                 public ushort anchor;
                 public ushort flags;
-                public Tag bitmapTag;
+                public TagFourCc bitmapTag;
                 public TagId bitmapId;
-                public Tag shaderTag;
+                public TagFourCc shaderTag;
                 public TagId shaderId;
                 public byte fullscreenSequenceIndex;
                 public byte halfscreenSequenceIndex;
@@ -841,7 +856,7 @@ namespace HUD_Editor.Halo2
                 public byte unused1;
                 public ushort anchor;
                 public ushort flags;
-                public Tag shaderTag;
+                public TagFourCc shaderTag;
                 public TagId shaderId;
                 public StringId stringName;
                 public ushort justification;
@@ -885,13 +900,13 @@ namespace HUD_Editor.Halo2
                 public byte unused1;
                 public ushort anchor;
                 public ushort flags;
-                public Tag bitmapTag;
+                public TagFourCc bitmapTag;
                 public TagId bitmapId;
-                public Tag fullscreenEffectTag;
+                public TagFourCc fullscreenEffectTag;
                 public TagId fullscreenEffectId;
-                public Tag halfcreenEffectTag;
+                public TagFourCc halfcreenEffectTag;
                 public TagId halfscreenEffectId;
-                public Tag quarterscreenEffectTag;
+                public TagFourCc quarterscreenEffectTag;
                 public TagId quarterscreenEffectId;
                 public byte fullscreenSequenceIndex;
                 public byte halfscreenSequenceIndex;

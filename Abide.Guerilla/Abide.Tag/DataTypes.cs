@@ -8,7 +8,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vertex buffer.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = 32)]
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct VertexBuffer
     {
         /// <summary>
@@ -113,7 +113,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a tag reference.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct TagReference : IEquatable<TagReference>
     {
         /// <summary>
@@ -153,7 +153,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a short boundaries value.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
     public struct ShortBounds : IEquatable<ShortBounds>
     {
         /// <summary>
@@ -202,7 +202,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point boundaries value.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct FloatBounds : IEquatable<FloatBounds>
     {
         /// <summary>
@@ -253,7 +253,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a RGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1), Serializable]
     public struct ColorRgb : IEquatable<ColorRgb>
     {
         /// <summary>
@@ -308,7 +308,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents an ARGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1), Serializable]
     public struct ColorArgb : IEquatable<ColorArgb>
     {
         /// <summary>
@@ -369,7 +369,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point RGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct ColorRgbF : IEquatable<ColorRgbF>
     {
         /// <summary>
@@ -424,7 +424,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point ARGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct ColorArgbF : IEquatable<ColorArgbF>
     {
         /// <summary>
@@ -485,7 +485,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point HSV color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct ColorHsv : IEquatable<ColorHsv>
     {
         /// <summary>
@@ -531,6 +531,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point AHSV color.
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct ColorAhsv : IEquatable<ColorAhsv>
     {
         /// <summary>
@@ -584,7 +585,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a quaternion.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Quaternion : IEquatable<Quaternion>
     {
         /// <summary>
@@ -645,7 +646,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with four components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Vector4 : IEquatable<Vector4>
     {
         /// <summary>
@@ -845,7 +846,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with three components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Vector3 : IEquatable<Vector3>
     {
         /// <summary>
@@ -1033,7 +1034,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with two components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Vector2 : IEquatable<Vector2>
     {
         /// <summary>
@@ -1206,7 +1207,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a 2 dimensional rectangle.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
     public struct Rectangle2 : IEquatable<Rectangle2>
     {
         /// <summary>
@@ -1259,7 +1260,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a 2 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
     public struct Point2 : IEquatable<Point2>
     {
         /// <summary>
@@ -1308,7 +1309,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point 2 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Point2F : IEquatable<Point2F>
     {
         /// <summary>
@@ -1365,7 +1366,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point 3 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
     public struct Point3F : IEquatable<Point3F>
     {
         /// <summary>

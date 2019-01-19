@@ -56,10 +56,26 @@
     <Compile Include="AbideGuerilla.Designer.cs">
       <DependentUpon>AbideGuerilla.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\NewTagGroupDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewTagGroupDialog.Designer.cs">
+      <DependentUpon>NewTagGroupDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagGroupFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TagGroupFileEditor.Designer.cs">
+      <DependentUpon>TagGroupFileEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tags.cs" />
     <EmbeddedResource Include="AbideGuerilla.resx">
       <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewTagGroupDialog.resx">
+      <DependentUpon>NewTagGroupDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -71,6 +87,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TagGroupFileEditor.resx">
+      <DependentUpon>TagGroupFileEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -85,6 +104,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Abide.Compiler\Abide.Compiler.csproj">
       <Project>{1152dc23-51c6-44c8-bd69-013eca04f6bf}</Project>
       <Name>Abide.Compiler</Name>

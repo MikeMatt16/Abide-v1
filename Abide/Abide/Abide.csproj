@@ -260,26 +260,6 @@
       <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
       <Name>Abide.Ifp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\AddOns\Bitmap Editor\Bitmap Library\Bitmap Library.csproj">
-      <Project>{e1ee4325-e292-4f17-87ad-5fe9ef1ca71e}</Project>
-      <Name>Bitmap Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AddOns\Bitmap Editor\Texture Editor\Texture Editor.csproj">
-      <Project>{4ae8c470-9a40-4168-95fa-459cbc807cdb}</Project>
-      <Name>Texture Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AddOns\Hex Editor\Hex Editor\Hex Editor.csproj">
-      <Project>{681ebeb1-8aa2-4725-85e4-815d2a1239e4}</Project>
-      <Name>Hex Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AddOns\Mode\Mode\Mode.csproj">
-      <Project>{d3f4b74e-4e22-4d13-ad1b-ef182926815b}</Project>
-      <Name>Mode</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AddOns\TagDataEditor\Tag Data Editor\Tag Data Editor.csproj">
-      <Project>{af8855ae-f48b-4ef1-acf9-bbdff28172ae}</Project>
-      <Name>Tag Data Editor</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Potential Software.ico" />

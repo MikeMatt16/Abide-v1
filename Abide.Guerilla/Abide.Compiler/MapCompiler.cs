@@ -69,7 +69,6 @@ namespace Abide.Compiler
         private void Map_Compile(object state)
         {
             //Prepare
-            Header mapHeader = new Header();
             StructureBspBlockHeader sbspHeader = new StructureBspBlockHeader();
             Index indexHeader = new Index();
 
@@ -88,12 +87,12 @@ namespace Abide.Compiler
 
             //Build globals references
             tagGroupReferences.Add(globalsFileName, GlobalsFile);
-            foreach (Block tagBlock in GlobalsFile.TagGroup.TagBlocks)
+            foreach (Block tagBlock in GlobalsFile.TagGroup)
                 TagBlock_BuildReferenceTree(tagBlock);
 
             //Build scenario references
             tagGroupReferences.Add(scenarioFileName, ScenarioFile);
-            foreach (Block tagBlock in ScenarioFile.TagGroup.TagBlocks)
+            foreach (Block tagBlock in ScenarioFile.TagGroup)
                 TagBlock_BuildReferenceTree(tagBlock);
 
             //Get Tag References
@@ -110,7 +109,7 @@ namespace Abide.Compiler
                 //Write Sounds
                 foreach (TagGroupFile soundFile in references.Where(tg => tg.TagGroup.GroupTag == HaloTags.ugh_))
                 {
-                    foreach(ITagBlock chunk in ((BaseBlockField)soundFile.TagGroup.TagBlocks[0].Fields[9]).BlockList)
+                    foreach(ITagBlock chunk in ((BaseBlockField)soundFile.TagGroup[0].Fields[9]).BlockList)
                     {
 
                     }
@@ -176,7 +175,7 @@ namespace Abide.Compiler
 
                     //Loop through scenario structure BSP references
                     Host.Log("Preparing scenario structure BSPs..."); int ssbspIdx = 0;
-                    foreach (var structureBspReference in ((BaseBlockField)ScenarioFile.TagGroup.TagBlocks[0].Fields[68]).BlockList)
+                    foreach (var structureBspReference in ((BaseBlockField)ScenarioFile.TagGroup[0].Fields[68]).BlockList)
                     {
                         //Get structure block info
                         ITagBlock structureBlockInfo = (ITagBlock)structureBspReference.Fields[0].Value;
@@ -198,10 +197,10 @@ namespace Abide.Compiler
                         }
 
                         //Convert tag blocks
-                        foreach (ITagBlock block in structureBspFile.TagGroup.TagBlocks)
+                        foreach (ITagBlock block in structureBspFile.TagGroup)
                             TagBlock_ConvertGuerillaToCache(block);
                         if (lightmapFile != null)
-                            foreach (ITagBlock block in lightmapFile.TagGroup.TagBlocks)
+                            foreach (ITagBlock block in lightmapFile.TagGroup)
                                 TagBlock_ConvertGuerillaToCache(block);
 
                         //Create stream
@@ -247,7 +246,7 @@ namespace Abide.Compiler
                     //Build References
                     Host.Log("Converting fields...");
                     foreach (TagGroupFile reference in references)
-                        foreach (ITagBlock tagBlock in reference.TagGroup.TagBlocks)
+                        foreach (ITagBlock tagBlock in reference.TagGroup)
                             TagBlock_ConvertGuerillaToCache(tagBlock);
 
                     //Complete
@@ -295,7 +294,7 @@ namespace Abide.Compiler
             tagGroupReferences.Add(filename, tagGroupFile);
 
             //Build references
-            foreach (Block tagBlock in tagGroupFile.TagGroup.TagBlocks)
+            foreach (Block tagBlock in tagGroupFile.TagGroup)
                 TagBlock_BuildReferenceTree(tagBlock);
         }
 

@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Abide.Tag.Ui
 {
@@ -74,7 +75,7 @@ namespace Abide.Tag.Ui
         {
             //Begin
             tagsTreeView.BeginUpdate();
-            tagsTreeView.TreeViewNodeSorter = new TagNodeSorter();
+            tagsTreeView.TreeViewNodeSorter = null;
 
             //Clear
             tagsTreeView.Nodes.Clear();
@@ -114,6 +115,7 @@ namespace Abide.Tag.Ui
             }
 
             //Sort
+            tagsTreeView.TreeViewNodeSorter = new TagNodeSorter();
             tagsTreeView.Sort();
 
             //End
@@ -186,10 +188,26 @@ namespace Abide.Tag.Ui
             selectedTag = entry;
 
             //
+            // offsetLabel
+            //
+            offsetLabel.Text = $"offset: {((uint)entry.PostProcessedOffset)}";
+
+            //
+            // visualizeButton
+            //
+            visualizeButton.Enabled = entry != null;
+
+            //
             // dumpSelectedTagButton
             //
             dumpSelectedTagButton.Enabled = entry != null;
             dumpSelectedTagButton.Text = $"Dump {entry.Root} tag...";
+
+            //
+            // dumpBuiltTagButton
+            //
+            dumpBuiltTagButton.Enabled = entry != null;
+            dumpBuiltTagButton.Text = $"Dump rebuilt {entry.Root} tag...";
 
             //
             // sizeLabel
@@ -277,9 +295,6 @@ namespace Abide.Tag.Ui
 
         private void dumpSelectedTagButton_Click(object sender, EventArgs e)
         {
-            //Prepare
-            Group tagGroup = null;
-
             //Initialize
             using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
             {
@@ -290,32 +305,70 @@ namespace Abide.Tag.Ui
                 if (folderDlg.ShowDialog() == DialogResult.OK)
                 {
                     //Goto
-                    selectedTag.TagData.Seek(selectedTag.PostProcessedOffset, SeekOrigin.Begin);
+                    selectedTag.TagData.Seek((uint)selectedTag.PostProcessedOffset, SeekOrigin.Begin);
+                    byte[] tagData = new byte[(uint)selectedTag.PostProcessedSize];
+                    selectedTag.TagData.Read(tagData, 0, tagData.Length);
 
+                    //Get filename and create directory if needed
+                    string filename = Path.Combine(folderDlg.SelectedPath, $"{selectedTag.Filename}.{selectedTag.Root}");
+                    string directory = Path.GetDirectoryName(filename);
+                    if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+                    //Create File
+                    using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read))
+                        fs.Write(tagData, 0, tagData.Length);
+                }
+            }
+        }
+
+        private void dumpBuiltTagButton_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            Group tagGroup = null;
+            byte[] tagData = null;
+            
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to tags folder...";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
                     //Check
                     if ((tagGroup = TagLookup.CreateTagGroup(selectedTag.Root)) != null)
-                        using (BinaryReader reader = new BinaryReader(selectedTag.TagData))
+                        using (VirtualStream stream = new VirtualStream((uint)selectedTag.PostProcessedOffset))
+                        using (BinaryReader reader = selectedTag.TagData.CreateReader())
+                        using (BinaryWriter writer = stream.CreateWriter())
                         {
                             //Read
+                            selectedTag.TagData.Seek(selectedTag.PostProcessedOffset, SeekOrigin.Begin);
                             tagGroup.Read(reader);
 
-                            //Get filename and create directory if needed
-                            string filename = Path.Combine(folderDlg.SelectedPath, $"{selectedTag.Filename}.{ tagGroup.Name}");
-                            string directory = Path.GetDirectoryName(filename);
-                            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+                            //Write
+                            tagGroup.Write(writer);
 
-                            //Create File
-                            using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read))
-                            using (MemoryStream ms = new MemoryStream())
-                            {
-                                //Write tag
-                                using (BinaryWriter writer = new BinaryWriter(ms))
-                                {
-                                    tagGroup.Write(writer);
-                                    fs.Write(ms.GetBuffer(), 0, (int)ms.Position);
-                                }
-                            }
+                            //Align
+                            if (selectedTag.Root == HaloTags.sbsp || selectedTag.Root == HaloTags.ltmp)
+                                stream.Align(4096);
+
+                            //Setup
+                            tagData = stream.ToArray();
                         }
+
+                    //Get length
+                    rebuildSizeLabel.Text = $"{tagData.Length} bytes";
+
+                    //Get filename and create directory if needed
+                    string filename = Path.Combine(folderDlg.SelectedPath, $"{selectedTag.Filename}.{tagGroup.Name}");
+                    string directory = Path.GetDirectoryName(filename);
+                    if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+                    //Create File
+                    using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read))
+                    using (BinaryWriter writer = new BinaryWriter(fs))
+                        fs.Write(tagData, 0, tagData.Length);
                 }
             }
         }
@@ -339,12 +392,16 @@ namespace Abide.Tag.Ui
                     //Write
                     tagGroup.Write(writer);
 
+                    //Align
+                    if (selectedTag.Root == HaloTags.sbsp || selectedTag.Root == HaloTags.ltmp)
+                        stream.Align(4096);
+
                     //Setup
                     buildStream = new VirtualStream(stream.MemoryAddress, stream.ToArray());
                 }
 
             //Get length
-            rebuildSizeLabel.Text = $"{buildStream.Capacity} bytes";
+            rebuildSizeLabel.Text = $"{buildStream.Length} bytes";
 
             //Goto
             using (BinaryReader tagReader = buildStream.CreateReader())
@@ -454,7 +511,6 @@ namespace Abide.Tag.Ui
 
                 //Replace
                 map.SwapTagBuffer(tagDataStream.ToArray(), tagDataStream.MemoryAddress);
-
             }
 
             //Attempt to re-build
@@ -488,6 +544,219 @@ namespace Abide.Tag.Ui
 
             //Finished
             Console.WriteLine("Rebuild complete.");
+        }
+
+        private void rebuildWholeMap_Click(object sender, EventArgs e)
+        {
+            //Prepare
+            long bspAddress = Index.IndexMemoryAddress + map.IndexLength - Index.Length;
+            List<Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup>> structureBsps = new List<Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup>>();
+
+            //Get BSPs
+            using (BinaryReader reader = map.Scenario.TagData.CreateReader())
+            {
+                //Goto
+                long scenarioAddress = (uint)map.Scenario.PostProcessedOffset;
+                reader.BaseStream.Seek(scenarioAddress + 528, SeekOrigin.Begin);
+
+                //Read
+                TagBlock structureBSPs = reader.Read<TagBlock>();
+                for (int i = 0; i < structureBSPs.Count; i++)
+                {
+                    //Goto
+                    reader.BaseStream.Seek(structureBSPs.Offset + (i * 68), SeekOrigin.Begin);
+
+                    //Read
+                    reader.ReadUInt32();    //bsp address in file
+                    reader.ReadUInt32();    //bsp size
+                    reader.ReadUInt32();    //bsp memory address
+                    reader.ReadUInt32();    //zero
+                    TagReference sbspRef = reader.Read<TagReference>();
+                    TagReference ltmpRef = reader.Read<TagReference>();
+
+                    //Get entries
+                    IndexEntry structureBspEntry = map.IndexEntries[sbspRef.Id];
+                    IndexEntry structureLightmapEntry = map.IndexEntries[ltmpRef.Id];
+
+                    //Read
+                    Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup> bsp = new Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup>(
+                        structureBspEntry, TagLookup.CreateTagGroup(HaloTags.sbsp), structureLightmapEntry, TagLookup.CreateTagGroup(HaloTags.ltmp));
+
+                    //Read
+                    using (BinaryReader bspReader = map.GetBspTagDataStream(i).CreateReader())
+                    {
+                        //Goto SBSP
+                        bspReader.BaseStream.Seek((uint)structureBspEntry.PostProcessedOffset, SeekOrigin.Begin);
+                        bsp.Item2.Read(bspReader);
+
+                        //Goto LTMP
+                        if (structureLightmapEntry != null)
+                        {
+                            bspReader.BaseStream.Seek((uint)structureLightmapEntry.PostProcessedOffset, SeekOrigin.Begin);
+                            bsp.Item4.Read(bspReader);
+                        }
+                    }
+
+                    //Add
+                    structureBsps.Add(bsp);
+                }
+            }
+
+            //Prepare
+            List<VirtualStream> bspStreams = new List<VirtualStream>();
+            foreach (Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup> bsp in structureBsps)
+            {
+                //Create stream
+                VirtualStream bspStream = new VirtualStream(bspAddress);
+                StructureBspBlockHeader bspHeader = new StructureBspBlockHeader() { StructureBsp = HaloTags.sbsp };
+
+                //Write
+                using (var writer = bspStream.CreateWriter())
+                {
+                    //Skip header
+                    bspStream.Seek(StructureBspBlockHeader.Length, SeekOrigin.Current);
+
+                    //Get structure BSP offset
+                    bspHeader.StructureBspOffset = (uint)bspStream.Position;
+
+                    //Write structure BSP to stream
+                    using (VirtualStream sbspStream = new VirtualStream(bspStream.Position))
+                    using (BinaryReader sbspReader = sbspStream.CreateReader())
+                    using (BinaryWriter sbspWriter = sbspStream.CreateWriter())
+                    {
+                        //Write sbsp
+                        bsp.Item2.Write(sbspWriter);
+
+                        //Pad stream
+                        sbspStream.Align(4096);
+
+                        //Repoint raw
+                        Tag_RepointRaw(bsp.Item1, sbspStream, sbspReader, sbspWriter);
+
+                        //Write to bsp stream
+                        writer.Write(sbspStream.ToArray());
+                        
+                        //Set index entry
+                        bsp.Item1.PostProcessedOffset = unchecked((int)sbspStream.MemoryAddress);
+                        bsp.Item1.PostProcessedSize = (int)sbspStream.Length;
+                    }
+                    
+                    //Check
+                    if (bsp.Item3 != null)
+                    {
+                        //Get structure lightmap offset
+                        bspHeader.StructureLightmapOffset = (uint)bspStream.Position;
+
+                        //Write structure LTMP to stream
+                        using (VirtualStream ltmpStream = new VirtualStream(bspStream.Position))
+                        using (BinaryReader ltmpReader = ltmpStream.CreateReader())
+                        using (BinaryWriter ltmpWriter = ltmpStream.CreateWriter())
+                        {
+                            //Write ltmp
+                            bsp.Item4.Write(ltmpWriter);
+
+                            //Pad stream
+                            ltmpStream.Align(4096);
+
+                            //Repoint raw
+                            Tag_RepointRaw(bsp.Item3, ltmpStream, ltmpReader, ltmpWriter);
+
+                            //Write to bsp stream
+                            writer.Write(ltmpStream.ToArray());
+
+                            //Set index entry
+                            bsp.Item3.PostProcessedOffset = unchecked((int)ltmpStream.MemoryAddress);
+                            bsp.Item3.PostProcessedSize = (int)ltmpStream.Length;
+                        }
+                    }
+
+                    //Pad stream
+                    bspStream.Align(4096);
+
+                    //Get block length
+                    bspHeader.BlockLength = (int)bspStream.Length;
+
+                    //Write header
+                    bspStream.Seek(bspAddress, SeekOrigin.Begin);
+                    writer.Write(bspHeader);
+                }
+
+                //Add
+                bspStreams.Add(bspStream);
+            }
+
+            //Get BSPs
+            using (BinaryReader reader = map.Scenario.TagData.CreateReader())
+            using (BinaryWriter writer = map.Scenario.TagData.CreateWriter())
+            {
+                //Goto
+                long scenarioAddress = (uint)map.Scenario.PostProcessedOffset;
+                reader.BaseStream.Seek(scenarioAddress + 528, SeekOrigin.Begin);
+
+                //Read
+                TagBlock structureBSPs = reader.Read<TagBlock>();
+                for (int i = 0; i < structureBSPs.Count; i++)
+                {
+                    //Goto
+                    reader.BaseStream.Seek(structureBSPs.Offset + (i * 68), SeekOrigin.Begin);
+
+                    //Read
+                    reader.ReadUInt32();                        //bsp address in file
+                    writer.Write((uint)bspStreams[i].Length);   //bsp size
+                    writer.Write((uint)bspAddress);             //bsp memory address
+                    writer.Write(0);                            //zero
+
+                    //Swap BSP tag buffer
+                    map.SwapBspTagBuffer(bspStreams[i].ToArray(), i, bspAddress);
+                }
+            }
+
+            //Get tag data address
+            long tagDataAddress = bspAddress + bspStreams.Max(s => s.Length);
+            VirtualStream tagDataStream = new VirtualStream(tagDataAddress);
+
+            //Destroy BSP streams
+            foreach (var bspStream in bspStreams)
+                bspStream.Dispose();
+
+            //Loop
+            for (int i = 0; i < map.IndexEntries.Count; i++)
+                if (map.IndexEntries[i].Offset > 0 && map.IndexEntries[i].Size > 0)
+                    using (VirtualStream tagStream = new VirtualStream(tagDataStream.Position))
+                    using (BinaryWriter writer = tagStream.CreateWriter())
+                    using (BinaryReader reader = map.IndexEntries[i].TagData.CreateReader())
+                    {
+                        //Read
+                        ITagGroup tagGroup = TagLookup.CreateTagGroup(map.IndexEntries[i].Root);
+                        reader.BaseStream.Seek(map.IndexEntries[i].Offset, SeekOrigin.Begin);
+                        tagGroup.Read(reader);
+
+                        //Write into buffer
+                        tagGroup.Write(writer);
+
+                        //Repoint raw
+                        using (BinaryReader tagReader = tagStream.CreateReader())
+                            Tag_RepointRaw(map.IndexEntries[i], tagStream, tagReader, writer);
+
+                        //Write to underlying tag data stream
+                        tagDataStream.Write(tagStream.ToArray(), 0, (int)tagStream.Length);
+
+                        //Set object entry
+                        map.IndexEntries[i].SetObjectEntry(tagGroup.GroupTag, map.IndexEntries[i].Id, (uint)tagStream.Length, (uint)tagStream.MemoryAddress);
+
+                        //Set index entry
+                        map.IndexEntries[i].PostProcessedOffset = unchecked((int)tagStream.MemoryAddress);
+                        map.IndexEntries[i].PostProcessedSize = (int)tagStream.Length;
+                    }
+
+            //Swap
+            map.SwapTagBuffer(tagDataStream.ToArray(), tagDataStream.MemoryAddress);
+
+            //Destroy tag data stream
+            tagDataStream.Dispose();
+
+            //Collect
+            GC.Collect();
         }
 
         private void Tag_RepointRaw(IndexEntry tag, VirtualStream tagData, BinaryReader reader, BinaryWriter writer)
@@ -769,6 +1038,172 @@ namespace Abide.Tag.Ui
                             tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
                             tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
                             tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region sbsp
+                case HaloTags.sbsp:
+                    //Goto Clusters
+                    tagData.Seek(tagData.MemoryAddress + 156, SeekOrigin.Begin);
+                    uint clusterCount = reader.ReadUInt32();
+                    uint clusterOffset = reader.ReadUInt32();
+                    for (int i = 0; i < clusterCount; i++)
+                    {
+                        tagData.Seek(clusterOffset + (i * 176) + 40, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Geometries definitions
+                    tagData.Seek(tagData.MemoryAddress + 312, SeekOrigin.Begin);
+                    uint geometriesCount = reader.ReadUInt32();
+                    uint geometriesOffset = reader.ReadUInt32();
+                    for (int i = 0; i < geometriesCount; i++)
+                    {
+                        tagData.Seek(geometriesOffset + (i * 200) + 40, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Water definitions
+                    tagData.Seek(tagData.MemoryAddress + 532, SeekOrigin.Begin);
+                    uint watersCount = reader.ReadUInt32();
+                    uint watersOffset = reader.ReadUInt32();
+                    for (int i = 0; i < watersCount; i++)
+                    {
+                        tagData.Seek(watersOffset + (i * 172) + 16, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Decorators Definitions
+                    tagData.Seek(tagData.MemoryAddress + 564, SeekOrigin.Begin);
+                    uint decoratorsCount = reader.ReadUInt32();
+                    uint decoratorsOffset = reader.ReadUInt32();
+                    for (int i = 0; i < decoratorsCount; i++)
+                    {
+                        tagData.Seek(decoratorsOffset + (i * 48) + 16, SeekOrigin.Begin);
+                        uint cachesCount = reader.ReadUInt32();
+                        uint cachesOffset = reader.ReadUInt32();
+                        for (int j = 0; j < cachesCount; j++)
+                        {
+                            tagData.Seek(cachesOffset + (j * 44), SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+                #region ltmp
+                case HaloTags.ltmp:
+                    //Goto Lightmap Groups
+                    tagData.Seek(tagData.MemoryAddress + 128);
+                    uint groupsCount = reader.ReadUInt32();
+                    uint groupsPointer = reader.ReadUInt32();
+                    for (int i = 0; i < groupsCount; i++)
+                    {
+                        //Goto Cluster Definitions
+                        tagData.Seek(groupsPointer + (i * 104) + 32, SeekOrigin.Begin);
+                        uint clustersCount = reader.ReadUInt32();
+                        uint clustersOffset = reader.ReadUInt32();
+                        for (int j = 0; j < clustersCount; j++)
+                        {
+                            tagData.Seek(clustersOffset + (j * 84) + 40, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if(tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+
+                        //Goto Poop Definitions
+                        tagData.Seek(groupsPointer + (i * 104) + 48, SeekOrigin.Begin);
+                        uint poopsCount = reader.ReadUInt32();
+                        uint poopsOffset = reader.ReadUInt32();
+                        for (int j = 0; j < poopsCount; j++)
+                        {
+                            tagData.Seek(poopsOffset + (j * 84) + 40, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+
+                        //Goto Geometry Buckets
+                        tagData.Seek(groupsPointer + (i * 104) + 64, SeekOrigin.Begin);
+                        uint bucketsCount = reader.ReadUInt32();
+                        uint bucketsOffset = reader.ReadUInt32();
+                        for (int j = 0; j < bucketsCount; j++)
+                        {
+                            tagData.Seek(bucketsOffset + (j * 56) + 12, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
                         }
                     }
                     break;
@@ -1175,6 +1610,13 @@ namespace Abide.Tag.Ui
                 selectedTag.TagData.Seek((uint)selectedTag.PostProcessedOffset, SeekOrigin.Begin);
                 writer.Write(tagBuffer, 0, length);
             }
+        }
+
+        private void visualizeButton_Click(object sender, EventArgs e)
+        {
+            //Create form
+            using (BlockViewForm blockForm = new BlockViewForm(map, selectedTag))
+                blockForm.ShowDialog();
         }
 
         private class TagNodeSorter : IComparer

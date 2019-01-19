@@ -132,28 +132,27 @@ namespace Abide.TagBuilder.Halo2
             //Get file path
             string absoluteFilePath = Path.Combine(rootDirectory, localFilePath);
 
+            //Load tag
+            TagGroupFile tagGroupFile = new TagGroupFile();
+            tagGroupFile.Load(absoluteFilePath);
+
             //Check
-            var match = Map.IndexEntries.Where(e => $"{e.Filename}.{TagLookup.CreateTagGroup(e.Root).Name}" == localFilePath);
+            var match = Map.IndexEntries.Where(e => $"{e.Filename}.{tagGroupFile.TagGroup.GroupTag}" == localFilePath);
             if (match.Any()) container.IdLookup.Add(localFilePath, match.First().Id);
             else
             {
                 //Get base name
                 string baseTagName = localFilePath.Substring(0, localFilePath.LastIndexOf('.'));
-
-                //Load tag
-                TagGroupFile tagGroupFile = new TagGroupFile();
-                tagGroupFile.Load(absoluteFilePath);
-
+                
                 //Check
                 var groupTag = tagGroupFile.TagGroup.GroupTag;
 
                 //Add to lookup
                 container.IdLookup.Add(localFilePath, id);
 
-                //Loop
-                for (int i = 0; i < tagGroupFile.TagGroup.Count; i++)
-                    TagBlock_ToCache(container, tagGroupFile.TagGroup[i]);
-
+                //Convert
+                TagGroup_ToCache(container, tagGroupFile.TagGroup);
+                
                 //Create placeholder entry
                 IndexEntry placeholder = new IndexEntry(new ObjectEntry() { Id = id, Tag = groupTag }, baseTagName, Map.Tags[groupTag]);
 
@@ -210,7 +209,24 @@ namespace Abide.TagBuilder.Halo2
                 }
             }
         }
-        
+
+        private void TagGroup_ToCache(TagsContainer container, ITagGroup tagGroup)
+        {
+            switch (tagGroup.GroupTag)
+            {
+                case HaloTags.snd_:
+                    tagGroup = new Sound();
+                    break;
+                case HaloTags.unic:
+                    tagGroup = new MultilingualUnicodeStringList();
+                    break;
+                default:
+                    for (int i = 0; i < tagGroup.Count; i++)
+                        TagBlock_ToCache(container, tagGroup[i]);
+                    break;
+            }
+        }
+
         private void TagBlock_ToCache(TagsContainer container, ITagBlock tagBlock)
         {
             //Loop

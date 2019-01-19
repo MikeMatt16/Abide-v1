@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
 using YeloDebug;
+using YeloDebug.Exceptions;
 
 namespace Abide
 {
@@ -410,6 +411,7 @@ namespace Abide
             //Connect/Disconnect...
             if (debugXbox.Connected) debugXbox.Disconnect();
             else try { debugXbox.Connect(); }
+                catch (ApiException) { MessageBox.Show("Invalid XBDM version. YeloDebug requires v1.00.7887.1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
             //Set Text

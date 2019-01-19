@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace Abide.Guerilla.Library
 {
+    /// <summary>
+    /// Represents a tag group file.
+    /// </summary>
     public sealed class TagGroupFile
     {
         /// <summary>

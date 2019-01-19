@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Potential Software")]
 [assembly: AssemblyProduct("Abide")]
-[assembly: AssemblyCopyright("Copyright © Potential Software 2018")]
+[assembly: AssemblyCopyright("Copyright © Potential Software 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -287,7 +287,7 @@ namespace Abide.TagBuilder
                 folderDlg.Description = "Browse to the directory to generate the *.ent files.";
 
                 //Show
-                Tag.ITagGroup tagGroup = null;
+                ITagGroup tagGroup = null;
                 if (folderDlg.ShowDialog() == DialogResult.OK)
                 {
                     //Get tag groups
@@ -469,6 +469,874 @@ namespace Abide.TagBuilder
                 if (field.Type == Abide.Tag.Definition.FieldType.FieldUselessPad || field.Type == Abide.Tag.Definition.FieldType.FieldExplanation) continue;
 
                 //TODO: Generate fields
+                switch (field.Type)
+                {
+                    case Abide.Tag.Definition.FieldType.FieldString:
+                        xmlWriter.WriteStartElement("string32");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldLongString:
+                        xmlWriter.WriteStartElement("string256");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldStringId:
+                    case Abide.Tag.Definition.FieldType.FieldOldStringId:
+                        xmlWriter.WriteStartElement("stringid");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldCharInteger:
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldShortInteger:
+                        xmlWriter.WriteStartElement("short");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldLongInteger:
+                        xmlWriter.WriteStartElement("int");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldAngle:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldTag:
+                        xmlWriter.WriteStartElement("tag");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldCharEnum:
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (ENUM)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldEnum:
+                        xmlWriter.WriteStartElement("short");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (ENUM)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldLongEnum:
+                        xmlWriter.WriteStartElement("int");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (ENUM)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldLongFlags:
+                        xmlWriter.WriteStartElement("int");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (FLAGS)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldWordFlags:
+                        xmlWriter.WriteStartElement("short");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (FLAGS)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldByteFlags:
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " (FLAGS)");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldPoint2D:
+
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRectangle2D:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRgbColor:
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " R");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 1);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " G");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 2);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " B");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldArgbColor:
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " A");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 1);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " R");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 2);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " G");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("byte");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 3);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " B");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldReal:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealFraction:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealPoint2D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " X");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset+4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " Y");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealPoint3D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " X");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " Y");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 8);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " Z");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealVector2D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " i");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " j");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealVector3D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " i");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " j");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 8);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " k");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldQuaternion:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " w");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " i");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 8);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " j");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 12);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " k");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldEulerAngles2D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " yaw");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " pitch");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldEulerAngles3D:
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " yaw");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " pitch");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("float");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 8);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name + " roll");
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealPlane2D:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealPlane3D:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealRgbColor:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealArgbColor:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealHsvColor:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealAhsvColor:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldShortBounds:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldAngleBounds:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealBounds:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldRealFractionBounds:
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldTagReference:
+                        xmlWriter.WriteStartElement("tag");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("id");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset + 4);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldBlock:
+                        BaseBlockField baseBlockField = (BaseBlockField)field;
+                        ITagBlock block = baseBlockField.Add(out bool created);
+
+                        if (block != null)
+                        {
+                            xmlWriter.WriteStartElement("struct");
+
+                            xmlWriter.WriteStartAttribute("offset");
+                            xmlWriter.WriteValue(offset);
+                            xmlWriter.WriteEndAttribute();
+
+                            xmlWriter.WriteStartAttribute("name");
+                            xmlWriter.WriteValue(field.Name);
+                            xmlWriter.WriteEndAttribute();
+
+                            xmlWriter.WriteStartAttribute("size");
+                            xmlWriter.WriteValue(block.Size);
+                            xmlWriter.WriteEndAttribute();
+
+                            string labelName = string.Empty;
+                            if (block.Fields.Any(f => f.IsBlockName)) labelName = block.Fields.First(f => f.IsBlockName).Name;
+                            xmlWriter.WriteStartAttribute("label");
+                            xmlWriter.WriteValue(labelName);
+                            xmlWriter.WriteEndAttribute();
+
+                            xmlWriter.WriteStartAttribute("visible");
+                            xmlWriter.WriteValue(true);
+                            xmlWriter.WriteEndAttribute();
+
+                            xmlWriter.WriteStartAttribute("maxelements");
+                            xmlWriter.WriteValue(baseBlockField.BlockList.MaximumCount);
+                            xmlWriter.WriteEndAttribute();
+
+                            int blockOffset = 0;
+                            tagBlock_WriteEnt(xmlWriter, block, ref blockOffset);
+
+                            xmlWriter.WriteEndElement();
+                        }
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldLongBlockFlags:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldWordBlockFlags:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldByteBlockFlags:
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldCharBlockIndex1:
+                    case Abide.Tag.Definition.FieldType.FieldCharBlockIndex2:
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldShortBlockIndex1:
+                    case Abide.Tag.Definition.FieldType.FieldShortBlockIndex2:
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldLongBlockIndex1:
+                    case Abide.Tag.Definition.FieldType.FieldLongBlockIndex2:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldData:
+                        DataField dataField = (DataField)field;
+                        xmlWriter.WriteStartElement("unused");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("size");
+                        xmlWriter.WriteValue(field.Size);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldVertexBuffer:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldArrayStart:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldArrayEnd:
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldPad:
+                    case Abide.Tag.Definition.FieldType.FieldSkip:
+                        xmlWriter.WriteStartElement("unused");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("size");
+                        xmlWriter.WriteValue(field.Size);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+
+                    case Abide.Tag.Definition.FieldType.FieldStruct:
+                        break;
+                    case Abide.Tag.Definition.FieldType.FieldTagIndex:
+                        xmlWriter.WriteStartElement("id");
+
+                        xmlWriter.WriteStartAttribute("offset");
+                        xmlWriter.WriteValue(offset);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("name");
+                        xmlWriter.WriteValue(field.Name);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteStartAttribute("visible");
+                        xmlWriter.WriteValue(true);
+                        xmlWriter.WriteEndAttribute();
+
+                        xmlWriter.WriteEndElement();
+                        break;
+                }
 
                 //Increment offset
                 offset += field.Size;

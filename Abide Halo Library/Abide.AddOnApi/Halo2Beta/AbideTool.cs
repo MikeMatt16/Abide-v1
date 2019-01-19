@@ -53,38 +53,22 @@ namespace Abide.AddOnApi.Halo2Beta
         /// Gets or sets the description of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The description of the AddOn.")]
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        public string Description { get; set; } = string.Empty;
         /// <summary>
         /// Gets or sets the author of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The author of the AddOn.")]
-        public string Author
-        {
-            get { return author; }
-            set { author = value; }
-        }
+        public string Author { get; set; } = string.Empty;
         /// <summary>
         /// Gets or sets the display icon of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The display icon of the AddOn.")]
-        public Image Icon
-        {
-            get { return icon; }
-            set { icon = value; }
-        }
+        public Image Icon { get; set; } = null;
         /// <summary>
         /// Gets or sets the name of the AddOn.
         /// </summary>
         [Category("Abide"), Description("The name of the AddOn."), Browsable(true)]
-        public string ToolName
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public string ToolName { get; set; } = string.Empty;
         /// <summary>
         /// Gets and returns the current Halo Map.
         /// This value can be null.
@@ -92,7 +76,7 @@ namespace Abide.AddOnApi.Halo2Beta
         [Browsable(false)]
         public MapFile Map
         {
-            get { return (MapFile)host?.Request(this, "Map"); }
+            get { return (MapFile)Host?.Request(this, "Map"); }
         }
         /// <summary>
         /// Gets and returns the currently selected Index Entry.
@@ -101,7 +85,7 @@ namespace Abide.AddOnApi.Halo2Beta
         [Browsable(false)]
         public IndexEntry SelectedEntry
         {
-            get { return (IndexEntry)host?.Request(this, "SelectedEntry"); }
+            get { return (IndexEntry)Host?.Request(this, "SelectedEntry"); }
         }
         /// <summary>
         /// Gets and returns the current Debug Xbox.
@@ -110,33 +94,25 @@ namespace Abide.AddOnApi.Halo2Beta
         [Browsable(false)]
         public Xbox Xbox
         {
-            get { return (Xbox)host?.Request(this, "Xbox"); }
+            get { return (Xbox)Host?.Request(this, "Xbox"); }
         }
         /// <summary>
         /// Gets and returns the AddOn host.
         /// </summary>
         [Browsable(false)]
-        public IHost Host
-        {
-            get { return host; }
-        }
+        public IHost Host { get; private set; }
 
         private event EventHandler mapLoad;
         private event EventHandler selectedEntryChanged;
         private event EventHandler xboxChanged;
         private event EventHandler<AddOnHostEventArgs> initialize;
-        private string name = string.Empty;
-        private string description = string.Empty;
-        private string author = string.Empty;
-        private Image icon = null;
-        private IHost host;
 
         /// <summary>
         /// Initializes a new <see cref="AbideTool"/> instance.
         /// </summary>
         public AbideTool()
         {
-            name = Name;
+            ToolName = Name;
             base.Dock = DockStyle.Fill;
         }
         /// <summary>
@@ -178,11 +154,11 @@ namespace Abide.AddOnApi.Halo2Beta
 
         string IAddOn.Author
         {
-            get { return author; }
+            get { return Author; }
         }
         string IAddOn.Description
         {
-            get { return description; }
+            get { return Description; }
         }
         Control ITool<MapFile, IndexEntry, Xbox>.UserInterface
         {
@@ -190,7 +166,7 @@ namespace Abide.AddOnApi.Halo2Beta
         }
         Image ITool<MapFile, IndexEntry, Xbox>.Icon
         {
-            get { return icon; }
+            get { return Icon; }
         }
         MapFile IHaloAddOn<MapFile, IndexEntry>.Map
         {
@@ -198,7 +174,7 @@ namespace Abide.AddOnApi.Halo2Beta
         }
         string IAddOn.Name
         {
-            get { return name; }
+            get { return ToolName; }
         }
         IndexEntry IHaloAddOn<MapFile, IndexEntry>.SelectedEntry
         {
@@ -224,7 +200,7 @@ namespace Abide.AddOnApi.Halo2Beta
         void IAddOn.Initialize(IHost host)
         {
             //Set
-            this.host = host;
+            Host = host;
 
             //Create Args
             var e = new AddOnHostEventArgs(host);

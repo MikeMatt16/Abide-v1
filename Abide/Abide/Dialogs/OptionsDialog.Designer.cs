@@ -113,7 +113,6 @@
             this.abideSettingsTab.Controls.Add(this.halo2MainmenuFilePathTextBox);
             this.abideSettingsTab.Location = new System.Drawing.Point(4, 22);
             this.abideSettingsTab.Name = "abideSettingsTab";
-            this.abideSettingsTab.Padding = new System.Windows.Forms.Padding(3);
             this.abideSettingsTab.Size = new System.Drawing.Size(320, 272);
             this.abideSettingsTab.TabIndex = 0;
             this.abideSettingsTab.Text = "Abide Settings";
@@ -122,7 +121,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 11);
+            this.label3.Location = new System.Drawing.Point(3, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 13);
             this.label3.TabIndex = 2;
@@ -131,7 +130,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 98);
+            this.label5.Location = new System.Drawing.Point(3, 97);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 13);
             this.label5.TabIndex = 2;
@@ -140,7 +139,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 40);
+            this.label2.Location = new System.Drawing.Point(3, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 2;
@@ -149,7 +148,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 127);
+            this.label4.Location = new System.Drawing.Point(3, 126);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(118, 13);
             this.label4.TabIndex = 2;
@@ -158,7 +157,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 69);
+            this.label1.Location = new System.Drawing.Point(3, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 2;
@@ -166,7 +165,7 @@
             // 
             // spSharedBrowseButton
             // 
-            this.spSharedBrowseButton.Location = new System.Drawing.Point(283, 6);
+            this.spSharedBrowseButton.Location = new System.Drawing.Point(286, 3);
             this.spSharedBrowseButton.Name = "spSharedBrowseButton";
             this.spSharedBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.spSharedBrowseButton.TabIndex = 1;
@@ -176,7 +175,7 @@
             // 
             // sharedBetaBrowseButton
             // 
-            this.sharedBetaBrowseButton.Location = new System.Drawing.Point(283, 93);
+            this.sharedBetaBrowseButton.Location = new System.Drawing.Point(286, 90);
             this.sharedBetaBrowseButton.Name = "sharedBetaBrowseButton";
             this.sharedBetaBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.sharedBetaBrowseButton.TabIndex = 3;
@@ -186,7 +185,7 @@
             // 
             // halo2SpSharedFilePathTextBox
             // 
-            this.halo2SpSharedFilePathTextBox.Location = new System.Drawing.Point(109, 8);
+            this.halo2SpSharedFilePathTextBox.Location = new System.Drawing.Point(112, 3);
             this.halo2SpSharedFilePathTextBox.Name = "halo2SpSharedFilePathTextBox";
             this.halo2SpSharedFilePathTextBox.ReadOnly = true;
             this.halo2SpSharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
@@ -194,7 +193,7 @@
             // 
             // halo2BetaSharedFilePathTextBox
             // 
-            this.halo2BetaSharedFilePathTextBox.Location = new System.Drawing.Point(134, 95);
+            this.halo2BetaSharedFilePathTextBox.Location = new System.Drawing.Point(137, 92);
             this.halo2BetaSharedFilePathTextBox.Name = "halo2BetaSharedFilePathTextBox";
             this.halo2BetaSharedFilePathTextBox.ReadOnly = true;
             this.halo2BetaSharedFilePathTextBox.Size = new System.Drawing.Size(143, 20);
@@ -202,7 +201,7 @@
             // 
             // sharedBrowseButton
             // 
-            this.sharedBrowseButton.Location = new System.Drawing.Point(283, 35);
+            this.sharedBrowseButton.Location = new System.Drawing.Point(286, 32);
             this.sharedBrowseButton.Name = "sharedBrowseButton";
             this.sharedBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.sharedBrowseButton.TabIndex = 3;
@@ -212,7 +211,7 @@
             // 
             // mainmenuBetaBrowseButton
             // 
-            this.mainmenuBetaBrowseButton.Location = new System.Drawing.Point(283, 122);
+            this.mainmenuBetaBrowseButton.Location = new System.Drawing.Point(286, 119);
             this.mainmenuBetaBrowseButton.Name = "mainmenuBetaBrowseButton";
             this.mainmenuBetaBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.mainmenuBetaBrowseButton.TabIndex = 5;
@@ -222,7 +221,7 @@
             // 
             // halo2SharedFilePathTextBox
             // 
-            this.halo2SharedFilePathTextBox.Location = new System.Drawing.Point(109, 37);
+            this.halo2SharedFilePathTextBox.Location = new System.Drawing.Point(112, 34);
             this.halo2SharedFilePathTextBox.Name = "halo2SharedFilePathTextBox";
             this.halo2SharedFilePathTextBox.ReadOnly = true;
             this.halo2SharedFilePathTextBox.Size = new System.Drawing.Size(168, 20);
@@ -230,7 +229,7 @@
             // 
             // halo2BetaMainmenuFilePathTextBox
             // 
-            this.halo2BetaMainmenuFilePathTextBox.Location = new System.Drawing.Point(134, 124);
+            this.halo2BetaMainmenuFilePathTextBox.Location = new System.Drawing.Point(137, 121);
             this.halo2BetaMainmenuFilePathTextBox.Name = "halo2BetaMainmenuFilePathTextBox";
             this.halo2BetaMainmenuFilePathTextBox.ReadOnly = true;
             this.halo2BetaMainmenuFilePathTextBox.Size = new System.Drawing.Size(143, 20);
@@ -238,7 +237,7 @@
             // 
             // mainmenuBrowseButton
             // 
-            this.mainmenuBrowseButton.Location = new System.Drawing.Point(283, 64);
+            this.mainmenuBrowseButton.Location = new System.Drawing.Point(286, 61);
             this.mainmenuBrowseButton.Name = "mainmenuBrowseButton";
             this.mainmenuBrowseButton.Size = new System.Drawing.Size(31, 23);
             this.mainmenuBrowseButton.TabIndex = 5;
@@ -248,7 +247,7 @@
             // 
             // halo2MainmenuFilePathTextBox
             // 
-            this.halo2MainmenuFilePathTextBox.Location = new System.Drawing.Point(109, 66);
+            this.halo2MainmenuFilePathTextBox.Location = new System.Drawing.Point(112, 63);
             this.halo2MainmenuFilePathTextBox.Name = "halo2MainmenuFilePathTextBox";
             this.halo2MainmenuFilePathTextBox.ReadOnly = true;
             this.halo2MainmenuFilePathTextBox.Size = new System.Drawing.Size(168, 20);

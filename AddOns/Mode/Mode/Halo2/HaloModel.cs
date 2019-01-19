@@ -130,7 +130,7 @@ namespace Mode.Halo2
                             if (section.RawOffset != uint.MaxValue)
                             {
                                 RawLocation rawLocation = (RawLocation)(section.RawOffset & 0xC0000000);
-                                if (rawLocation == RawLocation.Local) sourceData = entry.Raws[RawSection.Model][(int)section.RawOffset].GetBuffer();
+                                if (rawLocation == RawLocation.Local) sourceData = entry.Raws[RawSection.Model][(int)section.RawOffset].ToArray();
                                 else
                                 {
                                     string fileLocation = string.Empty;

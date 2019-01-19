@@ -218,9 +218,6 @@ namespace Abide.HaloLibrary.IO
             //Dispose
             base.Dispose(disposing);
 
-            try { if (memoryStream.Length > 0) System.Diagnostics.Debugger.Break(); }
-            catch (ObjectDisposedException) { }
-
             //Dispose managed resources
             if (disposing) memoryStream.Dispose();
         }

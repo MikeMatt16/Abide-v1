@@ -161,30 +161,9 @@ namespace Abide
             }
 
             //Check...
-            if (addOnInstaller != null)
-                mainForm = addOnInstaller;
+            if (addOnInstaller != null) mainForm = addOnInstaller;
             else
             {
-                //Prepare
-                System.Reflection.Assembly builtin = null;
-                
-                //Add Texture Editor
-                builtin = typeof(Texture_Editor.Halo2.TextureEditor).Assembly;
-                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
-
-                //Add Tag Editor
-                builtin = typeof(Tag_Data_Editor.Halo2.TagEditor).Assembly;
-                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
-
-                //Add Mode Model Editor
-                builtin = typeof(Mode.Halo2.Mode).Assembly;
-                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
-
-                //Add Hex Editor
-                builtin = typeof(Hex_Editor.Halo2.HexEditor).Assembly;
-                addOns.AddAssembly(builtin, Path.GetDirectoryName(builtin.Location));
-
-                //Add AddOn Assemblies
                 foreach (string assembly in addOnAssemblies)
                     if (safeMode) addOns.AddAssemblySafe(assembly);
                     else addOns.AddAssembly(assembly);

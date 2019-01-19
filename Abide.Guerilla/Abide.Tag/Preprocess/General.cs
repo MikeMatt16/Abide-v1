@@ -124,7 +124,8 @@ namespace Abide.Tag.Preprocess
 
         private static void CollisionBspPhysicsBlock_Preprocess(AbideTagBlock block)
         {
-            block.FieldSet[6].FieldType = FieldType.FieldTagIndex;
+            //Change pad length
+            block.FieldSet[18].Length = 4;
         }
 
         private static void DecoratorCacheBlockBlock_Preprocess(AbideTagBlock block)

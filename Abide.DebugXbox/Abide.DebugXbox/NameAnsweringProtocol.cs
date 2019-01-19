@@ -19,11 +19,6 @@ namespace Abide.DebugXbox
         /// </summary>
         private const int NapPort = 731;
         /// <summary>
-        /// Represents the socket will be used by the name answering protocol.
-        /// This field is read-only.
-        /// </summary>
-        private static readonly Socket socket;
-        /// <summary>
         /// Represents the discovery IP end point.
         /// This field is read-only.
         /// </summary>
@@ -32,24 +27,32 @@ namespace Abide.DebugXbox
         /// Represents the local end point of the name answering protocol server.
         /// </summary>
         private static readonly IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, NapPort);
-
         /// <summary>
-        /// Initializes the static instance of the <see cref="NameAnsweringProtocol"/> class.
+        /// Attempts to create a debug Xbox class instance using the specified <see cref="NapPacket"/> object and remote end point
         /// </summary>
-        static NameAnsweringProtocol()
+        /// <param name="packet">The response packet from the debug xbox console.</param>
+        /// <param name="remoteEndPoint">The remote end point of the debug xbox console.</param>
+        /// <returns></returns>
+        private static Xbox CreateXbox(NapPacket packet, EndPoint remoteEndPoint)
         {
-            //Initialize
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) { EnableBroadcast = true };
-            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
-            socket.Bind(localEndPoint);
+            //Check
+            if (packet == null) throw new ArgumentNullException(nameof(packet));
+            if (remoteEndPoint == null) throw new ArgumentNullException(nameof(remoteEndPoint));
+            if (packet.Type != NapType.Reply) throw new ArgumentException("Invalid packet.", nameof(packet));
+
+            //Create
+            Xbox xbox = new Xbox() { Name = packet.Name, RemoteEndPoint = (IPEndPoint)remoteEndPoint };
+
+            //Return
+            return xbox;
         }
+
         /// <summary>
         /// Attempts to discover debug Xbox consoles within a specified time limit.
         /// </summary>
-        /// <param name="timeout">The amount of time in seconds to wait for responses before returning the results.
-        /// Defaults to 3.</param>
-        /// <returns>An array of <see cref="Xbox"/> elements.</returns>
-        public static Xbox[] Discover(int timeout = 3)
+        /// <param name="timeout">The amount of time in milliseconds to wait for responses before returning the results.</param>
+        /// <returns>An array of discovered <see cref="Xbox"/> elements.</returns>
+        public static Xbox[] Discover(int timeout = 1000)
         {
             //Check
             if (timeout < 1) throw new ArgumentException(nameof(timeout));
@@ -60,61 +63,61 @@ namespace Abide.DebugXbox
             NapPacket response = new NapPacket();
             byte[] responsePacket = new byte[NapPacket.MaxLength];
             byte[] discoveryPacket = NapPacket.CreateDiscoveryPacket().GetPacket();
-            EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, NapPort);
-            AsyncCallback sendCallback = null, receiveCallback = null;
+            EndPoint remoteEndPoint = localEndPoint;
+            List<Socket> sockets = new List<Socket>();
 
-            //Setup send callback
-            sendCallback = new AsyncCallback(ar =>
-            {
-                //Send
-                socket.EndSendTo(ar);
-            });
-
-            //Setup receive callback
-            receiveCallback = new AsyncCallback(ar =>
-            {
-                //Check for timeout
-                if ((DateTime.Now - requestTime).TotalSeconds >= timeout)
+            //Prepare
+            foreach (NetworkInterface networkInterface in NetworkInterface.GetAllNetworkInterfaces())
+                foreach (UnicastIPAddressInformation ua in networkInterface.GetIPProperties().UnicastAddresses)
                 {
-                    socket.EndReceiveFrom(ar, ref remoteEndPoint);
-                    return;
-                }
+                    //Create Socket
+                    Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) { EnableBroadcast = true };
 
-                //Check length
-                if (NapPacket.MaxLength >= socket.EndReceiveFrom(ar, ref remoteEndPoint))
-                {
-                    //Get packet
-                    response.SetPacket(responsePacket);
-                    if (response.Type == NapType.Reply)
+                    //Attempt to bind and send
+                    try
                     {
-                        //Write
-                        Console.WriteLine("Discovered {0} on {1}", response.Name, remoteEndPoint);
+                        socket.Bind(new IPEndPoint(ua.Address, 0));
+                        socket.SendTo(discoveryPacket, discoveryEndPoint);
+
+                        //Add socket to list
+                        sockets.Add(socket);
                     }
+                    catch { }
                 }
 
-                //Receive
-                remoteEndPoint = new IPEndPoint(IPAddress.Any, NapPort);
-                socket.BeginReceiveFrom(responsePacket, 0, responsePacket.Length, SocketFlags.None, ref remoteEndPoint, receiveCallback, null);
-            });
-
-            //Send
-            socket.BeginReceiveFrom(responsePacket, 0, responsePacket.Length, SocketFlags.None, ref remoteEndPoint, receiveCallback, null);
-            socket.BeginSendTo(discoveryPacket, 0, discoveryPacket.Length, SocketFlags.None, discoveryEndPoint, sendCallback, null);
 
             //Loop
             requestTime = DateTime.Now;
-            while ((DateTime.Now - requestTime).TotalSeconds < timeout) { Thread.Sleep(1); }
+            do
+            {
+                //Sleep
+                Thread.Sleep(1);
+                foreach (Socket socket in sockets)
+                    while (socket.Available > 0)
+                    {
+                        responsePacket = new byte[socket.Available];
+                        socket.ReceiveFrom(responsePacket, ref remoteEndPoint);
+                        response.SetPacket(responsePacket);
+                        if (response.Type == NapType.Reply)
+                            xboxes.Add(CreateXbox(response, remoteEndPoint));
+                    }
+            }
+            while ((DateTime.Now - requestTime).TotalMilliseconds < timeout);
+
+            //Close
+            sockets.ForEach(s => s.Close());
+            sockets.Clear();
 
             //Return
             return xboxes.ToArray();
         }
         /// <summary>
-        /// 
+        /// Attempts to discover debug Xbox consoles with the specified name within a specified time limit.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static Xbox[] Discover(string name, int timeout = 3)
+        /// <param name="name">The name of the debug Xbox console.</param>
+        /// <param name="timeout">The amount of time in milliseconds to wait for responses before returning the results.</param>
+        /// <returns>An array of discovered <see cref="Xbox"/> elements.</returns>
+        public static Xbox[] Discover(string name, int timeout = 1000)
         {
             //Check
             if (name == null) throw new ArgumentNullException(nameof(name));
@@ -122,51 +125,109 @@ namespace Abide.DebugXbox
             if (timeout < 1) throw new ArgumentException(nameof(timeout));
 
             //Prepare
+            DateTime requestTime = new DateTime();
             List<Xbox> xboxes = new List<Xbox>();
             NapPacket response = new NapPacket();
             byte[] responsePacket = new byte[NapPacket.MaxLength];
             byte[] discoveryPacket = NapPacket.CreateLookupPacket(name).GetPacket();
-            EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, NapPort);
-            AsyncCallback sendCallback = null, receiveCallback = null;
+            EndPoint remoteEndPoint = discoveryEndPoint;
+            List<Socket> sockets = new List<Socket>();
 
-            //Setup send callback
-            sendCallback = new AsyncCallback(ar =>
-            {
-                //Send
-                socket.EndSendTo(ar);
-            });
-
-            //Setup receive callback
-            receiveCallback = new AsyncCallback(ar =>
-            {
-                //End
-                if (NapPacket.MaxLength >= socket.EndReceiveFrom(ar, ref remoteEndPoint))
+            //Prepare
+            foreach (NetworkInterface networkInterface in NetworkInterface.GetAllNetworkInterfaces())
+                foreach (UnicastIPAddressInformation ua in networkInterface.GetIPProperties().UnicastAddresses)
                 {
-                    //Get packet
-                    response.SetPacket(responsePacket);
-                    if (response.Type == NapType.Reply)
-                    {
+                    //Create Socket
+                    Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) { EnableBroadcast = true };
 
-                        //Write
-                        Console.WriteLine("Discovered {0} on {1}", response, remoteEndPoint);
+                    //Attempt to bind and send
+                    try
+                    {
+                        socket.Bind(new IPEndPoint(ua.Address, 0));
+                        socket.SendTo(discoveryPacket, discoveryEndPoint);
+
+                        //Add socket to list
+                        sockets.Add(socket);
                     }
+                    catch { }
                 }
 
-                //Receive
-                remoteEndPoint = new IPEndPoint(IPAddress.Any, NapPort);
-                socket.BeginReceiveFrom(responsePacket, 0, responsePacket.Length, SocketFlags.None, ref remoteEndPoint, receiveCallback, null);
-            });
-
-            //Send
-            socket.BeginReceiveFrom(responsePacket, 0, responsePacket.Length, SocketFlags.None, ref remoteEndPoint, receiveCallback, null);
-            socket.BeginSendTo(discoveryPacket, 0, discoveryPacket.Length, SocketFlags.Broadcast, discoveryEndPoint, sendCallback, null);
-
             //Loop
-            DateTime requestTime = DateTime.Now;
-            while ((DateTime.Now - requestTime).TotalSeconds < timeout) { Thread.Sleep(1); }
+            requestTime = DateTime.Now;
+            do
+            {
+                //Sleep
+                Thread.Sleep(1);
+                foreach (Socket socket in sockets)
+                    while (socket.Available > 0)
+                    {
+                        responsePacket = new byte[socket.Available];
+                        socket.ReceiveFrom(responsePacket, ref remoteEndPoint);
+                        response.SetPacket(responsePacket);
+                        if (response.Type == NapType.Reply)
+                            xboxes.Add(CreateXbox(response, remoteEndPoint));
+                    }
+            }
+            while ((DateTime.Now - requestTime).TotalMilliseconds < timeout);
+
+            //Close
+            sockets.ForEach(s => s.Close());
+            sockets.Clear();
 
             //Return
             return xboxes.ToArray();
+        }
+        /// <summary>
+        /// Attempts to discover a debug Xbox at a specified end point within a specified time limit.
+        /// </summary>
+        /// <param name="remoteAddress">The remote end point of the debug Xbox console.</param>
+        /// <param name="timeout">The amount of time in milliseconds to wait for responses before returning the results.</param>
+        /// <returns>The </returns>
+        public static Xbox Discover(IPAddress remoteAddress, int timeout = 1000)
+        {
+            //Check
+            if (remoteAddress == null) throw new ArgumentNullException(nameof(remoteAddress));
+            if (timeout < 1) throw new ArgumentException(nameof(timeout));
+
+            //Prepare
+            Xbox xbox = null;
+            DateTime requestTime = new DateTime();
+            NapPacket response = new NapPacket();
+            byte[] responsePacket = new byte[NapPacket.MaxLength];
+            byte[] discoveryPacket = NapPacket.CreateDiscoveryPacket().GetPacket();
+            EndPoint remoteEndPoint = new IPEndPoint(remoteAddress, NapPort);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) { EnableBroadcast = true };
+            socket.Bind(localEndPoint);
+
+            //Send
+            socket.SendTo(discoveryPacket, remoteEndPoint);
+
+            //Loop
+            requestTime = DateTime.Now;
+            do
+            {
+                //Sleep
+                Thread.Sleep(1);
+                while (socket.Available > 0)
+                {
+                    responsePacket = new byte[socket.Available];
+                    socket.ReceiveFrom(responsePacket, ref remoteEndPoint);
+                    response.SetPacket(responsePacket);
+                    if (response.Type == NapType.Reply)
+                    {
+                        xbox = CreateXbox(response, remoteEndPoint);
+                        goto discovered;
+                    }
+                }
+            }
+            while ((DateTime.Now - requestTime).TotalMilliseconds < timeout);
+        discovered:
+
+            //Close
+            socket.Close();
+
+            //Return
+            return xbox;
         }
     }
 

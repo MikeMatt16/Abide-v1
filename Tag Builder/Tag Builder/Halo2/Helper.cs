@@ -527,6 +527,9 @@ namespace Abide.TagBuilder.Halo2
                             //Write new tag group
                             tag.TagGroup.Write(tagWriter);
 
+                            //Pad
+                            sbspTagDataStream.Align(4098);
+
                             //Fix raw addresses
                             if (tag.SourceEntry != null) tag.SourceEntry.Raws.RecalculateRawAddresses(tag.TagGroup.GroupTag, sbspTagDataStream, tagReader, tagWriter);
 
@@ -586,6 +589,9 @@ namespace Abide.TagBuilder.Halo2
                             //Write tag group
                             tagGroup.Write(tagWriter);
 
+                            //Pad
+                            vs.Align(4098);
+
                             //Fix raw addresses
                             sbspEntry.Raws.RecalculateRawAddresses(sbspEntry.Root, vs, tagReader, tagWriter);
 
@@ -623,6 +629,9 @@ namespace Abide.TagBuilder.Halo2
                         {
                             //Write new tag group
                             tag.TagGroup.Write(tagWriter);
+
+                            //Align
+                            ltmpTagDataStream.Align(4096);
 
                             //Fix raw addresses
                             if (tag.SourceEntry != null) tag.SourceEntry.Raws.RecalculateRawAddresses(tag.TagGroup.GroupTag, ltmpTagDataStream, tagReader, tagWriter);
@@ -683,6 +692,9 @@ namespace Abide.TagBuilder.Halo2
                             //Write tag group
                             tagGroup.Write(tagWriter);
 
+                            //Pad
+                            vs.Align(4096);
+
                             //Fix raw addresses
                             ltmpEntry.Raws.RecalculateRawAddresses(ltmpEntry.Root, vs, tagReader, tagWriter);
 
@@ -706,8 +718,8 @@ namespace Abide.TagBuilder.Halo2
                     if (ltmpTagBuffer.Length > 0) blockHeader.StructureLightmapOffset = (uint)bspTagDataStream.Position;
                     writer.Write(ltmpTagBuffer);
 
-                    //Align to 1024 bytes
-                    bspTagDataStream.Align(1024);
+                    //Align to 4096 bytes
+                    bspTagDataStream.Align(4096);
 
                     //Write header
                     bspTagDataStream.Seek(virtualBspAddress, SeekOrigin.Begin);

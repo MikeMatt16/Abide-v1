@@ -32,7 +32,8 @@ namespace Tag_Data_Editor
 
         private static T GetValue<T>(RegistryKey key, string name)
         {
-            return (T)key.GetValue(name);
+            if (key.GetValue(name) == null) return default(T);
+            else return (T)key.GetValue(name);
         }
         private static void SetValue(RegistryKey key, string name, object value)
         {

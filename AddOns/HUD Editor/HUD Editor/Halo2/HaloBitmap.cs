@@ -776,13 +776,13 @@ namespace HUD_Editor.Halo2
             /// <param name="entry">The bitmap object index entry.</param>
             public BitmapTag(IndexEntry entry)
             {
-                using (BinaryReader reader = new BinaryReader(entry.TagData))
+                using (BinaryReader reader = entry.TagData.CreateReader())
                 {
                     //Goto
                     entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
 
                     //Read
-                    Header = reader.ReadStructure<BitmapTagGroup>();
+                    Header = reader.Read<BitmapTagGroup>();
 
                     //Setup tag blocks
                     Sequences = new BitmapTagGroup.Sequence[Header.sequences.Count];
@@ -792,22 +792,28 @@ namespace HUD_Editor.Halo2
                     //Loop
                     entry.TagData.Seek(Header.sequences.Offset, SeekOrigin.Begin);
                     for (int i = 0; i < Header.sequences.Count; i++)
-                        Sequences[i] = reader.ReadStructure<BitmapTagGroup.Sequence>();
+                        Sequences[i] = reader.Read<BitmapTagGroup.Sequence>();
                     for (int i = 0; i < Header.sequences.Count; i++)
                     {
                         //Setup tag blocks
                         Sprites[i] = new BitmapTagGroup.Sequence.Sprite[Sequences[i].sprites.Count];
 
                         //Loop
-                        entry.TagData.Seek(Sequences[i].sprites.Offset);
-                        for (int j = 0; j < Sequences[i].sprites.Count; j++)
-                            Sprites[i][j] = reader.ReadStructure<BitmapTagGroup.Sequence.Sprite>();
+                        if (Sequences[i].sprites.Count > 0)
+                        {
+                            entry.TagData.Seek(Sequences[i].sprites.Offset);
+                            for (int j = 0; j < Sequences[i].sprites.Count; j++)
+                                Sprites[i][j] = reader.Read<BitmapTagGroup.Sequence.Sprite>();
+                        }
                     }
 
                     //Loop
-                    entry.TagData.Seek(Header.bitmaps.Offset, SeekOrigin.Begin);
-                    for (int i = 0; i < Header.bitmaps.Count; i++)
-                        Bitmaps[i] = reader.ReadStructure<BitmapTagGroup.Bitmap>();
+                    if (Header.bitmaps.Count > 0)
+                    {
+                        entry.TagData.Seek(Header.bitmaps.Offset, SeekOrigin.Begin);
+                        for (int i = 0; i < Header.bitmaps.Count; i++)
+                            Bitmaps[i] = reader.Read<BitmapTagGroup.Bitmap>();
+                    }
                 }
             }
             /// <summary>
@@ -915,7 +921,7 @@ namespace HUD_Editor.Halo2
             [StructLayout(LayoutKind.Sequential)]
             public struct Bitmap
             {
-                public Tag signature;
+                public TagFourCc signature;
                 public ushort width;
                 public ushort height;
                 public byte depth;

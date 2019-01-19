@@ -2,6 +2,7 @@
 using Abide.Decompiler;
 using Abide.Guerilla.Library;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -9,6 +10,8 @@ namespace Abide.Guerilla
 {
     public partial class AbideGuerilla : Form
     {
+        private Dictionary<string, TagGroupFileEditor> openEditors = new Dictionary<string, TagGroupFileEditor>();
+
         public AbideGuerilla()
         {
             InitializeComponent();
@@ -48,6 +51,10 @@ namespace Abide.Guerilla
                 //Show
                 if (openDlg.ShowDialog() == DialogResult.OK)
                 {
+
+                    //Check
+                    if (openEditors.ContainsKey(openDlg.FileName))
+                        openEditors[openDlg.FileName].Show();
 #if DEBUG
                     //Load file
                     file = new TagGroupFile();
@@ -64,7 +71,78 @@ namespace Abide.Guerilla
                     }
                     catch { file = null; MessageBox.Show($"An error occured while opening {openDlg.FileName}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning); } 
 #endif
+
+                    //Check
+                    if (file != null)
+                    {
+                        //Create editor
+                        TagGroupFileEditor editor = new TagGroupFileEditor(openDlg.FileName, file) { MdiParent = this };
+                        editor.FileNameChanged += Editor_FileNameChanged;
+                        editor.FormClosed += Editor_FormClosed;
+                        
+                        //Show
+                        editor.Show();
+                    }
                 }
+            }
+        }
+        
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create dialog
+            using (Dialogs.NewTagGroupDialog groupDialog = new Dialogs.NewTagGroupDialog())
+            {
+                //Show
+                if(groupDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Create file
+                    TagGroupFile file = new TagGroupFile() { TagGroup = groupDialog.SelectedGroup };
+
+                    //Create editor
+                    TagGroupFileEditor editor = new TagGroupFileEditor($"{groupDialog.FileName}.{file.TagGroup.Name}", file) { MdiParent = this };
+                    editor.FileNameChanged += Editor_FileNameChanged;
+                    editor.FormClosed += Editor_FormClosed;
+                    
+                    //Show
+                    editor.Show();
+                }
+            }
+        }
+
+        private void Editor_FileNameChanged(object sender, EventArgs e)
+        {
+            //Clear
+            openEditors.Clear();
+
+            //Loop
+            foreach (Form child in MdiChildren)
+                if (child is TagGroupFileEditor editor)
+                    openEditors.Add(editor.FileName, editor);
+        }
+
+        private void Editor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Prepare
+            TagGroupFileEditor editor = null;
+
+            //Get form
+            if (sender is TagGroupFileEditor)
+            {
+                editor = (TagGroupFileEditor)sender;
+                openEditors.Remove(editor.FileName);
+            }
+            else
+            {
+                //Clear
+                openEditors.Clear();
+
+                //Loop
+                foreach (Form child in MdiChildren)
+                    if (child is TagGroupFileEditor)
+                    {
+                        editor = (TagGroupFileEditor)child;
+                        openEditors.Add(editor.FileName, editor);
+                    }
             }
         }
     }

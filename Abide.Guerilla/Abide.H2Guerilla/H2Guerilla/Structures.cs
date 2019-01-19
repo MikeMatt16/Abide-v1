@@ -2,6 +2,7 @@
 
 namespace Abide.H2Guerilla.H2Guerilla
 {
+#pragma warning disable 0649
     internal struct TagField
     {
         public FieldType Type;
@@ -62,4 +63,5 @@ namespace Abide.H2Guerilla.H2Guerilla
         public int SizeStringAddress;
         public int Address;
     }
+#pragma warning restore 0219
 }

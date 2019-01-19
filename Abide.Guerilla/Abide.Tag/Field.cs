@@ -1,4 +1,5 @@
 ﻿using Abide.HaloLibrary;
+using Abide.HaloLibrary.IO;
 using Abide.Tag.Definition;
 using System;
 using System.Collections.Generic;
@@ -319,11 +320,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the address of the block.
         /// </summary>
-        protected long BlockAddress { get; private set; } = -1;
+        public long BlockAddress { get; private set; } = -1;
         /// <summary>
         /// Gets and returns the address of the field.
         /// </summary>
-        protected long FieldAddress { get; private set; } = -1;
+        public long FieldAddress { get; private set; } = -1;
 
         /// <summary>
         /// Initializes a new instance of the basic block list
@@ -375,23 +376,31 @@ namespace Abide.Tag
             //Get Address
             if (BlockList.Count > 0)
             {
-                //Align
-                writer.BaseStream.Align(BlockList[0].Alignment);
+                //Write blocks into virtual stream
+                using (VirtualStream vs = new VirtualStream(writer.BaseStream.Position))
+                using (BinaryWriter virtualWriter = new BinaryWriter(vs))
+                {
+                    //Align
+                    vs.Align(BlockList[0].Alignment);
 
-                //Get Block address
-                BlockAddress = writer.BaseStream.Position;
+                    //Get address
+                    BlockAddress = vs.Position;
 
-                //Setup
-                tagBlock.Count = (uint)BlockList.Count;
-                tagBlock.Offset = (uint)writer.BaseStream.Position;
+                    //Write
+                    foreach (ITagBlock block in BlockList)
+                        block.Write(virtualWriter);
 
-                //Write
-                foreach (ITagBlock block in BlockList)
-                    block.Write(writer);
+                    //Write virtual memory into output stream
+                    writer.Write(vs.ToArray());
+                }
 
                 //Post-write blocks
                 foreach (ITagBlock block in BlockList)
                     block.PostWrite(writer);
+
+                //Setup
+                tagBlock.Count = (uint)BlockList.Count;
+                tagBlock.Offset = (uint)BlockAddress;
             }
 
             //Get End Point
@@ -2154,10 +2163,16 @@ namespace Abide.Tag
         /// Gets and returns the data element size.
         /// </summary>
         public int ElementSize { get; }
+        /// <summary>
+        /// Gets and returns the address of the data.
+        /// </summary>
+        public long DataAddress { get; private set; } = -1;
+        /// <summary>
+        /// Gets and returns the address of the field.
+        /// </summary>
+        public long FieldAddress { get; private set; } = -1;
 
         private byte[] buffer = new byte[0];
-        private long fieldAddress;
-        private long dataAddress;
 
         /// <summary>
         /// Gets and returns the size of the data field.
@@ -2189,6 +2204,9 @@ namespace Abide.Tag
             TagBlock block = reader.Read<TagBlock>();
             Value = block;
 
+            //Set address
+            DataAddress = block.Offset;
+
             //Check
             if (block.Count > 0)
             {
@@ -2197,7 +2215,7 @@ namespace Abide.Tag
 
                 //Goto
                 reader.BaseStream.Seek(block.Offset, SeekOrigin.Begin);
-
+                
                 //Read
                 buffer = reader.ReadBytes((int)(ElementSize * block.Count));
 
@@ -2212,7 +2230,7 @@ namespace Abide.Tag
         public override void Write(BinaryWriter writer)
         {
             //Get Address
-            fieldAddress = writer.BaseStream.Position;
+            FieldAddress = writer.BaseStream.Position;
 
             //Write zero
             writer.Write(TagBlock.Zero);
@@ -2233,7 +2251,7 @@ namespace Abide.Tag
                 writer.BaseStream.Align(Alignment);
 
                 //Get Block address
-                dataAddress = writer.BaseStream.Position;
+                DataAddress = writer.BaseStream.Position;
 
                 //Setup
                 tagBlock.Count = (uint)(buffer.Length / ElementSize);
@@ -2247,7 +2265,7 @@ namespace Abide.Tag
             long position = writer.BaseStream.Position;
 
             //Write Tag Block
-            writer.BaseStream.Position = fieldAddress;
+            writer.BaseStream.Position = FieldAddress;
             writer.Write(tagBlock);
 
             //Goto

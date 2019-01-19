@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 
 namespace Abide.Decompiler
@@ -81,7 +82,7 @@ namespace Abide.Decompiler
                     if(soundGlobalsTagBlock.BlockList.Count > 0)
                     {
                         //Get sound gestalt index
-                        TagId soundGestaltId = new TagId((int)soundGlobalsTagBlock.BlockList[0].Fields[4].Value);
+                        TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
 
                         //Get index entry
                         soundGestalt = Map.IndexEntries[soundGestaltId];
@@ -121,7 +122,11 @@ namespace Abide.Decompiler
                         switch (Map.IndexEntries[i].Root)
                         {
                             case HaloTags.snd_:
-                                CacheFileSound_ConvertToGuerilla(tagGroup, Map.IndexEntries[i], soundCacheFileGestalt);
+                                //CacheFileSound_ConvertToGuerilla(tagGroup, Map.IndexEntries[i], soundCacheFileGestalt);
+                                break;
+
+                            case HaloTags.unic:
+                                CacheFileUnicode_ConvertToGuerilla(tagGroup, Map.IndexEntries[i], Map);
                                 break;
                         }
 
@@ -170,7 +175,7 @@ namespace Abide.Decompiler
             //Complete
             Host.Complete();
         }
-
+        
         private int TagGroup_CalculateChecksum(Group tagGroup)
         {
             //Prepare
@@ -298,32 +303,151 @@ namespace Abide.Decompiler
             tagBlock.Fields[fieldIndex] = convertedField;
         }
 
+        private void CacheFileUnicode_ConvertToGuerilla(Group cacheFileUnicode, IndexEntry entry, MapFile map)
+        {
+            //Get string IDs
+            List<string> stringIds = new List<string>();
+            foreach (var str in entry.Strings.English)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Japanese)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.German)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.French)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Spanish)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Italian)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Korean)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Chinese)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+            foreach (var str in entry.Strings.Portuguese)
+                if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
+
+            //Reinitialize
+            ITagBlock unicodeStringListBlock = cacheFileUnicode.TagBlocks[0];
+            unicodeStringListBlock.Fields[2].Value = new byte[36];
+
+            //Prepare
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(ms))
+            {
+                //Loop
+                foreach (string stringId in stringIds)
+                {
+                    //Add block
+                    ITagBlock unicodeStringReferenceBlock = ((BaseBlockField)unicodeStringListBlock.Fields[0]).Add(out bool successful);
+                    if (successful)
+                    {
+                        //Setup
+                        unicodeStringReferenceBlock.Fields[0].Value = Map.Strings[stringId];
+                        unicodeStringReferenceBlock.Fields[1].Value = -1;
+                        unicodeStringReferenceBlock.Fields[2].Value = -1;
+                        unicodeStringReferenceBlock.Fields[3].Value = -1;
+                        unicodeStringReferenceBlock.Fields[4].Value = -1;
+                        unicodeStringReferenceBlock.Fields[5].Value = -1;
+                        unicodeStringReferenceBlock.Fields[6].Value = -1;
+                        unicodeStringReferenceBlock.Fields[7].Value = -1;
+                        unicodeStringReferenceBlock.Fields[8].Value = -1;
+                        unicodeStringReferenceBlock.Fields[9].Value = -1;
+
+                        //Get English offset
+                        if (entry.Strings.English.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[1].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.English.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Japanese offset
+                        if (entry.Strings.Japanese.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[2].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Japanese.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get German offset
+                        if (entry.Strings.German.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[3].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.German.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get French offset
+                        if (entry.Strings.French.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[4].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.French.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Spanish offset
+                        if (entry.Strings.Spanish.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[5].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Spanish.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Italian offset
+                        if (entry.Strings.Spanish.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[5].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Spanish.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Korean offset
+                        if (entry.Strings.Korean.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[6].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Korean.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Chinese offset
+                        if (entry.Strings.Chinese.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[7].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Chinese.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+
+                        //Get Portuguese offset
+                        if (entry.Strings.Portuguese.Any(e => e.ID == stringId))
+                        {
+                            unicodeStringReferenceBlock.Fields[8].Value = (int)ms.Position;
+                            writer.Write(Encoding.UTF8.GetBytes(entry.Strings.Portuguese.First(s => s.ID == stringId).Value));
+                            writer.Write((byte)0);
+                        }
+                    }
+                }
+
+                //Set
+                DataField stringData = (DataField)unicodeStringListBlock.Fields[1];
+                stringData.SetBuffer(ms.ToArray());
+            }
+        }
+
         private void CacheFileSound_ConvertToGuerilla(Group cacheFileSound, IndexEntry indexEntry, SoundCacheFileGestalt soundGestalt)
         {
             //Get blocks
+            Block gestatltBlock = (Block)soundGestalt.TagBlocks[0];
             Block cacheBlock = (Block)cacheFileSound.TagBlocks[0];
             Block soundBlock = new SoundBlock();
             soundBlock.Initialize();
 
             //Convert fields
-            soundBlock.Fields[0].Value = (int)((short)cacheBlock.Fields[0].Value);  //flags WordFlags -> LongFlags
+            soundBlock.Fields[0].Value = (int)(short)cacheBlock.Fields[0].Value;    //flags WordFlags -> LongFlags
             soundBlock.Fields[1].Value = cacheBlock.Fields[1].Value;    //class CharEnum -> CharEnum
             soundBlock.Fields[2].Value = cacheBlock.Fields[2].Value;    //sample rate CharEnum -> CharEnum
             soundBlock.Fields[9].Value = cacheBlock.Fields[3].Value;    //encoding CharEnum -> CharEnum
             soundBlock.Fields[10].Value = cacheBlock.Fields[4].Value;   //compression CharEnum -> CharEnum
-
-            //Convert playback index to playback parameters struct block
-            if ((short)cacheBlock.Fields[5].Value > -1)
-                soundBlock.Fields[5].Value = ((BaseBlockField)soundGestalt.TagBlocks[0].Fields[0]).BlockList[(short)cacheBlock.Fields[5].Value].Fields[0].Value;
-
-            //Convert scale index to scale modifiers struct block
-            if ((byte)cacheBlock.Fields[7].Value < byte.MaxValue)
-                soundBlock.Fields[6].Value = ((BaseBlockField)soundGestalt.TagBlocks[0].Fields[1]).BlockList[(byte)cacheBlock.Fields[7].Value].Fields[0].Value;
-
-            //Convert promotion index to promotion parameters struct block
-            if ((byte)cacheBlock.Fields[8].Value < byte.MaxValue)
-                soundBlock.Fields[11].Value = ((BaseBlockField)soundGestalt.TagBlocks[0].Fields[9]).BlockList[(byte)cacheBlock.Fields[8].Value].Fields[0].Value;
-
+            
             //Replace cache file sound block with sound block
             cacheFileSound.TagBlocks[0] = soundBlock;
         }

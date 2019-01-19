@@ -22,32 +22,21 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SoundBlock()
         {
-            /*Y*/
             this.Fields.Add(new LongFlagsField("flags", "fit to adpcm blocksize", "split long sound into permutations", "always spatialize#always play as 3d sound, even in first person", "never obstruct#disable occlusion/obstruction for this sound", "internal don\'t touch", "use huge sound transmission", "link count to owner unit", "pitch range is language", "don\'t use sound class speaker flag", "don\'t use lipsync data"));
-            /*Y*/
             this.Fields.Add(new CharEnumField("class", "projectile_impact", "projectile_detonation", "projectile_flyby", "", "weapon_fire", "weapon_ready", "weapon_reload", "weapon_empty", "weapon_charge", "weapon_overheat", "weapon_idle", "weapon_melee", "weapon_animation", "object_impacts", "particle_impacts", "", "", "", "unit_footsteps", "unit_dialog", "unit_animation", "", "vehicle_collision", "vehicle_engine", "vehicle_animation", "", "device_door", "", "device_machinery", "device_stationary", "", "", "music", "ambient_nature", "ambient_machinery", "", "huge_ass", "object_looping", "cinematic_music", "", "", "", "", "", "", "cortana_mission", "cortana_cinematic", "mission_dialog", "cinematic_dialog", "scripted_cinematic_foley", "game_event", "ui", "test", "multilingual_test"));
-            /*Y*/
             this.Fields.Add(new CharEnumField("sample rate*", "22kHz", "44kHz", "32kHz"));
             this.Fields.Add(new CharEnumField("", "none", "output front speakers", "output rear speakers", "output center speakers"));
             this.Fields.Add(new CharEnumField("import type*", "unknown", "single-shot", "single-layer", "multi-layer"));
-            /*Y*/
             this.Fields.Add(new StructField<SoundPlaybackParametersStructBlock>("playback"));
-            /*Y*/
             this.Fields.Add(new StructField<SoundScaleModifiersStructBlock>("scale"));
             this.Fields.Add(new ExplanationField("import properties", ""));
             this.Fields.Add(new PadField("", 2));
-            /*Y*/
             this.Fields.Add(new CharEnumField("encoding*", "mono", "stereo", "codec"));
-            /*Y*/
             this.Fields.Add(new CharEnumField("compression*", "none (big endian)", "xbox adpcm", "ima adpcm", "none (little endian)", "wma"));
-            /*Y*/
             this.Fields.Add(new StructField<SoundPromotionParametersStructBlock>("promotion"));
             this.Fields.Add(new PadField("", 12));
-            /*N*/
             this.Fields.Add(new BlockField<SoundPitchRangeBlock>("pitch ranges*#pitch ranges allow multiple samples to represent the same sound at different pitches", 9));
-            /*N*/
             this.Fields.Add(new BlockField<SoundPlatformSoundPlaybackBlock>("platform parameters", 1));
-            /*N*/
             this.Fields.Add(new BlockField<SoundExtraInfoBlock>("", 1));
         }
         /// <summary>
