@@ -373,6 +373,7 @@
     <Compile Include="Generated\HudDashlightsBlock.Generated.cs" />
     <Compile Include="Generated\HudGlobals.Generated.cs" />
     <Compile Include="Generated\HudGlobalsBlock.Generated.cs" />
+    <Compile Include="Generated\HudGlobalsWaypointArrowBlock.Generated.cs" />
     <Compile Include="Generated\HudMessageElementsBlock.Generated.cs" />
     <Compile Include="Generated\HudMessagesBlock.Generated.cs" />
     <Compile Include="Generated\HudMessageText.Generated.cs" />

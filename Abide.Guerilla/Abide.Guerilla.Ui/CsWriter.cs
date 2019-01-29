@@ -8,7 +8,6 @@ namespace Abide.H2Guerilla.Ui
     internal class CsWriter : IDisposable
     {
         private static readonly char[] LegalCharacters = new char[] { '_', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z' };
-        private bool indent = true;
         private List<string> enclosingHeirarcy = new List<string>();
         private Stream CsStream = null;
         private StreamWriter Writer = null;
@@ -17,12 +16,8 @@ namespace Abide.H2Guerilla.Ui
         /// <summary>
         /// Gets or sets indentation while writing
         /// </summary>
-        public bool Indent
-        {
-            get { return indent; }
-            set { indent = value; }
-        }
-        
+        public bool Indent { get; set; } = true;
+
         public CsWriter(string fileName)
         {
             //Open
@@ -592,7 +587,7 @@ namespace Abide.H2Guerilla.Ui
         }
         public void WriteEndExpression()
         {
-            if (indent)
+            if (Indent)
                 Writer.Write("\r\n");
             else
                 Writer.Write(' ');
@@ -604,7 +599,7 @@ namespace Abide.H2Guerilla.Ui
         }
         private void WriteIndent()
         {
-            if (indent)
+            if (Indent)
                 for (int i = 0; i < indentCount; i++)
                     Writer.Write('\t');
         }

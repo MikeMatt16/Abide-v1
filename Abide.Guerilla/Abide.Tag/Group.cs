@@ -46,7 +46,7 @@ namespace Abide.Tag
             if (reader == null) throw new ArgumentNullException(nameof(reader));
             
             //Read
-            foreach (Block block in TagBlocks)
+            foreach (ITagBlock block in TagBlocks)
                 block.Read(reader);
         }
         /// <summary>
@@ -59,11 +59,11 @@ namespace Abide.Tag
             if (writer == null) throw new ArgumentNullException(nameof(writer));
 
             //Write
-            foreach (Block block in TagBlocks)
+            foreach (ITagBlock block in TagBlocks)
                 block.Write(writer);
 
             //Post-write
-            foreach (Block block in TagBlocks)
+            foreach (ITagBlock block in TagBlocks)
                 block.PostWrite(writer);
         }
         /// <summary>

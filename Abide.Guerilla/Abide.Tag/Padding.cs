@@ -17,7 +17,7 @@ namespace Abide.Tag
         public static long Align(this Stream stream, int alignment, byte paddingByte = 0xcd)
         {
             //Get padding
-            if (stream.Position % alignment == 0) return 0;
+            if (stream.Position % alignment == 0) return stream.Position;
 
             byte[] padding = Padding_Create(stream.Position, alignment, paddingByte);
             stream.Write(padding, 0, padding.Length);

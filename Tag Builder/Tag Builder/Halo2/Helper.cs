@@ -475,11 +475,11 @@ namespace Abide.TagBuilder.Halo2
              * being used by another tag, then the data from the existing tag will be lost. This can be avoided 
              * by adding a new Structure BSPs tag block to the scenario and leaving the SBSP and LTMP tags 
              * unreferenced (or null). Adding the scenario structure tags to the new index will create a new 
-             * scenario structure tag block, independant of the others.
+             * scenario structure tag block, independent of the others.
              */
 
             //Get sound gestalt
-            IndexEntry soundGestalt = map.GetSoundGestaltEntry();
+            IndexEntry soundGestalt = map.GetSoundCacheFileGestaltEntry();
 
             //Check
             if (soundGestalt.Root != "ugh!") return;
@@ -865,7 +865,7 @@ namespace Abide.TagBuilder.Halo2
             if (tags.Length == 0) return;
 
             //Get sound gestalt
-            IndexEntry soundGestalt = map.GetSoundGestaltEntry();
+            IndexEntry soundGestalt = map.GetSoundCacheFileGestaltEntry();
 
             //Check
             if (soundGestalt.Root != "ugh!") return;
@@ -1030,7 +1030,7 @@ namespace Abide.TagBuilder.Halo2
             byte[] tagBuffer = null;
 
             //Prepare
-            long bspTagDataStart = (Index.IndexMemoryAddress - Index.Length) + map.IndexLength;
+            long bspTagDataStart = Index.IndexVirtualAddress + map.IndexLength;
             long tagDataStart = 0;
             long bspLength = 0;
 
@@ -1234,7 +1234,7 @@ namespace Abide.TagBuilder.Halo2
             }
         }
 
-        public static IndexEntry GetSoundGestaltEntry(this MapFile map)
+        public static IndexEntry GetSoundCacheFileGestaltEntry(this MapFile map)
         {
             //Check
             if (map.Globals == null) return null;

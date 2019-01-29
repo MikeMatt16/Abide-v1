@@ -364,22 +364,13 @@ namespace Abide.Tag.Definition
         /// <summary>
         /// Gets or sets a boolean that determines whether the value of this field will name it's tag block.
         /// </summary>
-        public bool IsBlockName
-        {
-            get { return isBlockName; }
-            set { isBlockName = value; }
-        }
+        public bool IsBlockName { get; set; }
         /// <summary>
         /// Gets or sets a boolean that determines whether this value is read-only.
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return isReadOnly; }
-            set { isReadOnly = value; }
-        }
-        
+        public bool IsReadOnly { get; set; }
+
         private string name, details, information;
-        private bool isBlockName, isReadOnly;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectName"/> class.
@@ -398,8 +389,8 @@ namespace Abide.Tag.Definition
             name = GetName(fieldName);
             details = GetDetails(fieldName);
             information = GetInformation(fieldName);
-            isBlockName = GetIsBlockName(fieldName);
-            isReadOnly = GetIsReadonly(fieldName);
+            IsBlockName = GetIsBlockName(fieldName);
+            IsReadOnly = GetIsReadonly(fieldName);
         }
         /// <summary>
         /// Gets and returns a the field name as a string.
@@ -407,7 +398,7 @@ namespace Abide.Tag.Definition
         /// <returns>A field name string.</returns>
         public override string ToString()
         {
-            return $"{name ?? string.Empty}{(isReadOnly ? "*" : string.Empty)}{(isBlockName ? "^" : string.Empty)}{details ?? string.Empty}{information ?? string.Empty}";
+            return $"{name ?? string.Empty}{(IsReadOnly ? "*" : string.Empty)}{(IsBlockName ? "^" : string.Empty)}{details ?? string.Empty}{information ?? string.Empty}";
         }
         private string GetName(string fieldName)
         {

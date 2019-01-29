@@ -66,13 +66,12 @@ namespace Abide.Forms
             AddOnFactory[] factories = new AddOnFactory[count];
             ListViewItem[] items = new ListViewItem[count];
 
-            //Get selected factories...
-            foreach (int i in addOnListView.SelectedIndices)
+            //Loop through selected items
+            for (int i = 0; i < count; i++)
             {
-                //Set...
-                items[i] = addOnListView.Items[i];
-                if (addOnListView.Items[i].Tag is AddOnFactory)
-                    factories[i] = (AddOnFactory)addOnListView.Items[i].Tag;
+                items[i] = addOnListView.Items[addOnListView.SelectedIndices[i]];
+                if (items[i].Tag is AddOnFactory factory)
+                    factories[i] = factory;
             }
             
             //Remove Directories

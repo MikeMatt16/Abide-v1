@@ -142,7 +142,7 @@ namespace Abide.Tag.Guerilla
         /// Initializes a new instance of the <see cref="OldStringIdField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
-        public OldStringIdField(string name) : base(FieldType.FieldStringId, name)
+        public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name)
         {
             //Prepare
             Value = StringValue.Empty;

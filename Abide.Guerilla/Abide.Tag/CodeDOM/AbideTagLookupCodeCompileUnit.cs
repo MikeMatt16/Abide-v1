@@ -9,9 +9,8 @@ namespace Abide.Tag.CodeDom
     /// </summary>
     public class AbideTagLookupCodeCompileUnit : CodeCompileUnit
     {
-        private const string c_HaloTagsNamespace = "HaloTag = Abide.HaloLibrary.Tag";
+        private const string c_HaloTagsNamespace = "HaloTag = Abide.HaloLibrary.TagFourCc";
         private const string c_TagNamespace = "Abide.Tag";
-        private const string c_GeneratedNamespace = "Abide.Tag.Generated";
 
         private readonly CodeTypeDeclaration tagLookupCodeTypeDeclaration;
 

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Abide.Guerilla
 {
-    public static class Tags
+    public static partial class Tags
     {
         public static TagFourCc[] GetExportedTagGroups()
         {

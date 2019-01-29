@@ -74,7 +74,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("right offset"));
             this.Fields.Add(new PadField("", 32));
             this.Fields.Add(new TagReferenceField("arrow bitmap", "bitm"));
-            this.Fields.Add(new BlockField<HudWaypointArrowBlock>("waypoint arrows", 4));
+            this.Fields.Add(new BlockField<HudGlobalsWaypointArrowBlock>("waypoint arrows", 16));
             this.Fields.Add(new PadField("", 80));
             this.Fields.Add(new ExplanationField("Multiplayer parameters", ""));
             this.Fields.Add(new RealField("hud scale in multiplayer"));

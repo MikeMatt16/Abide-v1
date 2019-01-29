@@ -1,5 +1,7 @@
 ﻿using Abide.Guerilla.Library;
+using Abide.Tag;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Abide.Guerilla
@@ -43,6 +45,11 @@ namespace Abide.Guerilla
             //Set
             Text = fileName;
         }
+        private void TagGroupFileEditor_Load(object sender, EventArgs e)
+        {
+            foreach (ITagBlock tagBlock in TagGroupFile.TagGroup)
+                Tags.GenerateControls(guerillaFlowLayoutPanel, tagBlock);
+        }
         /// <summary>
         /// Raises the <see cref="FileNameChanged"/> event.
         /// </summary>
@@ -51,6 +58,28 @@ namespace Abide.Guerilla
         {
             //Raise event
             FileNameChanged?.Invoke(this, e);
+        }
+
+        private void TagGroupFileEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Save changes?", "Save", MessageBoxButtons.YesNoCancel);
+            switch (result)
+            {
+                case DialogResult.Cancel:
+                    if (e.CloseReason == CloseReason.UserClosing) e.Cancel = true;  //cancel
+                    break;
+                case DialogResult.Yes:
+                    //Save to memory stream to prevent file corruption
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        //Save to stream
+                        TagGroupFile.Save(ms);
+
+                        //Save to file
+                        TagGroupFile.Save(m_FileName);
+                    }
+                    break;
+            }
         }
     }
 }

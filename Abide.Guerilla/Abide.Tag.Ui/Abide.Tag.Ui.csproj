@@ -115,6 +115,12 @@
     <Compile Include="Guerilla\Controls\StringControl.Designer.cs">
       <DependentUpon>StringControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Guerilla\Controls\StringIdControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Guerilla\Controls\StringIdControl.Designer.cs">
+      <DependentUpon>StringIdControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guerilla\Controls\TagReferenceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\StringControl.resx">
       <DependentUpon>StringControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Guerilla\Controls\StringIdControl.resx">
+      <DependentUpon>StringIdControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Guerilla\Controls\TagReferenceControl.resx">
       <DependentUpon>TagReferenceControl.cs</DependentUpon>

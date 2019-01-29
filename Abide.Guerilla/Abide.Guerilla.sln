@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Compiler", "Abide.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla.Library", "Abide.Guerilla.Library\Abide.Guerilla.Library.csproj", "{AE90EBBC-3C67-4E3B-AE2B-54336144313E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla.Helper", "Abide.Guerilla.Helper\Abide.Guerilla.Helper.csproj", "{89A4974E-66A0-4A1A-9AF5-509876454B1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{AE90EBBC-3C67-4E3B-AE2B-54336144313E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE90EBBC-3C67-4E3B-AE2B-54336144313E}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE90EBBC-3C67-4E3B-AE2B-54336144313E}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{89A4974E-66A0-4A1A-9AF5-509876454B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A4974E-66A0-4A1A-9AF5-509876454B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A4974E-66A0-4A1A-9AF5-509876454B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A4974E-66A0-4A1A-9AF5-509876454B1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

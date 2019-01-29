@@ -1,9 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Abide.Guerilla.Library
 {
+    public static class Enumerable
+    {
+        /// <summary>
+        /// Gets the first index of an element in an enumerable.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>
+        /// <returns>A zero-based index of the element if the source sequence contains an appropriate element; otherwise, -1.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            //Check
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            int index = 0;
+            foreach (TSource item in source)
+            {
+                if (predicate.Invoke(item)) return index;
+                index++;
+            }
+            return -1;
+        }
+    }
     internal static class SystemIOExtensions
     {
         /// <summary>

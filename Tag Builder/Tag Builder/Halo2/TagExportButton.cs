@@ -18,6 +18,9 @@ namespace Abide.TagBuilder.Halo2
     [AddOn]
     public sealed class TagExportButton : AbideMenuButton
     {
+        private IndexEntry m_SoundCacheFileGestaltEntry = null;
+        private ITagGroup m_SoundCacheFileGestalt = null;
+
         public TagExportButton()
         {
             //
@@ -32,24 +35,37 @@ namespace Abide.TagBuilder.Halo2
 
         private void TagExportButton_Click(object sender, EventArgs e)
         {
+            //Prepare
+            TagManifest manifest = null;
+            m_SoundCacheFileGestaltEntry = Map.GetSoundCacheFileGestaltEntry();
+            m_SoundCacheFileGestalt = null;
+
             //Check
-            if(SelectedEntry != null)
+            if (SelectedEntry != null)
             {
                 //Create new FolderBrowserDialog instance
                 using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
                 {
                     //Setup
                     folderDlg.Description = "Select the folder you wish to extract the tags to.";
-                    TagManifest manifest = new TagManifest();
+                    manifest = new TagManifest();
 
                     //Show
                     if (folderDlg.ShowDialog() == DialogResult.OK)
                     {
+                        //Read sound cache file gestalt
+                        using (BinaryReader reader = m_SoundCacheFileGestaltEntry.TagData.CreateReader())
+                        {
+                            m_SoundCacheFileGestalt = new SoundCacheFileGestalt();
+                            reader.BaseStream.Seek(m_SoundCacheFileGestaltEntry.Offset, SeekOrigin.Begin);
+                            m_SoundCacheFileGestalt.Read(reader);
+                        }
+
                         //Export entry
-                        IndexEntry_Export(manifest, SelectedEntry, folderDlg.SelectedPath);
+                        IndexEntry_Export(manifest, SelectedEntry, m_SoundCacheFileGestalt, folderDlg.SelectedPath);
 
                         //Create manifest file
-                        XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, IndentChars = "\t" };
+                        XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
                         using (FileStream fs = new FileStream(Path.Combine(folderDlg.SelectedPath, $"{SelectedEntry.Filename.Split('\\').Last()}.{SelectedEntry.Root}.xml"), FileMode.Create, FileAccess.Write))
                         using (XmlWriter writer = XmlWriter.Create(fs, settings))
                         {
@@ -112,14 +128,14 @@ namespace Abide.TagBuilder.Halo2
             }
         }
 
-        private void IndexEntry_Export(TagManifest manifest, IndexEntry entry, string outputDirectory)
+        private void IndexEntry_Export(TagManifest manifest, IndexEntry entry, ITagGroup soundCacheFileGestalt, string outputDirectory)
         {
             //Check
             if (entry == null || manifest == null || outputDirectory == null) return;
             if (manifest.TagIdReferences.Contains(entry.Id.Dword)) return;
 
             //Prepare
-            TagGroupFile tagGroupFile = new TagGroupFile();
+            TagGroupFile tagGroupFile = new TagGroupFile() { Id = entry.Id };
             ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
             string localPath = $"{entry.Filename}.{tagGroup.Name}";
             string absolutePath = Path.Combine(outputDirectory, localPath);
@@ -147,7 +163,7 @@ namespace Abide.TagBuilder.Halo2
                         tagGroupFile.SetRaw(raw.RawOffset, raw.ToArray());
 
                 //Convert cache to guerilla
-                tagGroup = entry.ToGuerilla(Map);
+                tagGroup = Guerilla.Library.Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, entry, Map);
 
                 //Create
                 Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));
@@ -177,11 +193,11 @@ namespace Abide.TagBuilder.Halo2
                 }
                 else if (field.Type == FieldType.FieldTagReference && field.Value is TagReference tagRef && !tagRef.Id.IsNull)
                 {
-                    IndexEntry_Export(manifest, Map.IndexEntries[tagRef.Id], outputDirectory);
+                    IndexEntry_Export(manifest, Map.IndexEntries[tagRef.Id], m_SoundCacheFileGestalt, outputDirectory);
                 }
                 else if (field.Type == FieldType.FieldTagIndex && field.Value is TagId id && !id.IsNull)
                 {
-                    IndexEntry_Export(manifest, Map.IndexEntries[id], outputDirectory);
+                    IndexEntry_Export(manifest, Map.IndexEntries[id], m_SoundCacheFileGestalt, outputDirectory);
                 }
                 else if (field.Type == FieldType.FieldBlock && field is BaseBlockField blockField)
                 {

@@ -12,6 +12,21 @@ namespace Abide.Decompiler
             InitializeComponent();
         }
 
+        private void decompileTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create OpenFileDialog instance.
+            using (OpenFileDialog openDlg = new OpenFileDialog())
+            {
+                //Prepare
+                openDlg.Filter = "Halo Map Files (*.map)|*.map";
+
+                //Show
+                if (openDlg.ShowDialog() == DialogResult.OK)
+                    using (TagDecompiler tagDecompiler = new TagDecompiler(openDlg.FileName))
+                        tagDecompiler.ShowDialog();
+            }
+        }
+
         private void browseMapButton_Click(object sender, EventArgs e)
         {
             //Create OpenFileDialog instance.
@@ -49,18 +64,12 @@ namespace Abide.Decompiler
             catch { MessageBox.Show("Faled to open map file."); }
 
             //Get Directory
-            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
-            {
-                //Setup
-                folderDlg.Description = $"Choose where to decompile {map.Name} to.";
+            string tagsDirectory = Path.Combine(Guerilla.Library.RegistrySettings.WorkspaceDirectory, "tags");
+            if (!Directory.Exists(tagsDirectory))
+                Directory.CreateDirectory(tagsDirectory);
 
-                //Show
-                if (folderDlg.ShowDialog() == DialogResult.OK)
-                {
-                    //Check
-                    if (map != null) Map_Decompile(map, folderDlg.SelectedPath);
-                }
-            }
+            //Decompile
+            if (map != null) Map_Decompile(map, tagsDirectory);
         }
 
         private void Map_Decompile(MapFile map, string outputDirectory)

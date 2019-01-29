@@ -286,6 +286,17 @@ namespace Abide.HaloLibrary.Halo2Map
         /// Represents the address of the index table in Xbox memory.
         /// This value is constant.
         /// </summary>
+        public const uint IndexVirtualAddress = 0x80061000;
+        /// <summary>
+        /// Represents the address of the tags start in the index table in Xbox memory.
+        /// This value is constant.
+        /// </summary>
+        public const uint IndexTagsAddress = 0x80061020;
+        /// <summary>
+        /// Represents the address of the index table in Xbox memory.
+        /// This value is constant.
+        /// </summary>
+        [Obsolete("IndexMemoryAddress is deprecated. Use IndexTagsAddress instead.")]
         public const uint IndexMemoryAddress = 2147880992;
         /// <summary>
         /// Represents the length of an <see cref="Index"/> structure in bytes.
@@ -294,13 +305,22 @@ namespace Abide.HaloLibrary.Halo2Map
         public const int Length = 32;
 
         /// <summary>
+        /// Gets or sets the offset to the map's tags entries.
+        /// </summary>
+        public uint TagsAddress
+        {
+            get { return tagsOffset; }
+            set { tagsOffset = value; }
+        }
+        /// <summary>
         /// Gets or sets the memory address of the index.
         /// This value should remain consistant across all maps.
         /// </summary>
+        [Obsolete("IndexAddress is obsolete. Use TagsAddress instead.")]
         public uint IndexAddress
         {
-            get { return indexAddress; }
-            set { indexAddress = value; }
+            get { return tagsOffset; }
+            set { tagsOffset = value; }
         }
         /// <summary>
         /// Gets or sets the number of tag hierarchy structures in the map's index table.
@@ -352,7 +372,7 @@ namespace Abide.HaloLibrary.Halo2Map
         }
         
         [FieldOffset(0)]
-        private uint indexAddress;
+        private uint tagsOffset;
         [FieldOffset(4)]
         private uint tagCount;
         [FieldOffset(8)]
@@ -374,7 +394,7 @@ namespace Abide.HaloLibrary.Halo2Map
         {
             Index index = new Index
             {
-                IndexAddress = IndexMemoryAddress,
+                TagsAddress = IndexTagsAddress,
                 ScenarioId = TagId.Null,
                 GlobalsId = TagId.Null,
                 Tags = "tags"

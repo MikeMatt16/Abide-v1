@@ -56,14 +56,105 @@
     <Compile Include="AbideGuerilla.Designer.cs">
       <DependentUpon>AbideGuerilla.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BlockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BlockControl.designer.cs">
+      <DependentUpon>BlockControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EnumControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EnumControl.designer.cs">
+      <DependentUpon>EnumControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExplanationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplanationControl.designer.cs">
+      <DependentUpon>ExplanationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FlagsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FlagsControl.designer.cs">
+      <DependentUpon>FlagsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FourTupleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FourTupleControl.designer.cs">
+      <DependentUpon>FourTupleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GuerillaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GuerillaControl.designer.cs">
+      <DependentUpon>GuerillaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Point2Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Point2Control.designer.cs">
+      <DependentUpon>Point2Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RangeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RangeControl.designer.cs">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StringControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StringControl.designer.cs">
+      <DependentUpon>StringControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StringIdControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StringIdControl.designer.cs">
+      <DependentUpon>StringIdControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TagReferenceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TagReferenceControl.designer.cs">
+      <DependentUpon>TagReferenceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThreeTupleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ThreeTupleControl.designer.cs">
+      <DependentUpon>ThreeTupleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TwoTupleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TwoTupleControl.designer.cs">
+      <DependentUpon>TwoTupleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ValueControl.designer.cs">
+      <DependentUpon>ValueControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\NewTagGroupDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\NewTagGroupDialog.Designer.cs">
       <DependentUpon>NewTagGroupDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Guerilla.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartupScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartupScreen.Designer.cs">
+      <DependentUpon>StartupScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="TagGroupFileEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +164,48 @@
     <Compile Include="Tags.cs" />
     <EmbeddedResource Include="AbideGuerilla.resx">
       <DependentUpon>AbideGuerilla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BlockControl.resx">
+      <DependentUpon>BlockControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EnumControl.resx">
+      <DependentUpon>EnumControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExplanationControl.resx">
+      <DependentUpon>ExplanationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FlagsControl.resx">
+      <DependentUpon>FlagsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FourTupleControl.resx">
+      <DependentUpon>FourTupleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GuerillaControl.resx">
+      <DependentUpon>GuerillaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Point2Control.resx">
+      <DependentUpon>Point2Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RangeControl.resx">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StringControl.resx">
+      <DependentUpon>StringControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StringIdControl.resx">
+      <DependentUpon>StringIdControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TagReferenceControl.resx">
+      <DependentUpon>TagReferenceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThreeTupleControl.resx">
+      <DependentUpon>ThreeTupleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TwoTupleControl.resx">
+      <DependentUpon>TwoTupleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ValueControl.resx">
+      <DependentUpon>ValueControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewTagGroupDialog.resx">
       <DependentUpon>NewTagGroupDialog.cs</DependentUpon>
@@ -87,6 +220,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="StartupScreen.resx">
+      <DependentUpon>StartupScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TagGroupFileEditor.resx">
       <DependentUpon>TagGroupFileEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -136,5 +272,6 @@
   <ItemGroup>
     <None Include="Resources\abide-icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

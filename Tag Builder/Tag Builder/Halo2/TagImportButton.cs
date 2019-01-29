@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using static Abide.HaloLibrary.Halo2Map.MapFile;
 using StringValue = Abide.Tag.Guerilla.StringValue;
 
 namespace Abide.TagBuilder.Halo2
@@ -21,7 +22,11 @@ namespace Abide.TagBuilder.Halo2
     [AddOn]
     public sealed class TagImportButton : AbideMenuButton
     {
+        private const short C_NullShort = unchecked((short)0xffff);
+        private const byte C_NullByte = unchecked(0xff);
         private StructureBspSelectDialog bspSelectDialog = null;
+        private IndexEntry m_SoundCacheFileGestaltEntry = null;
+        private ITagGroup m_SoundCacheFileGestalt = null;
 
         public TagImportButton()
         {
@@ -40,10 +45,14 @@ namespace Abide.TagBuilder.Halo2
             //Prepare
             XmlDocument document = null;
             string directory = string.Empty;
+            byte[] soundCacheFileGestaltTagBuffer = null;
+            byte[] tagDataBuffer = null;
 
             //Check
             if (Map == null) return;
             bspSelectDialog = new StructureBspSelectDialog(Map.Scenario);
+            m_SoundCacheFileGestaltEntry = Map.GetSoundCacheFileGestaltEntry();
+            m_SoundCacheFileGestalt = null;
 
             //Initialize OpenFileDialog object...
             using (OpenFileDialog openDlg = new OpenFileDialog())
@@ -68,10 +77,18 @@ namespace Abide.TagBuilder.Halo2
             {
                 //Get manifest node
                 XmlNode manifest = document["Manifest"];
-                
+
                 //Check
                 if (manifest != null)
                 {
+                    //Read sound cache file gestalt
+                    using (BinaryReader reader = m_SoundCacheFileGestaltEntry.TagData.CreateReader())
+                    {
+                        m_SoundCacheFileGestalt = new SoundCacheFileGestalt();
+                        reader.BaseStream.Seek(m_SoundCacheFileGestaltEntry.Offset, SeekOrigin.Begin);
+                        m_SoundCacheFileGestalt.Read(reader);
+                    }
+
                     //Get tags and strings
                     XmlNode tags = manifest["Tags"];
                     XmlNode strings = manifest["Strings"];
@@ -80,12 +97,12 @@ namespace Abide.TagBuilder.Halo2
                     TagsContainer tagIdLookup = new TagsContainer();
 
                     //Check strings
-                    if(strings != null)
+                    if (strings != null)
                     {
                         //Loop through nodes
                         foreach (XmlNode stringNode in strings.ChildNodes)
                         {
-                            if(stringNode.Name == "String")
+                            if (stringNode.Name == "String")
                             {
                                 //Get string
                                 string sid = stringNode.Attributes["value"]?.Value ?? string.Empty;
@@ -111,12 +128,128 @@ namespace Abide.TagBuilder.Halo2
                             }
                     }
 
+                    //Compile new sound cache file gestalt
+                    using (VirtualStream ughStream = new VirtualStream(m_SoundCacheFileGestaltEntry.Offset))
+                    using (BinaryWriter writer = new BinaryWriter(ughStream))
+                    {
+                        //Write
+                        m_SoundCacheFileGestalt.Write(writer);
+
+                        //Get buffer
+                        soundCacheFileGestaltTagBuffer = ughStream.ToArray();
+                    }
+
+                    //Get tag data offset
+                    long tagDataOffset = Map.TagDataStream.MemoryAddress;
+                    using (BinaryReader reader = new BinaryReader(Map.TagDataStream))
+                    {
+                        //Goto start
+                        reader.BaseStream.Seek(tagDataOffset, SeekOrigin.Begin);
+
+                        //Write existing tag data
+                        int tagDataLength = (int)(m_SoundCacheFileGestaltEntry.Offset - tagDataOffset);
+                        tagDataBuffer = reader.ReadBytes(tagDataLength);
+                    }
+                    
+                    using (VirtualStream tagDataStream = new VirtualStream(tagDataOffset))
+                    using (BinaryWriter writer = new BinaryWriter(tagDataStream))
+                    using (BinaryReader reader = new BinaryReader(tagDataStream))
+                    {
+                        //Goto start
+                        reader.BaseStream.Seek(tagDataOffset, SeekOrigin.Begin);
+
+                        //Write existing tag data
+                        writer.Write(tagDataBuffer);
+
+                        //Write modified sound cache file gestalt
+                        writer.Write(soundCacheFileGestaltTagBuffer);
+
+                        //Align
+                        tagDataStream.Align(1024);
+
+                        /*
+                         * tagData.Seek(64, SeekOrigin.Begin);
+                         * int soundsCount = reader.ReadInt32();
+                         * int soundsOffset = reader.ReadInt32();
+                         * for (int i = 0; i < soundsCount; i++)
+                         * {
+                         *     //Goto
+                         *     tagData.Seek(soundsOffset + (i * 12), SeekOrigin.Begin);
+                         *     rawOffset = reader.ReadInt32();
+                         * 
+                         *     //Check
+                         *     if ((raw = tagGroupFile.GetRaw(rawOffset)) != null)
+                         *         entry.Raws[RawSection.Sound].Add(new RawStream(raw, rawOffset));
+                         * }
+                         * 
+                         * tagData.Seek(80, SeekOrigin.Begin);
+                         * int extraInfosCount = reader.ReadInt32();
+                         * int extraInfosOffset = reader.ReadInt32();
+                         * for (int i = 0; i < extraInfosCount; i++)
+                         * {
+                         *     //Goto
+                         *     tagData.Seek(extraInfosOffset + (i * 44) + 8, SeekOrigin.Begin);
+                         *     rawOffset = reader.ReadInt32();
+                         * 
+                         *     //Check
+                         *     if ((raw = tagGroupFile.GetRaw(rawOffset)) != null)
+                         *         entry.Raws[RawSection.LipSync].Add(new RawStream(raw, rawOffset));
+                         * }
+                         */
+
+                        //Relocate sound raws
+                        tagDataStream.Seek(m_SoundCacheFileGestaltEntry.Offset + 64, SeekOrigin.Begin);
+                        TagBlock chunks = reader.Read<TagBlock>();
+                        for (int i = 0; i < chunks.Count; i++)
+                        {
+                            //Goto
+                            tagDataStream.Seek(chunks.Offset + (i * 12), SeekOrigin.Begin);
+                            long offsetAddress = tagDataStream.Position;
+                            int rawOffset = reader.ReadInt32();
+
+                            //Check
+                            if(m_SoundCacheFileGestaltEntry.Raws[RawSection.Sound].ContainsRawOffset(rawOffset))
+                            {
+                                m_SoundCacheFileGestaltEntry.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Clear();
+                                m_SoundCacheFileGestaltEntry.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            }
+                        }
+
+                        //Relocate lip-sync raws
+                        tagDataStream.Seek(m_SoundCacheFileGestaltEntry.Offset + 80, SeekOrigin.Begin);
+                        TagBlock extraInfos = reader.Read<TagBlock>();
+                        for (int i = 0; i < extraInfos.Count; i++)
+                        {
+                            //Goto
+                            tagDataStream.Seek(extraInfos.Offset + (i * 44) + 8, SeekOrigin.Begin);
+                            long offsetAddress = tagDataStream.Position;
+                            int rawOffset = reader.ReadInt32();
+
+                            //Check
+                            if (m_SoundCacheFileGestaltEntry.Raws[RawSection.LipSync].ContainsRawOffset(rawOffset))
+                            {
+                                m_SoundCacheFileGestaltEntry.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Clear();
+                                m_SoundCacheFileGestaltEntry.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            }
+                        }
+
+                        //Swap arrays
+                        Map.SwapTagBuffer(tagDataStream.ToArray(), tagDataOffset);
+                    }
+
+                    //Write sound cache file gestalt
+                    using (BinaryWriter writer = m_SoundCacheFileGestaltEntry.TagData.CreateWriter())
+                    {
+                        writer.BaseStream.Seek(m_SoundCacheFileGestaltEntry.Offset, SeekOrigin.Begin);
+                        m_SoundCacheFileGestalt.Write(writer);
+                    }
+
                     //Import tags
                     Map.AddTags(tagIdLookup.Tags.ToArray());
 
                     //Import BSP tags
                     Map.AddScenarioStructureTags(tagIdLookup.BspTags.ToArray());
-                    
+
                     //Null
                     tagIdLookup = null;
                     GC.Collect();
@@ -151,7 +284,7 @@ namespace Abide.TagBuilder.Halo2
                 container.IdLookup.Add(localFilePath, id);
 
                 //Convert
-                TagGroup_ToCache(container, tagGroupFile.TagGroup);
+                TagGroup_ToCache(container, tagGroupFile);
                 
                 //Create placeholder entry
                 IndexEntry placeholder = new IndexEntry(new ObjectEntry() { Id = id, Tag = groupTag }, baseTagName, Map.Tags[groupTag]);
@@ -210,19 +343,23 @@ namespace Abide.TagBuilder.Halo2
             }
         }
 
-        private void TagGroup_ToCache(TagsContainer container, ITagGroup tagGroup)
+        private void TagGroup_ToCache(TagsContainer container, TagGroupFile tagGroupFile)
         {
+            //Get tag group
+            ITagGroup tagGroup = tagGroupFile.TagGroup;
+
+            //Convert any guerilla fields to cache
+            for (int i = 0; i < tagGroup.Count; i++)
+                TagBlock_ToCache(container, tagGroup[i]);
+
+            //Check
             switch (tagGroup.GroupTag)
             {
                 case HaloTags.snd_:
-                    tagGroup = new Sound();
+                    SoundGestalt_AddSound(tagGroupFile);
                     break;
                 case HaloTags.unic:
                     tagGroup = new MultilingualUnicodeStringList();
-                    break;
-                default:
-                    for (int i = 0; i < tagGroup.Count; i++)
-                        TagBlock_ToCache(container, tagGroup[i]);
                     break;
             }
         }
@@ -586,6 +723,367 @@ namespace Abide.TagBuilder.Halo2
                     break;
                     #endregion
             }
+        }
+        
+        private void SoundGestalt_AddSound(TagGroupFile soundTag)
+        {
+            //Prepare
+            ITagGroup soundCacheFileGestalt = m_SoundCacheFileGestalt;
+            ITagGroup cacheFileSound = new Sound();
+            ITagGroup sound = soundTag.TagGroup;
+            string stringId = string.Empty;
+            bool success = false;
+            int index = 0;
+
+            //Get tag blocks
+            ITagBlock soundCacheFileGestaltBlock = soundCacheFileGestalt[0];
+            ITagBlock cacheFileSoundBlock = cacheFileSound[0];
+            ITagBlock soundBlock = sound[0];
+
+            //Transfer raws
+            foreach (int rawOffset in soundTag.GetRawOffsets()) //SoundCacheFileGestaltFile.SetRaw(rawOffset, soundTag.GetRaw(rawOffset));
+
+            //Check
+            if (soundBlock.Name != "sound_block") return;
+
+            //Get block fields from sound cache file gestalt
+            BaseBlockField playbacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
+            BaseBlockField scales = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
+            BaseBlockField importNames = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
+            BaseBlockField pitchRangeParameters = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
+            BaseBlockField pitchRanges = (BaseBlockField)soundCacheFileGestaltBlock.Fields[4];
+            BaseBlockField permutations = (BaseBlockField)soundCacheFileGestaltBlock.Fields[5];
+            BaseBlockField customPlaybacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[6];
+            BaseBlockField runtimePermutationFlags = (BaseBlockField)soundCacheFileGestaltBlock.Fields[7];
+            BaseBlockField chunks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[8];
+            BaseBlockField promotions = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
+            BaseBlockField extraInfos = (BaseBlockField)soundCacheFileGestaltBlock.Fields[10];
+
+            //Change
+            soundTag.TagGroup = cacheFileSound;
+
+            //Convert fields
+            cacheFileSoundBlock.Fields[0].Value = (short)(int)soundBlock.Fields[0].Value;   //flags
+            cacheFileSoundBlock.Fields[1].Value = soundBlock.Fields[1].Value;               //class
+            cacheFileSoundBlock.Fields[2].Value = soundBlock.Fields[2].Value;               //sample rate
+            cacheFileSoundBlock.Fields[3].Value = soundBlock.Fields[9].Value;               //encoding
+            cacheFileSoundBlock.Fields[4].Value = soundBlock.Fields[10].Value;              //compression
+
+            //Read 'extra' data that I chose to store in a pad field
+            bool validPromotion = false;
+            using (MemoryStream ms = new MemoryStream((byte[])soundBlock.Fields[12].Value))
+            using (BinaryReader reader = new BinaryReader(ms))
+            {
+                cacheFileSoundBlock.Fields[12].Value = reader.ReadInt32();  //max playback time
+                validPromotion = reader.ReadByte() != C_NullByte;
+            }
+            
+            //Add or get playback index
+            cacheFileSoundBlock.Fields[5].Value = (short)SoundGestalt_FindPlaybackIndex((ITagBlock)soundBlock.Fields[5].Value);
+
+            //Add scale
+            cacheFileSoundBlock.Fields[8].Value = (byte)(sbyte)SoundGestalt_FindScaleIndex((ITagBlock)soundBlock.Fields[6].Value);
+
+            //Add promotion
+            if (validPromotion) cacheFileSoundBlock.Fields[9].Value = (byte)(sbyte)SoundGestalt_FindPromotionIndex((ITagBlock)soundBlock.Fields[11].Value);
+            else cacheFileSoundBlock.Fields[9].Value = C_NullByte;
+
+            //Add custom playback
+            if (((BaseBlockField)soundBlock.Fields[14]).BlockList.Count > 0)
+            {
+                index = customPlaybacks.BlockList.Count;
+                ITagBlock customPlayback = customPlaybacks.Add(out success);
+                if (success)
+                {
+                    cacheFileSoundBlock.Fields[10].Value = (byte)index;
+                    customPlayback.Fields[0].Value = ((BaseBlockField)soundBlock.Fields[14]).BlockList[0];
+                }
+                else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
+            }
+            else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
+
+            //Add extra info
+            if (((BaseBlockField)soundBlock.Fields[15]).BlockList.Count > 0)
+            {
+                index = extraInfos.BlockList.Count;
+                ITagBlock soundExtraInfo = ((BaseBlockField)soundBlock.Fields[15]).BlockList[0];
+                ITagBlock extraInfo = extraInfos.Add(out success);
+                if (success)
+                {
+                    cacheFileSoundBlock.Fields[11].Value = (short)index;
+                    extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
+                    ((ITagBlock)extraInfo.Fields[1].Value).Fields[6] = new TagIndexField(string.Empty) { Value = m_SoundCacheFileGestaltEntry.Id };
+                    foreach (ITagBlock block in ((BaseBlockField)soundExtraInfo.Fields[1]).BlockList)
+                        ((BaseBlockField)extraInfo.Fields[0]).BlockList.Add(block);
+                }
+                else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
+            }
+            else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
+
+            //Add pitch range
+            cacheFileSoundBlock.Fields[7].Value = (byte)((BaseBlockField)soundBlock.Fields[13]).BlockList.Count;
+            foreach (var soundPitchRange in ((BaseBlockField)soundBlock.Fields[13]).BlockList)
+            {
+                index = pitchRanges.BlockList.Count;
+                ITagBlock gestaltPitchRange = pitchRanges.Add(out success);
+                if (success)
+                {
+                    //Set pitch range
+                    cacheFileSoundBlock.Fields[6].Value = (short)index;
+
+                    //Add import name
+                    gestaltPitchRange.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringId)soundPitchRange.Fields[0].Value);
+
+                    //Add pitch range parameter
+                    gestaltPitchRange.Fields[1].Value = (short)SoundGestalt_FindPitchRangeParameter((short)soundPitchRange.Fields[2].Value,
+                        (ShortBounds)soundPitchRange.Fields[4].Value, (ShortBounds)soundPitchRange.Fields[5].Value);
+
+                    //Add permutation
+                    gestaltPitchRange.Fields[4].Value = (short)permutations.BlockList.Count;
+                    gestaltPitchRange.Fields[5].Value = (short)((BaseBlockField)soundPitchRange.Fields[7]).BlockList.Count;
+
+                    //Loop
+                    foreach (ITagBlock soundPermutation in ((BaseBlockField)soundPitchRange.Fields[7]).BlockList)
+                    {
+                        ITagBlock gestaltPermutation = permutations.Add(out success);
+                        if (success)
+                        {
+                            //Add import name
+                            gestaltPermutation.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringId)soundPermutation.Fields[0].Value);
+
+                            //Convert fields
+                            gestaltPermutation.Fields[1].Value = (short)((float)soundPermutation.Fields[1].Value * 65535f);
+                            gestaltPermutation.Fields[2].Value = (byte)((float)soundPermutation.Fields[2].Value * 255f);
+                            gestaltPermutation.Fields[3].Value = (byte)(sbyte)(short)soundPermutation.Fields[4].Value;
+                            gestaltPermutation.Fields[4].Value = (short)soundPermutation.Fields[5].Value;
+                            gestaltPermutation.Fields[5].Value = (int)soundPermutation.Fields[3].Value;
+
+                            //Add chunks
+                            gestaltPermutation.Fields[6].Value = (short)chunks.BlockList.Count;
+                            gestaltPermutation.Fields[7].Value = (short)((BaseBlockField)soundPermutation.Fields[6]).BlockList.Count;
+
+                            //Loop
+                            foreach (ITagBlock soundChunk in ((BaseBlockField)soundPermutation.Fields[6]).BlockList)
+                                chunks.BlockList.Add(soundChunk);
+                        }
+                        else
+                        {
+                            gestaltPitchRange.Fields[4].Value = C_NullShort;
+                            gestaltPitchRange.Fields[5].Value = (short)0;
+                        }
+                    }
+                }
+                else
+                {
+                    cacheFileSoundBlock.Fields[6].Value = C_NullShort;
+                    cacheFileSoundBlock.Fields[7].Value = C_NullByte;
+                }
+            }
+        }
+
+        private int SoundGestalt_FindPitchRangeParameter(short s1, ShortBounds sb1, ShortBounds sb2)
+        {
+            //Prepare
+            ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
+            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
+            int index = -1;
+
+            //Check
+            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            {
+                if ((short)gestaltBlock.Fields[0].Value == s1)
+                    if (((ShortBounds)gestaltBlock.Fields[1].Value).Equals(sb1))
+                        if (((ShortBounds)gestaltBlock.Fields[2].Value).Equals(sb2))
+                        {
+                            index = blockField.BlockList.IndexOf(gestaltBlock);
+                            break;
+                        }
+            }
+
+            //Add (or return -1)
+            if (index == -1)
+            {
+                index = blockField.BlockList.Count;
+                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                if (success)
+                {
+                    gestaltBlock.Fields[0].Value = s1;
+                    gestaltBlock.Fields[1].Value = sb1;
+                    gestaltBlock.Fields[2].Value = sb2;
+                    index = (byte)index;
+                }
+                else index = -1;
+            }
+
+            //return
+            return index;
+        }
+
+        private int SoundGestalt_FindImportNameIndex(StringId stringId)
+        {
+            //Prepare
+            ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
+            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
+            int index = -1;
+
+            //Check
+            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            {
+                if ((StringId)gestaltBlock.Fields[0].Value == stringId)
+                {
+                    index = blockField.BlockList.IndexOf(gestaltBlock);
+                    break;
+                }
+            }
+
+            //Add (or return -1)
+            if (index == -1)
+            {
+                index = blockField.BlockList.Count;
+                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                if (success) gestaltBlock.Fields[0].Value = stringId;
+                else index = -1;
+            }
+
+            //return
+            return index;
+        }
+
+        private int SoundGestalt_FindPromotionIndex(ITagBlock structBlock)
+        {
+            //Prepare
+            ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
+            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
+            int index = -1;
+
+            //Check
+            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            {
+                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                {
+                    index = blockField.BlockList.IndexOf(gestaltBlock);
+                    break;
+                }
+            }
+
+            //Add (or return -1)
+            if (index == -1)
+            {
+                index = blockField.BlockList.Count;
+                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                if (success) gestaltBlock.Fields[0].Value = structBlock;
+                else index = -1;
+            }
+
+            //return
+            return index;
+        }
+
+        private int SoundGestalt_FindScaleIndex(ITagBlock structBlock)
+        {
+            //Prepare
+            ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
+            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
+            int index = -1;
+
+            //Check
+            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            {
+                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                {
+                    index = blockField.BlockList.IndexOf(gestaltBlock);
+                    break;
+                }
+            }
+
+            //Add (or return -1)
+            if (index == -1)
+            {
+                index = blockField.BlockList.Count;
+                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                if (success)
+                {
+                    gestaltBlock.Fields[0].Value = structBlock;
+                    index = (byte)index;
+                }
+                else index = -1;
+            }
+
+            //return
+            return index;
+        }
+
+        private int SoundGestalt_FindPlaybackIndex(ITagBlock structBlock)
+        {
+            //Prepare
+            ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
+            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
+            int index = -1;
+
+            //Check
+            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            {
+                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                {
+                    index = blockField.BlockList.IndexOf(gestaltBlock);
+                    break;
+                }
+            }
+
+            //Add (or return -1)
+            if (index == -1)
+            {
+                index = blockField.BlockList.Count;
+                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                if (success) gestaltBlock.Fields[0].Value = structBlock;
+                else index = -1;
+            }
+
+            //return
+            return index;
+        }
+
+        private bool TagBlock_Equals(ITagBlock b1, ITagBlock b2)
+        {
+            //Start
+            bool equals = b1.Fields.Count == b2.Fields.Count && b1.Name == b2.Name;
+
+            //Check
+            if (equals)
+                for (int i = 0; i < b1.Fields.Count; i++)
+                {
+                    if (!equals) break;
+                    Field f1 = b1.Fields[i], f2 = b2.Fields[i];
+                    equals &= f1.Type == f2.Type;
+                    if (equals)
+                        switch (b1.Fields[i].Type)
+                        {
+                            case FieldType.FieldBlock:
+                                BaseBlockField bf1 = (BaseBlockField)f1;
+                                BaseBlockField bf2 = (BaseBlockField)f2;
+                                equals &= bf1.BlockList.Count == bf2.BlockList.Count;
+                                if (equals)
+                                    for (int j = 0; j < bf1.BlockList.Count; j++)
+                                        if (equals) equals = TagBlock_Equals(bf1.BlockList[j], bf2.BlockList[j]);
+                                break;
+                            case FieldType.FieldStruct:
+                                equals &= TagBlock_Equals((ITagBlock)f1.Value, (ITagBlock)f2.Value);
+                                break;
+                            case FieldType.FieldPad:
+                                PadField pf1 = (PadField)f1;
+                                PadField pf2 = (PadField)f2;
+                                for (int j = 0; j < pf1.Length; j++)
+                                    if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
+                                break;
+                            default:
+                                if (f1.Value == null && f2.Value == null) continue;
+                                else equals &= f1.Value.Equals(f2.Value);
+                                break;
+                        }
+                }
+
+            //Return
+            return equals;
         }
 
         private class TagsContainer

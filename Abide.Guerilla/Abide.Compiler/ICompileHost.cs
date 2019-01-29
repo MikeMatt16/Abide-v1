@@ -4,8 +4,8 @@ namespace Abide.Compiler
 {
     public interface ICompileHost : IProgress<float>
     {
+        object Invoke(Delegate method);
         void Log(string line);
-        void Marquee();
         void Complete();
         void Fail();
     }

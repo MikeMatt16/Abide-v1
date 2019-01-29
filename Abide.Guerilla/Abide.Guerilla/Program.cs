@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Abide.Guerilla
@@ -16,7 +13,18 @@ namespace Abide.Guerilla
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AbideGuerilla());
+
+            //Upgrade settings
+            if (Properties.Settings.Default.UpgradeRequired)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.Save();
+            }
+
+            //Check
+            if (Properties.Settings.Default.FirstRun)
+                Application.Run(new StartupScreen());
+            else Application.Run(new AbideGuerilla());
         }
     }
 }

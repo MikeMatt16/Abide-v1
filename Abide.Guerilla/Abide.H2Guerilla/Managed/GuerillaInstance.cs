@@ -133,6 +133,10 @@ namespace Abide.H2Guerilla.Managed
             Console.WriteLine("Processing tag_block {0}", definition.Name);
 
             //Check
+            if (definition.Name == "hud_waypoint_arrow_block" && definition.Address == 9689580)
+                definition.Name = "hud_globals_waypoint_arrow_block";
+
+            //Check
             if (definition.Name == "sound_block")
             {
                 //Override sound block
