@@ -8,6 +8,14 @@ namespace Tag_Data_Editor
         private static readonly RegistryKey internetExplorer = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer", false);
 
         /// <summary>
+        /// Gets or sets the Browser Emulation for the <see cref="System.Windows.Forms.WebBrowser"/> control in Tag Data Editor.
+        /// </summary>
+        public static int TagDataEditor
+        {
+            get { return GetValue<int>(featureBrowserEmulation, "Tag Data Editor.exe"); }
+            set { SetValue(featureBrowserEmulation, "Tag Data Editor.exe", value); }
+        }
+        /// <summary>
         /// Gets or sets the Browser Emulation for the <see cref="System.Windows.Forms.WebBrowser"/> control in Abide.
         /// </summary>
         public static int Abide

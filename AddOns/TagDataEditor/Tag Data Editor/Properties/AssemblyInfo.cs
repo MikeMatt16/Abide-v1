@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Potential Software")]
 [assembly: AssemblyProduct("Tag Data Editor")]
-[assembly: AssemblyCopyright("Copyright © Potential Software 2018")]
+[assembly: AssemblyCopyright("Copyright © Potential Software 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

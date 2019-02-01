@@ -6,81 +6,87 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class BlockControl : UserControl
     {
-        public BlockList List
-        {
-            get { return blockList; }
-            set
-            {
-                blockList = value;
-                blockSelectComboBox.Items.Clear();
-                if (value.Count > 0)
-                    foreach (ITagBlock block in value)
-                        blockSelectComboBox.Items.Add(block.ToString());
-                else blockSelectComboBox.Items.Add("None");
-
-                blockSelectComboBox.SelectedIndex = 0;
-                controlsPanel.Visible = blockList.Count > 0;
-                expandCollapseButton.Text = controlsPanel.Visible ? "-" : "+";
-            }
-        }
-        public FlowLayoutPanel Contents
-        {
-            get { return controlsPanel; }
-        }
-        public string Title
-        {
-            get { return titleLabel.Text; }
-            set { titleLabel.Text = value.ToUpper(); }
-        }
         public BaseBlockField Field
         {
-            get;
-            set;
+            get { return m_Field; }
+            set
+            {
+                bool changed = m_Field != value;
+                m_Field = value;
+                if (changed) OnFieldChanged(new EventArgs());
+            }
         }
-        
-        private BlockList blockList = new BlockList(0);
 
-        public BlockControl()
+        private BaseBlockField m_Field;
+
+        public BlockControl(BaseBlockField blockField) : this()
+        {
+            Tags.GenerateControls(controlsFlowLayoutPanel, blockField.Create());
+            titleLabel.Text = blockField.Name;
+            Field = blockField;
+        }
+        private BlockControl()
         {
             InitializeComponent();
-            controlsPanel.Visible = false;
-            blockSelectComboBox.SelectedIndex = 0;
         }
+        protected virtual void OnFieldChanged(EventArgs e)
+        {
+            //Prepare
+            blockSelectComboBox.Items.Clear();
+            controlsFlowLayoutPanel.Visible = true;
+            controlsFlowLayoutPanel.Enabled = true;
+            expandCollapseButton.Enabled = true;
+            blockSelectComboBox.Enabled = true;
+            expandCollapseButton.Text = "-";
 
+            //Loop
+            foreach (var tagBlock in m_Field.BlockList) blockSelectComboBox.Items.Add(tagBlock);
+            if (blockSelectComboBox.Items.Count > 0) blockSelectComboBox.SelectedIndex = 0;
+            else
+            {
+                expandCollapseButton.Text = "+";
+                controlsFlowLayoutPanel.Enabled = false;
+                controlsFlowLayoutPanel.Visible = false;
+                expandCollapseButton.Enabled = false;
+                blockSelectComboBox.Enabled = false;
+                blockSelectComboBox.SelectedIndex = -1;
+            }
+        }
         private void blockSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Clear
-            controlsPanel.Controls.Clear();
-
-            //Check
-            if (blockList.Count > 0)
-                Tags.GenerateControls(controlsPanel, blockList[blockSelectComboBox.SelectedIndex]);
+            ITagBlock selectedBlock = (ITagBlock)blockSelectComboBox.SelectedItem;
+            for (int i = 0; i < selectedBlock.Fields.Count; i++)
+            {
+                switch (selectedBlock.Fields[i].Type)
+                {
+                    case Definition.FieldType.FieldBlock:
+                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BaseBlockField)selectedBlock.Fields[i];
+                        break;
+                    case Definition.FieldType.FieldStruct:
+                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (BaseStructField)selectedBlock.Fields[i];
+                        break;
+                    case Definition.FieldType.FieldExplanation:
+                        continue;
+                    default:
+                        ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = selectedBlock.Fields[i];
+                        break;
+                }
+            }
         }
         private void expandCollapseButton_Click(object sender, EventArgs e)
         {
             //Toggle
-            controlsPanel.Visible = !controlsPanel.Visible;
+            controlsFlowLayoutPanel.Visible = !controlsFlowLayoutPanel.Visible;
 
             //Set
-            expandCollapseButton.Text = controlsPanel.Visible ? "-" : "+";
+            expandCollapseButton.Text = controlsFlowLayoutPanel.Visible ? "-" : "+";
         }
 
         private void addBlockButton_Click(object sender, EventArgs e)
         {
-            ITagBlock newBlock = Field.Add(out bool success);
+            ITagBlock newBlock = m_Field.Add(out bool success);
             if (success)
             {
-                blockSelectComboBox.Items.Clear();
-                Contents.Enabled = blockList.Count > 0;
-                if (blockList.Count > 0)
-                    foreach (ITagBlock block in blockList)
-                        blockSelectComboBox.Items.Add(block.ToString());
-                else blockSelectComboBox.Items.Add("None");
-
-                blockSelectComboBox.SelectedIndex = 0;
-                controlsPanel.Visible = blockList.Count > 0;
-                expandCollapseButton.Text = controlsPanel.Visible ? "-" : "+";
-                blockSelectComboBox.SelectedIndex = blockList.IndexOf(newBlock);
             }
         }
     }

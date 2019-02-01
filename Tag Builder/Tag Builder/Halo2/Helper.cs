@@ -490,7 +490,7 @@ namespace Abide.TagBuilder.Halo2
 
             //Prepare
             long bspLength = 0;
-            long virtualBspAddress = (Index.IndexMemoryAddress - Index.Length) + map.IndexLength;
+            long virtualBspAddress = Index.IndexVirtualAddress + map.IndexLength;
             IndexEntry newEntry = null;
             TagId newTagId = TagId.Null;
             Group tagGroup = null;

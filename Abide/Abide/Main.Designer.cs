@@ -58,6 +58,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -245,6 +246,7 @@
             // 
             this.xboxToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.quickConnectToolStripMenuItem,
+            this.connectToToolStripMenuItem,
             this.toolStripSeparator3});
             this.xboxToolStripMenuItem.Name = "xboxToolStripMenuItem";
             this.xboxToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
@@ -286,6 +288,12 @@
             this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
             this.versionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.versionToolStripMenuItem.Text = "version";
+            // 
+            // connectToToolStripMenuItem
+            // 
+            this.connectToToolStripMenuItem.Name = "connectToToolStripMenuItem";
+            this.connectToToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.connectToToolStripMenuItem.Text = "&Connect to...";
             // 
             // Main
             // 
@@ -341,6 +349,7 @@
         private System.Windows.Forms.ToolStripMenuItem recentHalo2BetaMapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearRecentHalo2BetaMapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator recentHalo2BetaMapsToolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem connectToToolStripMenuItem;
     }
 }
 

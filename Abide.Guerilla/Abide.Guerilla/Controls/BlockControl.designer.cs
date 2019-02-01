@@ -31,7 +31,7 @@
             this.expandCollapseButton = new System.Windows.Forms.Button();
             this.titleLabel = new System.Windows.Forms.Label();
             this.blockSelectComboBox = new System.Windows.Forms.ComboBox();
-            this.controlsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.controlsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.addBlockButton = new System.Windows.Forms.Button();
             this.insertBlockButton = new System.Windows.Forms.Button();
             this.duplicateBlockButton = new System.Windows.Forms.Button();
@@ -76,18 +76,19 @@
             this.blockSelectComboBox.TabIndex = 2;
             this.blockSelectComboBox.SelectedIndexChanged += new System.EventHandler(this.blockSelectComboBox_SelectedIndexChanged);
             // 
-            // controlsPanel
+            // controlsFlowLayoutPanel
             // 
-            this.controlsPanel.AutoSize = true;
-            this.controlsPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.controlsPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.controlsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.controlsPanel.Location = new System.Drawing.Point(6, 52);
-            this.controlsPanel.MinimumSize = new System.Drawing.Size(554, 0);
-            this.controlsPanel.Name = "controlsPanel";
-            this.controlsPanel.Size = new System.Drawing.Size(554, 0);
-            this.controlsPanel.TabIndex = 3;
-            this.controlsPanel.WrapContents = false;
+            this.controlsFlowLayoutPanel.AutoSize = true;
+            this.controlsFlowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.controlsFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.controlsFlowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.controlsFlowLayoutPanel.Location = new System.Drawing.Point(6, 52);
+            this.controlsFlowLayoutPanel.MinimumSize = new System.Drawing.Size(554, 0);
+            this.controlsFlowLayoutPanel.Name = "controlsFlowLayoutPanel";
+            this.controlsFlowLayoutPanel.Size = new System.Drawing.Size(554, 0);
+            this.controlsFlowLayoutPanel.TabIndex = 3;
+            this.controlsFlowLayoutPanel.Visible = false;
+            this.controlsFlowLayoutPanel.WrapContents = false;
             // 
             // addBlockButton
             // 
@@ -148,7 +149,7 @@
             this.Controls.Add(this.duplicateBlockButton);
             this.Controls.Add(this.insertBlockButton);
             this.Controls.Add(this.addBlockButton);
-            this.Controls.Add(this.controlsPanel);
+            this.Controls.Add(this.controlsFlowLayoutPanel);
             this.Controls.Add(this.blockSelectComboBox);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.expandCollapseButton);
@@ -166,7 +167,7 @@
         private System.Windows.Forms.Button expandCollapseButton;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.ComboBox blockSelectComboBox;
-        private System.Windows.Forms.FlowLayoutPanel controlsPanel;
+        private System.Windows.Forms.FlowLayoutPanel controlsFlowLayoutPanel;
         private System.Windows.Forms.Button addBlockButton;
         private System.Windows.Forms.Button insertBlockButton;
         private System.Windows.Forms.Button duplicateBlockButton;

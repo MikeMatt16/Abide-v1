@@ -14,6 +14,11 @@ namespace Abide.HaloLibrary.Halo2Map
         /// This value is constant.
         /// </summary>
         public const int Length = 2048;
+        /// <summary>
+        /// Gets and returns the required build string for the header.
+        /// This value is constant.
+        /// </summary>
+        public const string BuildString = "02.09.27.09809";
 
         /// <summary>
         /// Gets or sets the head four-character code.

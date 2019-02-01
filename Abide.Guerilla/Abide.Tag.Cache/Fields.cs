@@ -28,6 +28,7 @@ namespace Abide.Tag.Cache
         /// Initializes a new instance of the <see cref="TagReferenceField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
+        /// <param name="groupTag">The group tag of the tag group.</param>
         public TagReferenceField(string name, string groupTag = "") : base(FieldType.FieldTagReference, name)
         {
             //Prepare

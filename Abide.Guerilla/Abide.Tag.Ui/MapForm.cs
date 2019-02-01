@@ -549,7 +549,7 @@ namespace Abide.Tag.Ui
         private void rebuildWholeMap_Click(object sender, EventArgs e)
         {
             //Prepare
-            long bspAddress = Index.IndexMemoryAddress + map.IndexLength - Index.Length;
+            long bspAddress = Index.IndexVirtualAddress + map.IndexLength;
             List<Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup>> structureBsps = new List<Tuple<IndexEntry, ITagGroup, IndexEntry, ITagGroup>>();
 
             //Get BSPs

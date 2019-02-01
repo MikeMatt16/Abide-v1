@@ -78,7 +78,7 @@ namespace Abide.Decompiler
                     globalsTagBlock.Read(tagReader);
 
                     //Get sound globals
-                    BaseBlockField soundGlobalsTagBlock = (BaseBlockField)globalsTagBlock.TagBlocks[0].Fields[4];
+                    BaseBlockField soundGlobalsTagBlock = (BaseBlockField)globalsTagBlock[0].Fields[4];
                     if (soundGlobalsTagBlock.BlockList.Count > 0)
                     {
                         //Get sound gestalt index

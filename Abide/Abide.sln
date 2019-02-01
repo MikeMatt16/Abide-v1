@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide", "Abide\Abide.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.HaloLibrary", "..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj", "{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YeloDebug", "..\Abide Halo Library\YeloDebug\YeloDebug.csproj", "{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi", "..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj", "{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Updater", "Abide.Updater\Abide.Updater.csproj", "{36B24498-B071-4383-92C0-D80E4D0647CC}"
@@ -16,6 +14,8 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Abide Setup", "Abide Setup\Abide Setup.vdproj", "{749620D5-471E-4645-B334-5336D50435F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Ifp", "..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj", "{55B8FBAD-8570-4371-BA33-62E85351DB66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.DebugXbox", "..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj", "{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,12 +37,6 @@ Global
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F447C5AB-04D5-4771-8CBE-06DAF3B51BDF}.Release|x86.ActiveCfg = Release|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -69,6 +63,14 @@ Global
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|x86.ActiveCfg = Release|Any CPU
 		{55B8FBAD-8570-4371-BA33-62E85351DB66}.Release|x86.Build.0 = Release|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

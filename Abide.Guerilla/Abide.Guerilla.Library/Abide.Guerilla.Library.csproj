@@ -45,6 +45,11 @@
     <Compile Include="DefaultStrings.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RegistrySettings.cs" />
     <Compile Include="SharedResources.cs" />
     <Compile Include="Structures.cs" />
@@ -67,6 +72,18 @@
       <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>
       <Name>Abide.Tag</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\combat_dialogue_constants.sound_dialogue_constants" />
+    <None Include="Resources\multiplayer_shared_globals.globals" />
+    <None Include="Resources\sound_classes.sound_classes" />
+    <None Include="Resources\tags_data.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

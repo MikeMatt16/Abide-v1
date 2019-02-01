@@ -4,24 +4,15 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class ExplanationControl : UserControl
     {
-        public string Title
+        public ExplanationControl(ExplanationField field)
         {
-            get { return titleLabel.Text; }
-            set { titleLabel.Text = value; }
-        }
-        public string Explanation
-        {
-            get { return explanationLabel.Text; }
-            set
-            {
-                explanationLabel.Text = value ?? string.Empty;
-                explanationLabel.Visible = !string.IsNullOrEmpty(value);
-            }
-        }
-
-        public ExplanationControl()
-        {
+            //Initialize
             InitializeComponent();
+
+            //Setup
+            titleLabel.Text = field.Name;
+            explanationLabel.Text = field.Explanation;
+            explanationLabel.Visible = !string.IsNullOrEmpty(field.Explanation);
         }
     }
 }

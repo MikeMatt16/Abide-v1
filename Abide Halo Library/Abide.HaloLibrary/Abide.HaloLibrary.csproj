@@ -59,6 +59,8 @@
     <Compile Include="Halo2Map\StringContainer.cs" />
     <Compile Include="Halo2Map\Structures.cs" />
     <Compile Include="Halo2Map\Tags.cs" />
+    <Compile Include="Halo2VistaMap\MapFile.cs" />
+    <Compile Include="Halo2VistaMap\Structures.cs" />
     <Compile Include="IO\FixedMemoryMappedStream.cs" />
     <Compile Include="IO\MemoryIO.cs" />
     <Compile Include="IO\VirtualStream.cs" />

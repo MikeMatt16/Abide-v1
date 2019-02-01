@@ -116,6 +116,12 @@
     <Compile Include="Controls\StringIdControl.designer.cs">
       <DependentUpon>StringIdControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StructControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StructControl.Designer.cs">
+      <DependentUpon>StructControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TagReferenceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,6 +145,12 @@
     </Compile>
     <Compile Include="Controls\ValueControl.designer.cs">
       <DependentUpon>ValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\CacheCompilerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CacheCompilerDialog.Designer.cs">
+      <DependentUpon>CacheCompilerDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\NewTagGroupDialog.cs">
       <SubType>Form</SubType>
@@ -195,6 +207,9 @@
     <EmbeddedResource Include="Controls\StringIdControl.resx">
       <DependentUpon>StringIdControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StructControl.resx">
+      <DependentUpon>StructControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TagReferenceControl.resx">
       <DependentUpon>TagReferenceControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ValueControl.resx">
       <DependentUpon>ValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\CacheCompilerDialog.resx">
+      <DependentUpon>CacheCompilerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewTagGroupDialog.resx">
       <DependentUpon>NewTagGroupDialog.cs</DependentUpon>

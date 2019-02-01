@@ -33,7 +33,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tagCountToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.analyzeMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyzeTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +53,7 @@
             this.openToolStripMenuItem,
             this.tagCountToolStripTextBox,
             this.analyzeMapsToolStripMenuItem,
-            this.getTagsToolStripMenuItem});
+            this.analyzeTagsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 27);
@@ -80,12 +80,12 @@
             this.analyzeMapsToolStripMenuItem.Text = "Analyze &Maps";
             this.analyzeMapsToolStripMenuItem.Click += new System.EventHandler(this.analyzeMapsToolStripMenuItem_Click);
             // 
-            // getTagsToolStripMenuItem
+            // analyzeTagsToolStripMenuItem
             // 
-            this.getTagsToolStripMenuItem.Name = "getTagsToolStripMenuItem";
-            this.getTagsToolStripMenuItem.Size = new System.Drawing.Size(64, 23);
-            this.getTagsToolStripMenuItem.Text = "Get Tags";
-            this.getTagsToolStripMenuItem.Click += new System.EventHandler(this.getTagsToolStripMenuItem_Click);
+            this.analyzeTagsToolStripMenuItem.Name = "analyzeTagsToolStripMenuItem";
+            this.analyzeTagsToolStripMenuItem.Size = new System.Drawing.Size(87, 23);
+            this.analyzeTagsToolStripMenuItem.Text = "Analyze &Tags";
+            this.analyzeTagsToolStripMenuItem.Click += new System.EventHandler(this.analyzeTagsToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -112,7 +112,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox tagCountToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem analyzeMapsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getTagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analyzeTagsToolStripMenuItem;
     }
 }
 

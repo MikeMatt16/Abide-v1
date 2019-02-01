@@ -35,11 +35,6 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             get { return information; }
             set { information = value ?? string.Empty; }
         }
-        public bool IsReadOnly
-        {
-            get { return enumComboBox.Enabled; }
-            set { enumComboBox.Enabled = value; }
-        }
         public EventHandler ValueChanged { get; set; }
         
         private string information = string.Empty;

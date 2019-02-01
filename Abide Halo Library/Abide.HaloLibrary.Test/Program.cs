@@ -16,7 +16,7 @@ namespace Abide.HaloLibrary.Test
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BetaMain());
+            Application.Run(new VistaMain());
         }
     }
 }

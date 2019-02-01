@@ -42,7 +42,7 @@ namespace Tag_Data_Editor.Halo2
             tagDataWebBrowser.StringSetCallback = string_Set;
             tagDataWebBrowser.UnicodeSetCallback = unicode_Set;
         }
-
+        
         private void tagDataSplitter_SplitterMoved(object sender, SplitterEventArgs e)
         {
             //Set
@@ -61,6 +61,13 @@ namespace Tag_Data_Editor.Halo2
                     BrowserEmulation.Abide = major * 1000;
                 else if (BrowserEmulation.Abide > major * 1000)
                     BrowserEmulation.Abide = major * 1000;
+
+                //Check
+                if (BrowserEmulation.TagDataEditor < major * 1000)
+                    BrowserEmulation.TagDataEditor = major * 1000;
+                else if (BrowserEmulation.TagDataEditor > major * 1000)
+                    BrowserEmulation.TagDataEditor = major * 1000;
+
             }
         }
 
@@ -154,7 +161,42 @@ namespace Tag_Data_Editor.Halo2
                 }
 
                 //Set Xbox memory
-                if (buffer != null) Xbox.SetMemory(dataObject.Address, buffer);
+                if (buffer != null) //Xbox.SetMemory(dataObject.Address, buffer, buffer.Length);
+                {
+                    ////Test
+                    //Xbox.SendCommand("getmem", new CommandArgument("addr", dataObject.Address), new CommandArgument("length", buffer.Length));
+                    //Xbox.GetResponse(out Status getMemStatus, out string setMemMessage);
+                    //if(getMemStatus == Status.MultilineResponseFollows)
+                    //{
+                    //    //Prepare
+                    //    string line = string.Empty;
+                    //
+                    //    //Loop
+                    //    do
+                    //    {
+                    //        //Receive
+                    //        line = Xbox.ReceiveLine();
+                    //    }
+                    //    while (line != ".");
+                    //}
+
+                    ////Prepare
+                    //StringBuilder memoryStringBuilder = new StringBuilder(buffer.Length * 2);
+                    //foreach (byte b in buffer) memoryStringBuilder.AppendFormat("{0:X2}", b);
+
+                    ////Stop
+                    //Xbox.SendCommand("stop");
+                    //Xbox.GetResponse();
+
+                    ////Send getmem2 command
+                    //Xbox.SendCommand("setmem", new CommandArgument("addr", $"0x{dataObject.Address:X8}"), memoryStringBuilder.ToString());
+                    //Xbox.GetResponse(out Status status, out string message);
+                    //bool success = status.HasFlag(Status.OK);
+
+                    ////Go
+                    //Xbox.SendCommand("go");
+                    //Xbox.GetResponse();
+                }
             }
         }
 

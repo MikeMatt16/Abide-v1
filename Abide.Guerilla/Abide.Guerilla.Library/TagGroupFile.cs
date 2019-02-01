@@ -90,7 +90,7 @@ namespace Abide.Guerilla.Library
                     //Read Raws
                     inStream.Seek(header.RawDataOffset, SeekOrigin.Begin);
                     for (int i = 0; i < header.RawsCount; i++)
-                        rawData.Add(rawOffsets[i], reader.ReadBytes(lengths[i]));
+                        if (!rawData.ContainsKey(rawOffsets[i])) rawData.Add(rawOffsets[i], reader.ReadBytes(lengths[i]));
                 }
             }
         }

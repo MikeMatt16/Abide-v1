@@ -161,7 +161,7 @@ namespace Tag_Data_Editor.Halo2Beta
                 }
 
                 //Set Xbox memory
-                if (buffer != null) Xbox.SetMemory(dataObject.Address, buffer);
+                if (buffer != null) Xbox.SetMemory(dataObject.Address, buffer, buffer.Length);
             }
         }
 

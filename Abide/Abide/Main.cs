@@ -1,15 +1,14 @@
-﻿using Abide.Dialogs;
+﻿using Abide.DebugXbox;
+using Abide.Dialogs;
 using Abide.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
-using YeloDebug;
-using YeloDebug.Exceptions;
 
 namespace Abide
 {
@@ -18,12 +17,7 @@ namespace Abide
         /// <summary>
         /// Gets and returns the primary Debug Xbox connection.
         /// </summary>
-        public Xbox DebugXbox
-        {
-            get { return debugXbox;}
-        }
-
-        private readonly Xbox debugXbox = new Xbox(Application.StartupPath);
+        public Xbox DebugXbox { get; private set; } = new Xbox();
 
         public Main()
         {
@@ -406,20 +400,19 @@ namespace Abide
         private void quickConnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Get Current State
-            bool state = debugXbox.Connected;
+            bool connected = DebugXbox.Connected;
 
             //Connect/Disconnect...
-            if (debugXbox.Connected) debugXbox.Disconnect();
-            else try { debugXbox.Connect(); }
-                catch (ApiException) { MessageBox.Show("Invalid XBDM version. YeloDebug requires v1.00.7887.1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            if (connected) { DebugXbox.Disconnect(); }
+            else try { DebugXbox = NameAnsweringProtocol.Discover().FirstOrDefault(); DebugXbox.Connect(); }
                 catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
             //Set Text
-            if (debugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect {debugXbox.DebugName}";
+            if (DebugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect from {DebugXbox.Name} ({DebugXbox.RemoteEndPoint})";
             else quickConnectToolStripMenuItem.Text = "Quick Connect";
 
             //State Changed
-            if (state != debugXbox.Connected)
+            if (connected ^ DebugXbox.Connected)
                 Classes.Globals.OnXboxChanged(e);
         }
         

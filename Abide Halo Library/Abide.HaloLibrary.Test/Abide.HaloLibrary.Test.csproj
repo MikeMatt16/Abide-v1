@@ -59,6 +59,12 @@
     <Compile Include="RetailMain.Designer.cs">
       <DependentUpon>RetailMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="VistaMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VistaMain.Designer.cs">
+      <DependentUpon>VistaMain.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BetaMain.resx">
       <DependentUpon>BetaMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,6 +79,9 @@
     </Compile>
     <EmbeddedResource Include="RetailMain.resx">
       <DependentUpon>RetailMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VistaMain.resx">
+      <DependentUpon>VistaMain.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

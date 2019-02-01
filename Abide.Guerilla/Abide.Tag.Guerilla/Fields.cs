@@ -1,13 +1,15 @@
 ﻿using Abide.Tag.Definition;
+using System;
 using System.IO;
 using System.Text;
+using HaloTag = Abide.HaloLibrary.TagFourCc;
 
 namespace Abide.Tag.Guerilla
 {
     /// <summary>
     /// Represents a simple string value object.
     /// </summary>
-    public sealed class StringValue : IReadWrite
+    public sealed class StringValue : IReadWrite, IEquatable<StringValue>
     {
         /// <summary>
         /// Gets and returns an empty <see cref="StringValue"/> object.
@@ -62,6 +64,15 @@ namespace Abide.Tag.Guerilla
         {
             //Return
             return Value.ToString();
+        }
+        /// <summary>
+        /// Determines whether this instance and another <see cref="StringValue"/> object have the same value.
+        /// </summary>
+        /// <param name="other">The <see cref="StringValue"/> to compare to this instance.</param>
+        /// <returns><see langword="true"/> if the value of <paramref name="other"/> is equal to the value of this instance; otherwise <see langword="false"/>.</returns>
+        public bool Equals(StringValue other)
+        {
+            return Value.Equals(other.Value);
         }
 
         /// <summary>
@@ -184,12 +195,13 @@ namespace Abide.Tag.Guerilla
         /// </summary>
         public override int Size
         {
-            get { return ((StringValue)Value).SerializedLength; }
+            get { return ((StringValue)Value).SerializedLength + 4; }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="TagReferenceField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
+        /// <param name="groupTag">The group tag of the tag reference.</param>
         public TagReferenceField(string name, string groupTag = "") : base(FieldType.FieldTagReference, name)
         {
             //Prepare
@@ -202,6 +214,9 @@ namespace Abide.Tag.Guerilla
         /// <param name="reader">The binary reader.</param>
         public override void Read(BinaryReader reader)
         {
+            //Read group tag
+            GroupTag = reader.Read<HaloTag>();
+
             //Read value
             StringValue value = new StringValue();
             value.Read(reader);
@@ -215,6 +230,9 @@ namespace Abide.Tag.Guerilla
         /// <param name="writer">The binary writer.</param>
         public override void Write(BinaryWriter writer)
         {
+            //Write group tag
+            writer.Write<HaloTag>(new HaloTag(GroupTag));
+
             //Write
             ((StringValue)Value).Write(writer);
         }

@@ -27,11 +27,6 @@
             get { return dLabel.Text; }
             set { dLabel.Text = value; }
         }
-        public bool IsReadOnly
-        {
-            get { return aTextBox.Enabled || bTextBox.Enabled || cTextBox.Enabled; }
-            set { aTextBox.Enabled = value; bTextBox.Enabled = value; cTextBox.Enabled = value; }
-        }
 
         public FourTupleControl()
         {

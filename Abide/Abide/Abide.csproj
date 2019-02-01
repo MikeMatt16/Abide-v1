@@ -252,9 +252,9 @@
       <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
       <Name>Abide.HaloLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
-      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
-      <Name>YeloDebug</Name>
+    <ProjectReference Include="..\..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj">
+      <Project>{c7b4df9c-d74c-4f1b-9083-5531bea84b6d}</Project>
+      <Name>Abide.DebugXbox</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj">
       <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>

@@ -88,6 +88,18 @@
       <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
       <Name>Abide.Guerilla.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag\Abide.Tag.csproj">
+      <Project>{339D8B36-1875-44B0-8F58-2379CBF8E2A8}</Project>
+      <Name>Abide.Tag</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

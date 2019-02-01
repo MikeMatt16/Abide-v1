@@ -527,6 +527,8 @@ namespace Abide.Tag.Definition
         FieldCustom,
         FieldUselessPad,
         FieldTerminator,
+
+        // isn't an official field type- adding this to make keeping track of IDs easier
         FieldTagIndex
 #pragma warning restore CS1591
     }

@@ -1,4 +1,5 @@
 ﻿using Abide.Guerilla.Library;
+using Abide.Tag.Guerilla;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -11,34 +12,23 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         /// Gets and returns the current tags path.
         /// </summary>
         private static string TagsPath { get => Path.Combine(RegistrySettings.WorkspaceDirectory, "tags"); }
-        /// <summary>
-        /// Gets or sets the tag reference path
-        /// </summary>
-        public string ReferencePath
-        {
-            get { return tagReference; }
-            set
-            {
-                tagReference = value;
-                pathTextBox.Text = tagReference.ToString();
-                ValueChanged?.Invoke(this, new EventArgs());
-            }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return !browseTagButton.Enabled; }
-            set { browseTagButton.Enabled = !value; }
-        }
         public EventHandler ValueChanged { get; set; }
 
         private string tagReference = string.Empty;
 
-        public TagReferenceControl()
+        public TagReferenceControl(Field field) : this()
+        {
+            Field = field;
+        }
+        private TagReferenceControl()
         {
             InitializeComponent();
         }
-
+        protected override void OnFieldChanged(EventArgs e)
+        {
+            base.OnFieldChanged(e);
+            pathTextBox.Text = Field.Value.ToString() ?? string.Empty;
+        }
         private void browseTagButton_Click(object sender, EventArgs e)
         {
             //Initialize
@@ -49,8 +39,11 @@ namespace Abide.Tag.Ui.Guerilla.Controls
                 openDlg.CustomPlaces.Add(new FileDialogCustomPlace(Path.Combine(RegistrySettings.WorkspaceDirectory, "tags")));
 
                 //Check
-                if (openDlg.ShowDialog() == DialogResult.OK)
-                    ReferencePath = openDlg.FileName.Replace(TagsPath, string.Empty).Substring(1);
+                if (Field != null && openDlg.ShowDialog() == DialogResult.OK)
+                {
+                    pathTextBox.Text = openDlg.FileName.Replace(TagsPath, string.Empty).Substring(1);
+                    Field.Value = new StringValue(pathTextBox.Text);
+                }
             }
         }
     }

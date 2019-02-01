@@ -20,8 +20,8 @@ namespace Tag_Data_Editor.Halo2
         private void MapReset_Click(object sender, EventArgs e)
         {
             //Reset
-            if(Xbox!= null && Xbox.Connected)
-                Xbox.SetMemory(0x547F6E, (byte)1, (byte)1);
+            if (Xbox != null && Xbox.Connected)
+                Xbox.SetMemory(0x547F6E, new byte[] { 1, 1 }, 2);
         }
     }
 }

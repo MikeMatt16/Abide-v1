@@ -64,11 +64,6 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             get { return information; }
             set { information = value ?? string.Empty; }
         }
-        public bool IsReadOnly
-        {
-            get { return flagsListBox.Enabled; }
-            set { flagsListBox.Enabled = value; }
-        }
         public EventHandler ValueChanged { get; set; }
 
         private bool ignoreCheck = false;

@@ -17,11 +17,6 @@
             get { return bLabel.Text; }
             set { bLabel.Text = value; }
         }
-        public bool IsReadOnly
-        {
-            get { return aTextBox.Enabled || bTextBox.Enabled; }
-            set { aTextBox.Enabled = value; bTextBox.Enabled = value; }
-        }
 
         public TwoTupleControl()
         {

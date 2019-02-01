@@ -105,6 +105,7 @@ namespace Abide.DebugXbox
         /// Gets and returns the IP end point of the debug Xbox console.
         /// </summary>
         public IPEndPoint RemoteEndPoint { get; internal set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Xbox"/> class.
         /// </summary>
@@ -200,6 +201,31 @@ namespace Abide.DebugXbox
         public override string ToString()
         {
             return $"{(Connected ? "Connected" : "Disconnected")}: {Name} - {RemoteEndPoint.Address}";
+        }
+        /// <summary>
+        /// Attempts to read a response line from the debug Xbox.
+        /// </summary>
+        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
+        /// <returns>A line of text from the debug Xbox.</returns>
+        public string ReceiveLine(int timeout = 10000)
+        {
+            //Wait for any amount of data
+            WaitForData(timeout);
+
+            //Prepare
+            byte[] data = new byte[1024];
+            string line = string.Empty;
+
+            //Receive line
+            int available = m_Socket.Available;
+            if (available < data.Length) m_Socket.Receive(data, available, SocketFlags.Peek);
+            else m_Socket.Receive(data, data.Length, SocketFlags.Peek);
+            line = Encoding.ASCII.GetString(data);
+            line = line.Substring(0, line.IndexOf("\r\n") + 2);
+            m_Socket.Receive(data, line.Length, SocketFlags.None);
+
+            //Return
+            return line.Substring(0, line.Length - 2);
         }
         /// <summary>
         /// Attempts to ping the debug Xbox 
@@ -1105,6 +1131,60 @@ namespace Abide.DebugXbox
             return successful;
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="address"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public bool GetMemory(byte[] buffer, long address, int length, int timeout = 10000)
+        {
+            //Prepare
+            bool successful = false;
+
+            //Check
+            if (Connected)
+            {
+                //Send getmem2 command
+                SendCommand("getmem2", new CommandArgument("addr", address), new CommandArgument("length", length));
+                GetResponse(out Status status, out string message);
+                if (status == Status.BinaryResponseFollows)
+                    DownloadData(buffer, length, timeout);
+                return status == Status.BinaryResponseFollows;
+            }
+
+            //Return
+            return successful;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public bool SetMemory(long address, byte[] buffer, int length)
+        {
+            //Prepare
+            bool successful = false;
+
+            //Check
+            if (Connected)
+            {
+                //Prepare
+                List<object> commands = new List<object>() { new CommandArgument("addr", address) };
+                foreach (byte b in buffer)
+                    commands.Add(b.ToString("X2"));
+
+                //Send getmem2 command
+                SendCommand("setmem", commands.ToArray());
+                GetResponse(out Status status, out string message);
+                return status.HasFlag(Status.OK);
+            }
+
+            //Return
+            return successful;
+        }
+        /// <summary>
         /// Waits for any amount of data to be avaliable.
         /// </summary>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
@@ -1135,31 +1215,6 @@ namespace Abide.DebugXbox
                     throw new TimeoutException();
                 }
             }
-        }
-        /// <summary>
-        /// Attempts to read a response line from the debug Xbox.
-        /// </summary>
-        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        /// <returns>A line of text from the debug Xbox.</returns>
-        private string ReceiveLine(int timeout = 10000)
-        {
-            //Wait for any amount of data
-            WaitForData(timeout);
-
-            //Prepare
-            byte[] data = new byte[1024];
-            string line = string.Empty;
-
-            //Receive line
-            int available = m_Socket.Available;
-            if (available < data.Length) m_Socket.Receive(data, available, SocketFlags.Peek);
-            else m_Socket.Receive(data, data.Length, SocketFlags.Peek);
-            line = Encoding.ASCII.GetString(data);
-            line = line.Substring(0, line.IndexOf("\r\n") + 2);
-            m_Socket.Receive(data, line.Length, SocketFlags.None);
-
-            //Return
-            return line.Substring(0, line.Length - 2);
         }
         /// <summary>
         /// Attempts to download a 32-bit signed integer containing the length of an incomming amount of data.

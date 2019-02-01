@@ -1,5 +1,7 @@
 ﻿using Abide.Guerilla.Library;
 using Abide.HaloLibrary.Halo2Map;
+using Abide.Tag;
+using Abide.Tag.Cache.Generated;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +54,8 @@ namespace Abide.Guerilla.Helper
 
         private void analyzeMapsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Check
+            //Prepare
+            ITagGroup tagGroup = null;
             sharedResources = new SharedTagResources();
             List<string> header = new List<string>();
             DateTime start = DateTime.Now;
@@ -78,11 +81,11 @@ namespace Abide.Guerilla.Helper
                         {
                             case 0:
                                 sharedResources.CollideSingleplayer(map.IndexEntries.Select(
-                                    i => $"{i.Filename}.{i.Root}").ToArray());
+                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.Name}"; }).ToArray());
                                 break;
                             case 1:
                                 sharedResources.CollideMultiplayer(map.IndexEntries.Select(
-                                    i => $"{i.Filename}.{i.Root}").ToArray());
+                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.Name}"; }).ToArray());
                                 break;
                         }
                     }
@@ -127,29 +130,32 @@ namespace Abide.Guerilla.Helper
             }
         }
 
-        private void getTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void analyzeTagsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Prepare
-            List<string> files = new List<string>();
-            string root = string.Empty;
+            List<TagHierarchy> tags = new List<TagHierarchy>();
 
-            //Create dialog
-            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            //Load
+            using (MapFile shared = new MapFile())
             {
-                if (folderDlg.ShowDialog() == DialogResult.OK)  //show
-                {
-                    files = new List<string>(Directory_Scan(folderDlg.SelectedPath));
-                    root = folderDlg.SelectedPath;
-                }
+                //Load
+                shared.Load(RegistrySettings.SharedFileName);
+
+                //Merge tags
+                tags.AddRange(shared.Tags);
             }
 
             //Create file
             using (StreamWriter writer = File.CreateText(Path.Combine(Application.StartupPath, "tag analysis.log")))
             {
-                //Write tags
-                writer.WriteLine($"tags (count {files.Count}):");
-                foreach (string tag in files)
-                    writer.WriteLine($"@\"{tag.Replace(root, string.Empty).Substring(1)}\",");
+                //Header
+                writer.WriteLine("Abide Guerilla Analyzer");
+                writer.WriteLine(string.Empty);
+
+                //Write
+                writer.WriteLine($"tags (count {tags.Count})");
+                foreach (var tag in tags)
+                    writer.WriteLine($"new TagHierarcy(\"{tag.Root.FourCc.Trim('\0').Trim('\uffff')}\", \"{tag.Parent.FourCc.Trim('\0').Trim('\uffff')}\", \"{tag.Class.FourCc.Trim('\0').Trim('\uffff')}\"),");
             }
         }
 
@@ -190,6 +196,7 @@ namespace Abide.Guerilla.Helper
             {
                 //Prepare
                 MapFile resourceMap = null;
+                ITagGroup tagGroup = null;
 
                 //Gather ui resources
                 using (resourceMap = new MapFile())
@@ -198,7 +205,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.MainmenuFileName);
 
                     //Get tags
-                    m_UiSharedResources.AddRange(resourceMap.IndexEntries.Select(e => $"{e.Filename}.{e.Root}"));
+                    m_UiSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
                 }
 
                 //Gather multiplayer shared resources
@@ -208,7 +215,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.SharedFileName);
 
                     //Get tags
-                    m_MultiplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => $"{e.Filename}.{e.Root}"));
+                    m_MultiplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
                 }
 
                 //Gather singleplayer shared resources
@@ -218,7 +225,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.SharedFileName);
 
                     //Get tags
-                    m_SingleplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => $"{e.Filename}.{e.Root}"));
+                    m_SingleplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
                 }
             }
             public void CollideMultiplayer(string[] resources)
@@ -229,7 +236,7 @@ namespace Abide.Guerilla.Helper
             public void CollideSingleplayer(string[] resources)
             {
                 m_UiSharedResources = m_UiSharedResources.Intersect(resources).ToList();
-                m_SingleplayerSharedResources = m_UiSharedResources.Intersect(resources).ToList();
+                m_SingleplayerSharedResources = m_SingleplayerSharedResources.Intersect(resources).ToList();
             }
             public string[] GetUiResources()
             {

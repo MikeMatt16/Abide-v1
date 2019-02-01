@@ -424,7 +424,7 @@ namespace Tag_Data_Editor.Halo2
                                     IfpNode hack = labelNodes[0];
 
                                     //Set name...
-                                    name = GetNodeDisplayName(hack.Type, dataStream, tagBlock.Offset + (uint)(i * node.Length), map);
+                                    name = GetNodeDisplayName(hack.Type, dataStream, tagBlock.Offset + (uint)(i * node.Length) + hack.FieldOffset, map);
 
                                     //Check
                                     if (!string.IsNullOrEmpty(name))

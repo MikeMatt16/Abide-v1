@@ -1,35 +1,35 @@
-﻿using System;
+﻿using Abide.Tag.Guerilla;
+using System;
 
 namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class StringControl : GuerillaControl
     {
-        public string StringValue
+        public StringControl(Field field) : this()
         {
-            get { return stringTextBox.Text; }
-            set { stringTextBox.Text = value; }
+            Field = field;
         }
-        public bool IsReadOnly
-        {
-            get { return stringTextBox.Enabled; }
-            set { stringTextBox.Enabled = value; }
-        }
-        public string String
-        {
-            get { return stringTextBox.Text; }
-            set { stringTextBox.Text = value; }
-        }
-        public EventHandler ValueChanged { get; set; }
-
-        public StringControl()
+        private StringControl()
         {
             InitializeComponent();
         }
-
+        protected override void OnFieldChanged(EventArgs e)
+        {
+            base.OnFieldChanged(e);
+            stringTextBox.Text = Field?.Value.ToString() ?? string.Empty;
+        }
         private void stringTextBox_TextChanged(object sender, EventArgs e)
         {
-            //Invoke
-            ValueChanged?.Invoke(this, e);
+            if (Field != null)
+                switch (Field.Type)
+                {
+                    case Definition.FieldType.FieldString:
+                        Field.Value = new String32() { String = stringTextBox.Text };
+                        break;
+                    case Definition.FieldType.FieldLongString:
+                        Field.Value = new String256() { String = stringTextBox.Text };
+                        break;
+                }
         }
     }
 }

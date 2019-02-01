@@ -567,7 +567,7 @@ namespace Abide.TagBuilder.Halo2
 
             //Prepare
             long bspLength = 0;
-            long virtualBspAddress = (Index.IndexMemoryAddress - Index.Length) + Map.IndexLength;
+            long virtualBspAddress = Index.IndexVirtualAddress + Map.IndexLength;
 
             if (SelectedEntry.Root == HaloTags.sbsp || SelectedEntry.Root == HaloTags.ltmp)
             {

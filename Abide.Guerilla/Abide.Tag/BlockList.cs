@@ -185,6 +185,7 @@ namespace Abide.Tag
         }
 
         bool ICollection<ITagBlock>.IsReadOnly => false;
+        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
