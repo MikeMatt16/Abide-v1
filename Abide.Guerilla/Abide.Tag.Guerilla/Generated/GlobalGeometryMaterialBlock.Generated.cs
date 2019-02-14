@@ -22,8 +22,8 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public GlobalGeometryMaterialBlock()
         {
-            this.Fields.Add(new TagReferenceField("Old Shader*", "shad"));
-            this.Fields.Add(new TagReferenceField("Shader*^", "shad"));
+            this.Fields.Add(new TagReferenceField("Old Shader*", 1936220516));
+            this.Fields.Add(new TagReferenceField("Shader*^", 1936220516));
             this.Fields.Add(new BlockField<GlobalGeometryMaterialPropertyBlock>("Properties*", 16));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new CharIntegerField("Breakable Surface Index*"));

@@ -25,7 +25,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new LongFlagsField("flags", "spins", "random u mirror", "random v mirror", "frame animation one shot", "select random sequence", "disable frame blending", "can animate backwards", "receive lightmap lighting", "tint from diffuse texture", "dies at rest", "dies on structure collision", "dies in media", "dies in air", "bitmap authored vertically", "has sweetener"));
             this.Fields.Add(new LongEnumField("orientation", "screen facing", "parallel to direction", "perpendicular to direction", "vertical", "horizontal"));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new ExplanationField("SCALE X", "scale of model on x axis"));
             this.Fields.Add(new StructField<ParticlePropertyScalarStructNewBlock>("scale x"));
             this.Fields.Add(new ExplanationField("SCALE Y", "scale of model on y axis"));
@@ -37,8 +37,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ExplanationField("Spawned Effects", "collision occurs when particle physics has collision, death spawned when particle" +
                         " dies"));
             this.Fields.Add(new TagReferenceField("collision effect#effect, material effect or sound spawned when this particle coll" +
-                        "ides with something", "����"));
-            this.Fields.Add(new TagReferenceField("death effect#effect, material effect or sound spawned when this particle dies", "����"));
+                        "ides with something", -3));
+            this.Fields.Add(new TagReferenceField("death effect#effect, material effect or sound spawned when this particle dies", -3));
             this.Fields.Add(new ExplanationField("Attached Particle Systems", "Locations:\nup - particles shoot straight up\ngravity - particles shoot straight do" +
                         "wn\nNONE - opposite of particle direction"));
             this.Fields.Add(new BlockField<EffectLocationsBlock>("locations", 32));

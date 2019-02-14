@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public HsReferencesBlock()
         {
-            this.Fields.Add(new TagReferenceField("reference*^", "����"));
+            this.Fields.Add(new TagReferenceField("reference*^", -3));
         }
         /// <summary>
         /// Gets and returns the name of the hs_references_block tag block.

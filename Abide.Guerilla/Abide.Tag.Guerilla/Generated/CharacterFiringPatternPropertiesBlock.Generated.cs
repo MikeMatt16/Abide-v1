@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public CharacterFiringPatternPropertiesBlock()
         {
-            this.Fields.Add(new TagReferenceField("weapon^", "weap"));
+            this.Fields.Add(new TagReferenceField("weapon^", 2003132784));
             this.Fields.Add(new BlockField<CharacterFiringPatternBlock>("firing patterns", 2));
         }
         /// <summary>

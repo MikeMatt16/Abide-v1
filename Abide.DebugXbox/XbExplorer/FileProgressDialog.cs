@@ -57,7 +57,7 @@ namespace XbExplorer
         public void UploadCompleted(object sender, UploadCompletedEventArgs e)
         {
             Completed = true;
-            if (e.Error != null) throw e.Error; //Throw any errors
+            if (e.Error) throw e.Exception; //Throw any errors
 
             if (IsHandleCreated)
                 Invoke(new MethodInvoker(delegate { DialogResult = DialogResult.OK; }));

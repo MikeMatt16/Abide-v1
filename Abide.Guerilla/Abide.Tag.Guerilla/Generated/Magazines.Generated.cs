@@ -35,10 +35,10 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("chamber time:seconds#the length of time it takes to chamber the next round"));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("reloading effect", "����"));
-            this.Fields.Add(new TagReferenceField("reloading damage effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("chambering effect", "����"));
-            this.Fields.Add(new TagReferenceField("chambering damage effect", "jpt!"));
+            this.Fields.Add(new TagReferenceField("reloading effect", -3));
+            this.Fields.Add(new TagReferenceField("reloading damage effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("chambering effect", -3));
+            this.Fields.Add(new TagReferenceField("chambering damage effect", 1785754657));
             this.Fields.Add(new BlockField<MagazineObjects>("magazines", 8));
         }
         /// <summary>

@@ -30,7 +30,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new Point2dField("top-left"));
             this.Fields.Add(new RealField("horiz texture wraps/second"));
             this.Fields.Add(new RealField("vert texture wraps/second"));
-            this.Fields.Add(new TagReferenceField("bitmap tag", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap tag", 1651078253));
             this.Fields.Add(new ShortIntegerField("render depth bias"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new RealField("sprite animation speed fps"));

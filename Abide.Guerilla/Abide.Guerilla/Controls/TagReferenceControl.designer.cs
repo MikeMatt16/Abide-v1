@@ -30,6 +30,8 @@
         {
             this.pathTextBox = new System.Windows.Forms.TextBox();
             this.browseTagButton = new System.Windows.Forms.Button();
+            this.gotoButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pathTextBox
@@ -50,15 +52,38 @@
             this.browseTagButton.UseVisualStyleBackColor = true;
             this.browseTagButton.Click += new System.EventHandler(this.browseTagButton_Click);
             // 
+            // gotoButton
+            // 
+            this.gotoButton.Location = new System.Drawing.Point(452, 3);
+            this.gotoButton.Name = "gotoButton";
+            this.gotoButton.Size = new System.Drawing.Size(32, 20);
+            this.gotoButton.TabIndex = 6;
+            this.gotoButton.Text = "->";
+            this.gotoButton.UseVisualStyleBackColor = true;
+            // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(490, 3);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(45, 20);
+            this.clearButton.TabIndex = 7;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // TagReferenceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.clearButton);
+            this.Controls.Add(this.gotoButton);
             this.Controls.Add(this.browseTagButton);
             this.Controls.Add(this.pathTextBox);
             this.Name = "TagReferenceControl";
             this.Controls.SetChildIndex(this.pathTextBox, 0);
             this.Controls.SetChildIndex(this.browseTagButton, 0);
+            this.Controls.SetChildIndex(this.gotoButton, 0);
+            this.Controls.SetChildIndex(this.clearButton, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,5 +93,7 @@
 
         private System.Windows.Forms.TextBox pathTextBox;
         private System.Windows.Forms.Button browseTagButton;
+        private System.Windows.Forms.Button gotoButton;
+        private System.Windows.Forms.Button clearButton;
     }
 }

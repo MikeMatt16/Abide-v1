@@ -2259,7 +2259,7 @@ namespace Abide.Guerilla.Library
         /// Returns a <see cref="Stream"/> containing combat dialog constants.
         /// </summary>
         /// <returns>A stream.</returns>
-        public static Stream GetCombatDialogConstants()
+        public static Stream GetCombatDialogueConstants()
         {
             //Create instance
             byte[] combatDialogConstants = (byte[])Properties.Resources.combat_dialogue_constants.Clone();

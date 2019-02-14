@@ -33,8 +33,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new AngleField("instance spread angle:degrees"));
             this.Fields.Add(new RealField("instance rotation period:seconds"));
             this.Fields.Add(new PadField("", 8));
-            this.Fields.Add(new TagReferenceField("material effects", "foot"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("material effects", 1718579060));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new ExplanationField("HORIZONTAL RANGE", "In world units, how far the noise extends horizontally. By default the horizontal" +
                         " range is along the world XY plane."));

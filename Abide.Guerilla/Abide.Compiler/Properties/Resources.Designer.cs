@@ -61,7 +61,7 @@ namespace Abide.Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This map was compiled on {0} using Abide Compiler. While Halo 2 modding scene is dead, it still brings me joy to work on these projects. I want to take a moment to thank everyone along the way for their support and putting up with my infinite questions. So special thanks to JacksonCougar, DemonicSandwich, Grimdoomer, Darkshallfall, mr_happy_penguin, XZodia, Xbox 7887, Kornman; without all of you this project could have never existed. Thank you..
+        ///   Looks up a localized string similar to This map was compiled on {0} using Abide Compiler. While the Halo 2 modding scene is dead, it still brings me joy to work on these projects. I want to take a moment to thank everyone along the way for their support and putting up with my infinite questions. So special thanks to JacksonCougar, DemonicSandwich, Grimdoomer, Darkshallfall, mr_happy_penguin, XZodia, Xbox 7887, Kornman; without all of you this project could have never existed. Thank you..
         /// </summary>
         internal static string Credits {
             get {

@@ -36,7 +36,7 @@ namespace Abide.Tag.Cache.Generated
                         "imum"));
             this.Fields.Add(new RealField("far fade distance:world units#distance at which the lens flare brightness is mini" +
                         "mum; set to zero to disable distance fading"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new WordFlagsField("flags", "sun", "no occlusion test", "only render in first person", "only render in third person", "fade in more quickly", "fade out more quickly", "scale by marker"));
             this.Fields.Add(new SkipField("", 2));
             this.Fields.Add(new EnumField("rotation function", "none", "rotation A", "rotation B", "rotation-translation", "translation"));

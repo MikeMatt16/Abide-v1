@@ -32,14 +32,14 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("depowered position acceleration time:seconds"));
             this.Fields.Add(new WordFlagsField("lightmap flags", "don\'t use in lightmap", "don\'t use in lightprobe"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("open (up)", "����"));
-            this.Fields.Add(new TagReferenceField("close (down)", "����"));
-            this.Fields.Add(new TagReferenceField("opened", "����"));
-            this.Fields.Add(new TagReferenceField("closed", "����"));
-            this.Fields.Add(new TagReferenceField("depowered", "����"));
-            this.Fields.Add(new TagReferenceField("repowered", "����"));
+            this.Fields.Add(new TagReferenceField("open (up)", -3));
+            this.Fields.Add(new TagReferenceField("close (down)", -3));
+            this.Fields.Add(new TagReferenceField("opened", -3));
+            this.Fields.Add(new TagReferenceField("closed", -3));
+            this.Fields.Add(new TagReferenceField("depowered", -3));
+            this.Fields.Add(new TagReferenceField("repowered", -3));
             this.Fields.Add(new RealField("delay time:seconds"));
-            this.Fields.Add(new TagReferenceField("delay effect", "����"));
+            this.Fields.Add(new TagReferenceField("delay effect", -3));
             this.Fields.Add(new RealField("automatic activation radius:world units"));
         }
         /// <summary>

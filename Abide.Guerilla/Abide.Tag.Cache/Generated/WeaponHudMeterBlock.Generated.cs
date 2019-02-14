@@ -33,7 +33,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("scaling flags", "don\'t scale offset", "don\'t scale size"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("meter bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("meter bitmap", 1651078253));
             this.Fields.Add(new RgbColorField("color at meter minimum"));
             this.Fields.Add(new RgbColorField("color at meter maximum"));
             this.Fields.Add(new RgbColorField("flash color"));

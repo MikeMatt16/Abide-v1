@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public WeaponsBlock()
         {
-            this.Fields.Add(new TagReferenceField("weapon^", "item"));
+            this.Fields.Add(new TagReferenceField("weapon^", 1769235821));
         }
         /// <summary>
         /// Gets and returns the name of the weapons_block tag block.

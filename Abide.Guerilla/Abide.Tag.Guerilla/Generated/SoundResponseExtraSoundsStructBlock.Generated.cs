@@ -22,14 +22,14 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public SoundResponseExtraSoundsStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("japanese sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("german sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("french sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("spanish sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("italian sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("korean sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("chinese sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("portuguese sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("japanese sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("german sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("french sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("spanish sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("italian sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("korean sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("chinese sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("portuguese sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the sound_response_extra_sounds_struct_block tag block.

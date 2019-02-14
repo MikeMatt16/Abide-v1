@@ -24,7 +24,7 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new LongFlagsField("flags", "Doesn\'t use wind", "Uses grid attach top"));
             this.Fields.Add(new StringIdField("marker attachment name"));
-            this.Fields.Add(new TagReferenceField("Shader", "shad"));
+            this.Fields.Add(new TagReferenceField("Shader", 1936220516));
             this.Fields.Add(new ExplanationField("Default cloth vertices", "if not importing from a render model, type a grid size"));
             this.Fields.Add(new ShortIntegerField("grid x dimension"));
             this.Fields.Add(new ShortIntegerField("grid y dimension"));

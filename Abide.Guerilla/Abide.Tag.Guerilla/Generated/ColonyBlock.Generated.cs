@@ -28,8 +28,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealBoundsField("radius"));
             this.Fields.Add(new PadField("", 12));
             this.Fields.Add(new RealArgbColorField("debug color"));
-            this.Fields.Add(new TagReferenceField("base map", "bitm"));
-            this.Fields.Add(new TagReferenceField("detail map", "bitm"));
+            this.Fields.Add(new TagReferenceField("base map", 1651078253));
+            this.Fields.Add(new TagReferenceField("detail map", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the colony_block tag block.

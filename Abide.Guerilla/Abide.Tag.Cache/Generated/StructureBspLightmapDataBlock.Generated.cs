@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public StructureBspLightmapDataBlock()
         {
-            this.Fields.Add(new TagReferenceField("Bitmap Group", "bitm"));
+            this.Fields.Add(new TagReferenceField("Bitmap Group", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the structure_bsp_lightmap_data_block tag block.

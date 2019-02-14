@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
                         "nding to a shader pass reference from the template. Note that only shader passes" +
                         " in the TRANSPARENT layer are considered during screen effect rendering."));
             this.Fields.Add(new PadField("", 64));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new PadField("", 64));
             this.Fields.Add(new BlockField<RasterizerScreenEffectPassReferenceBlock>("pass references", 8));
         }

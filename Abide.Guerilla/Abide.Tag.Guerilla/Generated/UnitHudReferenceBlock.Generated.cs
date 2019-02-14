@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public UnitHudReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("new unit hud interface", "nhdt"));
+            this.Fields.Add(new TagReferenceField("new unit hud interface", 1852335220));
         }
         /// <summary>
         /// Gets and returns the name of the unit_hud_reference_block tag block.

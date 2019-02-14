@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioDecoratorSetPaletteEntryBlock()
         {
-            this.Fields.Add(new TagReferenceField("Decorator Set^", "DECR"));
+            this.Fields.Add(new TagReferenceField("Decorator Set^", 1145389906));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_decorator_set_palette_entry_block tag block.

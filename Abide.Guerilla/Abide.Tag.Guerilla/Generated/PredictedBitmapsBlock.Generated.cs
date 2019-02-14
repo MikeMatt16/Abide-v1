@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public PredictedBitmapsBlock()
         {
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the predicted_bitmaps_block tag block.

@@ -53,7 +53,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("retreat grenade chance#The likelihood of throwing down a grenade to cover our ret" +
                         "reat"));
             this.Fields.Add(new TagReferenceField("backup weapon#If I want to flee and I don\'t have flee animations with my current " +
-                        "weapon, throw it away and try a ...", "weap"));
+                        "weapon, throw it away and try a ...", 2003132784));
         }
         /// <summary>
         /// Gets and returns the name of the character_retreat_block tag block.

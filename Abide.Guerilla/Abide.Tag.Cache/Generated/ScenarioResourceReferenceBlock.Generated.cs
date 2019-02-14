@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ScenarioResourceReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("Reference*", "����"));
+            this.Fields.Add(new TagReferenceField("Reference*", -3));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_resource_reference_block tag block.

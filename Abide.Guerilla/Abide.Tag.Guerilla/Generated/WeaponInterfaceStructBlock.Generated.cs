@@ -25,7 +25,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ExplanationField("interface", ""));
             this.Fields.Add(new StructField<WeaponSharedInterfaceStructBlock>("shared interface"));
             this.Fields.Add(new BlockField<WeaponFirstPersonInterfaceBlock>("first person", 4));
-            this.Fields.Add(new TagReferenceField("new hud interface", "nhdt"));
+            this.Fields.Add(new TagReferenceField("new hud interface", 1852335220));
         }
         /// <summary>
         /// Gets and returns the name of the weapon_interface_struct_block tag block.

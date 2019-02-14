@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public AnimationGraphResourcesStructBlock()
         {
             this.Fields.Add(new ExplanationField("GRAPH DATA", ""));
-            this.Fields.Add(new TagReferenceField("parent animation graph", "jmad"));
+            this.Fields.Add(new TagReferenceField("parent animation graph", 1785553252));
             this.Fields.Add(new ByteFlagsField("inheritance flags", "inherit root trans scale only", "inherit for use on player"));
             this.Fields.Add(new ByteFlagsField("private flags*", "prepared for cache", "unused", "imported with codec compressors", "unused smelly flag", "written to cache", "animation data reordered"));
             this.Fields.Add(new ShortIntegerField("animation codec pack*"));

@@ -14,6 +14,7 @@ namespace Abide.Tag
     /// <param name="blockIndex">The index of the tag block.</param>
     /// <returns>A <see cref="Block"/> class instance or <see langword="null"/>.</returns>
     public delegate Block BlockSearchProcedure<T>(Block tagBlock, int blockIndex) where T : IConvertible, IComparable, IComparable<T>, IEquatable<T>;
+
     /// <summary>
     /// Represents an option.
     /// </summary>
@@ -40,6 +41,7 @@ namespace Abide.Tag
             Index = index;
         }
     }
+
     /// <summary>
      /// Represents a base tag field.
      /// </summary>
@@ -149,6 +151,7 @@ namespace Abide.Tag
             IsDisposed = true;
         }
     }
+
     /// <summary>
     /// Represents an explanation field.
     /// </summary>
@@ -182,6 +185,7 @@ namespace Abide.Tag
             return $"{Name}";
         }
     }
+
     /// <summary>
     /// Represents a string field.
     /// </summary>
@@ -219,6 +223,7 @@ namespace Abide.Tag
             writer.Write((String32)Value);
         }
     }
+
     /// <summary>
     /// Represents a long string field.
     /// </summary>
@@ -256,6 +261,7 @@ namespace Abide.Tag
             writer.Write((String256)Value);
         }
     }
+
     /// <summary>
     /// Represents a basic struct tag field.
     /// </summary>
@@ -308,6 +314,7 @@ namespace Abide.Tag
         /// <returns></returns>
         public abstract ITagBlock Create();
     }
+
     /// <summary>
     /// Represents a basic tag block tag field.
     /// </summary>
@@ -425,6 +432,7 @@ namespace Abide.Tag
         /// <returns>A new object that implements the <see cref="ITagBlock"/> interface.</returns>
         public abstract ITagBlock Create();
     }
+
     /// <summary>
     /// Represents a char integer field.
     /// </summary>
@@ -462,6 +470,7 @@ namespace Abide.Tag
             writer.Write((byte)Value);
         }
     }
+
     /// <summary>
     /// Represents a short integer field.
     /// </summary>
@@ -499,6 +508,7 @@ namespace Abide.Tag
             writer.Write((short)Value);
         }
     }
+
     /// <summary>
     /// Represents a long integer field.
     /// </summary>
@@ -536,6 +546,7 @@ namespace Abide.Tag
             writer.Write((int)Value);
         }
     }
+
     /// <summary>
     /// Represents an angle field.
     /// </summary>
@@ -573,6 +584,7 @@ namespace Abide.Tag
             writer.Write((float)Value);
         }
     }
+
     /// <summary>
     /// Represents a tag field.
     /// </summary>
@@ -610,6 +622,7 @@ namespace Abide.Tag
             writer.Write<TagFourCc>((TagFourCc)Value);
         }
     }
+
     /// <summary>
     /// Represents a char enum tag field.
     /// </summary>
@@ -674,6 +687,7 @@ namespace Abide.Tag
             return $"{base.ToString()} ({Options[(byte)Value]?.Name ?? "IndexOutOfRange"})";
         }
     }
+
     /// <summary>
     /// Represents an enum tag field.
     /// </summary>
@@ -738,6 +752,7 @@ namespace Abide.Tag
             return $"{base.ToString()} ({Options[(short)Value]?.Name ?? "IndexOutOfRange"})";
         }
     }
+
     /// <summary>
     /// Represents a long enum tag field.
     /// </summary>
@@ -802,6 +817,7 @@ namespace Abide.Tag
             return $"{base.ToString()} ({Options[(int)Value]?.Name ?? "IndexOutOfRange"})";
         }
     }
+
     /// <summary>
     /// Represents a long flags tag field.
     /// </summary>
@@ -891,6 +907,7 @@ namespace Abide.Tag
             return flags;
         }
     }
+
     /// <summary>
     /// Represents a word flags tag field.
     /// </summary>
@@ -980,6 +997,7 @@ namespace Abide.Tag
             return (short)flags;
         }
     }
+
     /// <summary>
     /// Represents a byte flags tag field.
     /// </summary>
@@ -1069,6 +1087,7 @@ namespace Abide.Tag
             return (byte)flags;
         }
     }
+
     /// <summary>
     /// Represents a 2D point tag field.
     /// </summary>
@@ -1106,6 +1125,7 @@ namespace Abide.Tag
             writer.Write((Point2)Value);
         }
     }
+
     /// <summary>
     /// Represents a 2D rectangle tag field.
     /// </summary>
@@ -1143,6 +1163,7 @@ namespace Abide.Tag
             writer.Write((Rectangle2)Value);
         }
     }
+
     /// <summary>
     /// Represents a RGB color tag field.
     /// </summary>
@@ -1180,6 +1201,7 @@ namespace Abide.Tag
             writer.Write((ColorRgb)Value);
         }
     }
+
     /// <summary>
     /// Represents an ARGB color tag field.
     /// </summary>
@@ -1217,6 +1239,7 @@ namespace Abide.Tag
             writer.Write((ColorArgb)Value);
         }
     }
+
     /// <summary>
     /// Represents a real tag field.
     /// </summary>
@@ -1253,6 +1276,7 @@ namespace Abide.Tag
             writer.Write((float)Value);
         }
     }
+
     /// <summary>
     /// Represents a real fraction tag field.
     /// </summary>
@@ -1289,6 +1313,7 @@ namespace Abide.Tag
             writer.Write((float)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 2D point tag field.
     /// </summary>
@@ -1326,6 +1351,7 @@ namespace Abide.Tag
             writer.Write((Point2F)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 3D point tag field.
     /// </summary>
@@ -1363,6 +1389,7 @@ namespace Abide.Tag
             writer.Write((Point3F)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 2D vector tag field.
     /// </summary>
@@ -1400,6 +1427,7 @@ namespace Abide.Tag
             writer.Write((Vector2)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 3D vector tag field.
     /// </summary>
@@ -1437,6 +1465,7 @@ namespace Abide.Tag
             writer.Write((Vector3)Value);
         }
     }
+
     /// <summary>
     /// Represents a real quaternion tag field.
     /// </summary>
@@ -1474,6 +1503,7 @@ namespace Abide.Tag
             writer.Write((Quaternion)Value);
         }
     }
+
     /// <summary>
     /// Represents a 2D Euler angles tag field.
     /// </summary>
@@ -1548,6 +1578,7 @@ namespace Abide.Tag
             writer.Write((Vector3)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 2D plane tag field.
     /// </summary>
@@ -1585,6 +1616,7 @@ namespace Abide.Tag
             writer.Write((Vector3)Value);
         }
     }
+
     /// <summary>
     /// Represents a real 3D plane tag field.
     /// </summary>
@@ -1622,6 +1654,7 @@ namespace Abide.Tag
             writer.Write((Vector4)Value);
         }
     }
+
     /// <summary>
     /// Represents a real RGB color tag field.
     /// </summary>
@@ -1659,6 +1692,7 @@ namespace Abide.Tag
             writer.Write((ColorRgbF)Value);
         }
     }
+
     /// <summary>
     /// Represents a real ARGB color tag field.
     /// </summary>
@@ -1696,6 +1730,7 @@ namespace Abide.Tag
             writer.Write((ColorArgbF)Value);
         }
     }
+
     /// <summary>
     /// Represents a real HSV color tag field.
     /// </summary>
@@ -1733,6 +1768,7 @@ namespace Abide.Tag
             writer.Write((ColorHsv)Value);
         }
     }
+
     /// <summary>
     /// Represents a real AHSV color tag field.
     /// </summary>
@@ -1770,6 +1806,7 @@ namespace Abide.Tag
             writer.Write((ColorAhsv)Value);
         }
     }
+
     /// <summary>
     /// Represents a short bounds tag field.
     /// </summary>
@@ -1807,6 +1844,7 @@ namespace Abide.Tag
             writer.Write((ShortBounds)Value);
         }
     }
+
     /// <summary>
     /// Represents an angle bounds tag field.
     /// </summary>
@@ -1844,6 +1882,7 @@ namespace Abide.Tag
             writer.Write((FloatBounds)Value);
         }
     }
+
     /// <summary>
     /// Represents a real bounds tag field.
     /// </summary>
@@ -1881,6 +1920,7 @@ namespace Abide.Tag
             writer.Write((FloatBounds)Value);
         }
     }
+
     /// <summary>
     /// Represents a real fraction bounds tag field.
     /// </summary>
@@ -1919,107 +1959,6 @@ namespace Abide.Tag
         }
     }
 
-    /// <summary>
-    /// Represents a tag block tag field.
-    /// </summary>
-    /// <typeparam name="T">The tag block type.</typeparam>
-    public sealed class BlockField<T> : BaseBlockField where T : ITagBlock, new()
-    {
-        internal static int identIndex = 0;
-        /// <summary>
-        /// Gets and returns the size of the block field.
-        /// </summary>
-        public override int Size => 8;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BlockField{T}"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        /// <param name="maximumElementCount">The maximum number of blocks allowed.</param>
-        public BlockField(string name, int maximumElementCount) : base(name, maximumElementCount)
-        {
-            //Prepare
-            Value = TagBlock.Zero;
-        }
-        /// <summary>
-        /// Reads the value of the block from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public override void Read(BinaryReader reader)
-        {
-            //Read
-            base.Read(reader);
-
-            //Read
-            TagBlock block = ((TagBlock)Value);
-
-            //Check
-            if (block.Count > 0)
-            {
-                //Store position
-                long position = reader.BaseStream.Position;
-
-                //Loop
-                reader.BaseStream.Seek(block.Offset, SeekOrigin.Begin);
-                for (int i = 0; i < block.Count; i++)
-                {
-                    //Initialize
-                    T tagBlock = new T();
-                    tagBlock.Initialize();
-
-                    //Read
-                    tagBlock.Read(reader);
-
-                    //Add
-                    BlockList.Add(tagBlock);
-                }
-
-                //Goto
-                reader.BaseStream.Position = position;
-            }
-        }
-        /// <summary>
-        /// Writes the value of the block to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public override void Write(BinaryWriter writer)
-        {
-            //Zero-out
-            Value = TagBlock.Zero;
-
-            //Write
-            base.Write(writer);
-        }
-        /// <summary>
-        /// Attemtps to add a new tag block of type <typeparamref name="T"/> to the block list.
-        /// </summary>
-        /// <param name="success">If successful, the value of <paramref name="success"/> will be <see langword="true"/>; otherwise, the value of <paramref name="success"/> will be <see langword="false"/>.</param>
-        /// <returns>A new <see cref="ITagBlock"/> instance of type <typeparamref name="T"/>.</returns>
-        public override ITagBlock Add(out bool success)
-        {
-            //Create block
-            T tagBlock = new T();
-            tagBlock.Initialize();
-
-            //Attempt to add
-            BlockList.Add(tagBlock, out success);
-
-            //Return
-            return tagBlock;
-        }
-        /// <summary>
-        /// Returns a new <see cref="ITagBlock"/> of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <returns>A new instance of the <typeparamref name="T"/> class.</returns>
-        public override ITagBlock Create()
-        {
-            //Create
-            T tagBlock = new T();
-            tagBlock.Initialize();
-
-            //Return
-            return tagBlock;
-        }
-    }
     /// <summary>
     /// Represents a char block index tag field.
     /// </summary>
@@ -2062,6 +2001,7 @@ namespace Abide.Tag
             writer.Write((byte)Value);
         }
     }
+
     /// <summary>
     /// Represents a short block index tag field.
     /// </summary>
@@ -2104,6 +2044,7 @@ namespace Abide.Tag
             writer.Write((short)Value);
         }
     }
+
     /// <summary>
     /// Represents a long block index tag field.
     /// </summary>
@@ -2146,6 +2087,7 @@ namespace Abide.Tag
             writer.Write((int)Value);
         }
     }
+
     /// <summary>
     /// Represents a data tag field.
     /// </summary>
@@ -2288,6 +2230,7 @@ namespace Abide.Tag
             this.buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
         }
     }
+
     /// <summary>
     /// Represents a vertex buffer tag field.
     /// </summary>
@@ -2325,6 +2268,7 @@ namespace Abide.Tag
             writer.Write((VertexBuffer)Value);
         }
     }
+
     /// <summary>
     /// Represents a pad tag field.
     /// </summary>
@@ -2377,6 +2321,7 @@ namespace Abide.Tag
             writer.Write((byte[])Value);
         }
     }
+
     /// <summary>
     /// Represents a skip tag field.
     /// </summary>
@@ -2429,6 +2374,7 @@ namespace Abide.Tag
             writer.Write((byte[])Value);
         }
     }
+
     /// <summary>
     /// Represents a struct tag field.
     /// </summary>

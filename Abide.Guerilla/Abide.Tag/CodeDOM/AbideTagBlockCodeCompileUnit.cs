@@ -231,7 +231,7 @@ namespace Abide.Tag.CodeDom
             CodeExpression[] optionExpressions = null;
             CodeExpression nameExpression = new CodePrimitiveExpression(tagField.NameObject.ToString());
             CodeExpression explanationExpression = new CodePrimitiveExpression(tagField.Explanation ?? string.Empty);
-            CodeExpression groupTagExpression = new CodePrimitiveExpression(tagField.GroupTag ?? string.Empty);
+            CodeExpression groupTagExpression = new CodePrimitiveExpression(tagField.GroupTag);
 
             //Check
             switch (tagField.FieldType)

@@ -22,11 +22,11 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public MultiplayerVariantSettingsInterfaceDefinitionBlock()
         {
-            this.Fields.Add(new TagReferenceField("", "wgit"));
-            this.Fields.Add(new TagReferenceField("", "wgit"));
-            this.Fields.Add(new TagReferenceField("", "wgit"));
+            this.Fields.Add(new TagReferenceField("", 2003265908));
+            this.Fields.Add(new TagReferenceField("", 2003265908));
+            this.Fields.Add(new TagReferenceField("", 2003265908));
             this.Fields.Add(new BlockField<VariantSettingEditReferenceBlock>("game engine settings", 40));
-            this.Fields.Add(new TagReferenceField("default variant strings", "unic"));
+            this.Fields.Add(new TagReferenceField("default variant strings", 1970170211));
             this.Fields.Add(new BlockField<GDefaultVariantsBlock>("default variants", 100));
             this.Fields.Add(new ExplanationField("create new slayer variant", ""));
             this.Fields.Add(new StructField<CreateNewVariantStructBlock>(""));

@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public GlobalParticleSystemLiteBlock()
         {
-            this.Fields.Add(new TagReferenceField("sprites", "bitm"));
+            this.Fields.Add(new TagReferenceField("sprites", 1651078253));
             this.Fields.Add(new RealField("view box width"));
             this.Fields.Add(new RealField("view box height"));
             this.Fields.Add(new RealField("view box depth"));

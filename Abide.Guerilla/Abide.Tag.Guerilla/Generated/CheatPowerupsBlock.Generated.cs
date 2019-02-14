@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public CheatPowerupsBlock()
         {
-            this.Fields.Add(new TagReferenceField("powerup^", "eqip"));
+            this.Fields.Add(new TagReferenceField("powerup^", 1701931376));
         }
         /// <summary>
         /// Gets and returns the name of the cheat_powerups_block tag block.

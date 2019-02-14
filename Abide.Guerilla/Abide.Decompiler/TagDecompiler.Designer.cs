@@ -47,6 +47,7 @@
             this.decompileButton.TabIndex = 4;
             this.decompileButton.Text = "&Decompile";
             this.decompileButton.UseVisualStyleBackColor = true;
+            this.decompileButton.Click += new System.EventHandler(this.decompileButton_Click);
             // 
             // tagTreeView
             // 

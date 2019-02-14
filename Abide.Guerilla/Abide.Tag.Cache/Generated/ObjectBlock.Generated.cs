@@ -37,11 +37,11 @@ namespace Abide.Tag.Cache.Generated
                         "ed if not 0"));
             this.Fields.Add(new RealPoint3dField("dynamic light sphere offset#only used if radius not 0"));
             this.Fields.Add(new StringIdField("default model variant"));
-            this.Fields.Add(new TagReferenceField("model", "hlmt"));
-            this.Fields.Add(new TagReferenceField("crate object", "bloc"));
-            this.Fields.Add(new TagReferenceField("modifier shader", "shad"));
-            this.Fields.Add(new TagReferenceField("creation effect", "effe"));
-            this.Fields.Add(new TagReferenceField("material effects", "foot"));
+            this.Fields.Add(new TagReferenceField("model", 1751936372));
+            this.Fields.Add(new TagReferenceField("crate object", 1651273571));
+            this.Fields.Add(new TagReferenceField("modifier shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("creation effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("material effects", 1718579060));
             this.Fields.Add(new BlockField<ObjectAiPropertiesBlock>("ai properties", 1));
             this.Fields.Add(new BlockField<ObjectFunctionBlock>("functions", 256));
             this.Fields.Add(new ExplanationField("Applying collision damage", "for things that want to cause more or less collision damage"));

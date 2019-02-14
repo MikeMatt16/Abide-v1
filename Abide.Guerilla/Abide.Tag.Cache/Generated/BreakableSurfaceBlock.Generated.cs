@@ -23,8 +23,8 @@ namespace Abide.Tag.Cache.Generated
         public BreakableSurfaceBlock()
         {
             this.Fields.Add(new RealField("maximum vitality"));
-            this.Fields.Add(new TagReferenceField("effect", "effe"));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
             this.Fields.Add(new BlockField<ParticleSystemDefinitionBlockNew>("particle effects", 32));
             this.Fields.Add(new RealField("particle density"));
         }

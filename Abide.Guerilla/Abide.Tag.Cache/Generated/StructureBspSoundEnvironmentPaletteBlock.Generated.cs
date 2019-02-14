@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public StructureBspSoundEnvironmentPaletteBlock()
         {
             this.Fields.Add(new StringField("Name^"));
-            this.Fields.Add(new TagReferenceField("Sound Environment", "snde"));
+            this.Fields.Add(new TagReferenceField("Sound Environment", 1936614501));
             this.Fields.Add(new RealField("Cutoff Distance"));
             this.Fields.Add(new RealField("Interpolation Speed:1/sec"));
             this.Fields.Add(new PadField("", 24));

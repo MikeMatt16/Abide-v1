@@ -22,10 +22,10 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public MultiplayerUniversalBlock()
         {
-            this.Fields.Add(new TagReferenceField("random player names", "unic"));
-            this.Fields.Add(new TagReferenceField("team names", "unic"));
+            this.Fields.Add(new TagReferenceField("random player names", 1970170211));
+            this.Fields.Add(new TagReferenceField("team names", 1970170211));
             this.Fields.Add(new BlockField<MultiplayerColorBlock>("team colors", 32));
-            this.Fields.Add(new TagReferenceField("multiplayer text", "unic"));
+            this.Fields.Add(new TagReferenceField("multiplayer text", 1970170211));
         }
         /// <summary>
         /// Gets and returns the name of the multiplayer_universal_block tag block.

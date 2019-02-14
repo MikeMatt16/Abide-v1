@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public VehiclePermutation()
         {
             this.Fields.Add(new RealField("weight#relatively how likely this vehicle will be chosen"));
-            this.Fields.Add(new TagReferenceField("vehicle^#which vehicle to ", "vehi"));
+            this.Fields.Add(new TagReferenceField("vehicle^#which vehicle to ", 1986357353));
             this.Fields.Add(new StringIdField("variant name"));
         }
         /// <summary>

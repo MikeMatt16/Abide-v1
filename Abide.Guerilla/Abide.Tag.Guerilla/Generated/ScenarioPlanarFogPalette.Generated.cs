@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public ScenarioPlanarFogPalette()
         {
             this.Fields.Add(new StringIdField("Name^"));
-            this.Fields.Add(new TagReferenceField("Planar Fog", "fog "));
+            this.Fields.Add(new TagReferenceField("Planar Fog", 1718576928));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 2));
         }

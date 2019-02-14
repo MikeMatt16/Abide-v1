@@ -42,12 +42,12 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealRgbColorField("color"));
             this.Fields.Add(new BlockField<PlanarFogPatchyFogBlock>("patchy fog", 1));
             this.Fields.Add(new ExplanationField("SOUND", ""));
-            this.Fields.Add(new TagReferenceField("background sound", "lsnd"));
-            this.Fields.Add(new TagReferenceField("sound environment", "snde"));
+            this.Fields.Add(new TagReferenceField("background sound", 1819504228));
+            this.Fields.Add(new TagReferenceField("sound environment", 1936614501));
             this.Fields.Add(new RealField("environment damping factor#scales the surrounding background sound by this much"));
             this.Fields.Add(new RealField("background sound gain#scale for fog background sound"));
-            this.Fields.Add(new TagReferenceField("enter sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("exit sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("enter sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("exit sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the planar_fog_block tag block.

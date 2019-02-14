@@ -25,7 +25,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("flags", "cannot be overpenetrated"));
             this.Fields.Add(new ExplanationField("default result", "(if the potential result, below, fails to happen)"));
             this.Fields.Add(new EnumField("response", "impact (detonate)", "fizzle", "overpenetrate", "attach", "bounce", "bounce (dud)", "fizzle (ricochet)"));
-            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD effect)", "effe"));
+            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD effect)", 1701209701));
             this.Fields.Add(new StringIdField("material name"));
             this.Fields.Add(new SkipField("", 4));
             this.Fields.Add(new ExplanationField("potential result", ""));
@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealFractionField("chance fraction:[0,1]"));
             this.Fields.Add(new AngleBoundsField("between:degrees"));
             this.Fields.Add(new RealBoundsField("and:world units per second"));
-            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD effect)", "effe"));
+            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD effect)", 1701209701));
             this.Fields.Add(new ExplanationField("misc", ""));
             this.Fields.Add(new EnumField("scale effects by", "damage", "angle"));
             this.Fields.Add(new PadField("", 2));
@@ -42,7 +42,7 @@ namespace Abide.Tag.Cache.Generated
                         "s amount to simulate irregularity."));
             this.Fields.Add(new RealField("velocity noise:world units per second#the velocity is randomly perturbed by at mo" +
                         "st this amount to simulate irregularity."));
-            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD detonation effect)", "effe"));
+            this.Fields.Add(new TagReferenceField("DO NOT USE (OLD detonation effect)", 1701209701));
             this.Fields.Add(new ExplanationField("penetration", ""));
             this.Fields.Add(new RealField("initial friction#the fraction of the projectile\'s velocity lost on penetration"));
             this.Fields.Add(new RealField("maximum distance#the maximum distance the projectile can travel through on object" +

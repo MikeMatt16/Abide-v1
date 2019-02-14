@@ -22,8 +22,8 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SkyBlock()
         {
-            this.Fields.Add(new TagReferenceField("Render Model", "mode"));
-            this.Fields.Add(new TagReferenceField("Animation Graph", "jmad"));
+            this.Fields.Add(new TagReferenceField("Render Model", 1836016741));
+            this.Fields.Add(new TagReferenceField("Animation Graph", 1785553252));
             this.Fields.Add(new LongFlagsField("Flags", "Fixed in World Space", "Depreciated", "Sky Casts Light from Below", "Disable Sky in Lightmaps", "Fog Only Affects Containing Clusters", "Use Clear Color"));
             this.Fields.Add(new RealField("Render Model Scale#Multiplier by which to scale the model\'s geometry up or down (" +
                         "0 defaults to standard, 0.03)."));

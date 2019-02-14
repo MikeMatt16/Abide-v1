@@ -53,7 +53,7 @@ the exponent controls how midrange speeds are interpreted."));
             this.Fields.Add(new StringIdField("enter seat string"));
             this.Fields.Add(new AngleField("yaw minimum"));
             this.Fields.Add(new AngleField("yaw maximum"));
-            this.Fields.Add(new TagReferenceField("built-in gunner", "char"));
+            this.Fields.Add(new TagReferenceField("built-in gunner", 1667785074));
             this.Fields.Add(new ExplanationField("entry fields", "note: the entry radius shouldn\'t exceed 3 world units, \nas that is as far as the " +
                         "player will search for a vehicle\nto enter."));
             this.Fields.Add(new RealField("entry radius#how close to the entry marker a unit must be"));

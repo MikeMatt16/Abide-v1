@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public GlobalUiMultiplayerLevelBlock()
         {
             this.Fields.Add(new LongIntegerField("Map ID"));
-            this.Fields.Add(new TagReferenceField("Bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("Bitmap", 1651078253));
             this.Fields.Add(new SkipField("", 576));
             this.Fields.Add(new SkipField("", 2304));
             this.Fields.Add(new LongStringField("Path"));

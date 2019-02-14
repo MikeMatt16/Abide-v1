@@ -27,7 +27,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealFractionBoundsField("Density:[0,1]"));
             this.Fields.Add(new RealBoundsField("Distance:world units"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("Patchy Fog", "fpch"));
+            this.Fields.Add(new TagReferenceField("Patchy Fog", 1718641512));
         }
         /// <summary>
         /// Gets and returns the name of the sky_patchy_fog_block tag block.

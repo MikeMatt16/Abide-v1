@@ -353,10 +353,11 @@ namespace Abide.DebugXbox
 
         }
         /// <summary>
-        /// 
+        /// Attempts to reboot the debug Xbox using the specified boot type.
+        /// By default, the Xbox will be cold rebooted.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">The boot type.</param>
+        /// <returns><see langword="true"/> if the debug Xbox is being rebooted; otherwise <see langword="false"/>.</returns>
         public bool Reboot(BootType type = BootType.Cold)
         {
             if(Connected)
@@ -828,9 +829,9 @@ namespace Abide.DebugXbox
                                     m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                     //Update progress
-                                    progress += m_Socket.ReceiveBufferSize;
+                                    progress += m_Socket.SendBufferSize;
                                     progressPercentage = (int)(((float)progress / length) * 100f);
-                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, length, progressPercentage, null));
+                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, m_Socket.SendBufferSize, length, progressPercentage, null));
                                 }
 
                                 //Upload remainder
@@ -841,14 +842,14 @@ namespace Abide.DebugXbox
                                 //Update progress
                                 progress += remainder;
                                 progressPercentage = (int)(((float)progress / length) * 100f);
-                                UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, length, progressPercentage, null));
+                                UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, remainder, length, progressPercentage, null));
                             }
                             catch (Exception ex) { error = ex; }
                         }
                         else error = new XboxException(msg);
 
                         //Completed
-                        UploadFileCompleted?.Invoke(this, new UploadCompletedEventArgs(error, false, null));
+                        UploadFileCompleted?.Invoke(this, new UploadCompletedEventArgs(error, error != null, false, null));
                     }
                 })).Start();
             }
@@ -900,9 +901,9 @@ namespace Abide.DebugXbox
                                     m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                     //Update progress
-                                    progress += m_Socket.ReceiveBufferSize;
-                                    progressPercentage = (int)(((float)progress / length) * 100f);
-                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, length, progressPercentage, null));
+                                    progress += m_Socket.SendBufferSize;
+                                    progressPercentage = (int)((float)progress / length * 100f);
+                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, m_Socket.SendBufferSize, length, progressPercentage, null));
                                 }
 
                                 //Upload remainder
@@ -913,14 +914,14 @@ namespace Abide.DebugXbox
                                 //Update progress
                                 progress += remainder;
                                 progressPercentage = (int)(((float)progress / length) * 100f);
-                                UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, length, progressPercentage, null));
+                                UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, remainder, length, progressPercentage, null));
                             }
                             catch (Exception ex) { error = ex; }
                         }
                         else throw new XboxException(msg);
 
                         //Completed
-                        UploadDataCompleted?.Invoke(this, new UploadCompletedEventArgs(error, false, null));
+                        UploadDataCompleted?.Invoke(this, new UploadCompletedEventArgs(error, error != null, false, null));
                     }
                 })).Start();
             }

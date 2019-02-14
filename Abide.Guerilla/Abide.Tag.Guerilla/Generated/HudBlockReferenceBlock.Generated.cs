@@ -27,8 +27,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("intro animation delay milliseconds"));
             this.Fields.Add(new ShortIntegerField("render depth bias"));
             this.Fields.Add(new ShortIntegerField("starting bitmap sequence index"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new Rectangle2dField("bounds"));
         }
         /// <summary>

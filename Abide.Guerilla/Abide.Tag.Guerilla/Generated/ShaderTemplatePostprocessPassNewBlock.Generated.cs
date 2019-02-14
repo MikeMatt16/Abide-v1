@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ShaderTemplatePostprocessPassNewBlock()
         {
-            this.Fields.Add(new TagReferenceField("pass", "spas"));
+            this.Fields.Add(new TagReferenceField("pass", 1936744819));
             this.Fields.Add(new StructField<TagBlockIndexStructBlock>("implementations"));
         }
         /// <summary>

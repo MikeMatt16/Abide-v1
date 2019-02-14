@@ -24,34 +24,34 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new ExplanationField("function textures", "Used internally by the rasterizer. (Do not change unless you know what you\'re doi" +
                         "ng!)"));
-            this.Fields.Add(new TagReferenceField("distance attenuation", "bitm"));
-            this.Fields.Add(new TagReferenceField("vector normalization", "bitm"));
-            this.Fields.Add(new TagReferenceField("gradients", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("glow", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
+            this.Fields.Add(new TagReferenceField("distance attenuation", 1651078253));
+            this.Fields.Add(new TagReferenceField("vector normalization", 1651078253));
+            this.Fields.Add(new TagReferenceField("gradients", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("glow", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
             this.Fields.Add(new PadField("", 16));
             this.Fields.Add(new BlockField<VertexShaderReferenceBlock>("global vertex shaders", 32));
             this.Fields.Add(new ExplanationField("default textures", "Used internally by the rasterizer - additive, multiplicative, detail, vector. (Do" +
                         " not change ever, period.)"));
-            this.Fields.Add(new TagReferenceField("default 2D", "bitm"));
-            this.Fields.Add(new TagReferenceField("default 3D", "bitm"));
-            this.Fields.Add(new TagReferenceField("default cube map", "bitm"));
+            this.Fields.Add(new TagReferenceField("default 2D", 1651078253));
+            this.Fields.Add(new TagReferenceField("default 3D", 1651078253));
+            this.Fields.Add(new TagReferenceField("default cube map", 1651078253));
             this.Fields.Add(new ExplanationField("experimental textures", "Used internally by the rasterizer. (Used by Bernie\'s experimental shaders.)"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
             this.Fields.Add(new ExplanationField("video effect textures", "Used in cinematics."));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
             this.Fields.Add(new PadField("", 36));
             this.Fields.Add(new ExplanationField("global shader", "Used for layers that need to do something for other layers to work correctly if t" +
                         "he layer is disabled, also used for active-camo, etc."));
-            this.Fields.Add(new TagReferenceField("global shader", "shad"));
+            this.Fields.Add(new TagReferenceField("global shader", 1936220516));
             this.Fields.Add(new ExplanationField("active camouflage", ""));
             this.Fields.Add(new WordFlagsField("flags", "tint edge density"));
             this.Fields.Add(new PadField("", 2));
@@ -62,7 +62,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("hyper-stealth distance falloff"));
             this.Fields.Add(new RealRgbColorField("hyper-stealth tint color"));
             this.Fields.Add(new ExplanationField("PC textures", "The PC can\'t use 3D textures, so we use this instead."));
-            this.Fields.Add(new TagReferenceField("UNUSED", "bitm"));
+            this.Fields.Add(new TagReferenceField("UNUSED", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the rasterizer_data_block tag block.

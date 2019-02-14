@@ -24,10 +24,10 @@ namespace Abide.Tag.Guerilla.Generated
         {
             this.Fields.Add(new ShortIntegerField("maximum count"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("throwing effect", "effe"));
+            this.Fields.Add(new TagReferenceField("throwing effect", 1701209701));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("equipment", "eqip"));
-            this.Fields.Add(new TagReferenceField("projectile", "proj"));
+            this.Fields.Add(new TagReferenceField("equipment", 1701931376));
+            this.Fields.Add(new TagReferenceField("projectile", 1886547818));
         }
         /// <summary>
         /// Gets and returns the name of the grenades_block tag block.

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SoundEffectStructDefinitionBlock()
         {
-            this.Fields.Add(new TagReferenceField("", "<fx>"));
+            this.Fields.Add(new TagReferenceField("", 1013348414));
             this.Fields.Add(new BlockField<SoundEffectComponentBlock>("components", 16));
             this.Fields.Add(new BlockField<SoundEffectOverridesBlock>("", 128));
             this.Fields.Add(new DataField("", 1, 4));

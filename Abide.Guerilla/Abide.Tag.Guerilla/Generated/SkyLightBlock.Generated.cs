@@ -24,7 +24,7 @@ namespace Abide.Tag.Guerilla.Generated
         {
             this.Fields.Add(new RealVector3dField("Direction Vector"));
             this.Fields.Add(new EulerAngles2dField("Direction"));
-            this.Fields.Add(new TagReferenceField("Lens Flare", "lens"));
+            this.Fields.Add(new TagReferenceField("Lens Flare", 1818586739));
             this.Fields.Add(new BlockField<SkyLightFogBlock>("Fog", 1));
             this.Fields.Add(new BlockField<SkyLightFogBlock>("Fog Opposite", 1));
             this.Fields.Add(new BlockField<SkyRadiosityLightBlock>("Radiosity", 1));

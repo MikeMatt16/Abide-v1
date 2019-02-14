@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public SuperDetonationDamageStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("super detonation damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("super detonation damage", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the super_detonation_damage_struct_block tag block.

@@ -28,7 +28,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("scaling flags", "don\'t scale offset", "don\'t scale size"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("interface bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("interface bitmap", 1651078253));
             this.Fields.Add(new ArgbColorField("default color"));
             this.Fields.Add(new ArgbColorField("flashing color"));
             this.Fields.Add(new RealField("flash period"));

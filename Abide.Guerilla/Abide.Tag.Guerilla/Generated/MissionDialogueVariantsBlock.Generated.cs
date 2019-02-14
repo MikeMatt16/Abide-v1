@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public MissionDialogueVariantsBlock()
         {
             this.Fields.Add(new StringIdField("variant designation^#3-letter designation for the character"));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
             this.Fields.Add(new StringIdField("sound effect"));
         }
         /// <summary>

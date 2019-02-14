@@ -165,6 +165,32 @@ namespace Abide.TagBuilder.Halo2
                 //Convert cache to guerilla
                 tagGroup = Guerilla.Library.Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, entry, Map);
 
+                //Copy raws
+                if(tagGroup.GroupTag == HaloTags.snd_)
+                {
+                    int rawOffset = 0;
+                    IndexEntry soundCacheFileGestaltEntry = Map.GetSoundCacheFileGestaltEntry();
+                    ITagBlock soundBlock = tagGroup[0];
+                    foreach (ITagBlock pitchRangeBlock in ((BaseBlockField)soundBlock.Fields[13]).BlockList)
+                    {
+                        foreach (ITagBlock permutationBlock in ((BaseBlockField)pitchRangeBlock.Fields[7]).BlockList)
+                        {
+                            foreach (ITagBlock permutationChunkBlock in ((BaseBlockField)permutationBlock.Fields[6]).BlockList)
+                            {
+                                rawOffset = (int)permutationChunkBlock.Fields[0].Value;
+                                if (soundCacheFileGestaltEntry.Raws[RawSection.Sound].ContainsRawOffset(rawOffset))
+                                    tagGroupFile.SetRaw(rawOffset, soundCacheFileGestaltEntry.Raws[RawSection.Sound][rawOffset].ToArray());
+                            }
+                        }
+                    }
+                    foreach (ITagBlock extraInfoBlock in ((BaseBlockField)soundBlock.Fields[15]).BlockList)
+                    {
+                        ITagBlock globalGeometryBlockInfoStruct = (ITagBlock)extraInfoBlock.Fields[2].Value;
+                        if (soundCacheFileGestaltEntry.Raws[RawSection.LipSync].ContainsRawOffset(rawOffset))
+                            tagGroupFile.SetRaw(rawOffset, soundCacheFileGestaltEntry.Raws[RawSection.LipSync][rawOffset].ToArray());
+                    }
+                }
+
                 //Create
                 Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));
 

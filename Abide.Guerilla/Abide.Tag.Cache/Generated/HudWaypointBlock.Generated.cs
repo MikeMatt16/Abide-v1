@@ -22,8 +22,8 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public HudWaypointBlock()
         {
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new ShortIntegerField("onscreen sequence index"));
             this.Fields.Add(new ShortIntegerField("occluded sequence index"));
             this.Fields.Add(new ShortIntegerField("offscreen sequence index"));

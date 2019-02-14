@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("flags", "use large dialog"));
             this.Fields.Add(new CharEnumField("default button", "no default", "default ok", "default cancel"));
             this.Fields.Add(new PadField("", 1));
-            this.Fields.Add(new TagReferenceField("string tag", "unic"));
+            this.Fields.Add(new TagReferenceField("string tag", 1970170211));
             this.Fields.Add(new StringIdField("default title"));
             this.Fields.Add(new StringIdField("default message"));
             this.Fields.Add(new StringIdField("default ok"));

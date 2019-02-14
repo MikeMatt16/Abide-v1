@@ -22,14 +22,14 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public MultiplayerInformationBlock()
         {
-            this.Fields.Add(new TagReferenceField("flag", "item"));
-            this.Fields.Add(new TagReferenceField("unit", "unit"));
+            this.Fields.Add(new TagReferenceField("flag", 1769235821));
+            this.Fields.Add(new TagReferenceField("unit", 1970170228));
             this.Fields.Add(new BlockField<VehiclesBlock>("vehicles", 20));
-            this.Fields.Add(new TagReferenceField("hill shader", "shad"));
-            this.Fields.Add(new TagReferenceField("flag shader", "shad"));
-            this.Fields.Add(new TagReferenceField("ball", "item"));
+            this.Fields.Add(new TagReferenceField("hill shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("flag shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("ball", 1769235821));
             this.Fields.Add(new BlockField<SoundsBlock>("sounds", 60));
-            this.Fields.Add(new TagReferenceField("in game text", "unic"));
+            this.Fields.Add(new TagReferenceField("in game text", 1970170211));
             this.Fields.Add(new PadField("", 40));
             this.Fields.Add(new BlockField<GameEngineGeneralEventBlock>("general events", 128));
             this.Fields.Add(new BlockField<GameEngineSlayerEventBlock>("slayer events", 128));

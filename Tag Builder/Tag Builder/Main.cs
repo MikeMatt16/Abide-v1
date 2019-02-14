@@ -25,6 +25,7 @@ namespace Abide.TagBuilder
         private IHalo2MenuButton tagDuplicator = null;
         private IHalo2MenuButton tagImporter = null;
         private IHalo2MenuButton tagExporter = null;
+        private IHalo2MenuButton fixSystemLink = null;
 
         public Main()
         {
@@ -70,8 +71,17 @@ namespace Abide.TagBuilder
             tagExporter.OnMapLoad();
             ToolStripItem tagExporterToolStripMenuButton = mainMenuStrip.Items.Add(tagExporter.Name, tagExporter.Icon);
             tagExporterToolStripMenuButton.Click += TagExporterToolStripMenuButton_Click;
-        }
 
+            //
+            // fixSystemLink
+            //
+            fixSystemLink = new FixSystemLinkButton();
+            fixSystemLink.Initialize(this);
+            fixSystemLink.OnMapLoad();
+            ToolStripItem fixSystemLinkToolStripMenuButton = mainMenuStrip.Items.Add(fixSystemLink.Name, fixSystemLink.Icon);
+            fixSystemLinkToolStripMenuButton.Click += FixSystemLinkToolStripMenuButton_Click;
+        }
+        
         public object Request(IAddOn sender, string request, params object[] args)
         {
             //Handle
@@ -82,6 +92,11 @@ namespace Abide.TagBuilder
                 case "ReloadMap": Map_BuildTagTreeView(map, tagTreeView); return null;
                 default: return null;
             }
+        }
+        private void FixSystemLinkToolStripMenuButton_Click(object sender, EventArgs e)
+        {
+            if (map == null) return;
+            fixSystemLink.OnClick();
         }
         private void TagExporterToolStripMenuButton_Click(object sender, EventArgs e)
         {

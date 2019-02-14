@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<EffectLocationsBlock>("locations", 32));
             this.Fields.Add(new BlockField<EffectEventBlock>("events", 32));
             this.Fields.Add(new ExplanationField("Looping Sound", ""));
-            this.Fields.Add(new TagReferenceField("looping sound", "lsnd"));
+            this.Fields.Add(new TagReferenceField("looping sound", 1819504228));
             this.Fields.Add(new ShortBlockIndexField("location"));
             this.Fields.Add(new SkipField("", 2));
             this.Fields.Add(new RealField("always play distance"));

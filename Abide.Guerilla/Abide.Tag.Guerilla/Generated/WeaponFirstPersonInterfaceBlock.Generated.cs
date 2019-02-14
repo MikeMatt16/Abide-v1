@@ -22,8 +22,8 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public WeaponFirstPersonInterfaceBlock()
         {
-            this.Fields.Add(new TagReferenceField("first person model", "mode"));
-            this.Fields.Add(new TagReferenceField("first person animations", "jmad"));
+            this.Fields.Add(new TagReferenceField("first person model", 1836016741));
+            this.Fields.Add(new TagReferenceField("first person animations", 1785553252));
         }
         /// <summary>
         /// Gets and returns the name of the weapon_first_person_interface_block tag block.

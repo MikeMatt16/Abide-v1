@@ -758,459 +758,7 @@ namespace Abide.Tag.Ui
             //Collect
             GC.Collect();
         }
-
-        private void Tag_RepointRaw(IndexEntry tag, VirtualStream tagData, BinaryReader reader, BinaryWriter writer)
-        {
-            //Prepare
-            long offsetAddress = 0, lengthAddress = 0;
-            int rawOffset = 0;
-
-            //Handle
-            switch (tag.Root)
-            {
-                #region ugh!
-                case HaloTags.ugh_:
-                    tagData.Seek(tagData.MemoryAddress + 64, SeekOrigin.Begin);
-                    int soundsCount = reader.ReadInt32();
-                    int soundsOffset = reader.ReadInt32();
-                    for (int i = 0; i < soundsCount; i++)
-                    {
-                        //Goto
-                        tagData.Seek(soundsOffset + (i * 12), SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Sound].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Sound][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Sound][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-
-                    tagData.Seek(tagData.MemoryAddress + 80, SeekOrigin.Begin);
-                    int extraInfosCount = reader.ReadInt32();
-                    int extraInfosOffset = reader.ReadInt32();
-                    for (int i = 0; i < extraInfosCount; i++)
-                    {
-                        //Goto
-                        tagData.Seek(extraInfosOffset + (i * 44) + 8, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.LipSync].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.LipSync][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.LipSync][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-                    break;
-                #endregion
-                #region mode
-                case HaloTags.mode:
-                    tagData.Seek(tagData.MemoryAddress + 36, SeekOrigin.Begin);
-                    int sectionCount = reader.ReadInt32();
-                    int sectionOffset = reader.ReadInt32();
-                    for (int i = 0; i < sectionCount; i++)
-                    {
-                        tagData.Seek(sectionOffset + (i * 92) + 56, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Model].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-
-                    tagData.Seek(tagData.MemoryAddress + 116, SeekOrigin.Begin);
-                    int prtCount = reader.ReadInt32();
-                    int prtOffset = reader.ReadInt32();
-                    for (int i = 0; i < prtCount; i++)
-                    {
-                        tagData.Seek(prtOffset + (i * 88) + 52, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Model].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-                    break;
-                #endregion
-                #region weat
-                case HaloTags.weat:
-                    tagData.Seek(tagData.MemoryAddress, SeekOrigin.Begin);
-                    int particleSystemCount = reader.ReadInt32();
-                    int particleSystemOffset = reader.ReadInt32();
-                    for (int i = 0; i < particleSystemCount; i++)
-                    {
-                        tagData.Seek(particleSystemOffset + (i * 140) + 64, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Weather].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Weather][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Weather][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Weather][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Weather][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-                    break;
-                #endregion
-                #region DECR
-                case HaloTags.DECR:
-                    tagData.Seek(tagData.MemoryAddress + 56, SeekOrigin.Begin);
-                    offsetAddress = tagData.Position;
-                    rawOffset = reader.ReadInt32();
-                    lengthAddress = tagData.Position;
-
-                    //Check
-                    if (tag.Raws[RawSection.DecoratorSet].ContainsRawOffset(rawOffset))
-                    {
-                        tag.Raws[RawSection.DecoratorSet][rawOffset].OffsetAddresses.Clear();
-                        tag.Raws[RawSection.DecoratorSet][rawOffset].LengthAddresses.Clear();
-                        tag.Raws[RawSection.DecoratorSet][rawOffset].OffsetAddresses.Add(offsetAddress);
-                        tag.Raws[RawSection.DecoratorSet][rawOffset].LengthAddresses.Add(lengthAddress);
-                    }
-                    break;
-                #endregion
-                #region PRTM
-                case HaloTags.PRTM:
-                    tagData.Seek(tagData.MemoryAddress + 160, SeekOrigin.Begin);
-                    offsetAddress = tagData.Position;
-                    rawOffset = reader.ReadInt32();
-                    lengthAddress = tagData.Position;
-
-                    //Check
-                    if (tag.Raws[RawSection.ParticleModel].ContainsRawOffset(rawOffset))
-                    {
-                        tag.Raws[RawSection.ParticleModel][rawOffset].OffsetAddresses.Clear();
-                        tag.Raws[RawSection.ParticleModel][rawOffset].LengthAddresses.Clear();
-                        tag.Raws[RawSection.ParticleModel][rawOffset].OffsetAddresses.Add(offsetAddress);
-                        tag.Raws[RawSection.ParticleModel][rawOffset].LengthAddresses.Add(lengthAddress);
-                    }
-                    break;
-                #endregion
-                #region jmad
-                case HaloTags.jmad:
-                    tagData.Seek(tagData.MemoryAddress + 172, SeekOrigin.Begin);
-                    int animationCount = reader.ReadInt32();
-                    int animationOffset = reader.ReadInt32();
-                    for (int i = 0; i < animationCount; i++)
-                    {
-                        tagData.Seek(animationOffset + (i * 20) + 4, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-                        reader.ReadInt32();
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-
-                        //Check
-                        if (tag.Raws[RawSection.Animation].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Animation][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Animation][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Animation][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Animation][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-                    break;
-                #endregion
-                #region bitm
-                case HaloTags.bitm:
-                    tagData.Seek(tagData.MemoryAddress + 68, SeekOrigin.Begin);
-                    int bitmapCount = reader.ReadInt32();
-                    int bitmapOffset = reader.ReadInt32();
-                    for (int i = 0; i < bitmapCount; i++)
-                    {
-                        //LOD0
-                        tagData.Seek(bitmapOffset + (i * 116) + 28, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 52, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-
-                        //LOD1
-                        tagData.Seek(bitmapOffset + (i * 116) + 32, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 56, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-
-                        //LOD2
-                        tagData.Seek(bitmapOffset + (i * 116) + 36, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 60, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-
-                        //LOD3
-                        tagData.Seek(bitmapOffset + (i * 116) + 40, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 64, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-
-                        //LOD4
-                        tagData.Seek(bitmapOffset + (i * 116) + 44, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 68, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-
-                        //LOD5
-                        tagData.Seek(bitmapOffset + (i * 116) + 48, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        tagData.Seek(bitmapOffset + (i * 116) + 72, SeekOrigin.Begin);
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-                    break;
-                #endregion
-                #region sbsp
-                case HaloTags.sbsp:
-                    //Goto Clusters
-                    tagData.Seek(tagData.MemoryAddress + 156, SeekOrigin.Begin);
-                    uint clusterCount = reader.ReadUInt32();
-                    uint clusterOffset = reader.ReadUInt32();
-                    for (int i = 0; i < clusterCount; i++)
-                    {
-                        tagData.Seek(clusterOffset + (i * 176) + 40, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-
-                    //Goto Geometries definitions
-                    tagData.Seek(tagData.MemoryAddress + 312, SeekOrigin.Begin);
-                    uint geometriesCount = reader.ReadUInt32();
-                    uint geometriesOffset = reader.ReadUInt32();
-                    for (int i = 0; i < geometriesCount; i++)
-                    {
-                        tagData.Seek(geometriesOffset + (i * 200) + 40, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-
-                    //Goto Water definitions
-                    tagData.Seek(tagData.MemoryAddress + 532, SeekOrigin.Begin);
-                    uint watersCount = reader.ReadUInt32();
-                    uint watersOffset = reader.ReadUInt32();
-                    for (int i = 0; i < watersCount; i++)
-                    {
-                        tagData.Seek(watersOffset + (i * 172) + 16, SeekOrigin.Begin);
-                        offsetAddress = tagData.Position;
-                        rawOffset = reader.ReadInt32();
-                        lengthAddress = tagData.Position;
-
-                        //Check
-                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                        {
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                        }
-                    }
-
-                    //Goto Decorators Definitions
-                    tagData.Seek(tagData.MemoryAddress + 564, SeekOrigin.Begin);
-                    uint decoratorsCount = reader.ReadUInt32();
-                    uint decoratorsOffset = reader.ReadUInt32();
-                    for (int i = 0; i < decoratorsCount; i++)
-                    {
-                        tagData.Seek(decoratorsOffset + (i * 48) + 16, SeekOrigin.Begin);
-                        uint cachesCount = reader.ReadUInt32();
-                        uint cachesOffset = reader.ReadUInt32();
-                        for (int j = 0; j < cachesCount; j++)
-                        {
-                            tagData.Seek(cachesOffset + (j * 44), SeekOrigin.Begin);
-                            offsetAddress = tagData.Position;
-                            rawOffset = reader.ReadInt32();
-                            lengthAddress = tagData.Position;
-
-                            //Check
-                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                            {
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                            }
-                        }
-                    }
-                    break;
-                #endregion
-                #region ltmp
-                case HaloTags.ltmp:
-                    //Goto Lightmap Groups
-                    tagData.Seek(tagData.MemoryAddress + 128);
-                    uint groupsCount = reader.ReadUInt32();
-                    uint groupsPointer = reader.ReadUInt32();
-                    for (int i = 0; i < groupsCount; i++)
-                    {
-                        //Goto Cluster Definitions
-                        tagData.Seek(groupsPointer + (i * 104) + 32, SeekOrigin.Begin);
-                        uint clustersCount = reader.ReadUInt32();
-                        uint clustersOffset = reader.ReadUInt32();
-                        for (int j = 0; j < clustersCount; j++)
-                        {
-                            tagData.Seek(clustersOffset + (j * 84) + 40, SeekOrigin.Begin);
-                            offsetAddress = tagData.Position;
-                            rawOffset = reader.ReadInt32();
-                            lengthAddress = tagData.Position;
-
-                            //Check
-                            if(tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                            {
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                            }
-                        }
-
-                        //Goto Poop Definitions
-                        tagData.Seek(groupsPointer + (i * 104) + 48, SeekOrigin.Begin);
-                        uint poopsCount = reader.ReadUInt32();
-                        uint poopsOffset = reader.ReadUInt32();
-                        for (int j = 0; j < poopsCount; j++)
-                        {
-                            tagData.Seek(poopsOffset + (j * 84) + 40, SeekOrigin.Begin);
-                            offsetAddress = tagData.Position;
-                            rawOffset = reader.ReadInt32();
-                            lengthAddress = tagData.Position;
-
-                            //Check
-                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                            {
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                            }
-                        }
-
-                        //Goto Geometry Buckets
-                        tagData.Seek(groupsPointer + (i * 104) + 64, SeekOrigin.Begin);
-                        uint bucketsCount = reader.ReadUInt32();
-                        uint bucketsOffset = reader.ReadUInt32();
-                        for (int j = 0; j < bucketsCount; j++)
-                        {
-                            tagData.Seek(bucketsOffset + (j * 56) + 12, SeekOrigin.Begin);
-                            offsetAddress = tagData.Position;
-                            rawOffset = reader.ReadInt32();
-                            lengthAddress = tagData.Position;
-
-                            //Check
-                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
-                            {
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
-                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
-                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
-                            }
-                        }
-                    }
-                    break;
-                    #endregion
-            }
-        }
-
+        
         private void Tag_ReadRaws(IndexEntry entry, long address, VirtualStream tagData, BinaryReader reader)
         {
             //Null
@@ -1617,6 +1165,485 @@ namespace Abide.Tag.Ui
             //Create form
             using (BlockViewForm blockForm = new BlockViewForm(map, selectedTag))
                 blockForm.ShowDialog();
+        }
+
+        private void Tag_RepointRaw(IndexEntry tag, VirtualStream tagData, BinaryReader reader, BinaryWriter writer)
+        {
+            //Prepare
+            long offsetAddress = 0, lengthAddress = 0;
+            int rawOffset = 0;
+
+            //Handle
+            switch (tag.Root)
+            {
+                #region ugh!
+                case HaloTags.ugh_:
+                    tagData.Seek(tagData.MemoryAddress + 64, SeekOrigin.Begin);
+                    int soundsCount = reader.ReadInt32();
+                    int soundsOffset = reader.ReadInt32();
+                    for (int i = 0; i < soundsCount; i++)
+                    {
+                        //Goto
+                        tagData.Seek(soundsOffset + (i * 12), SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Sound].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Sound][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Sound][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Sound][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    tagData.Seek(tagData.MemoryAddress + 80, SeekOrigin.Begin);
+                    int extraInfosCount = reader.ReadInt32();
+                    int extraInfosOffset = reader.ReadInt32();
+                    for (int i = 0; i < extraInfosCount; i++)
+                    {
+                        //Goto
+                        tagData.Seek(extraInfosOffset + (i * 44) + 8, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.LipSync].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.LipSync][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.LipSync][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.LipSync][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region mode
+                case HaloTags.mode:
+                    tagData.Seek(tagData.MemoryAddress + 36, SeekOrigin.Begin);
+                    int sectionCount = reader.ReadInt32();
+                    int sectionOffset = reader.ReadInt32();
+                    for (int i = 0; i < sectionCount; i++)
+                    {
+                        tagData.Seek(sectionOffset + (i * 92) + 56, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Model].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    tagData.Seek(tagData.MemoryAddress + 116, SeekOrigin.Begin);
+                    int prtCount = reader.ReadInt32();
+                    int prtOffset = reader.ReadInt32();
+                    for (int i = 0; i < prtCount; i++)
+                    {
+                        tagData.Seek(prtOffset + (i * 88) + 52, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Model].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Model][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Model][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region weat
+                case HaloTags.weat:
+                    tagData.Seek(tagData.MemoryAddress, SeekOrigin.Begin);
+                    int particleSystemCount = reader.ReadInt32();
+                    int particleSystemOffset = reader.ReadInt32();
+                    for (int i = 0; i < particleSystemCount; i++)
+                    {
+                        tagData.Seek(particleSystemOffset + (i * 140) + 64, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Weather].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Weather][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Weather][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Weather][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Weather][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region DECR
+                case HaloTags.DECR:
+                    tagData.Seek(tagData.MemoryAddress + 56, SeekOrigin.Begin);
+                    offsetAddress = tagData.Position;
+                    rawOffset = reader.ReadInt32();
+                    lengthAddress = tagData.Position;
+
+                    //Check
+                    if (tag.Raws[RawSection.DecoratorSet].ContainsRawOffset(rawOffset))
+                    {
+                        tag.Raws[RawSection.DecoratorSet][rawOffset].OffsetAddresses.Clear();
+                        tag.Raws[RawSection.DecoratorSet][rawOffset].LengthAddresses.Clear();
+                        tag.Raws[RawSection.DecoratorSet][rawOffset].OffsetAddresses.Add(offsetAddress);
+                        tag.Raws[RawSection.DecoratorSet][rawOffset].LengthAddresses.Add(lengthAddress);
+                    }
+                    break;
+                #endregion
+                #region PRTM
+                case HaloTags.PRTM:
+                    tagData.Seek(tagData.MemoryAddress + 160, SeekOrigin.Begin);
+                    offsetAddress = tagData.Position;
+                    rawOffset = reader.ReadInt32();
+                    lengthAddress = tagData.Position;
+
+                    //Check
+                    if (tag.Raws[RawSection.ParticleModel].ContainsRawOffset(rawOffset))
+                    {
+                        tag.Raws[RawSection.ParticleModel][rawOffset].OffsetAddresses.Clear();
+                        tag.Raws[RawSection.ParticleModel][rawOffset].LengthAddresses.Clear();
+                        tag.Raws[RawSection.ParticleModel][rawOffset].OffsetAddresses.Add(offsetAddress);
+                        tag.Raws[RawSection.ParticleModel][rawOffset].LengthAddresses.Add(lengthAddress);
+                    }
+                    break;
+                #endregion
+                #region jmad
+                case HaloTags.jmad:
+                    tagData.Seek(tagData.MemoryAddress + 172, SeekOrigin.Begin);
+                    int animationCount = reader.ReadInt32();
+                    int animationOffset = reader.ReadInt32();
+                    for (int i = 0; i < animationCount; i++)
+                    {
+                        tagData.Seek(animationOffset + (i * 20) + 4, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+                        reader.ReadInt32();
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+
+                        //Check
+                        if (tag.Raws[RawSection.Animation].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Animation][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Animation][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Animation][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Animation][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region bitm
+                case HaloTags.bitm:
+                    tagData.Seek(tagData.MemoryAddress + 68, SeekOrigin.Begin);
+                    int bitmapCount = reader.ReadInt32();
+                    int bitmapOffset = reader.ReadInt32();
+                    for (int i = 0; i < bitmapCount; i++)
+                    {
+                        //LOD0
+                        tagData.Seek(bitmapOffset + (i * 116) + 28, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 52, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+
+                        //LOD1
+                        tagData.Seek(bitmapOffset + (i * 116) + 32, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 56, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+
+                        //LOD2
+                        tagData.Seek(bitmapOffset + (i * 116) + 36, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 60, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+
+                        //LOD3
+                        tagData.Seek(bitmapOffset + (i * 116) + 40, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 64, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+
+                        //LOD4
+                        tagData.Seek(bitmapOffset + (i * 116) + 44, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 68, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+
+                        //LOD5
+                        tagData.Seek(bitmapOffset + (i * 116) + 48, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        tagData.Seek(bitmapOffset + (i * 116) + 72, SeekOrigin.Begin);
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.Bitmap].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.Bitmap][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.Bitmap][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+                    break;
+                #endregion
+                #region sbsp
+                case HaloTags.sbsp:
+                    //Goto Clusters
+                    tagData.Seek(tagData.MemoryAddress + 156, SeekOrigin.Begin);
+                    uint clusterCount = reader.ReadUInt32();
+                    uint clusterOffset = reader.ReadUInt32();
+                    for (int i = 0; i < clusterCount; i++)
+                    {
+                        tagData.Seek(clusterOffset + (i * 176) + 40, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Geometries definitions
+                    tagData.Seek(tagData.MemoryAddress + 312, SeekOrigin.Begin);
+                    uint geometriesCount = reader.ReadUInt32();
+                    uint geometriesOffset = reader.ReadUInt32();
+                    for (int i = 0; i < geometriesCount; i++)
+                    {
+                        tagData.Seek(geometriesOffset + (i * 200) + 40, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Water definitions
+                    tagData.Seek(tagData.MemoryAddress + 532, SeekOrigin.Begin);
+                    uint watersCount = reader.ReadUInt32();
+                    uint watersOffset = reader.ReadUInt32();
+                    for (int i = 0; i < watersCount; i++)
+                    {
+                        tagData.Seek(watersOffset + (i * 172) + 16, SeekOrigin.Begin);
+                        offsetAddress = tagData.Position;
+                        rawOffset = reader.ReadInt32();
+                        lengthAddress = tagData.Position;
+
+                        //Check
+                        if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                        {
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                            tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                            tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                        }
+                    }
+
+                    //Goto Decorators Definitions
+                    tagData.Seek(tagData.MemoryAddress + 564, SeekOrigin.Begin);
+                    uint decoratorsCount = reader.ReadUInt32();
+                    uint decoratorsOffset = reader.ReadUInt32();
+                    for (int i = 0; i < decoratorsCount; i++)
+                    {
+                        tagData.Seek(decoratorsOffset + (i * 48) + 16, SeekOrigin.Begin);
+                        uint cachesCount = reader.ReadUInt32();
+                        uint cachesOffset = reader.ReadUInt32();
+                        for (int j = 0; j < cachesCount; j++)
+                        {
+                            tagData.Seek(cachesOffset + (j * 44), SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+                    }
+                    break;
+                #endregion
+                #region ltmp
+                case HaloTags.ltmp:
+                    //Goto Lightmap Groups
+                    tagData.Seek(tagData.MemoryAddress + 128);
+                    uint groupsCount = reader.ReadUInt32();
+                    uint groupsPointer = reader.ReadUInt32();
+                    for (int i = 0; i < groupsCount; i++)
+                    {
+                        //Goto Cluster Definitions
+                        tagData.Seek(groupsPointer + (i * 104) + 32, SeekOrigin.Begin);
+                        uint clustersCount = reader.ReadUInt32();
+                        uint clustersOffset = reader.ReadUInt32();
+                        for (int j = 0; j < clustersCount; j++)
+                        {
+                            tagData.Seek(clustersOffset + (j * 84) + 40, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+
+                        //Goto Poop Definitions
+                        tagData.Seek(groupsPointer + (i * 104) + 48, SeekOrigin.Begin);
+                        uint poopsCount = reader.ReadUInt32();
+                        uint poopsOffset = reader.ReadUInt32();
+                        for (int j = 0; j < poopsCount; j++)
+                        {
+                            tagData.Seek(poopsOffset + (j * 84) + 40, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+
+                        //Goto Geometry Buckets
+                        tagData.Seek(groupsPointer + (i * 104) + 64, SeekOrigin.Begin);
+                        uint bucketsCount = reader.ReadUInt32();
+                        uint bucketsOffset = reader.ReadUInt32();
+                        for (int j = 0; j < bucketsCount; j++)
+                        {
+                            tagData.Seek(bucketsOffset + (j * 56) + 12, SeekOrigin.Begin);
+                            offsetAddress = tagData.Position;
+                            rawOffset = reader.ReadInt32();
+                            lengthAddress = tagData.Position;
+
+                            //Check
+                            if (tag.Raws[RawSection.BSP].ContainsRawOffset(rawOffset))
+                            {
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Clear();
+                                tag.Raws[RawSection.BSP][rawOffset].OffsetAddresses.Add(offsetAddress);
+                                tag.Raws[RawSection.BSP][rawOffset].LengthAddresses.Add(lengthAddress);
+                            }
+                        }
+                    }
+                    break;
+                    #endregion
+            }
+        }
+
+        public static IndexEntry GetSoundCacheFileGestaltEntry(MapFile map)
+        {
+            //Check
+            if (map.Globals == null) return null;
+            TagId soundGestaltId = TagId.Null;
+
+            //Create IO
+            using (BinaryReader reader = map.TagDataStream.CreateReader())
+            using (BinaryWriter writer = map.TagDataStream.CreateWriter())
+            {
+                //Goto sound globals
+                map.TagDataStream.Seek(map.Globals.Offset + 192);
+                TagBlock soundGlobalsBlock = reader.Read<TagBlock>();
+
+                //Check
+                if (soundGlobalsBlock.Count > 0)
+                {
+                    //Write
+                    map.TagDataStream.Seek(soundGlobalsBlock.Offset + 32);
+                    soundGestaltId = reader.ReadInt32();
+                }
+            }
+
+            //Return
+            return map.IndexEntries[soundGestaltId];
         }
 
         private class TagNodeSorter : IComparer

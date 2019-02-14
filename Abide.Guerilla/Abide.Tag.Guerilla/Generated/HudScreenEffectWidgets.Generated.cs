@@ -27,8 +27,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StructField<HudWidgetStateDefinitionStructBlock>(""));
             this.Fields.Add(new EnumField("anchor", "health and shield", "weapon hud", "motion sensor", "scoreboard", "crosshair", "lock-on target"));
             this.Fields.Add(new WordFlagsField("flags", "unused"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("fullscreen screen effect", "egor"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("fullscreen screen effect", 1701277554));
             this.Fields.Add(new StructField<ScreenEffectBonusStructBlock>("waa"));
             this.Fields.Add(new CharIntegerField("fullscreen sequence index"));
             this.Fields.Add(new CharIntegerField("halfscreen sequence index"));

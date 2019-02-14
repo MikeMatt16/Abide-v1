@@ -25,7 +25,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new EnumField("powerup type", "none", "double speed", "over shield", "active camouflage", "full-spectrum vision", "health", "grenade"));
             this.Fields.Add(new EnumField("grenade type", "human fragmentation", "covenant plasma"));
             this.Fields.Add(new RealField("powerup time:seconds"));
-            this.Fields.Add(new TagReferenceField("pickup sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("pickup sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the equipment_block tag block.

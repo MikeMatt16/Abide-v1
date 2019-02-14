@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SoundsBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound^", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound^", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the sounds_block tag block.

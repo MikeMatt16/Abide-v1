@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public StylePaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("reference^", "styl"));
+            this.Fields.Add(new TagReferenceField("reference^", 1937013100));
         }
         /// <summary>
         /// Gets and returns the name of the style_palette_block tag block.

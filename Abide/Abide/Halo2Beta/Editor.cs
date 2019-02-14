@@ -1,6 +1,5 @@
 ﻿using Abide.AddOnApi;
 using Abide.Classes;
-using Abide.DebugXbox;
 using Abide.Dialogs;
 using Abide.Dialogs.Halo2Beta;
 using Abide.Halo2.Designer;
@@ -16,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using YeloDebug;
 
 namespace Abide.Halo2Beta
 {

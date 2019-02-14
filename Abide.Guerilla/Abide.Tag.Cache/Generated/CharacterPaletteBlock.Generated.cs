@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public CharacterPaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("reference^", "char"));
+            this.Fields.Add(new TagReferenceField("reference^", 1667785074));
         }
         /// <summary>
         /// Gets and returns the name of the character_palette_block tag block.

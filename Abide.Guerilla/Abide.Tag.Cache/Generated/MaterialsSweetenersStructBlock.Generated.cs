@@ -22,20 +22,20 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public MaterialsSweetenersStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound sweetener (small)", "snd!"));
-            this.Fields.Add(new TagReferenceField("sound sweetener (medium)", "snd!"));
-            this.Fields.Add(new TagReferenceField("sound sweetener (large)", "snd!"));
-            this.Fields.Add(new TagReferenceField("sound sweetener rolling", "lsnd"));
-            this.Fields.Add(new TagReferenceField("sound sweetener grinding", "lsnd"));
-            this.Fields.Add(new TagReferenceField("sound sweetener (melee)", "snd!"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("effect sweetener (small)", "effe"));
-            this.Fields.Add(new TagReferenceField("effect sweetener (medium)", "effe"));
-            this.Fields.Add(new TagReferenceField("effect sweetener (large)", "effe"));
-            this.Fields.Add(new TagReferenceField("effect sweetener rolling", "effe"));
-            this.Fields.Add(new TagReferenceField("effect sweetener grinding", "effe"));
-            this.Fields.Add(new TagReferenceField("effect sweetener (melee)", "effe"));
-            this.Fields.Add(new TagReferenceField("", "����"));
+            this.Fields.Add(new TagReferenceField("sound sweetener (small)", 1936614433));
+            this.Fields.Add(new TagReferenceField("sound sweetener (medium)", 1936614433));
+            this.Fields.Add(new TagReferenceField("sound sweetener (large)", 1936614433));
+            this.Fields.Add(new TagReferenceField("sound sweetener rolling", 1819504228));
+            this.Fields.Add(new TagReferenceField("sound sweetener grinding", 1819504228));
+            this.Fields.Add(new TagReferenceField("sound sweetener (melee)", 1936614433));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("effect sweetener (small)", 1701209701));
+            this.Fields.Add(new TagReferenceField("effect sweetener (medium)", 1701209701));
+            this.Fields.Add(new TagReferenceField("effect sweetener (large)", 1701209701));
+            this.Fields.Add(new TagReferenceField("effect sweetener rolling", 1701209701));
+            this.Fields.Add(new TagReferenceField("effect sweetener grinding", 1701209701));
+            this.Fields.Add(new TagReferenceField("effect sweetener (melee)", 1701209701));
+            this.Fields.Add(new TagReferenceField("", -3));
             this.Fields.Add(new ExplanationField("sweetener inheritance flags", "when a sweetener inheritance flag is set the sound\\effect is not inherited from t" +
                         "he parent material.  If you leave the sweetener blank and set the flag than no e" +
                         "ffect\\sound will play"));

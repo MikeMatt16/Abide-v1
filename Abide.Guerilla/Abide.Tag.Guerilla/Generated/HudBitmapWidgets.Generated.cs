@@ -27,8 +27,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StructField<HudWidgetStateDefinitionStructBlock>(""));
             this.Fields.Add(new EnumField("anchor", "health and shield", "weapon hud", "motion sensor", "scoreboard", "crosshair", "lock-on target"));
             this.Fields.Add(new WordFlagsField("flags", "flip horizontally", "flip vertically", "(scope) mirror horizontally", "(scope) mirror vertically", "(scope) stretch"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new CharIntegerField("fullscreen sequence index"));
             this.Fields.Add(new CharIntegerField("halfscreen sequence index"));
             this.Fields.Add(new CharIntegerField("quarterscreen sequence index"));

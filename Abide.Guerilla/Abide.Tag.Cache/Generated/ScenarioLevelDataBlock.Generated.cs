@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ScenarioLevelDataBlock()
         {
-            this.Fields.Add(new TagReferenceField("Level Description", "unic"));
+            this.Fields.Add(new TagReferenceField("Level Description", 1970170211));
             this.Fields.Add(new BlockField<GlobalUiCampaignLevelBlock>("Campaign Level Data", 20));
             this.Fields.Add(new BlockField<GlobalUiMultiplayerLevelBlock>("Multiplayer", 50));
         }

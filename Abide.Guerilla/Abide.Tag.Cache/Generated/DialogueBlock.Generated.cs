@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public DialogueBlock()
         {
-            this.Fields.Add(new TagReferenceField("global dialogue info", "adlg"));
+            this.Fields.Add(new TagReferenceField("global dialogue info", 1633971303));
             this.Fields.Add(new LongFlagsField("flags", "female"));
             this.Fields.Add(new BlockField<SoundReferencesBlock>("vocalizations", 500));
             this.Fields.Add(new StringIdField("mission dialogue designator#3-letter mission dialogue designator name"));

@@ -22,8 +22,8 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public StructureBspEnvironmentObjectPaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("Definition", "scen"));
-            this.Fields.Add(new TagReferenceField("Model", "mode"));
+            this.Fields.Add(new TagReferenceField("Definition", 1935893870));
+            this.Fields.Add(new TagReferenceField("Model", 1836016741));
             this.Fields.Add(new PadField("", 4));
         }
         /// <summary>

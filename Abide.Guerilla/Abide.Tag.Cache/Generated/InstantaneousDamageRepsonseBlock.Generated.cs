@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
 * destroys object: when the response fires the object is destroyed"));
             this.Fields.Add(new LongFlagsField("flags", "kills object", "inhibits melee attack", "inhibits weapon attack", "inhibits walking", "forces drop weapon", "kills weapon primary trigger", "kills weapon secondary trigger", "destroys object", "damages weapon primary trigger", "damages weapon secondary trigger", "light damage left turn", "major damage left turn", "light damage right turn", "major damage right turn", "light damage engine", "major damage engine", "kills object (no player solo)", "causes detonation", "destroy all group constraints", "kills variant objects", "force unattached effects", "fires under threshold", "triggers special death", "only on special death", "only NOT on special death"));
             this.Fields.Add(new RealField("damage threshold#repsonse fires after crossing this threshold.  1=full health"));
-            this.Fields.Add(new TagReferenceField("transition effect", "effe"));
+            this.Fields.Add(new TagReferenceField("transition effect", 1701209701));
             this.Fields.Add(new StructField<InstantaneousResponseDamageEffectStructBlock>("damage effect"));
             this.Fields.Add(new StringIdField("region"));
             this.Fields.Add(new EnumField("new state", "default", "minor damage", "medium damage", "major damage", "destroyed"));
@@ -45,7 +45,7 @@ namespace Abide.Tag.Cache.Generated
                         "pted if another timed response for the same section fires.The delay effect plays" +
                         " while the timer is counting down"));
             this.Fields.Add(new RealField("response delay#in seconds"));
-            this.Fields.Add(new TagReferenceField("delay effect", "effe"));
+            this.Fields.Add(new TagReferenceField("delay effect", 1701209701));
             this.Fields.Add(new StringIdField("delay effect marker name"));
             this.Fields.Add(new ExplanationField("Constraint destruction", @"- a response can destroy a single constraint by naming it explicitly.
 - alternatively it can randomly destroy a single constraint from a specified group if the ""destroy one group constraint"" flag is set

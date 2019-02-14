@@ -39,13 +39,13 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StringIdField("plural quantity msg"));
             this.Fields.Add(new StringIdField("switch-to msg"));
             this.Fields.Add(new StringIdField("switch-to from ai msg"));
-            this.Fields.Add(new TagReferenceField("UNUSED*", "foot"));
-            this.Fields.Add(new TagReferenceField("collision sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("UNUSED*", 1718579060));
+            this.Fields.Add(new TagReferenceField("collision sound", 1936614433));
             this.Fields.Add(new BlockField<PredictedBitmapsBlock>("predicted bitmaps", 8));
-            this.Fields.Add(new TagReferenceField("detonation damage effect", "jpt!"));
+            this.Fields.Add(new TagReferenceField("detonation damage effect", 1785754657));
             this.Fields.Add(new RealBoundsField("detonation delay:seconds"));
-            this.Fields.Add(new TagReferenceField("detonating effect", "effe"));
-            this.Fields.Add(new TagReferenceField("detonation effect", "effe"));
+            this.Fields.Add(new TagReferenceField("detonating effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("detonation effect", 1701209701));
         }
         /// <summary>
         /// Gets and returns the name of the item_block tag block.

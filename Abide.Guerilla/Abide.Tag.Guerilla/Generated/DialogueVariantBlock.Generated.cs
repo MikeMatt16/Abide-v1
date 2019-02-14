@@ -25,7 +25,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("variant number#variant number to use this dialogue with (must match the suffix in" +
                         " the permutations on the unit\'s model)"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("dialogue", "udlg"));
+            this.Fields.Add(new TagReferenceField("dialogue", 1969515623));
         }
         /// <summary>
         /// Gets and returns the name of the dialogue_variant_block tag block.

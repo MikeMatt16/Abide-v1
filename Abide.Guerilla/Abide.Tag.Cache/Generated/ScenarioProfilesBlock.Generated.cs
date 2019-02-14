@@ -25,10 +25,10 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new StringField("Name^"));
             this.Fields.Add(new RealFractionField("Starting Health Damage:[0,1]"));
             this.Fields.Add(new RealFractionField("Starting Shield Damage:[0,1]"));
-            this.Fields.Add(new TagReferenceField("Primary Weapon", "weap"));
+            this.Fields.Add(new TagReferenceField("Primary Weapon", 2003132784));
             this.Fields.Add(new ShortIntegerField("Rounds Loaded"));
             this.Fields.Add(new ShortIntegerField("Rounds Total"));
-            this.Fields.Add(new TagReferenceField("Secondary Weapon", "weap"));
+            this.Fields.Add(new TagReferenceField("Secondary Weapon", 2003132784));
             this.Fields.Add(new ShortIntegerField("Rounds Loaded"));
             this.Fields.Add(new ShortIntegerField("Rounds Total"));
             this.Fields.Add(new CharIntegerField("Starting Fragmentation Grenade Count"));

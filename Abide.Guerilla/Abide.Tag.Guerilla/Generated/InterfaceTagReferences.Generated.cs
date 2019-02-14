@@ -22,25 +22,25 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public InterfaceTagReferences()
         {
-            this.Fields.Add(new TagReferenceField("obsolete1", "bitm"));
-            this.Fields.Add(new TagReferenceField("obsolete2", "bitm"));
-            this.Fields.Add(new TagReferenceField("screen color table", "colo"));
-            this.Fields.Add(new TagReferenceField("hud color table", "colo"));
-            this.Fields.Add(new TagReferenceField("editor color table", "colo"));
-            this.Fields.Add(new TagReferenceField("dialog color table", "colo"));
-            this.Fields.Add(new TagReferenceField("hud globals", "hudg"));
-            this.Fields.Add(new TagReferenceField("motion sensor sweep bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("motion sensor sweep bitmap mask", "bitm"));
-            this.Fields.Add(new TagReferenceField("multiplayer hud bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("hud digits definition", "hud#"));
-            this.Fields.Add(new TagReferenceField("motion sensor blip bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("interface goo map1", "bitm"));
-            this.Fields.Add(new TagReferenceField("interface goo map2", "bitm"));
-            this.Fields.Add(new TagReferenceField("interface goo map3", "bitm"));
-            this.Fields.Add(new TagReferenceField("mainmenu ui globals", "wgtz"));
-            this.Fields.Add(new TagReferenceField("singleplayer ui globals", "wgtz"));
-            this.Fields.Add(new TagReferenceField("multiplayer ui globals", "wgtz"));
+            this.Fields.Add(new TagReferenceField("obsolete1", 1651078253));
+            this.Fields.Add(new TagReferenceField("obsolete2", 1651078253));
+            this.Fields.Add(new TagReferenceField("screen color table", 1668246639));
+            this.Fields.Add(new TagReferenceField("hud color table", 1668246639));
+            this.Fields.Add(new TagReferenceField("editor color table", 1668246639));
+            this.Fields.Add(new TagReferenceField("dialog color table", 1668246639));
+            this.Fields.Add(new TagReferenceField("hud globals", 1752523879));
+            this.Fields.Add(new TagReferenceField("motion sensor sweep bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("motion sensor sweep bitmap mask", 1651078253));
+            this.Fields.Add(new TagReferenceField("multiplayer hud bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("hud digits definition", 1752523811));
+            this.Fields.Add(new TagReferenceField("motion sensor blip bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("interface goo map1", 1651078253));
+            this.Fields.Add(new TagReferenceField("interface goo map2", 1651078253));
+            this.Fields.Add(new TagReferenceField("interface goo map3", 1651078253));
+            this.Fields.Add(new TagReferenceField("mainmenu ui globals", 2003268730));
+            this.Fields.Add(new TagReferenceField("singleplayer ui globals", 2003268730));
+            this.Fields.Add(new TagReferenceField("multiplayer ui globals", 2003268730));
         }
         /// <summary>
         /// Gets and returns the name of the interface_tag_references tag block.

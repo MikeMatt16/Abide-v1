@@ -87,6 +87,15 @@ namespace XbExplorer
                 Properties.Settings.Default.XboxNames = new StringCollection();
                 Properties.Settings.Default.Save();
             }
+
+            //Register name answering protocol
+            NameAnsweringProtocol.XboxDiscovered += NameAnsweringProtocol_XboxDiscovered;
+        }
+        
+        ~Main()
+        {
+            //Remove event handler
+            NameAnsweringProtocol.XboxDiscovered -= NameAnsweringProtocol_XboxDiscovered;
         }
         
         private string GetLocalPath(string fullname)
@@ -248,7 +257,6 @@ namespace XbExplorer
         private void XbExplorerRoot(bool store = true)
         {
             //Prepare
-            Xbox[] foundXboxes = NameAnsweringProtocol.Discover(100);
             CurrentXbox = null;
 
             //Change location
@@ -274,6 +282,9 @@ namespace XbExplorer
             mainListView.Columns.Add(ipAddressHeader);
             mainListView.ListViewItemSorter = new XboxSorter();
 
+            //Prepare groups
+            mainListView.Groups.Clear();
+
             //Add New Xbox item
             var newXboxItem = mainListView.Items.Add("New Xbox", "Add New Xbox", 1);
             newXboxItem.Tag = ItemType.AddNewXbox;
@@ -285,20 +296,11 @@ namespace XbExplorer
                 //Create item
                 xboxItem = mainListView.Items.Add(xboxName, xboxName, 2);
                 xboxItem.Tag = ItemType.XboxItem;
+                xboxItem.SubItems.Add(new ListViewItem.ListViewSubItem() { Tag = null });
 
-                //Add IP address placeholder
-                xboxItem.SubItems.Add(string.Empty);
-
-                //Check if online
-                if (foundXboxes.Any(x => x.Name == xboxName || x.RemoteEndPoint.Address.ToString() == xboxName))
-                {
-                    Xbox foundXbox = foundXboxes.First(x => x.Name == xboxName || x.RemoteEndPoint.Address.ToString() == xboxName);
-                    xboxItem.SubItems[1] = new ListViewItem.ListViewSubItem(xboxItem, foundXbox.RemoteEndPoint.Address.ToString());
-                    xboxItem.SubItems[1].Tag = foundXbox.RemoteEndPoint.Address;
-                    xboxItem.Text = foundXbox.Name;
-                    xboxItem.ImageIndex = 3;
-                }
-                else xboxItem.ImageIndex = 4;
+                //Check
+                if (IPAddress.TryParse(xboxName, out IPAddress address)) NameAnsweringProtocol.DiscoverAsync(address, 100);
+                else NameAnsweringProtocol.DiscoverAsync(xboxName, 100);
             }
 
             //End
@@ -714,7 +716,34 @@ namespace XbExplorer
             //Load root
             XbExplorerRoot();
         }
-        
+
+        private void NameAnsweringProtocol_XboxDiscovered(NameAnsweringProtocolEventArgs e)
+        {
+            //Invoke
+            if (InvokeRequired) { Invoke(new NameAnsweringProtocolEventHandler(NameAnsweringProtocol_XboxDiscovered), e); return; }
+
+            //Loop through items
+            foreach (ListViewItem xboxItem in mainListView.Items)
+                if (xboxItem.Tag is ItemType type && type == ItemType.XboxItem)
+                {
+                    //Check
+                    if (IPAddress.TryParse(xboxItem.Text, out IPAddress ipAddress) && e.Result.RemoteEndPoint.Address.Equals(ipAddress))
+                        goto found;
+                    else if (xboxItem.Text == e.Result.Name)
+                        goto found;
+                    continue;
+
+                found:
+                    //Setup item
+                    xboxItem.ImageIndex = 3;
+                    xboxItem.Text = e.Result.Name;
+                    xboxItem.SubItems[1] = new ListViewItem.ListViewSubItem(xboxItem,
+                        e.Result.RemoteEndPoint.Address.ToString())
+                    { Tag = e.Result.RemoteEndPoint.Address };
+                    ;
+                }
+        }
+
         private void formatDriveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Check
@@ -809,7 +838,9 @@ namespace XbExplorer
             {
                 //Connect
                 Xbox xbox = null;
-                Xbox[] foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
+                Xbox[] foundXboxes = null;
+                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
+                else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
                 try
                 {
@@ -834,7 +865,10 @@ namespace XbExplorer
             {
                 //Connect
                 Xbox xbox = null;
-                Xbox[] foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
+                Xbox[] foundXboxes = null;
+                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
+                else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
+
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
                 try
                 {
@@ -861,7 +895,9 @@ namespace XbExplorer
             {
                 //Connect
                 Xbox xbox = null;
-                Xbox[] foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
+                Xbox[] foundXboxes = null;
+                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
+                else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
                 try
                 {
@@ -886,7 +922,9 @@ namespace XbExplorer
             {
                 //Connect
                 Xbox xbox = null;
-                Xbox[] foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
+                Xbox[] foundXboxes = null;
+                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
+                else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
 
                 //Connect

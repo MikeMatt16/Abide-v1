@@ -33,8 +33,8 @@ namespace Abide.Tag.Cache.Generated
                         "ned_on\' attachment to 1.0"));
             this.Fields.Add(new ExplanationField("old obsolete export to functions", ""));
             this.Fields.Add(new RealField("ready time:seconds"));
-            this.Fields.Add(new TagReferenceField("ready effect", "����"));
-            this.Fields.Add(new TagReferenceField("ready damage effect", "jpt!"));
+            this.Fields.Add(new TagReferenceField("ready effect", -3));
+            this.Fields.Add(new TagReferenceField("ready damage effect", 1785754657));
             this.Fields.Add(new ExplanationField("heat", ""));
             this.Fields.Add(new RealFractionField("heat recovery threshold:[0,1]#the heat value a weapon must return to before leavi" +
                         "ng the overheated state, once it has become overheated in the first place"));
@@ -50,12 +50,12 @@ namespace Abide.Tag.Cache.Generated
                         "verheated"));
             this.Fields.Add(new RealFractionField("overheated heat loss per second:[0,1]#the amount of heat lost each second when th" +
                         "e weapon is not being fired"));
-            this.Fields.Add(new TagReferenceField("overheated", "����"));
-            this.Fields.Add(new TagReferenceField("overheated damage effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("detonation", "����"));
-            this.Fields.Add(new TagReferenceField("detonation damage effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("player melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("player melee response", "jpt!"));
+            this.Fields.Add(new TagReferenceField("overheated", -3));
+            this.Fields.Add(new TagReferenceField("overheated damage effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("detonation", -3));
+            this.Fields.Add(new TagReferenceField("detonation damage effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("player melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("player melee response", 1785754657));
             this.Fields.Add(new ExplanationField("melee aim assist", @"magnetism angle: the maximum angle that magnetism works at full strength
 magnetism range: the maximum distance that magnetism works at full strength
 throttle magnitude: additional throttle to apply towards target when melee-ing w/ magnetism
@@ -86,17 +86,17 @@ throttle maximum adjustment angle: maximum angle throttle magnetism will have an
             this.Fields.Add(new ExplanationField("miscellaneous", ""));
             this.Fields.Add(new RealField("weapon power-on time:seconds"));
             this.Fields.Add(new RealField("weapon power-off time:seconds"));
-            this.Fields.Add(new TagReferenceField("weapon power-on effect", "����"));
-            this.Fields.Add(new TagReferenceField("weapon power-off effect", "����"));
+            this.Fields.Add(new TagReferenceField("weapon power-on effect", -3));
+            this.Fields.Add(new TagReferenceField("weapon power-off effect", -3));
             this.Fields.Add(new RealField("age heat recovery penalty#how much the weapon\'s heat recovery is penalized as it " +
                         "ages"));
             this.Fields.Add(new RealField("age rate of fire penalty#how much the weapon\'s rate of fire is penalized as it ag" +
                         "es"));
             this.Fields.Add(new RealFractionField("age misfire start:[0,1]#the age threshold when the weapon begins to misfire"));
             this.Fields.Add(new RealFractionField("age misfire chance:[0,1]#at age 1.0, the misfire chance per shot"));
-            this.Fields.Add(new TagReferenceField("pickup sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("zoom-in sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("zoom-out sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("pickup sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("zoom-in sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("zoom-out sound", 1936614433));
             this.Fields.Add(new RealField("active camo ding#how much to decrease active camo when a round is fired"));
             this.Fields.Add(new RealField("active camo regrowth rate#how fast to increase active camo (per tick) when a roun" +
                         "d is fired"));
@@ -119,9 +119,9 @@ throttle maximum adjustment angle: maximum angle throttle magnetism will have an
             this.Fields.Add(new RealField("max movement velocity"));
             this.Fields.Add(new RealField("max turning acceleration"));
             this.Fields.Add(new RealField("max turning velocity"));
-            this.Fields.Add(new TagReferenceField("deployed vehicle", "vehi"));
-            this.Fields.Add(new TagReferenceField("age effect", "effe"));
-            this.Fields.Add(new TagReferenceField("aged weapon", "weap"));
+            this.Fields.Add(new TagReferenceField("deployed vehicle", 1986357353));
+            this.Fields.Add(new TagReferenceField("age effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("aged weapon", 2003132784));
             this.Fields.Add(new RealVector3dField("first person weapon offset"));
             this.Fields.Add(new RealVector2dField("first person scope size"));
         }

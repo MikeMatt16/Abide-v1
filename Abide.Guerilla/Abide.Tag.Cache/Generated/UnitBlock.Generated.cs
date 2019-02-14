@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new LongFlagsField("flags", "circular aiming", "destroyed after dying", "half-speed interpolation", "fires from camera", "entrance inside bounding sphere", "doesn\'t show readied weapon", "causes passenger dialogue", "resists pings", "melee attack is fatal", "don\'t reface during pings", "has no aiming", "simple creature", "impact melee attaches to unit", "impact melee dies on shields", "cannot open doors automatically", "melee attackers cannot attach", "not instantly killed by melee", "shield sapping", "runs around flaming", "inconsequential", "special cinematic unit", "ignored by autoaiming", "shields fry infection forms", "unused", "unused", "acts as gunner for parent", "controlled by parent gunner", "parent\'s primary weapon", "unit has boost"));
             this.Fields.Add(new EnumField("default team", "default", "player", "human", "covenant", "flood", "sentinel", "heretic", "prophet", "unused8", "unused9", "unused10", "unused11", "unused12", "unused13", "unused14", "unused15"));
             this.Fields.Add(new EnumField("constant sound volume", "silent", "medium", "loud", "shout", "quiet"));
-            this.Fields.Add(new TagReferenceField("integrated light toggle", "effe"));
+            this.Fields.Add(new TagReferenceField("integrated light toggle", 1701209701));
             this.Fields.Add(new AngleField("camera field of view:degrees"));
             this.Fields.Add(new RealField("camera stiffness"));
             this.Fields.Add(new StructField<UnitCameraStructBlock>("unit camera"));
@@ -47,7 +47,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("feign death chance:[0,1]"));
             this.Fields.Add(new RealField("feign repeat chance:[0,1]"));
             this.Fields.Add(new TagReferenceField("spawned turret character#automatically created character when this unit is driven" +
-                        "", "char"));
+                        "", 1667785074));
             this.Fields.Add(new ShortBoundsField("spawned actor count#number of actors which we spawn"));
             this.Fields.Add(new RealField("spawned velocity#velocity at which we throw spawned actors"));
             this.Fields.Add(new AngleField("aiming velocity maximum:degrees per second"));
@@ -58,7 +58,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new StringIdField("right_hand_node#where the primary weapon is attached"));
             this.Fields.Add(new StringIdField("left_hand_node#where the seconday weapon is attached (for dual-pistol modes)"));
             this.Fields.Add(new StructField<UnitAdditionalNodeNamesStructBlock>("more damn nodes"));
-            this.Fields.Add(new TagReferenceField("melee damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("melee damage", 1785754657));
             this.Fields.Add(new StructField<UnitBoardingMeleeStructBlock>("your momma"));
             this.Fields.Add(new EnumField("motion sensor blip size", "medium", "small", "large"));
             this.Fields.Add(new PadField("", 2));

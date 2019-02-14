@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public CharacterWeaponsBlock()
         {
             this.Fields.Add(new LongFlagsField("weapons flags", "bursting inhibits movement", "must crouch to shoot", "use extended safe-to-save range"));
-            this.Fields.Add(new TagReferenceField("weapon^", "weap"));
+            this.Fields.Add(new TagReferenceField("weapon^", 2003132784));
             this.Fields.Add(new ExplanationField("Combat ranges", ""));
             this.Fields.Add(new RealField("maximum firing range:world units#we can only fire our weapon at targets within th" +
                         "is distance"));
@@ -85,7 +85,7 @@ between, all the values are linearly interpolated"));
             this.Fields.Add(new RealField("legendary accuracy time#The amount of time it takes the accuracy to go from start" +
                         "ing to ending"));
             this.Fields.Add(new BlockField<CharacterFiringPatternBlock>("firing patterns", 2));
-            this.Fields.Add(new TagReferenceField("weapon melee damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("weapon melee damage", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the character_weapons_block tag block.

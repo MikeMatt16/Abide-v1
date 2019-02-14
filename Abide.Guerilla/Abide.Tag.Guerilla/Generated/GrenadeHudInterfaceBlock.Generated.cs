@@ -33,7 +33,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new WordFlagsField("scaling flags", "don\'t scale offset", "don\'t scale size"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("interface bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("interface bitmap", 1651078253));
             this.Fields.Add(new ArgbColorField("default color"));
             this.Fields.Add(new ArgbColorField("flashing color"));
             this.Fields.Add(new RealField("flash period"));
@@ -54,7 +54,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new WordFlagsField("scaling flags", "don\'t scale offset", "don\'t scale size"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("interface bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("interface bitmap", 1651078253));
             this.Fields.Add(new ArgbColorField("default color"));
             this.Fields.Add(new ArgbColorField("flashing color"));
             this.Fields.Add(new RealField("flash period"));
@@ -92,7 +92,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("flash cutoff"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new ExplanationField("Total grenades overlays", ""));
-            this.Fields.Add(new TagReferenceField("Overlay bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("Overlay bitmap", 1651078253));
             this.Fields.Add(new BlockField<GrenadeHudOverlayBlock>("Overlays", 16));
             this.Fields.Add(new BlockField<GrenadeHudSoundBlock>("Warning sounds", 12));
             this.Fields.Add(new PadField("", 68));

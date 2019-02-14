@@ -92,7 +92,7 @@ namespace Abide.HaloLibrary
         /// <returns>A 32-bit signed integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the <paramref name="id"/> parameter.</returns>
         public int CompareTo(TagId id)
         {
-            return id.CompareTo(id.Dword);
+            return Dword.CompareTo(id.Dword);
         }
         /// <summary>
         /// Determines whether this instance and another specified <see cref="int"/> value have the same value.

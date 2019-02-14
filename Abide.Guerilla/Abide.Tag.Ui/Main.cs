@@ -182,6 +182,77 @@ namespace Abide.Tag.Ui
             }
         }
 
+        private void betaFilesToolStripMenuItem_Click(object sender, EventArgs e)
+
+        {
+            //Clear
+            AbideCodeDomGlobals.Clear();
+
+            //Prepare
+            CodeCompileUnit compileUnit = null;
+            CodeGeneratorOptions options = new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false };
+
+            //Preprocess
+            AbideCodeDomGlobals.PreprocessForCache(collection);
+
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create *.cs files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Clear directory
+                    foreach (string file in Directory.GetFiles(folderDlg.SelectedPath))
+                        File.Delete(file);
+
+                    //Create Code Files
+                    using (CSharpCodeProvider provider = new CSharpCodeProvider())
+                    {
+                        //Loop through tag blocks
+                        foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Beta");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Loop through tag groups
+                        foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Beta");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Create static lookup
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
+                        {
+                            //Create tag lookup compile unit
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Beta");
+
+                            //Write
+                            provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                        }
+                    }
+                }
+            }
+        }
+
         private void generateentFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Initialize

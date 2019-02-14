@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ScenarioStructureBspSphericalHarmonicLightingBlock()
         {
-            this.Fields.Add(new TagReferenceField("BSP*", "sbsp"));
+            this.Fields.Add(new TagReferenceField("BSP*", 1935831920));
             this.Fields.Add(new BlockField<ScenarioSphericalHarmonicLightingPoint>("Lighting Points", 32768));
         }
         /// <summary>

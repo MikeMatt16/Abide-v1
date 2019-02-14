@@ -29,7 +29,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StructField<TagBlockIndexStructBlock>("ps fragments"));
             this.Fields.Add(new StructField<TagBlockIndexStructBlock>("ps permutations"));
             this.Fields.Add(new StructField<TagBlockIndexStructBlock>("ps combiners"));
-            this.Fields.Add(new TagReferenceField("vertex shader", "vrtx"));
+            this.Fields.Add(new TagReferenceField("vertex shader", 1987212408));
             this.Fields.Add(new SkipField("", 8));
             this.Fields.Add(new SkipField("", 8));
             this.Fields.Add(new SkipField("", 4));

@@ -22,8 +22,8 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public MaterialEffectMaterialBlock()
         {
-            this.Fields.Add(new TagReferenceField("tag (effect or sound)", "����"));
-            this.Fields.Add(new TagReferenceField("secondary tag (effect or sound)", "����"));
+            this.Fields.Add(new TagReferenceField("tag (effect or sound)", -3));
+            this.Fields.Add(new TagReferenceField("secondary tag (effect or sound)", -3));
             this.Fields.Add(new StringIdField("material name^"));
             this.Fields.Add(new SkipField("", 2));
             this.Fields.Add(new CharEnumField("sweetener mode", "sweetener default", "sweetener enabled", "sweetener disabled"));

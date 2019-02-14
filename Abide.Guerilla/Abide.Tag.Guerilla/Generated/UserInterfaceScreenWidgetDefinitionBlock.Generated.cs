@@ -42,7 +42,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ExplanationField("Default Text Color", "Any ui elements that don\'t explicitly set a text color will use this color"));
             this.Fields.Add(new RealArgbColorField("text color"));
             this.Fields.Add(new ExplanationField("Screen Text", "All text specific to this screen"));
-            this.Fields.Add(new TagReferenceField("string list tag", "unic"));
+            this.Fields.Add(new TagReferenceField("string list tag", 1970170211));
             this.Fields.Add(new ExplanationField("Panes", "Define the screen\'s panes here (normal screens have 1 pane, tab-view screens have" +
                         " 2+ panes)"));
             this.Fields.Add(new BlockField<WindowPaneReferenceBlock>("panes", 16));

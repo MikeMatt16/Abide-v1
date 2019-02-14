@@ -31,7 +31,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealFractionField("zoom multiplier:[0,1]"));
             this.Fields.Add(new ExplanationField("NOISE MAP", ""));
             this.Fields.Add(new RealField("noise map scale#0 defaults to 1"));
-            this.Fields.Add(new TagReferenceField("noise map", "bitm"));
+            this.Fields.Add(new TagReferenceField("noise map", 1651078253));
             this.Fields.Add(new RealField("noise vertical scale forward#0 defaults to 1"));
             this.Fields.Add(new RealField("noise vertical scale up#0 defaults to 1"));
             this.Fields.Add(new RealField("noise opacity scale up#0 defaults to 1"));

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ParticleSystemDefinitionBlockNew()
         {
-            this.Fields.Add(new TagReferenceField("particle", "����"));
+            this.Fields.Add(new TagReferenceField("particle", -3));
             this.Fields.Add(new LongBlockIndexField("location"));
             this.Fields.Add(new EnumField("coordinate system", "world", "local", "parent"));
             this.Fields.Add(new EnumField("environment", "any environment", "air only", "water only", "space only"));

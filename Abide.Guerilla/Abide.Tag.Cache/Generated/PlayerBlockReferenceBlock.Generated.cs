@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public PlayerBlockReferenceBlock()
         {
             this.Fields.Add(new PadField("", 4));
-            this.Fields.Add(new TagReferenceField("skin", "skin"));
+            this.Fields.Add(new TagReferenceField("skin", 1936419182));
             this.Fields.Add(new Point2dField("bottom-left"));
             this.Fields.Add(new CharEnumField("table order", "row major", "column major"));
             this.Fields.Add(new CharIntegerField("maximum player count"));

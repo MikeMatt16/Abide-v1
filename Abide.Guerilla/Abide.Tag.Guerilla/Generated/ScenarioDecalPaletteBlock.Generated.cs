@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioDecalPaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("Reference^", "deca"));
+            this.Fields.Add(new TagReferenceField("Reference^", 1684366177));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_decal_palette_block tag block.

@@ -28,12 +28,12 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new EnumField("Game Type 3", "NONE", "Capture the Flag", "Slayer", "Oddball", "King of the Hill", "Race", "Headhunter", "Juggernaut", "Territories", "stub", "ignored3", "ignored4", "All Game Types", "All Except CTF", "All Except CTF & Race"));
             this.Fields.Add(new EnumField("Game Type 4", "NONE", "Capture the Flag", "Slayer", "Oddball", "King of the Hill", "Race", "Headhunter", "Juggernaut", "Territories", "stub", "ignored3", "ignored4", "All Game Types", "All Except CTF", "All Except CTF & Race"));
             this.Fields.Add(new PadField("", 48));
-            this.Fields.Add(new TagReferenceField("Item Collection 1", "itmc"));
-            this.Fields.Add(new TagReferenceField("Item Collection 2", "itmc"));
-            this.Fields.Add(new TagReferenceField("Item Collection 3", "itmc"));
-            this.Fields.Add(new TagReferenceField("Item Collection 4", "itmc"));
-            this.Fields.Add(new TagReferenceField("Item Collection 5", "itmc"));
-            this.Fields.Add(new TagReferenceField("Item Collection 6", "itmc"));
+            this.Fields.Add(new TagReferenceField("Item Collection 1", 1769237859));
+            this.Fields.Add(new TagReferenceField("Item Collection 2", 1769237859));
+            this.Fields.Add(new TagReferenceField("Item Collection 3", 1769237859));
+            this.Fields.Add(new TagReferenceField("Item Collection 4", 1769237859));
+            this.Fields.Add(new TagReferenceField("Item Collection 5", 1769237859));
+            this.Fields.Add(new TagReferenceField("Item Collection 6", 1769237859));
             this.Fields.Add(new PadField("", 48));
         }
         /// <summary>

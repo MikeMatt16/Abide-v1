@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public InstantaneousResponseDamageEffectStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("transition damage effect", "jpt!"));
+            this.Fields.Add(new TagReferenceField("transition damage effect", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the instantaneous_response_damage_effect_struct_block tag block.

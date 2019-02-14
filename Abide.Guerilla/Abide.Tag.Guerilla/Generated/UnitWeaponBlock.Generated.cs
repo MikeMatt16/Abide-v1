@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public UnitWeaponBlock()
         {
-            this.Fields.Add(new TagReferenceField("weapon^", "weap"));
+            this.Fields.Add(new TagReferenceField("weapon^", 2003132784));
         }
         /// <summary>
         /// Gets and returns the name of the unit_weapon_block tag block.

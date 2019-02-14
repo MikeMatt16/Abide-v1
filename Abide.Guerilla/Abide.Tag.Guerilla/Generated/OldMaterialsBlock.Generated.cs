@@ -33,7 +33,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("ground depth scale#depth a point mass rests in the ground"));
             this.Fields.Add(new RealField("ground damp fraction scale#fraction of original velocity perpendicular to the gro" +
                         "und after one tick"));
-            this.Fields.Add(new TagReferenceField("melee hit sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("melee hit sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the old_materials_block tag block.

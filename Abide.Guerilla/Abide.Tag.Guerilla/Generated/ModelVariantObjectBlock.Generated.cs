@@ -24,7 +24,7 @@ namespace Abide.Tag.Guerilla.Generated
         {
             this.Fields.Add(new StringIdField("parent marker^"));
             this.Fields.Add(new StringIdField("child marker"));
-            this.Fields.Add(new TagReferenceField("child object", "obje"));
+            this.Fields.Add(new TagReferenceField("child object", 1868720741));
         }
         /// <summary>
         /// Gets and returns the name of the model_variant_object_block tag block.

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public WeaponBarrelDamageEffectStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("damage effect", "jpt!"));
+            this.Fields.Add(new TagReferenceField("damage effect", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the weapon_barrel_damage_effect_struct_block tag block.

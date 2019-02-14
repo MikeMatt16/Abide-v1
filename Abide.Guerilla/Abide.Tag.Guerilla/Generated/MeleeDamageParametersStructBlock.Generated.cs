@@ -25,14 +25,14 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new EulerAngles2dField("damage pyramid angles"));
             this.Fields.Add(new RealField("damage pyramid depth"));
             this.Fields.Add(new ExplanationField("melee combo damage", ""));
-            this.Fields.Add(new TagReferenceField("1st hit melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("1st hit melee response", "jpt!"));
-            this.Fields.Add(new TagReferenceField("2nd hit melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("2nd hit melee response", "jpt!"));
-            this.Fields.Add(new TagReferenceField("3rd hit melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("3rd hit melee response", "jpt!"));
-            this.Fields.Add(new TagReferenceField("lunge melee damage#this is only important for the energy sword", "jpt!"));
-            this.Fields.Add(new TagReferenceField("lunge melee response#this is only important for the energy sword", "jpt!"));
+            this.Fields.Add(new TagReferenceField("1st hit melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("1st hit melee response", 1785754657));
+            this.Fields.Add(new TagReferenceField("2nd hit melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("2nd hit melee response", 1785754657));
+            this.Fields.Add(new TagReferenceField("3rd hit melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("3rd hit melee response", 1785754657));
+            this.Fields.Add(new TagReferenceField("lunge melee damage#this is only important for the energy sword", 1785754657));
+            this.Fields.Add(new TagReferenceField("lunge melee response#this is only important for the energy sword", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the melee_damage_parameters_struct_block tag block.

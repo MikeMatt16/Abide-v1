@@ -210,7 +210,7 @@ namespace Abide.Decompiler
                         //Loop through chunks
                         foreach (ITagBlock chunk in ((BaseBlockField)permutation.Fields[6]).BlockList)
                         {
-                            int address = (int)chunk.Fields[0].Value & 0x7FFFFFFF;
+                            int address = (int)chunk.Fields[0].Value;
                             if(entry.Raws[RawSection.Sound].ContainsRawOffset(address))
                             {
                                 header.RawsCount++;

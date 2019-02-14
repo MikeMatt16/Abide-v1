@@ -22,13 +22,13 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public HudWaypointArrowBlock()
         {
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new ShortIntegerField("sequence index"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new RealField("smallest size"));
             this.Fields.Add(new RealField("smallest distance"));
-            this.Fields.Add(new TagReferenceField("border bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("border bitmap", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the hud_waypoint_arrow_block tag block.

@@ -23,8 +23,8 @@ namespace Abide.Tag.Cache.Generated
         public AntennaBlock()
         {
             this.Fields.Add(new OldStringIdField("attachment marker name#the marker name where the antenna should be attached"));
-            this.Fields.Add(new TagReferenceField("bitmaps", "bitm"));
-            this.Fields.Add(new TagReferenceField("physics", "pphy"));
+            this.Fields.Add(new TagReferenceField("bitmaps", 1651078253));
+            this.Fields.Add(new TagReferenceField("physics", 1886414969));
             this.Fields.Add(new PadField("", 80));
             this.Fields.Add(new RealFractionField("spring strength coefficient#strength of the spring (larger values make the spring" +
                         " stronger)"));

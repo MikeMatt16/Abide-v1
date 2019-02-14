@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public VertexShaderReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("vertex shader", "vrtx"));
+            this.Fields.Add(new TagReferenceField("vertex shader", 1987212408));
         }
         /// <summary>
         /// Gets and returns the name of the vertex_shader_reference_block tag block.

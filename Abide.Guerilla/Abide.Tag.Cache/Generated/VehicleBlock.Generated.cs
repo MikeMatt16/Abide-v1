@@ -73,11 +73,11 @@ namespace Abide.Tag.Cache.Generated
                         "ing the engine to full reverse"));
             this.Fields.Add(new RealField("thrust scale#human plane physics only. 0 is default (1)"));
             this.Fields.Add(new ExplanationField("sounds and effects", ""));
-            this.Fields.Add(new TagReferenceField("suspension sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("crash sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("UNUSED*", "foot"));
-            this.Fields.Add(new TagReferenceField("special effect", "effe"));
-            this.Fields.Add(new TagReferenceField("unused effect", "effe"));
+            this.Fields.Add(new TagReferenceField("suspension sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("crash sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("UNUSED*", 1718579060));
+            this.Fields.Add(new TagReferenceField("special effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("unused effect", 1701209701));
             this.Fields.Add(new ExplanationField("physics", ""));
             this.Fields.Add(new StructField<HavokVehiclePhysicsStructBlock>("havok vehicle physics"));
         }

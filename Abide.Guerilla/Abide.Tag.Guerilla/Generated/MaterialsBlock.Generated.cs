@@ -31,10 +31,10 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StringIdField("general armor"));
             this.Fields.Add(new StringIdField("specific armor"));
             this.Fields.Add(new StructField<MaterialPhysicsPropertiesStructBlock>("physics properties"));
-            this.Fields.Add(new TagReferenceField("old material physics", "mpdt"));
-            this.Fields.Add(new TagReferenceField("breakable surface", "bsdt"));
+            this.Fields.Add(new TagReferenceField("old material physics", 1836082292));
+            this.Fields.Add(new TagReferenceField("breakable surface", 1651729524));
             this.Fields.Add(new StructField<MaterialsSweetenersStructBlock>("sweeteners"));
-            this.Fields.Add(new TagReferenceField("material effects", "foot"));
+            this.Fields.Add(new TagReferenceField("material effects", 1718579060));
         }
         /// <summary>
         /// Gets and returns the name of the materials_block tag block.

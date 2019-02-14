@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioBlock()
         {
-            this.Fields.Add(new TagReferenceField("Do not use.", "sbsp"));
+            this.Fields.Add(new TagReferenceField("Do not use.", 1935831920));
             this.Fields.Add(new BlockField<ScenarioSkyReferenceBlock>("Skies", 32));
             this.Fields.Add(new EnumField("Type", "", "Multiplayer", "", "", ""));
             this.Fields.Add(new WordFlagsField("Flags", "Cortana Hack#Sorts Cortana in front of other transparent geometry.", "Always Draw Sky#Always draws sky 0, even if no +sky polygons are visible.", "Don\'t Strip Pathfinding#Always leaves pathfinding in, even for multiplayer scenar" +
@@ -88,9 +88,9 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new BlockField<ScenarioCutsceneFlagBlock>("Cutscene Flags", 512));
             this.Fields.Add(new BlockField<ScenarioCutsceneCameraPointBlock>("Cutscene Camera Points", 512));
             this.Fields.Add(new BlockField<ScenarioCutsceneTitleBlock>("Cutscene Titles", 128));
-            this.Fields.Add(new TagReferenceField("Custom Object Names", "unic"));
-            this.Fields.Add(new TagReferenceField("Chapter Title Text", "unic"));
-            this.Fields.Add(new TagReferenceField("HUD Messages", "hmt "));
+            this.Fields.Add(new TagReferenceField("Custom Object Names", 1970170211));
+            this.Fields.Add(new TagReferenceField("Chapter Title Text", 1970170211));
+            this.Fields.Add(new TagReferenceField("HUD Messages", 1752003616));
             this.Fields.Add(new BlockField<ScenarioStructureBspReferenceBlock>("Structure BSPs", 16));
             this.Fields.Add(new BlockField<ScenarioResourcesBlock>("Scenario Resources", 1));
             this.Fields.Add(new BlockField<OldUnusedStrucurePhysicsBlock>("Scenario Resources", 16));
@@ -141,16 +141,16 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new LongIntegerField(""));
             this.Fields.Add(new LongIntegerField(""));
             this.Fields.Add(new BlockField<ScenarioSpawnDataBlock>("Spawn Data", 1));
-            this.Fields.Add(new TagReferenceField("Sound Effect Collection", "sfx+"));
+            this.Fields.Add(new TagReferenceField("Sound Effect Collection", 1936095275));
             this.Fields.Add(new BlockField<ScenarioCrateBlock>("Crates", 1024));
             this.Fields.Add(new BlockField<ScenarioCratePaletteBlock>("Crates Palette", 256));
             this.Fields.Add(new ExplanationField("Global Lighting Override", ""));
-            this.Fields.Add(new TagReferenceField("Global Lighting", "gldf"));
+            this.Fields.Add(new TagReferenceField("Global Lighting", 1735156838));
             this.Fields.Add(new ExplanationField("WARNING", "Editing Fog palette data will not behave as expected with split scenarios."));
             this.Fields.Add(new BlockField<ScenarioAtmosphericFogPalette>("Atmospheric Fog Palette", 127));
             this.Fields.Add(new BlockField<ScenarioPlanarFogPalette>("Planar Fog Palette", 127));
             this.Fields.Add(new BlockField<FlockDefinitionBlock>("Flocks", 20));
-            this.Fields.Add(new TagReferenceField("Subtitles", "unic"));
+            this.Fields.Add(new TagReferenceField("Subtitles", 1970170211));
             this.Fields.Add(new BlockField<DecoratorPlacementDefinitionBlock>("Decorators", 1));
             this.Fields.Add(new BlockField<ScenarioCreatureBlock>("Creatures", 128));
             this.Fields.Add(new BlockField<ScenarioCreaturePaletteBlock>("Creatures Palette", 256));
@@ -159,10 +159,10 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new BlockField<ScenarioStructureBspSphericalHarmonicLightingBlock>("Structure BSP Lighting", 16));
             this.Fields.Add(new BlockField<GScenarioEditorFolderBlock>(")Editor Folders", 32767));
             this.Fields.Add(new BlockField<ScenarioLevelDataBlock>("Level Data", 1));
-            this.Fields.Add(new TagReferenceField("Territory Location Names", "unic"));
+            this.Fields.Add(new TagReferenceField("Territory Location Names", 1970170211));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new BlockField<AiScenarioMissionDialogueBlock>("Mission Dialogue", 1));
-            this.Fields.Add(new TagReferenceField("Objectives", "unic"));
+            this.Fields.Add(new TagReferenceField("Objectives", 1970170211));
             this.Fields.Add(new BlockField<ScenarioInterpolatorBlock>("Interpolators", 16));
             this.Fields.Add(new BlockField<HsReferencesBlock>("Shared References", 512));
             this.Fields.Add(new BlockField<ScenarioScreenEffectReferenceBlock>("Screen Effect References", 16));

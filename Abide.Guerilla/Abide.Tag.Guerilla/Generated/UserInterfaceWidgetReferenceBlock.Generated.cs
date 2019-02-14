@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public UserInterfaceWidgetReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("widget tag", "wgit"));
+            this.Fields.Add(new TagReferenceField("widget tag", 2003265908));
         }
         /// <summary>
         /// Gets and returns the name of the user_interface_widget_reference_block tag block.

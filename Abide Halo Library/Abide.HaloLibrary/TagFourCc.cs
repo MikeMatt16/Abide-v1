@@ -10,6 +10,11 @@ namespace Abide.HaloLibrary
     public struct TagFourCc : IComparable<string>, IComparable<TagFourCc>, IEquatable<string>, IEquatable<TagFourCc>
     {
         /// <summary>
+        /// Represetns the size of the <see cref="TagFourCc"/> structure in bytes.
+        /// This value is constant.
+        /// </summary>
+        public const int Size = 4;
+        /// <summary>
         /// Gets or sets the tag four-character code.
         /// </summary>
         public string FourCc

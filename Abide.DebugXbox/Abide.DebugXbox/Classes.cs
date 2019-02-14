@@ -374,13 +374,16 @@ namespace Abide.DebugXbox
     /// </summary>
     public class UploadCompletedEventArgs : EventArgs
     {
-        public Exception Error { get; }
+        public Exception Exception { get; }
+        public bool Error { get; }
         public bool Canceled { get; }
         public object UserState { get; }
 
-        public UploadCompletedEventArgs(Exception error, bool canceled, object userState)
+        public UploadCompletedEventArgs(Exception exception, bool error, bool canceled, object userState)
         {
+            Exception = exception;
             Error = error;
+            Canceled = canceled;
             UserState = userState;
         }
     }
@@ -398,24 +401,30 @@ namespace Abide.DebugXbox
     public sealed class UploadProgressChangedEventArgs : ProgressChangedEventArgs
     {
         /// <summary>
-        /// Gets the number of bytes sent.
+        /// Gets the total number of bytes sent.
         /// </summary>
-        public int BytesSent { get; }
+        public int TotalBytesSent { get; }
         /// <summary>
         /// Gets the total number of bytes in a <see cref="Xbox"/> data upload operation.
         /// </summary>
         public int TotalBytesToSend { get; }
-
+        /// <summary>
+        /// Gets the number of bytes sent since the last update.
+        /// </summary>
+        public int BytesSent { get; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="UploadProgressChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="bytesSent">The number of bytes sent.</param>
+        /// <param name="totalBytesSent">The total number of bytes sent.</param>
+        /// <param name="bytesSent">The number of bytes sent since the last update.</param>
         /// <param name="totalBytesToSend">The total number of bytes in a <see cref="Xbox"/> data upload operation.</param>
         /// <param name="progressPercentage">The percentage of an asynchronous task that has been completed.</param>
         /// <param name="userState">A unique user state.</param>
-        public UploadProgressChangedEventArgs(int bytesSent, int totalBytesToSend, int progressPercentage, object userState) :
+        public UploadProgressChangedEventArgs(int totalBytesSent, int bytesSent, int totalBytesToSend, int progressPercentage, object userState) :
             base(progressPercentage, userState)
         {
+            TotalBytesSent = bytesSent;
             BytesSent = bytesSent;
             TotalBytesToSend = totalBytesToSend;
         }

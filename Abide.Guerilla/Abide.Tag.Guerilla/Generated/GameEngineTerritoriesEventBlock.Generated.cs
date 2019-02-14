@@ -38,7 +38,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("sound delay (announcer only)"));
             this.Fields.Add(new WordFlagsField("sound flags", "announcer sound"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("sound^", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound^", 1936614433));
             this.Fields.Add(new StructField<SoundResponseExtraSoundsStructBlock>("extra sounds"));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new PadField("", 16));

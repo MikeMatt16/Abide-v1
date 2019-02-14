@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public AnimationGraphSoundReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound^", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound^", 1936614433));
             this.Fields.Add(new WordFlagsField("flags", "allow on player", "left arm only", "right arm only", "first-person only", "forward only", "reverse only"));
             this.Fields.Add(new PadField("", 2));
         }

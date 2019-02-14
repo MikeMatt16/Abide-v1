@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public DecoratorShaderReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
         }
         /// <summary>
         /// Gets and returns the name of the decorator_shader_reference_block tag block.

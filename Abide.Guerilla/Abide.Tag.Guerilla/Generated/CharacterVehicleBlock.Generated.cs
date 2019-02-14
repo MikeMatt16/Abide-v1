@@ -22,8 +22,8 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public CharacterVehicleBlock()
         {
-            this.Fields.Add(new TagReferenceField("unit^", "unit"));
-            this.Fields.Add(new TagReferenceField("style^", "styl"));
+            this.Fields.Add(new TagReferenceField("unit^", 1970170228));
+            this.Fields.Add(new TagReferenceField("style^", 1937013100));
             this.Fields.Add(new LongFlagsField("vehicle flags", "passengers adopt original squad"));
             this.Fields.Add(new ExplanationField("Pathfinding", ""));
             this.Fields.Add(new RealField("ai pathfinding radius:world units#(Ground vehicles)"));

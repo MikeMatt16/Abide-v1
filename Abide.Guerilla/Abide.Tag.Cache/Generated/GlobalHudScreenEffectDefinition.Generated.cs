@@ -27,8 +27,8 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("flags", "only when zoomed", "mirror horizontally", "mirror vertically", "use new hotness"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("mask (fullscreen)", "bitm"));
-            this.Fields.Add(new TagReferenceField("mask (splitscreen)", "bitm"));
+            this.Fields.Add(new TagReferenceField("mask (fullscreen)", 1651078253));
+            this.Fields.Add(new TagReferenceField("mask (splitscreen)", 1651078253));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new PadField("", 20));
             this.Fields.Add(new PadField("", 24));
@@ -39,12 +39,12 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new ExplanationField("Screen effect (fullscreen)", ""));
             this.Fields.Add(new LongFlagsField("screen effect flags", "only when zoomed"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("screen effect", "egor"));
+            this.Fields.Add(new TagReferenceField("screen effect", 1701277554));
             this.Fields.Add(new PadField("", 32));
             this.Fields.Add(new ExplanationField("Screen effect (splitscreen)", ""));
             this.Fields.Add(new LongFlagsField("screen effect flags", "only when zoomed"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("screen effect", "egor"));
+            this.Fields.Add(new TagReferenceField("screen effect", 1701277554));
             this.Fields.Add(new PadField("", 32));
         }
         /// <summary>

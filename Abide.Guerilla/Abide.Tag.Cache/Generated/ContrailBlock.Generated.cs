@@ -44,7 +44,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("texture animation v:repeats per second#the texture across the contrail is animate" +
                         "d by this value"));
             this.Fields.Add(new RealField("animation rate:frames per second"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new ShortIntegerField("first sequence index"));
             this.Fields.Add(new ShortIntegerField("sequence count"));
             this.Fields.Add(new PadField("", 40));
@@ -54,7 +54,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("map flags", "unfiltered"));
             this.Fields.Add(new PadField("", 28));
             this.Fields.Add(new ExplanationField("Secondary Map", "Optional multitextured second map"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new EnumField("anchor", "with primary", "with screen space", "zsprite"));
             this.Fields.Add(new WordFlagsField("flags", "unfiltered"));
             this.Fields.Add(new PadField("", 2));

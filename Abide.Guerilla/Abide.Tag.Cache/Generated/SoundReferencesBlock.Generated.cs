@@ -25,7 +25,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new WordFlagsField("flags", "new vocalization"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new StringIdField("vocalization^"));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the sound_references_block tag block.

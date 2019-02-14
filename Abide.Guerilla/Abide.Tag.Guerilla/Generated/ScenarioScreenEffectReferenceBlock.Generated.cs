@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public ScenarioScreenEffectReferenceBlock()
         {
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("Screen Effect", "egor"));
+            this.Fields.Add(new TagReferenceField("Screen Effect", 1701277554));
             this.Fields.Add(new StringIdField("Primary Input:Interpolator"));
             this.Fields.Add(new StringIdField("Secondary Input:Interpolator"));
             this.Fields.Add(new SkipField("", 2));

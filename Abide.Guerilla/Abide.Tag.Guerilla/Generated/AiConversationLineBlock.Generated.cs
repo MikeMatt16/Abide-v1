@@ -30,12 +30,12 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new RealField("line delay time"));
             this.Fields.Add(new PadField("", 12));
-            this.Fields.Add(new TagReferenceField("variant 1", "snd!"));
-            this.Fields.Add(new TagReferenceField("variant 2", "snd!"));
-            this.Fields.Add(new TagReferenceField("variant 3", "snd!"));
-            this.Fields.Add(new TagReferenceField("variant 4", "snd!"));
-            this.Fields.Add(new TagReferenceField("variant 5", "snd!"));
-            this.Fields.Add(new TagReferenceField("variant 6", "snd!"));
+            this.Fields.Add(new TagReferenceField("variant 1", 1936614433));
+            this.Fields.Add(new TagReferenceField("variant 2", 1936614433));
+            this.Fields.Add(new TagReferenceField("variant 3", 1936614433));
+            this.Fields.Add(new TagReferenceField("variant 4", 1936614433));
+            this.Fields.Add(new TagReferenceField("variant 5", 1936614433));
+            this.Fields.Add(new TagReferenceField("variant 6", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the ai_conversation_line_block tag block.

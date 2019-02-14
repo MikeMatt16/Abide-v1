@@ -1,12 +1,12 @@
 ﻿using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.Tag;
+using Abide.Tag.Definition;
 using Abide.Tag.Guerilla;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Abide.Guerilla.Library
 {
@@ -16,7 +16,7 @@ namespace Abide.Guerilla.Library
     public static class Convert
     {
         private const short C_NullShort = unchecked((short)0xffff);
-        private const byte C_NullByte = unchecked((byte)0xff);
+        private const byte C_NullByte = unchecked(0xff);
 
         public static ITagGroup ToGuerilla(ITagGroup cacheTagGroup, ITagGroup soundCacheFileGestalt, IndexEntry entry, MapFile map)
         {
@@ -25,7 +25,7 @@ namespace Abide.Guerilla.Library
 
             //Check
             if (cacheTagGroup == null) throw new ArgumentNullException(nameof(cacheTagGroup));
-            if ((tagGroup = Tag.Guerilla.Generated.TagLookup.CreateTagGroup(cacheTagGroup.GroupTag)) != null)
+            if ((tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(cacheTagGroup.GroupTag)) != null)
             {
                 switch (tagGroup.GroupTag)
                 {
@@ -66,30 +66,28 @@ namespace Abide.Guerilla.Library
                 //Handle type
                 switch (guerilla.Fields[i].Type)
                 {
-                    case Tag.Definition.FieldType.FieldStringId:
-                    case Tag.Definition.FieldType.FieldOldStringId:
-                        guerilla.Fields[i].Value = new StringValue();
-                        if (cache.Fields[i].Value is StringId stringIdValue && map.Strings.Count > stringIdValue.Index && stringIdValue.Index > 0)
+                    case FieldType.FieldStringId:
+                    case FieldType.FieldOldStringId:
+                        if (cache.Fields[i].Value is StringId stringIdValue && stringIdValue.Index < map.Strings.Count)
                         {
                             string stringId = map.Strings[stringIdValue.Index] ?? string.Empty;
-                            guerilla.Fields[i].Value = new StringValue(stringId);
+                            guerilla.Fields[i].Value = stringId;
                         }
                         break;
-                    case Tag.Definition.FieldType.FieldTagReference:
-                        guerilla.Fields[i].Value = new StringValue();
+                    case FieldType.FieldTagReference:
                         if (cache.Fields[i].Value is TagReference tagReferenceValue)
                         {
                             ((TagReferenceField)guerilla.Fields[i]).GroupTag = tagReferenceValue.Tag;
-                            if (!tagReferenceValue.Id.IsNull && map.IndexEntries[tagReferenceValue.Id] != null)
+                            if (map.IndexEntries[tagReferenceValue.Id] != null)
                             {
-                                tagGroup = Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceValue.Id].Root);
+                                tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceValue.Id].Root);
                                 string tagPath = $@"{map.IndexEntries[tagReferenceValue.Id].Filename}.{tagGroup.Name}";
-                                guerilla.Fields[i].Value = new StringValue(tagPath);
+                                guerilla.Fields[i].Value = tagPath;
                             }
                         }
                         break;
 
-                    case Tag.Definition.FieldType.FieldBlock:
+                    case FieldType.FieldBlock:
                         BaseBlockField guerillaBlockField = (BaseBlockField)guerilla.Fields[i];
                         BaseBlockField cacheBlockField = (BaseBlockField)cache.Fields[i];
                         for (int j = 0; j < cacheBlockField.BlockList.Count; j++)
@@ -99,23 +97,22 @@ namespace Abide.Guerilla.Library
                                 TagBlock_ToGuerilla(guerillaBlock, cacheBlockField.BlockList[j], map);
                         }
                         break;
-                    case Tag.Definition.FieldType.FieldStruct:
+                    case FieldType.FieldStruct:
                         BaseStructField guerillaStructField = (BaseStructField)guerilla.Fields[i];
                         BaseStructField cacheStructField = (BaseStructField)cache.Fields[i];
                         TagBlock_ToGuerilla((ITagBlock)guerillaStructField.Value, (ITagBlock)cacheStructField.Value, map);
                         break;
-                    case Tag.Definition.FieldType.FieldData:
+                    case FieldType.FieldData:
                         DataField guerillaDataField = (DataField)guerilla.Fields[i];
                         DataField cacheDataField = (DataField)cache.Fields[i];
                         guerillaDataField.SetBuffer(cacheDataField.GetBuffer());
                         break;
-                    case Tag.Definition.FieldType.FieldTagIndex:
-                        guerilla.Fields[i].Value = new StringValue();
-                        if(cache.Fields[i].Value is TagId tagId && !tagId.IsNull && map.IndexEntries[tagId] != null)
+                    case FieldType.FieldTagIndex:
+                        if(cache.Fields[i].Value is TagId tagId && map.IndexEntries[tagId] != null)
                         {
-                            tagGroup = Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagId].Root);
+                            tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagId].Root);
                             string tagPath = $@"{map.IndexEntries[tagId].Filename}.{tagGroup.Name}";
-                            guerilla.Fields[i].Value = new StringValue(tagPath);
+                            guerilla.Fields[i].Value = tagPath;
                         }
                         break;
                     default: guerilla.Fields[i].Value = cache.Fields[i].Value; break;
@@ -147,7 +144,7 @@ namespace Abide.Guerilla.Library
                 if (!stringIds.Contains(str.ID)) stringIds.Add(str.ID);
 
             //Create
-            ITagGroup tagGroup = new Tag.Guerilla.Generated.MultilingualUnicodeStringList();
+            ITagGroup tagGroup = new Abide.Tag.Guerilla.Generated.MultilingualUnicodeStringList();
             ITagBlock unicodeStringListBlock = tagGroup[0];
 
             //Prepare
@@ -162,7 +159,7 @@ namespace Abide.Guerilla.Library
                     if (successful)
                     {
                         //Setup
-                        stringReferenceBlock.Fields[0].Value = new StringValue(stringId);
+                        stringReferenceBlock.Fields[0].Value = stringId;
                         stringReferenceBlock.Fields[1].Value = -1;
                         stringReferenceBlock.Fields[2].Value = -1;
                         stringReferenceBlock.Fields[3].Value = -1;
@@ -250,7 +247,7 @@ namespace Abide.Guerilla.Library
         private static ITagGroup CacheFileSound_ToGuerilla(ITagGroup cacheFileSound, ITagGroup soundCacheFileGestalt, MapFile map)
         {
             //Prepare
-            ITagGroup sound = new Tag.Guerilla.Generated.Sound();
+            ITagGroup sound = new Abide.Tag.Guerilla.Generated.Sound();
             ITagBlock soundCacheFileGestaltBlock = soundCacheFileGestalt[0];
             ITagBlock cacheFileSoundBlock = cacheFileSound[0];
             ITagBlock soundBlock = sound[0];
@@ -333,7 +330,7 @@ namespace Abide.Guerilla.Library
 
                     //Get geometry block info
                     TagBlock_ToGuerilla((ITagBlock)extraInfo.Fields[2].Value, (ITagBlock)soundGestaltExtraInfo.Fields[1].Value, map);
-                    ((ITagBlock)extraInfo.Fields[2].Value).Fields[6].Value = new StringValue();
+                    ((ITagBlock)extraInfo.Fields[2].Value).Fields[6].Value = string.Empty;
                 }
             }
 
@@ -353,7 +350,7 @@ namespace Abide.Guerilla.Library
                         ITagBlock pitchRangeParameter = pitchRangeParameters.BlockList[(short)pitchRange.Fields[1].Value];
 
                         //Setup sound pitch range
-                        soundPitchRange.Fields[0].Value = new StringValue(map.Strings[((StringId)importName.Fields[0].Value).Index]);
+                        soundPitchRange.Fields[0].Value = map.Strings[((StringId)importName.Fields[0].Value).Index];
                         soundPitchRange.Fields[2].Value = (short)pitchRangeParameter.Fields[0].Value;
                         soundPitchRange.Fields[4].Value = (ShortBounds)pitchRangeParameter.Fields[1].Value;
                         soundPitchRange.Fields[5].Value = (ShortBounds)pitchRangeParameter.Fields[2].Value;
@@ -371,7 +368,7 @@ namespace Abide.Guerilla.Library
                                 {
                                     ITagBlock permutation = permutations.BlockList[permutationIndex + j];
                                     importName = importNames.BlockList[(short)permutation.Fields[0].Value];
-                                    soundPermutation.Fields[0].Value = new StringValue(map.Strings[((StringId)importName.Fields[0].Value).Index]);
+                                    soundPermutation.Fields[0].Value = map.Strings[((StringId)importName.Fields[0].Value).Index];
                                     soundPermutation.Fields[1].Value = (ushort)(short)permutation.Fields[1].Value / 65535f;
                                     soundPermutation.Fields[2].Value = (byte)permutation.Fields[2].Value / 255f;
                                     soundPermutation.Fields[3].Value = (int)permutation.Fields[5].Value;

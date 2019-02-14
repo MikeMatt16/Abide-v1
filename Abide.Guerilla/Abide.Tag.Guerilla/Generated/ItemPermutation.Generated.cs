@@ -23,7 +23,7 @@ namespace Abide.Tag.Guerilla.Generated
         public ItemPermutation()
         {
             this.Fields.Add(new RealField("weight#relatively how likely this item will be chosen"));
-            this.Fields.Add(new TagReferenceField("item^#which item to ", "item"));
+            this.Fields.Add(new TagReferenceField("item^#which item to ", 1769235821));
             this.Fields.Add(new StringIdField("variant name"));
         }
         /// <summary>

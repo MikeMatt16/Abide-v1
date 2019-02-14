@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public GlobalNewHudGlobalsStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("hud text", "unic"));
+            this.Fields.Add(new TagReferenceField("hud text", 1970170211));
             this.Fields.Add(new BlockField<HudDashlightsBlock>("dashlights", 9));
             this.Fields.Add(new BlockField<HudWaypointArrowBlock>("waypoint arrows", 4));
             this.Fields.Add(new BlockField<HudWaypointBlock>("waypoints", 8));

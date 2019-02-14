@@ -33,7 +33,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("production frequency:boids/sec#How frequently boids are produced at one of the so" +
                         "urces (limited by the max boid count)"));
             this.Fields.Add(new RealBoundsField("scale"));
-            this.Fields.Add(new TagReferenceField("creature^", "crea"));
+            this.Fields.Add(new TagReferenceField("creature^", 1668441441));
             this.Fields.Add(new ShortBoundsField("boid count"));
             this.Fields.Add(new ExplanationField("Flock parameters", @"Recommended initial values (for a sentinel-sized unit): 
 	neighborhood radius= 6.0 

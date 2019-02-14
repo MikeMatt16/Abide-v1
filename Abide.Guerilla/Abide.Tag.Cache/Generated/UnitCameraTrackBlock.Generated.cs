@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public UnitCameraTrackBlock()
         {
-            this.Fields.Add(new TagReferenceField("track", "trak"));
+            this.Fields.Add(new TagReferenceField("track", 1953653099));
         }
         /// <summary>
         /// Gets and returns the name of the unit_camera_track_block tag block.

@@ -438,6 +438,39 @@ namespace System.IO
             }
         }
         /// <summary>
+        /// Writes the specified object as a structure to the underlying stream
+        /// and advances the current position of the stream by the length of the object.
+        /// </summary>
+        /// <typeparam name="T">The marshalable structure type.</typeparam>
+        /// <param name="writer">The <see cref="BinaryWriter"/> instance used to write to the underlying stream.</param>
+        /// <param name="structure">The reference to the object to write.</param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="IOException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        public static void Write<T>(this BinaryWriter writer, object structure) where T : struct
+        {
+            //Prepare
+            int length = Marshal.SizeOf(typeof(T));
+
+            //Check
+            if(length > 0 && structure is T)
+            {
+                //Allocate
+                IntPtr addr = Marshal.AllocHGlobal(length);
+                Marshal.StructureToPtr(structure, addr, true);
+
+                //Copy
+                byte[] data = new byte[length];
+                Marshal.Copy(addr, data, 0, length);
+
+                //Release
+                Marshal.FreeHGlobal(addr);
+
+                //Write
+                writer.Write(data);
+            }
+        }
+        /// <summary>
         /// Writes a null-terminated string to the underlying stream using the supplied encoding.
         /// </summary>
         /// <param name="Out">The System.IO.BinaryWriter instance.</param>

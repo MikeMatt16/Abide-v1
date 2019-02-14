@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new DataField("Explanation", 1, 4));
             this.Fields.Add(new EnumField("Type", "Bitmap", "Value", "Color", "Switch"));
             this.Fields.Add(new WordFlagsField("Flags", "Animated", "Hide Bitmap Reference"));
-            this.Fields.Add(new TagReferenceField("Default Bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("Default Bitmap", 1651078253));
             this.Fields.Add(new RealField("Default Const Value"));
             this.Fields.Add(new RealRgbColorField("Default Const Color"));
             this.Fields.Add(new EnumField("Bitmap Type", "2D", "3D", "Cube Map"));

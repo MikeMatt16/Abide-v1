@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioChildScenarioBlock()
         {
-            this.Fields.Add(new TagReferenceField("Child Scenario", "scnr"));
+            this.Fields.Add(new TagReferenceField("Child Scenario", 1935896178));
             this.Fields.Add(new PadField("", 16));
         }
         /// <summary>

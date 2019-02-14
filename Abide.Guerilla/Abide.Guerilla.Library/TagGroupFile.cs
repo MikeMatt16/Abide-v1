@@ -24,7 +24,7 @@ namespace Abide.Guerilla.Library
         /// <summary>
         /// Gets or sets the tag ID.
         /// </summary>
-        public uint Id { get; set; }
+        public TagId Id { get; set; }
 
         private readonly Dictionary<int, byte[]> rawData;
 
@@ -193,6 +193,15 @@ namespace Abide.Guerilla.Library
             //Set or add
             if (this.rawData.ContainsKey(rawOffset)) this.rawData[rawOffset] = rawData;
             else this.rawData.Add(rawOffset, rawData);
+        }
+        /// <summary>
+        /// Returns a string representation of the current instance.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            if (TagGroup != null) return $"0x{Id.Dword:X8} {TagGroup.Name}";
+            else return base.ToString();
         }
     }
 }

@@ -58,10 +58,10 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new ShortIntegerField("detail texture width:cells#the number of cells repeating across the detail textur" +
                         "e in both dimensions"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("detail texture", "bitm"));
+            this.Fields.Add(new TagReferenceField("detail texture", 1651078253));
             this.Fields.Add(new ExplanationField("mask texture", ""));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("mask bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("mask bitmap", 1651078253));
             this.Fields.Add(new PadField("", 240));
         }
         /// <summary>

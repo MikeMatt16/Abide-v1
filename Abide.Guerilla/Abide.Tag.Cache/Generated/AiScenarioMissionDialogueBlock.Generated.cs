@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public AiScenarioMissionDialogueBlock()
         {
-            this.Fields.Add(new TagReferenceField("mission dialogue", "mdlg"));
+            this.Fields.Add(new TagReferenceField("mission dialogue", 1835297895));
         }
         /// <summary>
         /// Gets and returns the name of the ai_scenario_mission_dialogue_block tag block.

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ObjectWidgetBlock()
         {
-            this.Fields.Add(new TagReferenceField("type", "����"));
+            this.Fields.Add(new TagReferenceField("type", -3));
         }
         /// <summary>
         /// Gets and returns the name of the object_widget_block tag block.

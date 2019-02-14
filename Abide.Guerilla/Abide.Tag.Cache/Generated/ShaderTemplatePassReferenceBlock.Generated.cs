@@ -24,7 +24,7 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new EnumField("Layer", "texaccum", "Environment Map", "Self-Illumination", "Overlay", "Transparent", "Lightmap (Indirect)", "Diffuse", "Specular", "Shadow Generate", "Shadow Apply", "Boom", "Fog", "Sh Prt", "Active Camo", "Water Edge Blend", "Decal", "Active Camo Stencil Modulate", "Hologram", "Light Albedo"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("Pass^", "spas"));
+            this.Fields.Add(new TagReferenceField("Pass^", 1936744819));
             this.Fields.Add(new PadField("", 12));
         }
         /// <summary>

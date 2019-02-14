@@ -42,8 +42,8 @@ namespace Abide.Tag.Cache.Generated
                         " allowed to recharge"));
             this.Fields.Add(new PadField("", 64));
             this.Fields.Add(new ExplanationField("shield", ""));
-            this.Fields.Add(new TagReferenceField("shield damaged first person shader", "shad"));
-            this.Fields.Add(new TagReferenceField("shield damaged shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shield damaged first person shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("shield damaged shader", 1936220516));
             this.Fields.Add(new RealField("maximum shield vitality#the default initial and maximum shield vitality of this o" +
                         "bject"));
             this.Fields.Add(new StringIdField("global shield material name"));
@@ -53,9 +53,9 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("recharge time:seconds#the length of time it would take for the shields to fully r" +
                         "echarge after being completely depleted"));
             this.Fields.Add(new RealField("shield damaged threshold"));
-            this.Fields.Add(new TagReferenceField("shield damaged effect", "effe"));
-            this.Fields.Add(new TagReferenceField("shield depleted effect", "effe"));
-            this.Fields.Add(new TagReferenceField("shield recharging effect", "effe"));
+            this.Fields.Add(new TagReferenceField("shield damaged effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("shield depleted effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("shield recharging effect", 1701209701));
             this.Fields.Add(new BlockField<GlobalDamageSectionBlock>("damage sections", 16));
             this.Fields.Add(new BlockField<GlobalDamageNodesBlock>("nodes*", 255));
             this.Fields.Add(new PadField("", 2));
@@ -65,8 +65,8 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<DamageSeatInfoBlock>("damage seats", 16));
             this.Fields.Add(new BlockField<DamageConstraintInfoBlock>("damage constraints", 16));
             this.Fields.Add(new ExplanationField("overshield", ""));
-            this.Fields.Add(new TagReferenceField("overshield first person shader", "shad"));
-            this.Fields.Add(new TagReferenceField("overshield shader", "shad"));
+            this.Fields.Add(new TagReferenceField("overshield first person shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("overshield shader", 1936220516));
         }
         /// <summary>
         /// Gets and returns the name of the global_damage_info_block tag block.

@@ -14,149 +14,133 @@ using System.Text;
 namespace Abide.Compiler
 {
     /// <summary>
-    /// Represents a Halo 2 cache map file compiler.
+    /// Represents a Halo 2 cache map file compiler
     /// </summary>
     public sealed class MapCompiler
     {
         private const short C_NullShort = unchecked((short)0xffff);
-        private const byte C_NullByte = unchecked(0xff);
+        private const byte C_NullByte = 0xff;
         private const uint C_LocationMask = 0xC0000000;
         private const uint C_MainmenuFlag = 0x40000000;
         private const uint C_SharedFlag = 0x80000000;
         private const uint C_SinglePlayerSharedFlag = C_LocationMask;
 
         /// <summary>
-        /// Gets and returns the compiler's sound cache file gestalt tag group file.
+        /// Returns the output map file name.
         /// </summary>
-        public TagGroupFile SoundCacheFileGestaltFile { get; } = new TagGroupFile();
+        public string OutputMapFileName { get; }
         /// <summary>
-        /// Gets and returns the compiler's globals tag group file.
+        /// Returns the map name.
         /// </summary>
-        public TagGroupFile GlobalsFile { get; } = new TagGroupFile();
+        public string MapName { get; }
         /// <summary>
-        /// Gets and returns the compiler's sound classes tag group file.
+        /// Returns the scenario tag path.
         /// </summary>
-        public TagGroupFile SoundClasses { get; } = new TagGroupFile();
+        public string ScenarioPath { get; }
         /// <summary>
-        /// Gets and returns the compiler's combat dialog constants tag group file.
-        /// </summary>
-        public TagGroupFile CombatDialogueConstant { get; } = new TagGroupFile();
-        /// <summary>
-        /// Gets and returns the compiler's scenario tag group file.
+        /// Returns the scenario tag group file.
         /// </summary>
         public TagGroupFile ScenarioFile { get; } = new TagGroupFile();
         /// <summary>
-        /// Gets and returns the output Halo 2 cache map file.
+        /// Returns the sound cache file gestalt tag group file.
         /// </summary>
-        public string OutputMapFile { get; private set; }
-
+        public TagGroupFile SoundCacheFileGestaltFile { get; } = new TagGroupFile();
+        /// <summary>
+        /// Returns the globals tag group file.
+        /// </summary>
+        public TagGroupFile GlobalsFile { get; } = new TagGroupFile();
+        /// <summary>
+        /// Returns the sound classes tag group file.
+        /// </summary>
+        public TagGroupFile SoundClasses { get; } = new TagGroupFile();
+        /// <summary>
+        /// Returns the combat dialog constants tag group file.
+        /// </summary>
+        public TagGroupFile CombatDialogueConstant { get; } = new TagGroupFile();
+        
         private readonly string m_ScenarioFileName;
         private readonly string m_WorkspaceDirectory;
-        private MultilingualUnicodeStringsContainer m_MultilingualUnicodeStringsContainer;
-        private Dictionary<string, TagGroupFile> m_TagResources;
-        private int m_MapType;
-        private List<string> m_StringsList;
-        private string m_ScenarioPath;
-        private string m_MapName;
-        private TagId m_CurrentId;
+        private readonly MapFile m_ResourceMapFile = new MapFile();
+        private readonly Dictionary<string, TagGroupFile> m_TagResources = new Dictionary<string, TagGroupFile>();
+        private readonly MultilingualUnicodeStringsContainer m_MultilingualUnicodeStringsContainer = new MultilingualUnicodeStringsContainer();
+        private List<string> m_StringsList = new List<string>();
+        private TagId m_CurrentId = TagId.Null;
+        private int m_MapType = -1;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MapCompiler"/> class using the specified scenario file.
-        /// </summary>
-        /// <param name="scenarioFile">The map scenario file name.</param>
         public MapCompiler(string scenarioFileName, string workspaceDirectory)
         {
+            ScenarioPath = scenarioFileName.Replace(Path.Combine(workspaceDirectory, "tags"), string.Empty).Substring(1).Replace(".scenario", string.Empty);
+            MapName = Path.GetFileName(ScenarioPath);
             m_ScenarioFileName = scenarioFileName;
             m_WorkspaceDirectory = workspaceDirectory;
-        }
-        /// <summary>
-        /// Compiles the scenario file and all references into a single cache map file.
-        /// </summary>
-        public void Compile()
-        {
-            //Log
-            Console.WriteLine("Starting...");
-            DateTime start = DateTime.Now;
-            
-            //Read scenario
-            ScenarioFile.Load(m_ScenarioFileName);
-            m_ScenarioPath = m_ScenarioFileName.Replace(Path.Combine(m_WorkspaceDirectory, "tags"), string.Empty).Substring(1).Replace(".scenario", string.Empty);
-            m_MapName = Path.GetFileName(m_ScenarioPath);
 
-            //Get map type
-            m_MapType = (short)ScenarioFile.TagGroup[0].Fields[2].Value;
-
-            //Save
-            OutputMapFile = Path.Combine(m_WorkspaceDirectory, "maps", $"{m_MapName}.map");
+            //Get resulting map file
+            OutputMapFileName = Path.Combine(m_WorkspaceDirectory, "maps", $"{MapName}.map");
             if (!Directory.Exists(Path.Combine(m_WorkspaceDirectory, "maps")))
                 Directory.CreateDirectory(Path.Combine(m_WorkspaceDirectory, "maps"));
+        }
 
-            //Write
-            Console.WriteLine("Map: {0} ({1})", m_MapName, OutputMapFile);
+        public void Compile()
+        {
+            //Prepare
+            DateTime start = DateTime.Now;
+
+            //Read scenario
+            ScenarioFile.Load(m_ScenarioFileName);
+            m_MapType = (short)ScenarioFile.TagGroup[0].Fields[2].Value;
 
             //Prepare
-            m_MultilingualUnicodeStringsContainer = new MultilingualUnicodeStringsContainer();
-            m_TagResources = new Dictionary<string, TagGroupFile>();
             m_StringsList = new List<string>(DefaultStrings.GetDefaultStrings());
             m_CurrentId = 0xe1740000;
 
-            //Setup
-            SoundCacheFileGestaltFile.TagGroup = new Tag.Guerilla.Generated.SoundCacheFileGestalt();
-
-            //Add flags
-            for (int i = 0; i < 686; i++)
-            {
-                ITagBlock runtimePermutationBitVector = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[7]).Add(out bool success);
-                if (success) runtimePermutationBitVector.Fields[0].Value = (byte)0;
-            }
+            //Write
+            Console.WriteLine("Map: {0} ({1})", MapName, OutputMapFileName);
 
             //Prepare globals
+            Console.WriteLine("Preparing tag resources...");
             Globals_Prepare();
 
-            //Add scenario
-            ScenarioFile.Id = m_CurrentId;
-            m_TagResources.Add($@"{m_ScenarioPath}.{ScenarioFile.TagGroup.Name}", ScenarioFile);
-            m_CurrentId++;
+            //Prepare scenario
+            Scenario_Prepare();
 
-            //Log
-            Console.WriteLine("Building scenario tag resources...");
+            //Prepare sound cache file gestalt
+            SoundCacheFileGestalt_Prepare();
 
-            //Collect scenario referenced tags
-            Tag_CollectReferences(ScenarioFile);
+            //Build scenario resource tree
+            Console.WriteLine("Discovering tag references...");
+            TagResources_Discover(ScenarioFile.TagGroup);
 
-            //Log
-            Console.WriteLine("Building shared tag resources...");
-            Tag_CollectSharedTagReferences();
+            //Build globals resource tree
+            TagResources_Discover(GlobalsFile.TagGroup);
 
-            //Log
-            Console.WriteLine("Buildling globals tag resources...");
+            //Set sound cache file gestalt ID
+            SoundCacheFileGestaltFile.Id = m_CurrentId++;
 
-            //Collect globals referenced tags
-            Tag_CollectReferences(GlobalsFile);
-            
-            //Build sound gestalt
-            SoundCacheFileGestaltFile.Id = m_CurrentId;
-            m_TagResources.Add($@"i've got a lovely bunch of coconuts.{SoundCacheFileGestaltFile.TagGroup.Name}", SoundCacheFileGestaltFile);
-            m_CurrentId++;
+            //Order resources
+            Dictionary<string, TagGroupFile> orderedTagResources = m_TagResources.OrderBy(kvp => kvp.Value.Id).ToDictionary(x => x.Key, x => x.Value);
 
-            //Loop
-            foreach (KeyValuePair<string, TagGroupFile> resource in m_TagResources)
+            //Process
+            foreach (KeyValuePair<string, TagGroupFile> resource in orderedTagResources)
             {
-                //Convert
-                string root = resource.Value.TagGroup.GroupTag;
-                Console.WriteLine($"Processing {root} {resource.Key}...");
+                //Process
+                Console.WriteLine("Processing {0} tag \'{1}\'", resource.Value.TagGroup.Name, resource.Key);
+                TagFourCc groupTag = resource.Value.TagGroup.GroupTag;
 
-                //Postprocess
+                //Check type
                 switch (resource.Value.TagGroup.GroupTag)
                 {
-                    case HaloTags.snd_: Sound_Process(resource.Value); break;
-                    case HaloTags.unic: MultilingualUnicodeStringList_Process(resource.Value); break;
+                    case HaloTags.unic:
+                        MultilingualUnicodeStringList_Process(resource.Value);
+                        break;
+                    case HaloTags.snd_:
+                        Sound_Process(resource.Value);
+                        break;
+                    default:
+                        Tag_Process(resource.Value);
+                        break;
                 }
 
-                //Convert any child fields to cache format
-                Tag_ConvertToCache(resource.Value.TagGroup);
-                
-                //Write to stream and re-read as cache tag - this will ensure that string IDs, tag references, and tag IDs will be read and written in cache format.
+                //Write and re-read
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 using (BinaryReader reader = new BinaryReader(ms))
@@ -165,40 +149,33 @@ namespace Abide.Compiler
                     resource.Value.TagGroup.Write(writer);
                     ms.Seek(0, SeekOrigin.Begin);
 
-                    //Create cache tag group
-                    resource.Value.TagGroup = Tag.Cache.Generated.TagLookup.CreateTagGroup(root);
+                    //Re-initialize and read
+                    resource.Value.TagGroup = Tag.Cache.Generated.TagLookup.CreateTagGroup(groupTag);
                     resource.Value.TagGroup.Read(reader);
                 }
             }
 
-            //Setup sound info
-            ITagBlock soundInfo = ((BaseBlockField)GlobalsFile.TagGroup[0].Fields[4]).BlockList[0];
-            soundInfo.Fields[4].Value = (TagId)SoundCacheFileGestaltFile.Id;
-
-            //Log
-            Console.WriteLine($"Gathered {m_TagResources.Count} tags...");
-
             //Build file
-            Map_BuildFile();
-            
-            //Empty
-            m_MultilingualUnicodeStringsContainer.Clear();
+            Map_BuildFile(orderedTagResources);
+
+            //Cleanup
+            m_ResourceMapFile.Close();
+            m_ResourceMapFile.Dispose();
             m_TagResources.Clear();
+            m_MultilingualUnicodeStringsContainer.Clear();
             m_StringsList.Clear();
-            m_ScenarioPath = string.Empty;
-            m_MapName = string.Empty;
             m_CurrentId = TagId.Null;
             m_MapType = -1;
 
             //Done
             Console.WriteLine("Cache file created in {0} seconds.", (DateTime.Now - start).TotalSeconds);
         }
-        
-        private void Map_BuildFile()
+
+        private void Map_BuildFile(Dictionary<string, TagGroupFile> tagResources)
         {
             //Get Tag References
-            TagGroupFile[] references = m_TagResources.Select(kvp => kvp.Value).ToArray();
-            string[] tagNames = m_TagResources.Select(kvp => kvp.Key.Substring(0, kvp.Key.LastIndexOf('.'))).ToArray();
+            TagGroupFile[] references = tagResources.Select(kvp => kvp.Value).ToArray();
+            string[] tagNames = tagResources.Select(kvp => kvp.Key.Substring(0, kvp.Key.LastIndexOf('.'))).ToArray();
 
             //Prepare
             StructureBspBlockHeader bspHeader = new StructureBspBlockHeader();
@@ -209,35 +186,35 @@ namespace Abide.Compiler
             long indexLength = 0, bspAddress = 0, bspLength = 0, tagDataAddress = 0, tagDataLength = 0;
 
             //Create Map
-            using (FileStream fs = new FileStream(OutputMapFile, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+            using (FileStream fs = new FileStream(OutputMapFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
             using (BinaryWriter mapWriter = new BinaryWriter(fs))
             using (BinaryReader mapReader = new BinaryReader(fs))
             {
                 //Setup
-                header.ScenarioPath = m_ScenarioPath;
-                header.Name = m_MapName;
+                header.ScenarioPath = ScenarioPath;
+                header.Name = MapName;
 
                 //Skip header
                 fs.Seek(Header.Length, SeekOrigin.Begin);
 
                 //Write raws
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound cache file gestalt
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound cache file gestalt
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.mode))  //render model geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.mode))  //render model geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.sbsp))  //structure bsp geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.sbsp))  //structure bsp geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ltmp))  //structure lightmap geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ltmp))  //structure lightmap geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.weat))  //weather system geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.weat))  //weather system geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.DECR))  //decorator set geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.DECR))  //decorator set geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound gestalt extra info
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound gestalt extra info
                     SoundTagGroupFile_WriteExtraInfoRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.PRTM))  //particle model geometry
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.PRTM))  //particle model geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in m_TagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.jmad))  //model animation
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.jmad))  //model animation
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
 
                 //Build
@@ -277,7 +254,7 @@ namespace Abide.Compiler
                 Console.WriteLine("Writing BSP tag data...");
 
                 //Get Structure BSPs
-                foreach (ITagBlock structureBsp in ((BaseBlockField)ScenarioFile.TagGroup[0].Fields[68]).BlockList)
+                foreach (ITagBlock structureBsp in ScenarioFile.TagGroup[0].Fields[68].GetBlockList())
                 {
                     //Change field
                     structureBsp.Fields[0] = new StructField<Tag.Cache.Generated.ScenarioStructureBspInfoStructBlock>(string.Empty);
@@ -293,22 +270,22 @@ namespace Abide.Compiler
                         //Skip header
                         bspDataStream.Seek(StructureBspBlockHeader.Length, SeekOrigin.Current);
                         TagGroupFile structureBspFile, structureLightmapFile;
-                        if (m_TagResources.Any(kvp => kvp.Value.Id == structureBspTagReference.Id.Dword))
+                        if (tagResources.Any(kvp => kvp.Value.Id == structureBspTagReference.Id.Dword))
                         {
                             //Write
                             bspHeader.StructureBspOffset = (uint)bspDataStream.Position;
-                            structureBspFile = m_TagResources.First(kvp => kvp.Value.Id == structureBspTagReference.Id).Value;
+                            structureBspFile = tagResources.First(kvp => kvp.Value.Id == structureBspTagReference.Id).Value;
                             structureBspFile.TagGroup.Write(writer);
 
                             //Align
                             bspDataStream.Align(4096);
                         }
                         bspHeader.StructureLightmapOffset = 0;
-                        if (m_TagResources.Any(kvp => kvp.Value.Id == structureLightmapReference.Id.Dword))
+                        if (tagResources.Any(kvp => kvp.Value.Id == structureLightmapReference.Id.Dword))
                         {
                             //Write
                             bspHeader.StructureLightmapOffset = (uint)bspDataStream.Position;
-                            structureLightmapFile = m_TagResources.First(kvp => kvp.Value.Id == structureLightmapReference.Id).Value;
+                            structureLightmapFile = tagResources.First(kvp => kvp.Value.Id == structureLightmapReference.Id).Value;
                             structureLightmapFile.TagGroup.Write(writer);
 
                             //Align
@@ -731,238 +708,299 @@ namespace Abide.Compiler
             }
         }
 
-        private void Globals_Prepare()
+        private void Tag_Process(TagGroupFile value)
         {
-            //Create globals tag
-            GlobalsFile.Id = m_CurrentId;
-            GlobalsFile.TagGroup = new Tag.Cache.Generated.Globals();
-            m_TagResources.Add($@"globals\globals.{GlobalsFile.TagGroup.Name}", GlobalsFile);
-            m_CurrentId++;
-
-            //Create sound classes tag
-            SoundClasses.Id = m_CurrentId;
-            SoundClasses.TagGroup = new Tag.Cache.Generated.SoundClasses();
-            m_TagResources.Add($@"sound\sound_classes.{SoundClasses.TagGroup.Name}", SoundClasses);
-            m_CurrentId++;
-
-            //Create sound classes tag
-            CombatDialogueConstant.Id = m_CurrentId;
-            CombatDialogueConstant.TagGroup = new Tag.Cache.Generated.SoundDialogueConstants();
-            m_TagResources.Add($@"sound\combat_dialogue_constants.{CombatDialogueConstant.TagGroup.Name}", CombatDialogueConstant);
-            m_CurrentId++;
-
-            //Read globals file
-            using (Stream globalsStream = SharedResources.GetMultiplayerSharedGlobals())
-                GlobalsFile.Load(globalsStream);
-
-            //Read sound classes
-            using (Stream soundClassesStream = SharedResources.GetSoundClasses())
-                SoundClasses.Load(soundClassesStream);
-
-            //Read combat dialog constants
-            using (Stream combatDialogConstantsStream = SharedResources.GetCombatDialogConstants())
-                CombatDialogueConstant.Load(combatDialogConstantsStream);
+            //Process
+            Tag_Process(value.Id, value.TagGroup);
         }
 
-        private void Tag_CollectSharedTagReferences()
-        {
-            //Prepare
-            TagGroupFile file = null;
-            string fileName = null;
-
-            //Handle
-            switch (m_MapType)
-            {
-                case 1: //multiplayer map
-                    foreach (string tagFileName in SharedResources.MultiplayerSharedResourceFileNames)
-                        if(!m_TagResources.ContainsKey(tagFileName))    //Check
-                        {
-                            //Setup
-                            file = new TagGroupFile();
-                            fileName = Path.Combine(m_WorkspaceDirectory, "tags", tagFileName);
-                            if (File.Exists(fileName)) //Check
-                            {
-                                //Add
-                                file.Load(fileName);
-
-                                //Check
-                                if (file.TagGroup is Tag.Guerilla.Generated.SoundCacheFileGestalt) break;
-
-                                //Add
-                                file.Id = m_CurrentId;
-                                m_TagResources.Add(tagFileName, file);
-                                m_CurrentId++;
-
-                                //Add references
-                                Tag_CollectReferences(file);
-                            }
-                            else throw new NotImplementedException();
-                        }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void Tag_CollectReferences(TagGroupFile tagGroupFile)
+        private void Tag_Process(TagId ownerId, ITagGroup tagGroup)
         {
             //Loop
-            for (int i = 0; i < tagGroupFile.TagGroup.Count; i++)
-                Tag_CollectReferences(tagGroupFile.TagGroup[i]);
+            foreach (ITagBlock tagBlock in tagGroup)
+                Tag_Process(ownerId, tagBlock);
         }
 
-        private void Tag_CollectReferences(ITagBlock tagBlock)
+        private void Tag_Process(TagId ownerId, ITagBlock tagBlock)
         {
+            //Prepare
             Field field = null;
+            string valueString = null;
+            
+            //Loop
             for (int i = 0; i < tagBlock.Fields.Count; i++)
             {
-                //Get field
+                //Prepare
+                valueString = tagBlock.Fields[i].Value?.ToString() ?? string.Empty;
                 field = tagBlock.Fields[i];
 
-                //Handle
+                //Handle field type
                 switch (field.Type)
                 {
                     case FieldType.FieldBlock:
-                        BaseBlockField blockField = (BaseBlockField)field;
-                        foreach (ITagBlock block in blockField.BlockList)
-                            Tag_CollectReferences(block);
+                        foreach (ITagBlock nestedTagBlock in field.GetBlockList())
+                            Tag_Process(ownerId, nestedTagBlock);
                         break;
 
                     case FieldType.FieldStruct:
-                        if (field.Value is ITagBlock)
-                            Tag_CollectReferences((ITagBlock)field.Value);
+                        Tag_Process(ownerId, field.GetStruct());
                         break;
 
-                    case FieldType.FieldTagIndex:
-                    case FieldType.FieldTagReference:
-                        if (field.Value is StringValue tagString && !string.IsNullOrEmpty(tagString.Value))
-                        {
-                            //Prepare
-                            TagGroupFile file = new TagGroupFile();
-                            string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", tagString.Value);
-                            if (File.Exists(fileName))
-                            {
-                                //Check
-                                if (!m_TagResources.ContainsKey(tagString))
-                                {
-                                    //Add
-                                    file.Load(fileName);
-
-                                    //Check
-                                    if (file.TagGroup is Tag.Guerilla.Generated.SoundCacheFileGestalt) break;
-
-                                    //Add
-                                    file.Id = m_CurrentId;
-                                    m_TagResources.Add(tagString, file);
-                                    m_CurrentId++;
-
-                                    //Add references
-                                    Tag_CollectReferences(file);
-                                }
-                            }
-                            else throw new NotImplementedException();
-                        }
-                        break;
-
-                    case FieldType.FieldOldStringId:
                     case FieldType.FieldStringId:
-                        if (field.Value is StringValue stringId && !string.IsNullOrEmpty(stringId.Value))
-                        {
-                            //Check
-                            if (!m_StringsList.Contains(stringId.Value))
-                                m_StringsList.Add(stringId.Value);
-                        }
+                        Tag.Cache.StringIdField stringIdField = new Tag.Cache.StringIdField(field.GetName());
+                        if (!string.IsNullOrEmpty(valueString))
+                            stringIdField.Value = StringId.FromString(valueString, m_StringsList.IndexOf(valueString));
+                        tagBlock.Fields[i] = stringIdField;
+                        break;
+                    case FieldType.FieldOldStringId:
+                        Tag.Cache.OldStringIdField oldStringIdField = new Tag.Cache.OldStringIdField(field.GetName());
+                        if (!string.IsNullOrEmpty(valueString))
+                            oldStringIdField.Value = StringId.FromString(valueString, m_StringsList.IndexOf(valueString));
+                        tagBlock.Fields[i] = oldStringIdField;
+                        break;
+
+                    case FieldType.FieldTagReference:
+                        Tag.Cache.TagReferenceField tagReferenceField = new Tag.Cache.TagReferenceField(field.GetName(), field.GetGroupTag());
+                        TagReference tagReference = new TagReference() { Tag = tagReferenceField.GroupTag, Id = TagId.Null };
+                        if (!string.IsNullOrEmpty(valueString) && m_TagResources.ContainsKey(valueString))
+                            tagReference.Id = m_TagResources[valueString].Id;
+                        tagReferenceField.Value = tagReference;
+                        tagBlock.Fields[i] = tagReferenceField;
+                        break;
+                    case FieldType.FieldTagIndex:
+                        Tag.Cache.TagIndexField tagIndexField = new Tag.Cache.TagIndexField(field.GetName());
+                        if (!string.IsNullOrEmpty(valueString) && m_TagResources.ContainsKey(valueString))
+                            tagIndexField.Value = m_TagResources[valueString].Id;
+                        tagBlock.Fields[i] = tagIndexField;
                         break;
                 }
             }
+
+            //Check tag block name
+            switch (tagBlock.Name)
+            {
+                case "global_geometry_block_info_struct_block":
+                    tagBlock.Fields[6].Value = ownerId;     //self reference
+                    break;
+
+                case "bitmap_data_block":
+                    tagBlock.Fields[16].Value = ownerId;    //self reference
+                    break;
+
+                case "scenario_block":
+                    Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock tableBlock = null;
+                    BlockList simulationDefinitionTableBlockList = tagBlock.Fields[143].GetBlockList();
+                    simulationDefinitionTableBlockList.Clear();
+                    foreach (KeyValuePair<string, TagGroupFile> tagResource in m_TagResources)
+                    {
+                        switch (tagResource.Value.TagGroup.GroupTag)
+                        {
+                            case "bipd":
+                            case "bloc":
+                            case "ctrl":
+                            case "jpt!":
+                            case "mach":
+                            case "scen":
+                            case "ssce":
+                            case "vehi":
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                break;
+                            case "eqip":
+                            case "garb":
+                            case "proj":
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                break;
+                            case "weap":
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                tableBlock = new Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock();
+                                tableBlock.Fields[0].Value = tagResource.Value.Id;
+                                simulationDefinitionTableBlockList.Add(tableBlock);
+                                break;
+                        }
+                    }
+                    break;
+            }
+
+            //TODO: I'm sure there are other blocks that possibly need some post-processing (think weapons and other tags with predicted resources)
         }
 
-        private void Tag_ConvertToCache(ITagGroup guerillaTagGroup)
+        private void TagResources_Discover(ITagGroup tagGroup)
         {
             //Loop
-            foreach (ITagBlock tagBlock in guerillaTagGroup)
-                Tag_Convert(tagBlock);
+            foreach (ITagBlock tagBlock in tagGroup)
+                TagResources_Discover(tagBlock);
         }
 
-        private void Tag_Convert(ITagBlock tagBlock)
+        private void TagResources_Discover(ITagBlock tagBlock)
         {
             //Prepare
-            string stringValue = null;
+            string valueString = null;
+            string tagFileName = null;
+            TagGroupFile tagFile = null;
 
             //Loop through fields
-            for (int i = 0; i < tagBlock.Fields.Count; i++)
+            foreach (Field field in tagBlock.Fields)
             {
-                //Get current field
-                Field currentField = tagBlock.Fields[i];
-                stringValue = currentField.Value?.ToString() ?? string.Empty;   //Get string representation of field
-            
-                //Handle type
-                switch(currentField.Type)
+                //Get value
+                valueString = field.Value?.ToString() ?? string.Empty;
+
+                //Handle field type
+                switch (field.Type)
                 {
                     case FieldType.FieldBlock:
-                        foreach (ITagBlock nestedTagBlock in ((BaseBlockField)currentField).BlockList)
-                            Tag_Convert(nestedTagBlock);
+                        foreach (ITagBlock nestedTagBlock in field.GetBlockList())
+                            TagResources_Discover(nestedTagBlock);
                         break;
+
                     case FieldType.FieldStruct:
-                        Tag_Convert((ITagBlock)currentField.Value);
+                        TagResources_Discover(field.GetStruct());
                         break;
 
-                    case FieldType.FieldOldStringId:
-                        Tag.Cache.OldStringIdField oldStringIdField = new Tag.Cache.OldStringIdField(currentField.GetName());
-                        tagBlock.Fields[i] = oldStringIdField;
-                        if (!string.IsNullOrEmpty(stringValue))
-                        {
-                            if (!m_StringsList.Contains(stringValue)) m_StringsList.Add(stringValue);
-                            oldStringIdField.Value = StringId.FromString(stringValue, m_StringsList.IndexOf(stringValue));
-                        }
-                        break;
                     case FieldType.FieldStringId:
-                        Tag.Cache.StringIdField stringIdField = new Tag.Cache.StringIdField(currentField.GetName());
-                        tagBlock.Fields[i] = stringIdField;
-                        if (!string.IsNullOrEmpty(stringValue))
-                        {
-                            if (!m_StringsList.Contains(stringValue)) m_StringsList.Add(stringValue);
-                            stringIdField.Value = StringId.FromString(stringValue, m_StringsList.IndexOf(stringValue));
-                        }
-                        break;
-
-                    case FieldType.FieldTagIndex:
-                        Tag.Cache.TagIndexField tagIndexField = new Tag.Cache.TagIndexField(currentField.GetName());
-                        tagBlock.Fields[i] = tagIndexField;
-                        if (!string.IsNullOrEmpty(stringValue) && m_TagResources.ContainsKey(stringValue))
-                            tagIndexField.Value = (TagId)m_TagResources[stringValue].Id;
+                    case FieldType.FieldOldStringId:
+                        if (!m_StringsList.Contains(valueString))
+                            m_StringsList.Add(valueString);
                         break;
 
                     case FieldType.FieldTagReference:
-                        TagReference tagReference = new TagReference() { Tag = ((TagReferenceField)currentField).GroupTag };
-                        Tag.Cache.TagReferenceField tagReferenceField = new Tag.Cache.TagReferenceField(currentField.GetName(), ((TagReferenceField)currentField).GroupTag);
-                        tagBlock.Fields[i] = tagReferenceField;
-                        if (!string.IsNullOrEmpty(stringValue) && m_TagResources.ContainsKey(stringValue))
-                            tagReference.Id = (TagId)m_TagResources[stringValue].Id;
-                        tagReferenceField.Value = tagReference;
+                    case FieldType.FieldTagIndex:
+                        if (!string.IsNullOrEmpty(valueString))
+                        {
+                            //Get file name
+                            tagFileName = Path.Combine(m_WorkspaceDirectory, "tags", valueString);
+
+                            //Check
+                            if (!m_TagResources.ContainsKey(valueString))
+                            {
+                                //Check
+                                if (!File.Exists(tagFileName))
+                                {
+                                    //TODO: load tag from resource map if it exists
+                                    throw new NotImplementedException();
+                                }
+                                else
+                                {
+                                    //Add
+                                    m_TagResources.Add(valueString, new TagGroupFile() { Id = m_CurrentId++ });
+                                    tagFile = m_TagResources[valueString];
+
+                                    //Load
+                                    tagFile.Load(tagFileName);
+
+                                    //Build resources
+                                    TagResources_Discover(tagFile.TagGroup);
+                                }
+                            }
+                        }
                         break;
                 }
             }
         }
 
-        private void MultilingualUnicodeStringList_Process(TagGroupFile value)
+        private void SoundCacheFileGestalt_Prepare()
+        {
+            //Setup
+            SoundCacheFileGestaltFile.TagGroup = new Tag.Guerilla.Generated.SoundCacheFileGestalt();
+
+            //Add default playback
+            ITagBlock playbackTagBlock = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[0]).Add(out bool success);
+            if (success)
+            {
+                ITagBlock playbackParametersStructBlock = (ITagBlock)playbackTagBlock.Fields[0].Value;
+                playbackParametersStructBlock.Fields[9].Value = (float)Math.PI;
+                playbackParametersStructBlock.Fields[10].Value = (float)Math.PI;
+            }
+
+            //Add default scale
+            ITagBlock scaleTagBlock = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[1]).Add(out success);
+            if (success)
+            {
+                ITagBlock scaleModifiersStructBlock = (ITagBlock)scaleTagBlock.Fields[0].Value;
+                scaleModifiersStructBlock.Fields[3].Value = new FloatBounds(1f, 1f);
+            }
+
+            //Add flags
+            for (int i = 0; i < 686; i++)
+            {
+                ITagBlock runtimePermutationBitVector = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[7]).Add(out success);
+                if (success) runtimePermutationBitVector.Fields[0].Value = (byte)0;
+            }
+
+            //Add
+            m_TagResources.Add($@"i've got a lovely bunch of coconuts.{SoundCacheFileGestaltFile.TagGroup.Name}", SoundCacheFileGestaltFile);
+        }
+
+        private void Globals_Prepare()
+        {
+            //Read globals
+            switch (m_MapType)
+            {
+                case 1:
+                    m_ResourceMapFile.Load(RegistrySettings.SharedFileName);
+                    using (Stream stream = SharedResources.GetMultiplayerSharedGlobals())
+                        GlobalsFile.Load(stream);
+                        break;
+                default: throw new Exception("Unable to compile map of specified type.");
+            }
+
+            //Read sound classes
+            using (Stream stream = SharedResources.GetSoundClasses())
+                SoundClasses.Load(stream);
+
+            //Read combat dialoge constant
+            using (Stream stream = SharedResources.GetCombatDialogueConstants())
+                CombatDialogueConstant.Load(stream);
+
+            //Add
+            m_TagResources.Add(@"globals\globals.globals", GlobalsFile);
+            GlobalsFile.Id = m_CurrentId++;
+            m_TagResources.Add(@"sound\sound_classes.sound_classes", SoundClasses);
+            SoundClasses.Id = m_CurrentId++;
+            m_TagResources.Add(@"sound\combat_dialogue_constants.sound_dialogue_constants", CombatDialogueConstant);
+            CombatDialogueConstant.Id = m_CurrentId++;
+        }
+
+        private void Scenario_Prepare()
+        {
+            //Add
+            m_TagResources.Add($"{ScenarioPath}.{ScenarioFile.TagGroup.Name}", ScenarioFile);
+            ScenarioFile.Id = m_CurrentId++;
+        }
+
+        private void MultilingualUnicodeStringList_Process(TagGroupFile tagGroupFile)
         {
             //Prepare
             StringContainer strings = new StringContainer();
-            byte[] stringData = ((DataField)value.TagGroup[0].Fields[1]).GetBuffer();
+            byte[] stringData = tagGroupFile.TagGroup[0].Fields[1].GetData();
             string unicodeString = string.Empty;
-            StringValue stringId = new StringValue();
+            string stringId = string.Empty;
             int offset = 0;
-            
-            //Create stream
+
+            //Read strings
             using (MemoryStream ms = new MemoryStream(stringData))
             using (BinaryReader reader = new BinaryReader(ms))
             {
                 //Loop
-                foreach (ITagBlock stringReferenceBlock in ((BaseBlockField)value.TagGroup[0].Fields[0]).BlockList)
+                foreach (ITagBlock stringReferenceBlock in tagGroupFile.TagGroup[0].Fields[0].GetBlockList())
                 {
-                    //Get
-                    stringId = (StringValue)stringReferenceBlock.Fields[0].Value;
+                    //Get string ID
+                    stringId = (string)stringReferenceBlock.Fields[0].Value;
+
+                    //Add string
+                    if (!m_StringsList.Contains(stringId))
+                        m_StringsList.Add(stringId);
 
                     //Goto English
                     offset = (int)stringReferenceBlock.Fields[1].Value;
@@ -970,7 +1008,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.English.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.English.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Japanese
@@ -979,7 +1017,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Japanese.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Japanese.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto German
@@ -988,7 +1026,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.German.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.German.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto French
@@ -997,7 +1035,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.French.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.French.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Spanish
@@ -1006,7 +1044,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Spanish.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Spanish.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Italian
@@ -1015,7 +1053,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Italian.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Italian.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Korean
@@ -1024,7 +1062,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Korean.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Korean.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Chinese
@@ -1033,7 +1071,7 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Chinese.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Chinese.Add(new StringEntry(unicodeString, stringId));
                     }
 
                     //Goto Portuguese
@@ -1042,17 +1080,14 @@ namespace Abide.Compiler
                     {
                         ms.Seek(offset, SeekOrigin.Begin);
                         unicodeString = reader.ReadUTF8NullTerminated();
-                        strings.Portuguese.Add(new StringEntry(unicodeString, stringId.Value));
+                        strings.Portuguese.Add(new StringEntry(unicodeString, stringId));
                     }
                 }
             }
 
-            //Remove references and data
-            ((BaseBlockField)value.TagGroup[0].Fields[0]).BlockList.Clear();
-            ((DataField)value.TagGroup[0].Fields[1]).SetBuffer(new byte[0]);
-
-            //Prepare
-            byte[] padding = (byte[])((PadField)value.TagGroup[0].Fields[2]).Value;
+            //Process tag
+            tagGroupFile.TagGroup = new Tag.Cache.Generated.MultilingualUnicodeStringList();
+            byte[] padding = (byte[])((PadField)tagGroupFile.TagGroup[0].Fields[2]).Value;
             using (MemoryStream ms = new MemoryStream(padding))
             using (BinaryWriter writer = new BinaryWriter(ms))
             {
@@ -1103,12 +1138,12 @@ namespace Abide.Compiler
             }
         }
 
-        private void Sound_Process(TagGroupFile soundTag)
+        private void Sound_Process(TagGroupFile tagGroupFile)
         {
             //Prepare
             ITagGroup soundCacheFileGestalt = SoundCacheFileGestaltFile.TagGroup;
             ITagGroup cacheFileSound = new Tag.Cache.Generated.Sound();
-            ITagGroup sound = soundTag.TagGroup;
+            ITagGroup sound = tagGroupFile.TagGroup;
             bool success = false;
             int index = 0;
 
@@ -1118,8 +1153,9 @@ namespace Abide.Compiler
             ITagBlock soundBlock = sound[0];
 
             //Transfer raws
-            foreach (int rawOffset in soundTag.GetRawOffsets()) SoundCacheFileGestaltFile.SetRaw(rawOffset, soundTag.GetRaw(rawOffset));
-            
+            foreach (int rawOffset in tagGroupFile.GetRawOffsets())
+                SoundCacheFileGestaltFile.SetRaw(rawOffset, tagGroupFile.GetRaw(rawOffset));
+
             //Get block fields from sound cache file gestalt
             BaseBlockField playbacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
             BaseBlockField scales = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
@@ -1132,9 +1168,9 @@ namespace Abide.Compiler
             BaseBlockField chunks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[8];
             BaseBlockField promotions = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
             BaseBlockField extraInfos = (BaseBlockField)soundCacheFileGestaltBlock.Fields[10];
-            
+
             //Change
-            soundTag.TagGroup = cacheFileSound;
+            tagGroupFile.TagGroup = cacheFileSound;
 
             //Convert fields
             cacheFileSoundBlock.Fields[0].Value = (short)(int)soundBlock.Fields[0].Value;   //flags
@@ -1146,7 +1182,7 @@ namespace Abide.Compiler
             //Read 'extra' data that I chose to store in a pad field
             bool validPromotion = false;
             using (MemoryStream ms = new MemoryStream((byte[])soundBlock.Fields[12].Value))
-            using(BinaryReader reader = new BinaryReader(ms))
+            using (BinaryReader reader = new BinaryReader(ms))
             {
                 cacheFileSoundBlock.Fields[12].Value = reader.ReadInt32();  //max playback time
                 validPromotion = reader.ReadByte() != C_NullByte;
@@ -1160,37 +1196,37 @@ namespace Abide.Compiler
 
             //Add promotion
             ITagBlock soundPromotionParametersStruct = (ITagBlock)soundBlock.Fields[11].Value;
-            if(((BaseBlockField)soundPromotionParametersStruct.Fields[0]).BlockList.Count > 0)
+            if (soundPromotionParametersStruct.Fields[0].GetBlockList().Count > 0)
                 cacheFileSoundBlock.Fields[9].Value = (byte)(sbyte)SoundGestalt_FindPromotionIndex((ITagBlock)soundBlock.Fields[11].Value);
             else cacheFileSoundBlock.Fields[9].Value = C_NullByte;
 
             //Add custom playback
-            if (((BaseBlockField)soundBlock.Fields[14]).BlockList.Count > 0)
+            if (soundBlock.Fields[14].GetBlockList().Count > 0)
             {
                 index = customPlaybacks.BlockList.Count;
                 ITagBlock customPlayback = customPlaybacks.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[10].Value = (byte)index;
-                    customPlayback.Fields[0].Value = (ITagBlock)((BaseBlockField)soundBlock.Fields[14]).BlockList[0].Fields[0].Value;
+                    customPlayback.Fields[0].Value = (ITagBlock)soundBlock.Fields[14].GetBlockList()[0].Fields[0].Value;
                 }
                 else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
             }
             else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
 
             //Add extra info
-            if (((BaseBlockField)soundBlock.Fields[15]).BlockList.Count > 0)
+            if (soundBlock.Fields[15].GetBlockList().Count > 0)
             {
                 index = extraInfos.BlockList.Count;
-                ITagBlock soundExtraInfo = ((BaseBlockField)soundBlock.Fields[15]).BlockList[0];
+                ITagBlock soundExtraInfo = soundBlock.Fields[15].GetBlockList()[0];
                 ITagBlock extraInfo = extraInfos.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
                     ((ITagBlock)extraInfo.Fields[1].Value).Fields[6].Value = new StringValue($"i've got a lovely bunch of coconuts.{soundCacheFileGestalt.Name}");
-                    foreach (ITagBlock block in ((BaseBlockField)soundExtraInfo.Fields[1]).BlockList)
-                        ((BaseBlockField)extraInfo.Fields[0]).BlockList.Add(block);
+                    foreach (ITagBlock block in soundExtraInfo.Fields[1].GetBlockList())
+                        soundExtraInfo.Fields[1].GetBlockList().Add(block);
                 }
                 else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
             }
@@ -1208,7 +1244,7 @@ namespace Abide.Compiler
                     cacheFileSoundBlock.Fields[6].Value = (short)index;
 
                     //Add import name
-                    gestaltPitchRange.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringValue)soundPitchRange.Fields[0].Value);
+                    gestaltPitchRange.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((string)soundPitchRange.Fields[0].Value);
 
                     //Add pitch range parameter
                     gestaltPitchRange.Fields[1].Value = (short)SoundGestalt_FindPitchRangeParameter((short)soundPitchRange.Fields[2].Value,
@@ -1225,7 +1261,7 @@ namespace Abide.Compiler
                         if (success)
                         {
                             //Add import name
-                            gestaltPermutation.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringValue)soundPermutation.Fields[0].Value);
+                            gestaltPermutation.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((string)soundPermutation.Fields[0].Value);
 
                             //Convert fields
                             gestaltPermutation.Fields[1].Value = (short)((float)soundPermutation.Fields[1].Value * 65535f);
@@ -1295,7 +1331,7 @@ namespace Abide.Compiler
             return index;
         }
 
-        private int SoundGestalt_FindImportNameIndex(StringValue stringId)
+        private int SoundGestalt_FindImportNameIndex(string stringId)
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
@@ -1305,7 +1341,7 @@ namespace Abide.Compiler
             //Check
             foreach (ITagBlock gestaltBlock in blockField.BlockList)
             {
-                if (((StringValue)gestaltBlock.Fields[0].Value).Equals(stringId))
+                if (((string)gestaltBlock.Fields[0].Value).Equals(stringId))
                 {
                     index = blockField.BlockList.IndexOf(gestaltBlock);
                     break;
@@ -1418,7 +1454,50 @@ namespace Abide.Compiler
             //return
             return index;
         }
-        
+
+        private bool TagBlock_Equals(ITagBlock b1, ITagBlock b2)
+        {
+            //Start
+            bool equals = b1.Fields.Count == b2.Fields.Count && b1.Name == b2.Name;
+
+            //Check
+            if (equals)
+                for (int i = 0; i < b1.Fields.Count; i++)
+                {
+                    if (!equals) break;
+                    Field f1 = b1.Fields[i], f2 = b2.Fields[i];
+                    equals &= f1.Type == f2.Type;
+                    if (equals)
+                        switch (b1.Fields[i].Type)
+                        {
+                            case FieldType.FieldBlock:
+                                BaseBlockField bf1 = (BaseBlockField)f1;
+                                BaseBlockField bf2 = (BaseBlockField)f2;
+                                equals &= bf1.BlockList.Count == bf2.BlockList.Count;
+                                if (equals)
+                                    for (int j = 0; j < bf1.BlockList.Count; j++)
+                                        if (equals) equals = TagBlock_Equals(bf1.BlockList[j], bf2.BlockList[j]);
+                                break;
+                            case FieldType.FieldStruct:
+                                equals &= TagBlock_Equals((ITagBlock)f1.Value, (ITagBlock)f2.Value);
+                                break;
+                            case FieldType.FieldPad:
+                                PadField pf1 = (PadField)f1;
+                                PadField pf2 = (PadField)f2;
+                                for (int j = 0; j < pf1.Length; j++)
+                                    if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
+                                break;
+                            default:
+                                if (f1.Value == null && f2.Value == null) continue;
+                                else equals &= f1.Value.Equals(f2.Value);
+                                break;
+                        }
+                }
+
+            //Return
+            return equals;
+        }
+
         private void TagGroupFile_WriteRaws(TagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
         {
             //Check
@@ -1911,94 +1990,6 @@ namespace Abide.Compiler
                     tagStream.Seek(0, SeekOrigin.Begin);
                     tagGroup.Read(reader);
                 }
-            }
-        }
-        
-        private bool TagBlock_Equals(ITagBlock b1, ITagBlock b2)
-        {
-            //Start
-            bool equals = b1.Fields.Count == b2.Fields.Count && b1.Name == b2.Name;
-
-            //Check
-            if (equals)
-                for (int i = 0; i < b1.Fields.Count; i++)
-                {
-                    if (!equals) break;
-                    Field f1 = b1.Fields[i], f2 = b2.Fields[i];
-                    equals &= f1.Type == f2.Type;
-                    if (equals)
-                        switch (b1.Fields[i].Type)
-                        {
-                            case FieldType.FieldBlock:
-                                BaseBlockField bf1 = (BaseBlockField)f1;
-                                BaseBlockField bf2 = (BaseBlockField)f2;
-                                equals &= bf1.BlockList.Count == bf2.BlockList.Count;
-                                if (equals)
-                                    for (int j = 0; j < bf1.BlockList.Count; j++)
-                                        if (equals) equals = TagBlock_Equals(bf1.BlockList[j], bf2.BlockList[j]);
-                                break;
-                            case FieldType.FieldStruct:
-                                equals &= TagBlock_Equals((ITagBlock)f1.Value, (ITagBlock)f2.Value);
-                                break;
-                            case FieldType.FieldPad:
-                                PadField pf1 = (PadField)f1;
-                                PadField pf2 = (PadField)f2;
-                                for (int j = 0; j < pf1.Length; j++)
-                                    if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
-                                break;
-                            default:
-                                if (f1.Value == null && f2.Value == null) continue;
-                                else equals &= f1.Value.Equals(f2.Value);
-                                break;
-                        }
-                }
-
-            //Return
-            return equals;
-        }
-        
-        private sealed class MultilingualUnicodeStringsContainer
-        {
-            public int EnSize { get; set; } = 0;
-            public int JpSize { get; set; } = 0;
-            public int NlSize { get; set; } = 0;
-            public int FrSize { get; set; } = 0;
-            public int EsSize { get; set; } = 0;
-            public int ItSize { get; set; } = 0;
-            public int KrSize { get; set; } = 0;
-            public int ZhSize { get; set; } = 0;
-            public int PrSize { get; set; } = 0;
-            public List<StringEntry> En { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Jp { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Nl { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Fr { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Es { get; set; } = new List<StringEntry>();
-            public List<StringEntry> It { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Kr { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Zh { get; set; } = new List<StringEntry>();
-            public List<StringEntry> Pr { get; set; } = new List<StringEntry>();
-
-            public void Clear()
-            {
-                //Reset
-                EnSize = 0;
-                JpSize = 0;
-                NlSize = 0;
-                FrSize = 0;
-                EsSize = 0;
-                ItSize = 0;
-                KrSize = 0;
-                ZhSize = 0;
-                PrSize = 0;
-                En.Clear();
-                Jp.Clear();
-                Nl.Clear();
-                Fr.Clear();
-                Es.Clear();
-                It.Clear();
-                Kr.Clear();
-                Zh.Clear();
-                Pr.Clear();
             }
         }
     }

@@ -5,54 +5,92 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class EnumControl : GuerillaControl
     {
-        public override object Value
+        public EnumControl(Field field) : this()
         {
-            get { return enumComboBox.SelectedIndex.ToString(); }
-            set
-            {
-                int index = int.Parse(value.ToString());
-                if (index > enumComboBox.Items.Count || index < 0) enumComboBox.SelectedIndex = -1;
-                else enumComboBox.SelectedIndex = int.Parse(value.ToString());
-            }
+            Field = field;
+            detailsLabel.Text = field.Details;
         }
-        public string[] Options
-        {
-            set
-            {
-                enumComboBox.Items.Clear();
-                if (value != null)
-                    foreach (string option in value)
-                        enumComboBox.Items.Add(option);
-            }
-        }
-        public string Details
-        {
-            get { return detailsLabel.Text; }
-            set { detailsLabel.Text = value; }
-        }
-        public string Information
-        {
-            get { return information; }
-            set { information = value ?? string.Empty; }
-        }
-        public EventHandler ValueChanged { get; set; }
-        
-        private string information = string.Empty;
-        
-        public EnumControl()
+        private EnumControl()
         {
             InitializeComponent();
         }
+        protected override void OnFieldChanged(EventArgs e)
+        {
+            base.OnFieldChanged(e);
+            enumComboBox.Items.Clear();
+            int selectedValue = -1;
+            switch (Field.Type)
+            {
+                case Definition.FieldType.FieldCharEnum:
+                    foreach (var option in ((CharEnumField)Field).Options)
+                        enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
+                    selectedValue = (byte)Field.Value;
+                    break;
+                case Definition.FieldType.FieldEnum:
+                    foreach(var option in ((EnumField)Field).Options)
+                        enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
+                    selectedValue = (short)Field.Value;
+                    break;
+                case Definition.FieldType.FieldLongEnum:
+                    foreach (var option in ((LongEnumField)Field).Options)
+                        enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
+                    selectedValue = (int)Field.Value;
+                    break;
+            }
 
+            //Find item
+            foreach (EnumValue obj in enumComboBox.Items)
+                if(selectedValue == obj.Value)
+                {
+                    enumComboBox.SelectedItem = obj;
+                    return;
+                }
+
+            //Add
+            enumComboBox.SelectedIndex = enumComboBox.Items.Add(new EnumValue(selectedValue, string.Empty));
+        }
         private void enumComboBox_MouseHover(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(information))
-                informationToolTip.Show(information, (Control)sender);
+            if (!string.IsNullOrEmpty(Field.Information))
+                informationToolTip.Show(Field.Information, (Control)sender);
         }
         private void enumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Invoke
-            ValueChanged?.Invoke(this, e);
+            switch (Field.Type)
+            {
+                case Definition.FieldType.FieldCharEnum:
+                    if (enumComboBox.SelectedItem is EnumValue charValue)
+                        Field.Value = (byte)charValue.Value;
+                    else Field.Value = (byte)enumComboBox.SelectedIndex;
+                    break;
+                case Definition.FieldType.FieldEnum:
+                    if (enumComboBox.SelectedItem is EnumValue value)
+                        Field.Value = (short)value.Value;
+                    else Field.Value = (short)enumComboBox.SelectedIndex;
+                    break;
+                case Definition.FieldType.FieldLongEnum:
+                    if (enumComboBox.SelectedItem is EnumValue intValue)
+                        Field.Value = intValue.Value;
+                    else Field.Value = enumComboBox.SelectedIndex;
+                    break;
+            }
+        }
+
+        private class EnumValue
+        {
+            public int Value { get; }
+            public string Text { get; }
+
+            public EnumValue(int value, string text)
+            {
+                Value = value;
+                Text = text;
+            }
+
+            public override string ToString()
+            {
+                return Text ?? string.Empty;
+            }
         }
     }
 }

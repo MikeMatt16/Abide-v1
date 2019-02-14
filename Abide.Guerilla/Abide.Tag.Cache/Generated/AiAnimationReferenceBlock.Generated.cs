@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public AiAnimationReferenceBlock()
         {
             this.Fields.Add(new StringField("animation name^"));
-            this.Fields.Add(new TagReferenceField("animation graph#leave this blank to use the unit\'s normal animation graph", "jmad"));
+            this.Fields.Add(new TagReferenceField("animation graph#leave this blank to use the unit\'s normal animation graph", 1785553252));
             this.Fields.Add(new PadField("", 12));
         }
         /// <summary>

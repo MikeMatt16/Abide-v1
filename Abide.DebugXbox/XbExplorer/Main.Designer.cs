@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Discovered Consoles", System.Windows.Forms.HorizontalAlignment.Left);
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +45,7 @@
             this.rootMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.rebootXboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.warmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.warmToTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.coldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotXboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openXboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +78,6 @@
             this.freeSpaceHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.totalSizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ipAddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.warmToTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -213,7 +214,7 @@
             this.toolStripSeparator2,
             this.deleteXboxToolStripMenuItem});
             this.rootMenuStrip.Name = "xboxItemMenuStrip";
-            this.rootMenuStrip.Size = new System.Drawing.Size(181, 120);
+            this.rootMenuStrip.Size = new System.Drawing.Size(133, 98);
             // 
             // rebootXboxToolStripMenuItem
             // 
@@ -223,7 +224,7 @@
             this.coldToolStripMenuItem});
             this.rebootXboxToolStripMenuItem.Enabled = false;
             this.rebootXboxToolStripMenuItem.Name = "rebootXboxToolStripMenuItem";
-            this.rebootXboxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rebootXboxToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.rebootXboxToolStripMenuItem.Text = "&Reboot";
             // 
             // warmToolStripMenuItem
@@ -234,6 +235,15 @@
             this.warmToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.warmToolStripMenuItem.Text = "&Warm";
             this.warmToolStripMenuItem.Click += new System.EventHandler(this.warmToolStripMenuItem_Click);
+            // 
+            // warmToTitleToolStripMenuItem
+            // 
+            this.warmToTitleToolStripMenuItem.Name = "warmToTitleToolStripMenuItem";
+            this.warmToTitleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.W)));
+            this.warmToTitleToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.warmToTitleToolStripMenuItem.Text = "Warm to Active &Title";
+            this.warmToTitleToolStripMenuItem.Click += new System.EventHandler(this.warmToTitleToolStripMenuItem_Click);
             // 
             // coldToolStripMenuItem
             // 
@@ -248,7 +258,7 @@
             // 
             this.screenshotXboxToolStripMenuItem.Enabled = false;
             this.screenshotXboxToolStripMenuItem.Name = "screenshotXboxToolStripMenuItem";
-            this.screenshotXboxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenshotXboxToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.screenshotXboxToolStripMenuItem.Text = "&Screenshot";
             this.screenshotXboxToolStripMenuItem.Click += new System.EventHandler(this.screenshotXboxToolStripMenuItem_Click);
             // 
@@ -256,21 +266,21 @@
             // 
             this.openXboxToolStripMenuItem.Enabled = false;
             this.openXboxToolStripMenuItem.Name = "openXboxToolStripMenuItem";
-            this.openXboxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openXboxToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.openXboxToolStripMenuItem.Text = "&Open";
             this.openXboxToolStripMenuItem.Click += new System.EventHandler(this.openXboxToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(129, 6);
             // 
             // deleteXboxToolStripMenuItem
             // 
             this.deleteXboxToolStripMenuItem.Enabled = false;
             this.deleteXboxToolStripMenuItem.Name = "deleteXboxToolStripMenuItem";
             this.deleteXboxToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteXboxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteXboxToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.deleteXboxToolStripMenuItem.Text = "D&elete";
             this.deleteXboxToolStripMenuItem.Click += new System.EventHandler(this.deleteXboxToolStripMenuItem_Click);
             // 
@@ -449,6 +459,10 @@
             this.ipAddressHeader});
             this.mainListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainListView.FullRowSelect = true;
+            listViewGroup1.Header = "Discovered Consoles";
+            listViewGroup1.Name = "discoveredConsoleGroup";
+            this.mainListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1});
             this.mainListView.Location = new System.Drawing.Point(0, 65);
             this.mainListView.Name = "mainListView";
             this.mainListView.Size = new System.Drawing.Size(784, 374);
@@ -497,15 +511,6 @@
             // 
             this.ipAddressHeader.Text = "IP Address";
             this.ipAddressHeader.Width = 100;
-            // 
-            // warmToTitleToolStripMenuItem
-            // 
-            this.warmToTitleToolStripMenuItem.Name = "warmToTitleToolStripMenuItem";
-            this.warmToTitleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.W)));
-            this.warmToTitleToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.warmToTitleToolStripMenuItem.Text = "Warm to Active &Title";
-            this.warmToTitleToolStripMenuItem.Click += new System.EventHandler(this.warmToTitleToolStripMenuItem_Click);
             // 
             // Main
             // 

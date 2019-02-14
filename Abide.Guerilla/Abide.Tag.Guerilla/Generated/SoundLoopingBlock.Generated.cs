@@ -29,7 +29,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("marty\'s music time: seconds"));
             this.Fields.Add(new RealField(""));
             this.Fields.Add(new PadField("", 8));
-            this.Fields.Add(new TagReferenceField("", "����"));
+            this.Fields.Add(new TagReferenceField("", -3));
             this.Fields.Add(new BlockField<LoopingSoundTrackBlock>("tracks#tracks play in parallel and loop continuously for the duration of the loop" +
                         "ing sound.", 3));
             this.Fields.Add(new BlockField<LoopingSoundDetailBlock>("detail sounds#detail sounds play at random throughout the duration of the looping" +

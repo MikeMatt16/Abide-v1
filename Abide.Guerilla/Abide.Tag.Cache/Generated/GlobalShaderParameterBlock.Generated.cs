@@ -25,7 +25,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new StringIdField("Name^"));
             this.Fields.Add(new EnumField("Type", "Bitmap", "Value", "Color", "Switch"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("Bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("Bitmap", 1651078253));
             this.Fields.Add(new RealField("Const Value"));
             this.Fields.Add(new RealRgbColorField("Const Color"));
             this.Fields.Add(new BlockField<ShaderAnimationPropertyBlock>("Animation Properties", 14));

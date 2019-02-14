@@ -26,7 +26,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("cell width"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new Point2dField("bitmap top-left:if there is a bitmap"));
-            this.Fields.Add(new TagReferenceField("bitmap tag", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap tag", 1651078253));
             this.Fields.Add(new StringIdField("string id"));
             this.Fields.Add(new ShortIntegerField("render depth bias"));
             this.Fields.Add(new PadField("", 2));

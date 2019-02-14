@@ -34,7 +34,7 @@ force 3-digit number: same as above, but with 3 digits instead of 2
 
 "));
             this.Fields.Add(new WordFlagsField("flags", "string is a number", "force 2-digit number", "force 3-digit number", "talking player hack"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new StringIdField("string"));
             this.Fields.Add(new EnumField("justification", "left", "center", "right"));
             this.Fields.Add(new PadField("", 2));

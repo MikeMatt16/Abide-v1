@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ShaderBlock()
         {
-            this.Fields.Add(new TagReferenceField("Template", "stem"));
+            this.Fields.Add(new TagReferenceField("Template", 1937007981));
             this.Fields.Add(new StringIdField("Material Name"));
             this.Fields.Add(new BlockField<ShaderPropertiesBlock>("Runtime Properties*", 1));
             this.Fields.Add(new PadField("", 2));
@@ -31,7 +31,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<ShaderPostprocessDefinitionNewBlock>("Postprocess Definition*", 1));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new BlockField<PredictedResourceBlock>("Predicted Resources", 2048));
-            this.Fields.Add(new TagReferenceField("Light Response", "slit"));
+            this.Fields.Add(new TagReferenceField("Light Response", 1936484724));
             this.Fields.Add(new EnumField("Shader LOD Bias", "None", "4x Size", "2x Size", "1/2 Size", "1/4 Size", "Never", "Cinematic"));
             this.Fields.Add(new EnumField("Specular Type", "None", "Default", "Dull", "Shiny"));
             this.Fields.Add(new EnumField("Lightmap Type", "Diffuse", "Default Specular", "Dull Specular", "Shiny Specular"));

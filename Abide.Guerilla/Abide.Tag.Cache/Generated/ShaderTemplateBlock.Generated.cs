@@ -32,15 +32,15 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<ShaderTemplatePropertyBlock>("Properties", 14));
             this.Fields.Add(new BlockField<ShaderTemplateCategoryBlock>("Categories", 16));
             this.Fields.Add(new ExplanationField("LIGHT RESPONSE", "Not used anymore."));
-            this.Fields.Add(new TagReferenceField("Light Response", "slit"));
+            this.Fields.Add(new TagReferenceField("Light Response", 1936484724));
             this.Fields.Add(new BlockField<ShaderTemplateLevelOfDetailBlock>("LODs", 8));
             this.Fields.Add(new BlockField<ShaderTemplateRuntimeExternalLightResponseIndexBlock>("", 65535));
             this.Fields.Add(new BlockField<ShaderTemplateRuntimeExternalLightResponseIndexBlock>("", 65535));
             this.Fields.Add(new ExplanationField("RECURSIVE RENDERING", "Really cool stuff."));
-            this.Fields.Add(new TagReferenceField("Aux 1 Shader", "shad"));
+            this.Fields.Add(new TagReferenceField("Aux 1 Shader", 1936220516));
             this.Fields.Add(new EnumField("Aux 1 Layer", "texaccum", "Environment Map", "Self-Illumination", "Overlay", "Transparent", "Lightmap (Indirect)", "Diffuse", "Specular", "Shadow Generate", "Shadow Apply", "Boom", "Fog", "Sh Prt", "Active Camo", "Water Edge Blend", "Decal", "Active Camo Stencil Modulate", "Hologram", "Light Albedo"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("Aux 2 Shader", "shad"));
+            this.Fields.Add(new TagReferenceField("Aux 2 Shader", 1936220516));
             this.Fields.Add(new EnumField("Aux 2 Layer", "texaccum", "Environment Map", "Self-Illumination", "Overlay", "Transparent", "Lightmap (Indirect)", "Diffuse", "Specular", "Shadow Generate", "Shadow Apply", "Boom", "Fog", "Sh Prt", "Active Camo", "Water Edge Blend", "Decal", "Active Camo Stencil Modulate", "Hologram", "Light Albedo"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new BlockField<ShaderTemplatePostprocessDefinitionNewBlock>("Postprocess Definition*", 1));

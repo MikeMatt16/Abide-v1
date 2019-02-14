@@ -63,11 +63,11 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new PadField("", 16));
             this.Fields.Add(new RealField("head shot acc scale#when the biped ragdolls from a head shot it acceleartes based" +
                         " on this value.  0 defaults to the standard acceleration scale"));
-            this.Fields.Add(new TagReferenceField("area damage effect", "effe"));
+            this.Fields.Add(new TagReferenceField("area damage effect", 1701209701));
             this.Fields.Add(new StructField<CharacterPhysicsStructBlock>("physics"));
             this.Fields.Add(new BlockField<ContactPointBlock>("contact points#these are the points where the biped touches the ground", 3));
-            this.Fields.Add(new TagReferenceField("reanimation character#when the flood reanimate this guy, he turns into a ...", "char"));
-            this.Fields.Add(new TagReferenceField("death spawn character#when I die, out of the ashes of my death crawls a ...", "char"));
+            this.Fields.Add(new TagReferenceField("reanimation character#when the flood reanimate this guy, he turns into a ...", 1667785074));
+            this.Fields.Add(new TagReferenceField("death spawn character#when I die, out of the ashes of my death crawls a ...", 1667785074));
             this.Fields.Add(new ShortIntegerField("death spawn count"));
             this.Fields.Add(new PadField("", 2));
         }

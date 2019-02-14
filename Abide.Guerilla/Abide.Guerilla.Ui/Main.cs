@@ -421,7 +421,7 @@ namespace Abide.H2Guerilla.Ui
                     {
                         //Write group tag
                         xmlWriter.WriteStartAttribute("GroupTag");
-                        xmlWriter.WriteValue(referenceDefinition.GroupTag);
+                        xmlWriter.WriteValue((int)referenceDefinition.GroupTag.Dword);
                         xmlWriter.WriteEndAttribute();
                     }
                     break;

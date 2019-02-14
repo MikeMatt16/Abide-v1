@@ -22,11 +22,11 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public PlayerRepresentationBlock()
         {
-            this.Fields.Add(new TagReferenceField("first person hands", "mode"));
-            this.Fields.Add(new TagReferenceField("first person body", "mode"));
+            this.Fields.Add(new TagReferenceField("first person hands", 1836016741));
+            this.Fields.Add(new TagReferenceField("first person body", 1836016741));
             this.Fields.Add(new PadField("", 40));
             this.Fields.Add(new PadField("", 120));
-            this.Fields.Add(new TagReferenceField("third person unit", "unit"));
+            this.Fields.Add(new TagReferenceField("third person unit", 1970170228));
             this.Fields.Add(new StringIdField("third person variant"));
         }
         /// <summary>

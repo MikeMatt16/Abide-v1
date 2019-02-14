@@ -22,10 +22,10 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public StructureCollisionMaterialsBlock()
         {
-            this.Fields.Add(new TagReferenceField("Old Shader*", "shad"));
+            this.Fields.Add(new TagReferenceField("Old Shader*", 1936220516));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new ShortBlockIndexField("Conveyor Surface Index*"));
-            this.Fields.Add(new TagReferenceField("New Shader*", "shad"));
+            this.Fields.Add(new TagReferenceField("New Shader*", 1936220516));
         }
         /// <summary>
         /// Gets and returns the name of the structure_collision_materials_block tag block.

@@ -24,7 +24,7 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new ShortIntegerField("rounds"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("equipment^", "eqip"));
+            this.Fields.Add(new TagReferenceField("equipment^", 1701931376));
         }
         /// <summary>
         /// Gets and returns the name of the magazine_objects tag block.

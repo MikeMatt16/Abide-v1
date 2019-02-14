@@ -28,7 +28,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealBoundsField("distance:world units"));
             this.Fields.Add(new RealFractionField("min depth fraction:[0,1]#in range (0,max_depth) world units, where patchy fog sta" +
                         "rts fading in"));
-            this.Fields.Add(new TagReferenceField("patchy fog", "fpch"));
+            this.Fields.Add(new TagReferenceField("patchy fog", 1718641512));
         }
         /// <summary>
         /// Gets and returns the name of the planar_fog_patchy_fog_block tag block.

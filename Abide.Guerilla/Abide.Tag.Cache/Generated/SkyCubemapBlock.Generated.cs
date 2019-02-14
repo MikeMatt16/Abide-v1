@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SkyCubemapBlock()
         {
-            this.Fields.Add(new TagReferenceField("Cube Map Reference", "bitm"));
+            this.Fields.Add(new TagReferenceField("Cube Map Reference", 1651078253));
             this.Fields.Add(new RealField("Power Scale#0 Defaults to 1."));
         }
         /// <summary>

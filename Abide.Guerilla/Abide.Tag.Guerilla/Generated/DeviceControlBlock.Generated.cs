@@ -27,9 +27,9 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new EnumField("triggers when", "touched by player", "destroyed"));
             this.Fields.Add(new RealField("call value:[0,1]"));
             this.Fields.Add(new StringIdField("action string"));
-            this.Fields.Add(new TagReferenceField("on", "����"));
-            this.Fields.Add(new TagReferenceField("off", "����"));
-            this.Fields.Add(new TagReferenceField("deny", "����"));
+            this.Fields.Add(new TagReferenceField("on", -3));
+            this.Fields.Add(new TagReferenceField("off", -3));
+            this.Fields.Add(new TagReferenceField("deny", -3));
         }
         /// <summary>
         /// Gets and returns the name of the device_control_block tag block.

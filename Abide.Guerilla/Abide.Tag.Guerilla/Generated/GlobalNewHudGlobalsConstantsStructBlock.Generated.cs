@@ -22,19 +22,19 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public GlobalNewHudGlobalsConstantsStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("primary message sound", "����"));
-            this.Fields.Add(new TagReferenceField("secondary message sound", "����"));
+            this.Fields.Add(new TagReferenceField("primary message sound", -3));
+            this.Fields.Add(new TagReferenceField("secondary message sound", -3));
             this.Fields.Add(new StringIdField("boot griefer string"));
             this.Fields.Add(new StringIdField("cannot boot griefer string"));
-            this.Fields.Add(new TagReferenceField("training shader", "shad"));
-            this.Fields.Add(new TagReferenceField("human training top right", "bitm"));
-            this.Fields.Add(new TagReferenceField("human training top center", "bitm"));
-            this.Fields.Add(new TagReferenceField("human training top left", "bitm"));
-            this.Fields.Add(new TagReferenceField("human training middle", "bitm"));
-            this.Fields.Add(new TagReferenceField("elite training top right", "bitm"));
-            this.Fields.Add(new TagReferenceField("elite training top center", "bitm"));
-            this.Fields.Add(new TagReferenceField("elite training top left", "bitm"));
-            this.Fields.Add(new TagReferenceField("elite training middle", "bitm"));
+            this.Fields.Add(new TagReferenceField("training shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("human training top right", 1651078253));
+            this.Fields.Add(new TagReferenceField("human training top center", 1651078253));
+            this.Fields.Add(new TagReferenceField("human training top left", 1651078253));
+            this.Fields.Add(new TagReferenceField("human training middle", 1651078253));
+            this.Fields.Add(new TagReferenceField("elite training top right", 1651078253));
+            this.Fields.Add(new TagReferenceField("elite training top center", 1651078253));
+            this.Fields.Add(new TagReferenceField("elite training top left", 1651078253));
+            this.Fields.Add(new TagReferenceField("elite training middle", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the global_new_hud_globals_constants_struct_block tag block.

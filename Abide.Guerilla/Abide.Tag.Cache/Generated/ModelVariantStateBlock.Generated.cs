@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new PadField("", 1));
             this.Fields.Add(new ByteFlagsField("property flags", "blurred", "hella blurred", "shielded"));
             this.Fields.Add(new EnumField("state^", "default", "minor damage", "medium damage", "major damage", "destroyed"));
-            this.Fields.Add(new TagReferenceField("looping effect#played while the model is in this state", "effe"));
+            this.Fields.Add(new TagReferenceField("looping effect#played while the model is in this state", 1701209701));
             this.Fields.Add(new StringIdField("looping effect marker name"));
             this.Fields.Add(new RealFractionField("initial probability"));
         }

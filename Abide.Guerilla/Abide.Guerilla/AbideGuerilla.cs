@@ -91,7 +91,7 @@ namespace Abide.Guerilla
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Create dialog
-            using (Dialogs.NewTagGroupDialog groupDialog = new Dialogs.NewTagGroupDialog())
+            using (NewTagGroupDialog groupDialog = new NewTagGroupDialog())
             {
                 //Show
                 if(groupDialog.ShowDialog() == DialogResult.OK)
@@ -99,8 +99,12 @@ namespace Abide.Guerilla
                     //Create file
                     TagGroupFile file = new TagGroupFile() { TagGroup = groupDialog.SelectedGroup };
 
+                    //Get name
+                    string tagName = "tag"; int tagIndex = 1;
+                    while (openEditors.ContainsKey($"{tagName}{tagIndex}")) tagIndex++;
+                    
                     //Create editor
-                    TagGroupFileEditor editor = new TagGroupFileEditor($"{groupDialog.FileName}.{file.TagGroup.Name}", file) { MdiParent = this };
+                    TagGroupFileEditor editor = new TagGroupFileEditor($"{tagName}{tagIndex}.{file.TagGroup.Name}", file) { MdiParent = this };
                     editor.FileNameChanged += Editor_FileNameChanged;
                     editor.FormClosed += Editor_FormClosed;
                     

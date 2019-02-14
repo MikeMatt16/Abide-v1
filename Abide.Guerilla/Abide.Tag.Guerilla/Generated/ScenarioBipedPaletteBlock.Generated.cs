@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioBipedPaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("Name^", "bipd"));
+            this.Fields.Add(new TagReferenceField("Name^", 1651077220));
             this.Fields.Add(new PadField("", 32));
         }
         /// <summary>

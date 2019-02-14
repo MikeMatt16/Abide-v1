@@ -31,8 +31,8 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealFractionField("casual turning modifier:[0,1]"));
             this.Fields.Add(new RealField("autoaim width:world units"));
             this.Fields.Add(new StructField<CharacterPhysicsStructBlock>("physics"));
-            this.Fields.Add(new TagReferenceField("impact damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("impact shield damage#if not specified, uses \'impact damage\'", "jpt!"));
+            this.Fields.Add(new TagReferenceField("impact damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("impact shield damage#if not specified, uses \'impact damage\'", 1785754657));
             this.Fields.Add(new ExplanationField("death and destruction", ""));
             this.Fields.Add(new RealBoundsField("destroy after death time:seconds#if non-zero, the creature will destroy itself up" +
                         "on death after this much time"));

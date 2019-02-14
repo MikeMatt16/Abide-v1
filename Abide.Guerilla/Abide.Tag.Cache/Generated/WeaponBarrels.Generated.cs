@@ -76,7 +76,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealPoint3dField("first person offset:world units#+x is forward, +z is up, +y is left"));
             this.Fields.Add(new CharEnumField("damage effect reporting type", "teh guardians!!1!!1!", "falling damage", "generic collision damage", "generic melee damage", "generic explosion", "magnum pistol", "plasma pistol", "needler", "smg", "plasma rifle", "battle rifle", "carbine", "shotgun", "sniper rifle", "beam rifle", "rocket launcher", "flak cannon", "brute shot", "disintegrator", "brute plasma rifle", "energy sword", "frag grenade", "plasma grenade", "flag melee damage", "bomb melee damage", "bomb explosion damage", "ball melee damage", "human turret", "plasma turret", "banshee", "ghost", "mongoose", "scorpion", "spectre driver", "spectre gunner", "warthog driver", "warthog gunner", "wraith", "tank", "sentinel beam", "sentinel rpg", "teleporter"));
             this.Fields.Add(new PadField("", 3));
-            this.Fields.Add(new TagReferenceField("projectile", "proj"));
+            this.Fields.Add(new TagReferenceField("projectile", 1886547818));
             this.Fields.Add(new StructField<WeaponBarrelDamageEffectStructBlock>("eh"));
             this.Fields.Add(new ExplanationField("misc", ""));
             this.Fields.Add(new RealField("ejection port recovery time#the amount of time (in seconds) it takes for the ejec" +

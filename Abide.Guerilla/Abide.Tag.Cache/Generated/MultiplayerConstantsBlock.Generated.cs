@@ -37,12 +37,12 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new PadField("", 84));
             this.Fields.Add(new PadField("", 32));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("hill shader", "shad"));
+            this.Fields.Add(new TagReferenceField("hill shader", 1936220516));
             this.Fields.Add(new PadField("", 16));
             this.Fields.Add(new RealField("flag reset stop distance"));
-            this.Fields.Add(new TagReferenceField("bomb explode effect", "effe"));
-            this.Fields.Add(new TagReferenceField("bomb explode dmg effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("bomb defuse effect", "effe"));
+            this.Fields.Add(new TagReferenceField("bomb explode effect", 1701209701));
+            this.Fields.Add(new TagReferenceField("bomb explode dmg effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("bomb defuse effect", 1701209701));
             this.Fields.Add(new StringIdField("bomb defusal string"));
             this.Fields.Add(new StringIdField("blocked teleporter string"));
             this.Fields.Add(new PadField("", 4));

@@ -27,15 +27,15 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("gain:dB"));
             this.Fields.Add(new RealField("fade in duration:seconds"));
             this.Fields.Add(new RealField("fade out duration:seconds"));
-            this.Fields.Add(new TagReferenceField("in", "snd!"));
-            this.Fields.Add(new TagReferenceField("loop", "snd!"));
-            this.Fields.Add(new TagReferenceField("out", "snd!"));
-            this.Fields.Add(new TagReferenceField("alt loop", "snd!"));
-            this.Fields.Add(new TagReferenceField("alt out", "snd!"));
+            this.Fields.Add(new TagReferenceField("in", 1936614433));
+            this.Fields.Add(new TagReferenceField("loop", 1936614433));
+            this.Fields.Add(new TagReferenceField("out", 1936614433));
+            this.Fields.Add(new TagReferenceField("alt loop", 1936614433));
+            this.Fields.Add(new TagReferenceField("alt out", 1936614433));
             this.Fields.Add(new EnumField("output effect", "none", "output front speakers", "output rear speakers", "output center speakers"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("alt trans in", "snd!"));
-            this.Fields.Add(new TagReferenceField("alt trans out", "snd!"));
+            this.Fields.Add(new TagReferenceField("alt trans in", 1936614433));
+            this.Fields.Add(new TagReferenceField("alt trans out", 1936614433));
             this.Fields.Add(new RealField("alt crossfade duration:seconds"));
             this.Fields.Add(new RealField("alt fade out duration:seconds"));
         }

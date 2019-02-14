@@ -22,11 +22,11 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public UnitBoardingMeleeStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("boarding melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("boarding melee response", "jpt!"));
-            this.Fields.Add(new TagReferenceField("landing melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("flurry melee damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("obstacle smash damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("boarding melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("boarding melee response", 1785754657));
+            this.Fields.Add(new TagReferenceField("landing melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("flurry melee damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("obstacle smash damage", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the unit_boarding_melee_struct_block tag block.

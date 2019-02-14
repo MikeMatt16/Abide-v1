@@ -28,7 +28,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new ShortIntegerField("first sequence index"));
             this.Fields.Add(new ShortIntegerField("sequence count"));
             this.Fields.Add(new ExplanationField("Shader Parameters", ""));
-            this.Fields.Add(new TagReferenceField("shader template", "stem"));
+            this.Fields.Add(new TagReferenceField("shader template", 1937007981));
             this.Fields.Add(new BlockField<GlobalShaderParameterBlock>("shader parameters", 64));
             this.Fields.Add(new ExplanationField("Color", "controls how the color of the particle changes as\na function of its input"));
             this.Fields.Add(new StructField<ParticlePropertyColorStructNewBlock>("color"));
@@ -46,8 +46,8 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new ExplanationField("Spawned Effects", "collision occurs when particle physics has collision, death spawned when particle" +
                         " dies"));
             this.Fields.Add(new TagReferenceField("collision effect#effect, material effect or sound spawned when this particle coll" +
-                        "ides with something", "����"));
-            this.Fields.Add(new TagReferenceField("death effect#effect, material effect or sound spawned when this particle dies", "����"));
+                        "ides with something", -3));
+            this.Fields.Add(new TagReferenceField("death effect#effect, material effect or sound spawned when this particle dies", -3));
             this.Fields.Add(new ExplanationField("Attached Particle Systems", "Locations:\nup - particles shoot straight up\ngravity - particles shoot straight do" +
                         "wn\nNONE - opposite of particle direction"));
             this.Fields.Add(new BlockField<EffectLocationsBlock>("locations", 32));

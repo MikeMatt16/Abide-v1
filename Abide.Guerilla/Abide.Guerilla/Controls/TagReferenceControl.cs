@@ -42,9 +42,14 @@ namespace Abide.Tag.Ui.Guerilla.Controls
                 if (Field != null && openDlg.ShowDialog() == DialogResult.OK)
                 {
                     pathTextBox.Text = openDlg.FileName.Replace(TagsPath, string.Empty).Substring(1);
-                    Field.Value = new StringValue(pathTextBox.Text);
+                    Field.Value = pathTextBox.Text;
                 }
             }
+        }
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            Field.Value = string.Empty;
+            pathTextBox.Text = string.Empty;
         }
     }
 }

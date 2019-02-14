@@ -28,7 +28,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<ModelVariantObjectBlock>("objects", 16));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new StringIdField("dialogue sound effect"));
-            this.Fields.Add(new TagReferenceField("dialogue", "udlg"));
+            this.Fields.Add(new TagReferenceField("dialogue", 1969515623));
         }
         /// <summary>
         /// Gets and returns the name of the model_variant_block tag block.

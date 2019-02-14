@@ -73,7 +73,7 @@ If the wobble weight is 0 then wobble is completely ignored."));
                         "value of 1.0 signifies that the effect will not be felt when the wobble function" +
                         "\'s value is zero."));
             this.Fields.Add(new ExplanationField("sound", ""));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
             this.Fields.Add(new ExplanationField("breaking effect", @"Controls particle velocities when a damage effect shatters a materal.
 
 All particles created within 'forward radius' will be kicked along the

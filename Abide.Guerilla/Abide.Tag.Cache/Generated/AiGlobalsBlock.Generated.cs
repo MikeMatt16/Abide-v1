@@ -35,7 +35,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealField("danger body damage"));
             this.Fields.Add(new RealField("danger extended body damage"));
             this.Fields.Add(new PadField("", 48));
-            this.Fields.Add(new TagReferenceField("global dialogue tag", "adlg"));
+            this.Fields.Add(new TagReferenceField("global dialogue tag", 1633971303));
             this.Fields.Add(new StringIdField("default mission dialogue sound effect"));
             this.Fields.Add(new PadField("", 20));
             this.Fields.Add(new RealField("jump down:wu/tick"));

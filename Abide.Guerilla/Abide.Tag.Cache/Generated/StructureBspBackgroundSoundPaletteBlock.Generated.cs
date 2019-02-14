@@ -23,8 +23,8 @@ namespace Abide.Tag.Cache.Generated
         public StructureBspBackgroundSoundPaletteBlock()
         {
             this.Fields.Add(new StringField("Name^"));
-            this.Fields.Add(new TagReferenceField("Background Sound", "lsnd"));
-            this.Fields.Add(new TagReferenceField("Inside Cluster Sound#Play only when player is inside cluster.", "lsnd"));
+            this.Fields.Add(new TagReferenceField("Background Sound", 1819504228));
+            this.Fields.Add(new TagReferenceField("Inside Cluster Sound#Play only when player is inside cluster.", 1819504228));
             this.Fields.Add(new PadField("", 20));
             this.Fields.Add(new RealField("Cutoff Distance"));
             this.Fields.Add(new LongFlagsField("Scale Flags", "Override Default Scale", "Use Adjacent Cluster as Portal Scale", "Use Adjacent Cluster as Exterior Scale", "Scale with Weather Intensity"));

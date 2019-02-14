@@ -22,10 +22,10 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public MultiplayerUiBlock()
         {
-            this.Fields.Add(new TagReferenceField("random player names", "unic"));
+            this.Fields.Add(new TagReferenceField("random player names", 1970170211));
             this.Fields.Add(new BlockField<MultiplayerColorBlock>("obsolete profile colors", 32));
             this.Fields.Add(new BlockField<MultiplayerColorBlock>("team colors", 32));
-            this.Fields.Add(new TagReferenceField("team names", "unic"));
+            this.Fields.Add(new TagReferenceField("team names", 1970170211));
         }
         /// <summary>
         /// Gets and returns the name of the multiplayer_ui_block tag block.

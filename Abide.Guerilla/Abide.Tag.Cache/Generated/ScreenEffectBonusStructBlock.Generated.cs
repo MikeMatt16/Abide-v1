@@ -22,8 +22,8 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ScreenEffectBonusStructBlock()
         {
-            this.Fields.Add(new TagReferenceField("halfscreen screen effect", "egor"));
-            this.Fields.Add(new TagReferenceField("quarterscreen screen effect", "egor"));
+            this.Fields.Add(new TagReferenceField("halfscreen screen effect", 1701277554));
+            this.Fields.Add(new TagReferenceField("quarterscreen screen effect", 1701277554));
         }
         /// <summary>
         /// Gets and returns the name of the screen_effect_bonus_struct_block tag block.

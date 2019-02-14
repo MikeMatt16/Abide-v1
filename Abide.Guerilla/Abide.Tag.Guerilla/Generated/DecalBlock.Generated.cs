@@ -60,7 +60,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new EnumField("type#controls how the decal wraps onto surface geometry", "scratch", "splatter", "burn", "painted sign"));
             this.Fields.Add(new EnumField("layer", "lit alpha-blend prelight", "lit alpha-blend", "double multiply", "multiply", "max", "add", "error"));
             this.Fields.Add(new ShortIntegerField("max overlapping count"));
-            this.Fields.Add(new TagReferenceField("next decal in chain", "deca"));
+            this.Fields.Add(new TagReferenceField("next decal in chain", 1684366177));
             this.Fields.Add(new RealBoundsField("radius:world units#0 defaults to 0.125"));
             this.Fields.Add(new RealField("radius overlap rejection:muliplier"));
             this.Fields.Add(new RealRgbColorField("color lower bounds"));
@@ -73,7 +73,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new PadField("", 20));
             this.Fields.Add(new RealField("maximum sprite extent*:pixels"));
             this.Fields.Add(new PadField("", 4));

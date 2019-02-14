@@ -27,7 +27,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new ShortBlockIndexField("location"));
             this.Fields.Add(new WordFlagsField("flags", "face down regardless of location (decals)", "offset origin away from geometry (lights)", "never attached to object", "disabled for debugging", "draw regardless of distance"));
             this.Fields.Add(new PadField("", 4));
-            this.Fields.Add(new TagReferenceField("type^", "����"));
+            this.Fields.Add(new TagReferenceField("type^", -3));
             this.Fields.Add(new RealBoundsField("velocity bounds:world units per second#initial velocity along the location\'s forw" +
                         "ard, for decals the distance at which decal is created (defaults to 0.5)"));
             this.Fields.Add(new AngleField("velocity cone angle:degrees#initial velocity will be inside the cone defined by t" +

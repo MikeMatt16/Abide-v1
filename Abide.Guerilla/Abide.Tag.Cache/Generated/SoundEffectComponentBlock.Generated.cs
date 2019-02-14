@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public SoundEffectComponentBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound^", "����"));
+            this.Fields.Add(new TagReferenceField("sound^", -3));
             this.Fields.Add(new RealField("gain:dB#additional attenuation to sound"));
             this.Fields.Add(new LongFlagsField("flags", "don\'t play at start", "play on stop", "", "play alternate", "", "sync with origin looping sound"));
         }

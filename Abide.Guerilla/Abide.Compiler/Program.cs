@@ -24,7 +24,7 @@ namespace Abide.Compiler
         private static void Map_Compile(string scenarioFileName)
         {
             //Compile
-            MapCompiler compiler = new MapCompiler(scenarioFileName, RegistrySettings.WorkspaceDirectory);
+            var compiler = new MapCompiler(scenarioFileName, RegistrySettings.WorkspaceDirectory);
             compiler.Compile();
 
             //Press any key

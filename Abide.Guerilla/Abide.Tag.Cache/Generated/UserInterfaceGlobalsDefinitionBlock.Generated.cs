@@ -23,13 +23,13 @@ namespace Abide.Tag.Cache.Generated
         public UserInterfaceGlobalsDefinitionBlock()
         {
             this.Fields.Add(new ExplanationField("Shared Globals", "This is a reference to the ui shared globals tag"));
-            this.Fields.Add(new TagReferenceField("shared globals", "wigl"));
+            this.Fields.Add(new TagReferenceField("shared globals", 2003396460));
             this.Fields.Add(new ExplanationField("Screen Widgets", "These are the screen widgets"));
             this.Fields.Add(new BlockField<UserInterfaceWidgetReferenceBlock>("screen widgets", 256));
             this.Fields.Add(new ExplanationField("Multiplayer Variant Settings Interface", "This blob defines the ui for setting multiplayer game variant parameters"));
-            this.Fields.Add(new TagReferenceField("mp variant settings ui", "goof"));
+            this.Fields.Add(new TagReferenceField("mp variant settings ui", 1735356262));
             this.Fields.Add(new ExplanationField("Game Hopper Localization Strings", "This is for the loc game hopper strings"));
-            this.Fields.Add(new TagReferenceField("game hopper descriptions", "unic"));
+            this.Fields.Add(new TagReferenceField("game hopper descriptions", 1970170211));
         }
         /// <summary>
         /// Gets and returns the name of the user_interface_globals_definition_block tag block.

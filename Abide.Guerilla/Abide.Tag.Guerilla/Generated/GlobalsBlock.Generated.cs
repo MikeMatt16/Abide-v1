@@ -47,11 +47,11 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new BlockField<MaterialsBlock>("materials", 256));
             this.Fields.Add(new BlockField<MultiplayerUiBlock>("multiplayer UI", 1));
             this.Fields.Add(new BlockField<MultiplayerColorBlock>("profile colors", 32));
-            this.Fields.Add(new TagReferenceField("multiplayer globals", "mulg"));
+            this.Fields.Add(new TagReferenceField("multiplayer globals", 1836412007));
             this.Fields.Add(new BlockField<RuntimeLevelsDefinitionBlock>("runtime level data", 1));
             this.Fields.Add(new BlockField<UiLevelsDefinitionBlock>("ui level data", 1));
             this.Fields.Add(new ExplanationField("Default global lighting", ""));
-            this.Fields.Add(new TagReferenceField("default global lighting", "gldf"));
+            this.Fields.Add(new TagReferenceField("default global lighting", 1735156838));
             this.Fields.Add(new StructField<GlobalsMultilingualUnicodeInfoStructBlock>("multilingual unicode info"));
         }
         /// <summary>

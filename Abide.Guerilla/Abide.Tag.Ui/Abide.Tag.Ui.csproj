@@ -260,6 +260,10 @@
       <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
       <Name>Abide.HaloLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
+      <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
+      <Name>Abide.Guerilla.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
       <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
       <Name>Abide.Tag.Cache</Name>

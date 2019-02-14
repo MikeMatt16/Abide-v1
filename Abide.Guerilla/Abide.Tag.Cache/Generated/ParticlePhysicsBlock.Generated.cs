@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ParticlePhysicsBlock()
         {
-            this.Fields.Add(new TagReferenceField("template", "pmov"));
+            this.Fields.Add(new TagReferenceField("template", 1886220150));
             this.Fields.Add(new LongFlagsField("flags", "physics", "collide with structure", "collide with media", "collide with scenery", "collide with vehicles", "collide with bipeds", "swarm", "wind"));
             this.Fields.Add(new BlockField<ParticleController>("movements", 4));
         }

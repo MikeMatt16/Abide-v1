@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioClusterDataBlock()
         {
-            this.Fields.Add(new TagReferenceField("BSP*", "sbsp"));
+            this.Fields.Add(new TagReferenceField("BSP*", 1935831920));
             this.Fields.Add(new BlockField<ScenarioClusterBackgroundSoundsBlock>("Background Sounds*", 512));
             this.Fields.Add(new BlockField<ScenarioClusterSoundEnvironmentsBlock>("Sound Environments*", 512));
             this.Fields.Add(new LongIntegerField("BSP Checksum*"));

@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fields.cs" />
-    <Compile Include="Generated\AbideSoundReferencesBlock.Generated.cs" />
     <Compile Include="Generated\AbideXboxAnimationRawDataBlock.Generated.cs" />
     <Compile Include="Generated\AbideXboxAnimationUnknownBlock.Generated.cs" />
     <Compile Include="Generated\ActorStartingLocationsBlock.Generated.cs" />

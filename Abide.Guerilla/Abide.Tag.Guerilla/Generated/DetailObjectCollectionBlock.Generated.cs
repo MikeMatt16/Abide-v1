@@ -27,7 +27,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("Global z Offset: Applied to all detail objects in this collection so they don\'t f" +
                         "loat above the ground."));
             this.Fields.Add(new PadField("", 44));
-            this.Fields.Add(new TagReferenceField("Sprite Plate", "bitm"));
+            this.Fields.Add(new TagReferenceField("Sprite Plate", 1651078253));
             this.Fields.Add(new BlockField<DetailObjectTypeBlock>("Types", 16));
             this.Fields.Add(new PadField("", 48));
         }

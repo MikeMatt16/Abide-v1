@@ -23,8 +23,8 @@ namespace Abide.Tag.Guerilla.Generated
         public ScenarioStructureBspReferenceBlock()
         {
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("Structure BSP^", "sbsp"));
-            this.Fields.Add(new TagReferenceField("Structure Lightmap^", "ltmp"));
+            this.Fields.Add(new TagReferenceField("Structure BSP^", 1935831920));
+            this.Fields.Add(new TagReferenceField("Structure Lightmap^", 1819569520));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new RealField("UNUSED radiance est. search distance"));
             this.Fields.Add(new PadField("", 4));

@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public NewHudDefinitionBlock()
         {
-            this.Fields.Add(new TagReferenceField("DO NOT USE", "nhdt"));
+            this.Fields.Add(new TagReferenceField("DO NOT USE", 1852335220));
             this.Fields.Add(new BlockField<HudBitmapWidgets>("bitmap widgets", 256));
             this.Fields.Add(new BlockField<HudTextWidgets>("text widgets", 256));
             this.Fields.Add(new StructField<NewHudDashlightDataStructBlock>("dashlight data"));

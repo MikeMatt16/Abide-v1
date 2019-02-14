@@ -61,6 +61,7 @@
     <Compile Include="Halo2\ChunkCloner.Designer.cs">
       <DependentUpon>ChunkCloner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Halo2\FixSystemLinkButton.cs" />
     <Compile Include="Halo2\StructureBspSelectDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +198,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tag-new-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fix-systemlink-16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

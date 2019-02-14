@@ -22,9 +22,9 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public GlobalWeatherBackgroundPlateBlock()
         {
-            this.Fields.Add(new TagReferenceField("texture 0", "bitm"));
-            this.Fields.Add(new TagReferenceField("texture 1", "bitm"));
-            this.Fields.Add(new TagReferenceField("texture 2", "bitm"));
+            this.Fields.Add(new TagReferenceField("texture 0", 1651078253));
+            this.Fields.Add(new TagReferenceField("texture 1", 1651078253));
+            this.Fields.Add(new TagReferenceField("texture 2", 1651078253));
             this.Fields.Add(new RealField("plate positions 0"));
             this.Fields.Add(new RealField("plate positions 1"));
             this.Fields.Add(new RealField("plate positions 2"));

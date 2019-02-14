@@ -23,11 +23,11 @@ namespace Abide.Tag.Guerilla.Generated
         public CharacterBlock()
         {
             this.Fields.Add(new LongFlagsField("Character flags", "Flag1"));
-            this.Fields.Add(new TagReferenceField("parent character", "char"));
-            this.Fields.Add(new TagReferenceField("unit", "unit"));
-            this.Fields.Add(new TagReferenceField("creature#Creature reference for swarm characters ONLY", "crea"));
-            this.Fields.Add(new TagReferenceField("style", "styl"));
-            this.Fields.Add(new TagReferenceField("major character", "char"));
+            this.Fields.Add(new TagReferenceField("parent character", 1667785074));
+            this.Fields.Add(new TagReferenceField("unit", 1970170228));
+            this.Fields.Add(new TagReferenceField("creature#Creature reference for swarm characters ONLY", 1668441441));
+            this.Fields.Add(new TagReferenceField("style", 1937013100));
+            this.Fields.Add(new TagReferenceField("major character", 1667785074));
             this.Fields.Add(new BlockField<CharacterVariantsBlock>("variants", 64));
             this.Fields.Add(new BlockField<CharacterGeneralBlock>("general properties", 1));
             this.Fields.Add(new BlockField<CharacterVitalityBlock>("vitality properties", 1));

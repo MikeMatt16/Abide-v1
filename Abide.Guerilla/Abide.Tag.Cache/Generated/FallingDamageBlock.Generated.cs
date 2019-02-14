@@ -24,14 +24,14 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new RealBoundsField("harmful falling distance:world units"));
-            this.Fields.Add(new TagReferenceField("falling damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("falling damage", 1785754657));
             this.Fields.Add(new PadField("", 8));
             this.Fields.Add(new RealField("maximum falling distance:world units"));
-            this.Fields.Add(new TagReferenceField("distance damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("vehicle environemtn collision damage effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("vehicle killed unit damage effect", "jpt!"));
-            this.Fields.Add(new TagReferenceField("vehicle collision damage", "jpt!"));
-            this.Fields.Add(new TagReferenceField("flaming death damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("distance damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("vehicle environemtn collision damage effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("vehicle killed unit damage effect", 1785754657));
+            this.Fields.Add(new TagReferenceField("vehicle collision damage", 1785754657));
+            this.Fields.Add(new TagReferenceField("flaming death damage", 1785754657));
             this.Fields.Add(new PadField("", 28));
         }
         /// <summary>

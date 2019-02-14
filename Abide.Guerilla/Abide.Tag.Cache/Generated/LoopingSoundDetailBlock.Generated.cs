@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public LoopingSoundDetailBlock()
         {
             this.Fields.Add(new StringIdField("name^"));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
             this.Fields.Add(new ExplanationField("frequency of play", ""));
             this.Fields.Add(new RealBoundsField("random period bounds:seconds#the time between successive playings of this sound w" +
                         "ill be randomly selected from this range."));

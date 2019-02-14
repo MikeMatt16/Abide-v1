@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioAiResourceReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("Reference*", "ai**"));
+            this.Fields.Add(new TagReferenceField("Reference*", 1634282026));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_ai_resource_reference_block tag block.

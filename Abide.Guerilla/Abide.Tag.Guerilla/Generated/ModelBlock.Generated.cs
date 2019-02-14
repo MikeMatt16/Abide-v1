@@ -23,11 +23,11 @@ namespace Abide.Tag.Guerilla.Generated
         public ModelBlock()
         {
             this.Fields.Add(new ExplanationField("MODEL", ""));
-            this.Fields.Add(new TagReferenceField("render model", "mode"));
-            this.Fields.Add(new TagReferenceField("collision model", "coll"));
-            this.Fields.Add(new TagReferenceField("animation", "jmad"));
-            this.Fields.Add(new TagReferenceField("physics", "phys"));
-            this.Fields.Add(new TagReferenceField("physics_model", "phmo"));
+            this.Fields.Add(new TagReferenceField("render model", 1836016741));
+            this.Fields.Add(new TagReferenceField("collision model", 1668246636));
+            this.Fields.Add(new TagReferenceField("animation", 1785553252));
+            this.Fields.Add(new TagReferenceField("physics", 1885895027));
+            this.Fields.Add(new TagReferenceField("physics_model", 1885891951));
             this.Fields.Add(new ExplanationField("level of detail", @"If a model is further away than the LOD reduction distance, it will be reduced to that LOD.
 So the L1 reduction distance should be really long and the L5 reduction distance should be really short.
 This means distances should be in descending order, e.g. 5 4 3 2 1.
@@ -59,8 +59,8 @@ of the LOD reduction distances.
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new BlockField<ModelObjectDataBlock>("model object data", 1));
             this.Fields.Add(new ExplanationField("more stuff", ""));
-            this.Fields.Add(new TagReferenceField("default dialogue#The default dialogue tag for this model (overriden by variants)", "udlg"));
-            this.Fields.Add(new TagReferenceField("UNUSED*", "shad"));
+            this.Fields.Add(new TagReferenceField("default dialogue#The default dialogue tag for this model (overriden by variants)", 1969515623));
+            this.Fields.Add(new TagReferenceField("UNUSED*", 1936220516));
             this.Fields.Add(new LongFlagsField("flags", "active camo always on", "active camo always merge", "active camo never merge"));
             this.Fields.Add(new StringIdField("default dialogue effect#The default dialogue tag for this model (overriden by var" +
                         "iants)"));
@@ -132,7 +132,7 @@ of the LOD reduction distances.
             this.Fields.Add(new BlockField<GlobalScenarioLoadParametersBlock>("scenario load parameters", 32));
             this.Fields.Add(new ExplanationField("HOLOGRAM", "hologram shader is applied whenever the control function from it\'s object is non-" +
                         "zero"));
-            this.Fields.Add(new TagReferenceField("hologram shader", "shad"));
+            this.Fields.Add(new TagReferenceField("hologram shader", 1936220516));
             this.Fields.Add(new StringIdField("hologram control function"));
         }
         /// <summary>

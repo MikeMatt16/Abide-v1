@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ScenarioCratePaletteBlock()
         {
-            this.Fields.Add(new TagReferenceField("Name^", "bloc"));
+            this.Fields.Add(new TagReferenceField("Name^", 1651273571));
             this.Fields.Add(new PadField("", 32));
         }
         /// <summary>

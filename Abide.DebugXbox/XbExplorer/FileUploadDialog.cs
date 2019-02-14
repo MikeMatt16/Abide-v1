@@ -20,13 +20,24 @@ namespace XbExplorer
         private Queue<KeyValuePair<string, string>> m_UploadQueue;
         private readonly LocalObject[] m_LocalObjects;
         private readonly string m_DestinationDirectoryName;
-        private readonly int m_FileCount = 0;
-        private int m_CurrentFileCount = 0;
+        private readonly int m_FileCount;
+        private int m_CurrentFileCount;
+        private int m_XboxSendBufferSize;
+        private int m_TotalSentBytes;
+        private float m_AverageUploadRate;
+        private DateTime m_StartUploadTime;
 
         private FileUploadDialog()
         {
             InitializeComponent();
+            
+            //Initialize
+            m_CurrentFileCount = 0;
+            m_XboxSendBufferSize = 0;
+            m_TotalSentBytes = 0;
+            m_AverageUploadRate = 0f;
         }
+
         public FileUploadDialog(Xbox xbox, string destinationDirectoryName, params LocalObject[] objects) : this()
         {
             //Setup
@@ -90,57 +101,68 @@ namespace XbExplorer
 
             //Connect
             Xbox.Connect();
+            m_XboxSendBufferSize = Xbox.SendBufferSize;
 
-            //Create queue
+            //Setup
             m_UploadQueue = new Queue<KeyValuePair<string, string>>(queue);
+            totalProgressBar.Value = (m_CurrentFileCount * 100) / m_FileCount;
 
             //Start
+            m_StartUploadTime = DateTime.Now;
             m_CurrentUpload = m_UploadQueue.Dequeue();
             UploadFile(m_CurrentUpload.Key, m_CurrentUpload.Value);
         }
 
         private void Xbox_UploadFileCompleted(object sender, UploadCompletedEventArgs e)
         {
-            //Increment
-            m_CurrentFileCount++;
-
-            //Get attributes
-            FileInfo info = new FileInfo(m_CurrentUpload.Key);
-
-            //Set
-            Xbox.SetAttributes(m_CurrentUpload.Value, info.CreationTime, info.LastWriteTime, info.Attributes);
-
-            //Disconnect
-            Xbox.Disconnect();
-
-            //Check
-            if (m_UploadQueue.Count > 0)
-            {
-                //Connect
-                Xbox.Connect();
-
-                //Send next
-                m_CurrentUpload = m_UploadQueue.Dequeue();
-                UploadFile(m_CurrentUpload.Key, m_CurrentUpload.Value);
-            }
-            else DialogResult = DialogResult.OK;
-
             //Invoke
-            if (IsHandleCreated)
-                Invoke(new MethodInvoker(delegate
+            Invoke(new MethodInvoker(delegate
+            {
+                //Increment
+                m_CurrentFileCount++;
+
+                //Get attributes
+                FileInfo info = new FileInfo(m_CurrentUpload.Key);
+
+                //Set
+                Xbox.SetAttributes(m_CurrentUpload.Value, info.CreationTime, info.LastWriteTime, info.Attributes);
+                Xbox.SendBufferSize = m_XboxSendBufferSize;
+
+                //Disconnect
+                Xbox.Disconnect();
+
+                //Check
+                if (m_UploadQueue.Count > 0)
                 {
-                    //Set progress
-                    totalProgressBar.Value = (m_CurrentFileCount * 100) / m_FileCount;
-                    fileProgressBar.Value = 0;
-                }));
+                    //Connect
+                    Xbox.Connect();
+
+                    //Send next
+                    m_CurrentUpload = m_UploadQueue.Dequeue();
+                    UploadFile(m_CurrentUpload.Key, m_CurrentUpload.Value);
+                }
+                else DialogResult = DialogResult.OK;
+
+                //Set progress
+                totalProgressBar.Value = (m_CurrentFileCount * 100) / m_FileCount;
+                fileProgressBar.Value = 0;
+            }));
         }
 
         private void Xbox_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
+            //Update progress
+            m_TotalSentBytes += e.BytesSent;
+
+            //Setup
+            TimeSpan elapsedTime = DateTime.Now - m_StartUploadTime;
+            m_AverageUploadRate = (float)(m_TotalSentBytes / elapsedTime.TotalSeconds);
+
             //Invoke
             if (IsHandleCreated)
                 Invoke(new MethodInvoker(delegate
                 {
+                    Text = $"Uploading... ({GetSizeString((int)Math.Ceiling(m_AverageUploadRate))}/ s)";
                     fileProgressBar.Value = e.ProgressPercentage;
                 }));
         }
@@ -154,16 +176,15 @@ namespace XbExplorer
 
         private void UploadFile(string sourceFileName, string destinationFileName)
         {
-            //Invoke
-            Invoke(new MethodInvoker(delegate
-            {
-                //Setup
-                localFileNameLabel.Text = GetCompactPath(sourceFileName, 50);
-                targetFileNameLabel.Text = GetCompactPath(destinationFileName, 50);
+            //Set
+            Xbox.SendBufferSize = 0x80000;  //8 MiB
 
-                //Upload
-                Xbox.SendFileAsync(sourceFileName, destinationFileName);
-            }));
+            //Setup
+            localFileNameLabel.Text = GetCompactPath(sourceFileName, 50);
+            targetFileNameLabel.Text = GetCompactPath(destinationFileName, 50);
+
+            //Upload
+            Xbox.SendFileAsync(sourceFileName, destinationFileName);
         }
 
         private static string GetRemoteName(string destinationRoot, string sourceRoot, string path)
@@ -181,6 +202,13 @@ namespace XbExplorer
             return path.Replace(root, string.Empty).Substring(1);
         }
 
+        private static string GetSizeString(long size)
+        {
+            StringBuilder sb = new StringBuilder(128);
+            StrFormatByteSize(size, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
         private const int MAX_CHAR = byte.MaxValue;
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
@@ -188,7 +216,11 @@ namespace XbExplorer
             [MarshalAs(UnmanagedType.LPTStr)] string path,
             [MarshalAs(UnmanagedType.LPTStr)] StringBuilder shortPath,
             int shortPathLength);
-
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
+        public static extern long StrFormatByteSize(
+            long fileSize,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer,
+            int bufferSize);
         [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
         private static extern bool PathCompactPathEx(
             [MarshalAs(UnmanagedType.LPTStr)] StringBuilder pszOut,

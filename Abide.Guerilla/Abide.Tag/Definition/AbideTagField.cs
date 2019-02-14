@@ -43,7 +43,7 @@ namespace Abide.Tag.Definition
         /// <summary>
         /// Gets or sets the group tag of the field.
         /// </summary>
-        public string GroupTag
+        public int GroupTag
         {
             get { return groupTag; }
             set { groupTag = value; }
@@ -156,8 +156,8 @@ namespace Abide.Tag.Definition
         private readonly List<AbideTagField> fields;
         private readonly List<ObjectName> options;
         private FieldType fieldType;
-        private string blockName, structName, explanation, groupTag;
-        private int alignment, maximumSize, elementSize, length;
+        private string blockName, structName, explanation;
+        private int alignment, maximumSize, elementSize, length, groupTag;
         private AbideTagBlock referencedBlock = null;
         private ObjectName fieldName = null;
         
@@ -295,7 +295,7 @@ namespace Abide.Tag.Definition
             field.explanation = xmlNode.Attributes["Explanation"]?.Value?.Replace("|n", "\n") ?? string.Empty;
             field.blockName = xmlNode.Attributes["BlockName"]?.Value ?? string.Empty;
             field.structName = xmlNode.Attributes["StructName"]?.Value ?? string.Empty;
-            field.groupTag = xmlNode.Attributes["GroupTag"]?.Value ?? string.Empty;
+            int.TryParse(xmlNode.Attributes["GroupTag"]?.Value, out field.groupTag);
             int.TryParse(xmlNode.Attributes["Alignment"]?.Value, out field.alignment);
             int.TryParse(xmlNode.Attributes["MaximumSize"]?.Value, out field.maximumSize);
             int.TryParse(xmlNode.Attributes["ElementSize"]?.Value, out field.elementSize);

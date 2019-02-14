@@ -26,7 +26,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new StructField<ShaderGpuStateReferenceStructBlock>("GPU Constant State"));
             this.Fields.Add(new StructField<ShaderGpuStateReferenceStructBlock>("GPU Volatile State"));
             this.Fields.Add(new StructField<ShaderGpuStateReferenceStructBlock>("GPU default state"));
-            this.Fields.Add(new TagReferenceField("vertex shader", "vrtx"));
+            this.Fields.Add(new TagReferenceField("vertex shader", 1987212408));
             this.Fields.Add(new SkipField("", 8));
             this.Fields.Add(new SkipField("", 8));
             this.Fields.Add(new SkipField("", 4));

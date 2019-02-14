@@ -40,6 +40,9 @@
             this.sizeLabel = new System.Windows.Forms.Label();
             this.rebuildTagButton = new System.Windows.Forms.Button();
             this.tagControlsPanel = new System.Windows.Forms.Panel();
+            this.rebuildWholeMap = new System.Windows.Forms.Button();
+            this.offsetLabel = new System.Windows.Forms.Label();
+            this.visualizeButton = new System.Windows.Forms.Button();
             this.dumpBuiltTagButton = new System.Windows.Forms.Button();
             this.overwriteButton = new System.Windows.Forms.Button();
             this.duplicateTagButton = new System.Windows.Forms.Button();
@@ -47,9 +50,6 @@
             this.rebuildSizeLabel = new System.Windows.Forms.Label();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.tagStructureTreeView = new System.Windows.Forms.TreeView();
-            this.visualizeButton = new System.Windows.Forms.Button();
-            this.offsetLabel = new System.Windows.Forms.Label();
-            this.rebuildWholeMap = new System.Windows.Forms.Button();
             this.tagsPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.tagControlsPanel.SuspendLayout();
@@ -178,6 +178,36 @@
             this.tagControlsPanel.Size = new System.Drawing.Size(270, 537);
             this.tagControlsPanel.TabIndex = 0;
             // 
+            // rebuildWholeMap
+            // 
+            this.rebuildWholeMap.Location = new System.Drawing.Point(6, 161);
+            this.rebuildWholeMap.Name = "rebuildWholeMap";
+            this.rebuildWholeMap.Size = new System.Drawing.Size(129, 23);
+            this.rebuildWholeMap.TabIndex = 11;
+            this.rebuildWholeMap.Text = "Rebuild &Whole Map...";
+            this.rebuildWholeMap.UseVisualStyleBackColor = true;
+            this.rebuildWholeMap.Click += new System.EventHandler(this.rebuildWholeMap_Click);
+            // 
+            // offsetLabel
+            // 
+            this.offsetLabel.AutoSize = true;
+            this.offsetLabel.Location = new System.Drawing.Point(6, 0);
+            this.offsetLabel.Name = "offsetLabel";
+            this.offsetLabel.Size = new System.Drawing.Size(16, 13);
+            this.offsetLabel.TabIndex = 0;
+            this.offsetLabel.Text = "...";
+            // 
+            // visualizeButton
+            // 
+            this.visualizeButton.Enabled = false;
+            this.visualizeButton.Location = new System.Drawing.Point(6, 248);
+            this.visualizeButton.Name = "visualizeButton";
+            this.visualizeButton.Size = new System.Drawing.Size(129, 23);
+            this.visualizeButton.TabIndex = 10;
+            this.visualizeButton.Text = "&Visualize...";
+            this.visualizeButton.UseVisualStyleBackColor = true;
+            this.visualizeButton.Click += new System.EventHandler(this.visualizeButton_Click);
+            // 
             // dumpBuiltTagButton
             // 
             this.dumpBuiltTagButton.Enabled = false;
@@ -243,36 +273,6 @@
             this.tagStructureTreeView.Name = "tagStructureTreeView";
             this.tagStructureTreeView.Size = new System.Drawing.Size(528, 537);
             this.tagStructureTreeView.TabIndex = 2;
-            // 
-            // visualizeButton
-            // 
-            this.visualizeButton.Enabled = false;
-            this.visualizeButton.Location = new System.Drawing.Point(6, 248);
-            this.visualizeButton.Name = "visualizeButton";
-            this.visualizeButton.Size = new System.Drawing.Size(129, 23);
-            this.visualizeButton.TabIndex = 10;
-            this.visualizeButton.Text = "&Visualize...";
-            this.visualizeButton.UseVisualStyleBackColor = true;
-            this.visualizeButton.Click += new System.EventHandler(this.visualizeButton_Click);
-            // 
-            // offsetLabel
-            // 
-            this.offsetLabel.AutoSize = true;
-            this.offsetLabel.Location = new System.Drawing.Point(6, 0);
-            this.offsetLabel.Name = "offsetLabel";
-            this.offsetLabel.Size = new System.Drawing.Size(16, 13);
-            this.offsetLabel.TabIndex = 0;
-            this.offsetLabel.Text = "...";
-            // 
-            // rebuildWholeMap
-            // 
-            this.rebuildWholeMap.Location = new System.Drawing.Point(6, 161);
-            this.rebuildWholeMap.Name = "rebuildWholeMap";
-            this.rebuildWholeMap.Size = new System.Drawing.Size(129, 23);
-            this.rebuildWholeMap.TabIndex = 11;
-            this.rebuildWholeMap.Text = "Rebuild &Whole Map...";
-            this.rebuildWholeMap.UseVisualStyleBackColor = true;
-            this.rebuildWholeMap.Click += new System.EventHandler(this.rebuildWholeMap_Click);
             // 
             // MapForm
             // 

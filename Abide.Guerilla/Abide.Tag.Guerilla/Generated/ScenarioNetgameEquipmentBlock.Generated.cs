@@ -36,7 +36,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new PadField("", 40));
             this.Fields.Add(new RealPoint3dField("Position"));
             this.Fields.Add(new StructField<ScenarioNetgameEquipmentOrientationStructBlock>("Orientation"));
-            this.Fields.Add(new TagReferenceField("Item/Vehicle Collection", "����"));
+            this.Fields.Add(new TagReferenceField("Item/Vehicle Collection", -3));
             this.Fields.Add(new PadField("", 48));
         }
         /// <summary>

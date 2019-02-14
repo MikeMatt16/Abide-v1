@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public InheritedAnimationBlock()
         {
-            this.Fields.Add(new TagReferenceField("inherited graph*", "jmad"));
+            this.Fields.Add(new TagReferenceField("inherited graph*", 1785553252));
             this.Fields.Add(new BlockField<InheritedAnimationNodeMapBlock>("node map*", 255));
             this.Fields.Add(new BlockField<InheritedAnimationNodeMapFlagBlock>("node map flags*", 255));
             this.Fields.Add(new RealField("root z offset*"));

@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public PlayerInformationBlock()
         {
-            this.Fields.Add(new TagReferenceField("unused", "unit"));
+            this.Fields.Add(new TagReferenceField("unused", 1970170228));
             this.Fields.Add(new PadField("", 28));
             this.Fields.Add(new RealField("walking speed:world units per second"));
             this.Fields.Add(new PadField("", 4));
@@ -47,19 +47,19 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealBoundsField("first person idle time:seconds"));
             this.Fields.Add(new RealFractionField("first person skip fraction:[0,1]"));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("coop respawn effect", "effe"));
+            this.Fields.Add(new TagReferenceField("coop respawn effect", 1701209701));
             this.Fields.Add(new LongIntegerField("binoculars zoom count"));
             this.Fields.Add(new RealBoundsField("binoculars zoom range"));
-            this.Fields.Add(new TagReferenceField("binoculars zoom in sound", "snd!"));
-            this.Fields.Add(new TagReferenceField("binoculars zoom out sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("binoculars zoom in sound", 1936614433));
+            this.Fields.Add(new TagReferenceField("binoculars zoom out sound", 1936614433));
             this.Fields.Add(new PadField("", 16));
-            this.Fields.Add(new TagReferenceField("active camouflage on", "snd!"));
-            this.Fields.Add(new TagReferenceField("active camouflage off", "snd!"));
-            this.Fields.Add(new TagReferenceField("active camouflage error", "snd!"));
-            this.Fields.Add(new TagReferenceField("active camouflage ready", "snd!"));
-            this.Fields.Add(new TagReferenceField("flashlight on", "snd!"));
-            this.Fields.Add(new TagReferenceField("flashlight off", "snd!"));
-            this.Fields.Add(new TagReferenceField("ice cream", "snd!"));
+            this.Fields.Add(new TagReferenceField("active camouflage on", 1936614433));
+            this.Fields.Add(new TagReferenceField("active camouflage off", 1936614433));
+            this.Fields.Add(new TagReferenceField("active camouflage error", 1936614433));
+            this.Fields.Add(new TagReferenceField("active camouflage ready", 1936614433));
+            this.Fields.Add(new TagReferenceField("flashlight on", 1936614433));
+            this.Fields.Add(new TagReferenceField("flashlight off", 1936614433));
+            this.Fields.Add(new TagReferenceField("ice cream", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the player_information_block tag block.

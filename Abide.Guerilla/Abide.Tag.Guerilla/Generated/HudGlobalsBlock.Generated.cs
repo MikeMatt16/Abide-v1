@@ -32,16 +32,16 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new WordFlagsField("scaling flags", "don\'t scale offset", "don\'t scale size"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 20));
-            this.Fields.Add(new TagReferenceField("obsolete1", "bitm"));
-            this.Fields.Add(new TagReferenceField("obsolete2", "bitm"));
+            this.Fields.Add(new TagReferenceField("obsolete1", 1651078253));
+            this.Fields.Add(new TagReferenceField("obsolete2", 1651078253));
             this.Fields.Add(new RealField("up time"));
             this.Fields.Add(new RealField("fade time"));
             this.Fields.Add(new RealArgbColorField("icon color"));
             this.Fields.Add(new RealArgbColorField("text color"));
             this.Fields.Add(new RealField("text spacing"));
-            this.Fields.Add(new TagReferenceField("item message text", "unic"));
-            this.Fields.Add(new TagReferenceField("icon bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("alternate icon text", "unic"));
+            this.Fields.Add(new TagReferenceField("item message text", 1970170211));
+            this.Fields.Add(new TagReferenceField("icon bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("alternate icon text", 1970170211));
             this.Fields.Add(new BlockField<HudButtonIconBlock>("button icons", 18));
             this.Fields.Add(new ExplanationField("HUD HELP TEXT COLOR", ""));
             this.Fields.Add(new ArgbColorField("default color"));
@@ -54,7 +54,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ArgbColorField("disabled color"));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new ExplanationField("Other hud messaging data", ""));
-            this.Fields.Add(new TagReferenceField("hud messages", "hmt "));
+            this.Fields.Add(new TagReferenceField("hud messages", 1752003616));
             this.Fields.Add(new ExplanationField("Objective colors", ""));
             this.Fields.Add(new ArgbColorField("default color"));
             this.Fields.Add(new ArgbColorField("flashing color"));
@@ -73,7 +73,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("left offset"));
             this.Fields.Add(new RealField("right offset"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("arrow bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("arrow bitmap", 1651078253));
             this.Fields.Add(new BlockField<HudGlobalsWaypointArrowBlock>("waypoint arrows", 16));
             this.Fields.Add(new PadField("", 80));
             this.Fields.Add(new ExplanationField("Multiplayer parameters", ""));
@@ -93,7 +93,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("left offset"));
             this.Fields.Add(new ShortIntegerField("right offset"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("indicator bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("indicator bitmap", 1651078253));
             this.Fields.Add(new ShortIntegerField("sequence index"));
             this.Fields.Add(new ShortIntegerField("multiplayer sequence index"));
             this.Fields.Add(new ArgbColorField("color"));
@@ -120,13 +120,13 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ArgbColorField("disabled color"));
             this.Fields.Add(new PadField("", 4));
             this.Fields.Add(new PadField("", 40));
-            this.Fields.Add(new TagReferenceField("carnage report bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("carnage report bitmap", 1651078253));
             this.Fields.Add(new ExplanationField("Hud crap that wouldn\'t fit anywhere else", ""));
             this.Fields.Add(new ShortIntegerField("loading begin text"));
             this.Fields.Add(new ShortIntegerField("loading end text"));
             this.Fields.Add(new ShortIntegerField("checkpoint begin text"));
             this.Fields.Add(new ShortIntegerField("checkpoint end text"));
-            this.Fields.Add(new TagReferenceField("checkpoint sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("checkpoint sound", 1936614433));
             this.Fields.Add(new PadField("", 96));
             this.Fields.Add(new StructField<GlobalNewHudGlobalsStructBlock>("new globals"));
         }

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ListSkinReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("list item skins", "skin"));
+            this.Fields.Add(new TagReferenceField("list item skins", 1936419182));
         }
         /// <summary>
         /// Gets and returns the name of the list_skin_reference_block tag block.

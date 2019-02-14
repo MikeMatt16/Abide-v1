@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public AnimationGraphEffectReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("effect^", "effe"));
+            this.Fields.Add(new TagReferenceField("effect^", 1701209701));
             this.Fields.Add(new WordFlagsField("flags", "allow on player", "left arm only", "right arm only", "first-person only", "forward only", "reverse only"));
             this.Fields.Add(new PadField("", 2));
         }

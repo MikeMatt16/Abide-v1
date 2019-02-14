@@ -73,7 +73,7 @@ namespace Abide.Tag.Guerilla.Generated
                         "l pull you back in."));
             this.Fields.Add(new RealPoint3dField("Vehicle Sperical Limit Center#Center of space in which vehicle can move."));
             this.Fields.Add(new BlockField<StructureBspDebugInfoBlock>("Debug Info*", 1));
-            this.Fields.Add(new TagReferenceField("Decorators", "DECP"));
+            this.Fields.Add(new TagReferenceField("Decorators", 1145389904));
             this.Fields.Add(new StructField<GlobalStructurePhysicsStructBlock>("structure_physics*"));
             this.Fields.Add(new BlockField<GlobalWaterDefinitionsBlock>("Water Definitions", 1));
             this.Fields.Add(new BlockField<StructurePortalDeviceMappingBlock>(")portal=>device mapping", 1));

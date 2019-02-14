@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public GlobalsObsoleteSoundBlock()
         {
-            this.Fields.Add(new TagReferenceField("", "snd!"));
+            this.Fields.Add(new TagReferenceField("", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the globals_obsolete_sound_block tag block.

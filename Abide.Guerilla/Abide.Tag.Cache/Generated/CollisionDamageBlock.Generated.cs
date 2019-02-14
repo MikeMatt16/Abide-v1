@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public CollisionDamageBlock()
         {
-            this.Fields.Add(new TagReferenceField("collision damage", "jpt!"));
+            this.Fields.Add(new TagReferenceField("collision damage", 1785754657));
             this.Fields.Add(new RealField("min game acc (default)#0-oo"));
             this.Fields.Add(new RealField("max game acc (default)#0-oo"));
             this.Fields.Add(new RealField("min game scale (default)#0-1"));

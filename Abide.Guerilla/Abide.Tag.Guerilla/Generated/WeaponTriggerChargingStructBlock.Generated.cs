@@ -34,9 +34,9 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("spew time:seconds#length of time the weapon will spew (fire continuously) while d" +
                         "ischarging"));
             this.Fields.Add(new TagReferenceField("charging effect#the charging effect is created once when the trigger begins to ch" +
-                        "arge", "����"));
+                        "arge", -3));
             this.Fields.Add(new TagReferenceField("charging damage effect#the charging effect is created once when the trigger begin" +
-                        "s to charge", "jpt!"));
+                        "s to charge", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the weapon_trigger_charging_struct_block tag block.

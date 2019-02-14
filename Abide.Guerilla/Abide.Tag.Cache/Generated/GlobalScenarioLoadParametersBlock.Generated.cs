@@ -24,7 +24,7 @@ namespace Abide.Tag.Cache.Generated
         {
             this.Fields.Add(new ExplanationField("SCENARIO LOAD PARAMETERS", "strip-variant <variant-name>\nstrips a given variant out of the model tag\nstrip-di" +
                         "alogue\nstrips all the dialogue for this model i.e. cinematic only"));
-            this.Fields.Add(new TagReferenceField("scenario^", "scnr"));
+            this.Fields.Add(new TagReferenceField("scenario^", 1935896178));
             this.Fields.Add(new DataField("parameters", 1, 4));
             this.Fields.Add(new PadField("", 32));
         }

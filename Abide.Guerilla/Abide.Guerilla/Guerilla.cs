@@ -39,7 +39,7 @@ namespace Abide.Guerilla
 
                     case FieldType.FieldStringId:
                     case FieldType.FieldOldStringId:
-                        control = new StringControl(field);
+                        control = new StringIdControl(field);
                         break;
 
                     case FieldType.FieldCharInteger:
@@ -53,40 +53,9 @@ namespace Abide.Guerilla
                         break;
 
                     case FieldType.FieldCharEnum:
-                        control = new EnumControl()
-                        {
-                            Field = field,
-                            Title = field.Name,
-                            Information = field.Information,
-                            Details = field.Details,
-                            Options = ((CharEnumField)field).Options.Select(o => o.Name).ToArray(),
-                            Value = field.Value,
-                            ValueChanged = EnumControl_ValueChanged
-                        };
-                        break;
                     case FieldType.FieldEnum:
-                        control = new EnumControl()
-                        {
-                            Field = field,
-                            Title = field.Name,
-                            Information = field.Information,
-                            Details = field.Details,
-                            Options = ((EnumField)field).Options.Select(o => o.Name).ToArray(),
-                            Value = field.Value,
-                            ValueChanged = EnumControl_ValueChanged
-                        };
-                        break;
                     case FieldType.FieldLongEnum:
-                        control = new EnumControl()
-                        {
-                            Field = field,
-                            Title = field.Name,
-                            Information = field.Information,
-                            Details = field.Details,
-                            Options = ((LongEnumField)field).Options.Select(o => o.Name).ToArray(),
-                            Value = field.Value,
-                            ValueChanged = EnumControl_ValueChanged
-                        };
+                        control = new EnumControl(field);
                         break;
 
                     case FieldType.FieldLongFlags:

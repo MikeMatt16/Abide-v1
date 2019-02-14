@@ -22,23 +22,23 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public MultiplayerRuntimeBlock()
         {
-            this.Fields.Add(new TagReferenceField("flag", "item"));
-            this.Fields.Add(new TagReferenceField("ball", "item"));
-            this.Fields.Add(new TagReferenceField("unit", "unit"));
-            this.Fields.Add(new TagReferenceField("flag shader", "shad"));
-            this.Fields.Add(new TagReferenceField("hill shader", "shad"));
-            this.Fields.Add(new TagReferenceField("head", "item"));
-            this.Fields.Add(new TagReferenceField("juggernaut powerup", "item"));
-            this.Fields.Add(new TagReferenceField("da bomb", "item"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("", "����"));
-            this.Fields.Add(new TagReferenceField("", "����"));
+            this.Fields.Add(new TagReferenceField("flag", 1769235821));
+            this.Fields.Add(new TagReferenceField("ball", 1769235821));
+            this.Fields.Add(new TagReferenceField("unit", 1970170228));
+            this.Fields.Add(new TagReferenceField("flag shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("hill shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("head", 1769235821));
+            this.Fields.Add(new TagReferenceField("juggernaut powerup", 1769235821));
+            this.Fields.Add(new TagReferenceField("da bomb", 1769235821));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("", -3));
+            this.Fields.Add(new TagReferenceField("", -3));
             this.Fields.Add(new BlockField<WeaponsBlock>("weapons", 20));
             this.Fields.Add(new BlockField<VehiclesBlock>("vehicles", 20));
             this.Fields.Add(new StructField<GrenadeAndPowerupStructBlock>("arr!"));
-            this.Fields.Add(new TagReferenceField("in game text", "unic"));
+            this.Fields.Add(new TagReferenceField("in game text", 1970170211));
             this.Fields.Add(new BlockField<SoundsBlock>("sounds", 60));
             this.Fields.Add(new BlockField<GameEngineGeneralEventBlock>("general events", 128));
             this.Fields.Add(new BlockField<GameEngineFlavorEventBlock>("flavor events", 128));
@@ -55,8 +55,8 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<GNullBlock>("", 0));
             this.Fields.Add(new BlockField<GNullBlock>("", 0));
             this.Fields.Add(new BlockField<GNullBlock>("", 0));
-            this.Fields.Add(new TagReferenceField("default item collection 1", "itmc"));
-            this.Fields.Add(new TagReferenceField("default item collection 2", "itmc"));
+            this.Fields.Add(new TagReferenceField("default item collection 1", 1769237859));
+            this.Fields.Add(new TagReferenceField("default item collection 2", 1769237859));
             this.Fields.Add(new LongIntegerField("default frag grenade count"));
             this.Fields.Add(new LongIntegerField("default plasma grenade count"));
             this.Fields.Add(new PadField("", 40));
@@ -128,11 +128,11 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new PadField("", 48));
             this.Fields.Add(new BlockField<MultiplayerConstantsBlock>("multiplayer constants", 1));
             this.Fields.Add(new BlockField<GameEngineStatusResponseBlock>("state responses", 32));
-            this.Fields.Add(new TagReferenceField("scoreboard hud definition", "nhdt"));
-            this.Fields.Add(new TagReferenceField("scoreboard emblem shader", "shad"));
-            this.Fields.Add(new TagReferenceField("scoreboard emblem bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("scoreboard dead emblem shader", "shad"));
-            this.Fields.Add(new TagReferenceField("scoreboard dead emblem bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("scoreboard hud definition", 1852335220));
+            this.Fields.Add(new TagReferenceField("scoreboard emblem shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("scoreboard emblem bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("scoreboard dead emblem shader", 1936220516));
+            this.Fields.Add(new TagReferenceField("scoreboard dead emblem bitmap", 1651078253));
         }
         /// <summary>
         /// Gets and returns the name of the multiplayer_runtime_block tag block.

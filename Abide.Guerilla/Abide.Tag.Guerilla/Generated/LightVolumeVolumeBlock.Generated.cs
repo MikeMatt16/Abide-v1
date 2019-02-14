@@ -26,7 +26,7 @@ namespace Abide.Tag.Guerilla.Generated
 
 Be careful with the 'fuzzy' flag! It should be used on very wide light volumes to make them blend smoothly into solid geometry rather than ""cutting"" into the zbuffer. Using this feature will make light volumes several times slower when they fill a large portion of the screen."));
             this.Fields.Add(new LongFlagsField("flags", "force linear radius function", "force linear offset", "force differential evaluation", "fuzzy", "not scaled by event duration", "scaled by marker"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new LongIntegerField("sprite count:[4,256]"));
             this.Fields.Add(new ExplanationField("OFFSET", @"This function controls the offset along the projected forward axis of the light volume. The output range of this function is the distance in WORLD UNITS from the origin where the first and last sprite are rendered. The input to this function is the fractional value (from 0 to 1) along the projected axis. Using a transition function such as ""late"" will result in more sprites being bunched up towards the origin and spaced further apart near the end.
 

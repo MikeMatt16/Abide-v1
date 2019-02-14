@@ -45,9 +45,9 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealPoint2dField("secondary offset"));
             this.Fields.Add(new RealPoint2dField("tertiary offset"));
             this.Fields.Add(new ExplanationField("map", "which maps to use"));
-            this.Fields.Add(new TagReferenceField("primary", "bitm"));
-            this.Fields.Add(new TagReferenceField("secondary", "bitm"));
-            this.Fields.Add(new TagReferenceField("tertiary", "bitm"));
+            this.Fields.Add(new TagReferenceField("primary", 1651078253));
+            this.Fields.Add(new TagReferenceField("secondary", 1651078253));
+            this.Fields.Add(new TagReferenceField("tertiary", 1651078253));
             this.Fields.Add(new EnumField("primary wrap mode", "clamp", "wrap"));
             this.Fields.Add(new EnumField("secondary wrap mode", "clamp", "wrap"));
             this.Fields.Add(new EnumField("tertiary wrap mode", "clamp", "wrap"));

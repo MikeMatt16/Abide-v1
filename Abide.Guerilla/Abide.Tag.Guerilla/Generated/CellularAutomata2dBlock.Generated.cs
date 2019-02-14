@@ -51,7 +51,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ShortIntegerField("texture width:cells"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 48));
-            this.Fields.Add(new TagReferenceField("texture", "bitm"));
+            this.Fields.Add(new TagReferenceField("texture", 1651078253));
             this.Fields.Add(new PadField("", 160));
             this.Fields.Add(new BlockField<RulesBlock>("rules", 16));
         }

@@ -22,15 +22,15 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ShaderPropertiesBlock()
         {
-            this.Fields.Add(new TagReferenceField("Diffuse Map*", "bitm"));
-            this.Fields.Add(new TagReferenceField("Lightmap Emissive Map*", "bitm"));
+            this.Fields.Add(new TagReferenceField("Diffuse Map*", 1651078253));
+            this.Fields.Add(new TagReferenceField("Lightmap Emissive Map*", 1651078253));
             this.Fields.Add(new RealRgbColorField("Lightmap Emissive Color*"));
             this.Fields.Add(new RealField("Lightmap Emissive Power*"));
             this.Fields.Add(new RealField("Lightmap Resolution Scale*"));
             this.Fields.Add(new RealField("Lightmap Half Life*"));
             this.Fields.Add(new RealField("Lightmap Diffuse Scale*"));
-            this.Fields.Add(new TagReferenceField("Alpha Test Map*", "bitm"));
-            this.Fields.Add(new TagReferenceField("Translucent Map*", "bitm"));
+            this.Fields.Add(new TagReferenceField("Alpha Test Map*", 1651078253));
+            this.Fields.Add(new TagReferenceField("Translucent Map*", 1651078253));
             this.Fields.Add(new RealRgbColorField("Lightmap Transparent Color*"));
             this.Fields.Add(new RealField("Lightmap Transparent Alpha*"));
             this.Fields.Add(new RealField("Lightmap Foliage Scale*"));

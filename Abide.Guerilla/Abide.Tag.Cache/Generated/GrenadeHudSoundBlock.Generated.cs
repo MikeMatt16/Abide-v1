@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public GrenadeHudSoundBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound^", "����"));
+            this.Fields.Add(new TagReferenceField("sound^", -3));
             this.Fields.Add(new LongFlagsField("latched to", "low grenade count", "no grenades left", "throw on no grenades"));
             this.Fields.Add(new RealField("scale"));
             this.Fields.Add(new PadField("", 32));

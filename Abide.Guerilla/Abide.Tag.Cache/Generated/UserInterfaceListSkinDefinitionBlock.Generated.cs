@@ -23,7 +23,7 @@ namespace Abide.Tag.Cache.Generated
         public UserInterfaceListSkinDefinitionBlock()
         {
             this.Fields.Add(new LongFlagsField("list flags", "unused"));
-            this.Fields.Add(new TagReferenceField("arrows bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("arrows bitmap", 1651078253));
             this.Fields.Add(new Point2dField("up-arrows offset:from bot-left of 1st item"));
             this.Fields.Add(new Point2dField("down-arrows offset:from bot-left of 1st item"));
             this.Fields.Add(new ExplanationField("Item Animations", "Animations ordered as follows:\n0) list item focused\n1) list item unfocused\n2) lis" +

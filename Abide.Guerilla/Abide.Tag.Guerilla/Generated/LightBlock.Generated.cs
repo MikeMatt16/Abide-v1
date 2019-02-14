@@ -60,7 +60,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealRgbColorField("diffuse upper bound"));
             this.Fields.Add(new RealBoundsField("brightness bounds:[0..2]"));
             this.Fields.Add(new ExplanationField("GEL", "the gel map tints the light\'s illumination per-pixel"));
-            this.Fields.Add(new TagReferenceField("gel map#must be a cubemap for spherical light and a 2d texture for frustum light", "bitm"));
+            this.Fields.Add(new TagReferenceField("gel map#must be a cubemap for spherical light and a 2d texture for frustum light", 1651078253));
             this.Fields.Add(new EnumField("specular mask", "default", "none (no mask)", "gel alpha", "gel color"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 4));
@@ -70,10 +70,10 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new EnumField("specular contrast", "default (one)", "high (linear)", "low", "very low"));
             this.Fields.Add(new EnumField("falloff geometry", "default", "directional", "spherical"));
             this.Fields.Add(new ExplanationField("LENS FLARE", "optional lens flare and light volume associated with this light"));
-            this.Fields.Add(new TagReferenceField("lens flare", "lens"));
+            this.Fields.Add(new TagReferenceField("lens flare", 1818586739));
             this.Fields.Add(new RealField("bounding radius:world units#used to generate a bounding radius for lensflare-only" +
                         " lights"));
-            this.Fields.Add(new TagReferenceField("light volume", "MGS2"));
+            this.Fields.Add(new TagReferenceField("light volume", 1296519986));
             this.Fields.Add(new ExplanationField("RADIOSITY", "how the light affects the lightmaps (ignored for dynamic lights)"));
             this.Fields.Add(new EnumField("default lightmap setting", "dynamic only", "dynamic with lightmaps", "lightmaps only"));
             this.Fields.Add(new PadField("", 2));
@@ -95,7 +95,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new BlockField<LightColorAnimationBlock>("color animation", 1));
             this.Fields.Add(new BlockField<LightGelAnimationBlock>("gel animation", 1));
             this.Fields.Add(new ExplanationField("SHADER", ""));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
         }
         /// <summary>
         /// Gets and returns the name of the light_block tag block.

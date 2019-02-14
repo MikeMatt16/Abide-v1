@@ -27,7 +27,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new EnumField("can use on map type", "any", "solo", "multiplayer"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 28));
-            this.Fields.Add(new TagReferenceField("Crosshair bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("Crosshair bitmap", 1651078253));
             this.Fields.Add(new BlockField<WeaponHudCrosshairItemBlock>("Crosshair overlays", 16));
             this.Fields.Add(new PadField("", 40));
         }

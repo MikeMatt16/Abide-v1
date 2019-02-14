@@ -24,7 +24,7 @@ namespace Abide.Tag.Guerilla.Generated
         {
             this.Fields.Add(new WordFlagsField("sound flags", "announcer sound"));
             this.Fields.Add(new PadField("", 2));
-            this.Fields.Add(new TagReferenceField("english sound^", "snd!"));
+            this.Fields.Add(new TagReferenceField("english sound^", 1936614433));
             this.Fields.Add(new StructField<SoundResponseExtraSoundsStructBlock>("extra sounds"));
             this.Fields.Add(new RealField("probability"));
         }

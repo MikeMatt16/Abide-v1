@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public WeaponHudInterfaceBlock()
         {
-            this.Fields.Add(new TagReferenceField("child hud", "wphi"));
+            this.Fields.Add(new TagReferenceField("child hud", 2003855465));
             this.Fields.Add(new ExplanationField("Flash cutoffs", ""));
             this.Fields.Add(new WordFlagsField("flags", "use parent hud flashing parameters"));
             this.Fields.Add(new PadField("", 2));

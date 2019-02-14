@@ -23,8 +23,8 @@ namespace Abide.Tag.Guerilla.Generated
         public ScenarioDescriptionBlock()
         {
             this.Fields.Add(new ExplanationField("net map info", "these provide the info required by the UI to load a net map"));
-            this.Fields.Add(new TagReferenceField("descriptive bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("displayed map name", "unic"));
+            this.Fields.Add(new TagReferenceField("descriptive bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("displayed map name", 1970170211));
             this.Fields.Add(new StringField("scenario tag directory path#this is the path to the directory containing the scen" +
                         "ario tag file of the same name"));
             this.Fields.Add(new PadField("", 4));

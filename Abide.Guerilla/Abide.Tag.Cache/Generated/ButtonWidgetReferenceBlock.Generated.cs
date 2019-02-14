@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new EnumField("custom font", "terminal", "body text", "title", "super large font", "large body text", "split screen hud message", "full screen hud message", "english body text", "HUD number text", "subtitle font", "main menu font", "text chat font"));
             this.Fields.Add(new RealArgbColorField("text color"));
             this.Fields.Add(new Rectangle2dField("bounds"));
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
             this.Fields.Add(new Point2dField("bitmap offset#from top-left"));
             this.Fields.Add(new StringIdField("string id"));
             this.Fields.Add(new ShortIntegerField("render depth bias"));

@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public GlobalWaterDefinitionsBlock()
         {
-            this.Fields.Add(new TagReferenceField("Shader", "shad"));
+            this.Fields.Add(new TagReferenceField("Shader", 1936220516));
             this.Fields.Add(new BlockField<WaterGeometrySectionBlock>("Section", 1));
             this.Fields.Add(new StructField<GlobalGeometryBlockInfoStructBlock>("Geometry Block Info*"));
             this.Fields.Add(new RealRgbColorField("Sun Spot Color"));

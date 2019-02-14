@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public TextValuePairBlock()
         {
-            this.Fields.Add(new TagReferenceField("value pairs^", "sily"));
+            this.Fields.Add(new TagReferenceField("value pairs^", 1936288889));
         }
         /// <summary>
         /// Gets and returns the name of the text_value_pair_block tag block.

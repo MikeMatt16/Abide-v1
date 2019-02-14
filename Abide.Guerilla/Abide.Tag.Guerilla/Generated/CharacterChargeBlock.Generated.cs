@@ -36,7 +36,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new RealField("max leap velocity"));
             this.Fields.Add(new RealField("melee leap ballistic"));
             this.Fields.Add(new RealField("melee delay timer:seconds#time between melee leaps"));
-            this.Fields.Add(new TagReferenceField("berserk weapon#when I berserk, I pull out a ...", "weap"));
+            this.Fields.Add(new TagReferenceField("berserk weapon#when I berserk, I pull out a ...", 2003132784));
         }
         /// <summary>
         /// Gets and returns the name of the character_charge_block tag block.

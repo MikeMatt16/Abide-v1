@@ -28,7 +28,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new StringIdField("ffa message"));
             this.Fields.Add(new StringIdField("team message"));
-            this.Fields.Add(new TagReferenceField("", "����"));
+            this.Fields.Add(new TagReferenceField("", -3));
             this.Fields.Add(new PadField("", 4));
         }
         /// <summary>

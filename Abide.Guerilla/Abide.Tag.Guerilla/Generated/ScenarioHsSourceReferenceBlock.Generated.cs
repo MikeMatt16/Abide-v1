@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioHsSourceReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("Reference*", "hsc*"));
+            this.Fields.Add(new TagReferenceField("Reference*", 1752392490));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_hs_source_reference_block tag block.

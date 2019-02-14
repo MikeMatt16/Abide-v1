@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public HavokCleanupResourcesBlock()
         {
-            this.Fields.Add(new TagReferenceField("object cleanup effect", "effe"));
+            this.Fields.Add(new TagReferenceField("object cleanup effect", 1701209701));
         }
         /// <summary>
         /// Gets and returns the name of the havok_cleanup_resources_block tag block.

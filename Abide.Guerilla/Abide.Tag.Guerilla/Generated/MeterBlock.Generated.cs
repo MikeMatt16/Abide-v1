@@ -23,9 +23,9 @@ namespace Abide.Tag.Guerilla.Generated
         public MeterBlock()
         {
             this.Fields.Add(new LongFlagsField("flags"));
-            this.Fields.Add(new TagReferenceField("stencil bitmaps#two bitmaps specifying the mask and the meter levels", "bitm"));
+            this.Fields.Add(new TagReferenceField("stencil bitmaps#two bitmaps specifying the mask and the meter levels", 1651078253));
             this.Fields.Add(new TagReferenceField("source bitmap#optional bitmap to draw into the unmasked regions of the meter (mod" +
-                        "ulated by the colors below)", "bitm"));
+                        "ulated by the colors below)", 1651078253));
             this.Fields.Add(new ShortIntegerField("stencil sequence index"));
             this.Fields.Add(new ShortIntegerField("source sequence index"));
             this.Fields.Add(new PadField("", 16));

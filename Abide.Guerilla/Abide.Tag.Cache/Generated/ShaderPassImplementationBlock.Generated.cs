@@ -26,7 +26,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new BlockField<ShaderPassTextureBlock>("Textures", 8));
             this.Fields.Add(new ExplanationField("VERTEX SHADER", ""));
-            this.Fields.Add(new TagReferenceField("Vertex Shader", "vrtx"));
+            this.Fields.Add(new TagReferenceField("Vertex Shader", 1987212408));
             this.Fields.Add(new BlockField<ShaderPassVertexShaderConstantBlock>("vs Constants", 32));
             this.Fields.Add(new DataField("Pixel Shader Code [NO LONGER USED]", 1, 4));
             this.Fields.Add(new ExplanationField("STATE", ""));
@@ -42,7 +42,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new BlockField<ShaderStateFillStateBlock>("fill state", 1));
             this.Fields.Add(new BlockField<ShaderStateMiscStateBlock>("misc state", 1));
             this.Fields.Add(new BlockField<ShaderStateConstantBlock>("constants", 7));
-            this.Fields.Add(new TagReferenceField("Pixel Shader", "pixl"));
+            this.Fields.Add(new TagReferenceField("Pixel Shader", 1885960300));
         }
         /// <summary>
         /// Gets and returns the name of the shader_pass_implementation_block tag block.

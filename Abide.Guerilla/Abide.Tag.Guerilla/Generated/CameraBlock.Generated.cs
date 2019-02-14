@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public CameraBlock()
         {
-            this.Fields.Add(new TagReferenceField("default unit camera track", "trak"));
+            this.Fields.Add(new TagReferenceField("default unit camera track", 1953653099));
             this.Fields.Add(new RealField("default change pause"));
             this.Fields.Add(new RealField("first person change pause"));
             this.Fields.Add(new RealField("following camera change pause"));

@@ -23,11 +23,11 @@ namespace Abide.Tag.Cache.Generated
         public StructureBspWeatherPaletteBlock()
         {
             this.Fields.Add(new StringField("Name^"));
-            this.Fields.Add(new TagReferenceField("Weather System", "weat"));
+            this.Fields.Add(new TagReferenceField("Weather System", 2003132788));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("Wind", "wind"));
+            this.Fields.Add(new TagReferenceField("Wind", 2003398244));
             this.Fields.Add(new RealVector3dField("Wind Direction"));
             this.Fields.Add(new RealField("Wind Magnitude"));
             this.Fields.Add(new PadField("", 4));

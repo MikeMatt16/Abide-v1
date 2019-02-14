@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ObjectAttachmentBlock()
         {
-            this.Fields.Add(new TagReferenceField("type^", "����"));
+            this.Fields.Add(new TagReferenceField("type^", -3));
             this.Fields.Add(new OldStringIdField("marker"));
             this.Fields.Add(new EnumField("change color", "none", "primary", "secondary", "tertiary", "quaternary"));
             this.Fields.Add(new PadField("", 2));

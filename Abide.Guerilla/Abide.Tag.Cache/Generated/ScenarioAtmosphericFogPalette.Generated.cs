@@ -51,7 +51,7 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new RealFractionBoundsField("Patchy Density:[0,1]"));
             this.Fields.Add(new RealBoundsField("Patchy Distance:World Units"));
             this.Fields.Add(new PadField("", 32));
-            this.Fields.Add(new TagReferenceField("Patchy Fog", "fpch"));
+            this.Fields.Add(new TagReferenceField("Patchy Fog", 1718641512));
             this.Fields.Add(new BlockField<ScenarioAtmosphericFogMixerBlock>("Mixers", 2));
             this.Fields.Add(new ExplanationField("BLOOM OVERRIDE", ""));
             this.Fields.Add(new RealFractionField("Amount:[0,1]"));

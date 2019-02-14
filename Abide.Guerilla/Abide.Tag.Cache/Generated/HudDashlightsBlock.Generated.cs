@@ -22,11 +22,11 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public HudDashlightsBlock()
         {
-            this.Fields.Add(new TagReferenceField("bitmap", "bitm"));
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("bitmap", 1651078253));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new ShortIntegerField("sequence index"));
             this.Fields.Add(new WordFlagsField("flags", "don\'t scale when pulsing"));
-            this.Fields.Add(new TagReferenceField("sound", "snd!"));
+            this.Fields.Add(new TagReferenceField("sound", 1936614433));
         }
         /// <summary>
         /// Gets and returns the name of the hud_dashlights_block tag block.

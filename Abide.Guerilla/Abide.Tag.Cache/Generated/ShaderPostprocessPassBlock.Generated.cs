@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public ShaderPostprocessPassBlock()
         {
-            this.Fields.Add(new TagReferenceField("shader pass", "spas"));
+            this.Fields.Add(new TagReferenceField("shader pass", 1936744819));
             this.Fields.Add(new StructField<TagBlockIndexStructBlock>("implementations"));
         }
         /// <summary>

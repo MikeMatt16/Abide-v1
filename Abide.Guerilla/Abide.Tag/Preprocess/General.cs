@@ -160,7 +160,8 @@ namespace Abide.Tag.Preprocess
                 { Alignment = 4 },
                 MaximumElementCount = short.MaxValue
             };
-            globalsObsoleteSoundBlock.FieldSet.Add(new AbideTagField() { FieldType = FieldType.FieldTagReference, GroupTag = "snd!" });
+            globalsObsoleteSoundBlock.FieldSet.Add(new AbideTagField() { FieldType = FieldType.FieldTagReference,
+                GroupTag = (int)new HaloLibrary.TagFourCc("snd!").Dword });
             globalsObsoleteSoundBlock.FieldSet.Add(new AbideTagField() { FieldType = FieldType.FieldTerminator });
 
             //Create multilingual unicode globals block

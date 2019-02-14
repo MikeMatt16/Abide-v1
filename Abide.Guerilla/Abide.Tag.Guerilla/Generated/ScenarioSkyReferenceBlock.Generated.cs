@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public ScenarioSkyReferenceBlock()
         {
-            this.Fields.Add(new TagReferenceField("Sky", "sky "));
+            this.Fields.Add(new TagReferenceField("Sky", 1936423200));
         }
         /// <summary>
         /// Gets and returns the name of the scenario_sky_reference_block tag block.

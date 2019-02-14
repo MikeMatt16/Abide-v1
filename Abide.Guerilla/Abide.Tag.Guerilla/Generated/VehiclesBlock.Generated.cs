@@ -22,7 +22,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public VehiclesBlock()
         {
-            this.Fields.Add(new TagReferenceField("vehicle^", "vehi"));
+            this.Fields.Add(new TagReferenceField("vehicle^", 1986357353));
         }
         /// <summary>
         /// Gets and returns the name of the vehicles_block tag block.

@@ -27,7 +27,7 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new LongIntegerField("structure checksum"));
             this.Fields.Add(new BlockField<StructureLightmapPaletteColorBlock>("section palette", 128));
             this.Fields.Add(new BlockField<StructureLightmapPaletteColorBlock>("writable palettes", 128));
-            this.Fields.Add(new TagReferenceField("bitmap group", "bitm"));
+            this.Fields.Add(new TagReferenceField("bitmap group", 1651078253));
             this.Fields.Add(new BlockField<LightmapGeometrySectionBlock>("clusters", 512));
             this.Fields.Add(new BlockField<LightmapGeometryRenderInfoBlock>("cluster render info", 1024));
             this.Fields.Add(new BlockField<LightmapGeometrySectionBlock>("poop definitions", 512));

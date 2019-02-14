@@ -22,10 +22,10 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public SoundGlobalsBlock()
         {
-            this.Fields.Add(new TagReferenceField("sound classes", "sncl"));
-            this.Fields.Add(new TagReferenceField("sound effects", "sfx+"));
-            this.Fields.Add(new TagReferenceField("sound mix", "snmx"));
-            this.Fields.Add(new TagReferenceField("sound combat dialogue constants", "spk!"));
+            this.Fields.Add(new TagReferenceField("sound classes", 1936614252));
+            this.Fields.Add(new TagReferenceField("sound effects", 1936095275));
+            this.Fields.Add(new TagReferenceField("sound mix", 1936616824));
+            this.Fields.Add(new TagReferenceField("sound combat dialogue constants", 1936747297));
             this.Fields.Add(new TagIndexField(""));
         }
         /// <summary>

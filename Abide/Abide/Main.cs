@@ -1,5 +1,4 @@
-﻿using Abide.DebugXbox;
-using Abide.Dialogs;
+﻿using Abide.Dialogs;
 using Abide.Forms;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
+using YeloDebug;
 
 namespace Abide
 {
@@ -17,10 +17,11 @@ namespace Abide
         /// <summary>
         /// Gets and returns the primary Debug Xbox connection.
         /// </summary>
-        public Xbox DebugXbox { get; private set; } = new Xbox();
+        public Xbox DebugXbox { get; private set; }
 
         public Main()
         {
+            DebugXbox = new Xbox(Application.StartupPath);
             InitializeComponent();
             mainMenuStrip.Renderer = new AbideToolStripRenderer();
             recentFiles_Init();
@@ -404,11 +405,11 @@ namespace Abide
 
             //Connect/Disconnect...
             if (connected) { DebugXbox.Disconnect(); }
-            else try { DebugXbox = NameAnsweringProtocol.Discover().FirstOrDefault(); DebugXbox.Connect(); }
+            else try { DebugXbox.Connect(); }
                 catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 
             //Set Text
-            if (DebugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect from {DebugXbox.Name} ({DebugXbox.RemoteEndPoint})";
+            if (DebugXbox.Connected) quickConnectToolStripMenuItem.Text = $"Disconnect from {DebugXbox.DebugName} ({DebugXbox.DebugIP})";
             else quickConnectToolStripMenuItem.Text = "Quick Connect";
 
             //State Changed

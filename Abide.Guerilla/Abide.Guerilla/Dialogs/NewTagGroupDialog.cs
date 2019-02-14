@@ -1,4 +1,6 @@
 ﻿using Abide.HaloLibrary;
+using Abide.Tag;
+using Abide.Tag.Guerilla.Generated;
 using System;
 using System.Windows.Forms;
 
@@ -9,11 +11,7 @@ namespace Abide.Guerilla.Dialogs
         /// <summary>
         /// Gets and returns the selected tag group.
         /// </summary>
-        public Tag.Group SelectedGroup { get; private set; } = null;
-        /// <summary>
-        /// Gets and returns the name of the tag group.
-        /// </summary>
-        public string FileName => nameTextBox.Text;
+        public ITagGroup SelectedGroup { get; private set; } = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewTagGroupDialog"/> class.
@@ -30,11 +28,16 @@ namespace Abide.Guerilla.Dialogs
         private void tagGroupComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Set
-            try { SelectedGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup((TagFourCc)tagGroupComboBox.SelectedItem); }
+            try { SelectedGroup = TagLookup.CreateTagGroup((TagFourCc)tagGroupComboBox.SelectedItem); }
             catch { SelectedGroup = null; }
 
             //Enable
             okButton.Enabled = SelectedGroup != null;
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

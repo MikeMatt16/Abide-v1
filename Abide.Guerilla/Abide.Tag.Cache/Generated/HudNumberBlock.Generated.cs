@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public HudNumberBlock()
         {
-            this.Fields.Add(new TagReferenceField("digits bitmap", "bitm"));
+            this.Fields.Add(new TagReferenceField("digits bitmap", 1651078253));
             this.Fields.Add(new CharIntegerField("bitmap digit width"));
             this.Fields.Add(new CharIntegerField("screen digit width"));
             this.Fields.Add(new CharIntegerField("x offset"));

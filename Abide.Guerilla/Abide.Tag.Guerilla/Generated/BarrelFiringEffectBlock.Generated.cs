@@ -26,14 +26,14 @@ namespace Abide.Tag.Guerilla.Generated
                         "d, once it has been chosen"));
             this.Fields.Add(new ShortIntegerField("shot count upper bound#the maximum number of times this firing effect will be use" +
                         "d, once it has been chosen"));
-            this.Fields.Add(new TagReferenceField("firing effect^#this effect is used when the weapon is loaded and fired normally", "����"));
+            this.Fields.Add(new TagReferenceField("firing effect^#this effect is used when the weapon is loaded and fired normally", -3));
             this.Fields.Add(new TagReferenceField("misfire effect#this effect is used when the weapon is loaded but fired while over" +
-                        "heated", "����"));
-            this.Fields.Add(new TagReferenceField("empty effect#this effect is used when the weapon is not loaded", "����"));
-            this.Fields.Add(new TagReferenceField("firing damage#this effect is used when the weapon is loaded and fired normally", "jpt!"));
+                        "heated", -3));
+            this.Fields.Add(new TagReferenceField("empty effect#this effect is used when the weapon is not loaded", -3));
+            this.Fields.Add(new TagReferenceField("firing damage#this effect is used when the weapon is loaded and fired normally", 1785754657));
             this.Fields.Add(new TagReferenceField("misfire damage#this effect is used when the weapon is loaded but fired while over" +
-                        "heated", "jpt!"));
-            this.Fields.Add(new TagReferenceField("empty damage#this effect is used when the weapon is not loaded", "jpt!"));
+                        "heated", 1785754657));
+            this.Fields.Add(new TagReferenceField("empty damage#this effect is used when the weapon is not loaded", 1785754657));
         }
         /// <summary>
         /// Gets and returns the name of the barrel_firing_effect_block tag block.

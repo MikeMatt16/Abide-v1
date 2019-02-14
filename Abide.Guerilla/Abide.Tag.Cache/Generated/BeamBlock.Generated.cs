@@ -22,7 +22,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public BeamBlock()
         {
-            this.Fields.Add(new TagReferenceField("shader", "shad"));
+            this.Fields.Add(new TagReferenceField("shader", 1936220516));
             this.Fields.Add(new ShortBlockIndexField("location"));
             this.Fields.Add(new PadField("", 2));
             this.Fields.Add(new ExplanationField("COLOR", "tint color of the beam"));
