@@ -1,5 +1,4 @@
-﻿using System;
-using Abide.Tag.Definition;
+﻿using Abide.Tag.Definition;
 
 namespace Abide.Tag.Preprocess
 {
@@ -109,11 +108,7 @@ namespace Abide.Tag.Preprocess
         {
             //Rename field 12
             block.FieldSet[12].Name = "sprite size";
-
-            //Change data fields to pad
-            block.FieldSet[17].FieldType = FieldType.FieldPad; block.FieldSet[17].Length = 8;
-            block.FieldSet[19].FieldType = FieldType.FieldPad; block.FieldSet[19].Length = 8;
-
+            
             //Remove WDP fields
             block.FieldSet.RemoveAt(35);
             block.FieldSet.RemoveAt(34);

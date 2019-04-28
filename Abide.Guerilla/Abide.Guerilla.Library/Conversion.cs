@@ -27,12 +27,12 @@ namespace Abide.Guerilla.Library
             if (cacheTagGroup == null) throw new ArgumentNullException(nameof(cacheTagGroup));
             if ((tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(cacheTagGroup.GroupTag)) != null)
             {
-                switch (tagGroup.GroupTag)
+                switch (tagGroup.Name)
                 {
-                    case HaloTags.snd_:
+                    case "sound":
                         tagGroup = CacheFileSound_ToGuerilla(cacheTagGroup, soundCacheFileGestalt, map);
                         break;
-                    case HaloTags.unic:
+                    case "multilingual_unicode_string_list":
                         tagGroup = MultilingualUnicode_ToGuerilla(cacheTagGroup, entry.Strings);
                         break;
                     default:
@@ -119,7 +119,54 @@ namespace Abide.Guerilla.Library
                 }
             }
         }
-        
+
+        private static ITagGroup Bitmap_ToGuerilla(ITagGroup cacheBitmap, RawList bitmapData, MapFile map)
+        {
+            //Prepare
+            ITagGroup bitmap = new Abide.Tag.Guerilla.Generated.Bitmap();
+            ITagBlock cacheBitmapBlock = cacheBitmap[0];
+            ITagBlock bitmapBlock = bitmap[0];
+
+            //Create stream
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter bitmapDataWriter = new BinaryWriter(ms))
+            {
+                //Prepare
+                BaseBlockField cacheSequences = (BaseBlockField)cacheBitmapBlock.Fields[28];
+                BaseBlockField cacheBitmaps = (BaseBlockField)cacheBitmapBlock.Fields[29];
+                BaseBlockField sequences = (BaseBlockField)bitmapBlock.Fields[28];
+                BaseBlockField bitmaps = (BaseBlockField)bitmapBlock.Fields[29];
+
+                //Convert fields
+                for (int i = 0; i < 28; i++)
+                {
+                    if (bitmapBlock.Fields[i].Type != FieldType.FieldData)
+                        bitmapBlock.Fields[i].Value = cacheBitmapBlock.Fields[i].Value;
+                }
+
+                //Copy sequence tag blocks
+                foreach (ITagBlock cacheBitmapSequenceBlock in cacheSequences.BlockList)
+                {
+                    ITagBlock bitmapSequenceBlock = sequences.Add(out bool success);
+                    if (success) TagBlock_ToGuerilla(bitmapSequenceBlock, cacheBitmapSequenceBlock, map);
+                }
+
+                //Copy bitmap data tag blocks
+                foreach (ITagBlock cacheBitmapDataBlock in cacheBitmaps.BlockList)
+                {
+                    ITagBlock bitmapDataBlock = bitmaps.Add(out bool success);
+                    if(success)
+                    {
+                        //Convert
+                        TagBlock_ToGuerilla(bitmapDataBlock, cacheBitmapDataBlock, map);
+                    }
+                }
+            }
+
+            //Return
+            return bitmap;
+        }
+
         private static ITagGroup MultilingualUnicode_ToGuerilla(ITagGroup multilingualUnicodeStringList, StringContainer strings)
         {
             //Get string IDs

@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AE90EBBC-3C67-4E3B-AE2B-54336144313E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Abide.Guerilla.Library</RootNamespace>
-    <AssemblyName>Abide.Guerilla.Library</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <ProjectGuid>{1068D740-84F4-4865-9970-4A5D4F4C4284}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Abide.Guerilla.Tool</RootNamespace>
+    <AssemblyName>Abide Guerilla Tools</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,34 +39,63 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbideProjectFile.cs" />
-    <Compile Include="CacheResources.cs" />
-    <Compile Include="Conversion.cs" />
-    <Compile Include="DefaultStrings.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="GuerillaException.cs" />
-    <Compile Include="GuerillaTagFile.cs" />
+    <Compile Include="Bitmap\BitmapTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bitmap\BitmapTool.Designer.cs">
+      <DependentUpon>BitmapTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Bitmap\BitmapTool.resx">
+      <DependentUpon>BitmapTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RegistrySettings.cs" />
-    <Compile Include="ResourceManager.cs" />
-    <Compile Include="SharedResources.cs" />
-    <Compile Include="Structures.cs" />
-    <Compile Include="Tag.cs" />
-    <Compile Include="TagGroupFile.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
       <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
       <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
+      <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
+      <Name>Abide.Guerilla.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
       <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
@@ -77,18 +109,6 @@
       <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>
       <Name>Abide.Tag</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\combat_dialogue_constants.bin" />
-    <None Include="Resources\multiplayer_shared_globals.bin" />
-    <None Include="Resources\sound_classes.bin" />
-    <None Include="Resources\tags_data.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

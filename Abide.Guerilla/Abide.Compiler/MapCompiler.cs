@@ -40,28 +40,28 @@ namespace Abide.Compiler
         /// <summary>
         /// Returns the scenario tag group file.
         /// </summary>
-        public TagGroupFile ScenarioFile { get; } = new TagGroupFile();
+        public AbideTagGroupFile ScenarioFile { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the sound cache file gestalt tag group file.
         /// </summary>
-        public TagGroupFile SoundCacheFileGestaltFile { get; } = new TagGroupFile();
+        public AbideTagGroupFile SoundCacheFileGestaltFile { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the globals tag group file.
         /// </summary>
-        public TagGroupFile GlobalsFile { get; } = new TagGroupFile();
+        public AbideTagGroupFile GlobalsFile { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the sound classes tag group file.
         /// </summary>
-        public TagGroupFile SoundClasses { get; } = new TagGroupFile();
+        public AbideTagGroupFile SoundClasses { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the combat dialog constants tag group file.
         /// </summary>
-        public TagGroupFile CombatDialogueConstant { get; } = new TagGroupFile();
+        public AbideTagGroupFile CombatDialogueConstant { get; } = new AbideTagGroupFile();
         
         private readonly string m_ScenarioFileName;
         private readonly string m_WorkspaceDirectory;
         private readonly MapFile m_ResourceMapFile = new MapFile();
-        private readonly Dictionary<string, TagGroupFile> m_TagResources = new Dictionary<string, TagGroupFile>();
+        private readonly Dictionary<string, AbideTagGroupFile> m_TagResources = new Dictionary<string, AbideTagGroupFile>();
         private readonly MultilingualUnicodeStringsContainer m_MultilingualUnicodeStringsContainer = new MultilingualUnicodeStringsContainer();
         private List<string> m_StringsList = new List<string>();
         private TagId m_CurrentId = TagId.Null;
@@ -117,10 +117,10 @@ namespace Abide.Compiler
             SoundCacheFileGestaltFile.Id = m_CurrentId++;
 
             //Order resources
-            Dictionary<string, TagGroupFile> orderedTagResources = m_TagResources.OrderBy(kvp => kvp.Value.Id).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<string, AbideTagGroupFile> orderedTagResources = m_TagResources.OrderBy(kvp => kvp.Value.Id).ToDictionary(x => x.Key, x => x.Value);
 
             //Process
-            foreach (KeyValuePair<string, TagGroupFile> resource in orderedTagResources)
+            foreach (KeyValuePair<string, AbideTagGroupFile> resource in orderedTagResources)
             {
                 //Process
                 Console.WriteLine("Processing {0} tag \'{1}\'", resource.Value.TagGroup.Name, resource.Key);
@@ -171,10 +171,10 @@ namespace Abide.Compiler
             Console.WriteLine("Cache file created in {0} seconds.", (DateTime.Now - start).TotalSeconds);
         }
 
-        private void Map_BuildFile(Dictionary<string, TagGroupFile> tagResources)
+        private void Map_BuildFile(Dictionary<string, AbideTagGroupFile> tagResources)
         {
             //Get Tag References
-            TagGroupFile[] references = tagResources.Select(kvp => kvp.Value).ToArray();
+            AbideTagGroupFile[] references = tagResources.Select(kvp => kvp.Value).ToArray();
             string[] tagNames = tagResources.Select(kvp => kvp.Key.Substring(0, kvp.Key.LastIndexOf('.'))).ToArray();
 
             //Prepare
@@ -269,7 +269,7 @@ namespace Abide.Compiler
                     {
                         //Skip header
                         bspDataStream.Seek(StructureBspBlockHeader.Length, SeekOrigin.Current);
-                        TagGroupFile structureBspFile, structureLightmapFile;
+                        AbideTagGroupFile structureBspFile, structureLightmapFile;
                         if (tagResources.Any(kvp => kvp.Value.Id == structureBspTagReference.Id.Dword))
                         {
                             //Write
@@ -554,7 +554,7 @@ namespace Abide.Compiler
                 };
 
                 //Write bitmaps
-                foreach (TagGroupFile tagGroupFile in references.Where(r => r.TagGroup.GroupTag == HaloTags.bitm))  //bitmap
+                foreach (AbideTagGroupFile tagGroupFile in references.Where(r => r.TagGroup.GroupTag == HaloTags.bitm))  //bitmap
                     TagGroupFile_WriteRaws(tagGroupFile, fs, mapWriter);
 
                 //Log
@@ -569,7 +569,7 @@ namespace Abide.Compiler
                     for (int i = 0; i < references.Length; i++)
                     {
                         //Check
-                        TagGroupFile tagGroupFile = references[i];
+                        AbideTagGroupFile tagGroupFile = references[i];
                         objects[i] = new ObjectEntry() { Id = references[i].Id, Tag = references[i].TagGroup.GroupTag };
                         if (objects[i].Tag == HaloTags.sbsp || objects[i].Tag == HaloTags.ltmp) continue;
 
@@ -708,7 +708,7 @@ namespace Abide.Compiler
             }
         }
 
-        private void Tag_Process(TagGroupFile value)
+        private void Tag_Process(AbideTagGroupFile value)
         {
             //Process
             Tag_Process(value.Id, value.TagGroup);
@@ -791,7 +791,7 @@ namespace Abide.Compiler
                     Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock tableBlock = null;
                     BlockList simulationDefinitionTableBlockList = tagBlock.Fields[143].GetBlockList();
                     simulationDefinitionTableBlockList.Clear();
-                    foreach (KeyValuePair<string, TagGroupFile> tagResource in m_TagResources)
+                    foreach (KeyValuePair<string, AbideTagGroupFile> tagResource in m_TagResources)
                     {
                         switch (tagResource.Value.TagGroup.GroupTag)
                         {
@@ -848,7 +848,7 @@ namespace Abide.Compiler
             //Prepare
             string valueString = null;
             string tagFileName = null;
-            TagGroupFile tagFile = null;
+            AbideTagGroupFile tagFile = null;
 
             //Loop through fields
             foreach (Field field in tagBlock.Fields)
@@ -893,7 +893,7 @@ namespace Abide.Compiler
                                 else
                                 {
                                     //Add
-                                    m_TagResources.Add(valueString, new TagGroupFile() { Id = m_CurrentId++ });
+                                    m_TagResources.Add(valueString, new AbideTagGroupFile() { Id = m_CurrentId++ });
                                     tagFile = m_TagResources[valueString];
 
                                     //Load
@@ -979,7 +979,7 @@ namespace Abide.Compiler
             ScenarioFile.Id = m_CurrentId++;
         }
 
-        private void MultilingualUnicodeStringList_Process(TagGroupFile tagGroupFile)
+        private void MultilingualUnicodeStringList_Process(AbideTagGroupFile tagGroupFile)
         {
             //Prepare
             StringContainer strings = new StringContainer();
@@ -1138,7 +1138,7 @@ namespace Abide.Compiler
             }
         }
 
-        private void Sound_Process(TagGroupFile tagGroupFile)
+        private void Sound_Process(AbideTagGroupFile tagGroupFile)
         {
             //Prepare
             ITagGroup soundCacheFileGestalt = SoundCacheFileGestaltFile.TagGroup;
@@ -1498,7 +1498,7 @@ namespace Abide.Compiler
             return equals;
         }
 
-        private void TagGroupFile_WriteRaws(TagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
+        private void TagGroupFile_WriteRaws(AbideTagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
         {
             //Check
             if (tagGroupFile == null && tagGroupFile.TagGroup != null) return;
@@ -1941,7 +1941,7 @@ namespace Abide.Compiler
             }
         }
 
-        private void SoundTagGroupFile_WriteExtraInfoRaws(TagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
+        private void SoundTagGroupFile_WriteExtraInfoRaws(AbideTagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
         {
             //Check
             if (tagGroupFile == null && tagGroupFile.TagGroup != null) return;

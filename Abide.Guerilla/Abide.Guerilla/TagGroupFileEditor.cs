@@ -23,7 +23,7 @@ namespace Abide.Guerilla
         /// <summary>
         /// Gets and returns the tag group file.
         /// </summary>
-        public TagGroupFile TagGroupFile { get; }
+        public AbideTagGroupFile TagGroupFile { get; }
 
         private string m_FileName = string.Empty;
         
@@ -36,7 +36,7 @@ namespace Abide.Guerilla
         /// </summary>
         /// <param name="fileName">The path of the tag group file.</param>
         /// <param name="tagGroupFile">The tag group file.</param>
-        public TagGroupFileEditor(string fileName, TagGroupFile tagGroupFile) : this()
+        public TagGroupFileEditor(string fileName, AbideTagGroupFile tagGroupFile) : this()
         {
             //Setup
             TagGroupFile = tagGroupFile ?? throw new ArgumentNullException(nameof(tagGroupFile));

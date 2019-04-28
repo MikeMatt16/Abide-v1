@@ -40,7 +40,7 @@ namespace Abide.Guerilla
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Prepare
-            TagGroupFile file = null;
+            AbideTagGroupFile file = null;
 
             //Initialize
             using (OpenFileDialog openDlg = new OpenFileDialog())
@@ -58,7 +58,7 @@ namespace Abide.Guerilla
                         openEditors[openDlg.FileName].Show();
 #if DEBUG
                     //Load file
-                    file = new TagGroupFile();
+                    file = new AbideTagGroupFile();
                     file.Load(openDlg.FileName);
 #else
                     try
@@ -66,7 +66,7 @@ namespace Abide.Guerilla
                         using (Stream stream = openDlg.OpenFile())
                         {
                             //Load file
-                            file = new TagGroupFile();
+                            file = new AbideTagGroupFile();
                             file.Load(stream);
                         }
                     }
@@ -97,7 +97,7 @@ namespace Abide.Guerilla
                 if(groupDialog.ShowDialog() == DialogResult.OK)
                 {
                     //Create file
-                    TagGroupFile file = new TagGroupFile() { TagGroup = groupDialog.SelectedGroup };
+                    AbideTagGroupFile file = new AbideTagGroupFile() { TagGroup = groupDialog.SelectedGroup };
 
                     //Get name
                     string tagName = "tag"; int tagIndex = 1;

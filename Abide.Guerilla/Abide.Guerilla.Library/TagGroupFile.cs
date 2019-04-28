@@ -9,9 +9,9 @@ using System.Linq;
 namespace Abide.Guerilla.Library
 {
     /// <summary>
-    /// Represents a tag group file.
+    /// Represents an Abide tag group file.
     /// </summary>
-    public sealed class TagGroupFile
+    public sealed class AbideTagGroupFile
     {
         /// <summary>
         /// Gets and returns the number of raws in the tag group file.
@@ -29,9 +29,9 @@ namespace Abide.Guerilla.Library
         private readonly Dictionary<int, byte[]> rawData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TagGroupFile"/> class.
+        /// Initializes a new instance of the <see cref="AbideTagGroupFile"/> class.
         /// </summary>
-        public TagGroupFile()
+        public AbideTagGroupFile()
         {
             //Prepare
             rawData = new Dictionary<int, byte[]>();

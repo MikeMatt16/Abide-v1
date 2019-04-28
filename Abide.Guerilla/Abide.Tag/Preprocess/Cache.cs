@@ -17,6 +17,9 @@ namespace Abide.Tag.Preprocess
             //Check Block
             switch (block.Name)
             {
+                case "bitmap_block":
+                    BitmapBlock_Preprocess(block, cache);
+                    break;
                 case "scenario_structure_bsp_reference_block":
                     ScenarioStructureBspReferenceBlock_Preprocess(block, cache);
                     break;
@@ -24,6 +27,13 @@ namespace Abide.Tag.Preprocess
                     SoundBlock_Preprocess(block, cache);
                     break;
             }
+        }
+
+        private static void BitmapBlock_Preprocess(AbideTagBlock block, TagDefinitionCollection cache)
+        {
+            //Change data fields to pad
+            block.FieldSet[17].FieldType = FieldType.FieldPad; block.FieldSet[17].Length = 8;
+            block.FieldSet[19].FieldType = FieldType.FieldPad; block.FieldSet[19].Length = 8;
         }
 
         private static void ScenarioStructureBspReferenceBlock_Preprocess(AbideTagBlock block, TagDefinitionCollection cache)

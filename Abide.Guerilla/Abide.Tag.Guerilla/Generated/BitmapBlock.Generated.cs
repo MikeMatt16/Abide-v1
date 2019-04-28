@@ -61,9 +61,9 @@ namespace Abide.Tag.Guerilla.Generated
             this.Fields.Add(new ExplanationField("Color Plate", "The original image file used to import the bitmap group."));
             this.Fields.Add(new ShortIntegerField("Color Plate Width*:pixels"));
             this.Fields.Add(new ShortIntegerField("Color Plate Height*:pixels"));
-            this.Fields.Add(new PadField("Compressed Color Plate Data*", 8));
+            this.Fields.Add(new DataField("Compressed Color Plate Data*", 1, 4));
             this.Fields.Add(new ExplanationField("Processed Pixel Data", "Pixel data after being processed by the tool."));
-            this.Fields.Add(new PadField("Processed Pixel Data*", 8));
+            this.Fields.Add(new DataField("Processed Pixel Data*", 1, 4));
             this.Fields.Add(new ExplanationField("Miscellaneous", ""));
             this.Fields.Add(new RealField("Blur Filter Size:[0,10] pixels#Blurs the bitmap before generating mipmaps."));
             this.Fields.Add(new RealField("Alpha Bias:[-1,1]#Affects alpha mipmap generation."));

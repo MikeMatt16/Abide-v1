@@ -145,6 +145,7 @@ namespace Abide.Decompiler
                         header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
                         header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
                         header.Id = Map.IndexEntries[i].Id.Dword;
+                        header.AbideTag = "atag";
 
                         //Write Header
                         fs.Seek(0, SeekOrigin.Begin);

@@ -22,11 +22,11 @@ namespace Abide.Guerilla.Library
         /// <summary>
         /// Returns the globals tag group file.
         /// </summary>
-        public TagGroupFile Globals { get; } = new TagGroupFile();
+        public AbideTagGroupFile Globals { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the sound cache file gestalt tag group file.
         /// </summary>
-        public TagGroupFile SoundCacheFileGestalt { get; } = new TagGroupFile();
+        public AbideTagGroupFile SoundCacheFileGestalt { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns a list of tag resource information elements.
         /// </summary>
@@ -34,7 +34,7 @@ namespace Abide.Guerilla.Library
         /// <summary>
         /// Returns a list of tag group file elements.
         /// </summary>
-        public List<TagGroupFile> TagGroupFiles { get; } = new List<TagGroupFile>();
+        public List<AbideTagGroupFile> TagGroupFiles { get; } = new List<AbideTagGroupFile>();
         private readonly Dictionary<string, int> m_FileNameLookup = new Dictionary<string, int>();
         private readonly Dictionary<string, int> m_TagPathLookup = new Dictionary<string, int>();
 
@@ -58,7 +58,7 @@ namespace Abide.Guerilla.Library
                 m_FileNameLookup.Add(fileName, i);
 
                 //Add resource
-                TagGroupFiles.Add(new TagGroupFile() { Id = resourceMap.IndexEntries[i].Id });
+                TagGroupFiles.Add(new AbideTagGroupFile() { Id = resourceMap.IndexEntries[i].Id });
                 TagResources.Add(new TagResourceInfo(resourceMap.IndexEntries[i].Filename, resourceMap.IndexEntries[i].Root, resourceMap.IndexEntries[i].Id)
                 { FileName = fileName });
             }

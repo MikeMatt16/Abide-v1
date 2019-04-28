@@ -139,7 +139,7 @@ namespace Abide.Decompiler
                     }
 
                     //Collect references
-                    TagGroupFile tagGroupFile = new TagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
+                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
                     m_ResourceManager.CollectResources(tagGroupFile.TagGroup);
 
                     //Get file name
@@ -172,7 +172,7 @@ namespace Abide.Decompiler
                     }
 
                     //Collect references
-                    TagGroupFile tagGroupFile = new TagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
+                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
 
                     //Get file name
                     string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", $"{entry.Filename}.{tagGroup.Name}");

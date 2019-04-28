@@ -11,16 +11,16 @@ namespace Abide.Guerilla
         [STAThread]
         static void Main()
         {
+            //Setup
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             //Upgrade settings
             if (Properties.Settings.Default.UpgradeRequired)
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.Save();
             }
-
             //Check
             if (Properties.Settings.Default.FirstRun)
                 Application.Run(new StartupScreen());
