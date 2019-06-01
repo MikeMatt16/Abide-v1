@@ -210,7 +210,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     this.tags = new TagHierarchyList(tags);
 
                     //Read Objects
-                    inStream.Seek((index.ObjectsOffset - index.IndexAddress) + (header.IndexOffset + Index.Length), SeekOrigin.Begin);
+                    inStream.Seek(index.ObjectsOffset - index.TagsAddress + header.IndexOffset + Index.Length, SeekOrigin.Begin);
                     ObjectEntry objectEntry = new ObjectEntry(); IndexEntry[] indexEntries = new IndexEntry[index.ObjectCount];
                     for (int i = 0; i < index.ObjectCount; i++)
                     {
@@ -292,7 +292,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     {
                         //Goto
                         inStream.Seek(indexList[index.ScenarioId].Offset + 528, metaFileMemoryAddress, SeekOrigin.Begin);
-                        TagBlock structureBsps = reader.ReadUInt64();
+                        TagBlock structureBsps = (TagBlock)reader.ReadUInt64();
                         bspTagData = new VirtualStream[structureBsps.Count];
                         for (int i = 0; i < structureBsps.Count; i++)
                         {
@@ -1136,7 +1136,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         else
                         {
                             //Create new data
-                            bspTagData = new VirtualStream((Index.IndexMemoryAddress - Index.Length) + index.Length);
+                            bspTagData = new VirtualStream(Index.IndexVirtualAddress + index.Length);
 
                             //Write blank header
                             StructureBspBlockHeader structureBspBlockHeader = new StructureBspBlockHeader() { StructureBsp = "sbsp" };
@@ -1597,10 +1597,10 @@ namespace Abide.HaloLibrary.Halo2Map
 
             //Get Map Info
             int tagDataStart = (int)(header.IndexOffset + header.IndexLength);
-            uint blockOffset = tagBlock.Offset - Index.IndexMemoryAddress;
+            uint blockOffset = tagBlock.Offset - Index.IndexTagsAddress;
 
             //Check for valid pointer...
-            valid &= tagBlock != TagBlock.Zero;
+            valid &= !tagBlock.IsZero;
             valid &= tagBlock.Count > 0;
             valid &= blockOffset > 0 && tagData.Length > blockOffset;
 
@@ -1646,8 +1646,8 @@ namespace Abide.HaloLibrary.Halo2Map
             //Edit Index
             index.ObjectCount = (uint)indexList.Count;
             index.TagCount = (uint)tags.Count;
-            index.ObjectsOffset = (uint)(tags.Count * TagHierarchy.Length + Index.IndexMemoryAddress);
-            index.IndexAddress = Index.IndexMemoryAddress;
+            index.ObjectsOffset = (uint)(tags.Count * TagHierarchy.Length + Index.IndexTagsAddress);
+            index.TagsAddress = Index.IndexTagsAddress;
 
             //Calculate minimum length...
             int length = (Index.Length + (TagHierarchy.Length * tags.Count) + (ObjectEntry.Length * indexList.Count)).PadTo(4096);

@@ -38,7 +38,7 @@ namespace Abide.Tag.Ui.Guerilla
                         control = new BlockControl()
                         {
                             Title = field.Name,
-                            List = ((BaseBlockField)field).BlockList
+                            List = ((BlockField)field).BlockList
                         };
                         break;
 

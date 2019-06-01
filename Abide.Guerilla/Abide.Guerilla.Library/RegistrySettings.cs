@@ -49,6 +49,5 @@ namespace Abide.Guerilla.Library
             get { return mainKey.GetValue("SinglePlayerSharedFileName")?.ToString() ?? null; }
             set { mainKey.SetValue("SinglePlayerSharedFileName", value ?? string.Empty); }
         }
-
     }
 }

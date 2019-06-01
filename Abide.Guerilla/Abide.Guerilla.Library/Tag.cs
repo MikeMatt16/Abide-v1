@@ -13,7 +13,7 @@ namespace Abide.Guerilla.Library
         public static BlockList GetBlockList(Field tagField)
         {
             if (tagField.Type == FieldType.FieldBlock)
-                return ((BaseBlockField)tagField).BlockList;
+                return ((BlockField)tagField).BlockList;
             return null;
         }
     }

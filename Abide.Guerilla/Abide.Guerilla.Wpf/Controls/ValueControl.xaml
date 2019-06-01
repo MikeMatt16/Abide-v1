@@ -1,0 +1,29 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="Abide.Guerilla.Wpf.Controls.ValueControl"
+    xmlns:VM="clr-namespace:Abide.Guerilla.Wpf.ViewModel"
+    mc:Ignorable="d" 
+    d:DesignWidth="600"
+    Margin="0,2,0,2">
+    <UserControl.DataContext>
+        <VM:ValueFieldModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="{Binding Path=InputBoxWidth}"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="4"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Column="1" Text="{Binding Path=Name, Mode=OneWay}"/>
+        <TextBox Grid.Column="3" Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Path=ToolTip}"/>
+        <TextBlock Grid.Column="5" Text="{Binding Path=Details}"/>
+    </Grid>
+</UserControl>

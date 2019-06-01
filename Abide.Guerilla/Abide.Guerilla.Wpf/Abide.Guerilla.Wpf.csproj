@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{58B105E8-910B-499F-B6F2-B6D05CCFDF9C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Abide.Guerilla.Wpf</RootNamespace>
+    <AssemblyName>Abide Guerilla</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\abide-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controls\BlockControl.xaml.cs">
+      <DependentUpon>BlockControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EnumControl.xaml.cs">
+      <DependentUpon>EnumControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExplanationControl.xaml.cs">
+      <DependentUpon>ExplanationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BoundsControl.xaml.cs">
+      <DependentUpon>BoundsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FlagsControl.xaml.cs">
+      <DependentUpon>FlagsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TagBlockControl.xaml.cs">
+      <DependentUpon>TagBlockControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TagReferenceControl.xaml.cs">
+      <DependentUpon>TagReferenceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Tuple2Control.xaml.cs">
+      <DependentUpon>Tuple2Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Tuple3Control.xaml.cs">
+      <DependentUpon>Tuple3Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Tuple4Control.xaml.cs">
+      <DependentUpon>Tuple4Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ValueControl.xaml.cs">
+      <DependentUpon>ValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\CompileDialog.xaml.cs">
+      <DependentUpon>CompileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileNameToShortStringConverter.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="TagFileUserControl.xaml.cs">
+      <DependentUpon>TagFileUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BlockFieldModel.cs" />
+    <Compile Include="ViewModel\BoundsFieldModel.cs" />
+    <Compile Include="ViewModel\MapCompilerModel.cs" />
+    <Compile Include="ViewModel\EnumFieldModel.cs" />
+    <Compile Include="ViewModel\ExplanationFieldModel.cs" />
+    <Compile Include="ViewModel\FieldModel.cs" />
+    <Compile Include="ViewModel\FileModel.cs" />
+    <Compile Include="ViewModel\FlagsFieldModel.cs" />
+    <Compile Include="ViewModel\TagBlockModel.cs" />
+    <Compile Include="ViewModel\TagFileModel.cs" />
+    <Compile Include="ViewModel\TagReferenceFieldModel.cs" />
+    <Compile Include="ViewModel\Tuple2FieldModel.cs" />
+    <Compile Include="ViewModel\Tuple3FieldModel.cs" />
+    <Compile Include="ViewModel\Tuple4FieldModel.cs" />
+    <Compile Include="ViewModel\ValueFieldModel.cs" />
+    <Page Include="Dialogs\CompileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BlockControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EnumControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ExplanationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BoundsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FlagsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TagBlockControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TagReferenceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Tuple2Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Tuple3Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Tuple4Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="TagFileUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Compiler\Abide.Compiler.csproj">
+      <Project>{1152dc23-51c6-44c8-bd69-013eca04f6bf}</Project>
+      <Name>Abide.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Decompiler\Abide.Decompiler.csproj">
+      <Project>{2f339cb4-feac-4cff-bd5a-bdbd1f952e8f}</Project>
+      <Name>Abide.Decompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Helper\Abide.Guerilla.Helper.csproj">
+      <Project>{89a4974e-66a0-4a1a-9af5-509876454b1a}</Project>
+      <Name>Abide.Guerilla.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
+      <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
+      <Name>Abide.Guerilla.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Tag\Abide.Tag.csproj">
+      <Project>{339d8b36-1875-44b0-8f58-2379cbf8e2a8}</Project>
+      <Name>Abide.Tag</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\abide-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close-hot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close-normal.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

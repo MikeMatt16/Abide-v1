@@ -15,7 +15,7 @@ namespace Abide.Compiler
         /// <returns>A <see cref="BlockList"/> instance if the field is of type <see cref="FieldType.FieldBlock"/>; otherwise <see langword="null"/>.</returns>
         public static BlockList GetBlockList(this Field field)
         {
-            if (field is BaseBlockField blockField)
+            if (field is BlockField blockField)
                 return blockField.BlockList;
             return null;
         }
@@ -39,7 +39,7 @@ namespace Abide.Compiler
         /// <returns>A <see cref="ITagBlock"/> instance if the field is of type <see cref="FieldType.FieldStruct"/>; otherwise <see langword="null"/>.</returns>
         public static ITagBlock GetStruct(this Field field)
         {
-            if (field is BaseStructField structField)
+            if (field is StructField structField)
                 return (ITagBlock)structField.Value;
             return null;
         }

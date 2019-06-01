@@ -233,7 +233,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                     {
                         //Goto
                         inStream.Seek(indexList[index.ScenarioId].Offset + 828, metaFileMemoryAddress, SeekOrigin.Begin);
-                        TagBlock structureBsps = reader.ReadUInt64();
+                        TagBlock structureBsps = (TagBlock)reader.ReadUInt64();
                         bspTagData = new VirtualStream[structureBsps.Count];
                         for (int i = 0; i < structureBsps.Count; i++)
                         {

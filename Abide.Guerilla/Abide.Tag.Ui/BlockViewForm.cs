@@ -105,11 +105,11 @@ namespace Abide.Tag.Ui
                 switch (field.Type)
                 {
                     case Definition.FieldType.FieldStruct:
-                        BaseStructField structField = (BaseStructField)field;
+                        StructField structField = (StructField)field;
                         TagBlock_CreateChildBlocks((ITagBlock)structField.Value, baseOffset, ref offset);
                         break;
                     case Definition.FieldType.FieldBlock:
-                        BaseBlockField blockField = (BaseBlockField)field;
+                        BlockField blockField = (BlockField)field;
                         BlockField_CreateDataBlock(blockField, baseOffset, ref offset);
                         break;
                     case Definition.FieldType.FieldData:
@@ -122,7 +122,7 @@ namespace Abide.Tag.Ui
             }
         }
 
-        private void BlockField_CreateDataBlock(BaseBlockField field, long baseOffset, ref long offset)
+        private void BlockField_CreateDataBlock(BlockField field, long baseOffset, ref long offset)
         {
             //Create a condensed block
             if (field.BlockList.Count > 0)

@@ -8,7 +8,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vertex buffer.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct VertexBuffer
     {
         /// <summary>
@@ -113,7 +113,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a tag reference.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct TagReference : IEquatable<TagReference>
     {
         /// <summary>
@@ -153,7 +153,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a short boundaries value.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ShortBounds : IEquatable<ShortBounds>
     {
         /// <summary>
@@ -202,7 +202,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point boundaries value.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct FloatBounds : IEquatable<FloatBounds>
     {
         /// <summary>
@@ -253,7 +253,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a RGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 1), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorRgb : IEquatable<ColorRgb>
     {
         /// <summary>
@@ -265,15 +265,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public byte R { get; set; }
+        public byte Red { get; set; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public byte G { get; set; }
+        public byte Green { get; set; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public byte B { get; set; }
+        public byte Blue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -283,9 +283,9 @@ namespace Abide.Tag
         /// <param name="b">The blue component.</param>
         public ColorRgb(byte r, byte g, byte b)
         {
-            R = r;
-            G = g;
-            B = b;
+            Red = r;
+            Green = g;
+            Blue = b;
         }
         /// <summary>
         /// Returns a value indicating whether this color and a specified <see cref="ColorRgb"/> represent the same value.
@@ -294,7 +294,7 @@ namespace Abide.Tag
         /// <returns><see langword="true"/> if the this color and <paramref name="color"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(ColorRgb color)
         {
-            return R.Equals(color.R) && G.Equals(color.G) && B.Equals(color.B);
+            return Red.Equals(color.Red) && Green.Equals(color.Green) && Blue.Equals(color.Blue);
         }
         /// <summary>
         /// Returns a string representation of this color.
@@ -302,13 +302,13 @@ namespace Abide.Tag
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return $"R: {R} G: {G} B: {B} (#{R:x2}{G:x2}{B:x2})";
+            return $"R: {Red} G: {Green} B: {Blue} (#{Red:x2}{Green:x2}{Blue:x2})";
         }
     }
     /// <summary>
     /// Represents an ARGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 1), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorArgb : IEquatable<ColorArgb>
     {
         /// <summary>
@@ -320,19 +320,19 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the alpha component of the color.
         /// </summary>
-        public byte A { get; set; }
+        public byte Alpha { get; set; }
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public byte R { get; set; }
+        public byte Red { get; set; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public byte G { get; set; }
+        public byte Green { get; set; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public byte B { get; set; }
+        public byte Blue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorArgb"/> structure.
@@ -343,10 +343,10 @@ namespace Abide.Tag
         /// <param name="b">The blue component.</param>
         public ColorArgb(byte a, byte r, byte g, byte b)
         {
-            A = a;
-            R = r;
-            G = g;
-            B = b;
+            Alpha = a;
+            Red = r;
+            Green = g;
+            Blue = b;
         }
         /// <summary>
         /// Returns a value indicating whether this color and a specified <see cref="ColorArgb"/> represent the same value.
@@ -355,7 +355,7 @@ namespace Abide.Tag
         /// <returns><see langword="true"/> if the this color and <paramref name="color"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(ColorArgb color)
         {
-            return A.Equals(color.A) && R.Equals(color.R) && G.Equals(color.G) && B.Equals(color.B);
+            return Alpha.Equals(color.Alpha) && Red.Equals(color.Red) && Green.Equals(color.Green) && Blue.Equals(color.Blue);
         }
         /// <summary>
         /// Returns a string representation of this color.
@@ -363,13 +363,13 @@ namespace Abide.Tag
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return $"A: {A} R: {R} G: {G} B: {B} (#{A:x2}{R:x2}{G:x2}{B:x2})";
+            return $"A: {Alpha} R: {Red} G: {Green} B: {Blue} (#{Alpha:x2}{Red:x2}{Green:x2}{Blue:x2})";
         }
     }
     /// <summary>
     /// Represents a floating point RGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorRgbF : IEquatable<ColorRgbF>
     {
         /// <summary>
@@ -381,15 +381,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public float R { get; set; }
+        public float Red { get; set; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public float G { get; set; }
+        public float Green { get; set; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public float B { get; set; }
+        public float Blue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -399,9 +399,9 @@ namespace Abide.Tag
         /// <param name="b">The blue component.</param>
         public ColorRgbF(float r, float g, float b)
         {
-            R = r;
-            G = g;
-            B = b;
+            Red = r;
+            Green = g;
+            Blue = b;
         }
         /// <summary>
         /// Returns a value indicating whether this color and a specified <see cref="ColorRgbF"/> represent the same value.
@@ -410,7 +410,7 @@ namespace Abide.Tag
         /// <returns><see langword="true"/> if the this color and <paramref name="color"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(ColorRgbF color)
         {
-            return R.Equals(color.R) && G.Equals(color.G) && B.Equals(color.B);
+            return Red.Equals(color.Red) && Green.Equals(color.Green) && Blue.Equals(color.Blue);
         }
         /// <summary>
         /// Returns a string representation of this color.
@@ -418,13 +418,13 @@ namespace Abide.Tag
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return $"R: {R} G: {G} B: {B}";
+            return $"R: {Red} G: {Green} B: {Blue}";
         }
     }
     /// <summary>
     /// Represents a floating point ARGB color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorArgbF : IEquatable<ColorArgbF>
     {
         /// <summary>
@@ -436,19 +436,19 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the alpha component of the color.
         /// </summary>
-        public float A { get; set; }
+        public float Alpha { get; set; }
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public float R { get; set; }
+        public float Red { get; set; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public float G { get; set; }
+        public float Green { get; set; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public float B { get; set; }
+        public float Blue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -459,10 +459,10 @@ namespace Abide.Tag
         /// <param name="b">The blue component.</param>
         public ColorArgbF(float a, float r, float g, float b)
         {
-            A = a;
-            R = r;
-            G = g;
-            B = b;
+            Alpha = a;
+            Red = r;
+            Green = g;
+            Blue = b;
         }
         /// <summary>
         /// Returns a value indicating whether this color and a specified <see cref="ColorArgbF"/> represent the same value.
@@ -471,7 +471,7 @@ namespace Abide.Tag
         /// <returns><see langword="true"/> if the this color and <paramref name="color"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(ColorArgbF color)
         {
-            return A.Equals(color.A) && R.Equals(color.R) && G.Equals(color.G) && B.Equals(color.B);
+            return Alpha.Equals(color.Alpha) && Red.Equals(color.Red) && Green.Equals(color.Green) && Blue.Equals(color.Blue);
         }
         /// <summary>
         /// Returns a string representation of this color.
@@ -479,13 +479,13 @@ namespace Abide.Tag
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return $"A: {A} R: {R} G: {G} B: {B}";
+            return $"A: {Alpha} R: {Red} G: {Green} B: {Blue}";
         }
     }
     /// <summary>
     /// Represents a floating point HSV color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorHsv : IEquatable<ColorHsv>
     {
         /// <summary>
@@ -531,7 +531,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point AHSV color.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ColorAhsv : IEquatable<ColorAhsv>
     {
         /// <summary>
@@ -585,7 +585,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a quaternion.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Quaternion : IEquatable<Quaternion>
     {
         /// <summary>
@@ -646,7 +646,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with four components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Vector4 : IEquatable<Vector4>
     {
         /// <summary>
@@ -846,7 +846,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with three components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Vector3 : IEquatable<Vector3>
     {
         /// <summary>
@@ -1034,7 +1034,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a vector with two components.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Vector2 : IEquatable<Vector2>
     {
         /// <summary>
@@ -1207,7 +1207,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a 2 dimensional rectangle.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Rectangle2 : IEquatable<Rectangle2>
     {
         /// <summary>
@@ -1260,7 +1260,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a 2 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 2), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Point2 : IEquatable<Point2>
     {
         /// <summary>
@@ -1309,7 +1309,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point 2 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Point2F : IEquatable<Point2F>
     {
         /// <summary>
@@ -1366,7 +1366,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a floating point 3 dimensional point.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4), Serializable]
+    [StructLayout(LayoutKind.Sequential), Serializable]
     public struct Point3F : IEquatable<Point3F>
     {
         /// <summary>

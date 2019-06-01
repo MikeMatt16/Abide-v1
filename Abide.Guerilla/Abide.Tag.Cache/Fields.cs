@@ -10,7 +10,7 @@ namespace Abide.Tag.Cache
     /// Represents a tag block tag field.
     /// </summary>
     /// <typeparam name="T">The tag block type.</typeparam>
-    public sealed class BlockField<T> : BaseBlockField where T : ITagBlock, new()
+    public sealed class BlockField<T> : BlockField where T : ITagBlock, new()
     {
         internal static int identIndex = 0;
         /// <summary>

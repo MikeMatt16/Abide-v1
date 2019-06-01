@@ -1,0 +1,76 @@
+﻿<Window x:Class="Abide.Guerilla.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Abide.Guerilla.Wpf"
+        mc:Ignorable="d"
+        Title="Abide Guerilla" Height="450" Width="800" WindowState="Maximized"
+        Loaded="Window_Loaded"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewCommandBinding_Executed"/>
+        <CommandBinding Command="Open" Executed="OpenCommandBinding_Executed"/>
+        <CommandBinding Command="Save" CanExecute="SaveCommandBinding_CanExecute" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveCommandBinding_CanExecute" Executed="SaveAsCommandBinding_Executed"/>
+        <CommandBinding Command="Close" CanExecute="CloseCommandBinding_CanExecute" Executed="CloseCommandBinding_Executed"/>
+        <CommandBinding Command="Copy"/>
+    </Window.CommandBindings>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Grid SnapsToDevicePixels="True">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" Command="New"/>
+                    <MenuItem Header="_Open" Command="Open"/>
+                    <Separator/>
+                    <MenuItem Header="_Close" Command="Close"/>
+                    <MenuItem Header="_Close All"/>
+                    <Separator/>
+                    <MenuItem Header="_Save" Command="Save"/>
+                    <MenuItem Header="_Save As..." Command="SaveAs"/>
+                    <Separator/>
+                    <MenuItem Header="_Exit" Click="ExitMenuItem_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="_Undo" Command="Undo"/>
+                    <MenuItem Header="_Redo" Command="Redo"/>
+                    <Separator/>
+                    <MenuItem Header="Cut" Command="Cut"/>
+                    <MenuItem Header="Copy" Command="Copy"/>
+                    <MenuItem Header="Paste" Command="Paste"/>
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem Header="_Configure" Click="configureMenuItem_Click" DataContext="{Binding Path=RegistrySettings}"/>
+                    <Separator/>
+                    <MenuItem Header="_Compiler" Click="CompilerMenuItem_Click"/>
+                    <MenuItem Header="_Decompiler" Click="DecompilerMenuItem_Click"/>
+                </MenuItem>
+            </Menu>
+            <TabControl x:Name="mainTabControl" ItemsSource="{Binding Path=Files, Mode=TwoWay}"
+                        SelectedItem="{Binding Path=SelectedFile}" BorderThickness="1,1,1,1">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=DisplayName}"/>
+                            <TextBlock Text="*" Visibility="{Binding Path=IsDirty, Converter={StaticResource boolToVisibility}, Mode=TwoWay}"/>
+                            <Button Margin="10,0,0,0" Width="16" Height="16" DataContext="{Binding Mode=OneWay}" Click="CloseTabButton_Click" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                <Image Source="Resources/close-normal.png"/>
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <local:TagFileUserControl DataContext="{Binding Mode=OneWay}"/>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,77 @@
+﻿<Window x:Class="Abide.Guerilla.Wpf.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Abide.Guerilla.Wpf"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Title="Abide Guerilla Configuration"
+        Width="600"
+        MinWidth="600">
+    <Window.DataContext>
+        <local:SettingsViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local:FileNameToShortStringConverter x:Key="fileNameToShort"/>
+    </Window.Resources>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Workspace Directory:"/>
+            <TextBox Grid.Row="0" Grid.Column="2" Name="workspaceDirectoryTextBox" Text="{Binding WorkspaceDirectory, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
+            <Button Grid.Row="0" Grid.Column="4" DataContext="{Binding Path=WorkspaceDirectory, Mode=TwoWay}" Click="BrowsePathButton_Click">Browse</Button>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Shared Map:"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Name="sharedMapFileNameTextBox" Text="{Binding Path=SharedFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
+            <Button Grid.Row="2" Grid.Column="4" DataContext="{Binding Path=SharedFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Mainmenu Map:"/>
+            <TextBox Grid.Row="4" Grid.Column="2" Name="mainmenuMapFileNameTextBox" Text="{Binding Path=MainmenuFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
+            <Button Grid.Row="4" Grid.Column="4" DataContext="{Binding Path=MainmenuFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Singleplayer Shared Map:"/>
+            <TextBox Grid.Row="6" Grid.Column="2" Name="singleplayerSharedMapFileNameTextBox" Text="{Binding Path=SingleplayerSharedFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
+            <Button Grid.Row="6" Grid.Column="4" DataContext="{Binding Path=SingleplayerSharedFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Name="okButton" Content="_Close" IsDefault="True" Click="CloseButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

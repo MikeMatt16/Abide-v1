@@ -43,7 +43,7 @@ namespace Abide.Guerilla.Library
             {
                 //Get value
                 string value = field.Value?.ToString() ?? string.Empty;
-                BaseBlockField blockField = field as BaseBlockField;
+                BlockField blockField = field as BlockField;
 
                 //Handle type
                 switch (field.Type)

@@ -148,7 +148,7 @@ namespace Abide.Tag.Ui
                             break;
                         case FieldType.FieldBlock:
                             //Get list
-                            var blockList = ((BaseBlockField)field).BlockList;
+                            var blockList = ((BlockField)field).BlockList;
 
                             //Create
                             child = new TreeNode($"{field.Name} Count: {blockList.Count}");

@@ -11,7 +11,7 @@ namespace Abide.Tag.Guerilla
     /// Represents a tag block tag field.
     /// </summary>
     /// <typeparam name="T">The tag block type.</typeparam>
-    public sealed class BlockField<T> : BaseBlockField where T : ITagBlock, new()
+    public sealed class BlockField<T> : BlockField where T : ITagBlock, new()
     {
         internal static int identIndex = 0;
         /// <summary>
@@ -357,7 +357,7 @@ namespace Abide.Tag.Guerilla
     {
         /// <summary>
         /// Gets and returns the size of the tag index field.
-        /// </summary
+        /// </summary>
         public override int Size
         {
             get { return new StringValue((string)Value).SerializedLength; }

@@ -14,6 +14,13 @@ namespace Abide.HaloLibrary
         /// </summary>
         public static readonly TagBlock Zero = new TagBlock() { count = 0, offset = 0 };
         /// <summary>
+        /// Gets and returns <see langword="true"/> if this tag block value is zero; otherwise, <see langword="false"/>.
+        /// </summary>
+        public bool IsZero
+        {
+            get { return count == 0 && offset == 0; }
+        }
+        /// <summary>
         /// Gets or sets the array length.
         /// </summary>
         public uint Count
@@ -132,22 +139,37 @@ namespace Abide.HaloLibrary
         {
             return string.Format("Count: {0} Pointer: {1}", count, offset);
         }
-
-        public static implicit operator ulong(TagBlock reference)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reference"></param>
+        public static explicit operator ulong(TagBlock reference)
         {
             return reference.Qword;
         }
-        public static implicit operator long(TagBlock reference)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reference"></param>
+        public static explicit operator long(TagBlock reference)
         {
             return (long)reference.Qword;
         }
-        public static implicit operator TagBlock(ulong value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static explicit operator TagBlock(ulong value)
         {
             uint count = (uint)(value & 0xFFFFFFFF);
             uint pointer = (uint)((value >> 32) & 0xFFFFFFFF);
             return new TagBlock() { count = count, offset = pointer };
         }
-        public static implicit operator TagBlock(long value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static explicit operator TagBlock(long value)
         {
             uint count = (uint)(value & 0xFFFFFFFF);
             uint pointer = (uint)((value >> 32) & 0xFFFFFFFF);

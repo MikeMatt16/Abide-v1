@@ -25,8 +25,8 @@ namespace Abide.Guerilla
                 switch (field.Type)
                 {
                     case FieldType.FieldExplanation: control = new ExplanationControl((ExplanationField)field); break;
-                    case FieldType.FieldBlock: control = new BlockControl((BaseBlockField)field); break;
-                    case FieldType.FieldStruct: control = new StructControl((BaseStructField)field); break;
+                    case FieldType.FieldBlock: control = new BlockControl((BlockField)field); break;
+                    case FieldType.FieldStruct: control = new StructControl((StructField)field); break;
 
                     case FieldType.FieldString:
                     case FieldType.FieldLongString:

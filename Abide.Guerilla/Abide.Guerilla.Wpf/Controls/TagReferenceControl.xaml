@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Abide.Guerilla.Wpf.Controls.TagReferenceControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Wpf="clr-namespace:Abide.Guerilla.Wpf"
+             xmlns:VM="clr-namespace:Abide.Guerilla.Wpf.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignWidth="800"
+             Margin="0,2,0,2">
+    <UserControl.Resources>
+        <Wpf:FileNameToShortStringConverter x:Key="fileToShortString"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <VM:TagReferenceFieldModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="4"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="1" Text="{Binding Path=Name, Mode=OneWay}"/>
+        <TextBox Grid.Column="3" Text="{Binding Path=Value, ConverterParameter=45, Converter={StaticResource fileToShortString}}" ToolTip="{Binding Path=Value}" IsReadOnly="True"/>
+        <StackPanel Grid.Column="5" Orientation="Horizontal">
+            <Button Content="..." Width="50" Margin="2,0,2,0" Command="{Binding Path=BrowseCommand}"/>
+            <Button Content="Open" Width="50" Margin="2,0,2,0" Command="{Binding Path=OpenCommand}"/>
+            <Button Content="Clear" Width="50" Margin="2,0,2,0" Command="{Binding Path=ClearCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

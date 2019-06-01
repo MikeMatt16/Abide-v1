@@ -915,7 +915,7 @@ namespace Abide.Compiler
             SoundCacheFileGestaltFile.TagGroup = new Tag.Guerilla.Generated.SoundCacheFileGestalt();
 
             //Add default playback
-            ITagBlock playbackTagBlock = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[0]).Add(out bool success);
+            ITagBlock playbackTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[0]).Add(out bool success);
             if (success)
             {
                 ITagBlock playbackParametersStructBlock = (ITagBlock)playbackTagBlock.Fields[0].Value;
@@ -924,7 +924,7 @@ namespace Abide.Compiler
             }
 
             //Add default scale
-            ITagBlock scaleTagBlock = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[1]).Add(out success);
+            ITagBlock scaleTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[1]).Add(out success);
             if (success)
             {
                 ITagBlock scaleModifiersStructBlock = (ITagBlock)scaleTagBlock.Fields[0].Value;
@@ -934,7 +934,7 @@ namespace Abide.Compiler
             //Add flags
             for (int i = 0; i < 686; i++)
             {
-                ITagBlock runtimePermutationBitVector = ((BaseBlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[7]).Add(out success);
+                ITagBlock runtimePermutationBitVector = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[7]).Add(out success);
                 if (success) runtimePermutationBitVector.Fields[0].Value = (byte)0;
             }
 
@@ -1157,17 +1157,17 @@ namespace Abide.Compiler
                 SoundCacheFileGestaltFile.SetRaw(rawOffset, tagGroupFile.GetRaw(rawOffset));
 
             //Get block fields from sound cache file gestalt
-            BaseBlockField playbacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
-            BaseBlockField scales = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
-            BaseBlockField importNames = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
-            BaseBlockField pitchRangeParameters = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
-            BaseBlockField pitchRanges = (BaseBlockField)soundCacheFileGestaltBlock.Fields[4];
-            BaseBlockField permutations = (BaseBlockField)soundCacheFileGestaltBlock.Fields[5];
-            BaseBlockField customPlaybacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[6];
-            BaseBlockField runtimePermutationFlags = (BaseBlockField)soundCacheFileGestaltBlock.Fields[7];
-            BaseBlockField chunks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[8];
-            BaseBlockField promotions = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
-            BaseBlockField extraInfos = (BaseBlockField)soundCacheFileGestaltBlock.Fields[10];
+            BlockField playbacks = (BlockField)soundCacheFileGestaltBlock.Fields[0];
+            BlockField scales = (BlockField)soundCacheFileGestaltBlock.Fields[1];
+            BlockField importNames = (BlockField)soundCacheFileGestaltBlock.Fields[2];
+            BlockField pitchRangeParameters = (BlockField)soundCacheFileGestaltBlock.Fields[3];
+            BlockField pitchRanges = (BlockField)soundCacheFileGestaltBlock.Fields[4];
+            BlockField permutations = (BlockField)soundCacheFileGestaltBlock.Fields[5];
+            BlockField customPlaybacks = (BlockField)soundCacheFileGestaltBlock.Fields[6];
+            BlockField runtimePermutationFlags = (BlockField)soundCacheFileGestaltBlock.Fields[7];
+            BlockField chunks = (BlockField)soundCacheFileGestaltBlock.Fields[8];
+            BlockField promotions = (BlockField)soundCacheFileGestaltBlock.Fields[9];
+            BlockField extraInfos = (BlockField)soundCacheFileGestaltBlock.Fields[10];
 
             //Change
             tagGroupFile.TagGroup = cacheFileSound;
@@ -1233,8 +1233,8 @@ namespace Abide.Compiler
             else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
 
             //Add pitch range
-            cacheFileSoundBlock.Fields[7].Value = (byte)((BaseBlockField)soundBlock.Fields[13]).BlockList.Count;
-            foreach (var soundPitchRange in ((BaseBlockField)soundBlock.Fields[13]).BlockList)
+            cacheFileSoundBlock.Fields[7].Value = (byte)((BlockField)soundBlock.Fields[13]).BlockList.Count;
+            foreach (var soundPitchRange in ((BlockField)soundBlock.Fields[13]).BlockList)
             {
                 index = pitchRanges.BlockList.Count;
                 ITagBlock gestaltPitchRange = pitchRanges.Add(out success);
@@ -1252,10 +1252,10 @@ namespace Abide.Compiler
 
                     //Add permutation
                     gestaltPitchRange.Fields[4].Value = (short)permutations.BlockList.Count;
-                    gestaltPitchRange.Fields[5].Value = (short)((BaseBlockField)soundPitchRange.Fields[7]).BlockList.Count;
+                    gestaltPitchRange.Fields[5].Value = (short)((BlockField)soundPitchRange.Fields[7]).BlockList.Count;
 
                     //Loop
-                    foreach (ITagBlock soundPermutation in ((BaseBlockField)soundPitchRange.Fields[7]).BlockList)
+                    foreach (ITagBlock soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
                     {
                         ITagBlock gestaltPermutation = permutations.Add(out success);
                         if (success)
@@ -1272,10 +1272,10 @@ namespace Abide.Compiler
 
                             //Add chunks
                             gestaltPermutation.Fields[6].Value = (short)chunks.BlockList.Count;
-                            gestaltPermutation.Fields[7].Value = (short)((BaseBlockField)soundPermutation.Fields[6]).BlockList.Count;
+                            gestaltPermutation.Fields[7].Value = (short)((BlockField)soundPermutation.Fields[6]).BlockList.Count;
 
                             //Loop
-                            foreach (ITagBlock soundChunk in ((BaseBlockField)soundPermutation.Fields[6]).BlockList)
+                            foreach (ITagBlock soundChunk in ((BlockField)soundPermutation.Fields[6]).BlockList)
                                 chunks.BlockList.Add(soundChunk);
                         }
                         else
@@ -1297,7 +1297,7 @@ namespace Abide.Compiler
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[3];
             int index = -1;
 
             //Check
@@ -1335,7 +1335,7 @@ namespace Abide.Compiler
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[2];
             int index = -1;
 
             //Check
@@ -1365,7 +1365,7 @@ namespace Abide.Compiler
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[9];
             int index = -1;
 
             //Check
@@ -1395,7 +1395,7 @@ namespace Abide.Compiler
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[1];
             int index = -1;
 
             //Check
@@ -1429,7 +1429,7 @@ namespace Abide.Compiler
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[0];
             int index = -1;
 
             //Check
@@ -1471,8 +1471,8 @@ namespace Abide.Compiler
                         switch (b1.Fields[i].Type)
                         {
                             case FieldType.FieldBlock:
-                                BaseBlockField bf1 = (BaseBlockField)f1;
-                                BaseBlockField bf2 = (BaseBlockField)f2;
+                                BlockField bf1 = (BlockField)f1;
+                                BlockField bf2 = (BlockField)f2;
                                 equals &= bf1.BlockList.Count == bf2.BlockList.Count;
                                 if (equals)
                                     for (int j = 0; j < bf1.BlockList.Count; j++)

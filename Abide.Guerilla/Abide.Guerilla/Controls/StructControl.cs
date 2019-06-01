@@ -6,7 +6,7 @@ namespace Abide.Tag.Ui.Guerilla.Controls
 {
     public partial class StructControl : UserControl
     {
-        public BaseStructField Field
+        public StructField Field
         {
             get { return m_Field; }
             set
@@ -17,9 +17,9 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             }
         }
 
-        private BaseStructField m_Field;
+        private StructField m_Field;
 
-        public StructControl(BaseStructField field) : this()
+        public StructControl(StructField field) : this()
         {
             Tags.GenerateControls(controlsFlowLayoutPanel, field.Create());
             Field = field;
@@ -36,10 +36,10 @@ namespace Abide.Tag.Ui.Guerilla.Controls
                 switch (tagBlock.Fields[i].Type)
                 {
                     case Definition.FieldType.FieldBlock:
-                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BaseBlockField)tagBlock.Fields[i];
+                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)tagBlock.Fields[i];
                         break;
                     case Definition.FieldType.FieldStruct:
-                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (BaseStructField)tagBlock.Fields[i];
+                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)tagBlock.Fields[i];
                         break;
                     case Definition.FieldType.FieldExplanation:
                         continue;

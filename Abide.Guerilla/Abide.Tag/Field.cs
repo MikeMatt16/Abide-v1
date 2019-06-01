@@ -4,6 +4,7 @@ using Abide.Tag.Definition;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Abide.Tag
 {
@@ -14,12 +15,11 @@ namespace Abide.Tag
     /// <param name="blockIndex">The index of the tag block.</param>
     /// <returns>A <see cref="Block"/> class instance or <see langword="null"/>.</returns>
     public delegate Block BlockSearchProcedure<T>(Block tagBlock, int blockIndex) where T : IConvertible, IComparable, IComparable<T>, IEquatable<T>;
-
+    
     /// <summary>
     /// Represents an option.
     /// </summary>
-    /// <typeparam name="T">The indexer type.</typeparam>
-    public sealed class Option<T> where T : IConvertible, IComparable, IComparable<T>, IEquatable<T>
+    public class Option
     {
         /// <summary>
         /// Gets and returns the name of the option.
@@ -28,16 +28,16 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the index of the option.
         /// </summary>
-        public T Index { get; }
+        public int Index { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Option{T}"/> class.
+        /// Initializes a new instance of the <see cref="Option"/> class using the specified name and index.
         /// </summary>
         /// <param name="name">The name of the option.</param>
-        /// <param name="index">The index of the option.</param>
-        public Option(string name, T index)
+        /// <param name="index">The zero-based index of the option.</param>
+        public Option(string name, int index)
         {
-            Name = name;
+            Name = name ?? string.Empty;
             Index = index;
         }
     }
@@ -54,15 +54,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the name of the field.
         /// </summary>
-        public string Name => name.Name ?? "";
+        public string Name => name.Name ?? string.Empty;
         /// <summary>
         /// Gets and returns additional information regarding the field.
         /// </summary>
-        public string Information => name.Information ?? "";
+        public string Information => name.Information ?? string.Empty;
         /// <summary>
         /// Gets and returns details regarding the field.
         /// </summary>
-        public string Details => name.Details ?? "";
+        public string Details => name.Details ?? string.Empty;
         /// <summary>
         /// Gets and returns a boolean value that determines whether or not this value should be allowed to be edited directly.
         /// </summary>
@@ -265,18 +265,18 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a basic struct tag field.
     /// </summary>
-    public abstract class BaseStructField : Field
+    public abstract class StructField : Field
     {
         /// <summary>
         /// Gets and returns the size of the field.
         /// </summary>
         public override int Size => ((ITagBlock)Value).Size;
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseStructField"/> class.
+        /// Initializes a new instance of the <see cref="StructField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="tagBlock">The default tag block.</param>
-        public BaseStructField(string name, ITagBlock tagBlock) : base(FieldType.FieldStruct, name)
+        public StructField(string name, ITagBlock tagBlock) : base(FieldType.FieldStruct, name)
         {
             //Prepare
             Value = tagBlock;
@@ -318,7 +318,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a basic tag block tag field.
     /// </summary>
-    public abstract class BaseBlockField : Field
+    public abstract class BlockField : Field
     {
         /// <summary>
         /// Gets and returns the block list.
@@ -338,7 +338,7 @@ namespace Abide.Tag
         /// </summary>
         /// <param name="name"></param>
         /// <param name="maximumElementCount"></param>
-        public BaseBlockField(string name, int maximumElementCount) : base(FieldType.FieldBlock, name)
+        public BlockField(string name, int maximumElementCount) : base(FieldType.FieldBlock, name)
         {
             //Prepare
             Value = TagBlock.Zero;
@@ -431,6 +431,67 @@ namespace Abide.Tag
         /// </summary>
         /// <returns>A new object that implements the <see cref="ITagBlock"/> interface.</returns>
         public abstract ITagBlock Create();
+    }
+
+    /// <summary>
+    /// Represents a base flags tag field.
+    /// </summary>
+    public abstract class BaseFlagsField : OptionField
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseFlagsField"/> class using the specified type, name, and options.
+        /// </summary>
+        /// <param name="type">The field type.</param>
+        /// <param name="name">The field name.</param>
+        /// <param name="options">The field options.</param>
+        public BaseFlagsField(FieldType type, string name, params string[] options) : base(type, name, options) { }
+        /// <summary>
+        /// Returns a value that determines whether or not the supplied option is toggled for the flags.
+        /// </summary>
+        /// <param name="option">The option.</param>
+        /// <returns><see langword="true"/> if the option is on; otherwise, <see langword="false"/>.</returns>
+        public abstract bool HasFlag(Option option);
+        /// <summary>
+        /// Sets the state of a specified option.
+        /// </summary>
+        /// <param name="option">The option to set.</param>
+        /// <param name="toggle">The state of the flag.</param>
+        /// <returns>The new bitwise combination of the toggled flags.</returns>
+        public abstract object SetFlag(Option option, bool toggle);
+    }
+
+    /// <summary>
+    /// Represents a tag field that has option(s) associated with it.
+    /// </summary>
+    public abstract class OptionField : Field
+    {
+        /// <summary>
+        /// Gets and returns a list of options for the field.
+        /// </summary>
+        public List<Option> Options { get; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OptionField"/> class using the specified type, name, and options.
+        /// </summary>
+        /// <param name="type">The field type.</param>
+        /// <param name="name">The field name.</param>
+        /// <param name="options">The field options.</param>
+        public OptionField(FieldType type, string name, params string[] options) : base(type, name)
+        {
+            //Prepare
+            Options = new List<Option>();
+
+            //Add options
+            for (int i = 0; i < options.Length; i++)
+                Options.Add(new Option(options[i], i));
+        }
+        /// <summary>
+        /// Returns an array of string elements containing options for the field.
+        /// </summary>
+        /// <returns>An array of <see cref="string"/> elements.</returns>
+        public string[] GetOptions()
+        {
+            return Options.Select(o => o.Name).ToArray();
+        }
     }
 
     /// <summary>
@@ -626,7 +687,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a char enum tag field.
     /// </summary>
-    public sealed class CharEnumField : Field
+    public sealed class CharEnumField : OptionField
     {
         /// <summary>
         /// Gets and returns the size of the enum field.
@@ -635,30 +696,21 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the current option.
         /// </summary>
-        public Option<byte> Option
+        public Option Option
         {
             get { return Options[(byte)Value]; }
             set { if (Options.Contains(value)) Value = value.Index; }
         }
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<byte>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CharEnumField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The enum options.</param>
-        public CharEnumField(string name, params string[] options) : base(FieldType.FieldCharEnum, name)
+        public CharEnumField(string name, params string[] options) : base(FieldType.FieldCharEnum, name, options)
         {
             //Prepare
-            Options = new List<Option<byte>>();
             Value = (byte)0;
-
-            //Add options
-            for (byte i = 0; i < options.Length; i++)
-                Options.Add(new Option<byte>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the enum from the underlying stream using the specified binary reader.
@@ -691,7 +743,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents an enum tag field.
     /// </summary>
-    public sealed class EnumField : Field
+    public sealed class EnumField : OptionField
     {
         /// <summary>
         /// Gets and returns the size of the enum field.
@@ -700,30 +752,21 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the current option.
         /// </summary>
-        public Option<short> Option
+        public Option Option
         {
             get { return Options[(short)Value]; }
             set { if (Options.Contains(value)) Value = value.Index; }
         }
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<short>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The enum options.</param>
-        public EnumField(string name, params string[] options) : base(FieldType.FieldEnum, name)
+        public EnumField(string name, params string[] options) : base(FieldType.FieldEnum, name, options)
         {
             //Prepare
-            Options = new List<Option<short>>();
             Value = (short)0;
-
-            //Add options
-            for (short i = 0; i < options.Length; i++)
-                Options.Add(new Option<short>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the enum from the underlying stream using the specified binary reader.
@@ -756,7 +799,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a long enum tag field.
     /// </summary>
-    public sealed class LongEnumField : Field
+    public sealed class LongEnumField : OptionField
     {
         /// <summary>
         /// Gets and returns the size of the enum field.
@@ -765,30 +808,21 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the current option.
         /// </summary>
-        public Option<int> Option
+        public Option Option
         {
             get { return Options[(int)Value]; }
             set { if (Options.Contains(value)) Value = value.Index; }
         }
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<int>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LongEnumField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The enum options.</param>
-        public LongEnumField(string name, params string[] options) : base(FieldType.FieldLongEnum, name)
+        public LongEnumField(string name, params string[] options) : base(FieldType.FieldLongEnum, name, options)
         {
             //Prepare
-            Options = new List<Option<int>>();
             Value = 0;
-
-            //Add options
-            for (int i = 0; i < options.Length; i++)
-                Options.Add(new Option<int>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the enum from the underlying stream using the specified binary reader.
@@ -821,31 +855,22 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a long flags tag field.
     /// </summary>
-    public sealed class LongFlagsField : Field
+    public sealed class LongFlagsField : BaseFlagsField
     {
         /// <summary>
         /// Gets and returns the size of the flags field.
         /// </summary>
         public override int Size => 4;
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<int>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LongFlagsField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The flags options</param>
-        public LongFlagsField(string name, params string[] options) : base(FieldType.FieldLongFlags, name)
+        public LongFlagsField(string name, params string[] options) : base(FieldType.FieldLongFlags, name, options)
         {
             //Prepare
-            Options = new List<Option<int>>();
             Value = 0;
-
-            //Add options
-            for (int i = 0; i < options.Length; i++)
-                Options.Add(new Option<int>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the flags from the underlying stream using the specified binary reader.
@@ -872,7 +897,7 @@ namespace Abide.Tag
         public override string ToString()
         {
             List<string> flagged = new List<string>();
-            foreach (Option<int> option in Options)
+            foreach (Option option in Options)
                 if ((((int)Value) & (1 << (option.Index + 1))) == (1 << (option.Index + 1)))
                     flagged.Add(option.Name);
 
@@ -883,7 +908,7 @@ namespace Abide.Tag
         /// </summary>
         /// <param name="option">The option.</param>
         /// <returns><see langword="true"/> if the option is on; otherwise, <see langword="false"/>.</returns>
-        public bool HasFlag(Option<int> option)
+        public override bool HasFlag(Option option)
         {
             int flag = (1 << (option.Index + 1));
             return (((int)Value) & flag) == flag;
@@ -894,7 +919,7 @@ namespace Abide.Tag
         /// <param name="option">The option to set.</param>
         /// <param name="toggle">on or off.</param>
         /// <returns>The new flags value.</returns>
-        public int SetFlag(Option<int> option, bool toggle)
+        public override object SetFlag(Option option, bool toggle)
         {
             //Toggle off first, then back on if needed
             int flags = (int)Value;
@@ -911,31 +936,22 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a word flags tag field.
     /// </summary>
-    public sealed class WordFlagsField : Field
+    public sealed class WordFlagsField : BaseFlagsField
     {
         /// <summary>
         /// Gets and returns the size of the flags field.
         /// </summary>
         public override int Size => 2;
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<short>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WordFlagsField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The flags options</param>
-        public WordFlagsField(string name, params string[] options) : base(FieldType.FieldWordFlags, name)
+        public WordFlagsField(string name, params string[] options) : base(FieldType.FieldWordFlags, name, options)
         {
             //Prepare
-            Options = new List<Option<short>>();
             Value = (short)0;
-
-            //Add options
-            for (short i = 0; i < options.Length; i++)
-                Options.Add(new Option<short>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the flags from the underlying stream using the specified binary reader.
@@ -962,7 +978,7 @@ namespace Abide.Tag
         public override string ToString()
         {
             List<string> flagged = new List<string>();
-            foreach (Option<short> option in Options)
+            foreach (Option option in Options)
                 if ((((short)Value) & (1 << (option.Index + 1))) == (1 << (option.Index + 1)))
                     flagged.Add(option.Name);
 
@@ -973,7 +989,7 @@ namespace Abide.Tag
         /// </summary>
         /// <param name="option">The option.</param>
         /// <returns><see langword="true"/> if the option is on; otherwise, <see langword="false"/>.</returns>
-        public bool HasFlag(Option<int> option)
+        public override bool HasFlag(Option option)
         {
             int flag = (1 << (option.Index + 1));
             return (((short)Value) & flag) == flag;
@@ -984,7 +1000,7 @@ namespace Abide.Tag
         /// <param name="option">The option to set.</param>
         /// <param name="toggle">on or off.</param>
         /// <returns>The new flags value.</returns>
-        public short SetFlag(Option<short> option, bool toggle)
+        public override object SetFlag(Option option, bool toggle)
         {
             //Toggle off first, then back on if needed
             int flags = (short)Value;
@@ -1001,31 +1017,22 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a byte flags tag field.
     /// </summary>
-    public sealed class ByteFlagsField : Field
+    public sealed class ByteFlagsField : BaseFlagsField
     {
         /// <summary>
         /// Gets and returns the size of the flags field.
         /// </summary>
         public override int Size => 1;
-        /// <summary>
-        /// Gets and returns a list of options for the enum.
-        /// </summary>
-        public List<Option<byte>> Options { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteFlagsField"/> class.
         /// </summary>
         /// <param name="name">The name of the field.</param>
         /// <param name="options">The flags options</param>
-        public ByteFlagsField(string name, params string[] options) : base(FieldType.FieldByteFlags, name)
+        public ByteFlagsField(string name, params string[] options) : base(FieldType.FieldByteFlags, name, options)
         {
             //Prepare
-            Options = new List<Option<byte>>();
             Value = (byte)0;
-
-            //Add options
-            for (byte i = 0; i < options.Length; i++)
-                Options.Add(new Option<byte>(options[i], i));
         }
         /// <summary>
         /// Reads the value of the flags from the underlying stream using the specified binary reader.
@@ -1052,7 +1059,7 @@ namespace Abide.Tag
         public override string ToString()
         {
             List<string> flagged = new List<string>();
-            foreach (Option<byte> option in Options)
+            foreach (Option option in Options)
                 if ((((byte)Value) & (1 << (option.Index + 1))) == (1 << (option.Index + 1)))
                     flagged.Add(option.Name);
 
@@ -1063,10 +1070,10 @@ namespace Abide.Tag
         /// </summary>
         /// <param name="option">The option.</param>
         /// <returns><see langword="true"/> if the option is on; otherwise, <see langword="false"/>.</returns>
-        public bool HasFlag(Option<byte> option)
+        public override bool HasFlag(Option option)
         {
             int flag = (1 << (option.Index + 1));
-            return (((short)Value) & flag) == flag;
+            return (((byte)Value) & flag) == flag;
         }
         /// <summary>
         /// Sets a flag on or off.
@@ -1074,7 +1081,7 @@ namespace Abide.Tag
         /// <param name="option">The option to set.</param>
         /// <param name="toggle">on or off.</param>
         /// <returns>The new flags value.</returns>
-        public short SetFlag(Option<byte> option, bool toggle)
+        public override object SetFlag(Option option, bool toggle)
         {
             //Toggle off first, then back on if needed
             int flags = (short)Value;
@@ -2379,7 +2386,7 @@ namespace Abide.Tag
     /// Represents a struct tag field.
     /// </summary>
     /// <typeparam name="T">The tag block type.</typeparam>
-    public sealed class StructField<T> : BaseStructField where T : ITagBlock, new()
+    public sealed class StructField<T> : StructField where T : ITagBlock, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructField{T}"/> class.

@@ -78,7 +78,7 @@ namespace Abide.Decompiler
                     globalsTagBlock.Read(tagReader);
 
                     //Get sound globals
-                    BaseBlockField soundGlobalsTagBlock = (BaseBlockField)globalsTagBlock[0].Fields[4];
+                    BlockField soundGlobalsTagBlock = (BlockField)globalsTagBlock[0].Fields[4];
                     if (soundGlobalsTagBlock.BlockList.Count > 0)
                     {
                         //Get sound gestalt index
@@ -203,13 +203,13 @@ namespace Abide.Decompiler
             if (tagGroup.GroupTag == HaloTags.snd_)
             {
                 //Loop through pitch ranges
-                foreach (ITagBlock pitchRange in ((BaseBlockField)tagGroup[0].Fields[13]).BlockList)
+                foreach (ITagBlock pitchRange in ((BlockField)tagGroup[0].Fields[13]).BlockList)
                 {
                     //Loop through permutations
-                    foreach (ITagBlock permutation in ((BaseBlockField)pitchRange.Fields[7]).BlockList)
+                    foreach (ITagBlock permutation in ((BlockField)pitchRange.Fields[7]).BlockList)
                     {
                         //Loop through chunks
-                        foreach (ITagBlock chunk in ((BaseBlockField)permutation.Fields[6]).BlockList)
+                        foreach (ITagBlock chunk in ((BlockField)permutation.Fields[6]).BlockList)
                         {
                             int address = (int)chunk.Fields[0].Value;
                             if(entry.Raws[RawSection.Sound].ContainsRawOffset(address))
@@ -223,7 +223,7 @@ namespace Abide.Decompiler
                 }
 
                 //Loop through extra infos
-                foreach (ITagBlock extraInfo in ((BaseBlockField)tagGroup[0].Fields[15]).BlockList)
+                foreach (ITagBlock extraInfo in ((BlockField)tagGroup[0].Fields[15]).BlockList)
                 {
                     ITagBlock geometryInfo = (ITagBlock)extraInfo.Fields[2].Value;
                     int address = (int)geometryInfo.Fields[1].Value;

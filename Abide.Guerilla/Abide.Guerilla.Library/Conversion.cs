@@ -88,8 +88,8 @@ namespace Abide.Guerilla.Library
                         break;
 
                     case FieldType.FieldBlock:
-                        BaseBlockField guerillaBlockField = (BaseBlockField)guerilla.Fields[i];
-                        BaseBlockField cacheBlockField = (BaseBlockField)cache.Fields[i];
+                        BlockField guerillaBlockField = (BlockField)guerilla.Fields[i];
+                        BlockField cacheBlockField = (BlockField)cache.Fields[i];
                         for (int j = 0; j < cacheBlockField.BlockList.Count; j++)
                         {
                             ITagBlock guerillaBlock = guerillaBlockField.Add(out success);
@@ -98,8 +98,8 @@ namespace Abide.Guerilla.Library
                         }
                         break;
                     case FieldType.FieldStruct:
-                        BaseStructField guerillaStructField = (BaseStructField)guerilla.Fields[i];
-                        BaseStructField cacheStructField = (BaseStructField)cache.Fields[i];
+                        StructField guerillaStructField = (StructField)guerilla.Fields[i];
+                        StructField cacheStructField = (StructField)cache.Fields[i];
                         TagBlock_ToGuerilla((ITagBlock)guerillaStructField.Value, (ITagBlock)cacheStructField.Value, map);
                         break;
                     case FieldType.FieldData:
@@ -132,10 +132,10 @@ namespace Abide.Guerilla.Library
             using (BinaryWriter bitmapDataWriter = new BinaryWriter(ms))
             {
                 //Prepare
-                BaseBlockField cacheSequences = (BaseBlockField)cacheBitmapBlock.Fields[28];
-                BaseBlockField cacheBitmaps = (BaseBlockField)cacheBitmapBlock.Fields[29];
-                BaseBlockField sequences = (BaseBlockField)bitmapBlock.Fields[28];
-                BaseBlockField bitmaps = (BaseBlockField)bitmapBlock.Fields[29];
+                BlockField cacheSequences = (BlockField)cacheBitmapBlock.Fields[28];
+                BlockField cacheBitmaps = (BlockField)cacheBitmapBlock.Fields[29];
+                BlockField sequences = (BlockField)bitmapBlock.Fields[28];
+                BlockField bitmaps = (BlockField)bitmapBlock.Fields[29];
 
                 //Convert fields
                 for (int i = 0; i < 28; i++)
@@ -202,7 +202,7 @@ namespace Abide.Guerilla.Library
                 foreach (string stringId in stringIds)
                 {
                     //Add block
-                    ITagBlock stringReferenceBlock = ((BaseBlockField)unicodeStringListBlock.Fields[0]).Add(out bool successful);
+                    ITagBlock stringReferenceBlock = ((BlockField)unicodeStringListBlock.Fields[0]).Add(out bool successful);
                     if (successful)
                     {
                         //Setup
@@ -300,17 +300,17 @@ namespace Abide.Guerilla.Library
             ITagBlock soundBlock = sound[0];
 
             //Get block fields from sound cache file gestalt
-            BaseBlockField playbacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
-            BaseBlockField scales = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
-            BaseBlockField importNames = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
-            BaseBlockField pitchRangeParameters = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
-            BaseBlockField pitchRanges = (BaseBlockField)soundCacheFileGestaltBlock.Fields[4];
-            BaseBlockField permutations = (BaseBlockField)soundCacheFileGestaltBlock.Fields[5];
-            BaseBlockField customPlaybacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[6];
-            BaseBlockField runtimePermutationFlags = (BaseBlockField)soundCacheFileGestaltBlock.Fields[7];
-            BaseBlockField chunks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[8];
-            BaseBlockField promotions = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
-            BaseBlockField extraInfos = (BaseBlockField)soundCacheFileGestaltBlock.Fields[10];
+            BlockField playbacks = (BlockField)soundCacheFileGestaltBlock.Fields[0];
+            BlockField scales = (BlockField)soundCacheFileGestaltBlock.Fields[1];
+            BlockField importNames = (BlockField)soundCacheFileGestaltBlock.Fields[2];
+            BlockField pitchRangeParameters = (BlockField)soundCacheFileGestaltBlock.Fields[3];
+            BlockField pitchRanges = (BlockField)soundCacheFileGestaltBlock.Fields[4];
+            BlockField permutations = (BlockField)soundCacheFileGestaltBlock.Fields[5];
+            BlockField customPlaybacks = (BlockField)soundCacheFileGestaltBlock.Fields[6];
+            BlockField runtimePermutationFlags = (BlockField)soundCacheFileGestaltBlock.Fields[7];
+            BlockField chunks = (BlockField)soundCacheFileGestaltBlock.Fields[8];
+            BlockField promotions = (BlockField)soundCacheFileGestaltBlock.Fields[9];
+            BlockField extraInfos = (BlockField)soundCacheFileGestaltBlock.Fields[10];
 
             //Convert fields
             soundBlock.Fields[0].Value = (int)(short)cacheFileSoundBlock.Fields[0].Value;   //flags
@@ -354,7 +354,7 @@ namespace Abide.Guerilla.Library
             //Get custom playback
             if ((byte)cacheFileSoundBlock.Fields[10].Value != C_NullByte)
             {
-                BaseBlockField platformParameters = (BaseBlockField)soundBlock.Fields[14];
+                BlockField platformParameters = (BlockField)soundBlock.Fields[14];
                 ITagBlock soundPlatformPlaybackBlock = platformParameters.Add(out bool success);
                 if (success)
                 {
@@ -366,14 +366,14 @@ namespace Abide.Guerilla.Library
             //Get extra infos
             if ((short)cacheFileSoundBlock.Fields[11].Value != C_NullShort)
             {
-                BaseBlockField unnamed = (BaseBlockField)soundBlock.Fields[15];
+                BlockField unnamed = (BlockField)soundBlock.Fields[15];
                 ITagBlock extraInfo = unnamed.Add(out bool success);
                 if (success)
                 {
                     //Get encoded permutation section
                     ITagBlock soundGestaltExtraInfo = extraInfos.BlockList[(short)cacheFileSoundBlock.Fields[11].Value];
-                    foreach (ITagBlock section in ((BaseBlockField)soundGestaltExtraInfo.Fields[0]).BlockList)
-                        ((BaseBlockField)extraInfo.Fields[1]).BlockList.Add(section);
+                    foreach (ITagBlock section in ((BlockField)soundGestaltExtraInfo.Fields[0]).BlockList)
+                        ((BlockField)extraInfo.Fields[1]).BlockList.Add(section);
 
                     //Get geometry block info
                     TagBlock_ToGuerilla((ITagBlock)extraInfo.Fields[2].Value, (ITagBlock)soundGestaltExtraInfo.Fields[1].Value, map);
@@ -386,7 +386,7 @@ namespace Abide.Guerilla.Library
             {
                 short pitchRangeIndex = (short)cacheFileSoundBlock.Fields[6].Value;
                 byte pitchRangeCount = (byte)cacheFileSoundBlock.Fields[7].Value;
-                BaseBlockField soundPitchRanges = (BaseBlockField)soundBlock.Fields[13];
+                BlockField soundPitchRanges = (BlockField)soundBlock.Fields[13];
                 for (int i = 0; i < pitchRangeCount; i++)
                 {
                     ITagBlock soundPitchRange = soundPitchRanges.Add(out bool success);
@@ -407,7 +407,7 @@ namespace Abide.Guerilla.Library
                         {
                             short permutationIndex = (short)pitchRange.Fields[4].Value;
                             short permutationCount = (short)pitchRange.Fields[5].Value;
-                            BaseBlockField soundPermutations = (BaseBlockField)soundPitchRange.Fields[7];
+                            BlockField soundPermutations = (BlockField)soundPitchRange.Fields[7];
                             for (int j = 0; j < permutationCount; j++)
                             {
                                 ITagBlock soundPermutation = soundPermutations.Add(out success);
@@ -427,7 +427,7 @@ namespace Abide.Guerilla.Library
                                     {
                                         short chunkIndex = (short)permutation.Fields[6].Value;
                                         short chunkCount = (short)permutation.Fields[7].Value;
-                                        BaseBlockField soundChunks = (BaseBlockField)soundPermutation.Fields[6];
+                                        BlockField soundChunks = (BlockField)soundPermutation.Fields[6];
                                         for (int k = 0; k < chunkCount; k++)
                                             soundChunks.BlockList.Add(chunks.BlockList[chunkIndex + k]);
                                     }
