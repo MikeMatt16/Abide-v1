@@ -113,7 +113,7 @@
             // decompileTagsToolStripMenuItem
             // 
             this.decompileTagsToolStripMenuItem.Name = "decompileTagsToolStripMenuItem";
-            this.decompileTagsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.decompileTagsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.decompileTagsToolStripMenuItem.Text = "Decompile &Tags...";
             this.decompileTagsToolStripMenuItem.Click += new System.EventHandler(this.decompileTagsToolStripMenuItem_Click);
             // 
@@ -132,6 +132,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "CacheDecompiler";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Decompiler";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

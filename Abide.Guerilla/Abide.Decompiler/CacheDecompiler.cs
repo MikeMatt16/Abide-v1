@@ -79,7 +79,7 @@ namespace Abide.Decompiler
             decompileButton.Enabled = false;
 
             //Decompile
-            MapDecompiler mapDecompiler = new MapDecompiler(this, map, outputDirectory);
+            MapDecompiler mapDecompiler = new MapDecompiler(map, outputDirectory) { Host = this };
 
             //Start
             mapDecompiler.Start();

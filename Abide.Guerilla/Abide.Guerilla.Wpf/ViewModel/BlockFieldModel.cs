@@ -12,16 +12,29 @@ namespace Abide.Guerilla.Wpf.ViewModel
     /// </summary>
     public class BlockFieldModel : FieldModel
     {
-        private readonly static ITagBlock Null = new GNullBlock();
-
+        private readonly static Block Null = new GNullBlock();
+        
         /// <summary>
-        /// Gets and returns a string for the expand/collapse button.
+        /// Gets and returns the expand or collapse button tooltip.
         /// </summary>
-        public string ExpandButtonText
+        public string ExpandTooltip
         {
-            get
+            get { return expanded ? "Collapse" : "Expand"; }
+        }
+        /// <summary>
+        /// Gets or sets the expanded status of the block.
+        /// </summary>
+        public bool Expanded
+        {
+            get { return expanded; }
+            set
             {
-                return expanded ? "-" : "+";
+                if (expanded != value)
+                {
+                    expanded = value;
+                    NotifyPropertyChanged();
+                    NotifyPropertyChanged(nameof(ExpandTooltip));
+                }
             }
         }
         /// <summary>
@@ -47,22 +60,9 @@ namespace Abide.Guerilla.Wpf.ViewModel
                     NotifyPropertyChanged();
 
                     //Check block index
-                    if (value >= 0 && value < blockList.Count) SelectedTagBlockModel.TagBlock = blockList[value];
+                    if (value >= 0 && value < BlockList.Count) SelectedTagBlockModel = BlockList[value];
                     else SelectedTagBlockModel.TagBlock = Null;
                 }
-            }
-        }
-        /// <summary>
-        /// Gets and returns the block field container's block list.
-        /// </summary>
-        public ObservableCollection<ITagBlock> BlockList
-        {
-            get { return blockList; }
-            private set
-            {
-                bool changed = blockList != value;
-                blockList = value;
-                if (changed) NotifyPropertyChanged();
             }
         }
         /// <summary>
@@ -76,7 +76,24 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// <summary>
         /// Gets or sets the currently selected tag block modal.
         /// </summary>
-        public TagBlockModel SelectedTagBlockModel { get; }
+        public TagBlockModel SelectedTagBlockModel
+        {
+            get { return selectedTagBlockModel; }
+            set
+            {
+                if (selectedTagBlockModel != value)
+                {
+                    selectedTagBlockModel = value;
+                    selectedTagBlockModel.Visiblity = expanded ? Visibility.Visible : Visibility.Collapsed;
+                    NotifyPropertyChanged();
+                    SelectedBlockIndex = BlockList.IndexOf(value);
+                }
+            }
+        }
+        /// <summary>
+        /// Gets and returns the block field container's block list.
+        /// </summary>
+        public ObservableCollection<TagBlockModel> BlockList { get; } = new ObservableCollection<TagBlockModel>();
         /// <summary>
         /// Gets and returns the command to add a block to tag block field.
         /// </summary>
@@ -102,8 +119,8 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// </summary>
         public ICommand ExpandCommand { get; }
 
-        private ObservableCollection<ITagBlock> blockList = new ObservableCollection<ITagBlock>();
         private int selectedBlockIndex = -1;
+        private TagBlockModel selectedTagBlockModel = null;
         private bool expanded = false;
 
         /// <summary>
@@ -116,11 +133,11 @@ namespace Abide.Guerilla.Wpf.ViewModel
 
             //Setup commands
             AddCommand = new RelayCommand(p => AddBlock(), p => CanAddBlock());
-            InsertCommand = new RelayCommand(p => InsertBlock(), p => CanOperateOnCurrentBlock());
-            DuplicateCommand = new RelayCommand(p => DuplicateBlock(), p => { return false; });
+            InsertCommand = new RelayCommand(p => InsertBlock(), p => CanOperateOnCurrentBlock() && CanAddBlock());
+            DuplicateCommand = new RelayCommand(p => DuplicateBlock(), p => false);
             DeleteCommand = new RelayCommand(p => DeleteBlock(), p => CanDeleteBlock());
             DeleteAllCommand = new RelayCommand(p => DeleteAll(), p => CanDeleteBlock());
-            ExpandCommand = new RelayCommand(p => ToggleExpand(), p => CanExpand());
+            ExpandCommand = new RelayCommand(p => ToggleExpansion(), p => HasBlocks);
         }
         /// <summary>
         /// Occurs when the tag field has been changed.
@@ -128,18 +145,18 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected override void OnTagFieldChanged(EventArgs e)
         {
-            //Clear
-            if (TagField != null) BlockList = new ObservableCollection<ITagBlock>(TagField.BlockList);
-            else BlockList.Clear();
+            //Reinitialize List
+            BlockList.Clear();
+            foreach (ITagBlock tagBlock in TagField.BlockList)
+                BlockList.Add(new TagBlockModel() { Owner = Owner, TagBlock = tagBlock});
 
             //Check
             if (BlockList.Count > 0) SelectedBlockIndex = 0;
             else SelectedBlockIndex = -1;
 
             //Notify
-            expanded = BlockList.Count > 0;
+            Expanded = BlockList.Count > 0;
             NotifyPropertyChanged(nameof(HasBlocks));
-            NotifyPropertyChanged(nameof(ExpandButtonText));
 
             //Base procedures
             base.OnTagFieldChanged(e);
@@ -168,23 +185,18 @@ namespace Abide.Guerilla.Wpf.ViewModel
             if (TagField == null) return false;
             return selectedBlockIndex >= 0;
         }
-        private bool CanExpand()
-        {
-            //Return
-            return HasBlocks;
-        }
 
         private void AddBlock()
         {
             //Count
-            int count = blockList.Count;
+            int count = BlockList.Count;
 
             //Add
             ITagBlock tagBlock = TagField.Add(out bool success);
             if (success)
             {
                 //Add
-                BlockList.Add(tagBlock);
+                BlockList.Add(new TagBlockModel() { Owner = Owner, TagBlock = tagBlock });
 
                 //Notify Changes
                 if (count == 0) NotifyPropertyChanged(nameof(HasBlocks));
@@ -199,7 +211,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
             //Create
             ITagBlock tagBlock = TagField.Create();
             TagField.BlockList.Insert(selectedBlockIndex, tagBlock);
-            BlockList.Insert(selectedBlockIndex, tagBlock);
+            BlockList.Insert(selectedBlockIndex, new TagBlockModel() { Owner = Owner, TagBlock = tagBlock });
 
             //Notify Changes
             NotifyPropertyChanged(nameof(HasBlocks));
@@ -238,29 +250,10 @@ namespace Abide.Guerilla.Wpf.ViewModel
             SelectedBlockIndex = -1;
             NotifyValueChanged();
         }
-        private void ToggleExpand()
+        private void ToggleExpansion()
         {
-            //Check
-            if(SelectedTagBlockModel != null)
-            {
-                //Toggle
-                Visibility blockVisibility = SelectedTagBlockModel.Visiblity;
-                switch (blockVisibility)
-                {
-                    case Visibility.Visible:
-                        SelectedTagBlockModel.Visiblity = Visibility.Collapsed;
-                        expanded = false;
-                        break;
-                    case Visibility.Hidden:
-                    case Visibility.Collapsed:
-                        SelectedTagBlockModel.Visiblity = Visibility.Visible;
-                        expanded = true;
-                        break;
-                }
-
-                //Notify
-                NotifyPropertyChanged(nameof(ExpandButtonText));
-            }
+            //Toggle
+            Expanded = !expanded;
         }
     }
 }

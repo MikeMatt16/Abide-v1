@@ -35,7 +35,47 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\abide-icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\abide_guerilla.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -96,21 +136,40 @@
     <Compile Include="Dialogs\CompileDialog.xaml.cs">
       <DependentUpon>CompileDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\NewFileDialog.xaml.cs">
+      <DependentUpon>NewFileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileNameToShortStringConverter.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="TagFileUserControl.xaml.cs">
       <DependentUpon>TagFileUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\CustomBorderWindow.cs" />
+    <Compile Include="Ui\CustomTabControl.xaml.cs">
+      <DependentUpon>CustomTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\CustomTabItem.xaml.cs">
+      <DependentUpon>CustomTabItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\GlowWindow.cs" />
     <Compile Include="ViewModel\BlockFieldModel.cs" />
     <Compile Include="ViewModel\BoundsFieldModel.cs" />
+    <Compile Include="ViewModel\FieldDataTemplateSelector.cs" />
+    <Compile Include="ViewModel\FileDataTemplateSelector.cs" />
     <Compile Include="ViewModel\MapCompilerModel.cs" />
     <Compile Include="ViewModel\EnumFieldModel.cs" />
     <Compile Include="ViewModel\ExplanationFieldModel.cs" />
     <Compile Include="ViewModel\FieldModel.cs" />
     <Compile Include="ViewModel\FileModel.cs" />
     <Compile Include="ViewModel\FlagsFieldModel.cs" />
+    <Compile Include="ViewModel\NewTagViewModel.cs" />
+    <Compile Include="ViewModel\StructFieldModel.cs" />
     <Compile Include="ViewModel\TagBlockModel.cs" />
     <Compile Include="ViewModel\TagFileModel.cs" />
+    <Compile Include="ViewModel\TagHierarchyModel.cs" />
     <Compile Include="ViewModel\TagReferenceFieldModel.cs" />
     <Compile Include="ViewModel\Tuple2FieldModel.cs" />
     <Compile Include="ViewModel\Tuple3FieldModel.cs" />
@@ -168,6 +227,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\NewFileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,7 +246,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="VisualStudioDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TagFileUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\CustomTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\CustomTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,13 +328,88 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\abide-icon.ico" />
+    <Resource Include="Resources\folder-16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\close-hot.png" />
+    <Resource Include="Resources\tag-16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\close-normal.png" />
+    <None Include="Resources\bottomwindow-bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottomwindow-bottomleft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottomwindow-bottomright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftwindow-bottom-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftwindow-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftwindow-top-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\topwindow-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\topwindow-top-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\topwindow-top-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightwindow-bottom-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightwindow-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightwindow-top-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\size-grip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\abide_guerilla.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\window-inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\window-active.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\caption-restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\caption-close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\caption-maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\caption-minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\open-file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\config.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\save-file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\compile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\decompile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

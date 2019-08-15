@@ -113,6 +113,7 @@ namespace Abide.Guerilla.Library
             //Prepare header
             TagGroupHeader header = new TagGroupHeader
             {
+                AbideTag = "atag",
                 GroupTag = TagGroup.GroupTag,
                 RawsCount = (uint)rawData.Count,
                 Id = new TagId(Id),

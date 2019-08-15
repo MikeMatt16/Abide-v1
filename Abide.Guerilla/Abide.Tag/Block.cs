@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Abide.Tag
 {
@@ -45,16 +46,10 @@ namespace Abide.Tag
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            //Prepare
-            string value = DisplayName;
-
-            //Check
-            foreach (Field field in Fields)
-                if (field != null && field.Name.Contains("^") && field.Value != null)
-                { value = field.Value.ToString(); break; }
-
-            //Return
-            return value;
+            //Get name
+            if (Fields.Any(f => f.IsBlockName)) return string.Join(", ",
+                Fields.Where(f => f.IsBlockName).Select(f => f.Value.ToString()).ToArray());
+            return DisplayName;
         }
         /// <summary>
         /// Initializes the tag block.

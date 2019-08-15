@@ -52,11 +52,15 @@ namespace Abide.Compiler
         /// <summary>
         /// Returns the sound classes tag group file.
         /// </summary>
-        public AbideTagGroupFile SoundClasses { get; } = new AbideTagGroupFile();
+        public AbideTagGroupFile SoundClassesFile { get; } = new AbideTagGroupFile();
         /// <summary>
         /// Returns the combat dialog constants tag group file.
         /// </summary>
-        public AbideTagGroupFile CombatDialogueConstant { get; } = new AbideTagGroupFile();
+        public AbideTagGroupFile CombatDialogueConstantFile { get; } = new AbideTagGroupFile();
+        /// <summary>
+        /// Returns the multiplayer globals tag group file.
+        /// </summary>
+        public AbideTagGroupFile MultiplayerGlobalsFile { get; } = new AbideTagGroupFile();
         
         private readonly string m_ScenarioFileName;
         private readonly string m_WorkspaceDirectory;
@@ -69,6 +73,7 @@ namespace Abide.Compiler
 
         public MapCompiler(string scenarioFileName, string workspaceDirectory)
         {
+            //Prepare
             ScenarioPath = scenarioFileName.Replace(Path.Combine(workspaceDirectory, "tags"), string.Empty).Substring(1).Replace(".scenario", string.Empty);
             MapName = Path.GetFileName(ScenarioPath);
             m_ScenarioFileName = scenarioFileName;
@@ -109,6 +114,12 @@ namespace Abide.Compiler
             //Build scenario resource tree
             Console.WriteLine("Discovering tag references...");
             TagResources_Discover(ScenarioFile.TagGroup);
+
+            //Build multiplayer globals resource tree
+            TagResources_Discover(MultiplayerGlobalsFile.TagGroup);
+
+            //Set multiplayer globals ID
+            MultiplayerGlobalsFile.Id = m_CurrentId++;
 
             //Build globals resource tree
             TagResources_Discover(GlobalsFile.TagGroup);
@@ -708,10 +719,10 @@ namespace Abide.Compiler
             }
         }
 
-        private void Tag_Process(AbideTagGroupFile value)
+        private void Tag_Process(AbideTagGroupFile file)
         {
             //Process
-            Tag_Process(value.Id, value.TagGroup);
+            Tag_Process(file.Id, file.TagGroup);
         }
 
         private void Tag_Process(TagId ownerId, ITagGroup tagGroup)
@@ -951,25 +962,28 @@ namespace Abide.Compiler
                     m_ResourceMapFile.Load(RegistrySettings.SharedFileName);
                     using (Stream stream = SharedResources.GetMultiplayerSharedGlobals())
                         GlobalsFile.Load(stream);
-                        break;
+                    using (Stream stream = SharedResources.GetMultiplayerGlobals(true))
+                        MultiplayerGlobalsFile.Load(stream);
+                    break;
                 default: throw new Exception("Unable to compile map of specified type.");
             }
 
             //Read sound classes
             using (Stream stream = SharedResources.GetSoundClasses())
-                SoundClasses.Load(stream);
+                SoundClassesFile.Load(stream);
 
             //Read combat dialoge constant
             using (Stream stream = SharedResources.GetCombatDialogueConstants())
-                CombatDialogueConstant.Load(stream);
+                CombatDialogueConstantFile.Load(stream);
 
             //Add
             m_TagResources.Add(@"globals\globals.globals", GlobalsFile);
             GlobalsFile.Id = m_CurrentId++;
-            m_TagResources.Add(@"sound\sound_classes.sound_classes", SoundClasses);
-            SoundClasses.Id = m_CurrentId++;
-            m_TagResources.Add(@"sound\combat_dialogue_constants.sound_dialogue_constants", CombatDialogueConstant);
-            CombatDialogueConstant.Id = m_CurrentId++;
+            m_TagResources.Add(@"sound\sound_classes.sound_classes", SoundClassesFile);
+            SoundClassesFile.Id = m_CurrentId++;
+            m_TagResources.Add(@"sound\combat_dialogue_constants.sound_dialogue_constants", CombatDialogueConstantFile);
+            CombatDialogueConstantFile.Id = m_CurrentId++;
+            m_TagResources.Add(@"multiplayer\multiplayer_globals.multiplayer_globals", MultiplayerGlobalsFile);
         }
 
         private void Scenario_Prepare()

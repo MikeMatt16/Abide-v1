@@ -10,9 +10,9 @@
         Height="110"
         Width="450" 
         ShowInTaskbar="False" 
-        Icon="/Abide Guerilla;component/Resources/abide-icon.ico" 
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Style="{StaticResource VisualStudioWindow}">
     <Window.DataContext>
         <VM:MapCompilerModel/>
     </Window.DataContext>
@@ -33,9 +33,9 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Scenario File:"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Scenario File:"/>
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ScenarioFileName, ConverterParameter=50, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
-            <Button Grid.Row="0" Grid.Column="4" Command="{Binding Path=BrowseCommand}">Browse</Button>
+            <Button Grid.Row="0" Grid.Column="4" Command="{Binding Path=BrowseCommand}" Content="_Browse"/>
         </Grid>
         <Button Grid.Row="2" Content="_Compile" Command="{Binding Path=CompileCommand}"/>
     </Grid>

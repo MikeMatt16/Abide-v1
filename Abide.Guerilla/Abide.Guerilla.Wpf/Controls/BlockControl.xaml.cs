@@ -25,20 +25,5 @@ namespace Abide.Guerilla.Wpf.Controls
         {
             InitializeComponent();
         }
-
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //Unsubscribe
-            if (e.OldValue is BlockFieldModel)
-                ((BlockFieldModel)e.OldValue).TagFieldChanged -= BlockControl_TagFieldChanged;
-
-            //Subscribe to new changes
-            if(e.NewValue is BlockFieldModel)
-                ((BlockFieldModel)e.NewValue).TagFieldChanged += BlockControl_TagFieldChanged;
-        }
-
-        private void BlockControl_TagFieldChanged(object sender, EventArgs e)
-        {
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
     /// </summary>
     public class MapCompilerModel : NotifyPropertyChangedViewModel
     {
+        
         /// <summary>
         /// Gets or sets the scenario file name.
         /// </summary>
@@ -38,7 +39,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
         public ICommand BrowseCommand { get; }
 
         private string scenarioFileName = null;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MapCompilerModel"/> class.
         /// </summary>

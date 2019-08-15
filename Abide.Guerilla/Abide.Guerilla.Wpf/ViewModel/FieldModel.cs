@@ -55,6 +55,8 @@ namespace Abide.Guerilla.Wpf.ViewModel
                 if (changed)
                 {
                     NotifyPropertyChanged();
+                    Name = value?.Name ?? string.Empty;
+
                     NotifyTagFieldChanged();
                 }
             }
@@ -64,11 +66,14 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// </summary>
         public string Name
         {
-            get
+            get { return name; }
+            private set
             {
-                if (tagField == null) return null;
-                if (string.IsNullOrEmpty(tagField.Name)) return null;
-                return tagField.Name;
+                if (name != value)
+                {
+                    name = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
         /// <summary>
@@ -97,6 +102,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
         }
 
         private Field tagField = null;
+        private string name = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldModel"/> class.

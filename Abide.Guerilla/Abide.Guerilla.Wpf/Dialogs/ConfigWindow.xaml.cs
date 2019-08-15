@@ -43,7 +43,11 @@ namespace Abide.Guerilla.Wpf
                 //Create
                 using (WinForms.FolderBrowserDialog folderDlg = new WinForms.FolderBrowserDialog())
                 {
+                    //Setup
+                    folderDlg.Description = "Select folder.";
                     folderDlg.SelectedPath = directory;
+
+                    //Show
                     if(folderDlg.ShowDialog() == WinForms.DialogResult.OK)
                         element.DataContext = folderDlg.SelectedPath;
                 }

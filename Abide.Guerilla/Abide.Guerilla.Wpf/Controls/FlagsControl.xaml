@@ -24,10 +24,14 @@
 
         <TextBlock Grid.Column="1" Text="{Binding Path=Name}"/>
         <ListBox Grid.Column="3" ItemsSource="{Binding Path=Flags}" MaxHeight="150">
+            <ListBox.Resources>
+            </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Path=Toggle}" Content="{Binding Path=Name}" ToolTip="{Binding Path=ToolTip}"/>
+                        <CheckBox IsChecked="{Binding Path=Toggle}" ToolTip="{Binding Path=ToolTip}">
+                            <TextBlock Text="{Binding Path=Name}" Foreground="{StaticResource Foreground}"/>
+                        </CheckBox>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -16,7 +16,7 @@ namespace Abide.Decompiler
     /// <summary>
     /// Represents a Halo 2 cache map file decompiler.
     /// </summary>
-    public sealed class MapDecompiler
+    public sealed class MapDecompiler : IDisposable
     {
         /// <summary>
         /// Gets and returns the map used by the decompiler.
@@ -29,27 +29,50 @@ namespace Abide.Decompiler
         /// <summary>
         /// Gets and returns the decompiler host.
         /// </summary>
-        public IDecompileHost Host { get; }
+        public IDecompileHost Host { get; set; }
         
         private volatile bool m_IsDecompiling = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapDecompiler"/> class using the specified map file and output directory.
         /// </summary>
-        /// <param name="host">The host.</param>
         /// <param name="map">The map file.</param>
         /// <param name="outputDirectory">The output directory.</param>
-        public MapDecompiler(IDecompileHost host, MapFile map, string outputDirectory)
+        public MapDecompiler(MapFile map, string outputDirectory)
         {
-            Host = host;
-            Map = map;
-            OutputDirectory = outputDirectory;
+            //Setup
+            Map = map ?? throw new ArgumentNullException(nameof(map));
+            OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapDecompiler"/> class using the specified host, map file name and output directory.
+        /// </summary>
+        /// <param name="mapFileName">The map file name.</param>
+        /// <param name="outputDirectory">The output directory.</param>
+        public MapDecompiler(string mapFileName, string outputDirectory)
+        {
+            //Setup
+            OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
+
+            //Load
+            using (FileStream fs = new FileStream(mapFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                //Load
+                Map = new MapFile();
+                Map.Load(fs);
+            }
         }
 
         public void Start()
         {
             //Check
             if (m_IsDecompiling) return;
+            DirectoryInfo targetDirectory = null;
+
+            //Create folder
+            try { targetDirectory = Directory.CreateDirectory(OutputDirectory); }
+            catch(Exception ex) { throw new InvalidOperationException("Unable to create directory for output files.", ex); }
 
             //Start
             m_IsDecompiling = true;
@@ -64,6 +87,9 @@ namespace Abide.Decompiler
             SoundCacheFileGestalt soundCacheFileGestalt = null;
             string tagGroupFileName = string.Empty;
             string localFileName = string.Empty;
+
+            //Begin
+            Console.WriteLine($"Beginning decompilation of {Map.Name}.");
 
             //Get sound gestalt
             IndexEntry globals = Map.Globals;
@@ -102,6 +128,9 @@ namespace Abide.Decompiler
                     //Goto
                     soundGestalt.TagData.Seek((uint)soundGestalt.PostProcessedOffset, SeekOrigin.Begin);
                     soundCacheFileGestalt.Read(reader);
+
+                    //Found
+                    Console.WriteLine($"Found {soundCacheFileGestalt.Name} ({soundGestalt.Filename}.{soundGestalt.Root}).");
                 }
 
             //Loop
@@ -111,6 +140,10 @@ namespace Abide.Decompiler
                     //Read tag
                     using (BinaryReader reader = Map.IndexEntries[i].TagData.CreateReader())
                     {
+                        //Decompile
+                        Console.WriteLine($"Reading cache tag {Map.IndexEntries[i].Filename}.{Map.IndexEntries[i].Root}...");
+                        if (Map.IndexEntries[i].Root == HaloTags.tdtl) System.Diagnostics.Debugger.Break();
+
                         //Goto
                         reader.BaseStream.Seek((uint)Map.IndexEntries[i].PostProcessedOffset, SeekOrigin.Begin);
                         tagGroup.Read(reader);
@@ -118,7 +151,7 @@ namespace Abide.Decompiler
                         //Convert
                         guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, Map.IndexEntries[i], Map);
                     }
-
+                    
                     //Get file name
                     localFileName = Path.Combine($"{Map.IndexEntries[i].Filename}.{guerillaTagGroup.Name}");
                     tagGroupFileName = Path.Combine(OutputDirectory, localFileName);
@@ -133,6 +166,9 @@ namespace Abide.Decompiler
                     using (BinaryWriter writer = new BinaryWriter(fs))
                     using (BinaryReader reader = new BinaryReader(fs))
                     {
+                        //Write
+                        Console.WriteLine($"Writing guerilla tag {tagGroupFileName}.");
+
                         //Write
                         fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
                         guerillaTagGroup.Write(writer);
@@ -163,7 +199,7 @@ namespace Abide.Decompiler
             GC.Collect();
 
             //Complete
-            Host.Complete();
+            if (Host != null) Host.Complete();
         }
         
         private int TagGroup_CalculateChecksum(ITagGroup tagGroup)
@@ -264,6 +300,12 @@ namespace Abide.Decompiler
                 for (int i = 0; i < header.RawsCount; i++)
                     writer.Write(rawDatas[i]);
             }
+        }
+
+        public void Dispose()
+        {
+            //Dispose
+            if (Map != null) Map.Dispose();
         }
     }
 }

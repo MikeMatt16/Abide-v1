@@ -266,7 +266,7 @@ namespace Abide.TagBuilder.Halo2
             string absoluteFilePath = Path.Combine(rootDirectory, localFilePath);
 
             //Load tag
-            TagGroupFile tagGroupFile = new TagGroupFile();
+            AbideTagGroupFile tagGroupFile = new AbideTagGroupFile();
             tagGroupFile.Load(absoluteFilePath);
 
             //Check
@@ -343,7 +343,7 @@ namespace Abide.TagBuilder.Halo2
             }
         }
 
-        private void TagGroup_ToCache(TagsContainer container, TagGroupFile tagGroupFile)
+        private void TagGroup_ToCache(TagsContainer container, AbideTagGroupFile tagGroupFile)
         {
             //Get tag group
             ITagGroup tagGroup = tagGroupFile.TagGroup;
@@ -378,42 +378,42 @@ namespace Abide.TagBuilder.Halo2
             {
                 case FieldType.FieldStringId:
                     StringIdField stringIdField = new StringIdField(field.GetName());
-                    if (field.Value is StringValue stringIdValue)
-                        if (string.IsNullOrEmpty(stringIdValue.Value))
+                    if (field.Value is string stringIdValue)
+                        if (string.IsNullOrEmpty(stringIdValue))
                             stringIdField.Value = StringId.Zero;
-                        else stringIdField.Value = Map.Strings[stringIdValue.Value];
+                        else stringIdField.Value = Map.Strings[stringIdValue];
                     return stringIdField;
 
                 case FieldType.FieldOldStringId:
                     OldStringIdField oldStringIdField = new OldStringIdField(field.GetName());
-                    if (field.Value is StringValue oldStringIdValue)
-                        if (string.IsNullOrEmpty(oldStringIdValue.Value))
+                    if (field.Value is string oldStringIdValue)
+                        if (string.IsNullOrEmpty(oldStringIdValue))
                             oldStringIdField.Value = StringId.Zero;
-                        else oldStringIdField.Value = Map.Strings[oldStringIdValue.Value];
+                        else oldStringIdField.Value = Map.Strings[oldStringIdValue];
                     return oldStringIdField;
 
                 case FieldType.FieldTagReference:
                     TagReferenceField tagReferenceField = new TagReferenceField(field.GetName(), ((Abide.Tag.Guerilla.TagReferenceField)field).GroupTag);
-                    if (field.Value is StringValue tagReferenceValue)
+                    if (field.Value is string tagName)
                     {
-                        if (container.IdLookup.ContainsKey(tagReferenceValue.Value))
-                            tagReferenceField.Value = new TagReference() { Tag = tagReferenceField.GroupTag, Id = container.IdLookup[tagReferenceValue.Value] };
+                        if (container.IdLookup.ContainsKey(tagName))
+                            tagReferenceField.Value = new TagReference() { Tag = tagReferenceField.GroupTag, Id = container.IdLookup[tagName] };
                         else tagReferenceField.Value = tagReferenceField.Null;
                     }
                     return tagReferenceField;
 
                 case FieldType.FieldTagIndex:
                     TagIndexField tagIndexField = new TagIndexField(field.GetName());
-                    if(field.Value is StringValue tagIndexValue)
+                    if(field.Value is string tagIndexValue)
                     {
-                        if (container.IdLookup.ContainsKey(tagIndexValue.Value))
-                            tagIndexField.Value = container.IdLookup[tagIndexValue.Value];
+                        if (container.IdLookup.ContainsKey(tagIndexValue))
+                            tagIndexField.Value = container.IdLookup[tagIndexValue];
                         else tagIndexField.Value = TagId.Null;
                     }
                     return tagIndexField;
 
                 case FieldType.FieldBlock:
-                    if (field is BaseBlockField blockField)
+                    if (field is BlockField blockField)
                         foreach (ITagBlock tagBlock in blockField.BlockList)
                             TagBlock_ToCache(container, tagBlock);
                     return field;
@@ -425,7 +425,7 @@ namespace Abide.TagBuilder.Halo2
             }
         }
 
-        private void Entry_PopulateRaws(TagGroupFile tagGroupFile, IndexEntry entry, BinaryReader reader)
+        private void Entry_PopulateRaws(AbideTagGroupFile tagGroupFile, IndexEntry entry, BinaryReader reader)
         {
             //Prepare
             Stream tagData = reader.BaseStream;
@@ -725,7 +725,7 @@ namespace Abide.TagBuilder.Halo2
             }
         }
         
-        private void SoundGestalt_AddSound(TagGroupFile soundTag)
+        private void SoundGestalt_AddSound(AbideTagGroupFile soundTag)
         {
             //Prepare
             byte[] rawData = null;
@@ -744,17 +744,17 @@ namespace Abide.TagBuilder.Halo2
             //foreach (int rawOffset in soundTag.GetRawOffsets()) m_SoundCacheFileGestaltEntry.Raws[RawSection.Sound](rawOffset, soundTag.GetRaw(rawOffset));
 
             //Get block fields from sound cache file gestalt
-            BaseBlockField playbacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
-            BaseBlockField scales = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
-            BaseBlockField importNames = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
-            BaseBlockField pitchRangeParameters = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
-            BaseBlockField pitchRanges = (BaseBlockField)soundCacheFileGestaltBlock.Fields[4];
-            BaseBlockField permutations = (BaseBlockField)soundCacheFileGestaltBlock.Fields[5];
-            BaseBlockField customPlaybacks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[6];
-            BaseBlockField runtimePermutationFlags = (BaseBlockField)soundCacheFileGestaltBlock.Fields[7];
-            BaseBlockField chunks = (BaseBlockField)soundCacheFileGestaltBlock.Fields[8];
-            BaseBlockField promotions = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
-            BaseBlockField extraInfos = (BaseBlockField)soundCacheFileGestaltBlock.Fields[10];
+            BlockField playbacks = (BlockField)soundCacheFileGestaltBlock.Fields[0];
+            BlockField scales = (BlockField)soundCacheFileGestaltBlock.Fields[1];
+            BlockField importNames = (BlockField)soundCacheFileGestaltBlock.Fields[2];
+            BlockField pitchRangeParameters = (BlockField)soundCacheFileGestaltBlock.Fields[3];
+            BlockField pitchRanges = (BlockField)soundCacheFileGestaltBlock.Fields[4];
+            BlockField permutations = (BlockField)soundCacheFileGestaltBlock.Fields[5];
+            BlockField customPlaybacks = (BlockField)soundCacheFileGestaltBlock.Fields[6];
+            BlockField runtimePermutationFlags = (BlockField)soundCacheFileGestaltBlock.Fields[7];
+            BlockField chunks = (BlockField)soundCacheFileGestaltBlock.Fields[8];
+            BlockField promotions = (BlockField)soundCacheFileGestaltBlock.Fields[9];
+            BlockField extraInfos = (BlockField)soundCacheFileGestaltBlock.Fields[10];
 
             //Change
             soundTag.TagGroup = cacheFileSound;
@@ -783,38 +783,38 @@ namespace Abide.TagBuilder.Halo2
 
             //Add promotion
             ITagBlock soundPromotionParametersStruct = (ITagBlock)soundBlock.Fields[11].Value;
-            if (((BaseBlockField)soundPromotionParametersStruct.Fields[0]).BlockList.Count > 0)
+            if (((BlockField)soundPromotionParametersStruct.Fields[0]).BlockList.Count > 0)
                 cacheFileSoundBlock.Fields[9].Value = (byte)(sbyte)SoundGestalt_FindPromotionIndex((ITagBlock)soundBlock.Fields[11].Value);
             else cacheFileSoundBlock.Fields[9].Value = C_NullByte;
 
             //Add custom playback
-            if (((BaseBlockField)soundBlock.Fields[14]).BlockList.Count > 0)
+            if (((BlockField)soundBlock.Fields[14]).BlockList.Count > 0)
             {
                 index = customPlaybacks.BlockList.Count;
                 ITagBlock customPlayback = customPlaybacks.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[10].Value = (byte)index;
-                    customPlayback.Fields[0].Value = (ITagBlock)((BaseBlockField)soundBlock.Fields[14]).BlockList[0].Fields[0].Value;
+                    customPlayback.Fields[0].Value = (ITagBlock)((BlockField)soundBlock.Fields[14]).BlockList[0].Fields[0].Value;
                 }
                 else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
             }
             else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
 
             //Add extra info
-            if (((BaseBlockField)soundBlock.Fields[15]).BlockList.Count > 0)
+            if (((BlockField)soundBlock.Fields[15]).BlockList.Count > 0)
             {
                 index = extraInfos.BlockList.Count;
-                ITagBlock soundExtraInfo = ((BaseBlockField)soundBlock.Fields[15]).BlockList[0];
+                ITagBlock soundExtraInfo = ((BlockField)soundBlock.Fields[15]).BlockList[0];
                 ITagBlock extraInfo = extraInfos.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
                     ((ITagBlock)extraInfo.Fields[1].Value).Fields[6].Value = new StringValue($"i've got a lovely bunch of coconuts.{soundCacheFileGestalt.Name}");
-                    foreach (ITagBlock block in ((BaseBlockField)soundExtraInfo.Fields[1]).BlockList)
+                    foreach (ITagBlock block in ((BlockField)soundExtraInfo.Fields[1]).BlockList)
                     {
-                        ((BaseBlockField)extraInfo.Fields[0]).BlockList.Add(block);
+                        ((BlockField)extraInfo.Fields[0]).BlockList.Add(block);
 
                     }
                 }
@@ -823,8 +823,8 @@ namespace Abide.TagBuilder.Halo2
             else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
 
             //Add pitch range
-            cacheFileSoundBlock.Fields[7].Value = (byte)((BaseBlockField)soundBlock.Fields[13]).BlockList.Count;
-            foreach (var soundPitchRange in ((BaseBlockField)soundBlock.Fields[13]).BlockList)
+            cacheFileSoundBlock.Fields[7].Value = (byte)((BlockField)soundBlock.Fields[13]).BlockList.Count;
+            foreach (var soundPitchRange in ((BlockField)soundBlock.Fields[13]).BlockList)
             {
                 index = pitchRanges.BlockList.Count;
                 ITagBlock gestaltPitchRange = pitchRanges.Add(out success);
@@ -842,10 +842,10 @@ namespace Abide.TagBuilder.Halo2
 
                     //Add permutation
                     gestaltPitchRange.Fields[4].Value = (short)permutations.BlockList.Count;
-                    gestaltPitchRange.Fields[5].Value = (short)((BaseBlockField)soundPitchRange.Fields[7]).BlockList.Count;
+                    gestaltPitchRange.Fields[5].Value = (short)((BlockField)soundPitchRange.Fields[7]).BlockList.Count;
 
                     //Loop
-                    foreach (ITagBlock soundPermutation in ((BaseBlockField)soundPitchRange.Fields[7]).BlockList)
+                    foreach (ITagBlock soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
                     {
                         ITagBlock gestaltPermutation = permutations.Add(out success);
                         if (success)
@@ -862,10 +862,10 @@ namespace Abide.TagBuilder.Halo2
 
                             //Add chunks
                             gestaltPermutation.Fields[6].Value = (short)chunks.BlockList.Count;
-                            gestaltPermutation.Fields[7].Value = (short)((BaseBlockField)soundPermutation.Fields[6]).BlockList.Count;
+                            gestaltPermutation.Fields[7].Value = (short)((BlockField)soundPermutation.Fields[6]).BlockList.Count;
 
                             //Loop
-                            foreach (ITagBlock soundChunk in ((BaseBlockField)soundPermutation.Fields[6]).BlockList)
+                            foreach (ITagBlock soundChunk in ((BlockField)soundPermutation.Fields[6]).BlockList)
                             {
                                 chunks.BlockList.Add(soundChunk);
                                 if ((rawData = soundTag.GetRaw((int)soundChunk.Fields[0].Value)) != null)
@@ -893,7 +893,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[3];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[3];
             int index = -1;
 
             //Check
@@ -931,7 +931,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[2];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[2];
             int index = -1;
 
             //Check
@@ -961,7 +961,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[9];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[9];
             int index = -1;
 
             //Check
@@ -991,7 +991,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[1];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[1];
             int index = -1;
 
             //Check
@@ -1025,7 +1025,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             ITagBlock soundCacheFileGestaltBlock = m_SoundCacheFileGestalt[0];
-            BaseBlockField blockField = (BaseBlockField)soundCacheFileGestaltBlock.Fields[0];
+            BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[0];
             int index = -1;
 
             //Check
@@ -1067,8 +1067,8 @@ namespace Abide.TagBuilder.Halo2
                         switch (b1.Fields[i].Type)
                         {
                             case FieldType.FieldBlock:
-                                BaseBlockField bf1 = (BaseBlockField)f1;
-                                BaseBlockField bf2 = (BaseBlockField)f2;
+                                BlockField bf1 = (BlockField)f1;
+                                BlockField bf2 = (BlockField)f2;
                                 equals &= bf1.BlockList.Count == bf2.BlockList.Count;
                                 if (equals)
                                     for (int j = 0; j < bf1.BlockList.Count; j++)

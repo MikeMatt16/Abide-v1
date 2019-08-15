@@ -7,27 +7,40 @@
              xmlns:VM="clr-namespace:Abide.Guerilla.Wpf.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800"
-             Margin="4" DataContextChanged="UserControl_DataContextChanged">
+             Foreground="{StaticResource Foreground}">
     <UserControl.DataContext>
         <VM:BlockFieldModel/>
     </UserControl.DataContext>
-    <Grid Background="{x:Static SystemColors.ControlDarkBrush}">
-        <Border BorderBrush="Black" BorderThickness="1"/>
+    <Grid Background="{StaticResource BackgroundDark}">
+        <Border BorderBrush="{StaticResource BackgroundLight}" BorderThickness="1"/>
         <StackPanel Orientation="Vertical" Margin="8">
             <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="{Binding Path=ExpandButtonText}" Command="{Binding Path=ExpandCommand}" Width="20"/>
-                    <TextBlock Text="{Binding Path=TagField.Name}" FontWeight="Bold" FontSize="14" Margin="4,0,0,0"/>
+                <TextBlock Text="{Binding Path=TagField.Name}" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Margin="4,0,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <ToggleButton Command="{Binding Path=ExpandCommand}" Width="20" Height="20" VerticalAlignment="Center"
+                                  HorizontalAlignment="Center" IsChecked="{Binding Path=Expanded, Mode=TwoWay}"
+                                  Style="{StaticResource VisualStudioExpandCollapseToggleButton}"
+                                  ToolTip="{Binding Path=ExpandTooltip}"/>
+                    <ComboBox Width="350" ItemsSource="{Binding Path=BlockList}" SelectedIndex="{Binding Path=SelectedBlockIndex}"
+                              IsEnabled="{Binding Path=HasBlocks}" Margin="4,0,0,0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Name="TagBlock" Text="{Binding Path=Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="Add" Width="70" Margin="4,0,0,0" Command="{Binding Path=AddCommand}"
+                            ToolTip="Add a new tag block to the list."/>
+                    <Button Content="Insert" Width="70" Margin="4,0,0,0" Command="{Binding Path=InsertCommand}"
+                            ToolTip="Insert a new tag block before the currently selected block."/>
+                    <Button Content="Duplicate" Width="70" Margin="4,0,0,0" Command="{Binding Path=DuplicateCommand}"
+                            ToolTip="Insert a clone of the currently selected tag block before the selected tag block."/>
+                    <Button Content="Delete" Width="70" Margin="4,0,0,0" Command="{Binding Path=DeleteCommand}"
+                            ToolTip="Deletes the currently selected tag block."/>
+                    <Button Content="Delete All" Width="70" Margin="4,0,0,0" Command="{Binding Path=DeleteAllCommand}"
+                            ToolTip="Deletes all of the tag blocks."/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                    <ComboBox Width="350" ItemsSource="{Binding Path=BlockList}" SelectedIndex="{Binding Path=SelectedBlockIndex}" IsEnabled="{Binding Path=HasBlocks}"/>
-                    <Button Content="Add" Width="70" Margin="4,0,0,0" Command="{Binding Path=AddCommand}"/>
-                    <Button Content="Insert" Width="70" Margin="4,0,0,0" Command="{Binding Path=InsertCommand}"/>
-                    <Button Content="Duplicate" Width="70" Margin="4,0,0,0" Command="{Binding Path=DuplicateCommand}"/>
-                    <Button Content="Delete" Width="70" Margin="4,0,0,0" Command="{Binding Path=DeleteCommand}"/>
-                    <Button Content="Delete All" Width="70" Margin="4,0,0,0" Command="{Binding Path=DeleteAllCommand}"/>
-                </StackPanel>
-                <local:TagBlockControl Margin="0,4,0,0" DataContext="{Binding Path=SelectedTagBlockModel}" Visibility="{Binding Path=Visiblity}" Background="White"/>
+                <local:TagBlockControl Margin="0,4,0,0" DataContext="{Binding Path=SelectedTagBlockModel}" Visibility="{Binding Path=Visiblity}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -95,7 +95,7 @@ namespace Abide.TagBuilder.MapFileScanner
                             TagBlock_Search(structBlock, source);
                         break;
                     case FieldType.FieldBlock:
-                        if (tagField is BaseBlockField blockField)
+                        if (tagField is BlockField blockField)
                             foreach (ITagBlock block in blockField.BlockList)
                                 TagBlock_Search(block, source);
                         break;

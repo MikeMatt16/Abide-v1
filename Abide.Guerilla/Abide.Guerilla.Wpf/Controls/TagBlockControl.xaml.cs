@@ -99,7 +99,7 @@ namespace Abide.Guerilla.Wpf.Controls
                     switch (fields[i].Type)
                     {
                         case FieldType.FieldExplanation:
-                            fieldModel = new ExplanationFieldModel() { Owner = Model.Owner, TagField = fields[i] };
+                            fieldModel = new ExplanationFieldModel() { Owner = Model.Owner, TagField = (ExplanationField)fields[i] };
                             control = new ExplanationControl() { DataContext = fieldModel };
                             children.Add(control);
                             break;
@@ -120,7 +120,7 @@ namespace Abide.Guerilla.Wpf.Controls
                         case FieldType.FieldLongString:
                         case FieldType.FieldStringId:
                         case FieldType.FieldOldStringId:
-                            fieldModel = new ValueFieldModel() { Owner = Model.Owner, TagField = fields[i], InputBoxWidth = 200 };
+                            fieldModel = new ValueFieldModel() { Owner = Model.Owner, TagField = fields[i], InputBoxWidth = 250 };
                             control = new ValueControl() { DataContext = fieldModel };
                             children.Add(control);
                             break;

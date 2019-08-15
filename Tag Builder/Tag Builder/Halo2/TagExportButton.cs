@@ -135,7 +135,7 @@ namespace Abide.TagBuilder.Halo2
             if (manifest.TagIdReferences.Contains(entry.Id.Dword)) return;
 
             //Prepare
-            TagGroupFile tagGroupFile = new TagGroupFile() { Id = entry.Id };
+            AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { Id = entry.Id };
             ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
             string localPath = $"{entry.Filename}.{tagGroup.Name}";
             string absolutePath = Path.Combine(outputDirectory, localPath);
@@ -171,11 +171,11 @@ namespace Abide.TagBuilder.Halo2
                     int rawOffset = 0;
                     IndexEntry soundCacheFileGestaltEntry = Map.GetSoundCacheFileGestaltEntry();
                     ITagBlock soundBlock = tagGroup[0];
-                    foreach (ITagBlock pitchRangeBlock in ((BaseBlockField)soundBlock.Fields[13]).BlockList)
+                    foreach (ITagBlock pitchRangeBlock in ((BlockField)soundBlock.Fields[13]).BlockList)
                     {
-                        foreach (ITagBlock permutationBlock in ((BaseBlockField)pitchRangeBlock.Fields[7]).BlockList)
+                        foreach (ITagBlock permutationBlock in ((BlockField)pitchRangeBlock.Fields[7]).BlockList)
                         {
-                            foreach (ITagBlock permutationChunkBlock in ((BaseBlockField)permutationBlock.Fields[6]).BlockList)
+                            foreach (ITagBlock permutationChunkBlock in ((BlockField)permutationBlock.Fields[6]).BlockList)
                             {
                                 rawOffset = (int)permutationChunkBlock.Fields[0].Value;
                                 if (soundCacheFileGestaltEntry.Raws[RawSection.Sound].ContainsRawOffset(rawOffset))
@@ -183,7 +183,7 @@ namespace Abide.TagBuilder.Halo2
                             }
                         }
                     }
-                    foreach (ITagBlock extraInfoBlock in ((BaseBlockField)soundBlock.Fields[15]).BlockList)
+                    foreach (ITagBlock extraInfoBlock in ((BlockField)soundBlock.Fields[15]).BlockList)
                     {
                         ITagBlock globalGeometryBlockInfoStruct = (ITagBlock)extraInfoBlock.Fields[2].Value;
                         if (soundCacheFileGestaltEntry.Raws[RawSection.LipSync].ContainsRawOffset(rawOffset))
@@ -225,7 +225,7 @@ namespace Abide.TagBuilder.Halo2
                 {
                     IndexEntry_Export(manifest, Map.IndexEntries[id], m_SoundCacheFileGestalt, outputDirectory);
                 }
-                else if (field.Type == FieldType.FieldBlock && field is BaseBlockField blockField)
+                else if (field.Type == FieldType.FieldBlock && field is BlockField blockField)
                 {
                     foreach (ITagBlock block in blockField.BlockList)
                         TagBock_BuildReferences(manifest, block, outputDirectory);

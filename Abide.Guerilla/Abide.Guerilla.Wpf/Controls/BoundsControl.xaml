@@ -25,10 +25,10 @@
             <ColumnDefinition Width="4"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="1" Text="{Binding Path=Name, Mode=OneWay}"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=Name, Mode=OneWay}"/>
         <TextBox Grid.Column="3" Text="{Binding Path=Min, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Path=ToolTip}"/>
-        <TextBlock Grid.Column="4" Text="to" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="4" Text="to" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox Grid.Column="5" Text="{Binding Path=Max, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Path=ToolTip}"/>
-        <TextBlock Grid.Column="7" Text="{Binding Path=Details}"/>
+        <TextBlock Grid.Column="7" VerticalAlignment="Center" Text="{Binding Path=Details}"/>
     </Grid>
 </UserControl>

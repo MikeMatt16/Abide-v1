@@ -38,7 +38,7 @@
             this.Description = "Guerilla tag editor";
             this.Icon = global::Guerilla.Properties.Resources.guerilla_16;
             this.Name = "Guerilla";
-            this.Size = new System.Drawing.Size(1502, 999);
+            this.Size = new System.Drawing.Size(1527, 826);
             this.ToolName = "Guerilla";
             this.ResumeLayout(false);
 

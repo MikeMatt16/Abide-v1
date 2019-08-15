@@ -75,16 +75,13 @@ namespace Abide.Guerilla.Library
                         }
                         break;
                     case FieldType.FieldTagReference:
-                        if (cache.Fields[i].Value is TagReference tagReferenceValue)
-                        {
-                            ((TagReferenceField)guerilla.Fields[i]).GroupTag = tagReferenceValue.Tag;
-                            if (map.IndexEntries[tagReferenceValue.Id] != null)
+                        if (cache.Fields[i].Value is TagReference tagReferenceValue && 
+                            map.IndexEntries[tagReferenceValue.Id] != null)
                             {
                                 tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceValue.Id].Root);
                                 string tagPath = $@"{map.IndexEntries[tagReferenceValue.Id].Filename}.{tagGroup.Name}";
                                 guerilla.Fields[i].Value = tagPath;
                             }
-                        }
                         break;
 
                     case FieldType.FieldBlock:

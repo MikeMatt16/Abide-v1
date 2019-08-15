@@ -11,7 +11,8 @@
         WindowStartupLocation="CenterOwner"
         Title="Abide Guerilla Configuration"
         Width="600"
-        MinWidth="600">
+        MinWidth="600"
+        Style="{StaticResource VisualStudioWindow}">
     <Window.DataContext>
         <local:SettingsViewModel/>
     </Window.DataContext>
@@ -45,19 +46,19 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Workspace Directory:"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Workspace Directory:" VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="2" Name="workspaceDirectoryTextBox" Text="{Binding WorkspaceDirectory, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
             <Button Grid.Row="0" Grid.Column="4" DataContext="{Binding Path=WorkspaceDirectory, Mode=TwoWay}" Click="BrowsePathButton_Click">Browse</Button>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Shared Map:"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Shared Map:" VerticalAlignment="Center"/>
             <TextBox Grid.Row="2" Grid.Column="2" Name="sharedMapFileNameTextBox" Text="{Binding Path=SharedFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
             <Button Grid.Row="2" Grid.Column="4" DataContext="{Binding Path=SharedFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Mainmenu Map:"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Mainmenu Map:" VerticalAlignment="Center"/>
             <TextBox Grid.Row="4" Grid.Column="2" Name="mainmenuMapFileNameTextBox" Text="{Binding Path=MainmenuFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
             <Button Grid.Row="4" Grid.Column="4" DataContext="{Binding Path=MainmenuFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Singleplayer Shared Map:"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Singleplayer Shared Map:" VerticalAlignment="Center"/>
             <TextBox Grid.Row="6" Grid.Column="2" Name="singleplayerSharedMapFileNameTextBox" Text="{Binding Path=SingleplayerSharedFileName, ConverterParameter=60, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
             <Button Grid.Row="6" Grid.Column="4" DataContext="{Binding Path=SingleplayerSharedFileName, Mode=TwoWay}" Click="BrowseButton_Click">Browse</Button>
         </Grid>
@@ -71,7 +72,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Name="okButton" Content="_Close" IsDefault="True" Click="CloseButton_Click"/>
+            <Button Grid.Row="0" Grid.Column="0" Name="okButton" Content="Close" IsDefault="True" Click="CloseButton_Click"/>
         </Grid>
     </Grid>
 </Window>

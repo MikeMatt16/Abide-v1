@@ -36,7 +36,7 @@ namespace Abide.TagBuilder.Halo2
             ITagGroup tagGroup = null;
             ITagGroup scenario = new Scenario();
             ITagBlock scenarioBlock = null, simulationDefinitionTableElementBlock = null;
-            BaseBlockField simulationDefinitionTableField = null;
+            BlockField simulationDefinitionTableField = null;
             List<IndexEntry> simulationDefinitionEntries = new List<IndexEntry>();
             bool success = false;
 
@@ -78,7 +78,7 @@ namespace Abide.TagBuilder.Halo2
 
             //Re-create simulation definition table
             scenarioBlock = scenario[0];
-            simulationDefinitionTableField = (BaseBlockField)scenarioBlock.Fields[143];
+            simulationDefinitionTableField = (BlockField)scenarioBlock.Fields[143];
             simulationDefinitionTableField.BlockList.Clear();
             foreach (IndexEntry entry in simulationDefinitionEntries)
             {

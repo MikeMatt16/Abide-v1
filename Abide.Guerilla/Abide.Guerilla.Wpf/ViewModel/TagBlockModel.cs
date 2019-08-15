@@ -1,5 +1,8 @@
 ﻿using Abide.Tag;
+using Abide.Tag.Definition;
 using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 
 namespace Abide.Guerilla.Wpf.ViewModel
@@ -9,6 +12,27 @@ namespace Abide.Guerilla.Wpf.ViewModel
     /// </summary>
     public class TagBlockModel : TagModel
     {
+        private static readonly FileNameToShortStringConverter fileNameConverter = new FileNameToShortStringConverter();
+
+        /// <summary>
+        /// Gets and returns the list of fields in the tag block.
+        /// </summary>
+        public ObservableCollection<FieldModel> Fields { get; } = new ObservableCollection<FieldModel>();
+        /// <summary>
+        /// Gets or sets the name of the tag block.
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if(name != value)
+                {
+                    name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         /// <summary>
         /// Gets and returns the visibility state of this tag block.
         /// </summary>
@@ -49,18 +73,144 @@ namespace Abide.Guerilla.Wpf.ViewModel
                 if (changed)
                 {
                     NotifyPropertyChanged();
+
+                    //Load fields
+                    Fields.Clear();
+                    if (value != null)
+                    {
+                        //Get name
+                        Name = value.Name;
+
+                        //Loop through fields
+                        foreach (Field field in value.Fields)
+                        {
+                            //Handle type
+                            switch (field.Type)
+                            {
+                                case FieldType.FieldExplanation:
+                                    Fields.Add(new ExplanationFieldModel() { Owner = Owner, TagField = (ExplanationField)field });
+                                    break;
+
+                                case FieldType.FieldStruct:
+                                    Fields.Add(new StructFieldModel() { Owner = Owner, TagField = (StructField)field });
+                                    break;
+
+                                case FieldType.FieldBlock:
+                                    Fields.Add(new BlockFieldModel() { Owner = Owner, TagField = (BlockField)field });
+                                    break;
+
+                                case FieldType.FieldString:
+                                case FieldType.FieldLongString:
+                                case FieldType.FieldStringId:
+                                case FieldType.FieldOldStringId:
+                                    Fields.Add(new ValueFieldModel() { Owner = Owner, TagField = field, InputBoxWidth = 250 });
+                                    break;
+
+                                case FieldType.FieldShortBlockIndex1:
+                                case FieldType.FieldShortBlockIndex2:
+                                case FieldType.FieldCharBlockIndex1:
+                                case FieldType.FieldCharBlockIndex2:
+                                case FieldType.FieldLongBlockIndex1:
+                                case FieldType.FieldLongBlockIndex2:
+                                case FieldType.FieldRealFraction:
+                                case FieldType.FieldShortInteger:
+                                case FieldType.FieldCharInteger:
+                                case FieldType.FieldLongInteger:
+                                case FieldType.FieldAngle:
+                                case FieldType.FieldReal:
+                                case FieldType.FieldTag:
+                                    Fields.Add(new ValueFieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldShortBounds:
+                                case FieldType.FieldAngleBounds:
+                                case FieldType.FieldRealBounds:
+                                case FieldType.FieldRealFractionBounds:
+                                    Fields.Add(new BoundsFieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldCharEnum:
+                                case FieldType.FieldEnum:
+                                case FieldType.FieldLongEnum:
+                                    Fields.Add(new EnumFieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldTagIndex:
+                                case FieldType.FieldTagReference:
+                                    Fields.Add(new TagReferenceFieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldData:
+                                    break;
+
+                                case FieldType.FieldLongFlags:
+                                case FieldType.FieldWordFlags:
+                                case FieldType.FieldByteFlags:
+                                    Fields.Add(new FlagsFieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldEulerAngles3D:
+                                case FieldType.FieldRealVector3D:
+                                case FieldType.FieldRealRgbColor:
+                                case FieldType.FieldRealHsvColor:
+                                case FieldType.FieldRealPoint3D:
+                                case FieldType.FieldRealPlane2D:
+                                case FieldType.FieldRgbColor:
+                                    Fields.Add(new Tuple3FieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldEulerAngles2D:
+                                case FieldType.FieldRealVector2D:
+                                case FieldType.FieldRealPoint2D:
+                                case FieldType.FieldPoint2D:
+                                    Fields.Add(new Tuple2FieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldRealArgbColor:
+                                case FieldType.FieldRealAhsvColor:
+                                case FieldType.FieldRealPlane3D:
+                                case FieldType.FieldRectangle2D:
+                                case FieldType.FieldQuaternion:
+                                case FieldType.FieldArgbColor:
+                                    Fields.Add(new Tuple4FieldModel() { Owner = Owner, TagField = field });
+                                    break;
+
+                                case FieldType.FieldVertexBuffer:
+                                    break;
+
+                                case FieldType.FieldLongBlockFlags:
+                                    break;
+                                case FieldType.FieldWordBlockFlags:
+                                    break;
+                                case FieldType.FieldByteBlockFlags:
+                                    break;
+                            }
+                        }
+                    }
+                    else Name = string.Empty;
+
+                    //Notify change
                     NotifyTagBlockChanged();
                 }
             }
         }
-
+        
         private ITagBlock tagBlock = null;
         private Visibility visibility = Visibility.Visible;
+        private string name = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagBlockModel"/> class.
         /// </summary>
         public TagBlockModel() { }
+        /// <summary>
+        /// Returns a string that represents this tag block model.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public override string ToString()
+        {
+            return Name;
+        }
         /// <summary>
         /// Pushes a notification that the tag block has been changed.
         /// </summary>
@@ -85,6 +235,9 @@ namespace Abide.Guerilla.Wpf.ViewModel
 
             //Set dirty
             Owner.IsDirty = true;
+
+            //Notify property changed...
+            NotifyPropertyChanged(nameof(Name));
 
             //Call OnFieldValueChanged
             OnFieldValueChanged(e);

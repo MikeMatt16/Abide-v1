@@ -358,7 +358,7 @@ namespace Tag_Data_Editor.Halo2
                         case "root":
                             dataObject.DataStream.Seek(SelectedEntry.PostProcessedOffset + dataObject.Node.TagBlockOffset, SeekOrigin.Begin);
                             using (BinaryReader reader = dataObject.DataStream.CreateReader())
-                                block = reader.ReadInt64();
+                                block = (TagBlock)reader.ReadInt64();
                             for (int i = 0; i < block.Count; i++)
                                 options.AppendLine(TagDataFormatter.CreateOption(i, $"{i}: {value_GetLabel(dataObject.Node.ItemType, dataObject.DataStream, block.Offset + (dataObject.Node.TagBlockSize * i) + dataObject.Node.ItemOffset)}"));
                             formatter.AddBlockSelect(dataObject.UniqueId, typeLabel, options.ToString(), dataObject.Node.Name);

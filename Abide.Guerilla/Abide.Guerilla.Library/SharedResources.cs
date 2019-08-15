@@ -2256,6 +2256,23 @@ namespace Abide.Guerilla.Library
         }
 
         /// <summary>
+        /// Returns a <see cref="Stream"/> containing multiplayer globals.
+        /// </summary>
+        /// <returns></returns>
+        public static Stream GetMultiplayerGlobals(bool multiplayer)
+        {
+            //Prepare
+            byte[] multiplayerGlobals = null;
+
+            //Create instance
+            if (multiplayer) multiplayerGlobals = (byte[])Properties.Resources.mp_multiplayer_globals.Clone();
+            else multiplayerGlobals = (byte[])Properties.Resources.mp_multiplayer_globals.Clone();
+
+            //Return
+            return new MemoryStream(multiplayerGlobals);
+        }
+
+        /// <summary>
         /// Returns a <see cref="Stream"/> containing combat dialog constants.
         /// </summary>
         /// <returns>A stream.</returns>

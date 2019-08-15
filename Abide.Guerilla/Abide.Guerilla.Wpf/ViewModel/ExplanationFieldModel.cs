@@ -12,15 +12,53 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// </summary>
         public bool HasExplanation
         {
-            get { return !string.IsNullOrEmpty(Explanation); }
+            get { return hasExplanation; }
+            set
+            {
+                if(hasExplanation!= value)
+                {
+                    hasExplanation = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
         /// <summary>
         /// Gets and returns the explanation.
         /// </summary>
         public string Explanation
         {
-            get { if (TagField is ExplanationField explanationField) return explanationField.Explanation; return string.Empty; }
+            get { return explanation; }
+            set
+            {
+                if (explanation != value)
+                {
+                    explanation = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
+        /// <summary>
+        /// Gets or sets the explanation field this object wraps.
+        /// </summary>
+        public new ExplanationField TagField
+        {
+            get { return (ExplanationField)base.TagField; }
+            set
+            {
+                if (base.TagField != value)
+                {
+                    base.TagField = value;
+                    if (value != null)
+                    {
+                        HasExplanation = !string.IsNullOrEmpty(value.Explanation);
+                        Explanation = value.Explanation;
+                    }
+                }
+            }
+        }
+
+        private string explanation = string.Empty;
+        private bool hasExplanation = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExplanationFieldModel"/> class.

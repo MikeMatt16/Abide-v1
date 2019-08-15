@@ -73,6 +73,16 @@ namespace Abide.Guerilla.Library.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] mp_multiplayer_globals {
+            get {
+                object obj = ResourceManager.GetObject("mp_multiplayer_globals", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] multiplayer_shared_globals {
             get {
                 object obj = ResourceManager.GetObject("multiplayer_shared_globals", resourceCulture);

@@ -34,6 +34,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\Guerilla.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Guerilla.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

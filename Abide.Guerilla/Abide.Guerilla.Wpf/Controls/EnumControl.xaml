@@ -22,8 +22,8 @@
             <ColumnDefinition Width="4"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="1" Text="{Binding Path=Name}"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=Name}"/>
         <ComboBox Grid.Column="3" ItemsSource="{Binding Path=Options}" SelectedIndex="{Binding Path=SelectedIndex}" ToolTip="{Binding Path=ToolTip}"/>
-        <TextBlock Grid.Column="5" Text="{Binding Path=Details}"/>
+        <TextBlock Grid.Column="5" VerticalAlignment="Center" Text="{Binding Path=Details}"/>
     </Grid>
 </UserControl>

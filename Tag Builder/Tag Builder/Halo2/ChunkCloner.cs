@@ -82,7 +82,7 @@ namespace Abide.TagBuilder.Halo2
                 //Check type
                 switch (field.Type)
                 {
-                    case FieldType.FieldBlock: node.Nodes.Add(BlockField_CreateTreeNode((BaseBlockField)field)); break;
+                    case FieldType.FieldBlock: node.Nodes.Add(BlockField_CreateTreeNode((BlockField)field)); break;
                     case FieldType.FieldStruct: node.Nodes.Add(StructField_CreateTreeNode(field)); break;
                     case FieldType.FieldData: node.Nodes.Add(DataField_CreateTreeNode((DataField)field)); break;
                 }
@@ -98,7 +98,7 @@ namespace Abide.TagBuilder.Halo2
             return TagBlock_CreateTreeNode((ITagBlock)structField.Value);
         }
 
-        private TreeNode BlockField_CreateTreeNode(BaseBlockField blockField)
+        private TreeNode BlockField_CreateTreeNode(BlockField blockField)
         {
             //Prepare
             string displayName = blockField.Name;
@@ -176,16 +176,16 @@ namespace Abide.TagBuilder.Halo2
             moveBlockDownToolStripButton.Visible = false;
 
             //Prepare
-            BaseBlockField tagBlockField = null;
+            BlockField tagBlockField = null;
             DataField dataField = null;
             ITagBlock tagBlock = null;
             
             //Check
-            if (e.Node.Tag is ITagBlock && e.Node.Parent != null && e.Node.Parent.Tag is BaseBlockField)
+            if (e.Node.Tag is ITagBlock && e.Node.Parent != null && e.Node.Parent.Tag is BlockField)
             {
                 //Get variables
                 tagBlock = (ITagBlock)e.Node.Tag;
-                tagBlockField = (BaseBlockField)e.Node.Parent.Tag;
+                tagBlockField = (BlockField)e.Node.Parent.Tag;
 
                 //Show
                 toolStripSeparator2.Visible = true;
@@ -197,10 +197,10 @@ namespace Abide.TagBuilder.Halo2
                 moveBlockUpToolStripButton.Visible = true;
                 moveBlockDownToolStripButton.Visible = true;
             }
-            else if(e.Node.Tag is BaseBlockField)
+            else if(e.Node.Tag is BlockField)
             {
                 //Get variables
-                tagBlockField = (BaseBlockField)e.Node.Tag;
+                tagBlockField = (BlockField)e.Node.Tag;
 
                 //Show
                 toolStripSeparator2.Visible = true;
@@ -219,7 +219,7 @@ namespace Abide.TagBuilder.Halo2
                 copyToolStripMenuItem.Enabled = true;
                 pasteToolStripMenuButton.Enabled = true;
             }
-            else if(e.Node.Tag is BaseStructField structField)
+            else if(e.Node.Tag is StructField structField)
             {
                 //Show
                 toolStripSeparator2.Visible = true;
@@ -267,7 +267,7 @@ namespace Abide.TagBuilder.Halo2
                     //Set
                     Clipboard.SetData(AbideClipboardTag, ms);
                 }
-                else if (tagStructureTreeView.SelectedNode.Tag is BaseStructField structField && structField.Value is ITagBlock structBlock)
+                else if (tagStructureTreeView.SelectedNode.Tag is StructField structField && structField.Value is ITagBlock structBlock)
                 {
                     //Setup header
                     header = new TagClipboardHeader
@@ -296,7 +296,7 @@ namespace Abide.TagBuilder.Halo2
                     //Set
                     Clipboard.SetData(AbideClipboardTag, ms);
                 }
-                else if (tagStructureTreeView.SelectedNode.Tag is BaseBlockField tagBlockField)
+                else if (tagStructureTreeView.SelectedNode.Tag is BlockField tagBlockField)
                 {
                     //Setup header
                     header = new TagClipboardHeader
@@ -361,7 +361,7 @@ namespace Abide.TagBuilder.Halo2
                     parent.Nodes.RemoveAt(index);
                     parent.Nodes.Insert(index, newNode);
                 }
-                else if(tagStructureTreeView.SelectedNode.Tag is BaseBlockField blockField && blockField.Create().Name == header.BlockName)
+                else if(tagStructureTreeView.SelectedNode.Tag is BlockField blockField && blockField.Create().Name == header.BlockName)
                 {
                     //Read and add blocks
                     for (int i = 0; i < header.BlockCount; i++)
@@ -379,7 +379,7 @@ namespace Abide.TagBuilder.Halo2
                         }
                     }
                 }
-                else if(tagStructureTreeView.SelectedNode.Tag is BaseStructField structField && structField.Value is ITagBlock tagStruct && tagStruct.Name == header.BlockName && header.BlockCount == 1)
+                else if(tagStructureTreeView.SelectedNode.Tag is StructField structField && structField.Value is ITagBlock tagStruct && tagStruct.Name == header.BlockName && header.BlockCount == 1)
                 {
                     //Read block
                     tagStruct.Read(reader);
@@ -405,15 +405,15 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
-            BaseBlockField tagBlockField = null;
+            BlockField tagBlockField = null;
             ITagBlock tagBlock = null;
 
             //Check
-            if (selectedNode.Tag is ITagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BaseBlockField)
+            if (selectedNode.Tag is ITagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField)
             {
                 //Get variables
                 tagBlock = (ITagBlock)selectedNode.Tag;
-                tagBlockField = (BaseBlockField)selectedNode.Parent.Tag;
+                tagBlockField = (BlockField)selectedNode.Parent.Tag;
 
                 //Delete
                 if (tagBlockField.BlockList.Remove(tagBlock)) selectedNode.Remove();
@@ -424,15 +424,15 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
-            BaseBlockField tagBlockField = null;
+            BlockField tagBlockField = null;
             ITagBlock tagBlock = null;
 
             //Check
-            if (selectedNode.Tag is ITagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BaseBlockField)
+            if (selectedNode.Tag is ITagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField)
             {
                 //Get variables
                 tagBlock = (ITagBlock)selectedNode.Tag;
-                tagBlockField = (BaseBlockField)selectedNode.Parent.Tag;
+                tagBlockField = (BlockField)selectedNode.Parent.Tag;
 
                 //Add
                 ITagBlock newBlock = tagBlockField.Add(out bool success);
@@ -470,13 +470,13 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
-            BaseBlockField tagBlockField = null;
+            BlockField tagBlockField = null;
 
             //Check
-            if (selectedNode.Tag is BaseBlockField)
+            if (selectedNode.Tag is BlockField)
             {
                 //Get variables
-                tagBlockField = (BaseBlockField)selectedNode.Tag;
+                tagBlockField = (BlockField)selectedNode.Tag;
 
                 //Show
                 deleteTagBlocksToolStripButton.Visible = true;
@@ -506,13 +506,13 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
-            BaseBlockField tagBlockField = null;
+            BlockField tagBlockField = null;
 
             //Check
-            if (selectedNode.Tag is BaseBlockField)
+            if (selectedNode.Tag is BlockField)
             {
                 //Get variables
-                tagBlockField = (BaseBlockField)selectedNode.Tag;
+                tagBlockField = (BlockField)selectedNode.Tag;
 
                 //Clear
                 tagBlockField.BlockList.Clear();
@@ -765,7 +765,7 @@ namespace Abide.TagBuilder.Halo2
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
 
             //Check
-            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BaseBlockField blockField)
+            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
             {
                 int index = -1;
                 if ((index = blockField.BlockList.IndexOf(block)) >= 0)
@@ -798,7 +798,7 @@ namespace Abide.TagBuilder.Halo2
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
 
             //Check
-            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BaseBlockField blockField)
+            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
             {
                 int index = -1;
                 if ((index = blockField.BlockList.IndexOf(block)) >= 0)

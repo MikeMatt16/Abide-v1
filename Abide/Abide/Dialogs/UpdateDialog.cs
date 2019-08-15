@@ -43,7 +43,7 @@ namespace Abide.Dialogs
             WebClient client = new WebClient();
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
             client.DownloadFileCompleted += Client_DownloadPackageCompleted;
-            downloadingName = "Update package";
+            downloadingName = "update package";
 
             //Download Package
             client.DownloadFileAsync(new Uri(manifest.PackageUrl), packageFilename);
@@ -69,7 +69,7 @@ namespace Abide.Dialogs
                 WebClient client = (WebClient)sender;
                 client.DownloadFileCompleted -= Client_DownloadPackageCompleted;
                 client.DownloadFileCompleted += Client_DownloadUpdaterCompleted;
-                downloadingName = "Updater Application";
+                downloadingName = "updater application";
 
                 //Download Updater
                 client.DownloadFileAsync(new Uri(manifest.UpdaterUrl), updaterFilename);
@@ -111,7 +111,8 @@ namespace Abide.Dialogs
         {
             //Prepare
             float progress = e.BytesReceived / (float)e.TotalBytesToReceive;
-            downloadProgressLabel.Text = $"Downloading {downloadingName} {e.BytesReceived}/{e.TotalBytesToReceive} ({Math.Floor(progress * 100f)}%)";
+            downloadProgressLabel.Text = $"Downloading {downloadingName} {FormatBytes(e.BytesReceived)}/{FormatBytes(e.TotalBytesToReceive)} " +
+                $"({Math.Floor(progress * 100f)}%)";
             downloadProgressBar.Value = (int)(progress * 100f);
         }
 
@@ -122,6 +123,14 @@ namespace Abide.Dialogs
                 MessageBox.Show("Update package is downloading, are you sure you want to cancel?", 
                 "Cancel?", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
                 e.Cancel = true;
+        }
+
+        private string FormatBytes(long bytes)
+        {
+            if (bytes < 1024) return $"{bytes} B";
+            if (bytes < 1048576) return $"{bytes / 1024} KiB";
+            if (bytes < 1073741824) return $"{bytes / 1048576} MiB";
+            return $"{bytes / 1073741824} GiB";
         }
     }
 }

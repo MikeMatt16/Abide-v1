@@ -14,11 +14,12 @@
     <UserControl.DataContext>
         <VM:ExplanationFieldModel/>
     </UserControl.DataContext>
-    <Grid Background="{x:Static SystemColors.ControlLightBrush}">
-        <Border BorderThickness="1" BorderBrush="Black"/>
+    <Grid Background="{StaticResource Background}">
+        <Border BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"/>
         <StackPanel Orientation="Vertical" Margin="8" HorizontalAlignment="Left">
-            <TextBlock Text="{Binding TagField.Name}" FontWeight="Bold" FontSize="14"/>
-            <TextBlock Text="{Binding Explanation}" Visibility="{Binding HasExplanation, Converter={StaticResource boolToVisibility}, Mode=OneWay}" Margin="0,0,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+            <TextBlock Text="{Binding Explanation}" Visibility="{Binding HasExplanation,
+                Converter={StaticResource boolToVisibility}, Mode=OneWay}" Margin="0,0,0,0" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 </UserControl>
