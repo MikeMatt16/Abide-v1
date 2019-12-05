@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8F1A4052-B7DB-4784-97C1-642B1D0C711D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Abide.Wpf</RootNamespace>
+    <AssemblyName>Abide</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>embedded</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>bin\Release\Abide.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\abide-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Modules\AddOns\AddOnEnvironment.cs" />
+    <Compile Include="Modules\AddOns\AddOnManifest.cs" />
+    <Compile Include="Modules\AddOns\AssemblyManager.cs" />
+    <Compile Include="Modules\AddOns\Halo2\Retail\HaloAddOnFactory.cs" />
+    <Compile Include="Modules\AddOns\Halo2\Retail\MetaEditor.xaml.cs">
+      <DependentUpon>MetaEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ApplicationSettings.cs" />
+    <Compile Include="Modules\Dialogs\ChooseEditorDialog.xaml.cs">
+      <DependentUpon>ChooseEditorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AddOns\AddOnFactory.cs" />
+    <Compile Include="Modules\AddOns\EditorAddOnFactory.cs" />
+    <Compile Include="Modules\ViewModel\ExtendedTreeView.cs" />
+    <Compile Include="Modules\ViewModel\FileItem.cs" />
+    <Compile Include="Modules\UI\GlowWindowHost.cs" />
+    <Compile Include="Modules\Editors\Halo2\Beta\Halo2BetaMapEditor.xaml.cs">
+      <DependentUpon>Halo2BetaMapEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\Beta\HaloMapViewModel.cs" />
+    <Compile Include="Modules\Editors\Halo2\Retail\Halo2MapEditor.xaml.cs">
+      <DependentUpon>Halo2MapEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\Retail\HaloMapViewModel.cs" />
+    <Compile Include="Modules\ViewModel\TabItemTemplateSelector.cs" />
+    <Compile Include="Modules\ViewModel\AbideViewModel.cs" />
+    <Compile Include="Modules\Win32\AbideRegistry.cs" />
+    <Compile Include="Modules\Win32\CreateParameters.cs" />
+    <Compile Include="Modules\Win32\Gdi32.cs" />
+    <Compile Include="Modules\Win32\User32.cs" />
+    <Compile Include="Modules\Win32\Win32Window.cs" />
+    <Compile Include="Modules\Win32\WinUser.cs" />
+    <Page Include="Modules\AddOns\Halo2\Retail\MetaEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Dialogs\ChooseEditorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\Beta\Halo2BetaMapEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\Retail\Halo2MapEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resources\Abide Splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\abide-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Glow-Window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modules\Windows\Resources\Abide-Window-Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.AddOnApi\Abide.AddOnApi.csproj">
+      <Project>{AB0B3A93-6A5B-46AC-8C20-DB7B92B221CE}</Project>
+      <Name>Abide.AddOnApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
+      <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
+      <Name>Abide.HaloLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
+      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
+      <Name>YeloDebug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj">
+      <Project>{c7b4df9c-d74c-4f1b-9083-5531bea84b6d}</Project>
+      <Name>Abide.DebugXbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj">
+      <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
+      <Name>Abide.Ifp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj">
+      <Project>{b3cc2b9a-fdd7-4cbf-a87d-e1732737226e}</Project>
+      <Name>Abide.AddOnApi.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Wpf.Ui\Abide.Wpf.Ui.csproj">
+      <Project>{2f92e201-9c1a-441e-ae2d-894def96a8ba}</Project>
+      <Name>Abide.Wpf.Ui</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

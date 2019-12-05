@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Ifp", "..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj", "{55B8FBAD-8570-4371-BA33-62E85351DB66}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla.Tool", "Abide.Guerilla.Tool\Abide.Guerilla.Tool.csproj", "{1068D740-84F4-4865-9970-4A5D4F4C4284}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla.Wpf", "Abide.Guerilla.Wpf\Abide.Guerilla.Wpf.csproj", "{58B105E8-910B-499F-B6F2-B6D05CCFDF9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Guerilla.Wpf.Ui", "Abide.Guerilla.Wpf.Ui\Abide.Guerilla.Wpf.Ui.csproj", "{8E443E55-B387-42AD-AE66-28BDEDACC93E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +100,10 @@ Global
 		{58B105E8-910B-499F-B6F2-B6D05CCFDF9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58B105E8-910B-499F-B6F2-B6D05CCFDF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58B105E8-910B-499F-B6F2-B6D05CCFDF9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E443E55-B387-42AD-AE66-28BDEDACC93E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E443E55-B387-42AD-AE66-28BDEDACC93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E443E55-B387-42AD-AE66-28BDEDACC93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E443E55-B387-42AD-AE66-28BDEDACC93E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

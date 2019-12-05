@@ -32,7 +32,8 @@ namespace XbExplorer
             base.OnHandleCreated(e);
 
             //Set explorer theme
-            SetWindowTheme(Handle, "Explorer", null);
+            int result = SetWindowTheme(Handle, "Explorer", null);
+            if (result != 0) SetWindowTheme(Handle, null, null);
         }
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="ExplorerListView"/> and optionally releases the managed resources.

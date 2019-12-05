@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide", "Abide\Abide.csproj", "{0FB77E3A-42F0-4304-8D04-59D947AF35C5}"
 EndProject
@@ -18,6 +18,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.DebugXbox", "..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj", "{C7B4DF9C-D74C-4F1B-9083-5531BEA84B6D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YeloDebug", "..\Abide Halo Library\YeloDebug\YeloDebug.csproj", "{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Wpf", "Abide.Wpf\Abide.Wpf.csproj", "{8F1A4052-B7DB-4784-97C1-642B1D0C711D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi.Wpf", "Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj", "{B3CC2B9A-FDD7-4CBF-A87D-E1732737226E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Wpf.Ui", "Abide.Wpf.Ui\Abide.Wpf.Ui.csproj", "{2F92E201-9C1A-441E-AE2D-894DEF96A8BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Wpf.AddOnDemo", "Abide.Wpf.AddOnDemo\Abide.Wpf.AddOnDemo.csproj", "{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +63,22 @@ Global
 		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DB1C08-E8A7-4618-9E0E-0CC225597C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F1A4052-B7DB-4784-97C1-642B1D0C711D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F1A4052-B7DB-4784-97C1-642B1D0C711D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F1A4052-B7DB-4784-97C1-642B1D0C711D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F1A4052-B7DB-4784-97C1-642B1D0C711D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CC2B9A-FDD7-4CBF-A87D-E1732737226E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CC2B9A-FDD7-4CBF-A87D-E1732737226E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CC2B9A-FDD7-4CBF-A87D-E1732737226E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CC2B9A-FDD7-4CBF-A87D-E1732737226E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F92E201-9C1A-441E-AE2D-894DEF96A8BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F92E201-9C1A-441E-AE2D-894DEF96A8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F92E201-9C1A-441E-AE2D-894DEF96A8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F92E201-9C1A-441E-AE2D-894DEF96A8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

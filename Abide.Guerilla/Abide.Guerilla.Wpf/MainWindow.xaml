@@ -1,34 +1,33 @@
-﻿<ui:CustomBorderWindow x:Name="customBorderWindow" x:Class="Abide.Guerilla.Wpf.MainWindow"
+﻿<ui2:GlowWindowHost x:Name="customBorderWindow" x:Class="Abide.Guerilla.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Abide.Guerilla.Wpf"
+        xmlns:ui2="clr-namespace:Abide.Guerilla.Wpf.Ui;assembly=Abide.Guerilla.Wpf.Ui"
         xmlns:vm="clr-namespace:Abide.Guerilla.Wpf.ViewModel"
-        xmlns:ui="clr-namespace:Abide.Guerilla.Wpf.Ui"
-        xmlns:tag="clr-namespace:Abide.Tag;assembly=Abide.Tag"
-        xmlns:ctr="clr-namespace:Abide.Guerilla.Wpf.Controls"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}" Height="800" Width="900" WindowState="Normal"
         ResizeMode="CanResizeWithGrip"
         SnapsToDevicePixels="True"
         DataContextChanged="CustomBorderWindow_DataContextChanged"
+        ActiveGlowColor="#eb156b"
         Style="{StaticResource VisualStudioWindow}">
-    <ui:CustomBorderWindow.InputBindings>
+    <ui2:GlowWindowHost.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Path=NewFileCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Path=OpenFileCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Path=SaveAllCommand}"/>
         <KeyBinding Modifiers="Alt" Key="F4" Command="{Binding Path=ExitCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding Path=SelectedFile.SaveFileCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding Path=SelectedFile.CloseFileCommand}"/>
-    </ui:CustomBorderWindow.InputBindings>
-    <ui:CustomBorderWindow.Resources>
+    </ui2:GlowWindowHost.InputBindings>
+    <ui2:GlowWindowHost.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
         <local:FileNameToShortStringConverter x:Key="fileToShortString"/>
-    </ui:CustomBorderWindow.Resources>
-    <ui:CustomBorderWindow.DataContext>
+    </ui2:GlowWindowHost.Resources>
+    <ui2:GlowWindowHost.DataContext>
         <local:MainViewModel/>
-    </ui:CustomBorderWindow.DataContext>
+    </ui2:GlowWindowHost.DataContext>
     <Grid SnapsToDevicePixels="True">
         <DockPanel>
             <Grid DockPanel.Dock="Top" Height="31">
@@ -480,6 +479,7 @@
 
                     <vm:FileDataTemplateSelector x:Key="FileTemplateSelector" TagFileTemplate="{StaticResource TagFileTemplate}"/>
                 </Grid.Resources>
+
                 <TabControl x:Name="mainTabControl" ItemsSource="{Binding Path=Files, Mode=TwoWay}"
                             SelectedItem="{Binding Path=SelectedFile}" ContentTemplateSelector="{StaticResource FileTemplateSelector}">
                     <TabControl.ItemTemplate>
@@ -503,10 +503,4 @@
             </Grid>
         </DockPanel>
     </Grid>
-
-    <!--<ui:CustomBorderWindow.Triggers>
-        <Trigger Property="WindowState" Value="Maximized">
-            <Setter TargetName="MaximizeRestoreButtonImage" Property="Source" Value=""/>
-        </Trigger>
-    </ui:CustomBorderWindow.Triggers>-->
-</ui:CustomBorderWindow>
+</ui2:GlowWindowHost>

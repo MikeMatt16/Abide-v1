@@ -142,7 +142,6 @@ namespace Abide.Decompiler
                     {
                         //Decompile
                         Console.WriteLine($"Reading cache tag {Map.IndexEntries[i].Filename}.{Map.IndexEntries[i].Root}...");
-                        if (Map.IndexEntries[i].Root == HaloTags.tdtl) System.Diagnostics.Debugger.Break();
 
                         //Goto
                         reader.BaseStream.Seek((uint)Map.IndexEntries[i].PostProcessedOffset, SeekOrigin.Begin);

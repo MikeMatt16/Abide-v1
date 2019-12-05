@@ -8,7 +8,7 @@ namespace Abide.Guerilla.Wpf
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : CustomBorderWindow
+    public partial class MainWindow : GlowWindowHost
     {
         public MainViewModel Model
         {

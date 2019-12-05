@@ -30,22 +30,16 @@ namespace Abide.AddOnApi
     public class AddOnHostEventArgs : EventArgs
     {
         /// <summary>
-        /// The AddOn host instance.
+        /// Gets and returns the add-on host instance.
         /// </summary>
-        public IHost Host
-        {
-            get { return host; }
-        }
-        
-        private readonly IHost host;
-
+        public IHost Host { get; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddOnHostEventArgs"/> class using the supplied AddOn host.
+        /// Initializes a new instance of the <see cref="AddOnHostEventArgs"/> class using the specified add-on host.
         /// </summary>
-        /// <param name="host">The AddOn Host instance.</param>
+        /// <param name="host">The add-on host instance.</param>
         public AddOnHostEventArgs(IHost host)
         {
-            this.host = host;
+            Host = host ?? throw new ArgumentNullException(nameof(host));
         }
     }
 }

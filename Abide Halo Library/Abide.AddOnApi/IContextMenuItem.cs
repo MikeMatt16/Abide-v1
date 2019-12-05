@@ -11,7 +11,7 @@ namespace Abide.AddOnApi
     public interface IContextMenuItem<TMap, TEntry, TXbox> : IAddOn, ITagFilter, IDebugXboxAddOn<TXbox>, IHaloAddOn<TMap, TEntry>
     {
         /// <summary>
-        /// When implemented, gets and returns an icon for this tool. This value can be null.
+        /// When implemented, gets and returns an icon for this menu item. This value can be null.
         /// </summary>
         Image Icon { get; }
         /// <summary>

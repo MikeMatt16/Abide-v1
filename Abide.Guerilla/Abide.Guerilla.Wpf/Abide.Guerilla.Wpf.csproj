@@ -100,6 +100,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="Controls\BlockControl.xaml.cs">
       <DependentUpon>BlockControl.xaml</DependentUpon>
     </Compile>
@@ -147,14 +148,12 @@
     <Compile Include="Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\CustomBorderWindow.cs" />
     <Compile Include="Ui\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\CustomTabItem.xaml.cs">
       <DependentUpon>CustomTabItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\GlowWindow.cs" />
     <Compile Include="ViewModel\BlockFieldModel.cs" />
     <Compile Include="ViewModel\BoundsFieldModel.cs" />
     <Compile Include="ViewModel\FieldDataTemplateSelector.cs" />
@@ -313,6 +312,10 @@
     <ProjectReference Include="..\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
       <Project>{ae90ebbc-3c67-4e3b-ae2b-54336144313e}</Project>
       <Name>Abide.Guerilla.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Guerilla.Wpf.Ui\Abide.Guerilla.Wpf.Ui.csproj">
+      <Project>{8e443e55-b387-42ad-ae66-28bdedacc93e}</Project>
+      <Name>Abide.Guerilla.Wpf.Ui</Name>
     </ProjectReference>
     <ProjectReference Include="..\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
       <Project>{764c6399-3a25-4bdb-b746-8648ceddd652}</Project>

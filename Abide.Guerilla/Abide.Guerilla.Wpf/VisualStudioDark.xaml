@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Abide.Guerilla.Wpf.Ui;assembly=Abide.Guerilla.Wpf.Ui">
     
     <SolidColorBrush x:Key="ActiveAccent" Color="#eb156b"/>
     <SolidColorBrush x:Key="AccentLight" Color="#ee3b83"/>
@@ -238,7 +239,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
-    <Style x:Key="VisualStudioWindow" TargetType="Window">
+    <Style x:Key="VisualStudioWindow" TargetType="ui:GlowWindowHost">
         <Setter Property="Background" Value="{StaticResource Background}"/>
     </Style>
 

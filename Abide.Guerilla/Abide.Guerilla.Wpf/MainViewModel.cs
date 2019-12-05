@@ -7,15 +7,18 @@ using Abide.Tag;
 using Abide.Tag.Guerilla.Generated;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using WinForms = System.Windows.Forms;
 
 namespace Abide.Guerilla.Wpf
 {
@@ -536,12 +539,153 @@ namespace Abide.Guerilla.Wpf
                 if (changed) NotifyPropertyChanged();
             }
         }
+        /// <summary>
+        /// Gets and returns the browse workspace directory command.
+        /// </summary>
+        public ICommand BrowseWorkspaceCommand { get; }
+        /// <summary>
+        /// Gets and returns the browse shared map file command.
+        /// </summary>
+        public ICommand BrowseSharedMapCommand { get; }
+        /// <summary>
+        /// Gets and returns the browse mainmenu map file command.
+        /// </summary>
+        public ICommand BrowseMainmenuMapCommand { get; }
+        /// <summary>
+        /// Gets and returns the browse singleplayer shared map file command.
+        /// </summary>
+        public ICommand BrowseSpSharedMapCommand { get; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+        /// </summary>
+        public SettingsViewModel()
+        {
+            BrowseWorkspaceCommand = new RelayCommand(BrowseWorkspaceDirectory);
+            BrowseSharedMapCommand = new RelayCommand(BrowseSharedMapFile);
+            BrowseMainmenuMapCommand = new RelayCommand(BrowseMainmenuMapFile);
+            BrowseSpSharedMapCommand = new RelayCommand(BrowseSingleplayerSharedMapFile);
+        }
+
+        private void BrowseWorkspaceDirectory(object obj)
+        {
+            //Create
+            using (WinForms.FolderBrowserDialog folderDlg = new WinForms.FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Select Abide Guerilla workspace directory.";
+                folderDlg.SelectedPath = WorkspaceDirectory;
+
+                //Show
+                if (folderDlg.ShowDialog() == WinForms.DialogResult.OK)
+                    WorkspaceDirectory = folderDlg.SelectedPath;
+            }
+        }
+        private void BrowseSharedMapFile(object obj)
+        {
+            //Create
+            OpenFileDialog openDlg = new OpenFileDialog
+            {
+                Title = "Browse Shared map file...",
+                Filter = "Halo Map Files (*.map)|*.map",
+                FileName = SharedFileName,
+            };
+
+            if (File.Exists(SharedFileName))
+                openDlg.InitialDirectory = Path.GetDirectoryName(SharedFileName);
+
+            if (openDlg.ShowDialog() ?? false)
+            {
+                //Set shared
+                SharedFileName = openDlg.FileName;
+                DiscoverResourceMaps(openDlg.FileName);
+            }
+        }
+        private void BrowseMainmenuMapFile(object obj)
+        {
+            //Create
+            OpenFileDialog openDlg = new OpenFileDialog
+            {
+                Title = "Browse Mainmenu map file...",
+                Filter = "Halo Map Files (*.map)|*.map",
+                FileName = MainmenuFileName,
+            };
+
+            if (File.Exists(MainmenuFileName))
+                openDlg.InitialDirectory = Path.GetDirectoryName(MainmenuFileName);
+
+            if (openDlg.ShowDialog() ?? false)
+            {
+                MainmenuFileName = openDlg.FileName;
+                DiscoverResourceMaps(openDlg.FileName);
+            }
+        }
+        private void BrowseSingleplayerSharedMapFile(object obj)
+        {
+            //Create
+            OpenFileDialog openDlg = new OpenFileDialog
+            {
+                Title = "Browse Singleplayer Shared map file...",
+                Filter = "Halo Map Files (*.map)|*.map",
+                FileName = SingleplayerSharedFileName,
+            };
+
+            if (File.Exists(SingleplayerSharedFileName))
+                openDlg.InitialDirectory = Path.GetDirectoryName(SingleplayerSharedFileName);
+
+            if (openDlg.ShowDialog() ?? false)
+            {
+                SingleplayerSharedFileName = openDlg.FileName;
+                DiscoverResourceMaps(openDlg.FileName);
+            }
+        }
+        private void DiscoverResourceMaps(string resourceMapFileName)
+        {
+            // This method is a little sloppy. It works but could probably be improved.
+
+            //Prepare
+            List<string> resourceMapList = new List<string>();
+            StringBuilder msgBuilder = new StringBuilder("The following resource maps were also detected in the same directory:\r\n");
+            string[] resourceMapNames = { "mainmenu.map", "single_player_shared.map", "shared.map" };
+
+            //Get directory
+            string directory = Path.GetDirectoryName(resourceMapFileName);
+            string currentResourceMap = Path.GetFileName(resourceMapFileName);
+
+            //Loop
+            foreach (string resourceMapName in resourceMapNames)
+                if (resourceMapName != currentResourceMap && File.Exists(Path.Combine(directory, resourceMapName)))
+                    resourceMapList.Add(Path.Combine(directory, resourceMapName));
+
+            //Check
+            if (resourceMapList.Count > 0)
+            {
+                //Loop
+                foreach (string mapFileName in resourceMapList)
+                    msgBuilder.AppendLine(Path.GetFileName(mapFileName));
+
+                //Add final line
+                msgBuilder.AppendLine("Would you like to set these maps as well?");
+
+                //Show
+                var result = MessageBox.Show(msgBuilder.ToString(), "Additional Maps found", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    foreach (var mapFileName in resourceMapList)
+                        switch (Path.GetFileName(mapFileName))
+                        {
+                            case "mainmenu.map": MainmenuFileName = mapFileName; break;
+                            case "single_player_shared.map": SingleplayerSharedFileName = mapFileName; break;
+                            case "shared.map": SharedFileName = mapFileName; break;
+                        }
+                }
+            }
+        }
     }
 
     /// <summary>
     /// Represents a view model that can notify when a propery has been changed.
     /// </summary>
-    public class NotifyPropertyChangedViewModel : INotifyPropertyChanged
+    public class NotifyPropertyChangedViewModel : DependencyObject, INotifyPropertyChanged
     {
         /// <summary>
         /// Occurs when a property is changed.
