@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_group_block" DisplayName="structure_lightmap_group_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="16">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="normal" />
+		</FieldEnum>
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldLongInteger Index="2" Name="structure checksum" />
+		<FieldBlock Index="3" Name="section palette" BlockName="structure_lightmap_palette_color_block" />
+		<FieldBlock Index="4" Name="writable palettes" BlockName="structure_lightmap_palette_color_block" />
+		<FieldTagReference Index="5" Name="bitmap group" GroupTag="1651078253" />
+		<FieldBlock Index="6" Name="clusters" BlockName="lightmap_geometry_section_block" />
+		<FieldBlock Index="7" Name="cluster render info" BlockName="lightmap_geometry_render_info_block" />
+		<FieldBlock Index="8" Name="poop definitions" BlockName="lightmap_geometry_section_block" />
+		<FieldBlock Index="9" Name="lighting environments*" BlockName="structure_lightmap_lighting_environment_block" />
+		<FieldBlock Index="10" Name="geometry buckets" BlockName="lightmap_vertex_buffer_bucket_block" />
+		<FieldBlock Index="11" Name="instance render info" BlockName="lightmap_geometry_render_info_block" />
+		<FieldBlock Index="12" Name="instance bucket refs" BlockName="lightmap_instance_bucket_reference_block" />
+		<FieldBlock Index="13" Name="scenery object info" BlockName="lightmap_scenery_object_info_block" />
+		<FieldBlock Index="14" Name="scenery object bucket refs" BlockName="lightmap_instance_bucket_reference_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

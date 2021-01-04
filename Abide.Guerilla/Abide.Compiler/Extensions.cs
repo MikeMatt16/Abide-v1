@@ -37,10 +37,10 @@ namespace Abide.Compiler
         /// </summary>
         /// <param name="field">The field to retrieve the structure tag block of.</param>
         /// <returns>A <see cref="ITagBlock"/> instance if the field is of type <see cref="FieldType.FieldStruct"/>; otherwise <see langword="null"/>.</returns>
-        public static ITagBlock GetStruct(this Field field)
+        public static Block GetStruct(this Field field)
         {
             if (field is StructField structField)
-                return (ITagBlock)structField.Value;
+                return (Block)structField.Value;
             return null;
         }
 

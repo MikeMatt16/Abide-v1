@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_scenery_datum_struct_block" DisplayName="sound_scenery_datum_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongEnum Index="0" Name="Volume Type">
+			<Option Name="Sphere" />
+			<Option Name="Vertical Cylinder" />
+		</FieldLongEnum>
+		<FieldReal Index="1" Name="Height" />
+		<FieldRealBounds Index="2" Name="Override Distance Bounds" />
+		<FieldAngleBounds Index="3" Name="Override Cone Angle Bounds" />
+		<FieldReal Index="4" Name="Override Outer Cone Gain:dB" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

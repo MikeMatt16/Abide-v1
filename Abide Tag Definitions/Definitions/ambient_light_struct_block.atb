@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ambient_light_struct_block" DisplayName="ambient_light_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="Ambient light" Explanation="" />
+		<FieldRealRgbColor Index="1" Name="Min lightmap sample" />
+		<FieldRealRgbColor Index="2" Name="Max lightmap sample" />
+		<FieldExplanation Index="3" Name="Ambient light function" Explanation="Ambient light scale. (left side min brightness, right side max brightness). Before this scale it determines a global ambient scale, which added to either light will total ~1.0 scale. Then this scale modifies that." />
+		<FieldCustom Index="4" Name="function" />
+		<FieldStruct Index="5" Name="function" StructName="mapping_function_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

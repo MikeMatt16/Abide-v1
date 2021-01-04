@@ -1,6 +1,6 @@
 ﻿using Abide.Guerilla.Library;
 using Abide.HaloLibrary;
-using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.Halo2.Retail;
 using Abide.Tag;
 using Abide.Tag.Cache.Generated;
 using System;
@@ -20,42 +20,42 @@ namespace Abide.Decompiler
 {
     public partial class TagDecompiler : Form
     {
-        private readonly MapFile m_MapFile = new MapFile();
-        private readonly List<TagId> m_CheckedTagIds = new List<TagId>();
-        private readonly ResourceManager m_ResourceManager = new ResourceManager();
-        private readonly Dictionary<string, TagId> m_ResourceLookup = new Dictionary<string, TagId>();
-        private readonly ITagGroup m_SoundCacheFileGestalt = new SoundCacheFileGestalt();
-        private CacheResources m_CacheResources = null;
+        private readonly List<TagId> checkedTagIds = new List<TagId>();
+        private readonly ResourceManager resourceManager = new ResourceManager();
+        private readonly Dictionary<string, TagId> resourceLookup = new Dictionary<string, TagId>();
+        private readonly ITagGroup soundCacheFileGestalt = new SoundCacheFileGestalt();
+        private CacheResources cacheResources = null;
+        private HaloMap mapFile = null;
 
-        public TagDecompiler(MapFile mapFile) : this()
+        public TagDecompiler(HaloMap map) : this()
         {
-            m_MapFile = mapFile ?? throw new ArgumentNullException(nameof(mapFile));
-            Map_Load(m_MapFile);
+            mapFile = map ?? throw new ArgumentNullException(nameof(map));
+            Map_Load(map);
         }
         
         public TagDecompiler(string fileName) : this()
         {
             //Load
-            m_MapFile.Load(fileName ?? throw new ArgumentNullException(nameof(fileName)));
-            Map_Load(m_MapFile);
+            mapFile = new HaloMap(fileName ?? throw new ArgumentNullException(nameof(fileName)));
+            Map_Load(mapFile);
         }
 
         private TagDecompiler()
         {
-            m_ResourceManager.ResolveResource += ResourceManager_ResolveResource;
+            resourceManager.ResolveResource += ResourceManager_ResolveResource;
 
             InitializeComponent();
         }
 
-        private void Map_Load(MapFile map)
+        private void Map_Load(HaloMap map)
         {
             //Load
-            m_CacheResources = new CacheResources(m_MapFile);
+            cacheResources = new CacheResources(mapFile);
 
             //Prepare
-            m_CheckedTagIds.Clear();
-            m_ResourceManager.Clear();
-            m_ResourceLookup.Clear();
+            checkedTagIds.Clear();
+            resourceManager.Clear();
+            resourceLookup.Clear();
             tagTreeView.BeginUpdate();
             tagTreeView.Nodes.Clear();
             tagTreeView.PathSeparator = "\\";
@@ -65,7 +65,7 @@ namespace Abide.Decompiler
             {
                 TreeView_CreateTagNode(tagTreeView, $"{indexEntry.Filename}.{ indexEntry.Root.FourCc}", indexEntry.Id);
                 ITagGroup tagGroup = TagLookup.CreateTagGroup(indexEntry.Root);
-                m_ResourceLookup.Add($"{indexEntry.Filename}.{tagGroup.Name}", indexEntry.Id);
+                resourceLookup.Add($"{indexEntry.Filename}.{tagGroup.GroupName}", indexEntry.Id);
             }
 
             //End
@@ -74,10 +74,11 @@ namespace Abide.Decompiler
             tagTreeView.EndUpdate();
 
             //Read sound cache file gestalt
-            using (BinaryReader reader = m_MapFile.TagDataStream.CreateReader())
+            var ugh = mapFile.IndexEntries.Last;
+            using (var reader = ugh.Data.GetVirtualStream().CreateReader())
             {
-                reader.BaseStream.Seek(m_MapFile.IndexEntries.Last.Offset, SeekOrigin.Begin);
-                m_SoundCacheFileGestalt.Read(reader);
+                reader.BaseStream.Seek(mapFile.IndexEntries.Last.Address, SeekOrigin.Begin);
+                soundCacheFileGestalt.Read(reader);
             }
         }
 
@@ -111,39 +112,40 @@ namespace Abide.Decompiler
             //Check
             if(e.Node.Tag is TagId id)
             {
-                if (e.Node.Checked == false) m_CheckedTagIds.Remove(id);
-                else m_CheckedTagIds.Add(id);
+                if (e.Node.Checked == false) checkedTagIds.Remove(id);
+                else checkedTagIds.Add(id);
             }
 
             //Enable or disable
-            decompileButton.Enabled = m_CheckedTagIds.Count > 0;
+            decompileButton.Enabled = checkedTagIds.Count > 0;
         }
 
         private void decompileButton_Click(object sender, EventArgs e)
         {
             //Loop
-            foreach (TagId id in m_CheckedTagIds)
+            foreach (TagId id in checkedTagIds)
             {
                 //Get index entry
-                IndexEntry entry = m_MapFile.IndexEntries[id];
+                IndexEntry entry = mapFile.IndexEntries[id];
 
                 //Check
                 if(entry != null)
                 {
                     //Read
                     ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
-                    using (BinaryReader reader = entry.TagData.CreateReader())
+                    using (var stream = entry.Data.GetVirtualStream())
+                    using (var reader = stream.CreateReader())
                     {
-                        reader.BaseStream.Seek((uint)entry.PostProcessedOffset, SeekOrigin.Begin);
+                        reader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
                         tagGroup.Read(reader);
                     }
 
                     //Collect references
-                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
-                    m_ResourceManager.CollectResources(tagGroupFile.TagGroup);
+                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, entry, mapFile) };
+                    resourceManager.CollectResources(tagGroupFile.TagGroup);
 
                     //Get file name
-                    string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", $"{entry.Filename}.{tagGroup.Name}");
+                    string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", $"{entry.Filename}.{tagGroup.GroupName}");
 
                     //Create directory?
                     if (!Directory.Exists(Path.GetDirectoryName(fileName)))
@@ -155,27 +157,28 @@ namespace Abide.Decompiler
             }
 
             //Decompile resources
-            foreach (string resourceString in m_ResourceManager.GetResources())
+            foreach (string resourceString in resourceManager.GetResources())
             {
                 //Find entry
-                IndexEntry entry = m_MapFile.IndexEntries[m_CacheResources.FindIndex(resourceString)];
+                IndexEntry entry = mapFile.IndexEntries[cacheResources.FindIndex(resourceString)];
 
                 //Check
                 if (entry != null)
                 {
                     //Read
                     ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
-                    using (BinaryReader reader = entry.TagData.CreateReader())
+                    using (var stream = entry.Data.GetVirtualStream())
+                    using (var reader = stream.CreateReader())
                     {
-                        reader.BaseStream.Seek((uint)entry.PostProcessedOffset, SeekOrigin.Begin);
+                        reader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
                         tagGroup.Read(reader);
                     }
 
                     //Collect references
-                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile) };
+                    AbideTagGroupFile tagGroupFile = new AbideTagGroupFile() { TagGroup = Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, entry, mapFile) };
 
                     //Get file name
-                    string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", $"{entry.Filename}.{tagGroup.Name}");
+                    string fileName = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags", $"{entry.Filename}.{tagGroup.GroupName}");
 
                     //Create directory?
                     if (!Directory.Exists(Path.GetDirectoryName(fileName)))
@@ -190,19 +193,19 @@ namespace Abide.Decompiler
         private ITagGroup ResourceManager_ResolveResource(string resourceName)
         {
             //Prepare
-            IndexEntry entry = m_MapFile.IndexEntries[m_ResourceLookup[resourceName]];
+            IndexEntry entry = mapFile.IndexEntries[resourceLookup[resourceName]];
             ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
 
             //Read
-            using (BinaryReader reader = entry.TagData.CreateReader())
+            using (BinaryReader reader = entry.Data.GetVirtualStream().CreateReader())
             {
                 //Read
-                reader.BaseStream.Seek((uint)entry.PostProcessedOffset, SeekOrigin.Begin);
+                reader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
                 tagGroup.Read(reader);
             }
 
             //Return
-            return Convert.ToGuerilla(tagGroup, m_SoundCacheFileGestalt, entry, m_MapFile);
+            return Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, entry, mapFile);
         }
 
         private class TagNodeSorter : IComparer

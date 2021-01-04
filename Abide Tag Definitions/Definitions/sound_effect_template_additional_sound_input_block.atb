@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_template_additional_sound_input_block" DisplayName="sound_effect_template_additional_sound_input_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="dsp effect" />
+		<FieldCustom Index="1" Name="low frequency sound" />
+		<FieldStruct Index="2" Name="low frequency sound" StructName="mapping_function_block" />
+		<FieldReal Index="3" Name="time period: seconds" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

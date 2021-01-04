@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_flight_point_block" DisplayName="user_hint_flight_point_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="2">
+		<FieldRealVector3D Index="0" Name="point" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

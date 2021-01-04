@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="area_set_block" DisplayName="area_set_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortBlockIndex1 Index="0" Name="area^" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldLongInteger Index="2" Name="deprecated" />
+		<FieldPad Index="3" Name="" Length="44" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

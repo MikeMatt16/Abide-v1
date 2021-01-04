@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_invalid_section_pairs_block" DisplayName="bitvector" MaximumElementCount="1013">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongInteger Index="0" Name="bits*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_pixel_shader" DisplayName="shader_postprocess_pixel_shader" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongInteger Index="0" Name="pixel shader handle (runtime)" />
+		<FieldLongInteger Index="1" Name="pixel shader handle (runtime)" />
+		<FieldLongInteger Index="2" Name="pixel shader handle (runtime)" />
+		<FieldBlock Index="3" Name="constant register defaults" BlockName="shader_postprocess_pixel_shader_constant_defaults" />
+		<FieldData Index="4" Name="compiled shader" Alignment="4" MaximumSize="32768" ElementSize="1" />
+		<FieldData Index="5" Name="compiled shader" Alignment="4" MaximumSize="32768" ElementSize="1" />
+		<FieldData Index="6" Name="compiled shader" Alignment="4" MaximumSize="32768" ElementSize="1" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

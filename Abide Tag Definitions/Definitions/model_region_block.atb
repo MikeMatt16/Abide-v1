@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_region_block" DisplayName="model_region_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="name*^" />
+		<FieldCharInteger Index="1" Name="collision region index*" />
+		<FieldCharInteger Index="2" Name="physics region index*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldBlock Index="4" Name="permutations*" BlockName="model_permutation_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

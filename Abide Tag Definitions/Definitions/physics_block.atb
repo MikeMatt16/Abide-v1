@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="physics_block" DisplayName="physics" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="25">
+		<FieldReal Index="0" Name="radius#positive uses old inferior physics, negative uses new improved physics" />
+		<FieldRealFraction Index="1" Name="moment scale" />
+		<FieldReal Index="2" Name="mass" />
+		<FieldRealPoint3D Index="3" Name="center of mass*" />
+		<FieldReal Index="4" Name="density" />
+		<FieldReal Index="5" Name="gravity scale" />
+		<FieldReal Index="6" Name="ground friction" />
+		<FieldReal Index="7" Name="ground depth" />
+		<FieldRealFraction Index="8" Name="ground damp fraction" />
+		<FieldReal Index="9" Name="ground normal k1" />
+		<FieldReal Index="10" Name="ground normal k0" />
+		<FieldPad Index="11" Name="" Length="4" />
+		<FieldReal Index="12" Name="water friction" />
+		<FieldReal Index="13" Name="water depth" />
+		<FieldReal Index="14" Name="water density" />
+		<FieldPad Index="15" Name="" Length="4" />
+		<FieldRealFraction Index="16" Name="air friction" />
+		<FieldPad Index="17" Name="" Length="4" />
+		<FieldReal Index="18" Name="xx moment" />
+		<FieldReal Index="19" Name="yy moment" />
+		<FieldReal Index="20" Name="zz moment" />
+		<FieldBlock Index="21" Name="inertial matrix and inverse*" BlockName="inertial_matrix_block" />
+		<FieldBlock Index="22" Name="powered mass points" BlockName="powered_mass_point_block" />
+		<FieldBlock Index="23" Name="mass points" BlockName="mass_point_block" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

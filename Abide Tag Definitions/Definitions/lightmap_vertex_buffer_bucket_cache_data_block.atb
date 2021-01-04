@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lightmap_vertex_buffer_bucket_cache_data_block" DisplayName="lightmap_vertex_buffer_bucket_cache_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldBlock Index="0" Name="vertex buffers*" BlockName="global_geometry_section_vertex_buffer_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

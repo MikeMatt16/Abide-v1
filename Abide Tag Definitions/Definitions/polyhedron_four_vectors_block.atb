@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="polyhedron_four_vectors_block" DisplayName="polyhedron_four_vectors_block" MaximumElementCount="4096">
+	<FieldSet Alignment="16" Count="7">
+		<FieldRealVector3D Index="0" Name="four vectors x*" />
+		<FieldSkip Index="1" Name="" Length="4" />
+		<FieldRealVector3D Index="2" Name="four vectors y*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldRealVector3D Index="4" Name="four vectors z*" />
+		<FieldSkip Index="5" Name="" Length="4" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

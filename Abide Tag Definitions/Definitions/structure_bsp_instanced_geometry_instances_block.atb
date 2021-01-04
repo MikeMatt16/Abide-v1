@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_instanced_geometry_instances_block" DisplayName="structure_bsp_instanced_geometry_instances_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="15">
+		<FieldReal Index="0" Name="Scale" />
+		<FieldRealVector3D Index="1" Name="Forward" />
+		<FieldRealVector3D Index="2" Name="Left" />
+		<FieldRealVector3D Index="3" Name="Up" />
+		<FieldRealPoint3D Index="4" Name="Position" />
+		<FieldShortBlockIndex1 Index="5" Name="Instance Definition*" />
+		<FieldWordFlags Index="6" Name="Flags">
+			<Option Name="Not in Lightprobes" />
+		</FieldWordFlags>
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldSkip Index="8" Name="" Length="12" />
+		<FieldSkip Index="9" Name="" Length="4" />
+		<FieldLongInteger Index="10" Name="Checksum*" />
+		<FieldStringId Index="11" Name="Name*^" />
+		<FieldEnum Index="12" Name="Pathfinding Policy*">
+			<Option Name="Cutout" />
+			<Option Name="Static" />
+			<Option Name="None" />
+		</FieldEnum>
+		<FieldEnum Index="13" Name="Lightmapping Policy*">
+			<Option Name="Per Pixel" />
+			<Option Name="Per Vertex" />
+		</FieldEnum>
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

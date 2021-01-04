@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_material_block" DisplayName="material" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="material name" />
+		<FieldEnum Index="1" Name="material type">
+			<Option Name="dirt" />
+			<Option Name="sand" />
+			<Option Name="stone" />
+			<Option Name="snow" />
+			<Option Name="wood" />
+			<Option Name="metal (hollow)" />
+			<Option Name="metal (thin)" />
+			<Option Name="metal (thick)" />
+			<Option Name="rubber" />
+			<Option Name="glass" />
+			<Option Name="force field" />
+			<Option Name="grunt" />
+			<Option Name="hunter armor" />
+			<Option Name="hunter skin" />
+			<Option Name="elite" />
+			<Option Name="jackal" />
+			<Option Name="jackal energy shield" />
+			<Option Name="engineer skin" />
+			<Option Name="engineer force field" />
+			<Option Name="flood combat form" />
+			<Option Name="flood carrier form" />
+			<Option Name="cyborg armor" />
+			<Option Name="cyborg energy shield" />
+			<Option Name="human armor" />
+			<Option Name="human skin" />
+			<Option Name="sentinel" />
+			<Option Name="monitor" />
+			<Option Name="plastic" />
+			<Option Name="water" />
+			<Option Name="leaves" />
+			<Option Name="elite energy shield" />
+			<Option Name="ice" />
+			<Option Name="hunter shield" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="2" Name="damage section" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldStringId Index="5" Name="global material name" />
+		<FieldPad Index="6" Name="" Length="4" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

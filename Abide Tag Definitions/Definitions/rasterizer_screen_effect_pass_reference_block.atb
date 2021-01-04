@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rasterizer_screen_effect_pass_reference_block" DisplayName="pass reference" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="21">
+		<FieldData Index="0" Name="explanation" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldExplanation Index="1" Name="IMPLEMENTATIONS" Explanation="Used to control which shader pass implementations are used depending on whether the primary and/or secondary external inputs are greater than zero. An implementation of -1 will not draw anything." />
+		<FieldShortInteger Index="2" Name="layer pass index*:leave as -1 unless debugging" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldCharInteger Index="4" Name="primary=0 and secondary=0:implementation index" />
+		<FieldCharInteger Index="5" Name="primary&gt;0 and secondary=0:implementation index" />
+		<FieldCharInteger Index="6" Name="primary=0 and secondary&gt;0:implementation index" />
+		<FieldCharInteger Index="7" Name="primary&gt;0 and secondary&gt;0:implementation index" />
+		<FieldPad Index="8" Name="" Length="64" />
+		<FieldExplanation Index="9" Name="TEXCOORD GENERATION" Explanation="* DEFAULT: Use for mask bitmaps that are mirrored and offset through the texcoords supplied to the screen effect (e.g. through the weapon HUD interface). The shader system must handle scaling.|n|n* VIEWPORT NORMALIZED: Use when copying from texaccum or some other buffer or when applying a texture that is not an interface mask (e.g. another kind of mask, a noise map, etc. which is not mirrored or offset through the weapon HUD interface). Texture coordinates will range from [0,1][0,1] within the viewport, and the shader system must handle scaling if the bitmap is a linear target or an interface bitmap.|n|n* VIEWPORT RELATIVE: Should not be used! This mode was necessary before we had he ability for the shader system to scale by texture resolution. Texture coordinates will range from [0,viewport_size_x][0,viewport_size_y] within the viewport.|n|n* FRAMEBUFFER RELATIVE: Use when copying from the framebuffer. Texture coordinates will range from [viewport_bounds.x0,viewport_bounds.x1][viewport_bounds.y0,viewport_bounds.y1] within the viewport. Let the shader system assume normalized [0,1] coordinate range.|n|n* ZERO: Use when doing dependent-z reads. Texture coordinates will be zero before applying offset (in advanced control block). Offset should be {1/(z_max-z_min), 0, -z_min/(z_max-z_min), 0} where z_min and z_max are in world units, and the &quot;xy scaled by z_far&quot; flag should be checked." />
+		<FieldEnum Index="10" Name="stage 0 mode">
+			<Option Name="default" />
+			<Option Name="viewport normalized" />
+			<Option Name="viewport relative" />
+			<Option Name="framebuffer relative" />
+			<Option Name="zero" />
+		</FieldEnum>
+		<FieldEnum Index="11" Name="stage 1 mode">
+			<Option Name="default" />
+			<Option Name="viewport normalized" />
+			<Option Name="viewport relative" />
+			<Option Name="framebuffer relative" />
+			<Option Name="zero" />
+		</FieldEnum>
+		<FieldEnum Index="12" Name="stage 2 mode">
+			<Option Name="default" />
+			<Option Name="viewport normalized" />
+			<Option Name="viewport relative" />
+			<Option Name="framebuffer relative" />
+			<Option Name="zero" />
+		</FieldEnum>
+		<FieldEnum Index="13" Name="stage 3 mode">
+			<Option Name="default" />
+			<Option Name="viewport normalized" />
+			<Option Name="viewport relative" />
+			<Option Name="framebuffer relative" />
+			<Option Name="zero" />
+		</FieldEnum>
+		<FieldBlock Index="14" Name="advanced control" BlockName="rasterizer_screen_effect_texcoord_generation_advanced_control_block" />
+		<FieldExplanation Index="15" Name="TARGET" Explanation="" />
+		<FieldEnum Index="16" Name="target">
+			<Option Name="framebuffer" />
+			<Option Name="texaccum" />
+			<Option Name="texaccum small" />
+			<Option Name="texaccum tiny" />
+			<Option Name="copy fb to texaccum" />
+		</FieldEnum>
+		<FieldPad Index="17" Name="" Length="2" />
+		<FieldPad Index="18" Name="" Length="64" />
+		<FieldBlock Index="19" Name="convolution" BlockName="rasterizer_screen_effect_convolution_block" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

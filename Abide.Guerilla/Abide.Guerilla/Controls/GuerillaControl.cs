@@ -7,13 +7,13 @@ namespace Abide.Tag.Ui.Guerilla.Controls
     {
         public event EventHandler FieldChanged;
         public virtual object Value { get; set; } = null;
-        public Field Field
+        public ITagField Field
         {
-            get { return m_Field; }
+            get { return field; }
             set
             {
-                bool changed = m_Field != value;
-                m_Field = value;
+                bool changed = field != value;
+                field = value;
                 if (changed) OnFieldChanged(new EventArgs());
             }
         }
@@ -28,7 +28,7 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             set { nameLabel.Text = value; }
         }
 
-        private Field m_Field = null;
+        private ITagField field = null;
 
         public GuerillaControl()
         {
@@ -36,7 +36,7 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         }
         protected virtual void OnFieldChanged(EventArgs e)
         {
-            nameLabel.Text = m_Field?.Name ?? string.Empty;
+            nameLabel.Text = field?.Name ?? string.Empty;
             FieldChanged?.Invoke(this, e);
         }
     }

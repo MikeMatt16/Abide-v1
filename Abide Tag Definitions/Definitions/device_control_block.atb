@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="device_control_block" DisplayName="device_control" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="$$$ CONTROL $$$" Explanation="" />
+		<FieldEnum Index="1" Name="type">
+			<Option Name="toggle switch" />
+			<Option Name="on button" />
+			<Option Name="off button" />
+			<Option Name="call button" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="triggers when">
+			<Option Name="touched by player" />
+			<Option Name="destroyed" />
+		</FieldEnum>
+		<FieldReal Index="3" Name="call value:[0,1]" />
+		<FieldStringId Index="4" Name="action string" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldTagReference Index="6" Name="on" GroupTag="-3" />
+		<FieldTagReference Index="7" Name="off" GroupTag="-3" />
+		<FieldTagReference Index="8" Name="deny" GroupTag="-3" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

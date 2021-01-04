@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_blend_screen_block" DisplayName="animation_blend_screen_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="label^" />
+		<FieldStruct Index="1" Name="aiming screen*" StructName="animation_aiming_screen_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

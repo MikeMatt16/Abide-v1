@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vehicle_phantom_shape_block" DisplayName="vehicle_phantom_shape_block" MaximumElementCount="1">
+	<FieldSet Alignment="16" Count="33">
+		<FieldSkip Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="size*" />
+		<FieldShortInteger Index="2" Name="count*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldSkip Index="4" Name="" Length="4" />
+		<FieldLongInteger Index="5" Name="child shapes size*" />
+		<FieldLongInteger Index="6" Name="child shapes capacity*" />
+		<FieldArrayStart Index="7" Name="child shapes storage*" Length="4">
+			<FieldEnum Index="0" Name="shape type*">
+				<Option Name="sphere" />
+				<Option Name="pill" />
+				<Option Name="box" />
+				<Option Name="triangle" />
+				<Option Name="polyhedron" />
+				<Option Name="multi sphere" />
+				<Option Name="unused 0" />
+				<Option Name="unused 1" />
+				<Option Name="unused 2" />
+				<Option Name="unused 3" />
+				<Option Name="unused 4" />
+				<Option Name="unused 5" />
+				<Option Name="unused 6" />
+				<Option Name="unused 7" />
+				<Option Name="list" />
+				<Option Name="mopp" />
+			</FieldEnum>
+			<FieldShortBlockIndex2 Index="1" Name="shape*" />
+			<FieldLongInteger Index="2" Name="collision filter*" />
+		</FieldArrayStart>
+		<FieldEnum Index="8" Name="shape type*">
+			<Option Name="sphere" />
+			<Option Name="pill" />
+			<Option Name="box" />
+			<Option Name="triangle" />
+			<Option Name="polyhedron" />
+			<Option Name="multi sphere" />
+			<Option Name="unused 0" />
+			<Option Name="unused 1" />
+			<Option Name="unused 2" />
+			<Option Name="unused 3" />
+			<Option Name="unused 4" />
+			<Option Name="unused 5" />
+			<Option Name="unused 6" />
+			<Option Name="unused 7" />
+			<Option Name="list" />
+			<Option Name="mopp" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="9" Name="shape*" />
+		<FieldLongInteger Index="10" Name="collision filter*" />
+		<FieldArrayEnd Index="11" Name="" />
+		<FieldLongInteger Index="12" Name="multisphere count*" />
+		<FieldLongFlags Index="13" Name="flags">
+			<Option Name="has aabb phantom" />
+			<Option Name="o.O 1" />
+		</FieldLongFlags>
+		<FieldPad Index="14" Name="" Length="8" />
+		<FieldReal Index="15" Name="x0" />
+		<FieldReal Index="16" Name="x1" />
+		<FieldReal Index="17" Name="y0" />
+		<FieldReal Index="18" Name="y1" />
+		<FieldReal Index="19" Name="z0" />
+		<FieldReal Index="20" Name="z1" />
+		<FieldArrayStart Index="21" Name="multispheres*" Length="4">
+			<FieldSkip Index="0" Name="" Length="4" />
+			<FieldShortInteger Index="1" Name="size*" />
+			<FieldShortInteger Index="2" Name="count*" />
+			<FieldSkip Index="3" Name="" Length="4" />
+			<FieldLongInteger Index="4" Name="num spheres*" />
+			<FieldArrayStart Index="5" Name="four vectors storage*" Length="8">
+				<FieldRealVector3D Index="0" Name="sphere*" />
+				<FieldSkip Index="1" Name="" Length="4" />
+			</FieldArrayStart>
+			<FieldRealVector3D Index="6" Name="sphere*" />
+			<FieldSkip Index="7" Name="" Length="4" />
+		</FieldArrayStart>
+		<FieldSkip Index="22" Name="" Length="4" />
+		<FieldShortInteger Index="23" Name="size*" />
+		<FieldShortInteger Index="24" Name="count*" />
+		<FieldSkip Index="25" Name="" Length="4" />
+		<FieldLongInteger Index="26" Name="num spheres*" />
+		<FieldArrayStart Index="27" Name="four vectors storage*" Length="8">
+			<FieldRealVector3D Index="0" Name="sphere*" />
+			<FieldSkip Index="1" Name="" Length="4" />
+		</FieldArrayStart>
+		<FieldRealVector3D Index="28" Name="sphere*" />
+		<FieldSkip Index="29" Name="" Length="4" />
+		<FieldArrayEnd Index="30" Name="" />
+		<FieldArrayEnd Index="31" Name="" />
+		<FieldTerminator Index="32" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="actor_starting_locations_block" DisplayName="actor_starting_locations_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="23">
+		<FieldOldStringId Index="0" Name="name^" />
+		<FieldRealPoint3D Index="1" Name="position" />
+		<FieldShortInteger Index="2" Name="reference frame*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldEulerAngles2D Index="4" Name="facing (yaw, pitch):degrees" />
+		<FieldLongFlags Index="5" Name="flags">
+			<Option Name="initially asleep" />
+			<Option Name="infection form explode" />
+			<Option Name="n/a" />
+			<Option Name="always place" />
+			<Option Name="initially hidden" />
+		</FieldLongFlags>
+		<FieldShortBlockIndex1 Index="6" Name="character type" />
+		<FieldShortBlockIndex1 Index="7" Name="initial weapon" />
+		<FieldShortBlockIndex1 Index="8" Name="initial secondary weapon" />
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="10" Name="vehicle type" />
+		<FieldEnum Index="11" Name="seat type">
+			<Option Name="DEFAULT" />
+			<Option Name="passenger" />
+			<Option Name="gunner" />
+			<Option Name="driver" />
+			<Option Name="small cargo" />
+			<Option Name="large cargo" />
+			<Option Name="NO driver" />
+			<Option Name="NO vehicle" />
+		</FieldEnum>
+		<FieldEnum Index="12" Name="grenade type">
+			<Option Name="NONE" />
+			<Option Name="Human grenade" />
+			<Option Name="Covenant Plasma" />
+		</FieldEnum>
+		<FieldShortInteger Index="13" Name="swarm count#number of cretures in swarm if a swarm is spawned at this location" />
+		<FieldStringId Index="14" Name="actor variant name" />
+		<FieldStringId Index="15" Name="vehicle variant name" />
+		<FieldReal Index="16" Name="initial movement distance#before doing anything else, the actor will travel the given distance in its forward direction" />
+		<FieldShortBlockIndex1 Index="17" Name="emitter vehicle" />
+		<FieldEnum Index="18" Name="initial movement mode">
+			<Option Name="default" />
+			<Option Name="climbing" />
+			<Option Name="flying" />
+		</FieldEnum>
+		<FieldString Index="19" Name="Placement script" />
+		<FieldSkip Index="20" Name="" Length="2" />
+		<FieldPad Index="21" Name="" Length="2" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

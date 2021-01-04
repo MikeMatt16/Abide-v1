@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_set_block" DisplayName="decorator_set" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldBlock Index="0" Name="shaders" BlockName="decorator_shader_reference_block" />
+		<FieldReal Index="1" Name="lighting min scale#0.0 defaults to 0.4" />
+		<FieldReal Index="2" Name="lighting max scale#0.0 defaults to 2.0" />
+		<FieldBlock Index="3" Name="classes" BlockName="decorator_classes_block" />
+		<FieldBlock Index="4" Name="models*" BlockName="decorator_models_block" />
+		<FieldBlock Index="5" Name="raw vertices*" BlockName="decorator_model_vertices_block" />
+		<FieldBlock Index="6" Name="indices*" BlockName="decorator_model_indices_block" />
+		<FieldBlock Index="7" Name="cached data" BlockName="cached_data_block" />
+		<FieldStruct Index="8" Name="geometry section info" StructName="global_geometry_block_info_struct_block" />
+		<FieldPad Index="9" Name="" Length="16" />
+		<FieldPad Index="10" Name="" Length="4" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

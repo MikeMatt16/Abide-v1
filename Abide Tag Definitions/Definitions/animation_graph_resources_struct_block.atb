@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_graph_resources_struct_block" DisplayName="animation_graph_resources_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="11">
+		<FieldExplanation Index="0" Name="GRAPH DATA" Explanation="" />
+		<FieldTagReference Index="1" Name="parent animation graph" GroupTag="1785553252" />
+		<FieldByteFlags Index="2" Name="inheritance flags">
+			<Option Name="inherit root trans scale only" />
+			<Option Name="inherit for use on player" />
+		</FieldByteFlags>
+		<FieldByteFlags Index="3" Name="private flags*">
+			<Option Name="prepared for cache" />
+			<Option Name="unused" />
+			<Option Name="imported with codec compressors" />
+			<Option Name="unused smelly flag" />
+			<Option Name="written to cache" />
+			<Option Name="animation data reordered" />
+		</FieldByteFlags>
+		<FieldShortInteger Index="4" Name="animation codec pack*" />
+		<FieldBlock Index="5" Name="skeleton nodes*|ABCDCC" BlockName="animation_graph_node_block" />
+		<FieldBlock Index="6" Name="sound references|ABCDCC" BlockName="animation_graph_sound_reference_block" />
+		<FieldBlock Index="7" Name="effect references|ABCDCC" BlockName="animation_graph_effect_reference_block" />
+		<FieldBlock Index="8" Name="blend screens|ABCDCC" BlockName="animation_blend_screen_block" />
+		<FieldBlock Index="9" Name="animations*|ABCDCC" BlockName="animation_pool_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

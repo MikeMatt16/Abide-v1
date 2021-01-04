@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="physics_model_materials_block" DisplayName="physics_model_materials_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldStringId Index="1" Name="global material name" />
+		<FieldShortBlockIndex1 Index="2" Name="phantom type" />
+		<FieldWordFlags Index="3" Name="flags">
+			<Option Name="does not collide with fixed bodies" />
+		</FieldWordFlags>
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

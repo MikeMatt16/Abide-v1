@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_template_block" DisplayName="sound_effect_template" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldBlock Index="0" Name="template collection" BlockName="sound_effect_templates_block" />
+		<FieldStringId Index="1" Name="input effect name" />
+		<FieldBlock Index="2" Name="additional sound inputs" BlockName="sound_effect_template_additional_sound_input_block" />
+		<FieldBlock Index="3" Name="" BlockName="platform_sound_effect_template_collection_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

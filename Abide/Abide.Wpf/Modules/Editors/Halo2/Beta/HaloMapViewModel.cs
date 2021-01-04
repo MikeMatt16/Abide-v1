@@ -1,10 +1,14 @@
-﻿using Abide.HaloLibrary.Halo2BetaMap;
+﻿using Abide.HaloLibrary.Halo2.Beta;
+using Abide.Wpf.Modules.AddOns;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Abide.Wpf.Modules.Editors.Halo2.Beta
 {
@@ -13,36 +17,108 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
     /// </summary>
     public class HaloMapViewModel : DependencyObject
     {
-        private static readonly DependencyPropertyKey MapFilePropertyKey =
-            DependencyProperty.RegisterReadOnly("MapFile", typeof(MapFile), typeof(HaloMapViewModel), new PropertyMetadata(MapFilePropertyChanged));
+        private static readonly DependencyPropertyKey SelctedTagPropertyKey =
+            DependencyProperty.RegisterReadOnly(nameof(SelectedTag), typeof(HaloTag), typeof(HaloMapViewModel), new PropertyMetadata(SelectedIndexEntryPropertyChanged));
+        private static readonly DependencyPropertyKey MapPropertyKey =
+            DependencyProperty.RegisterReadOnly(nameof(Map), typeof(HaloMapFile), typeof(HaloMapViewModel), new PropertyMetadata(MapPropertyChanged));
         private static readonly DependencyPropertyKey TagPathNodesPropertyKey =
-            DependencyProperty.RegisterReadOnly("TagPathNodes", typeof(TagPathNode.TagPathNodeCollection), typeof(HaloMapViewModel), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(TagPathNodes), typeof(TagPathNode.TagPathNodeCollection), typeof(HaloMapViewModel), new PropertyMetadata());
+        private static readonly DependencyPropertyKey ToolListPropertyKey =
+            DependencyProperty.RegisterReadOnly(nameof(ToolList), typeof(ObservableCollection<ToolAddOn>), typeof(HaloMapViewModel), new PropertyMetadata());
+        private static readonly DependencyPropertyKey IsCollapsedPropertyKey =
+            DependencyProperty.RegisterReadOnly(nameof(IsCollapsed), typeof(bool), typeof(HaloMapViewModel), new PropertyMetadata(true));
         /// <summary>
-        /// Identifies the <see cref="MapFile"/> property.
+        /// Identifies the <see cref="IsCollapsed"/> property.
         /// </summary>
-        public static DependencyProperty MapFileProperty =
-            MapFilePropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsCollapsedProperty =
+            IsCollapsedPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="Map"/> property.
+        /// </summary>
+        public static readonly DependencyProperty MapProperty =
+            MapPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="SelectedTag"/> property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedTagProperty =
+            SelctedTagPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="TagFilter"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TagFilterProperty =
+            DependencyProperty.Register(nameof(TagFilter), typeof(string), typeof(HaloMapViewModel), new PropertyMetadata(string.Empty, TagFilterPropertyChanged));
         /// <summary>
         /// Identifies the <see cref="TagPathNodes"/> property.
         /// </summary>
-        public static DependencyProperty TagPathNodesProperty =
+        public static readonly DependencyProperty TagPathNodesProperty =
             TagPathNodesPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="ToolList"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ToolListProperty =
+            ToolListPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="SelectedNode"/> property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedNodeProperty =
+            DependencyProperty.Register(nameof(SelectedNode), typeof(TagPathNode), typeof(HaloMapViewModel), new PropertyMetadata(SelectedNodePropertyChanged));
 
+        /// <summary>
+        /// Gets and returns whether or not the tag node tree should be expanded.
+        /// This property is currently unused.
+        /// </summary>
+        public bool IsCollapsed
+        {
+            get => (bool)GetValue(IsCollapsedProperty);
+            private set => SetValue(IsCollapsedPropertyKey, value);
+        }
         /// <summary>
         /// Gets and returns the map file that this model represents.
         /// </summary>
-        public MapFile MapFile
+        public HaloMapFile Map
         {
-            get { return (MapFile)GetValue(MapFileProperty); }
-            private set { SetValue(MapFilePropertyKey, value); }
+            get => (HaloMapFile)GetValue(MapProperty);
+            private set => SetValue(MapPropertyKey, value);
+        }
+        /// <summary>
+        /// Gets and returns the selected tag.
+        /// </summary>
+        public HaloTag SelectedTag
+        {
+            get => (HaloTag)GetValue(SelectedTagProperty);
+            private set => SetValue(SelctedTagPropertyKey, value);
+        }
+        /// <summary>
+        /// Gets or sets the currently selected tag path node.
+        /// </summary>
+        public TagPathNode SelectedNode
+        {
+            get => (TagPathNode)GetValue(SelectedNodeProperty);
+            set => SetValue(SelectedNodeProperty, value);
+        }
+        /// <summary>
+        /// Gets or sets the current tag filter.
+        /// </summary>
+        public string TagFilter
+        {
+            get => (string)GetValue(TagFilterProperty);
+            set => SetValue(TagFilterProperty, value);
         }
         /// <summary>
         /// Gets and returns the tag path node collection.
         /// </summary>
         public TagPathNode.TagPathNodeCollection TagPathNodes
         {
-            get { return (TagPathNode.TagPathNodeCollection)GetValue(TagPathNodesProperty); }
-            private set { SetValue(TagPathNodesPropertyKey, value); }
+            get => (TagPathNode.TagPathNodeCollection)GetValue(TagPathNodesProperty);
+            private set => SetValue(TagPathNodesPropertyKey, value);
+        }
+        /// <summary>
+        /// Gets and returns the tool AddOn list.
+        /// </summary>
+        public ObservableCollection<ToolAddOn> ToolList
+        {
+            get => (ObservableCollection<ToolAddOn>)GetValue(ToolListProperty);
+            private set => SetValue(ToolListPropertyKey, value);
         }
 
         /// <summary>
@@ -50,65 +126,149 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
         /// </summary>
         public HaloMapViewModel() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="HaloMapViewModel"/> class using the specified <see cref="MapFile"/> object.
+        /// Initializes a new instance of the <see cref="HaloMapViewModel"/> class using the specified <see cref="Map"/> object.
         /// </summary>
-        /// <param name="mapFile">The Halo 2 beta map file.</param>
-        public HaloMapViewModel(MapFile mapFile)
+        /// <param name="map">The Halo 2 beta map file.</param>
+        public HaloMapViewModel(HaloMapFile map)
         {
             //Set
-            MapFile = mapFile;
+            Map = map;
         }
 
-        private static void MapFilePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private TagPathNode.TagPathNodeCollection CreateTagTree(string filter = "")
         {
-            //Prepare
             TagPathNode rootNode = new TagPathNode();
 
-            //Check object
-            if (d is HaloMapViewModel model)
+            foreach (var tag in GetTags(Map, filter))
             {
-                //Check new value
-                if (e.NewValue is MapFile mapFile)
+                string path = $"{tag.TagName}.{tag.GroupTag}";
+                string[] parts = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                TagPathNode currentNode = rootNode;
+
+                for (int i = 0; i < parts.Length - 1; i++)
                 {
-                    //Prepare
-                    rootNode.Name = mapFile.Name;
-
-                    //Loop
-                    foreach (var entry in mapFile.IndexEntries)
-                    {
-                        //Get tag path
-                        string path = $"{entry.Filename}.{entry.Root}";
-                        string[] parts = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        //Prepare
-                        TagPathNode currentNode = rootNode;
-
-                        //Loop through each part of tag path
-                        for (int i = 0; i < parts.Length - 1; i++)
-                        {
-                            if (currentNode.Children.ContainsName(parts[i]))
-                                currentNode = currentNode.Children[parts[i]];
-                            else currentNode = currentNode.Children.Add(parts[i]);
-                        }
-
-                        //Create
-                        TagPathNode tagNode = new TagPathNode()
-                        {
-                            Name = parts[parts.Length - 1],
-                            IndexEntry = entry
-                        };
-
-                        //Add
-                        currentNode.Children.Add(tagNode);
-                    }
+                    if (currentNode.Children.ContainsName(parts[i]))
+                        currentNode = currentNode.Children[parts[i]];
+                    else currentNode = currentNode.Children.Add(parts[i], !IsCollapsed);
                 }
 
-                //Sort
-                rootNode.Children.Sort();
-
-                //Set
-                model.TagPathNodes = rootNode.Children;
+                currentNode.Children.Add(parts[parts.Length - 1], false, tag);
             }
+
+            return rootNode.Children;
+        }
+        private static IEnumerable<HaloTag> GetTags(HaloMapFile haloMap, string filter)
+        {
+            if (string.IsNullOrEmpty(filter))
+                return haloMap.GetTagsEnumerator();
+
+            return haloMap.GetTagsEnumerator().Where(e =>
+            {
+                string tagName = $"{e.TagName}.{e.GroupTag}";
+                foreach (var part in tagName.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (part.StartsWith(filter, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+
+                return false;
+            });
+        }
+        private static void MapPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HaloMapViewModel model)
+            {
+                TagPathNode.TagPathNodeCollection nodes = model.CreateTagTree();
+                nodes.Sort();
+
+                model.TagPathNodes = nodes;
+                if (nodes.Count > 0)
+                    model.SelectedNode = nodes[0];
+            }
+        }
+        private static void SelectedNodePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //Check
+            if (d is HaloMapViewModel model)
+            {
+                //Get node
+                if (e.NewValue is TagPathNode node)
+                {
+                    //Check
+                    if (node.Tag != null)
+                        model.SelectedTag = node.Tag;
+                }
+            }
+        }
+        private static void SelectedIndexEntryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //Check
+            if (d is HaloMapViewModel model)
+            {
+            }
+        }
+        private static void TagFilterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HaloMapViewModel model)
+            {
+                if (e.NewValue is string filter)
+                {
+                    model.IsCollapsed = string.IsNullOrEmpty(filter);
+
+                    TagPathNode.TagPathNodeCollection nodes = model.CreateTagTree(filter);
+                    nodes.Sort();
+                    model.TagPathNodes = nodes;
+
+                    if (nodes.Count > 0)
+                        model.SelectedNode = nodes[0];
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Represents a wrapper for a <see cref="AddOnApi.Wpf.Halo2.ITool"/> AddOn.
+    /// </summary>
+    public sealed class ToolAddOn : DependencyObject
+    {
+        /// <summary>
+        /// Identifies the <see cref="Name"/> property.
+        /// </summary>
+        public static readonly DependencyProperty NameProperty =
+            DependencyProperty.Register("Name", typeof(string), typeof(ToolAddOn), new PropertyMetadata(string.Empty));
+        /// <summary>
+        /// Identifies the <see cref="Description"/> property.
+        /// </summary>
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof(string), typeof(ToolAddOn), new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// Gets and returns the <see cref="AddOnApi.Wpf.Halo2.ITool"/> object assicated with this object.
+        /// </summary>
+        public AddOnApi.Wpf.Halo2.ITool Tool { get; }
+        /// <summary>
+        /// Gets or sets the name of the AddOn.
+        /// </summary>
+        public string Name
+        {
+            get => (string)GetValue(NameProperty);
+            set => SetValue(NameProperty, value);
+        }
+        /// <summary>
+        /// Gets or sets the description of the AddOn.
+        /// </summary>
+        public string Description
+        {
+            get => (string)GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolAddOn"/> class using the specified tool AddOn.
+        /// </summary>
+        /// <param name="tool">The tool AddOn.</param>
+        public ToolAddOn(AddOnApi.Wpf.Halo2.ITool tool)
+        {
+            Tool = tool ?? throw new ArgumentNullException(nameof(tool));
         }
     }
 
@@ -118,9 +278,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
     public sealed class TagPathNode : DependencyObject
     {
         private static readonly DependencyPropertyKey OwnerPropertyKey =
-            DependencyProperty.RegisterReadOnly("Owner", typeof(TagPathNodeCollection), typeof(TagPathNode), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(Owner), typeof(TagPathNodeCollection), typeof(TagPathNode), new PropertyMetadata());
         private static readonly DependencyPropertyKey ChildrenPropertyKey =
-            DependencyProperty.RegisterReadOnly("Children", typeof(TagPathNodeCollection), typeof(TagPathNode), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(Children), typeof(TagPathNodeCollection), typeof(TagPathNode), new PropertyMetadata());
 
         /// <summary>
         /// Identifies the <see cref="Owner"/> property.
@@ -133,47 +293,73 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
         public static readonly DependencyProperty ChildrenProperty =
             ChildrenPropertyKey.DependencyProperty;
         /// <summary>
-        /// Identifies the <see cref="IndexEntry"/> property.
+        /// Identifies the <see cref="Tag"/> property.
         /// </summary>
-        public static readonly DependencyProperty IndexEntryProperty =
-            DependencyProperty.Register("IndexEntry", typeof(IndexEntry), typeof(TagPathNode));
+        public static readonly DependencyProperty TagProperty =
+            DependencyProperty.Register(nameof(Tag), typeof(HaloTag), typeof(TagPathNode));
+        /// <summary>
+        /// Identifies the <see cref="ImageSource"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ImageSourceProperty =
+            DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(TagPathNode));
         /// <summary>
         /// Identifies the <see cref="Name"/> property.
         /// </summary>
         public static readonly DependencyProperty NameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(TagPathNode));
+            DependencyProperty.Register(nameof(Name), typeof(string), typeof(TagPathNode));
+        /// <summary>
+        /// Identifies the <see cref="IsExpanded"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(TagPathNode));
 
         /// <summary>
-        /// Gets or sets the index entry that this tag path node represents.
+        /// Gets or sets the tag that this tag path node represents.
         /// </summary>
-        public IndexEntry IndexEntry
+        public HaloTag Tag
         {
-            get { return (IndexEntry)GetValue(IndexEntryProperty); }
-            set { SetValue(IndexEntryProperty, value); }
+            get => (HaloTag)GetValue(TagProperty);
+            set => SetValue(TagProperty, value);
         }
         /// <summary>
         /// Gets and returns the collection that this <see cref="TagPathNode"/> belongs to.
         /// </summary>
         public TagPathNodeCollection Owner
         {
-            get { return (TagPathNodeCollection)GetValue(OwnerProperty); }
-            private set { SetValue(OwnerPropertyKey, value); }
+            get => (TagPathNodeCollection)GetValue(OwnerProperty);
+            private set => SetValue(OwnerPropertyKey, value);
         }
         /// <summary>
         /// Gets and returns the children of this <see cref="TagPathNode"/>.
         /// </summary>
         public TagPathNodeCollection Children
         {
-            get { return (TagPathNodeCollection)GetValue(ChildrenProperty); }
-            private set { SetValue(ChildrenPropertyKey, value); }
+            get => (TagPathNodeCollection)GetValue(ChildrenProperty);
+            private set => SetValue(ChildrenPropertyKey, value);
+        }
+        /// <summary>
+        /// Gets or sets the image source of the node.
+        /// </summary>
+        public ImageSource ImageSource
+        {
+            get => (ImageSource)GetValue(ImageSourceProperty);
+            set => SetValue(ImageSourceProperty, value);
         }
         /// <summary>
         /// Gets or sets the name of the node.
         /// </summary>
         public string Name
         {
-            get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            get => (string)GetValue(NameProperty);
+            set => SetValue(NameProperty, value);
+        }
+        /// <summary>
+        /// Gets or sets whether this tag node element is expanded or collapsed.
+        /// </summary>
+        public bool IsExpanded
+        {
+            get => (bool)GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
         }
 
         /// <summary>
@@ -223,10 +409,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
             /// <summary>
             /// 
             /// </summary>
-            public int Count
-            {
-                get { return nodes.Count; }
-            }
+            public int Count => nodes.Count;
             /// <summary>
             /// 
             /// </summary>
@@ -296,16 +479,57 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
             /// <returns></returns>
             public TagPathNode Add(string name)
             {
-                //Check
                 if (name == null) throw new ArgumentNullException(nameof(name));
                 if (nodeNameMap.ContainsKey(name))
                     throw new InvalidOperationException("A node with the specified name already exists.");
 
-                //Create node
                 TagPathNode node = new TagPathNode() { Name = name };
                 Add(node);  //Add node
 
-                //Return
+                return node;
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="isExpanded"></param>
+            /// <returns></returns>
+            public TagPathNode Add(string name, bool isExpanded)
+            {
+                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (nodeNameMap.ContainsKey(name))
+                    throw new InvalidOperationException("A node with the specified name already exists.");
+
+                TagPathNode node = new TagPathNode()
+                {
+                    Name = name,
+                    IsExpanded = isExpanded
+                };
+                Add(node);
+
+                return node;
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="isExpanded"></param>
+            /// <param name="tag"></param>
+            /// <returns></returns>
+            public TagPathNode Add(string name, bool isExpanded, HaloTag tag)
+            {
+                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (nodeNameMap.ContainsKey(name))
+                    throw new InvalidOperationException("A node with the specified name already exists.");
+
+                TagPathNode node = new TagPathNode()
+                {
+                    Name = name,
+                    IsExpanded = isExpanded,
+                    Tag = tag
+                };
+                Add(node);
+
                 return node;
             }
             /// <summary>

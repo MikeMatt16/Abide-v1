@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="large_bsp3d_nodes_block" DisplayName="bsp3d node" MaximumElementCount="131072">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongInteger Index="0" Name="Plane*" />
+		<FieldLongInteger Index="1" Name="Back Child*" />
+		<FieldLongInteger Index="2" Name="Front Child*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

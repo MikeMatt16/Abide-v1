@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_marker_group_block" DisplayName="marker group" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="3">
+		<FieldOldStringId Index="0" Name="name^*" />
+		<FieldBlock Index="1" Name="markers*" BlockName="render_model_marker_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

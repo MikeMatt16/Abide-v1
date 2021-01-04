@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_atmospheric_fog_block" DisplayName="sky_atmospheric_fog_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldRealRgbColor Index="0" Name="Color" />
+		<FieldRealFraction Index="1" Name="Maximum Density:[0,1]#Fog density is clamped to this value." />
+		<FieldReal Index="2" Name="Start Distance:world units#Before this distance there is no fog." />
+		<FieldReal Index="3" Name="Opaque Distance:world units#Fog becomes opaque (maximum density) at this distance from the viewer." />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

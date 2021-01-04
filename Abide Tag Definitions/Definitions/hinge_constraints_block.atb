@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hinge_constraints_block" DisplayName="hinge_constraints_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStruct Index="0" Name="constraint bodies*" StructName="constraint_bodies_struct_block" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

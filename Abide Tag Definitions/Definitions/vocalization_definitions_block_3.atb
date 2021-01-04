@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vocalization_definitions_block_3" DisplayName="vocalization_definitions_block_3" MaximumElementCount="500">
+	<FieldSet Alignment="4" Count="28">
+		<FieldStringId Index="0" Name="vocalization^" />
+		<FieldStringId Index="1" Name="parent vocalization" />
+		<FieldShortInteger Index="2" Name="parent index*" />
+		<FieldEnum Index="3" Name="priority">
+			<Option Name="none" />
+			<Option Name="recall" />
+			<Option Name="idle" />
+			<Option Name="comment" />
+			<Option Name="idle_response" />
+			<Option Name="postcombat" />
+			<Option Name="combat" />
+			<Option Name="status" />
+			<Option Name="respond" />
+			<Option Name="warn" />
+			<Option Name="act" />
+			<Option Name="react" />
+			<Option Name="involuntary" />
+			<Option Name="scream" />
+			<Option Name="scripted" />
+			<Option Name="death" />
+		</FieldEnum>
+		<FieldLongFlags Index="4" Name="flags">
+			<Option Name="immediate" />
+			<Option Name="interrupt" />
+			<Option Name="cancel low priority" />
+		</FieldLongFlags>
+		<FieldEnum Index="5" Name="glance behavior#how does the speaker of this vocalization direct his gaze?">
+			<Option Name="NONE" />
+			<Option Name="glance subject short" />
+			<Option Name="glance subject long" />
+			<Option Name="glance cause short" />
+			<Option Name="glance cause long" />
+			<Option Name="glance friend short" />
+			<Option Name="glance friend long" />
+		</FieldEnum>
+		<FieldEnum Index="6" Name="glance recipient behavior#how does someone who hears me behave?">
+			<Option Name="NONE" />
+			<Option Name="glance subject short" />
+			<Option Name="glance subject long" />
+			<Option Name="glance cause short" />
+			<Option Name="glance cause long" />
+			<Option Name="glance friend short" />
+			<Option Name="glance friend long" />
+		</FieldEnum>
+		<FieldEnum Index="7" Name="perception type">
+			<Option Name="none" />
+			<Option Name="speaker" />
+			<Option Name="listener" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="max combat status">
+			<Option Name="asleep" />
+			<Option Name="idle" />
+			<Option Name="alert" />
+			<Option Name="active" />
+			<Option Name="uninspected" />
+			<Option Name="definite" />
+			<Option Name="certain" />
+			<Option Name="visible" />
+			<Option Name="clear_los" />
+			<Option Name="dangerous" />
+		</FieldEnum>
+		<FieldEnum Index="9" Name="animation impulse">
+			<Option Name="none" />
+			<Option Name="shakefist" />
+			<Option Name="cheer" />
+			<Option Name="surprise-front" />
+			<Option Name="surprise-back" />
+			<Option Name="taunt" />
+			<Option Name="brace" />
+			<Option Name="point" />
+			<Option Name="hold" />
+			<Option Name="wave" />
+			<Option Name="advance" />
+			<Option Name="fallback" />
+		</FieldEnum>
+		<FieldEnum Index="10" Name="overlap priority">
+			<Option Name="none" />
+			<Option Name="recall" />
+			<Option Name="idle" />
+			<Option Name="comment" />
+			<Option Name="idle_response" />
+			<Option Name="postcombat" />
+			<Option Name="combat" />
+			<Option Name="status" />
+			<Option Name="respond" />
+			<Option Name="warn" />
+			<Option Name="act" />
+			<Option Name="react" />
+			<Option Name="involuntary" />
+			<Option Name="scream" />
+			<Option Name="scripted" />
+			<Option Name="death" />
+		</FieldEnum>
+		<FieldReal Index="11" Name="sound repetition delay:minutes#Minimum delay time between playing the same permutation" />
+		<FieldReal Index="12" Name="allowable queue delay:seconds#How long to wait to actually start the vocalization" />
+		<FieldReal Index="13" Name="pre voc. delay:seconds#How long to wait to actually start the vocalization" />
+		<FieldReal Index="14" Name="notification delay:seconds#How long into the vocalization the AI should be notified" />
+		<FieldReal Index="15" Name="post voc. delay:seconds#How long speech is suppressed in the speaking unit after vocalizing" />
+		<FieldReal Index="16" Name="repeat delay:seconds#How long before the same vocalization can be repeated" />
+		<FieldReal Index="17" Name="weight:[0-1]#Inherent weight of this vocalization" />
+		<FieldReal Index="18" Name="speaker freeze time#speaker won't move for the given amount of time" />
+		<FieldReal Index="19" Name="listener freeze time#listener won't move for the given amount of time (from start of vocalization)" />
+		<FieldEnum Index="20" Name="speaker emotion">
+			<Option Name="none" />
+			<Option Name="asleep" />
+			<Option Name="amorous" />
+			<Option Name="happy" />
+			<Option Name="inquisitive" />
+			<Option Name="repulsed" />
+			<Option Name="disappointed" />
+			<Option Name="shocked" />
+			<Option Name="scared" />
+			<Option Name="arrogant" />
+			<Option Name="annoyed" />
+			<Option Name="angry" />
+			<Option Name="pensive" />
+			<Option Name="pain" />
+		</FieldEnum>
+		<FieldEnum Index="21" Name="listener emotion">
+			<Option Name="none" />
+			<Option Name="asleep" />
+			<Option Name="amorous" />
+			<Option Name="happy" />
+			<Option Name="inquisitive" />
+			<Option Name="repulsed" />
+			<Option Name="disappointed" />
+			<Option Name="shocked" />
+			<Option Name="scared" />
+			<Option Name="arrogant" />
+			<Option Name="annoyed" />
+			<Option Name="angry" />
+			<Option Name="pensive" />
+			<Option Name="pain" />
+		</FieldEnum>
+		<FieldReal Index="22" Name="player skip fraction" />
+		<FieldReal Index="23" Name="skip fraction" />
+		<FieldStringId Index="24" Name="Sample line" />
+		<FieldBlock Index="25" Name="reponses" BlockName="response_block" />
+		<FieldBlock Index="26" Name="children" BlockName="vocalization_definitions_block_4" />
+		<FieldTerminator Index="27" Name="" />
+	</FieldSet>
+</AbideTagBlock>

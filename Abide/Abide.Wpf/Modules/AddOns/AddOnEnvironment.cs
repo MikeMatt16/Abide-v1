@@ -1,40 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Represents an AddOn environment.
-    /// </summary>
     public sealed class AddOnEnvironment
     {
         private readonly List<Assembly> loadedAssemblies = new List<Assembly>();
 
-        /// <summary>
-        /// Gets and returns the location of the environment.
-        /// </summary>
         public string Location { get; }
-        /// <summary>
-        /// Gets and returns the name of the environment.
-        /// </summary>
         public string Name { get; } = string.Empty;
-        /// <summary>
-        /// Gets and returns the primary assembly for this environment.
-        /// </summary>
         public Assembly PrimaryAssembly { get; } = null;
-        /// <summary>
-        /// Returns the <see cref="Name"/> property.
-        /// </summary>
-        /// <returns>The <see cref="Name"/> property.</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+
         private AddOnEnvironment(string directory)
         {
             AddOnManifest manifest;
@@ -93,12 +71,11 @@ namespace Abide.Wpf.Modules.AddOns
 
             return asm;
         }
+        public override string ToString()
+        {
+            return Name;
+        }
 
-        /// <summary>
-        /// Creates a debug AddOn environment using the specified file name.
-        /// </summary>
-        /// <param name="assemblyPath">The path of the assembly to debug.</param>
-        /// <returns>A new <see cref="AddOnEnvironment"/> instance.</returns>
         public static AddOnEnvironment CreateDebugEnvironment(string assemblyPath)
         {
             if (assemblyPath == null) throw new ArgumentNullException(nameof(assemblyPath));
@@ -122,11 +99,6 @@ namespace Abide.Wpf.Modules.AddOns
             return new AddOnEnvironment(directory, primaryAssembly, loadedAssemblies,
                 $"Debug {Path.GetFileName(assemblyPath)}");
         }
-        /// <summary>
-        /// Creates an AddOn environment at the specified directory.
-        /// </summary>
-        /// <param name="directory"></param>
-        /// <returns>A new <see cref="AddOnEnvironment"/> instance.</returns>
         public static AddOnEnvironment Create(string directory)
         {
             if (directory == null) throw new ArgumentNullException(nameof(directory));

@@ -78,13 +78,13 @@ namespace Abide.TagBuilder.Halo2
 
             //Re-create simulation definition table
             scenarioBlock = scenario[0];
-            simulationDefinitionTableField = (BlockField)scenarioBlock.Fields[143];
+            simulationDefinitionTableField = (BlockField)scenarioBlock[143];
             simulationDefinitionTableField.BlockList.Clear();
             foreach (IndexEntry entry in simulationDefinitionEntries)
             {
                 //Attempt to add tag block
                 simulationDefinitionTableElementBlock = simulationDefinitionTableField.Add(out success);
-                if (success) simulationDefinitionTableElementBlock.Fields[0].Value = entry.Id;
+                if (success) simulationDefinitionTableElementBlock[0].Value = entry.Id;
             }
 
             //Rebuild map

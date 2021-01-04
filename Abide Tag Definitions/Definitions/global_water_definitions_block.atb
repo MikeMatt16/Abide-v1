@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_water_definitions_block" DisplayName="global_water_definitions_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="24">
+		<FieldTagReference Index="0" Name="Shader" GroupTag="1936220516" />
+		<FieldBlock Index="1" Name="Section" BlockName="water_geometry_section_block" />
+		<FieldStruct Index="2" Name="Geometry Block Info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldRealRgbColor Index="3" Name="Sun Spot Color" />
+		<FieldRealRgbColor Index="4" Name="Reflection Tint" />
+		<FieldRealRgbColor Index="5" Name="Refraction Tint" />
+		<FieldRealRgbColor Index="6" Name="Horizon Color" />
+		<FieldReal Index="7" Name="Sun Specular Power" />
+		<FieldReal Index="8" Name="Reflection Bump Scale" />
+		<FieldReal Index="9" Name="Refraction Bump Scale" />
+		<FieldReal Index="10" Name="Fresnel Scale" />
+		<FieldReal Index="11" Name="Sun Dir Heading" />
+		<FieldReal Index="12" Name="Sun Dir Pitch" />
+		<FieldReal Index="13" Name="FOV" />
+		<FieldReal Index="14" Name="Aspect" />
+		<FieldReal Index="15" Name="Height" />
+		<FieldReal Index="16" Name="Farz" />
+		<FieldReal Index="17" Name="rotate_offset" />
+		<FieldRealVector2D Index="18" Name="Center" />
+		<FieldRealVector2D Index="19" Name="Extents" />
+		<FieldReal Index="20" Name="Fog Near" />
+		<FieldReal Index="21" Name="Fog Far" />
+		<FieldReal Index="22" Name="dynamic_height_bias" />
+		<FieldTerminator Index="23" Name="" />
+	</FieldSet>
+</AbideTagBlock>

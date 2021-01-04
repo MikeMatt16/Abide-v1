@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_transition_block" DisplayName="animation_transition_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStringId Index="0" Name="full name^#name of the mode &amp; state of the source" />
+		<FieldStruct Index="1" Name="state info" StructName="animation_transition_state_struct_block" />
+		<FieldBlock Index="2" Name="destinations|AABBCC" BlockName="animation_transition_destination_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

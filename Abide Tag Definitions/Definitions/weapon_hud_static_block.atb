@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_hud_static_block" DisplayName="weapon_hud_static_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="27">
+		<FieldEnum Index="0" Name="state attached to">
+			<Option Name="inventory ammo" />
+			<Option Name="loaded ammo" />
+			<Option Name="heat" />
+			<Option Name="age" />
+			<Option Name="secondary weapon inventory ammo" />
+			<Option Name="secondary weapon loaded ammo" />
+			<Option Name="distance to target" />
+			<Option Name="elevation to target" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="can use on map type">
+			<Option Name="any" />
+			<Option Name="solo" />
+			<Option Name="multiplayer" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="28" />
+		<FieldPoint2D Index="5" Name="anchor offset" />
+		<FieldReal Index="6" Name="width scale" />
+		<FieldReal Index="7" Name="height scale" />
+		<FieldWordFlags Index="8" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldPad Index="10" Name="" Length="20" />
+		<FieldTagReference Index="11" Name="interface bitmap" GroupTag="1651078253" />
+		<FieldArgbColor Index="12" Name="default color" />
+		<FieldArgbColor Index="13" Name="flashing color" />
+		<FieldReal Index="14" Name="flash period" />
+		<FieldReal Index="15" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="16" Name="number of flashes" />
+		<FieldWordFlags Index="17" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="18" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="19" Name="disabled color" />
+		<FieldPad Index="20" Name="" Length="4" />
+		<FieldShortInteger Index="21" Name="sequence index" />
+		<FieldPad Index="22" Name="" Length="2" />
+		<FieldBlock Index="23" Name="multitex overlay" BlockName="global_hud_multitexture_overlay_definition" />
+		<FieldPad Index="24" Name="" Length="4" />
+		<FieldPad Index="25" Name="" Length="40" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_ai_properties_block" DisplayName="object_ai_properties_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongFlags Index="0" Name="ai flags">
+			<Option Name="detroyable cover" />
+			<Option Name="pathfinding ignore when dead" />
+			<Option Name="dynamic cover" />
+		</FieldLongFlags>
+		<FieldStringId Index="1" Name="ai type name#used for combat dialogue, etc." />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldEnum Index="3" Name="ai size">
+			<Option Name="default" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="leap jump speed">
+			<Option Name="NONE" />
+			<Option Name="down" />
+			<Option Name="step" />
+			<Option Name="crouch" />
+			<Option Name="stand" />
+			<Option Name="storey" />
+			<Option Name="tower" />
+			<Option Name="infinite" />
+		</FieldEnum>
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -39,7 +39,7 @@ namespace Abide.Guerilla.Library
             if (tagBlock == null) throw new ArgumentNullException(nameof(tagBlock));
 
             //Loop through fields
-            foreach (Field field in tagBlock.Fields)
+            foreach (Field field in tagBlock)
             {
                 //Get value
                 string value = field.Value?.ToString() ?? string.Empty;

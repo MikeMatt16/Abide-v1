@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_property_color_struct_new_block" DisplayName="particle_property_color_struct_new" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldEnum Index="0" Name="Input Variable">
+			<Option Name="particle age" />
+			<Option Name="particle emit time" />
+			<Option Name="particle random 1" />
+			<Option Name="particle random 2" />
+			<Option Name="emitter age" />
+			<Option Name="emitter random 1" />
+			<Option Name="emitter random 2" />
+			<Option Name="system lod" />
+			<Option Name="game time" />
+			<Option Name="effect a scale" />
+			<Option Name="effect b scale" />
+			<Option Name="particle rotation" />
+			<Option Name="explosion animation" />
+			<Option Name="explosion rotation" />
+			<Option Name="particle random 3" />
+			<Option Name="particle random 4" />
+			<Option Name="location random" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="Range Variable">
+			<Option Name="particle age" />
+			<Option Name="particle emit time" />
+			<Option Name="particle random 1" />
+			<Option Name="particle random 2" />
+			<Option Name="emitter age" />
+			<Option Name="emitter random 1" />
+			<Option Name="emitter random 2" />
+			<Option Name="system lod" />
+			<Option Name="game time" />
+			<Option Name="effect a scale" />
+			<Option Name="effect b scale" />
+			<Option Name="particle rotation" />
+			<Option Name="explosion animation" />
+			<Option Name="explosion rotation" />
+			<Option Name="particle random 3" />
+			<Option Name="particle random 4" />
+			<Option Name="location random" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="Output Modifier">
+			<Option Name=" " />
+			<Option Name="Plus" />
+			<Option Name="Times" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="Output Modifier Input">
+			<Option Name="particle age" />
+			<Option Name="particle emit time" />
+			<Option Name="particle random 1" />
+			<Option Name="particle random 2" />
+			<Option Name="emitter age" />
+			<Option Name="emitter random 1" />
+			<Option Name="emitter random 2" />
+			<Option Name="system lod" />
+			<Option Name="game time" />
+			<Option Name="effect a scale" />
+			<Option Name="effect b scale" />
+			<Option Name="particle rotation" />
+			<Option Name="explosion animation" />
+			<Option Name="explosion rotation" />
+			<Option Name="particle random 3" />
+			<Option Name="particle random 4" />
+			<Option Name="location random" />
+		</FieldEnum>
+		<FieldCustom Index="4" Name="Mapping" />
+		<FieldStruct Index="5" Name="Mapping" StructName="mapping_function_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="gloal_wind_primitives_block" DisplayName="wind primitives" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="6">
+		<FieldRealVector3D Index="0" Name="position" />
+		<FieldReal Index="1" Name="radius" />
+		<FieldReal Index="2" Name="strength" />
+		<FieldEnum Index="3" Name="wind primitive type">
+			<Option Name="vortex" />
+			<Option Name="gust" />
+			<Option Name="implosion" />
+			<Option Name="explosion" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

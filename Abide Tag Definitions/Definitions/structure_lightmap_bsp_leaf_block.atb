@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_bsp_leaf_block" DisplayName="structure_lightmap_bsp_leaf_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="9">
+		<FieldCharInteger Index="0" Name="Bounds Min x*" />
+		<FieldCharInteger Index="1" Name="Bounds Min y*" />
+		<FieldCharInteger Index="2" Name="Bounds Min z*" />
+		<FieldCharInteger Index="3" Name="Bounds Max x*" />
+		<FieldCharInteger Index="4" Name="Bounds Max y*" />
+		<FieldCharInteger Index="5" Name="Bounds Max z*" />
+		<FieldShortInteger Index="6" Name="First Surface Index*" />
+		<FieldShortInteger Index="7" Name="Surface Count*" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

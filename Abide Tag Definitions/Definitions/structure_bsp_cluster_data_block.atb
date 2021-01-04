@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_data_block" DisplayName="structure_bsp_cluster_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="13">
+		<FieldStruct Index="0" Name="Section*" StructName="global_geometry_section_struct_block" />
+		<FieldBlock Index="1" Name="Strip Segments*" BlockName="structure_indices_segment_block" />
+		<FieldBlock Index="2" Name="Strip Segment References*" BlockName="structure_indices_segment_reference_block" />
+		<FieldExplanation Index="3" Name="ISQ INFO" Explanation="" />
+		<FieldStruct Index="4" Name="ISQ Info*" StructName="global_geometry_isq_info_struct_block" />
+		<FieldBlock Index="5" Name="Forward Edges*" BlockName="structure_shared_edge_block" />
+		<FieldBlock Index="6" Name="Forward Edge Groups*" BlockName="structure_shared_edge_group_block" />
+		<FieldBlock Index="7" Name="Backward Edges*" BlockName="structure_shared_edge_block" />
+		<FieldBlock Index="8" Name="Backward Edge Groups*" BlockName="structure_shared_edge_group_block" />
+		<FieldBlock Index="9" Name="Subcluster Boundaries*" BlockName="structure_subcluster_boundary_block" />
+		<FieldBlock Index="10" Name="First Triangle Indices*" BlockName="structure_strip_segment_first_triangle_index_block" />
+		<FieldPad Index="11" Name="" Length="4" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

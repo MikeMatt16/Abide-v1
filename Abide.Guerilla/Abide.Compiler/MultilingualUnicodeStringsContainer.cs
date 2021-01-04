@@ -1,4 +1,4 @@
-﻿using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary;
 using System.Collections.Generic;
 
 namespace Abide.Compiler
@@ -26,7 +26,6 @@ namespace Abide.Compiler
 
         public void Clear()
         {
-            //Reset
             EnSize = 0;
             JpSize = 0;
             NlSize = 0;
@@ -36,6 +35,7 @@ namespace Abide.Compiler
             KrSize = 0;
             ZhSize = 0;
             PrSize = 0;
+
             En.Clear();
             Jp.Clear();
             Nl.Clear();

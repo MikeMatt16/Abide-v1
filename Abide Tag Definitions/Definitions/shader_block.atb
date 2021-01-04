@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_block" DisplayName="shader" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="21">
+		<FieldTagReference Index="0" Name="Template" GroupTag="1937007981" />
+		<FieldStringId Index="1" Name="Material Name" />
+		<FieldBlock Index="2" Name="Runtime Properties*" BlockName="shader_properties_block" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldWordFlags Index="4" Name="Flags">
+			<Option Name="Water" />
+			<Option Name="Sort First" />
+			<Option Name="No Active Camo" />
+		</FieldWordFlags>
+		<FieldBlock Index="5" Name="Parameters" BlockName="global_shader_parameter_block" />
+		<FieldBlock Index="6" Name="Postprocess Definition*" BlockName="shader_postprocess_definition_new_block" />
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldBlock Index="9" Name="Predicted Resources" BlockName="predicted_resource_block" />
+		<FieldTagReference Index="10" Name="Light Response" GroupTag="1936484724" />
+		<FieldEnum Index="11" Name="Shader LOD Bias">
+			<Option Name="None" />
+			<Option Name="4x Size" />
+			<Option Name="2x Size" />
+			<Option Name="1/2 Size" />
+			<Option Name="1/4 Size" />
+			<Option Name="Never" />
+			<Option Name="Cinematic" />
+		</FieldEnum>
+		<FieldEnum Index="12" Name="Specular Type">
+			<Option Name="None" />
+			<Option Name="Default" />
+			<Option Name="Dull" />
+			<Option Name="Shiny" />
+		</FieldEnum>
+		<FieldEnum Index="13" Name="Lightmap Type">
+			<Option Name="Diffuse" />
+			<Option Name="Default Specular" />
+			<Option Name="Dull Specular" />
+			<Option Name="Shiny Specular" />
+		</FieldEnum>
+		<FieldPad Index="14" Name="" Length="2" />
+		<FieldReal Index="15" Name="Lightmap Specular Brightness" />
+		<FieldReal Index="16" Name="Lightmap Ambient Bias:[-1,1]" />
+		<FieldBlock Index="17" Name="Postprocess Properties" BlockName="long_block" />
+		<FieldReal Index="18" Name="Added depth bias offset" />
+		<FieldReal Index="19" Name="Added depth bias slope scale" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

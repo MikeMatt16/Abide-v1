@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="item_collection_block" DisplayName="item_collection" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldBlock Index="0" Name="item permutations" BlockName="item_permutation" />
+		<FieldShortInteger Index="1" Name="spawn time (in seconds, 0 = default)" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

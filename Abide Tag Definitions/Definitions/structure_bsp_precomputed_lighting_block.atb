@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_precomputed_lighting_block" DisplayName="structure_bsp_precomputed_lighting_block" MaximumElementCount="350">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="Index*" />
+		<FieldEnum Index="1" Name="Light Type*">
+			<Option Name="Free Standing" />
+			<Option Name="Attached to Editor Object" />
+			<Option Name="Attached to Structure Object" />
+		</FieldEnum>
+		<FieldCharInteger Index="2" Name="Attachment Index*" />
+		<FieldCharInteger Index="3" Name="Object Type*" />
+		<FieldStruct Index="4" Name="Visibility*" StructName="visibility_struct_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

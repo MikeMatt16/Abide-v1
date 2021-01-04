@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_filter_block" DisplayName="platform_sound_filter_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldExplanation Index="0" Name="parameter description" Explanation="DLS2 filtering:|n    resonance gain range: [0, 22.5] dB|n|nparametric EQ:|n    gain range: [-64, 14] dB|n|nfor mono sounds:|n    the left filter controls the DLS 2 parameters|n    the right filter controls the Parametric EQ parameters|n|nfor stereo sounds:|n    both left and right channels must have the same filter|n    i.e., filter type both is invalid" />
+		<FieldLongEnum Index="1" Name="filter type">
+			<Option Name="parametric EQ" />
+			<Option Name="DLS2" />
+			<Option Name="both (only valid for mono)" />
+		</FieldLongEnum>
+		<FieldLongInteger Index="2" Name="filter width:[0,7]" />
+		<FieldExplanation Index="3" Name="left filter frequency" Explanation="in Hz [0,8000]" />
+		<FieldStruct Index="4" Name="left filter frequency" StructName="sound_playback_parameter_definition_block" />
+		<FieldExplanation Index="5" Name="left filter gain" Explanation="in dB" />
+		<FieldStruct Index="6" Name="left filter gain" StructName="sound_playback_parameter_definition_block" />
+		<FieldExplanation Index="7" Name="right filter frequency" Explanation="in Hz [0,8000]" />
+		<FieldStruct Index="8" Name="right filter frequency" StructName="sound_playback_parameter_definition_block" />
+		<FieldExplanation Index="9" Name="right filter gain" Explanation="in dB" />
+		<FieldStruct Index="10" Name="right filter gain" StructName="sound_playback_parameter_definition_block" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

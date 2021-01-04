@@ -31,20 +31,20 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         protected virtual void OnFieldChanged(EventArgs e)
         {
             ITagBlock tagBlock = (ITagBlock)m_Field.Value;
-            for (int i = 0; i < tagBlock.Fields.Count; i++)
+            for (int i = 0; i < tagBlock.FieldCount; i++)
             {
-                switch (tagBlock.Fields[i].Type)
+                switch (tagBlock[i].Type)
                 {
                     case Definition.FieldType.FieldBlock:
-                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)tagBlock.Fields[i];
+                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)tagBlock[i];
                         break;
                     case Definition.FieldType.FieldStruct:
-                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)tagBlock.Fields[i];
+                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)tagBlock[i];
                         break;
                     case Definition.FieldType.FieldExplanation:
                         continue;
                     default:
-                        ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = tagBlock.Fields[i];
+                        ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = tagBlock[i];
                         break;
                 }
             }

@@ -61,31 +61,31 @@ namespace Abide.TagBuilder.MapFileScanner
             int index = 0;
 
             //Loop
-            foreach (Field tagField in tagBlock.Fields)
+            foreach (Field tagField in tagBlock)
             {
                 switch (tagField.Type)
                 {
                     case FieldType.FieldLongInteger:
                         if (tagField is LongIntegerField intField && intField.Value is int integer)
-                            if (map.IndexEntries.ContainsID(integer))
+                            if (map.IndexEntries.ContainsID(new TagId(integer)))
                             {
-                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_long_integer", tagBlock.Name, index, map.IndexEntries[(TagId)integer].Filename, map.IndexEntries[(TagId)integer].Root);
+                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_long_integer", tagBlock, index, map.IndexEntries[(TagId)integer].Filename, map.IndexEntries[(TagId)integer].Root);
                                 Console.WriteLine("From {0}.{1}", source.Filename, source.Root);
                             }
                         break;
                     case FieldType.FieldPad:
                         if (tagField is PadField padField && padField.Length == 4 && padField.Value is byte[] pad)
-                            if (map.IndexEntries.ContainsID(BitConverter.ToInt32(pad, 0)))
+                            if (map.IndexEntries.ContainsID(BitConverter.ToUInt32(pad, 0)))
                             {
-                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_pad", tagBlock.Name, index, map.IndexEntries[(TagId)BitConverter.ToInt32(pad, 0)].Filename, map.IndexEntries[(TagId)BitConverter.ToInt32(pad, 0)].Root);
+                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_pad", tagBlock, index, map.IndexEntries[(TagId)BitConverter.ToInt32(pad, 0)].Filename, map.IndexEntries[(TagId)BitConverter.ToInt32(pad, 0)].Root);
                                 Console.WriteLine("From {0}.{1}", source.Filename, source.Root);
                             }
                         break;
                     case FieldType.FieldSkip:
                         if (tagField is SkipField skipField && skipField.Length == 4 && skipField.Value is byte[] skip)
-                            if (map.IndexEntries.ContainsID(BitConverter.ToInt32(skip, 0)))
+                            if (map.IndexEntries.ContainsID(BitConverter.ToUInt32(skip, 0)))
                             {
-                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_skip", tagBlock.Name, index, map.IndexEntries[(TagId)BitConverter.ToInt32(skip, 0)].Filename, map.IndexEntries[(TagId)BitConverter.ToInt32(skip, 0)].Root);
+                                Console.WriteLine("Found Tag ID as a {0} within {1}. Index {2} ({3}.{4})", "field_skip", tagBlock, index, map.IndexEntries[(TagId)BitConverter.ToInt32(skip, 0)].Filename, map.IndexEntries[(TagId)BitConverter.ToInt32(skip, 0)].Root);
                                 Console.WriteLine("From {0}.{1}", source.Filename, source.Root);
                             }
                         break;

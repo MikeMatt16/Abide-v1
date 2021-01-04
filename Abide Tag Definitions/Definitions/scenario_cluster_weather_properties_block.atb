@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cluster_weather_properties_block" DisplayName="scenario_cluster_weather_properties_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="3">
+		<FieldShortBlockIndex1 Index="0" Name="Type^" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

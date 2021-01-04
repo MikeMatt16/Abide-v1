@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_z_reference_vector_block" DisplayName="global_z_reference_vector_block" MaximumElementCount="262144">
+	<FieldSet Alignment="4" Count="5">
+		<FieldReal Index="0" Name="*" />
+		<FieldReal Index="1" Name="*" />
+		<FieldReal Index="2" Name="*" />
+		<FieldReal Index="3" Name="*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

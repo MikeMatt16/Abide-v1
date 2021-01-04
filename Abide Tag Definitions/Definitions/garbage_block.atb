@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="garbage_block" DisplayName="garbage" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldPad Index="0" Name="" Length="168" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

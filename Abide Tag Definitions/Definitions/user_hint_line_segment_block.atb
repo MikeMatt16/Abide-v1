@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_line_segment_block" DisplayName="user_hint_line_segment_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="bidirectional" />
+			<Option Name="closed" />
+		</FieldLongFlags>
+		<FieldRealPoint3D Index="1" Name="Point 0" />
+		<FieldShortInteger Index="2" Name="reference frame*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldRealPoint3D Index="4" Name="Point 1" />
+		<FieldShortInteger Index="5" Name="reference frame*" />
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

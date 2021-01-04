@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_bipeds_resource_block" DisplayName="scenario_bipeds_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldBlock Index="0" Name="Names" BlockName="scenario_object_names_block" />
+		<FieldBlock Index="1" Name="*" BlockName="dont_use_me_scenario_environment_object_block" />
+		<FieldBlock Index="2" Name="Structure References" BlockName="scenario_structure_bsp_reference_block" />
+		<FieldBlock Index="3" Name="Palette" BlockName="scenario_biped_palette_block" />
+		<FieldBlock Index="4" Name="Objects" BlockName="scenario_biped_block" />
+		<FieldLongInteger Index="5" Name="Next Object ID Salt*" />
+		<FieldBlock Index="6" Name="Editor Folders*" BlockName="g_scenario_editor_folder_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

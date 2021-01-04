@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="patchy_fog_block" DisplayName="patchy_fog" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="28">
+		<FieldExplanation Index="0" Name="PATCHY FOG" Explanation="Use the separate_layer_depths flag carefully, it's expensive!" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="separate layer depths" />
+			<Option Name="sort behind transparents" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldExplanation Index="4" Name="MOVEMENT MODIFIERS" Explanation="" />
+		<FieldRealFraction Index="5" Name="rotation multiplier:[0,1]" />
+		<FieldRealFraction Index="6" Name="strafing multiplier:[0,1]" />
+		<FieldRealFraction Index="7" Name="zoom multiplier:[0,1]" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldExplanation Index="9" Name="NOISE MAP" Explanation="" />
+		<FieldReal Index="10" Name="noise map scale#0 defaults to 1" />
+		<FieldTagReference Index="11" Name="noise map" GroupTag="1651078253" />
+		<FieldReal Index="12" Name="noise vertical scale forward#0 defaults to 1" />
+		<FieldReal Index="13" Name="noise vertical scale up#0 defaults to 1" />
+		<FieldReal Index="14" Name="noise opacity scale up#0 defaults to 1" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldExplanation Index="16" Name="ANIMATION" Explanation="" />
+		<FieldReal Index="17" Name="animation period:seconds" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldRealBounds Index="19" Name="wind velocity:world units per second" />
+		<FieldRealBounds Index="20" Name="wind period:seconds#0 defaults to 1" />
+		<FieldRealFraction Index="21" Name="wind acceleration weight:[0,1]" />
+		<FieldRealFraction Index="22" Name="wind perpendicular weight:[0,1]" />
+		<FieldReal Index="23" Name="wind constant velocity x:world units per second" />
+		<FieldReal Index="24" Name="wind constant velocity y:world units per second" />
+		<FieldReal Index="25" Name="wind constant velocity z:world units per second" />
+		<FieldUselessPad Index="26" Name="" />
+		<FieldTerminator Index="27" Name="" />
+	</FieldSet>
+</AbideTagBlock>

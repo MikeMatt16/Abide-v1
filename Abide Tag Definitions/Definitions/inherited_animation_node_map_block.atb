@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="inherited_animation_node_map_block" DisplayName="inherited_animation_node_map_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="local node" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

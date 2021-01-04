@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_radiosity_light_block" DisplayName="sky_radiosity_light_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="Affects Exteriors" />
+			<Option Name="Affects Interiors" />
+			<Option Name="Direct Illumination in Lightmaps" />
+			<Option Name="Indirect Illumination in Lightmaps" />
+		</FieldLongFlags>
+		<FieldRealRgbColor Index="1" Name="Color:#Light color." />
+		<FieldReal Index="2" Name="Power:[0,+inf]#Light power from 0 to infinity." />
+		<FieldReal Index="3" Name="Test Distance:world units#Length of the ray for shadow testing." />
+		<FieldPad Index="4" Name="" Length="12" />
+		<FieldAngle Index="5" Name="Diameter:degrees#Angular diameter of the light source in the sky." />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

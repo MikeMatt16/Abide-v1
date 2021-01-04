@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_message_text_block" DisplayName="hud_message_text" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldData Index="0" Name="text data*" Alignment="4" MaximumSize="65536" ElementSize="1" />
+		<FieldBlock Index="1" Name="message elements*" BlockName="hud_message_elements_block" />
+		<FieldBlock Index="2" Name="messages*" BlockName="hud_messages_block" />
+		<FieldPad Index="3" Name="" Length="84" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

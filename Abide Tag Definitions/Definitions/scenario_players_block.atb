@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_players_block" DisplayName="scenario_players_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="18">
+		<FieldCustom Index="0" Name="" />
+		<FieldRealPoint3D Index="1" Name="Position" />
+		<FieldAngle Index="2" Name="Facing:Degrees" />
+		<FieldEnum Index="3" Name="Team Designator">
+			<Option Name="Red (Alpha)" />
+			<Option Name="Blue (Bravo)" />
+			<Option Name="Yellow (Charlie)" />
+			<Option Name="Green (Delta)" />
+			<Option Name="Purple (Echo)" />
+			<Option Name="Orange (Foxtrot)" />
+			<Option Name="Brown (Golf)" />
+			<Option Name="Pink (Hotel)" />
+			<Option Name="NEUTRAL" />
+		</FieldEnum>
+		<FieldShortInteger Index="4" Name="BSP Index" />
+		<FieldEnum Index="5" Name="Game Type 1">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="6" Name="Game Type 2">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="7" Name="Game Type 3">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="Game Type 4">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="9" Name="Spawn Type 0">
+			<Option Name="Both" />
+			<Option Name="Initial Spawn Only" />
+			<Option Name="Respawn Only" />
+		</FieldEnum>
+		<FieldEnum Index="10" Name="Spawn Type 1">
+			<Option Name="Both" />
+			<Option Name="Initial Spawn Only" />
+			<Option Name="Respawn Only" />
+		</FieldEnum>
+		<FieldEnum Index="11" Name="Spawn Type 2">
+			<Option Name="Both" />
+			<Option Name="Initial Spawn Only" />
+			<Option Name="Respawn Only" />
+		</FieldEnum>
+		<FieldEnum Index="12" Name="Spawn Type 3">
+			<Option Name="Both" />
+			<Option Name="Initial Spawn Only" />
+			<Option Name="Respawn Only" />
+		</FieldEnum>
+		<FieldStringId Index="13" Name="" />
+		<FieldStringId Index="14" Name="" />
+		<FieldEnum Index="15" Name="Campaign Player Type">
+			<Option Name="masterchief" />
+			<Option Name="dervish" />
+			<Option Name="chief multiplayer" />
+			<Option Name="elite multiplayer" />
+		</FieldEnum>
+		<FieldPad Index="16" Name="" Length="6" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

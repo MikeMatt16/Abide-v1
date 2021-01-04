@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bitmap_block_reference_block" DisplayName="bitmap_block_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="20">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="ignore for list skin size calculation" />
+			<Option Name="swap on relative list position" />
+			<Option Name="render as progress bar" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="animation index">
+			<Option Name="NONE" />
+			<Option Name="00" />
+			<Option Name="01" />
+			<Option Name="02" />
+			<Option Name="03" />
+			<Option Name="04" />
+			<Option Name="05" />
+			<Option Name="06" />
+			<Option Name="07" />
+			<Option Name="08" />
+			<Option Name="09" />
+			<Option Name="10" />
+			<Option Name="11" />
+			<Option Name="12" />
+			<Option Name="13" />
+			<Option Name="14" />
+			<Option Name="15" />
+			<Option Name="16" />
+			<Option Name="17" />
+			<Option Name="18" />
+			<Option Name="19" />
+			<Option Name="20" />
+			<Option Name="21" />
+			<Option Name="22" />
+			<Option Name="23" />
+			<Option Name="24" />
+			<Option Name="25" />
+			<Option Name="26" />
+			<Option Name="27" />
+			<Option Name="28" />
+			<Option Name="29" />
+			<Option Name="30" />
+			<Option Name="31" />
+			<Option Name="32" />
+			<Option Name="33" />
+			<Option Name="34" />
+			<Option Name="35" />
+			<Option Name="36" />
+			<Option Name="37" />
+			<Option Name="38" />
+			<Option Name="39" />
+			<Option Name="40" />
+			<Option Name="41" />
+			<Option Name="42" />
+			<Option Name="43" />
+			<Option Name="44" />
+			<Option Name="45" />
+			<Option Name="46" />
+			<Option Name="47" />
+			<Option Name="48" />
+			<Option Name="49" />
+			<Option Name="50" />
+			<Option Name="51" />
+			<Option Name="52" />
+			<Option Name="53" />
+			<Option Name="54" />
+			<Option Name="55" />
+			<Option Name="56" />
+			<Option Name="57" />
+			<Option Name="58" />
+			<Option Name="59" />
+			<Option Name="60" />
+			<Option Name="61" />
+			<Option Name="62" />
+			<Option Name="63" />
+		</FieldEnum>
+		<FieldShortInteger Index="2" Name="intro animation delay milliseconds" />
+		<FieldEnum Index="3" Name="bitmap blend method">
+			<Option Name="standard" />
+			<Option Name="multiply" />
+			<Option Name="UNUSED" />
+		</FieldEnum>
+		<FieldShortInteger Index="4" Name="initial sprite frame" />
+		<FieldPoint2D Index="5" Name="top-left" />
+		<FieldReal Index="6" Name="horiz texture wraps/second" />
+		<FieldReal Index="7" Name="vert texture wraps/second" />
+		<FieldTagReference Index="8" Name="bitmap tag" GroupTag="1651078253" />
+		<FieldShortInteger Index="9" Name="render depth bias" />
+		<FieldPad Index="10" Name="" Length="2" />
+		<FieldReal Index="11" Name="sprite animation speed fps" />
+		<FieldPoint2D Index="12" Name="progress bottom-left" />
+		<FieldStringId Index="13" Name="string identifier" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldRealVector2D Index="16" Name="progress scale" />
+		<FieldUselessPad Index="17" Name="" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

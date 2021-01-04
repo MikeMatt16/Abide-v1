@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_hud_multitexture_overlay_definition" DisplayName="global_hud_multitexture_overlay_definition" MaximumElementCount="30">
+	<FieldSet Alignment="4" Count="33">
+		<FieldPad Index="0" Name="" Length="2" />
+		<FieldShortInteger Index="1" Name="type" />
+		<FieldEnum Index="2" Name="framebuffer blend func">
+			<Option Name="alpha blend" />
+			<Option Name="multiply" />
+			<Option Name="double multiply" />
+			<Option Name="add" />
+			<Option Name="subtract" />
+			<Option Name="component min" />
+			<Option Name="component max" />
+			<Option Name="alpha-multiply add" />
+			<Option Name="constant color blend" />
+			<Option Name="inverse constant color blend" />
+			<Option Name="none" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="32" />
+		<FieldExplanation Index="5" Name="anchors" Explanation="where you want the origin of the texture.|n*&quot;texture&quot; uses the texture coordinates supplied|n*&quot;screen&quot; uses the origin of the screen as the origin of the texture" />
+		<FieldEnum Index="6" Name="primary anchor">
+			<Option Name="texture" />
+			<Option Name="screen" />
+		</FieldEnum>
+		<FieldEnum Index="7" Name="secondary anchor">
+			<Option Name="texture" />
+			<Option Name="screen" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="tertiary anchor">
+			<Option Name="texture" />
+			<Option Name="screen" />
+		</FieldEnum>
+		<FieldExplanation Index="9" Name="blending function" Explanation="how to blend the textures together" />
+		<FieldEnum Index="10" Name="0 to 1 blend func">
+			<Option Name="add" />
+			<Option Name="subtract" />
+			<Option Name="multiply" />
+			<Option Name="multiply2x" />
+			<Option Name="dot" />
+		</FieldEnum>
+		<FieldEnum Index="11" Name="1 to 2 blend func">
+			<Option Name="add" />
+			<Option Name="subtract" />
+			<Option Name="multiply" />
+			<Option Name="multiply2x" />
+			<Option Name="dot" />
+		</FieldEnum>
+		<FieldPad Index="12" Name="" Length="2" />
+		<FieldExplanation Index="13" Name="map scales" Explanation="how much to scale the textures" />
+		<FieldRealPoint2D Index="14" Name="primary scale" />
+		<FieldRealPoint2D Index="15" Name="secondary scale" />
+		<FieldRealPoint2D Index="16" Name="tertiary scale" />
+		<FieldExplanation Index="17" Name="map offsets" Explanation="how much to offset the origin of the texture" />
+		<FieldRealPoint2D Index="18" Name="primary offset" />
+		<FieldRealPoint2D Index="19" Name="secondary offset" />
+		<FieldRealPoint2D Index="20" Name="tertiary offset" />
+		<FieldExplanation Index="21" Name="map" Explanation="which maps to use" />
+		<FieldTagReference Index="22" Name="primary" GroupTag="1651078253" />
+		<FieldTagReference Index="23" Name="secondary" GroupTag="1651078253" />
+		<FieldTagReference Index="24" Name="tertiary" GroupTag="1651078253" />
+		<FieldEnum Index="25" Name="primary wrap mode">
+			<Option Name="clamp" />
+			<Option Name="wrap" />
+		</FieldEnum>
+		<FieldEnum Index="26" Name="secondary wrap mode">
+			<Option Name="clamp" />
+			<Option Name="wrap" />
+		</FieldEnum>
+		<FieldEnum Index="27" Name="tertiary wrap mode">
+			<Option Name="clamp" />
+			<Option Name="wrap" />
+		</FieldEnum>
+		<FieldPad Index="28" Name="" Length="2" />
+		<FieldPad Index="29" Name="" Length="184" />
+		<FieldBlock Index="30" Name="effectors" BlockName="global_hud_multitexture_overlay_effector_definition" />
+		<FieldPad Index="31" Name="" Length="128" />
+		<FieldTerminator Index="32" Name="" />
+	</FieldSet>
+</AbideTagBlock>

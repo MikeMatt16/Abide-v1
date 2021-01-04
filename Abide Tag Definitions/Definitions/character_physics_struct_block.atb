@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_physics_struct_block" DisplayName="character_physics_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="22">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="centered_at_origin" />
+			<Option Name="shape spherical" />
+			<Option Name="use player physics" />
+			<Option Name="climb any surface" />
+			<Option Name="flying" />
+			<Option Name="not physical" />
+			<Option Name="dead character collision group" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="height standing" />
+		<FieldReal Index="2" Name="height crouching" />
+		<FieldReal Index="3" Name="radius" />
+		<FieldReal Index="4" Name="mass" />
+		<FieldStringId Index="5" Name="living material name#collision material used when character is alive" />
+		<FieldStringId Index="6" Name="dead material name#collision material used when character is dead" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldPad Index="8" Name="" Length="4" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldBlock Index="10" Name="dead sphere shapes" BlockName="spheres_block" />
+		<FieldBlock Index="11" Name="pill shapes" BlockName="pills_block" />
+		<FieldBlock Index="12" Name="sphere shapes" BlockName="spheres_block" />
+		<FieldExplanation Index="13" Name="ground" Explanation="" />
+		<FieldStruct Index="14" Name="ground physics" StructName="character_physics_ground_struct_block" />
+		<FieldExplanation Index="15" Name="flying" Explanation="" />
+		<FieldStruct Index="16" Name="flying physics" StructName="character_physics_flying_struct_block" />
+		<FieldExplanation Index="17" Name="dead" Explanation="" />
+		<FieldStruct Index="18" Name="dead physics" StructName="character_physics_dead_struct_block" />
+		<FieldExplanation Index="19" Name="sentinel" Explanation="" />
+		<FieldStruct Index="20" Name="sentinel physics" StructName="character_physics_sentinel_struct_block" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

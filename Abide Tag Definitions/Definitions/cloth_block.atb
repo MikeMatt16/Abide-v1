@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cloth_block" DisplayName="cloth" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="Doesn't use wind" />
+			<Option Name="Uses grid attach top" />
+		</FieldLongFlags>
+		<FieldStringId Index="1" Name="marker attachment name" />
+		<FieldTagReference Index="2" Name="Shader" GroupTag="1936220516" />
+		<FieldExplanation Index="3" Name="Default cloth vertices" Explanation="if not importing from a render model, type a grid size" />
+		<FieldShortInteger Index="4" Name="grid x dimension" />
+		<FieldShortInteger Index="5" Name="grid y dimension" />
+		<FieldReal Index="6" Name="grid spacing x" />
+		<FieldReal Index="7" Name="grid spacing y" />
+		<FieldExplanation Index="8" Name="Cloth Properties" Explanation="" />
+		<FieldStruct Index="9" Name="properties" StructName="cloth_properties_block" />
+		<FieldExplanation Index="10" Name="Import or grid data" Explanation="" />
+		<FieldBlock Index="11" Name="vertices*" BlockName="cloth_vertices_block" />
+		<FieldBlock Index="12" Name="indices*" BlockName="cloth_indices_block" />
+		<FieldBlock Index="13" Name="strip indices*" BlockName="cloth_indices_block" />
+		<FieldBlock Index="14" Name="links*" BlockName="cloth_links_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

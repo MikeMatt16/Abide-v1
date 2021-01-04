@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="mopps_block" DisplayName="mopps_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="8">
+		<FieldSkip Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="size*" />
+		<FieldShortInteger Index="2" Name="count*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="5" Name="list*" />
+		<FieldLongInteger Index="6" Name="code offset" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

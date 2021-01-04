@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="breakable_surface_key_table_block" DisplayName="breakable_surface_key_table_block" MaximumElementCount="8192">
+	<FieldSet Alignment="4" Count="10">
+		<FieldShortInteger Index="0" Name="*Instanced Geometry Index" />
+		<FieldShortInteger Index="1" Name="*Breakable Surface Index" />
+		<FieldLongInteger Index="2" Name="*Seed Surface Index" />
+		<FieldReal Index="3" Name="*x0" />
+		<FieldReal Index="4" Name="*x1" />
+		<FieldReal Index="5" Name="*y0" />
+		<FieldReal Index="6" Name="*y1" />
+		<FieldReal Index="7" Name="*z0" />
+		<FieldReal Index="8" Name="*z1" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

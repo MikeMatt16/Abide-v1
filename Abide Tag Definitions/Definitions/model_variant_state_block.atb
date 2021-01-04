@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_variant_state_block" DisplayName="model_variant_state_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="permutation name" />
+		<FieldPad Index="1" Name="" Length="1" />
+		<FieldByteFlags Index="2" Name="property flags">
+			<Option Name="blurred" />
+			<Option Name="hella blurred" />
+			<Option Name="shielded" />
+		</FieldByteFlags>
+		<FieldEnum Index="3" Name="state^">
+			<Option Name="default" />
+			<Option Name="minor damage" />
+			<Option Name="medium damage" />
+			<Option Name="major damage" />
+			<Option Name="destroyed" />
+		</FieldEnum>
+		<FieldTagReference Index="4" Name="looping effect#played while the model is in this state" GroupTag="1701209701" />
+		<FieldStringId Index="5" Name="looping effect marker name" />
+		<FieldRealFraction Index="6" Name="initial probability" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

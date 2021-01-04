@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_damage_nodes_block" DisplayName="global_damage_nodes_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="4">
+		<FieldPad Index="0" Name="" Length="2" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldPad Index="2" Name="" Length="12" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

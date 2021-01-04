@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="projectile_block" DisplayName="projectile" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="52">
+		<FieldExplanation Index="0" Name="$$$ PROJECTILE $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="oriented along velocity" />
+			<Option Name="AI must use ballistic aiming" />
+			<Option Name="detonation max time if attached" />
+			<Option Name="has super combining explosion" />
+			<Option Name="damage scales based on distance" />
+			<Option Name="travels instantaneously" />
+			<Option Name="steering adjusts orientation" />
+			<Option Name="don't noise up steering" />
+			<Option Name="can track behind itself" />
+			<Option Name="ROBOTRON STEERING!" />
+			<Option Name="faster when owned by player" />
+		</FieldLongFlags>
+		<FieldEnum Index="2" Name="detonation timer starts">
+			<Option Name="immediately" />
+			<Option Name="after first bounce" />
+			<Option Name="when at rest" />
+			<Option Name="after first bounce off any surface" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="impact noise">
+			<Option Name="silent" />
+			<Option Name="medium" />
+			<Option Name="loud" />
+			<Option Name="shout" />
+			<Option Name="quiet" />
+		</FieldEnum>
+		<FieldUselessPad Index="4" Name="" />
+		<FieldReal Index="5" Name="AI perception radius:world units" />
+		<FieldReal Index="6" Name="collision radius:world units" />
+		<FieldExplanation Index="7" Name="detonation" Explanation="" />
+		<FieldReal Index="8" Name="arming time:seconds#won't detonate before this time elapses" />
+		<FieldReal Index="9" Name="danger radius:world units" />
+		<FieldRealBounds Index="10" Name="timer:seconds#detonation countdown (zero is untimed)" />
+		<FieldReal Index="11" Name="minimum velocity:world units per second#detonates when slowed below this velocity" />
+		<FieldReal Index="12" Name="maximum range:world units#detonates after travelling this distance" />
+		<FieldEnum Index="13" Name="detonation noise">
+			<Option Name="silent" />
+			<Option Name="medium" />
+			<Option Name="loud" />
+			<Option Name="shout" />
+			<Option Name="quiet" />
+		</FieldEnum>
+		<FieldShortInteger Index="14" Name="super det. projectile count" />
+		<FieldTagReference Index="15" Name="detonation started" GroupTag="1701209701" />
+		<FieldTagReference Index="16" Name="detonation effect (airborne)" GroupTag="1701209701" />
+		<FieldTagReference Index="17" Name="detonation effect (ground)" GroupTag="1701209701" />
+		<FieldTagReference Index="18" Name="detonation damage" GroupTag="1785754657" />
+		<FieldTagReference Index="19" Name="attached detonation damage" GroupTag="1785754657" />
+		<FieldTagReference Index="20" Name="super detonation" GroupTag="1701209701" />
+		<FieldStruct Index="21" Name="your momma!" StructName="super_detonation_damage_struct_block" />
+		<FieldTagReference Index="22" Name="detonation sound" GroupTag="1936614433" />
+		<FieldCharEnum Index="23" Name="damage reporting type">
+			<Option Name="teh guardians!!1!!1!" />
+			<Option Name="falling damage" />
+			<Option Name="generic collision damage" />
+			<Option Name="generic melee damage" />
+			<Option Name="generic explosion" />
+			<Option Name="magnum pistol" />
+			<Option Name="plasma pistol" />
+			<Option Name="needler" />
+			<Option Name="smg" />
+			<Option Name="plasma rifle" />
+			<Option Name="battle rifle" />
+			<Option Name="carbine" />
+			<Option Name="shotgun" />
+			<Option Name="sniper rifle" />
+			<Option Name="beam rifle" />
+			<Option Name="rocket launcher" />
+			<Option Name="flak cannon" />
+			<Option Name="brute shot" />
+			<Option Name="disintegrator" />
+			<Option Name="brute plasma rifle" />
+			<Option Name="energy sword" />
+			<Option Name="frag grenade" />
+			<Option Name="plasma grenade" />
+			<Option Name="flag melee damage" />
+			<Option Name="bomb melee damage" />
+			<Option Name="bomb explosion damage" />
+			<Option Name="ball melee damage" />
+			<Option Name="human turret" />
+			<Option Name="plasma turret" />
+			<Option Name="banshee" />
+			<Option Name="ghost" />
+			<Option Name="mongoose" />
+			<Option Name="scorpion" />
+			<Option Name="spectre driver" />
+			<Option Name="spectre gunner" />
+			<Option Name="warthog driver" />
+			<Option Name="warthog gunner" />
+			<Option Name="wraith" />
+			<Option Name="tank" />
+			<Option Name="sentinel beam" />
+			<Option Name="sentinel rpg" />
+			<Option Name="teleporter" />
+		</FieldCharEnum>
+		<FieldPad Index="24" Name="" Length="3" />
+		<FieldTagReference Index="25" Name="super attached detonation damage" GroupTag="1785754657" />
+		<FieldUselessPad Index="26" Name="" />
+		<FieldReal Index="27" Name="material effect radius#radius within we will generate material effects" />
+		<FieldExplanation Index="28" Name="flyby/impact" Explanation="" />
+		<FieldTagReference Index="29" Name="flyby sound" GroupTag="1936614433" />
+		<FieldTagReference Index="30" Name="impact effect" GroupTag="1701209701" />
+		<FieldTagReference Index="31" Name="impact damage" GroupTag="1785754657" />
+		<FieldExplanation Index="32" Name="boarding fields" Explanation="" />
+		<FieldReal Index="33" Name="boarding detonation time" />
+		<FieldTagReference Index="34" Name="boarding detonation damage" GroupTag="1785754657" />
+		<FieldTagReference Index="35" Name="boarding attached detonation damage" GroupTag="1785754657" />
+		<FieldUselessPad Index="36" Name="" />
+		<FieldExplanation Index="37" Name="physics" Explanation="" />
+		<FieldReal Index="38" Name="air gravity scale#the proportion of normal gravity applied to the projectile when in air." />
+		<FieldRealBounds Index="39" Name="air damage range:world units#the range over which damage is scaled when the projectile is in air." />
+		<FieldReal Index="40" Name="water gravity scale#the proportion of normal gravity applied to the projectile when in water." />
+		<FieldRealBounds Index="41" Name="water damage range:world units#the range over which damage is scaled when the projectile is in water." />
+		<FieldReal Index="42" Name="initial velocity:world units per second#bullet's velocity when inflicting maximum damage" />
+		<FieldReal Index="43" Name="final velocity:world units per second#bullet's velocity when inflicting minimum damage" />
+		<FieldStruct Index="44" Name="blah" StructName="angular_velocity_lower_bound_struct_block" />
+		<FieldAngle Index="45" Name="guided angular velocity (upper):degrees per second" />
+		<FieldRealBounds Index="46" Name="acceleration range:world units#what distance range the projectile goes from initial velocity to final velocity" />
+		<FieldPad Index="47" Name="" Length="4" />
+		<FieldRealFraction Index="48" Name="targeted leading fraction" />
+		<FieldUselessPad Index="49" Name="" />
+		<FieldBlock Index="50" Name="material responses" BlockName="projectile_material_response_block" />
+		<FieldTerminator Index="51" Name="" />
+	</FieldSet>
+</AbideTagBlock>

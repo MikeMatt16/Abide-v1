@@ -6,44 +6,23 @@ using System.Xml;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Represents an AddOn manifest.
-    /// </summary>
     public sealed class AddOnManifest : IEnumerable<string>
     {
-        /// <summary>
-        /// Gets or sets the name of the AddOn.
-        /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets the primary assembly file
-        /// </summary>
         public string PrimaryAssemblyFile { get; set; }
-        /// <summary>
-        /// Gets or sets a file name at a specified index.
-        /// </summary>
-        /// <param name="index">The index of the file.</param>
-        /// <returns>A file name string.</returns>
         public string this[int index]
         {
-            get { return files[index]; }
-            set { files[index] = value; }
+            get => files[index];
+            set => files[index] = value;
         }
 
         private readonly List<string> files;
 
-        /// <summary>
-        /// Initializes a new <see cref="AddOnManifest"/> instance.
-        /// </summary>
         public AddOnManifest()
         {
             //Initialize
             files = new List<string>();
         }
-        /// <summary>
-        /// Writes the manifest as an XML file to the specified file name.
-        /// </summary>
-        /// <param name="filename">The file name to save the manifest XML to.</param>
         public void SaveXml(string filename)
         {
             //Check
@@ -54,10 +33,6 @@ namespace Abide.Wpf.Modules.AddOns
             using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                 SaveXml(fs);
         }
-        /// <summary>
-        /// Writes the manifest as an XML file to the specified stream.
-        /// </summary>
-        /// <param name="outStream">The stream to write the manifest XML to.</param>
         public void SaveXml(Stream outStream)
         {
             //Check
@@ -104,10 +79,6 @@ namespace Abide.Wpf.Modules.AddOns
                 writer.WriteEndDocument();
             }
         }
-        /// <summary>
-        /// Loads the manifest XML from the specified file.
-        /// </summary>
-        /// <param name="filename">The file to read the manifest XML from.</param>
         public void LoadXml(string filename)
         {
             //Check
@@ -118,10 +89,6 @@ namespace Abide.Wpf.Modules.AddOns
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 LoadXml(fs);
         }
-        /// <summary>
-        /// Loads the manifest XML from the stream.
-        /// </summary>
-        /// <param name="inStream">The stream to read the manifest XML from.</param>
         public void LoadXml(Stream inStream)
         {
             //Check
@@ -144,10 +111,6 @@ namespace Abide.Wpf.Modules.AddOns
             foreach (XmlNode node in Manifest?["Files"]?.ChildNodes)
                 files.Add(node.InnerText);
         }
-        /// <summary>
-        /// Adds a file name to the manifest's file list.
-        /// </summary>
-        /// <param name="filename">The file name to add.</param>
         public void Add(string filename)
         {
             //Check
@@ -156,10 +119,6 @@ namespace Abide.Wpf.Modules.AddOns
             //Add
             files.Add(filename);
         }
-        /// <summary>
-        /// Removes a file name from the manifest's file list.
-        /// </summary>
-        /// <param name="filename">The file name to remove.</param>
         public bool Remove(string filename)
         {
             //Check
@@ -168,15 +127,12 @@ namespace Abide.Wpf.Modules.AddOns
             //Remove
             return files.Remove(filename);
         }
-        /// <summary>
-        /// Returns an enumerator that iterates through this instance.
-        /// </summary>
-        /// <returns>A <see cref="string"/> enumerator.</returns>
         public IEnumerator<string> GetEnumerator()
         {
             //Return
             return files.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             //Return

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cutscene_flag_block" DisplayName="scenario_cutscene_flag_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="6">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldString Index="1" Name="Name^" />
+		<FieldRealPoint3D Index="2" Name="Position" />
+		<FieldEulerAngles2D Index="3" Name="Facing" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_profiles_block" DisplayName="scenario_profiles_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="15">
+		<FieldString Index="0" Name="Name^" />
+		<FieldRealFraction Index="1" Name="Starting Health Damage:[0,1]" />
+		<FieldRealFraction Index="2" Name="Starting Shield Damage:[0,1]" />
+		<FieldTagReference Index="3" Name="Primary Weapon" GroupTag="2003132784" />
+		<FieldShortInteger Index="4" Name="Rounds Loaded" />
+		<FieldShortInteger Index="5" Name="Rounds Total" />
+		<FieldTagReference Index="6" Name="Secondary Weapon" GroupTag="2003132784" />
+		<FieldShortInteger Index="7" Name="Rounds Loaded" />
+		<FieldShortInteger Index="8" Name="Rounds Total" />
+		<FieldCharInteger Index="9" Name="Starting Fragmentation Grenade Count" />
+		<FieldCharInteger Index="10" Name="Starting Plasma Grenade Count" />
+		<FieldCharInteger Index="11" Name="Starting &lt;unknown&gt; Grenade Count" />
+		<FieldCharInteger Index="12" Name="Starting &lt;unknown&gt; Grenade Count" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

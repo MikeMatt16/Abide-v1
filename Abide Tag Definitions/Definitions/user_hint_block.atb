@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_block" DisplayName="user_hint_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldBlock Index="1" Name="point geometry" BlockName="user_hint_point_block" />
+		<FieldBlock Index="2" Name="ray geometry" BlockName="user_hint_ray_block" />
+		<FieldBlock Index="3" Name="line segment geometry" BlockName="user_hint_line_segment_block" />
+		<FieldBlock Index="4" Name="parallelogram geometry" BlockName="user_hint_parallelogram_block" />
+		<FieldBlock Index="5" Name="polygon geometry" BlockName="user_hint_polygon_block" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldBlock Index="7" Name="jump hints" BlockName="user_hint_jump_block" />
+		<FieldBlock Index="8" Name="climb hints" BlockName="user_hint_climb_block" />
+		<FieldBlock Index="9" Name="well hints" BlockName="user_hint_well_block" />
+		<FieldBlock Index="10" Name="flight hints" BlockName="user_hint_flight_block" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

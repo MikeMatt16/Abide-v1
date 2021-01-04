@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="liquid_block" DisplayName="liquid" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="LIQUID" Explanation="" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="type">
+			<Option Name="standard" />
+			<Option Name="weapon to projectile" />
+			<Option Name="projectile from weapon" />
+		</FieldEnum>
+		<FieldStringId Index="3" Name="attachment marker name" />
+		<FieldPad Index="4" Name="" Length="56" />
+		<FieldReal Index="5" Name="falloff distance from camera:world units" />
+		<FieldReal Index="6" Name="cutoff distance from camera:world units" />
+		<FieldPad Index="7" Name="" Length="32" />
+		<FieldBlock Index="8" Name="arcs" BlockName="liquid_arc_block" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

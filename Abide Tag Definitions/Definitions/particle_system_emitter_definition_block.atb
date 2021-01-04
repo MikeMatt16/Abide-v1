@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_system_emitter_definition_block" DisplayName="particle_system_emitter_definition_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="25">
+		<FieldTagReference Index="0" Name="particle physics" GroupTag="1886220150" />
+		<FieldExplanation Index="1" Name="particle emission rate (particles/tick)" Explanation="" />
+		<FieldStruct Index="2" Name="particle emission rate" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="3" Name="particle lifespan(seconds)" Explanation="" />
+		<FieldStruct Index="4" Name="particle lifespan" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="5" Name="particle velocity(world units/second)" Explanation="" />
+		<FieldStruct Index="6" Name="particle velocity" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="7" Name="particle angular velocity(degrees/second)" Explanation="" />
+		<FieldStruct Index="8" Name="particle angular velocity" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="9" Name="particle size(world units)" Explanation="" />
+		<FieldStruct Index="10" Name="particle size" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="11" Name="particle tint" Explanation="" />
+		<FieldStruct Index="12" Name="particle tint" StructName="particle_property_color_struct_new_block" />
+		<FieldExplanation Index="13" Name="particle alpha" Explanation="" />
+		<FieldStruct Index="14" Name="particle alpha" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="15" Name="EMISSION SETTINGS" Explanation="" />
+		<FieldLongEnum Index="16" Name="emission shape">
+			<Option Name="sprayer" />
+			<Option Name="disc" />
+			<Option Name="globe" />
+			<Option Name="implode" />
+			<Option Name="tube" />
+			<Option Name="halo" />
+			<Option Name="impact contour" />
+			<Option Name="impact area" />
+			<Option Name="debris" />
+			<Option Name="line" />
+		</FieldLongEnum>
+		<FieldExplanation Index="17" Name="emission radius(world units)" Explanation="" />
+		<FieldStruct Index="18" Name="emission radius" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="19" Name="emission angle(degrees)" Explanation="" />
+		<FieldStruct Index="20" Name="emission angle" StructName="particle_property_scalar_struct_new_block" />
+		<FieldRealPoint3D Index="21" Name="translational offset" />
+		<FieldEulerAngles2D Index="22" Name="relative direction#particle initial velocity direction relative to the location's forward" />
+		<FieldPad Index="23" Name="" Length="8" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

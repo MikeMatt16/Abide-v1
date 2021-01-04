@@ -1,6 +1,6 @@
-﻿using System.CodeDom;
+﻿using Abide.HaloLibrary;
+using System.CodeDom;
 using System.Reflection;
-using HaloTag = Abide.HaloLibrary.TagFourCc;
 
 namespace Abide.Tag.CodeDom
 {
@@ -9,23 +9,22 @@ namespace Abide.Tag.CodeDom
     /// </summary>
     public class AbideTagLookupCodeCompileUnit : CodeCompileUnit
     {
-        private const string c_HaloTagsNamespace = "HaloTag = Abide.HaloLibrary.TagFourCc";
-        private const string c_TagNamespace = "Abide.Tag";
-
         private readonly CodeTypeDeclaration tagLookupCodeTypeDeclaration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagLookupCodeCompileUnit"/> class.
         /// </summary>
         /// <param name="namespaceString">The optional namespace string. This defaults to "Cache."</param>
-        public AbideTagLookupCodeCompileUnit(string namespaceString = "Cache")
+        /// <param name="tagNamespace"></param>
+        public AbideTagLookupCodeCompileUnit(string namespaceString = "Cache", string tagNamespace = "Abide.Tag")
         {
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{namespaceString}.Generated");
 
             //Add imports
-            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));
-            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_HaloTagsNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.SystemNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.HaloLibraryNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(tagNamespace));
 
             //Create type
             tagLookupCodeTypeDeclaration = new CodeTypeDeclaration("TagLookup")
@@ -44,7 +43,7 @@ namespace Abide.Tag.CodeDom
                 Name = "CreateTagGroup",
                 ReturnType = new CodeTypeReference(nameof(Group)),
             };
-            createTagGroupMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(nameof(HaloTag)), "groupTag"));
+            createTagGroupMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(nameof(TagFourCc)), "groupTag"));
             createTagGroupMethod.Comments.Add(new CodeCommentStatement("<summary>", true));
             createTagGroupMethod.Comments.Add(new CodeCommentStatement($"Returns a <see cref=\"Group\"/> instance based on the supplied tag.", true));
             createTagGroupMethod.Comments.Add(new CodeCommentStatement("</summary>", true));

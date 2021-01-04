@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_new_hud_globals_constants_struct_block" DisplayName="global_new_hud_globals_constants_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="14">
+		<FieldTagReference Index="0" Name="primary message sound" GroupTag="-3" />
+		<FieldTagReference Index="1" Name="secondary message sound" GroupTag="-3" />
+		<FieldStringId Index="2" Name="boot griefer string" />
+		<FieldStringId Index="3" Name="cannot boot griefer string" />
+		<FieldTagReference Index="4" Name="training shader" GroupTag="1936220516" />
+		<FieldTagReference Index="5" Name="human training top right" GroupTag="1651078253" />
+		<FieldTagReference Index="6" Name="human training top center" GroupTag="1651078253" />
+		<FieldTagReference Index="7" Name="human training top left" GroupTag="1651078253" />
+		<FieldTagReference Index="8" Name="human training middle" GroupTag="1651078253" />
+		<FieldTagReference Index="9" Name="elite training top right" GroupTag="1651078253" />
+		<FieldTagReference Index="10" Name="elite training top center" GroupTag="1651078253" />
+		<FieldTagReference Index="11" Name="elite training top left" GroupTag="1651078253" />
+		<FieldTagReference Index="12" Name="elite training middle" GroupTag="1651078253" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

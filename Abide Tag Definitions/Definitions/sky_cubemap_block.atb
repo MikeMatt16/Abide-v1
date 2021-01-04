@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_cubemap_block" DisplayName="sky_cubemap_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldTagReference Index="0" Name="Cube Map Reference" GroupTag="1651078253" />
+		<FieldReal Index="1" Name="Power Scale#0 Defaults to 1." />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

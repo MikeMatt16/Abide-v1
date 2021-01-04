@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decal_block" DisplayName="decal" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="29">
+		<FieldExplanation Index="0" Name="DECAL" Explanation="There are several &quot;layers&quot; which decals can be placed into, these layers are drawn in a specific order relative to the shader layers and each layer has its own specific blending mode. In general, the decal bitmap's alpha channel will be used as an opacity mask if it exists.|n|n* LIT ALPHA-BLEND PRELIGHT: Decals in this layer are lit by the lightmap but are &quot;faded out&quot; by dynamic lights. What this means is that dynamic lights hitting them will cause them to disappear, sort of. This layer is rendered immediately before lightmap shadows (and before dynamic lights).|n|n* LIT ALPHA-BLEND: Decals in this layer are lit by the lightmap but are NOT lit by dynamic lights. What this means is that if the decal exists in an area that has dark lightmapping but bright dynamic lighting, the decal will appear dark. This layer is rendered immediately after dynamic lights, and all subsequent decal layers are rendered after this one in order.|n|n* DOUBLE MULTIPLY: Decals in this layer will double-multiply the color in the framebuffer. Gray pixels in the decal bitmap will be transparent (black darkens, white brightens). The decal color in the tag does NOT do anything!!|n|n* MULTIPLY: Decals in this layer will multiply the color in the framebuffer. White pixels in the decal bitmap will be transparent. The decal color (in the decal tag) does NOT do anything!!|n|n* MAX: Decals in this layer will perform a component-wise max operation on the framebuffer, replacing color values with whichever is higher. Black pixels in the decal bitmap will be transparent.|n|n* ADD: Decals in this layer will perform an addition operation on the framebuffer, replacing color values with the sum of the two. Black pixels in the decal bitmap will be transparent.|n|n* ERROR: Decals in this layer will render bright red and show through geometry!|n|nA compound decal is a chain of decals which are instantiated simultaneously. Compound decals are created by referencing another decal tag in the 'next_decal_in_chain' field below. Do not attempt to create a circularly linked decal chain, i.e. A-&gt;B-&gt;C-&gt;A! This will cause problems and probably hang the game. Also, do not reference a decal from an effect if it is not the head of the chain; for example an effect should not instantiate decal B if the chain was A-&gt;B-&gt;C. Compound decals can have seperate bitmaps, etc., and can be drawn in seperate layers. In addition, we used to have the ability for each decal in the chain can either inherit its parent's radius, rotation, color, etc. - or it can randomly choose its own. This behavior was controlled by the 'geometry_inherited_by_next_decal_in_chain' flag, below but it's currently broken." />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="geometry inherited by next decal in chain" />
+			<Option Name="interpolate color in hsv" />
+			<Option Name="...more colors" />
+			<Option Name="no random rotation" />
+			<Option Name="UNUSED" />
+			<Option Name="SAPIEN- snap to axis" />
+			<Option Name="SAPIEN- incremental counter" />
+			<Option Name="UNUSED" />
+			<Option Name="preserve aspect" />
+			<Option Name="UNUSED" />
+		</FieldWordFlags>
+		<FieldEnum Index="2" Name="type#controls how the decal wraps onto surface geometry">
+			<Option Name="scratch" />
+			<Option Name="splatter" />
+			<Option Name="burn" />
+			<Option Name="painted sign" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="layer">
+			<Option Name="lit alpha-blend prelight" />
+			<Option Name="lit alpha-blend" />
+			<Option Name="double multiply" />
+			<Option Name="multiply" />
+			<Option Name="max" />
+			<Option Name="add" />
+			<Option Name="error" />
+		</FieldEnum>
+		<FieldShortInteger Index="4" Name="max overlapping count" />
+		<FieldTagReference Index="5" Name="next decal in chain" GroupTag="1684366177" />
+		<FieldRealBounds Index="6" Name="radius:world units#0 defaults to 0.125" />
+		<FieldReal Index="7" Name="radius overlap rejection:muliplier" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldRealRgbColor Index="9" Name="color lower bounds" />
+		<FieldRealRgbColor Index="10" Name="color upper bounds" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldRealBounds Index="14" Name="lifetime:seconds" />
+		<FieldRealBounds Index="15" Name="decay time:seconds" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldPad Index="17" Name="" Length="40" />
+		<FieldPad Index="18" Name="" Length="2" />
+		<FieldPad Index="19" Name="" Length="2" />
+		<FieldPad Index="20" Name="" Length="2" />
+		<FieldPad Index="21" Name="" Length="2" />
+		<FieldPad Index="22" Name="" Length="20" />
+		<FieldTagReference Index="23" Name="bitmap" GroupTag="1651078253" />
+		<FieldPad Index="24" Name="" Length="20" />
+		<FieldReal Index="25" Name="maximum sprite extent:pixels*" />
+		<FieldPad Index="26" Name="" Length="4" />
+		<FieldUselessPad Index="27" Name="" />
+		<FieldTerminator Index="28" Name="" />
+	</FieldSet>
+</AbideTagBlock>

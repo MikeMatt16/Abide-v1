@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_placement_block" DisplayName="character_placement_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="14">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldReal Index="1" Name="few upgrade chance (easy)" />
+		<FieldReal Index="2" Name="few upgrade chance (normal)" />
+		<FieldReal Index="3" Name="few upgrade chance (heroic)" />
+		<FieldReal Index="4" Name="few upgrade chance (legendary)" />
+		<FieldReal Index="5" Name="normal upgrade chance (easy)" />
+		<FieldReal Index="6" Name="normal upgrade chance (normal)" />
+		<FieldReal Index="7" Name="normal upgrade chance (heroic)" />
+		<FieldReal Index="8" Name="normal upgrade chance (legendary)" />
+		<FieldReal Index="9" Name="many upgrade chance (easy)" />
+		<FieldReal Index="10" Name="many upgrade chance (normal)" />
+		<FieldReal Index="11" Name="many upgrade chance (heroic)" />
+		<FieldReal Index="12" Name="many upgrade chance (legendary)" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

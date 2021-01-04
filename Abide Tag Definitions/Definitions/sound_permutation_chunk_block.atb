@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_permutation_chunk_block" DisplayName="sound_permutation_chunk_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongInteger Index="0" Name="file offset*" />
+		<FieldLongInteger Index="1" Name="" />
+		<FieldLongInteger Index="2" Name="" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

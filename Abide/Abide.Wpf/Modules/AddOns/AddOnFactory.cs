@@ -1,39 +1,24 @@
 ﻿using Abide.AddOnApi;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Represents an object that can create instances of specified <see cref="IAddOn"/> AddOn types.
-    /// </summary>
     public abstract class AddOnFactory : INotifyPropertyChanged
     {
+        private Type[] interfaceTypes;
         private IHost host = null;
 
-        /// <summary>
-        /// Occurs when a property is changed.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Gets and returns the list of loaded <see cref="IAddOn"/> instances.
-        /// </summary>
-        public AddOnCollection<IAddOn> AddOns { get; } = new AddOnCollection<IAddOn>();
-        /// <summary>
-        /// Gets and returns a value that indicates whether or not the AddOns have been initialized.
-        /// </summary>
+
+        public ObservableCollection<IAddOn> AddOns { get; } = new ObservableCollection<IAddOn>();
         public bool AddOnsInitialized { get; private set; } = false;
-        /// <summary>
-        /// Gets and returns the AddOn host.
-        /// </summary>
         public IHost Host
         {
-            get { return host; }
+            get => host;
             set
             {
                 //Check
@@ -48,189 +33,61 @@ namespace Abide.Wpf.Modules.AddOns
                 }
             }
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AddOnFactory"/> class with the optional host.
-        /// </summary>
-        /// <param name="host">The AddOn host.</param>
-        public AddOnFactory(IHost host = null)
+
+        public AddOnFactory(IHost host, params Type[] acceptedInterfaces)
         {
-            //Set host
             Host = host;
+            interfaceTypes = acceptedInterfaces
+                .Where(t => t.GetInterface(typeof(IAddOn).Name) == typeof(IAddOn))
+                .ToArray();
         }
-        /// <summary>
-        /// Loads all of the AddOn types in the <see cref="AssemblyManager"/>.
-        /// </summary>
         public void InitializeAddOns()
         {
-            //Check
-            if (AddOnsInitialized) return;
-
-            //Loop through types
-            foreach (Type type in AssemblyManager.AddOnTypes)
-                LoadType(type);
-
-            //Set
-            AddOnsInitialized = true;
-        }
-        /// <summary>
-        /// Creates and returns a new instance of a specified type.
-        /// </summary>
-        /// <typeparam name="T">The <see cref="IAddOn"/> based type to instantiate.</typeparam>
-        /// <param name="type">The type to create a new instance of.</param>
-        /// <param name="host">The AddOn host.</param>
-        /// <returns>A new instance of the <typeparamref name="T"/> type.</returns>
-        public T Instantiate<T>(Type type, IHost host) where T : class, IAddOn
-        {
-            //Prepare
-            T addOn;
-
-            //Create instance
-            try { addOn = (T)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName); }
-            catch (Exception ex) { throw new InvalidOperationException($"Unable to create instance of {type.AssemblyQualifiedName}.", ex); }
-
-            //Initialize
-            try { addOn.Initialize(host); }
-            catch (Exception ex) { throw new InvalidOperationException($"Error initializing instance of {type.AssemblyQualifiedName}.", ex); }
-
-            //Return
-            return addOn;
-        }
-        /// <summary>
-        /// Creates and returns a new instance of a specified type using the supplied type name.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="typeName">The assembly-qualified name of the type to create.</param>
-        /// <param name="host">The AddOn host.</param>
-        /// <returns>A new instance of the <typeparamref name="T"/> type.</returns>
-        public T Instantiate<T>(string typeName, IHost host) where T : class, IAddOn
-        {
-            Type type = Type.GetType(typeName);
-            return Instantiate<T>(type, host);
-        }
-        /// <summary>
-        /// Raises the <see cref="PropertyChanged"/> event using the optional property name.
-        /// </summary>
-        /// <param name="propertyName">The name of the property that was changed.</param>
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //Raise event
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        /// <summary>
-        /// When implemented, loads any custom <see cref="IAddOn"/> types.
-        /// </summary>
-        /// <param name="type">The type attempt to load. This type will always implement <see cref="IAddOn"/>.</param>
-        protected virtual void LoadAddOn(Type type)
-        {
-            //Prepare
-            IAddOn addOn;
-
-            //Instantiate
-            try { addOn = Instantiate<IAddOn>(type, host); }
-            catch { addOn = null; }
-
-            //Check
-            if (addOn != null) AddOns.Add(addOn);
-        }
-        private void LoadType(Type type)
-        {
-            //Check type
-            if (type.GetInterface(typeof(IAddOn).Name) != null)
-                LoadAddOn(type);    //Load AddOn
-        }
-    }
-
-    /// <summary>
-    /// Represents a collection of AddOn instances.
-    /// </summary>
-    /// <typeparam name="T">The AddOn type.</typeparam>
-    public class AddOnCollection<T> : IEnumerable<T>, INotifyCollectionChanged
-        where T : IAddOn
-    {
-        private readonly List<T> addOns = new List<T>();
-
-        /// <summary>
-        /// Occurs when the state of the collection is changed.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        /// <summary>
-        /// Gets and returns the number of AddOns in this collection.
-        /// </summary>
-        public int Count
-        {
-            get { return addOns.Count; }
-        }
-        /// <summary>
-        /// Gets and returns the AddOn at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the AddOn element.</param>
-        /// <returns>An AddOn element.</returns>
-        public T this[int index]
-        {
-            get
+            if (!AddOnsInitialized)
             {
-                if (index < 0 || index >= addOns.Count)
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                return addOns[index];
+                AddOnsInitialized = true;
+                foreach (var type in AssemblyManager.AddOnTypes)
+                {
+                    foreach (var interfaceType in interfaceTypes)
+                    {
+                        if (type.GetInterface(interfaceType.Name) == interfaceType)
+                        {
+                            IAddOn addOn = null;
+
+                            try
+                            {
+                                addOn = Instantiate<IAddOn>(type);
+                            }
+                            finally
+                            {
+                                if (addOn != null)
+                                {
+                                    LoadAddOn(addOn);
+                                    AddOns.Add(addOn);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AddOnCollection{T}"/> class.
-        /// </summary>
-        public AddOnCollection()
+        public T Instantiate<T>(Type type) where T : class, IAddOn
         {
+            var addOn = (T)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(
+                type.Assembly.FullName, type.FullName);
+            addOn.Initialize(host);
+            
+            return addOn;
         }
-        /// <summary>
-        /// Adds an AddOn to the end of this collection.
-        /// </summary>
-        /// <param name="item">The AddOn to add.</param>
-        public void Add(T item)
+        public T Instantiate<T>(string typeName) where T : class, IAddOn
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
-            addOns.Add(item);   //Add
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            Type type = Type.GetType(typeName);
+            return Instantiate<T>(type);
         }
-        /// <summary>
-        /// Removes an AddOn from the end of this collection.
-        /// </summary>
-        /// <param name="item">The AddOn to remove.</param>
-        /// <returns><see langword="true"/> if the <paramref name="item"/> was removed from the collection; otherwise, <see langword="false"/>.</returns>
-        public bool Remove(T item)
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            bool removed = addOns.Remove(item); //Remove
-            if (removed) OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-            return removed;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        /// <summary>
-        /// Clears all AddOns from this collection.
-        /// </summary>
-        public void Clear()
-        {
-            addOns.Clear(); //Clear list
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-        /// <summary>
-        /// Returns an enumerator that iterates through this collection.
-        /// </summary>
-        /// <returns>An enumerator.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return addOns.GetEnumerator();
-        }
-        /// <summary>
-        /// Raises the <see cref="CollctionChanged"/> event.
-        /// </summary>
-        /// <param name="e">The event data that contains the changes to the collection.</param>
-        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            //Raise event
-            CollectionChanged?.Invoke(this, e);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        protected virtual void LoadAddOn(IAddOn addOn) { }
     }
 }

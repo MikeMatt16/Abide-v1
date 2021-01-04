@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_scene_trigger_block" DisplayName="ai_scene_trigger_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="combination rule">
+			<Option Name="OR" />
+			<Option Name="AND" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="triggers" BlockName="trigger_references" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

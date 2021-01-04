@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="light_block" DisplayName="light" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="79">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="no illumination#don't cast any per-pixel dynamic light" />
+			<Option Name="no specular#don't cast any specular highlights" />
+			<Option Name="force cast environment shadows through portals" />
+			<Option Name="no shadow#don't cast any stencil shadows" />
+			<Option Name="force frustum visibility on small light" />
+			<Option Name="only render in first person" />
+			<Option Name="only render in third person" />
+			<Option Name="don't fade when invisible?#don't fade out this light when under active-camouflage" />
+			<Option Name="multiplayer override#don't turn off in multiplayer" />
+			<Option Name="animated gel" />
+			<Option Name="only in dynamic envmap?#only draw this light in dynamic reflection maps" />
+			<Option Name="ignore parent object#don't illuminate or shadow the single object we are attached to" />
+			<Option Name="don't shadow parent#don't shadow the object we are attached to" />
+			<Option Name="ignore all parents#don't illuminate or shadow all the way up to our parent object" />
+			<Option Name="march milestone hack#don't click this unless you know what you're doing" />
+			<Option Name="force light inside world#every update will push light back inside the world" />
+			<Option Name="environment doesnt cast stencil shadows#environment in this light will not cast stencil shadows" />
+			<Option Name="objects don't cast stencil shadows#objects in this light will not cast stencil shadows" />
+			<Option Name="first person from camera" />
+			<Option Name="texture camera gel" />
+			<Option Name="light framerate killer" />
+			<Option Name="allowed in split screen" />
+			<Option Name="only on parent bipeds" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="1" Name="" />
+		<FieldExplanation Index="2" Name="SHAPE" Explanation="overall shape of the light" />
+		<FieldEnum Index="3" Name="type">
+			<Option Name="sphere" />
+			<Option Name="orthogonal" />
+			<Option Name="projective" />
+			<Option Name="pyramid" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldRealBounds Index="5" Name="size modifer#how the light's size changes with external scale" />
+		<FieldReal Index="6" Name="shadow quality bias#larger positive numbers improve quality, larger negative numbers improve speed" />
+		<FieldEnum Index="7" Name="shadow tap bias#the less taps you use, the faster the light (but edges can look worse)">
+			<Option Name="3 tap" />
+			<Option Name="UNUSED" />
+			<Option Name="1 tap" />
+		</FieldEnum>
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldExplanation Index="10" Name="SPHERE LIGHT" Explanation="default shape parameters for spherical lights" />
+		<FieldReal Index="11" Name="radius:world units#the radius at which illumination falls off to zero" />
+		<FieldReal Index="12" Name="specular radius:world units#the radius at which specular highlights fall off to zero (if zero, same as maximum radius)" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldExplanation Index="14" Name="FRUSTUM LIGHT" Explanation="default shape parameters for frustum lights (orthogonal, projective or pyramid types)" />
+		<FieldReal Index="15" Name="near width:world units#width of the frustum light at its near plane" />
+		<FieldReal Index="16" Name="height stretch#how much the gel is stretched vertically (0.0 or 1.0 = aspect ratio same as gel)" />
+		<FieldReal Index="17" Name="field of view:degrees#horizontal angle that the frustum light covers (0.0 = no spread, a parallel beam)" />
+		<FieldReal Index="18" Name="falloff distance#distance from near plane to where the light falloff starts" />
+		<FieldReal Index="19" Name="cutoff distance#distance from near plane to where illumination falls off to zero" />
+		<FieldUselessPad Index="20" Name="" />
+		<FieldExplanation Index="21" Name="COLOR" Explanation="" />
+		<FieldLongFlags Index="22" Name="interpolation flags">
+			<Option Name="blend in hsv#blends colors in hsv rather than rgb space" />
+			<Option Name="...more colors#blends colors through more hues (goes the long way around the color wheel)" />
+		</FieldLongFlags>
+		<FieldRealBounds Index="23" Name="bloom bounds:[0..2]" />
+		<FieldRealRgbColor Index="24" Name="specular lower bound" />
+		<FieldRealRgbColor Index="25" Name="specular upper bound" />
+		<FieldRealRgbColor Index="26" Name="diffuse lower bound" />
+		<FieldUselessPad Index="27" Name="" />
+		<FieldRealRgbColor Index="28" Name="diffuse upper bound" />
+		<FieldRealBounds Index="29" Name="brightness bounds:[0..2]" />
+		<FieldUselessPad Index="30" Name="" />
+		<FieldExplanation Index="31" Name="GEL" Explanation="the gel map tints the light's illumination per-pixel" />
+		<FieldTagReference Index="32" Name="gel map#must be a cubemap for spherical light and a 2d texture for frustum light" GroupTag="1651078253" />
+		<FieldEnum Index="33" Name="specular mask">
+			<Option Name="default" />
+			<Option Name="none (no mask)" />
+			<Option Name="gel alpha" />
+			<Option Name="gel color" />
+		</FieldEnum>
+		<FieldPad Index="34" Name="" Length="2" />
+		<FieldUselessPad Index="35" Name="" />
+		<FieldPad Index="36" Name="" Length="4" />
+		<FieldUselessPad Index="37" Name="" />
+		<FieldUselessPad Index="38" Name="" />
+		<FieldUselessPad Index="39" Name="" />
+		<FieldUselessPad Index="40" Name="" />
+		<FieldUselessPad Index="41" Name="" />
+		<FieldExplanation Index="42" Name="FALLOFF" Explanation="" />
+		<FieldEnum Index="43" Name="falloff function">
+			<Option Name="default" />
+			<Option Name="narrow" />
+			<Option Name="broad" />
+			<Option Name="very broad" />
+		</FieldEnum>
+		<FieldEnum Index="44" Name="diffuse contrast">
+			<Option Name="default (linear)" />
+			<Option Name="high" />
+			<Option Name="low" />
+			<Option Name="very low" />
+		</FieldEnum>
+		<FieldEnum Index="45" Name="specular contrast">
+			<Option Name="default (one)" />
+			<Option Name="high (linear)" />
+			<Option Name="low" />
+			<Option Name="very low" />
+		</FieldEnum>
+		<FieldEnum Index="46" Name="falloff geometry">
+			<Option Name="default" />
+			<Option Name="directional" />
+			<Option Name="spherical" />
+		</FieldEnum>
+		<FieldUselessPad Index="47" Name="" />
+		<FieldExplanation Index="48" Name="LENS FLARE" Explanation="optional lens flare and light volume associated with this light" />
+		<FieldTagReference Index="49" Name="lens flare" GroupTag="1818586739" />
+		<FieldReal Index="50" Name="bounding radius:world units#used to generate a bounding radius for lensflare-only lights" />
+		<FieldTagReference Index="51" Name="light volume" GroupTag="1296519986" />
+		<FieldUselessPad Index="52" Name="" />
+		<FieldExplanation Index="53" Name="RADIOSITY" Explanation="how the light affects the lightmaps (ignored for dynamic lights)" />
+		<FieldEnum Index="54" Name="default lightmap setting">
+			<Option Name="dynamic only" />
+			<Option Name="dynamic with lightmaps" />
+			<Option Name="lightmaps only" />
+		</FieldEnum>
+		<FieldPad Index="55" Name="" Length="2" />
+		<FieldReal Index="56" Name="lightmap half life" />
+		<FieldReal Index="57" Name="lightmap light scale" />
+		<FieldUselessPad Index="58" Name="" />
+		<FieldExplanation Index="59" Name="EFFECT PARAMETERS" Explanation="if the light is created by an effect, it will animate itself as follows" />
+		<FieldReal Index="60" Name="duration:seconds#the light will last this long when created by an effect" />
+		<FieldPad Index="61" Name="" Length="2" />
+		<FieldEnum Index="62" Name="falloff function#the scale of the light will diminish over time according to this function">
+			<Option Name="linear" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="cosine" />
+			<Option Name="zero" />
+			<Option Name="one" />
+		</FieldEnum>
+		<FieldUselessPad Index="63" Name="" />
+		<FieldExplanation Index="64" Name="DISTANCE FADING PARAMETERS" Explanation="To fade the light's illumination and shadow casting abilities" />
+		<FieldEnum Index="65" Name="illumination fade">
+			<Option Name="fade very far" />
+			<Option Name="fade far" />
+			<Option Name="fade medium" />
+			<Option Name="fade close" />
+			<Option Name="fade very close" />
+		</FieldEnum>
+		<FieldEnum Index="66" Name="shadow fade">
+			<Option Name="fade very far" />
+			<Option Name="fade far" />
+			<Option Name="fade medium" />
+			<Option Name="fade close" />
+			<Option Name="fade very close" />
+		</FieldEnum>
+		<FieldEnum Index="67" Name="specular fade">
+			<Option Name="fade very far" />
+			<Option Name="fade far" />
+			<Option Name="fade medium" />
+			<Option Name="fade close" />
+			<Option Name="fade very close" />
+		</FieldEnum>
+		<FieldPad Index="68" Name="" Length="2" />
+		<FieldUselessPad Index="69" Name="" />
+		<FieldExplanation Index="70" Name="ANIMATION PARAMETERS" Explanation="" />
+		<FieldLongFlags Index="71" Name="flags">
+			<Option Name="synchronized" />
+		</FieldLongFlags>
+		<FieldBlock Index="72" Name="brightness animation" BlockName="light_brightness_animation_block" />
+		<FieldBlock Index="73" Name="color animation" BlockName="light_color_animation_block" />
+		<FieldBlock Index="74" Name="gel animation" BlockName="light_gel_animation_block" />
+		<FieldUselessPad Index="75" Name="" />
+		<FieldExplanation Index="76" Name="SHADER" Explanation="" />
+		<FieldTagReference Index="77" Name="shader" GroupTag="1936220516" />
+		<FieldTerminator Index="78" Name="" />
+	</FieldSet>
+</AbideTagBlock>

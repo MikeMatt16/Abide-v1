@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="physics_model_node_constraint_edge_block" DisplayName="physics_model_node_constraint_edge_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="7">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldShortBlockIndex1 Index="1" Name="node a*" />
+		<FieldShortBlockIndex1 Index="2" Name="node b*" />
+		<FieldBlock Index="3" Name="constraints*" BlockName="physics_model_constraint_edge_constraint_block" />
+		<FieldStringId Index="4" Name="node a material#if you don't fill this out we will pluck the material from the first primitive, of the first rigid body attached to node a" />
+		<FieldStringId Index="5" Name="node b material#if you don't fill this out we will pluck the material from the first primitive, of the first rigid body attached to node b, if node b is none we use whatever material a has" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

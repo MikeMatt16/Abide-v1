@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="magazines" DisplayName="magazines" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="20">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="wastes rounds when reloaded" />
+			<Option Name="every round must be chambered" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="1" Name="rounds recharged:per second" />
+		<FieldShortInteger Index="2" Name="rounds total initial" />
+		<FieldShortInteger Index="3" Name="rounds total maximum" />
+		<FieldShortInteger Index="4" Name="rounds loaded maximum" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldReal Index="7" Name="reload time:seconds#the length of time it takes to load a single magazine into the weapon" />
+		<FieldShortInteger Index="8" Name="rounds reloaded" />
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldReal Index="10" Name="chamber time:seconds#the length of time it takes to chamber the next round" />
+		<FieldPad Index="11" Name="" Length="8" />
+		<FieldPad Index="12" Name="" Length="16" />
+		<FieldTagReference Index="13" Name="reloading effect" GroupTag="-3" />
+		<FieldTagReference Index="14" Name="reloading damage effect" GroupTag="1785754657" />
+		<FieldTagReference Index="15" Name="chambering effect" GroupTag="-3" />
+		<FieldTagReference Index="16" Name="chambering damage effect" GroupTag="1785754657" />
+		<FieldUselessPad Index="17" Name="" />
+		<FieldBlock Index="18" Name="magazines" BlockName="magazine_objects" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

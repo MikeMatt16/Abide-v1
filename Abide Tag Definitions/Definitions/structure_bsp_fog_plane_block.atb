@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_fog_plane_block" DisplayName="structure_bsp_fog_plane_block" MaximumElementCount="127">
+	<FieldSet Alignment="4" Count="6">
+		<FieldShortInteger Index="0" Name="Scenario Planar Fog Index*" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldRealPlane3D Index="2" Name="plane*" />
+		<FieldWordFlags Index="3" Name="Flags*">
+			<Option Name="Extend Infinitely While Visible" />
+			<Option Name="Do Not Floodfill" />
+			<Option Name="Aggressive Floodfill" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="4" Name="Priority*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

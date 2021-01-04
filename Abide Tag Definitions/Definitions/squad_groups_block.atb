@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="squad_groups_block" DisplayName="squad_groups_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="6">
+		<FieldString Index="0" Name="name^" />
+		<FieldUselessPad Index="1" Name="" />
+		<FieldShortBlockIndex1 Index="2" Name="parent" />
+		<FieldShortBlockIndex1 Index="3" Name="initial orders" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

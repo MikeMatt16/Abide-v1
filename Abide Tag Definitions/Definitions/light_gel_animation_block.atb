@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="light_gel_animation_block" DisplayName="gel animation" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldCustom Index="0" Name="dx" />
+		<FieldStruct Index="1" Name="dx" StructName="mapping_function_block" />
+		<FieldCustom Index="2" Name="dy" />
+		<FieldStruct Index="3" Name="dy" StructName="mapping_function_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

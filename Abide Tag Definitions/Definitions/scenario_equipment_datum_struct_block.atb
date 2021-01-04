@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_equipment_datum_struct_block" DisplayName="scenario_equipment_datum_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongFlags Index="0" Name="Equipment Flags">
+			<Option Name="Initially at Rest (Does Not Fall)" />
+			<Option Name="Obsolete" />
+			<Option Name="Does Accelerate (Moves Due to Explosions)" />
+		</FieldLongFlags>
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

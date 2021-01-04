@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_interface_struct_block" DisplayName="weapon_interface_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldExplanation Index="0" Name="interface" Explanation="" />
+		<FieldStruct Index="1" Name="shared interface" StructName="weapon_shared_interface_struct_block" />
+		<FieldBlock Index="2" Name="first person" BlockName="weapon_first_person_interface_block" />
+		<FieldTagReference Index="3" Name="new hud interface" GroupTag="1852335220" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

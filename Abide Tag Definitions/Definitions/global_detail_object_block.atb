@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_detail_object_block" DisplayName="global_detail_object_block" MaximumElementCount="2097152">
+	<FieldSet Alignment="4" Count="6">
+		<FieldCharInteger Index="0" Name="*" />
+		<FieldCharInteger Index="1" Name="*" />
+		<FieldCharInteger Index="2" Name="*" />
+		<FieldCharInteger Index="3" Name="*" />
+		<FieldShortInteger Index="4" Name="*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

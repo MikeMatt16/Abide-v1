@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_waypoint_block" DisplayName="hud_waypoint_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="7">
+		<FieldTagReference Index="0" Name="bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="shader" GroupTag="1936220516" />
+		<FieldShortInteger Index="2" Name="onscreen sequence index" />
+		<FieldShortInteger Index="3" Name="occluded sequence index" />
+		<FieldShortInteger Index="4" Name="offscreen sequence index" />
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

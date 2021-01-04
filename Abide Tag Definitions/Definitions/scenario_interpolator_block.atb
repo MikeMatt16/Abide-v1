@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_interpolator_block" DisplayName="interpolators" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="7">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldStringId Index="1" Name="Accelerator Name:Interpolator" />
+		<FieldStringId Index="2" Name="Multiplier Name:Interpolator" />
+		<FieldStruct Index="3" Name="Function" StructName="scalar_function_struct_block" />
+		<FieldSkip Index="4" Name="" Length="2" />
+		<FieldSkip Index="5" Name="" Length="2" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

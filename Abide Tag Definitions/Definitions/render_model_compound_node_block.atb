@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_compound_node_block" DisplayName="compound node" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="7">
+		<FieldArrayStart Index="0" Name="node indices*" Length="4">
+			<FieldCharInteger Index="0" Name="node index*" />
+		</FieldArrayStart>
+		<FieldCharInteger Index="1" Name="node index*" />
+		<FieldArrayEnd Index="2" Name="" />
+		<FieldArrayStart Index="3" Name="node weights*" Length="3">
+			<FieldReal Index="0" Name="node weight*" />
+		</FieldArrayStart>
+		<FieldReal Index="4" Name="node weight*" />
+		<FieldArrayEnd Index="5" Name="" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

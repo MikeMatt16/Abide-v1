@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_subcluster_boundary_block" DisplayName="structure_subcluster_boundary_block" MaximumElementCount="6144">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortInteger Index="0" Name="Lower Subcluster Index*" />
+		<FieldShortInteger Index="1" Name="Upper Subcluster Index*" />
+		<FieldShortInteger Index="2" Name="First Explicit Edge Index*" />
+		<FieldShortInteger Index="3" Name="Explicit Edge Count*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_parallelogram_block" DisplayName="user_hint_parallelogram_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="14">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="bidirectional" />
+			<Option Name="closed" />
+		</FieldLongFlags>
+		<FieldRealPoint3D Index="1" Name="Point 0" />
+		<FieldShortInteger Index="2" Name="reference frame*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldRealPoint3D Index="4" Name="Point 1" />
+		<FieldShortInteger Index="5" Name="reference frame*" />
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldRealPoint3D Index="7" Name="Point 2" />
+		<FieldShortInteger Index="8" Name="reference frame*" />
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldRealPoint3D Index="10" Name="Point 3" />
+		<FieldShortInteger Index="11" Name="reference frame*" />
+		<FieldPad Index="12" Name="" Length="2" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

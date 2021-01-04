@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_firing_pattern_block" DisplayName="character_firing_pattern_block" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="16">
+		<FieldReal Index="0" Name="rate of fire#how many times per second we pull the trigger (zero = continuously held down)" />
+		<FieldReal Index="1" Name="target tracking:[0,1]#how well our bursts track moving targets. 0.0= fire at the position they were standing when we started the burst. 1.0= fire at current position" />
+		<FieldReal Index="2" Name="target leading:[0,1]#how much we lead moving targets. 0.0= no prediction. 1.0= predict completely." />
+		<FieldExplanation Index="3" Name="burst geometry" Explanation="at the start of every burst we pick a random point near the target to fire at, on either the left or the right side.|nthe burst origin angle controls whether this error is exactly horizontal or might have some vertical component.|n|nover the course of the burst we move our projectiles back in the opposite direction towards the target. this return motion is also controlled by an angle that specifies how close to the horizontal it is.|n|nfor example if the burst origin angle and the burst return angle were both zero, and the return length was the same as the burst length, every burst would start the same amount away from the target (on either the left or right) and move back to exactly over the target at the end of the burst." />
+		<FieldReal Index="4" Name="burst origin radius:world units#how far away from the target the starting point is" />
+		<FieldAngle Index="5" Name="burst origin angle:degrees#the range from the horizontal that our starting error can be" />
+		<FieldRealBounds Index="6" Name="burst return length:world units#how far the burst point moves back towards the target (could be negative)" />
+		<FieldAngle Index="7" Name="burst return angle:degrees#the range from the horizontal that the return direction can be" />
+		<FieldRealBounds Index="8" Name="burst duration:seconds#how long each burst we fire is" />
+		<FieldRealBounds Index="9" Name="burst separation:seconds#how long we wait between bursts" />
+		<FieldReal Index="10" Name="weapon damage modifier#what fraction of its normal damage our weapon inflicts (zero = no modifier)" />
+		<FieldAngle Index="11" Name="projectile error:degrees#error added to every projectile we fire" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldAngle Index="13" Name="burst angular velocity:degrees per second#the maximum rate at which we can sweep our fire (zero = unlimited)" />
+		<FieldAngle Index="14" Name="maximum error angle:degrees#cap on the maximum angle by which we will miss target (restriction on burst origin radius" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

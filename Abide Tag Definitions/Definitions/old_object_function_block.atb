@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="old_object_function_block" DisplayName="old_object_function_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="3">
+		<FieldPad Index="0" Name="" Length="76" />
+		<FieldOldStringId Index="1" Name="" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

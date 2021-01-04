@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_instanced_geometry_index_block" DisplayName="structure_bsp_cluster_instanced_geometry_index_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="Instanced Geometry Index*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

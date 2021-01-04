@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="powered_seat_block" DisplayName="powered_seat_block" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="5">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldReal Index="1" Name="driver powerup time:seconds" />
+		<FieldReal Index="2" Name="driver powerdown time:seconds" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

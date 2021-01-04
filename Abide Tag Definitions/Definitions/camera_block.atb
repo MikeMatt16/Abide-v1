@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="camera_block" DisplayName="camera_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldTagReference Index="0" Name="default unit camera track" GroupTag="1953653099" />
+		<FieldReal Index="1" Name="default change pause" />
+		<FieldReal Index="2" Name="first person change pause" />
+		<FieldReal Index="3" Name="following camera change pause" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

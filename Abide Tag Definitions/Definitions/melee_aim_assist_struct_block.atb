@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="melee_aim_assist_struct_block" DisplayName="melee_aim_assist_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldAngle Index="0" Name="magnetism angle:degrees#the maximum angle that magnetism works at full strength" />
+		<FieldReal Index="1" Name="magnetism range:world units#the maximum distance that magnetism works at full strength" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldReal Index="3" Name="throttle magnitude" />
+		<FieldReal Index="4" Name="throttle minimum distance" />
+		<FieldAngle Index="5" Name="throttle maximum adjustment angle:degrees" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="contrail_point_states_block" DisplayName="contrail_point_states_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="11">
+		<FieldExplanation Index="0" Name="state timing" Explanation="" />
+		<FieldRealBounds Index="1" Name="duration:seconds:seconds#the time a point spends in this state" />
+		<FieldRealBounds Index="2" Name="transition duration:seconds#the time a point takes to transition to the next state" />
+		<FieldExplanation Index="3" Name="point variables" Explanation="" />
+		<FieldTagReference Index="4" Name="physics" GroupTag="1886414969" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldReal Index="6" Name="width:world units#contrail width at this point" />
+		<FieldRealArgbColor Index="7" Name="color lower bound#contrail color at this point" />
+		<FieldRealArgbColor Index="8" Name="color upper bound#contrail color at this point" />
+		<FieldLongFlags Index="9" Name="scale flags#these flags determine which fields are scaled by the contrail density">
+			<Option Name="duration" />
+			<Option Name="duration delta" />
+			<Option Name="transition duration" />
+			<Option Name="transition duration delta" />
+			<Option Name="width" />
+			<Option Name="color" />
+		</FieldLongFlags>
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

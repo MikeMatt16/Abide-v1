@@ -7,28 +7,11 @@ using System.Reflection;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Acts as an assembly loader.
-    /// </summary>
     public static class AssemblyManager
     {
-        /// <summary>
-        /// Gets and returns a list of AddOn environments.
-        /// </summary>
         public static List<AddOnEnvironment> AddOnEnvironments { get; } = new List<AddOnEnvironment>();
-        /// <summary>
-        /// Gets and returns a list of AddOn types.
-        /// </summary>
         public static List<Type> AddOnTypes { get; } = new List<Type>();
-        /// <summary>
-        /// Gets or sets whether or not the assembly manager is in safe mode.
-        /// </summary>
         public static bool SafeMode { get; set; } = false;
-        /// <summary>
-        /// Attempts to load an assembly.
-        /// </summary>
-        /// <param name="path">The path to the assembly.</param>
-        /// <returns><see langword="true"/> if the assembly was successfully loaded; otherwise, <see langword="false"/>.</returns>
         public static bool LoadAssembly(string path)
         {
             if (SafeMode) return false;
@@ -37,15 +20,10 @@ namespace Abide.Wpf.Modules.AddOns
             Assembly asm;
 
             try { asm = Assembly.LoadFile(path); }
-            catch(FileLoadException) { asm = null; }
+            catch { asm = null; }
 
             return asm != null;
         }
-        /// <summary>
-        /// Attempts to load an assembly into memory.
-        /// </summary>
-        /// <param name="path">The path to the assembly.</param>
-        /// <returns><see langword="true"/> if the assembly was successfully loaded; otherwise, <see langword="false"/>.</returns>
         public static bool LoadAssemblyIntoMemory(string path)
         {
             //Check safe mode
@@ -75,9 +53,6 @@ namespace Abide.Wpf.Modules.AddOns
             //Return
             return false;
         }
-        /// <summary>
-        /// Updates the contents of the <see cref="AddOnTypes"/> list property.
-        /// </summary>
         public static void InitializeAddOnTypes()
         {
             //Clear

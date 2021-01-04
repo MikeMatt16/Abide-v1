@@ -1,4 +1,5 @@
-﻿using Abide.Tag.Definition;
+﻿using System;
+using Abide.Tag.Definition;
 
 namespace Abide.Tag.Preprocess
 {
@@ -47,6 +48,9 @@ namespace Abide.Tag.Preprocess
                     break;
                 case "model_animation_graph_block":
                     ModelAnimationGraphBlock_Preprocess(block, cache);
+                    break;
+                case "model_variant_block":
+                    ModelVariantBlock_Preprocess(block);
                     break;
                 case "pixel_shader_fragment_block":
                     PixelShaderFragmentBlock_Preprocess(block);
@@ -97,7 +101,7 @@ namespace Abide.Tag.Preprocess
                     break;
             }
         }
-        
+
         private static void BitmapDataBlock_Preprocess(AbideTagBlock block)
         {
             //Change...
@@ -323,7 +327,21 @@ namespace Abide.Tag.Preprocess
             block.FieldSet.Insert(6, animationDataBlockField);
             block.FieldSet.Insert(7, unknownBlockField);
         }
-        
+
+        private static void ModelVariantBlock_Preprocess(AbideTagBlock block)
+        {
+            //Remove FieldPad
+            block.FieldSet.RemoveAt(1);
+
+            //Add 16 byte block indices
+            for (int i = 0; i < 16; i++)
+                block.FieldSet.Insert(1, new AbideTagField()
+                {
+                    FieldType = FieldType.FieldCharBlockIndex1,
+                    Name = $"model varient {16 - i}"
+                });
+        }
+
         private static void PixelShaderFragmentBlock_Preprocess(AbideTagBlock block)
         {
             //Add...

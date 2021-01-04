@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_netpoints_block" DisplayName="scenario_netpoints_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="10">
+		<FieldRealPoint3D Index="0" Name="Position" />
+		<FieldAngle Index="1" Name="Facing:Degrees" />
+		<FieldCustom Index="2" Name="" />
+		<FieldEnum Index="3" Name="Type">
+			<Option Name="CTF Flag Spawn" />
+			<Option Name="CTF Flag Return" />
+			<Option Name="Assault Bomb Spawn" />
+			<Option Name="Assault Bomb Return" />
+			<Option Name="Oddball Spawn" />
+			<Option Name="unused" />
+			<Option Name="Race Checkpoint" />
+			<Option Name="Teleporter (src)" />
+			<Option Name="Teleporter (dest)" />
+			<Option Name="Headhunter Bin" />
+			<Option Name="Territories Flag" />
+			<Option Name="King Hill 0" />
+			<Option Name="King Hill 1" />
+			<Option Name="King Hill 2" />
+			<Option Name="King Hill 3" />
+			<Option Name="King Hill 4" />
+			<Option Name="King Hill 5" />
+			<Option Name="King Hill 6" />
+			<Option Name="King Hill 7" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="Team Designator">
+			<Option Name="Red (Alpha)" />
+			<Option Name="Blue (Bravo)" />
+			<Option Name="Yellow (Charlie)" />
+			<Option Name="Green (Delta)" />
+			<Option Name="Purple (Echo)" />
+			<Option Name="Orange (Foxtrot)" />
+			<Option Name="Brown (Golf)" />
+			<Option Name="Pink (Hotel)" />
+			<Option Name="NEUTRAL" />
+		</FieldEnum>
+		<FieldShortInteger Index="5" Name="Identifier" />
+		<FieldWordFlags Index="6" Name="Flags">
+			<Option Name="Multiple Flag/Bomb" />
+			<Option Name="Single Flag/Bomb" />
+			<Option Name="Neutral Flag/Bomb" />
+		</FieldWordFlags>
+		<FieldStringId Index="7" Name="" />
+		<FieldStringId Index="8" Name="" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

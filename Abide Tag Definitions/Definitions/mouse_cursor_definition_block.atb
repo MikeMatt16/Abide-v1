@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="mouse_cursor_definition_block" DisplayName="mouse_cursor_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldExplanation Index="0" Name="Mouse Cursor Bitmaps:" Explanation="0 - Normal mouse cursor|n1 - Busy mouse cursor|n2 - Hover mouse cursor|n3 - Text select mouse cursor|n" />
+		<FieldBlock Index="1" Name="mouse cursor bitmaps" BlockName="mouse_cursor_bitmap_reference_block" />
+		<FieldReal Index="2" Name="animation speed (fps)" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

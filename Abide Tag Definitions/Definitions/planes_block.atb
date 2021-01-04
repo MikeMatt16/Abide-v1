@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="planes_block" DisplayName="planes_block" MaximumElementCount="65536">
+	<FieldSet Alignment="16" Count="2">
+		<FieldRealPlane3D Index="0" Name="Plane*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

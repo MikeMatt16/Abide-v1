@@ -163,6 +163,7 @@
     <Content Include="Tag Editor\EnumOption.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Tag Editor\jquery-3.1.1.min.js" />
     <Content Include="Tag Editor\Reflexive.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

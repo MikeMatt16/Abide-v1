@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="antenna_vertex_block" DisplayName="antenna_vertex_block" MaximumElementCount="20">
+	<FieldSet Alignment="4" Count="11">
+		<FieldRealFraction Index="0" Name="spring strength coefficient#strength of the spring (larger values make the spring stronger)" />
+		<FieldPad Index="1" Name="" Length="24" />
+		<FieldEulerAngles2D Index="2" Name="angles#direction toward next vertex" />
+		<FieldReal Index="3" Name="length:world units#distance between this vertex and the next" />
+		<FieldShortInteger Index="4" Name="sequence index#bitmap group sequence index for this vertex's texture" />
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldRealArgbColor Index="6" Name="color#color at this vertex" />
+		<FieldRealArgbColor Index="7" Name="LOD color#color at this vertex for the low-LOD line primitives" />
+		<FieldPad Index="8" Name="" Length="40" />
+		<FieldPad Index="9" Name="" Length="12" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

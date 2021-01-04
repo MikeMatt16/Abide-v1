@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_environment_block" DisplayName="sound_environment" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="17">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="priority#when multiple listeners are in different sound environments in split screen, the combined environment will be the one with the highest priority." />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldReal Index="3" Name="room intensity:dB#intensity of the room effect" />
+		<FieldReal Index="4" Name="room intensity hf:dB#intensity of the room effect above the reference high frequency" />
+		<FieldReal Index="5" Name="room rolloff (0 to 10)#how quickly the room effect rolls off, from 0.0 to 10.0" />
+		<FieldReal Index="6" Name="decay time (.1 to 20):seconds" />
+		<FieldReal Index="7" Name="decay hf ratio (.1 to 2)" />
+		<FieldReal Index="8" Name="reflections intensity:dB[-100,10]" />
+		<FieldReal Index="9" Name="reflections delay (0 to .3):seconds" />
+		<FieldReal Index="10" Name="reverb intensity:dB[-100,20]" />
+		<FieldReal Index="11" Name="reverb delay (0 to .1):seconds" />
+		<FieldReal Index="12" Name="diffusion" />
+		<FieldReal Index="13" Name="density" />
+		<FieldReal Index="14" Name="hf reference(20 to 20,000):Hz#for hf values, what frequency defines hf, from 20 to 20,000" />
+		<FieldPad Index="15" Name="" Length="16" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

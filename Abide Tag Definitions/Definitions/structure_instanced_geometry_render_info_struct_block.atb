@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_instanced_geometry_render_info_struct_block" DisplayName="structure_instanced_geometry_render_info_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStruct Index="0" Name="Section Info*" StructName="global_geometry_section_info_struct_block" />
+		<FieldStruct Index="1" Name="Geometry Block Info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="2" Name="Render Data*" BlockName="structure_bsp_cluster_data_block_new" />
+		<FieldBlock Index="3" Name="Index Reorder Table*" BlockName="global_geometry_section_strip_index_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

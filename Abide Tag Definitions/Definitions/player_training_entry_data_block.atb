@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="player_training_entry_data_block" DisplayName="player_training_entry_data_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStringId Index="0" Name="display string#comes out of the HUD text globals" />
+		<FieldStringId Index="1" Name="display string2#comes out of the HUD text globals, used for grouped prompt" />
+		<FieldStringId Index="2" Name="display string3#comes out of the HUD text globals, used for ungrouped prompt" />
+		<FieldShortInteger Index="3" Name="max display time#how long the message can be on screen before being hidden" />
+		<FieldShortInteger Index="4" Name="display count#how many times a training message will get displayed (0-3 only!)" />
+		<FieldShortInteger Index="5" Name="dissapear delay#how long a displayed but untriggered message stays up" />
+		<FieldShortInteger Index="6" Name="redisplay delay#how long after display this message will stay hidden" />
+		<FieldReal Index="7" Name="display delay (s)#how long the event can be triggered before it's displayed" />
+		<FieldWordFlags Index="8" Name="flags">
+			<Option Name="not in multiplayer" />
+		</FieldWordFlags>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

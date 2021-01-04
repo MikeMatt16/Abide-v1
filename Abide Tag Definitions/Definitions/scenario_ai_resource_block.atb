@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_ai_resource_block" DisplayName="scenario_ai_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="20">
+		<FieldBlock Index="0" Name="Style Palette" BlockName="style_palette_block" />
+		<FieldBlock Index="1" Name="Squad Groups" BlockName="squad_groups_block" />
+		<FieldBlock Index="2" Name="Squads" BlockName="squads_block" />
+		<FieldBlock Index="3" Name="Zones" BlockName="zone_block" />
+		<FieldBlock Index="4" Name="Character Palette" BlockName="character_palette_block" />
+		<FieldBlock Index="5" Name="AI Animation References" BlockName="ai_animation_reference_block" />
+		<FieldBlock Index="6" Name="AI Script References" BlockName="ai_script_reference_block" />
+		<FieldBlock Index="7" Name="AI Recording References" BlockName="ai_recording_reference_block" />
+		<FieldBlock Index="8" Name="AI Conversations" BlockName="ai_conversation_block" />
+		<FieldBlock Index="9" Name="Scripting Data" BlockName="cs_script_data_block" />
+		<FieldBlock Index="10" Name="Orders" BlockName="orders_block" />
+		<FieldBlock Index="11" Name="Triggers" BlockName="triggers_block" />
+		<FieldBlock Index="12" Name="BSP Preferences" BlockName="scenario_structure_bsp_reference_block" />
+		<FieldBlock Index="13" Name="Weapon References" BlockName="scenario_weapon_palette_block" />
+		<FieldBlock Index="14" Name="Vehicle References" BlockName="scenario_vehicle_palette_block" />
+		<FieldBlock Index="15" Name="Vehicle Datum References" BlockName="scenario_vehicle_block" />
+		<FieldBlock Index="16" Name="Mission Dialogue Scenes" BlockName="ai_scene_block" />
+		<FieldBlock Index="17" Name="Flocks" BlockName="flock_definition_block" />
+		<FieldBlock Index="18" Name="Trigger Volume References" BlockName="scenario_trigger_volume_block" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

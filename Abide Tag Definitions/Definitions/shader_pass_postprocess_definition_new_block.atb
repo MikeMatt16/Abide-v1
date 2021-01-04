@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_definition_new_block" DisplayName="shader_pass_postprocess_definition_new_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldBlock Index="0" Name="implementations" BlockName="shader_pass_postprocess_implementation_new_block" />
+		<FieldBlock Index="1" Name="textures" BlockName="shader_pass_postprocess_texture_new_block" />
+		<FieldBlock Index="2" Name="render states" BlockName="render_state_block" />
+		<FieldBlock Index="3" Name="texture states" BlockName="shader_pass_postprocess_texture_state_block" />
+		<FieldBlock Index="4" Name="ps fragments" BlockName="pixel_shader_fragment_block" />
+		<FieldBlock Index="5" Name="ps permutations" BlockName="pixel_shader_permutation_new_block" />
+		<FieldBlock Index="6" Name="ps combiners" BlockName="pixel_shader_combiner_block" />
+		<FieldBlock Index="7" Name="externs" BlockName="shader_pass_postprocess_extern_new_block" />
+		<FieldBlock Index="8" Name="constants" BlockName="shader_pass_postprocess_constant_new_block" />
+		<FieldBlock Index="9" Name="constant info" BlockName="shader_pass_postprocess_constant_info_new_block" />
+		<FieldBlock Index="10" Name="old implementations" BlockName="shader_pass_postprocess_implementation_block" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

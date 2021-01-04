@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="grenade_hud_sound_block" DisplayName="grenade_hud_sound_block" MaximumElementCount="12">
+	<FieldSet Alignment="4" Count="5">
+		<FieldTagReference Index="0" Name="sound^" GroupTag="-3" />
+		<FieldLongFlags Index="1" Name="latched to">
+			<Option Name="low grenade count" />
+			<Option Name="no grenades left" />
+			<Option Name="throw on no grenades" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="scale" />
+		<FieldPad Index="3" Name="" Length="32" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

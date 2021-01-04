@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multiplayer_information_block" DisplayName="multiplayer_information_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldTagReference Index="0" Name="flag" GroupTag="1769235821" />
+		<FieldTagReference Index="1" Name="unit" GroupTag="1970170228" />
+		<FieldBlock Index="2" Name="vehicles" BlockName="vehicles_block" />
+		<FieldTagReference Index="3" Name="hill shader" GroupTag="1936220516" />
+		<FieldTagReference Index="4" Name="flag shader" GroupTag="1936220516" />
+		<FieldTagReference Index="5" Name="ball" GroupTag="1769235821" />
+		<FieldBlock Index="6" Name="sounds" BlockName="sounds_block" />
+		<FieldTagReference Index="7" Name="in game text" GroupTag="1970170211" />
+		<FieldPad Index="8" Name="" Length="40" />
+		<FieldBlock Index="9" Name="general events" BlockName="game_engine_general_event_block" />
+		<FieldBlock Index="10" Name="slayer events" BlockName="game_engine_slayer_event_block" />
+		<FieldBlock Index="11" Name="ctf events" BlockName="game_engine_ctf_event_block" />
+		<FieldBlock Index="12" Name="oddball events" BlockName="game_engine_oddball_event_block" />
+		<FieldBlock Index="13" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="14" Name="king events" BlockName="game_engine_king_event_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

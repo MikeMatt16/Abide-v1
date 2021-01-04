@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pixel_shader_constant_block" DisplayName="pixel_shader_constant_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCharEnum Index="0" Name="parameter type">
+			<Option Name="Bitmap" />
+			<Option Name="Value" />
+			<Option Name="Color" />
+			<Option Name="Switch" />
+		</FieldCharEnum>
+		<FieldCharInteger Index="1" Name="combiner index" />
+		<FieldCharInteger Index="2" Name="register index" />
+		<FieldCharEnum Index="3" Name="component mask">
+			<Option Name="x (value)" />
+			<Option Name="y (value)" />
+			<Option Name="z (value)" />
+			<Option Name="w (value)" />
+			<Option Name="xyz/rgb (color)" />
+		</FieldCharEnum>
+		<FieldPad Index="4" Name="" Length="1" />
+		<FieldPad Index="5" Name="" Length="1" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

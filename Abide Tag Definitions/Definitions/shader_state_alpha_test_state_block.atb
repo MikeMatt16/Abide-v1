@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_alpha_test_state_block" DisplayName="alpha-test state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="alpha-test enabled" />
+			<Option Name="sample-alpha to coverage" />
+			<Option Name="sample-alpha to one" />
+		</FieldWordFlags>
+		<FieldEnum Index="1" Name="alpha compare function">
+			<Option Name="never" />
+			<Option Name="less" />
+			<Option Name="equal" />
+			<Option Name="less or equal" />
+			<Option Name="greater" />
+			<Option Name="not equal" />
+			<Option Name="greater or equal" />
+			<Option Name="always" />
+		</FieldEnum>
+		<FieldShortInteger Index="2" Name="alpha-test ref:[0,255]" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

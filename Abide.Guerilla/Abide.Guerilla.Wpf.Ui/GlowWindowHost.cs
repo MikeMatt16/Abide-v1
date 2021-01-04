@@ -1,5 +1,6 @@
 ﻿using Abide.Guerilla.Wpf.Ui.Win32;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,8 +10,10 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
+using WpfBrush = System.Windows.Media.Brush;
 using WpfBrushes = System.Windows.Media.Brushes;
 using WpfColor = System.Windows.Media.Color;
+using WpfPoint = System.Windows.Point;
 
 namespace Abide.Guerilla.Wpf.Ui
 {
@@ -19,12 +22,13 @@ namespace Abide.Guerilla.Wpf.Ui
     /// </summary>
     public class GlowWindowHost : Window
     {
-        private const string AbideGlowWindowClassName = "AbideGlowWindow";
-        private static readonly WindowClassAtom glowWindowClassAtom = new WindowClassAtom();
+        private const string GlowWindowClassName = "AbideGlowWindow";
+
+        private static readonly WindowProc glowWindowWndProc = GlowWindow_WindowProc;
+        private static readonly Dictionary<IntPtr, GlowWindowHost> hostDictionary = new Dictionary<IntPtr, GlowWindowHost>();
+        private static readonly WindowClassAtom GlowWindowClassAtom;
 
         private readonly WindowHandle windowHandle, leftHandle, topHandle, rightHandle, bottomHandle;
-        private readonly WindowProc glowWindowWndProc = null;
-
         private VisualBrush opacityMaskBrush = new VisualBrush();
         private GlowTextures glowTextures = new GlowTextures();
         private bool isActive = false;
@@ -35,6 +39,11 @@ namespace Abide.Guerilla.Wpf.Ui
         /// </summary>
         public static readonly RoutedEvent ClientAreaRectangleRequestedEvent =
             EventManager.RegisterRoutedEvent("ClientAreaRectangleRequested", RoutingStrategy.Direct, typeof(ClientAreaEventHandler), typeof(GlowWindowHost));
+        /// <summary>
+        /// Identifies the <see cref="NonClientActionProperty"/> attatched property.
+        /// </summary>
+        public static readonly DependencyProperty NonClientActionProperty =
+            DependencyProperty.RegisterAttached("NonClientAction", typeof(NonClientHitAction), typeof(GlowWindowHost), new PropertyMetadata(NonClientHitAction.Client, NonClientActionPropertyChanged));
         /// <summary>
         /// Identifies the <see cref="CaptionHeight"/> property.
         /// </summary>
@@ -61,6 +70,22 @@ namespace Abide.Guerilla.Wpf.Ui
         public static readonly DependencyProperty BorderVisibleProperty =
             DependencyProperty.Register("BordersVisible", typeof(bool), typeof(GlowWindowHost), new PropertyMetadata(true, BordersVisiblePropertyChanged));
         /// <summary>
+        /// Identifies the <see cref="CurrentIcon"/> property.
+        /// </summary>
+        public static readonly DependencyProperty CurrentIconProperty =
+            DependencyProperty.Register("CurrentIcon", typeof(WpfBrush), typeof(GlowWindowHost));
+        /// <summary>
+        /// Identifies the <see cref="ActiveIcon"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ActiveIconProperty =
+            DependencyProperty.Register("ActiveIcon", typeof(WpfBrush), typeof(GlowWindowHost), new PropertyMetadata(WpfBrushes.White));
+        /// <summary>
+        /// Identifies the <see cref="InactiveIcon"/> property.
+        /// </summary>
+        public static readonly DependencyProperty InactiveIconProperty =
+            DependencyProperty.Register("InactiveIcon", typeof(WpfBrush), typeof(GlowWindowHost), new PropertyMetadata(new SolidColorBrush(WpfColor.FromRgb(129, 129, 131))));
+
+        /// <summary>
         /// Occurs when the client area rectangle is requested.
         /// </summary>
         public event ClientAreaEventHandler ClientAreaRectangleRequested
@@ -83,6 +108,30 @@ namespace Abide.Guerilla.Wpf.Ui
         {
             get { return (bool)GetValue(BorderVisibleProperty); }
             set { SetValue(BorderVisibleProperty, value); }
+        }
+        /// <summary>
+        /// Gets and returns the current icon brush.
+        /// </summary>
+        public WpfBrush CurrentIcon
+        {
+            get { return (WpfBrush)GetValue(CurrentIconProperty); }
+            set { SetValue(CurrentIconProperty, value); }
+        }
+        /// <summary>
+        /// Gets and returns the current icon brush.
+        /// </summary>
+        public WpfBrush ActiveIcon
+        {
+            get { return (WpfBrush)GetValue(ActiveIconProperty); }
+            set { SetValue(ActiveIconProperty, value); }
+        }
+        /// <summary>
+        /// Gets and returns the current icon brush.
+        /// </summary>
+        public WpfBrush InactiveIcon
+        {
+            get { return (WpfBrush)GetValue(InactiveIconProperty); }
+            set { SetValue(InactiveIconProperty, value); }
         }
         /// <summary>
         /// Gets or sets the window icon image source.
@@ -114,7 +163,6 @@ namespace Abide.Guerilla.Wpf.Ui
         public GlowWindowHost() : base()
         {
             //Prepare
-            glowWindowWndProc = GlowWindow_WindowProc;
             windowHandle = new WindowHandle();
             leftHandle = new WindowHandle();
             topHandle = new WindowHandle();
@@ -123,7 +171,7 @@ namespace Abide.Guerilla.Wpf.Ui
 
             //Setup
             SnapsToDevicePixels = true;
-            Background = WpfBrushes.Transparent;
+            Background = new SolidColorBrush(WpfColor.FromRgb(0x2d, 0x2d, 0x30));
             Foreground = WpfBrushes.White;
         }
         /// <summary>
@@ -138,45 +186,25 @@ namespace Abide.Guerilla.Wpf.Ui
             //Get window handle
             if (PresentationSource.FromVisual(this) is HwndSource hWndSource)
             {
-                //Set handle
+                //Get handles
                 windowHandle.Handle = hWndSource.Handle;
+                IntPtr hInstance = Marshal.GetHINSTANCE(typeof(GlowWindowHost).Module);
 
-                //Setup
-                IntPtr hInstance = Marshal.GetHINSTANCE(GetType().Module);
-                IntPtr wndProc = Marshal.GetFunctionPointerForDelegate(glowWindowWndProc);
-
-                //Check if class atom has been registered
-                ushort classAtom = 0;
-                if (glowWindowClassAtom.ClassAtom == 0)
-                {
-                    //Create WndClassEx structure
-                    WNDCLASSEX wcex = new WNDCLASSEX()
-                    {
-                        cbSize = Marshal.SizeOf<WNDCLASSEX>(),
-                        lpfnWndProc = wndProc,
-                        hInstance = hInstance,
-                        lpszClassName = AbideGlowWindowClassName,
-                    };
-
-                    //Register window class
-                    classAtom = User32.RegisterClassEx(ref wcex);
-                    if (classAtom == 0) throw new InvalidOperationException($"Unable to create \"{AbideGlowWindowClassName}\" class atom.");
-                    glowWindowClassAtom.ClassAtom = classAtom;
-                    glowWindowClassAtom.Lock();
-                }
+                //Register window handle
+                hostDictionary.Add(hWndSource.Handle, this);
 
                 //Prepare
                 uint style = (uint)(WindowStyles.Popup | WindowStyles.Visible | WindowStyles.ClipSiblings | WindowStyles.ClipChildren);
                 uint exStyle = (uint)(ExtendedWindowStyles.Left | ExtendedWindowStyles.LeftToRightReading | ExtendedWindowStyles.RightScrollBar | ExtendedWindowStyles.ToolWindow | ExtendedWindowStyles.Layered);
 
                 //Create glow window handles
-                leftHandle.Handle = User32.CreateWindowEx(exStyle, classAtom, string.Empty, style, 0, 0, 1, 1,
+                leftHandle.Handle = User32.CreateWindowEx(exStyle, GlowWindowClassAtom.ClassAtom, string.Empty, style, 0, 0, 1, 1,
                     hWndSource.Handle, IntPtr.Zero, hInstance, IntPtr.Zero);
-                topHandle.Handle = User32.CreateWindowEx(exStyle, classAtom, string.Empty, style, 0, 0, 1, 1,
+                topHandle.Handle = User32.CreateWindowEx(exStyle, GlowWindowClassAtom.ClassAtom, string.Empty, style, 0, 0, 1, 1,
                     hWndSource.Handle, IntPtr.Zero, hInstance, IntPtr.Zero);
-                rightHandle.Handle = User32.CreateWindowEx(exStyle, classAtom, string.Empty, style, 0, 0, 1, 1,
+                rightHandle.Handle = User32.CreateWindowEx(exStyle, GlowWindowClassAtom.ClassAtom, string.Empty, style, 0, 0, 1, 1,
                     hWndSource.Handle, IntPtr.Zero, hInstance, IntPtr.Zero);
-                bottomHandle.Handle = User32.CreateWindowEx(exStyle, classAtom, string.Empty, style, 0, 0, 1, 1,
+                bottomHandle.Handle = User32.CreateWindowEx(exStyle, GlowWindowClassAtom.ClassAtom, string.Empty, style, 0, 0, 1, 1,
                     hWndSource.Handle, IntPtr.Zero, hInstance, IntPtr.Zero);
 
                 //Lock
@@ -199,68 +227,7 @@ namespace Abide.Guerilla.Wpf.Ui
             //Raise event
             RaiseEvent(e);
         }
-        /// <summary>
-        /// Renders the glow window.
-        /// </summary>
-        /// <param name="drawingContext">The draing instruction for the window. This context is provided to the layout system.</param>
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            //Draw background
-            drawingContext.DrawRectangle(new SolidColorBrush(WpfColor.FromRgb(45, 45, 48)), null, new Rect(0, 0, ActualWidth, ActualHeight));
 
-            //Get some metrics
-            int cyCaption = User32.GetSystemMetrics(4);
-            int cxBorder = User32.GetSystemMetrics(5);
-            int cyBorder = User32.GetSystemMetrics(6);
-            int cxSizeFrame = User32.GetSystemMetrics(32);
-            int cySizeFrame = User32.GetSystemMetrics(33);
-            int cxEdge = User32.GetSystemMetrics(45);
-            int cyEdge = User32.GetSystemMetrics(46);
-            int translateX = 0, translateY = 0;
-
-            //Push transform
-            if (wmSizeWParam == 2)
-            {
-                translateX = cyBorder + cyEdge + cySizeFrame;
-                translateY = cxBorder + cxEdge + cxSizeFrame;
-            }
-
-            drawingContext.PushTransform(new TranslateTransform(translateX, translateY));
-            drawingContext.PushOpacityMask(opacityMaskBrush);
-            if (isActive) drawingContext.DrawRectangle(Foreground, null, new Rect(9, 3, 26, 26));
-            else drawingContext.DrawRectangle(new SolidColorBrush(WpfColor.FromRgb(129, 129, 131)), null, new Rect(9, 3, 26, 26));
-            drawingContext.Pop();
-            drawingContext.Pop();
-        }
-
-        private void LeftGlow_DrawLayeredWindow(Graphics g, int width, int height)
-        {
-            glowTextures.LeftBrush.ResetTransform();
-            g.DrawImage(glowTextures.LeftWindowTop, Rectangle.FromLTRB(0, 0, 9, 18));
-            g.DrawImage(glowTextures.LeftWindowBottom, Rectangle.FromLTRB(0, height - 18, 9, height));
-            g.FillRectangle(glowTextures.LeftBrush, Rectangle.FromLTRB(0, 18, 9, height - 18));
-        }
-        private void TopGlow_DrawLayeredWindow(Graphics g, int width, int height)
-        {
-            glowTextures.TopBrush.ResetTransform();
-            g.DrawImage(glowTextures.TopWindowLeft, Rectangle.FromLTRB(0, 0, 9, 9));
-            g.DrawImage(glowTextures.TopWindowRight, Rectangle.FromLTRB(width - 9, 0, width, 9));
-            g.FillRectangle(glowTextures.TopBrush, Rectangle.FromLTRB(9, 0, width - 9, 9));
-        }
-        private void RightGlow_DrawLayeredWindow(Graphics g, int width, int height)
-        {
-            glowTextures.RightBrush.ResetTransform();
-            g.DrawImage(glowTextures.RightWindowTop, Rectangle.FromLTRB(0, 0, 9, 18));
-            g.DrawImage(glowTextures.RightWindowBottom, Rectangle.FromLTRB(0, height - 18, 9, height));
-            g.FillRectangle(glowTextures.RightBrush, Rectangle.FromLTRB(0, 18, 9, height - 18));
-        }
-        private void BottomGlow_DrawLayeredWindow(Graphics g, int width, int height)
-        {
-            glowTextures.BottomBrush.ResetTransform();
-            g.DrawImage(glowTextures.BottomWindowLeft, Rectangle.FromLTRB(0, 0, 9, 9));
-            g.DrawImage(glowTextures.BottomWindowRight, Rectangle.FromLTRB(width - 9, 0, width, 9));
-            g.FillRectangle(glowTextures.BottomBrush, Rectangle.FromLTRB(9, 0, width - 9, 9));
-        }
         private void LeftGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
@@ -312,75 +279,6 @@ namespace Abide.Guerilla.Wpf.Ui
             //Setup
             User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
             GlowWindow_DrawLayeredWindow(hwnd);
-        }
-        private void GlowWindow_DrawLayeredWindow(IntPtr hwnd)
-        {
-            //Prepare
-            Bitmap bitmap = null;
-
-            //Get window rect
-            if (User32.GetWindowRect(hwnd, out RECT wndRect))
-            {
-                try
-                {
-                    //Create bitmap
-                    bitmap = new Bitmap(wndRect.Width, wndRect.Height);
-
-                    //Draw
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        //Clear
-                        g.Clear(Color.Transparent);
-                        g.PageUnit = GraphicsUnit.Pixel;
-
-                        //Draw
-                        if (hwnd == leftHandle.Handle) LeftGlow_DrawLayeredWindow(g, wndRect.Width, wndRect.Height);
-                        if (hwnd == topHandle.Handle) TopGlow_DrawLayeredWindow(g, wndRect.Width, wndRect.Height);
-                        if (hwnd == rightHandle.Handle) RightGlow_DrawLayeredWindow(g, wndRect.Width, wndRect.Height);
-                        if (hwnd == bottomHandle.Handle) BottomGlow_DrawLayeredWindow(g, wndRect.Width, wndRect.Height);
-                    }
-                }
-                catch { }
-
-                //Prepare
-                IntPtr screenDc = User32.GetDC(IntPtr.Zero);
-                IntPtr memDc = Gdi32.CreateCompatibleDC(screenDc);
-                IntPtr hBitmap = IntPtr.Zero;
-                IntPtr oldBitmap = IntPtr.Zero;
-
-                try
-                {
-                    hBitmap = bitmap.GetHbitmap(Color.FromArgb(0x0));
-                    oldBitmap = Gdi32.SelectObject(memDc, hBitmap);
-
-                    SIZE sz = new SIZE(wndRect.Width, wndRect.Height);
-                    POINT ptSrc = new POINT(0, 0);
-                    POINT topPos = new POINT(wndRect.X, wndRect.Y);
-                    BLENDFUNCTION blend = new BLENDFUNCTION()
-                    {
-                        BlendOp = 0x0,
-                        BlendFlags = 0x0,
-                        SourceConstantAlpha = 0xFF,
-                        AlphaFormat = 0x01,
-                    };
-
-                    //Update layered window
-                    User32.UpdateLayeredWindow(hwnd, screenDc, ref topPos, ref sz, memDc, ref ptSrc, 0, ref blend, 0x00000002);
-                }
-                finally
-                {
-                    User32.ReleaseDC(IntPtr.Zero, screenDc);
-                    if (hBitmap != IntPtr.Zero)
-                    {
-                        Gdi32.SelectObject(memDc, oldBitmap);
-                        Gdi32.DeleteDC(hBitmap);
-                    }
-                    Gdi32.DeleteDC(memDc);
-
-                    //Dispose of bitmap
-                    bitmap.Dispose();
-                }
-            }
         }
         private RECT GlowWindowHost_RequestClientRectangle(RECT clientRect)
         {
@@ -500,18 +398,44 @@ namespace Abide.Guerilla.Wpf.Ui
                     Point htPoint = new Point(lParam.ToInt32());
                     if (User32.GetWindowRect(hwnd, out RECT wndRect))
                     {
-                        //Check if over icon area
-                        if (Rectangle.FromLTRB(wndRect.Left, wndRect.Top, wndRect.Left + 34, wndRect.Top + CaptionHeight).Contains(htPoint))
+                        //Hit-test
+                        DpiScale dpi = VisualTreeHelper.GetDpi(this);
+                        HitTestResult result = VisualTreeHelper.HitTest(this, new WpfPoint(
+                            (htPoint.X - wndRect.Left) * dpi.DpiScaleX,
+                            (htPoint.Y - wndRect.Top) * dpi.DpiScaleY));
+                        if (result?.VisualHit is UIElement element)
                         {
-                            handled = true;
-                            return (IntPtr)3;   //HTICON
-                        }
+                            if (element.GetValue(NonClientActionProperty) is NonClientHitAction action)
+                            {
+                                //Set
+                                handled = true;
 
-                        //Check if over caption area
-                        if (Rectangle.FromLTRB(wndRect.Left + 34, wndRect.Top, wndRect.Right - 138, wndRect.Top + CaptionHeight).Contains(htPoint))
-                        {
-                            handled = true;
-                            return new IntPtr(2);   //HTCAPTION
+                                //Handle action
+                                switch (action)
+                                {
+                                    case NonClientHitAction.Caption:
+                                        return (IntPtr)2;
+                                    case NonClientHitAction.Icon:
+                                        return (IntPtr)3;
+                                    case NonClientHitAction.Top:
+                                        return (IntPtr)12;
+                                    case NonClientHitAction.Left:
+                                        return (IntPtr)10;
+                                    case NonClientHitAction.Right:
+                                        return (IntPtr)11;
+                                    case NonClientHitAction.Bottom:
+                                        return (IntPtr)15;
+                                    case NonClientHitAction.TopLeft:
+                                        return (IntPtr)13;
+                                    case NonClientHitAction.TopRight:
+                                        return (IntPtr)14;
+                                    case NonClientHitAction.BottomLeft:
+                                        return (IntPtr)16;
+                                    case NonClientHitAction.BottomRight:
+                                        return (IntPtr)17;
+                                    default: return (IntPtr)1;
+                                }
+                            }
                         }
                     }
                     break;
@@ -529,6 +453,9 @@ namespace Abide.Guerilla.Wpf.Ui
                         if (isActive) color = ActiveGlowColor;
                         else color = InactiveGlowColor;
 
+                        //Set icon
+                        CurrentIcon = isActive ? ActiveIcon : InactiveIcon;
+
                         //Render
                         glowTextures.Render(Color.FromArgb(color.R, color.G, color.B));
 
@@ -543,15 +470,21 @@ namespace Abide.Guerilla.Wpf.Ui
                         InvalidateVisual();
                     }
                     break;
+
+                case WindowMessages.WM_DESTROY:
+                    hostDictionary.Remove(hwnd);    //Unregister
+                    break;
             }
 
             //Return
             return IntPtr.Zero;
         }
-        private IntPtr GlowWindow_WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
+
+        private static IntPtr GlowWindow_WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
             //Prepare
             RECT wndRect = new RECT();
+            IntPtr parentHWnd = User32.GetParent(hwnd);
 
             //Check
             switch ((WindowMessages)unchecked((int)msg))
@@ -567,7 +500,7 @@ namespace Abide.Guerilla.Wpf.Ui
                     return IntPtr.Zero;
 
                 case WindowMessages.WM_NCHITTEST:
-                    if (User32.GetWindowRect(windowHandle.Handle, out wndRect))
+                    if (User32.GetWindowRect(parentHWnd, out wndRect))
                     {
                         //Get hit point
                         Point hitPt = new Point(lParam.ToInt32());
@@ -597,14 +530,119 @@ namespace Abide.Guerilla.Wpf.Ui
 
                 case WindowMessages.WM_NCLBUTTONDOWN:
                 case WindowMessages.WM_NCLBUTTONUP:
-                    User32.SendNotifyMessage(windowHandle.Handle, msg, wParam, lParam);
+                    User32.SendNotifyMessage(parentHWnd, msg, wParam, lParam);
                     return IntPtr.Zero;
             }
 
             //Return default window procedure
             return User32.DefWindowProc(hwnd, msg, wParam, lParam);
         }
+        private static void GlowWindow_DrawLayeredWindow(IntPtr hwnd)
+        {
+            //Prepare
+            Bitmap bitmap = null;
 
+            //Get window rect
+            if (User32.GetWindowRect(hwnd, out RECT wndRect))
+            {
+                //Get parent
+                IntPtr parentHWnd = User32.GetParent(hwnd);
+
+                try
+                {
+                    //Create bitmap
+                    bitmap = new Bitmap(wndRect.Width, wndRect.Height);
+
+                    //Draw
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        //Clear
+                        g.Clear(Color.Transparent);
+                        g.PageUnit = GraphicsUnit.Pixel;
+
+                        //Check
+                        if (hostDictionary.ContainsKey(parentHWnd))
+                        {
+                            GlowWindowHost host = hostDictionary[parentHWnd];
+
+                            //Draw
+                            if (hwnd == host.leftHandle.Handle) LeftGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            if (hwnd == host.topHandle.Handle) TopGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            if (hwnd == host.rightHandle.Handle) RightGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            if (hwnd == host.bottomHandle.Handle) BottomGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                        }
+                    }
+                }
+                catch { }
+
+                //Prepare
+                IntPtr screenDc = User32.GetDC(IntPtr.Zero);
+                IntPtr memDc = Gdi32.CreateCompatibleDC(screenDc);
+                IntPtr hBitmap = IntPtr.Zero;
+                IntPtr oldBitmap = IntPtr.Zero;
+
+                try
+                {
+                    hBitmap = bitmap.GetHbitmap(Color.FromArgb(0x0));
+                    oldBitmap = Gdi32.SelectObject(memDc, hBitmap);
+
+                    SIZE sz = new SIZE(wndRect.Width, wndRect.Height);
+                    POINT ptSrc = new POINT(0, 0);
+                    POINT topPos = new POINT(wndRect.X, wndRect.Y);
+                    BLENDFUNCTION blend = new BLENDFUNCTION()
+                    {
+                        BlendOp = 0x0,
+                        BlendFlags = 0x0,
+                        SourceConstantAlpha = 0xFF,
+                        AlphaFormat = 0x01,
+                    };
+
+                    //Update layered window
+                    User32.UpdateLayeredWindow(hwnd, screenDc, ref topPos, ref sz, memDc, ref ptSrc, 0, ref blend, 0x00000002);
+                }
+                finally
+                {
+                    User32.ReleaseDC(IntPtr.Zero, screenDc);
+                    if (hBitmap != IntPtr.Zero)
+                    {
+                        Gdi32.SelectObject(memDc, oldBitmap);
+                        Gdi32.DeleteDC(hBitmap);
+                    }
+                    Gdi32.DeleteDC(memDc);
+
+                    //Dispose of bitmap
+                    bitmap.Dispose();
+                }
+            }
+        }
+        private static void LeftGlow_DrawLayeredWindow(GlowTextures glowTextures, Graphics g, int width, int height)
+        {
+            glowTextures.LeftBrush.ResetTransform();
+            g.DrawImage(glowTextures.LeftWindowTop, Rectangle.FromLTRB(0, 0, 9, 18));
+            g.DrawImage(glowTextures.LeftWindowBottom, Rectangle.FromLTRB(0, height - 18, 9, height));
+            g.FillRectangle(glowTextures.LeftBrush, Rectangle.FromLTRB(0, 18, 9, height - 18));
+        }
+        private static void TopGlow_DrawLayeredWindow(GlowTextures glowTextures, Graphics g, int width, int height)
+        {
+            glowTextures.TopBrush.ResetTransform();
+            g.DrawImage(glowTextures.TopWindowLeft, Rectangle.FromLTRB(0, 0, 9, 9));
+            g.DrawImage(glowTextures.TopWindowRight, Rectangle.FromLTRB(width - 9, 0, width, 9));
+            g.FillRectangle(glowTextures.TopBrush, Rectangle.FromLTRB(9, 0, width - 9, 9));
+        }
+        private static void RightGlow_DrawLayeredWindow(GlowTextures glowTextures, Graphics g, int width, int height)
+        {
+            glowTextures.RightBrush.ResetTransform();
+            g.DrawImage(glowTextures.RightWindowTop, Rectangle.FromLTRB(0, 0, 9, 18));
+            g.DrawImage(glowTextures.RightWindowBottom, Rectangle.FromLTRB(0, height - 18, 9, height));
+            g.FillRectangle(glowTextures.RightBrush, Rectangle.FromLTRB(0, 18, 9, height - 18));
+        }
+        private static void BottomGlow_DrawLayeredWindow(GlowTextures glowTextures, Graphics g, int width, int height)
+        {
+            glowTextures.BottomBrush.ResetTransform();
+            g.DrawImage(glowTextures.BottomWindowLeft, Rectangle.FromLTRB(0, 0, 9, 9));
+            g.DrawImage(glowTextures.BottomWindowRight, Rectangle.FromLTRB(width - 9, 0, width, 9));
+            g.FillRectangle(glowTextures.BottomBrush, Rectangle.FromLTRB(9, 0, width - 9, 9));
+        }
         private static void BordersVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //Check
@@ -654,10 +692,10 @@ namespace Abide.Guerilla.Wpf.Ui
                 host.glowTextures.Render(Color.FromArgb(wpfColor.R, wpfColor.G, wpfColor.B));
 
                 //Re-draw edges
-                host.GlowWindow_DrawLayeredWindow(host.leftHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.topHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.rightHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.bottomHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.leftHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.topHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.rightHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.bottomHandle.Handle);
             }
         }
         private static void InactiveGlowColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -670,13 +708,114 @@ namespace Abide.Guerilla.Wpf.Ui
                 host.glowTextures.Render(Color.FromArgb(wpfColor.R, wpfColor.G, wpfColor.B));
 
                 //Re-draw edges
-                host.GlowWindow_DrawLayeredWindow(host.leftHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.topHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.rightHandle.Handle);
-                host.GlowWindow_DrawLayeredWindow(host.bottomHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.leftHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.topHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.rightHandle.Handle);
+                GlowWindow_DrawLayeredWindow(host.bottomHandle.Handle);
             }
         }
+        private static void NonClientActionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //Check
+            if (d is FrameworkElement element)
+            {
+
+            }
+        }
+        static GlowWindowHost()
+        {
+            //Setup
+            IntPtr hInstance = Marshal.GetHINSTANCE(typeof(GlowWindowHost).Module);
+            IntPtr wndProc = Marshal.GetFunctionPointerForDelegate(glowWindowWndProc);
+            GlowWindowClassAtom = new WindowClassAtom();
+
+            //Create WndClassEx structure
+            WNDCLASSEX wcex = new WNDCLASSEX()
+            {
+                cbSize = Marshal.SizeOf<WNDCLASSEX>(),
+                lpfnWndProc = wndProc,
+                hInstance = hInstance,
+                lpszClassName = GlowWindowClassName,
+            };
+
+            //Register window class
+            ushort classAtom = User32.RegisterClassEx(ref wcex);
+            if (classAtom == 0) throw new InvalidOperationException($"Unable to create \"{GlowWindowClassName}\" class atom.");
+            GlowWindowClassAtom.ClassAtom = classAtom;
+            GlowWindowClassAtom.Lock();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="action"></param>
+        public static void SetNonClientAction(UIElement element, NonClientHitAction action)
+        {
+            element.SetValue(NonClientActionProperty, action);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static NonClientHitAction GetNonClientAction(UIElement element)
+        {
+            return (NonClientHitAction)element.GetValue(NonClientActionProperty);
+        }
     }
+
+    /// <summary>
+    /// Represents an enumeration containing possible non-client hit result actions.
+    /// </summary>
+    public enum NonClientHitAction : int
+    {
+        /// <summary>
+        /// Hit client area.
+        /// This is default.
+        /// </summary>
+        Client = 0,
+        /// <summary>
+        /// Hit caption.
+        /// </summary>
+        Caption = 1,
+        /// <summary>
+        /// Hit icon.
+        /// </summary>
+        Icon = 2,
+        /// <summary>
+        /// Hit top resize edge.
+        /// </summary>
+        Top = 3,
+        /// <summary>
+        /// Hit left resize edge.
+        /// </summary>
+        Left = 4,
+        /// <summary>
+        /// Hit right resize edge.
+        /// </summary>
+        Right = 5,
+        /// <summary>
+        /// Hit bottom resize edge.
+        /// </summary>
+        Bottom = 6,
+        /// <summary>
+        /// Hit top left resize corner.
+        /// </summary>
+        TopLeft = 7,
+        /// <summary>
+        /// Hit top right resize corner.
+        /// </summary>
+        TopRight = 8,
+        /// <summary>
+        /// Hit bottom left resize corner.
+        /// </summary>
+        BottomLeft = 9,
+        /// <summary>
+        /// Hit bottom right resize corner.
+        /// </summary>
+        BottomRight = 10,
+    };
 
     /// <summary>
     /// 

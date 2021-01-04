@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hs_source_files_block" DisplayName="hs_source_files_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="3">
+		<FieldString Index="0" Name="name*" />
+		<FieldData Index="1" Name="source*" Alignment="4" MaximumSize="262144" ElementSize="1" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

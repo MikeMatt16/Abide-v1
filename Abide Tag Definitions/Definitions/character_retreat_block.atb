@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_retreat_block" DisplayName="character_retreat_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="22">
+		<FieldLongFlags Index="0" Name="Retreat flags">
+			<Option Name="Zig-zag when fleeing" />
+			<Option Name="Unused1" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="Shield threshold#When shield vitality drops below given amount, retreat is triggered by low_shield_retreat_impulse" />
+		<FieldReal Index="2" Name="Scary target threshold#When confronting an enemy of over the given scariness, retreat is triggered by scary_target_retreat_impulse" />
+		<FieldReal Index="3" Name="Danger threshold#When perceived danger rises above the given threshold, retreat is triggered by danger_retreat_impulse" />
+		<FieldReal Index="4" Name="Proximity threshold#When enemy closer than given threshold, retreat is triggered by proximity_retreat_impulse" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldRealBounds Index="6" Name="min/max forced cower time bounds#actor cowers for at least the given amount of time" />
+		<FieldRealBounds Index="7" Name="min/max cower timeout bounds#actor times out of cower after the given amount of time" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldReal Index="9" Name="proximity ambush threshold#If target reaches is within the given proximity, an ambush is triggered by the proximity ambush impulse" />
+		<FieldReal Index="10" Name="awareness ambush threshold#If target is less than threshold (0-1) aware of me, an ambush is triggered by the vulnerable enemy ambush impulse" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldReal Index="12" Name="leader dead retreat chance#If leader-dead-retreat-impulse is active, gives the chance that we will flee when our leader dies within 4 world units of us" />
+		<FieldReal Index="13" Name="peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the chance that we will flee when one of our peers (friend of the same race) dies within 4 world units of us" />
+		<FieldReal Index="14" Name="second peer dead retreat chance#If peer-dead-retreat-impulse is active, gives the chance that we will flee when a second peer (friend of the same race) dies within 4 world units of us" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldAngle Index="16" Name="zig-zag angle:degrees#The angle from the intended destination direction that a zig-zag will cause" />
+		<FieldReal Index="17" Name="zig-zag period:seconds#How long it takes to zig left and then zag right." />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldReal Index="19" Name="retreat grenade chance#The likelihood of throwing down a grenade to cover our retreat" />
+		<FieldTagReference Index="20" Name="backup weapon#If I want to flee and I don't have flee animations with my current weapon, throw it away and try a ..." GroupTag="2003132784" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

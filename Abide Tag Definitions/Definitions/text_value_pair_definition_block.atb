@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="text_value_pair_definition_block" DisplayName="text_value_pair_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongEnum Index="0" Name="parameter">
+			<Option Name="match round setting" />
+			<Option Name="match ctf score to win" />
+			<Option Name="match slayer score to win round" />
+			<Option Name="match oddball score to win round" />
+			<Option Name="match king score to win round" />
+			<Option Name="match race score to win round" />
+			<Option Name="match headhunter score to win round" />
+			<Option Name="match juggernaut score to win round" />
+			<Option Name="match territories score to win round" />
+			<Option Name="match assault score to win round" />
+			<Option Name="match round time limit" />
+			<Option Name="match rounds reset map" />
+			<Option Name="match tie resolution" />
+			<Option Name="match observers" />
+			<Option Name="match join in progress" />
+			<Option Name="maximum players" />
+			<Option Name="lives per round" />
+			<Option Name="respawn time" />
+			<Option Name="suicide penalty" />
+			<Option Name="shields" />
+			<Option Name="motion sensor" />
+			<Option Name="invisibility" />
+			<Option Name="team changing" />
+			<Option Name="team scoring" />
+			<Option Name="friendly fire" />
+			<Option Name="team respawn setting" />
+			<Option Name="betrayal respawn penalty" />
+			<Option Name="team killer management" />
+			<Option Name="slayer bonus points" />
+			<Option Name="slayer suicide point loss" />
+			<Option Name="slayer death point loss" />
+			<Option Name="headhunter moving head bin" />
+			<Option Name="headhunter point multiplier" />
+			<Option Name="headhunter suicide point loss" />
+			<Option Name="headhunter death point loss" />
+			<Option Name="headhunter uncontested bin" />
+			<Option Name="headhunter speed with heads" />
+			<Option Name="headhunter max heads carried" />
+			<Option Name="king uncontested hill" />
+			<Option Name="king team time multiplier" />
+			<Option Name="king moving hill" />
+			<Option Name="king extra damage on hill" />
+			<Option Name="king dmg resistance on hill" />
+			<Option Name="oddball ball spawn count" />
+			<Option Name="oddball ball hit damage" />
+			<Option Name="oddball speed with ball" />
+			<Option Name="oddball driving gunning with ball" />
+			<Option Name="oddball waypoint to ball" />
+			<Option Name="race random track" />
+			<Option Name="race uncontested flag" />
+			<Option Name="ctf game type" />
+			<Option Name="ctf sudden death" />
+			<Option Name="ctf flag may be returned" />
+			<Option Name="ctf flag at home to score" />
+			<Option Name="ctf flag reset time" />
+			<Option Name="ctf speed with flag" />
+			<Option Name="ctf flag hit damage" />
+			<Option Name="ctf driving gunning with flag" />
+			<Option Name="ctf waypoint to own flag" />
+			<Option Name="assault game type" />
+			<Option Name="assault sudden death" />
+			<Option Name="assault detonation time" />
+			<Option Name="assault bomb at home to score" />
+			<Option Name="assault arming time" />
+			<Option Name="assault speed with bomb" />
+			<Option Name="assault bomb hit damage" />
+			<Option Name="assault driving gunning with bomb" />
+			<Option Name="assault waypoint to own bomb" />
+			<Option Name="juggernaut betrayal point loss" />
+			<Option Name="juggernaut juggy extra damage" />
+			<Option Name="juggernaut juggy infinite ammo" />
+			<Option Name="juggernaut juggy overshields" />
+			<Option Name="juggernaut juggy active camo" />
+			<Option Name="juggernaut juggy motion sensor" />
+			<Option Name="territories territory count" />
+			<Option Name="veh. respawn" />
+			<Option Name="veh. primary light land" />
+			<Option Name="veh. secondary light land" />
+			<Option Name="veh. primary heavy land" />
+			<Option Name="veh. primary flying" />
+			<Option Name="veh. secondary heavy land" />
+			<Option Name="veh. primary turret" />
+			<Option Name="veh. secondary turret" />
+			<Option Name="equip. weapons on map" />
+			<Option Name="equip. overshields on map" />
+			<Option Name="equip. active camo on map" />
+			<Option Name="equip. grenades on map" />
+			<Option Name="equip. weapon respawn times" />
+			<Option Name="equip. starting grenades" />
+			<Option Name="equip. primary starting equipment" />
+			<Option Name="UNS. max. living players" />
+			<Option Name="UNS. teams enabled" />
+			<Option Name="UNS. assault bomb may be returned" />
+			<Option Name="UNS. max. teams" />
+			<Option Name="UNS. equip. secondary starting equipment" />
+			<Option Name="UNS. assault fuse time" />
+			<Option Name="UNS. juggy movement" />
+			<Option Name="UNS. sticky fuse" />
+			<Option Name="UNS. terr. contest time" />
+			<Option Name="UNS. terr. control time" />
+			<Option Name="UNS. oddb. carr. invis" />
+			<Option Name="UNS. king invis in hill" />
+			<Option Name="UNS. ball carr. dmg. resis." />
+			<Option Name="UNS. king dmg. res. in hill" />
+			<Option Name="UNS. players ex. dmg" />
+			<Option Name="UNS. players dmg. resis." />
+			<Option Name="UNS. ctf carr. dmg. resis." />
+			<Option Name="UNS. ctf carr. invis." />
+			<Option Name="UNS. juggy dmg. resis." />
+			<Option Name="UNS. bomb carr. dmg. resis." />
+			<Option Name="UNS. bomb carr. invis." />
+			<Option Name="UNS. force even teams" />
+		</FieldLongEnum>
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldTagReference Index="2" Name="string list" GroupTag="1970170211" />
+		<FieldStringId Index="3" Name="title text" />
+		<FieldStringId Index="4" Name="header text" />
+		<FieldStringId Index="5" Name="description text" />
+		<FieldBlock Index="6" Name="text value pairs" BlockName="text_value_pair_reference_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

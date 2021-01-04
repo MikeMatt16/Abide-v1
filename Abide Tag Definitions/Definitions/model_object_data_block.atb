@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_object_data_block" DisplayName="model_object_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="type*">
+			<Option Name="not set" />
+			<Option Name="user defined" />
+			<Option Name="auto generated" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldRealPoint3D Index="2" Name="offset*" />
+		<FieldReal Index="3" Name="radius*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

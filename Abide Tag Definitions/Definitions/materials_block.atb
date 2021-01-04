@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="materials_block" DisplayName="materials_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="14">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldStringId Index="1" Name="parent name" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldWordFlags Index="3" Name="flags">
+			<Option Name="flammable" />
+			<Option Name="biomass" />
+		</FieldWordFlags>
+		<FieldEnum Index="4" Name="old material type">
+			<Option Name="dirt" />
+			<Option Name="sand" />
+			<Option Name="stone" />
+			<Option Name="snow" />
+			<Option Name="wood" />
+			<Option Name="metal (hollow)" />
+			<Option Name="metal (thin)" />
+			<Option Name="metal (thick)" />
+			<Option Name="rubber" />
+			<Option Name="glass" />
+			<Option Name="force field" />
+			<Option Name="grunt" />
+			<Option Name="hunter armor" />
+			<Option Name="hunter skin" />
+			<Option Name="elite" />
+			<Option Name="jackal" />
+			<Option Name="jackal energy shield" />
+			<Option Name="engineer skin" />
+			<Option Name="engineer force field" />
+			<Option Name="flood combat form" />
+			<Option Name="flood carrier form" />
+			<Option Name="cyborg armor" />
+			<Option Name="cyborg energy shield" />
+			<Option Name="human armor" />
+			<Option Name="human skin" />
+			<Option Name="sentinel" />
+			<Option Name="monitor" />
+			<Option Name="plastic" />
+			<Option Name="water" />
+			<Option Name="leaves" />
+			<Option Name="elite energy shield" />
+			<Option Name="ice" />
+			<Option Name="hunter shield" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldStringId Index="6" Name="general armor" />
+		<FieldStringId Index="7" Name="specific armor" />
+		<FieldStruct Index="8" Name="physics properties" StructName="material_physics_properties_struct_block" />
+		<FieldTagReference Index="9" Name="old material physics" GroupTag="1836082292" />
+		<FieldTagReference Index="10" Name="breakable surface" GroupTag="1651729524" />
+		<FieldStruct Index="11" Name="sweeteners" StructName="materials_sweeteners_struct_block" />
+		<FieldTagReference Index="12" Name="material effects" GroupTag="1718579060" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

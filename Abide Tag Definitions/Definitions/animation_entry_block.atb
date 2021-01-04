@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_entry_block" DisplayName="animation_entry_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="label^" />
+		<FieldStruct Index="1" Name="animation*" StructName="animation_index_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

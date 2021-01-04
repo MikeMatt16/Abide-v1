@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_effect_template_component_block" DisplayName="platform_sound_effect_template_component_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldLongEnum Index="0" Name="value type">
+			<Option Name="zero" />
+			<Option Name="time" />
+			<Option Name="scale" />
+			<Option Name="rolloff" />
+		</FieldLongEnum>
+		<FieldReal Index="1" Name="default value" />
+		<FieldReal Index="2" Name="minimum value" />
+		<FieldReal Index="3" Name="maximum value" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

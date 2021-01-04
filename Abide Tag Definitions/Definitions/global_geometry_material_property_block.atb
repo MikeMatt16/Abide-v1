@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_material_property_block" DisplayName="material property" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="Type*">
+			<Option Name="Lightmap Resolution" />
+			<Option Name="Lightmap Power" />
+			<Option Name="Lightmap Half Life" />
+			<Option Name="Lightmap Diffuse Scale" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="Int Value*" />
+		<FieldReal Index="2" Name="Real Value*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

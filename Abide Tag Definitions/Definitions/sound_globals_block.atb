@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_globals_block" DisplayName="sound_globals_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldTagReference Index="0" Name="sound classes" GroupTag="1936614252" />
+		<FieldTagReference Index="1" Name="sound effects" GroupTag="1936095275" />
+		<FieldTagReference Index="2" Name="sound mix" GroupTag="1936616824" />
+		<FieldTagReference Index="3" Name="sound combat dialogue constants" GroupTag="1936747297" />
+		<FieldLongInteger Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

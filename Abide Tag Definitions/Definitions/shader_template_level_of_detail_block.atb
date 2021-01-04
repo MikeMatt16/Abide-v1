@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_level_of_detail_block" DisplayName="shader_template_level_of_detail_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="3">
+		<FieldReal Index="0" Name="Projected Diameter:pixels" />
+		<FieldBlock Index="1" Name="Pass" BlockName="shader_template_pass_reference_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

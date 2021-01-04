@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_hud_auxilary_panel_block" DisplayName="unit_hud_auxilary_panel_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="52">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="integrated light" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldPad Index="2" Name="" Length="16" />
+		<FieldExplanation Index="3" Name="BACKGROUND" Explanation="" />
+		<FieldPoint2D Index="4" Name="anchor offset" />
+		<FieldReal Index="5" Name="width scale" />
+		<FieldReal Index="6" Name="height scale" />
+		<FieldWordFlags Index="7" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldPad Index="9" Name="" Length="20" />
+		<FieldTagReference Index="10" Name="interface bitmap" GroupTag="1651078253" />
+		<FieldArgbColor Index="11" Name="default color" />
+		<FieldArgbColor Index="12" Name="flashing color" />
+		<FieldReal Index="13" Name="flash period" />
+		<FieldReal Index="14" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="15" Name="number of flashes" />
+		<FieldWordFlags Index="16" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="17" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="18" Name="disabled color" />
+		<FieldPad Index="19" Name="" Length="4" />
+		<FieldShortInteger Index="20" Name="sequence index" />
+		<FieldPad Index="21" Name="" Length="2" />
+		<FieldBlock Index="22" Name="multitex overlay" BlockName="global_hud_multitexture_overlay_definition" />
+		<FieldPad Index="23" Name="" Length="4" />
+		<FieldExplanation Index="24" Name="METER" Explanation="" />
+		<FieldPoint2D Index="25" Name="anchor offset" />
+		<FieldReal Index="26" Name="width scale" />
+		<FieldReal Index="27" Name="height scale" />
+		<FieldWordFlags Index="28" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="29" Name="" Length="2" />
+		<FieldPad Index="30" Name="" Length="20" />
+		<FieldTagReference Index="31" Name="meter bitmap" GroupTag="1651078253" />
+		<FieldRgbColor Index="32" Name="color at meter minimum" />
+		<FieldRgbColor Index="33" Name="color at meter maximum" />
+		<FieldRgbColor Index="34" Name="flash color" />
+		<FieldArgbColor Index="35" Name="empty color" />
+		<FieldByteFlags Index="36" Name="flags">
+			<Option Name="use min/max for state changes" />
+			<Option Name="interpolate between min/max flash colors as state changes" />
+			<Option Name="interpolate color along hsv space" />
+			<Option Name="...more colors for hsv interpolation" />
+			<Option Name="invert interpolation" />
+		</FieldByteFlags>
+		<FieldCharInteger Index="37" Name="minumum meter value" />
+		<FieldShortInteger Index="38" Name="sequence index" />
+		<FieldCharInteger Index="39" Name="alpha multiplier" />
+		<FieldCharInteger Index="40" Name="alpha bias" />
+		<FieldShortInteger Index="41" Name="value scale#used for non-integral values, i.e. health and shields" />
+		<FieldReal Index="42" Name="opacity" />
+		<FieldReal Index="43" Name="translucency" />
+		<FieldArgbColor Index="44" Name="disabled color" />
+		<FieldBlock Index="45" Name="" BlockName="g_null_block" />
+		<FieldPad Index="46" Name="" Length="4" />
+		<FieldReal Index="47" Name="minimum fraction cutoff" />
+		<FieldLongFlags Index="48" Name="flags">
+			<Option Name="show only when active" />
+			<Option Name="flash once if activated while disabled" />
+		</FieldLongFlags>
+		<FieldPad Index="49" Name="" Length="24" />
+		<FieldPad Index="50" Name="" Length="64" />
+		<FieldTerminator Index="51" Name="" />
+	</FieldSet>
+</AbideTagBlock>

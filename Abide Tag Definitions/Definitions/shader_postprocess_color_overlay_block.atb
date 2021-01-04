@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_color_overlay_block" DisplayName="shader_postprocess_color_overlay_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="6">
+		<FieldCharInteger Index="0" Name="parameter index" />
+		<FieldStringId Index="1" Name="input name" />
+		<FieldStringId Index="2" Name="range name" />
+		<FieldReal Index="3" Name="time period in seconds" />
+		<FieldStruct Index="4" Name="function" StructName="color_function_struct_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

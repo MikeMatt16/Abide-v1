@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_backward_shared_edge_block" DisplayName="backward shared edge" MaximumElementCount="16384">
+	<FieldSet Alignment="4" Count="5">
+		<FieldArrayStart Index="0" Name="vertex indices*" Length="2">
+			<FieldShortInteger Index="0" Name="vertex index*" />
+		</FieldArrayStart>
+		<FieldShortInteger Index="1" Name="vertex index*" />
+		<FieldArrayEnd Index="2" Name="" />
+		<FieldShortInteger Index="3" Name="triangle index*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

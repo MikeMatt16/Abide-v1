@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_change_color_initial_permutation" DisplayName="object_change_color_initial_permutation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="5">
+		<FieldReal Index="0" Name="weight" />
+		<FieldRealRgbColor Index="1" Name="color lower bound" />
+		<FieldRealRgbColor Index="2" Name="color upper bound" />
+		<FieldStringId Index="3" Name="variant name#if empty, may be used by any model variant" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

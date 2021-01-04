@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_permutations_block" DisplayName="decorator_permutations_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="14">
+		<FieldStringId Index="0" Name="name" />
+		<FieldCharBlockIndex1 Index="1" Name="shader" />
+		<FieldPad Index="2" Name="" Length="3" />
+		<FieldByteFlags Index="3" Name="flags">
+			<Option Name="align to normal" />
+			<Option Name="only on ground" />
+			<Option Name="upright" />
+		</FieldByteFlags>
+		<FieldCharEnum Index="4" Name="fade distance">
+			<Option Name="close" />
+			<Option Name="medium" />
+			<Option Name="far" />
+		</FieldCharEnum>
+		<FieldCharInteger Index="5" Name="index" />
+		<FieldCharInteger Index="6" Name="distribution weight" />
+		<FieldRealBounds Index="7" Name="scale" />
+		<FieldRgbColor Index="8" Name="tint 1" />
+		<FieldRgbColor Index="9" Name="tint 2" />
+		<FieldReal Index="10" Name="base map tint percentage" />
+		<FieldReal Index="11" Name="lightmap tint percentage" />
+		<FieldReal Index="12" Name="wind scale" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

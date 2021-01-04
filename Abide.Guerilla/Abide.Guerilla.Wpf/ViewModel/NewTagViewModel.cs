@@ -85,7 +85,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
                     return new TagDefinition()
                     {
                         GroupTag = tagGroup.GroupTag,
-                        Name = tagGroup.Name
+                        Name = tagGroup.GroupName
                     };
                 }).OrderBy(d => d.GroupTag).ToArray();
         }

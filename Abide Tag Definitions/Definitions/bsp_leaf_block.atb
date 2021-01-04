@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bsp_leaf_block" DisplayName="bsp_leaf_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortInteger Index="0" Name="cluster*" />
+		<FieldShortInteger Index="1" Name="surface reference count*" />
+		<FieldLongInteger Index="2" Name="first surface reference index*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

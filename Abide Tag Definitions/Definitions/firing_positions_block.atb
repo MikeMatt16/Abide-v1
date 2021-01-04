@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="firing_positions_block" DisplayName="firing_positions_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="CONTROLS~" Explanation="Ctrl-N: Creates a new area and assigns it to the current selection of firing points." />
+		<FieldRealPoint3D Index="1" Name="position (local)" />
+		<FieldShortInteger Index="2" Name="reference frame" />
+		<FieldWordFlags Index="3" Name="flags*">
+			<Option Name="open" />
+			<Option Name="partial" />
+			<Option Name="closed" />
+			<Option Name="mobile" />
+			<Option Name="wall lean" />
+			<Option Name="perch" />
+			<Option Name="ground point" />
+			<Option Name="dynamic cover point" />
+		</FieldWordFlags>
+		<FieldShortBlockIndex1 Index="4" Name="area^" />
+		<FieldShortInteger Index="5" Name="cluster index*" />
+		<FieldSkip Index="6" Name="" Length="4" />
+		<FieldEulerAngles2D Index="7" Name="normal" />
+		<FieldCustom Index="8" Name="" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="variant_setting_edit_reference_block" DisplayName="variant_setting_edit_reference_block" MaximumElementCount="40">
+	<FieldSet Alignment="4" Count="5">
+		<FieldLongEnum Index="0" Name="setting category^">
+			<Option Name="match-ctf" />
+			<Option Name="match-slayer" />
+			<Option Name="match-oddball" />
+			<Option Name="match-king" />
+			<Option Name="match-race" />
+			<Option Name="match-headhunter" />
+			<Option Name="match-juggernaut" />
+			<Option Name="match-territories" />
+			<Option Name="match-assault" />
+			<Option Name="players" />
+			<Option Name="OBSOLETE" />
+			<Option Name="vehicles" />
+			<Option Name="equipment" />
+			<Option Name="game-ctf" />
+			<Option Name="game-slayer" />
+			<Option Name="game-oddball" />
+			<Option Name="game-king" />
+			<Option Name="game-race" />
+			<Option Name="game-headhunter" />
+			<Option Name="game-juggernaut" />
+			<Option Name="game-territories" />
+			<Option Name="game-assault" />
+			<Option Name="quick options-ctf" />
+			<Option Name="quick options-slayer" />
+			<Option Name="quick options-oddball" />
+			<Option Name="quick options-king" />
+			<Option Name="quick options-race" />
+			<Option Name="quick options-headhunter" />
+			<Option Name="quick options-juggernaut" />
+			<Option Name="quick options-territories" />
+			<Option Name="quick options-assault" />
+			<Option Name="team-ctf" />
+			<Option Name="team-slayer" />
+			<Option Name="team-oddball" />
+			<Option Name="team-king" />
+			<Option Name="team-race" />
+			<Option Name="team-headhunter" />
+			<Option Name="team-juggernaut" />
+			<Option Name="team-territories" />
+			<Option Name="team-assault" />
+		</FieldLongEnum>
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldBlock Index="2" Name="options" BlockName="text_value_pair_block" />
+		<FieldBlock Index="3" Name="" BlockName="null_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

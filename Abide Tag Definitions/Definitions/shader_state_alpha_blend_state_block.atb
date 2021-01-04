@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_alpha_blend_state_block" DisplayName="alpha-blend state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="blend function">
+			<Option Name="add" />
+			<Option Name="subtract" />
+			<Option Name="reverse subtract" />
+			<Option Name="min" />
+			<Option Name="max" />
+			<Option Name="add signed" />
+			<Option Name="reverse subtract signed" />
+			<Option Name="logic-op" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="blend src factor">
+			<Option Name="zero" />
+			<Option Name="one" />
+			<Option Name="srccolor" />
+			<Option Name="srccolor inverse" />
+			<Option Name="srcalpha" />
+			<Option Name="srcalpha inverse" />
+			<Option Name="dstcolor" />
+			<Option Name="dstcolor inverse" />
+			<Option Name="dstalpha" />
+			<Option Name="dstalpha inverse" />
+			<Option Name="srcalpha saturate" />
+			<Option Name="constant color" />
+			<Option Name="constant color inverse" />
+			<Option Name="constant alpha" />
+			<Option Name="constant alpha inverse" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="blend dst factor">
+			<Option Name="zero" />
+			<Option Name="one" />
+			<Option Name="srccolor" />
+			<Option Name="srccolor inverse" />
+			<Option Name="srcalpha" />
+			<Option Name="srcalpha inverse" />
+			<Option Name="dstcolor" />
+			<Option Name="dstcolor inverse" />
+			<Option Name="dstalpha" />
+			<Option Name="dstalpha inverse" />
+			<Option Name="srcalpha saturate" />
+			<Option Name="constant color" />
+			<Option Name="constant color inverse" />
+			<Option Name="constant alpha" />
+			<Option Name="constant alpha inverse" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldArgbColor Index="4" Name="blend color" />
+		<FieldWordFlags Index="5" Name="logic-op flags">
+			<Option Name="src=0 dst=0" />
+			<Option Name="src=0 dst=1" />
+			<Option Name="src=1 dst=0" />
+			<Option Name="src=1 dst=1" />
+		</FieldWordFlags>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

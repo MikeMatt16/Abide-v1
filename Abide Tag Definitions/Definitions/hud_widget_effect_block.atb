@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_widget_effect_block" DisplayName="hud_widget_effect_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldExplanation Index="0" Name="WIDGET EFFECTS" Explanation="allow the scaling, rotation, and offsetting of widgets" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="apply scale" />
+			<Option Name="apply theta" />
+			<Option Name="apply offset" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldExplanation Index="3" Name="horizontal and vertical scale" Explanation="" />
+		<FieldStruct Index="4" Name="your mom" StructName="hud_widget_effect_function_struct_block" />
+		<FieldStruct Index="5" Name="your mom" StructName="hud_widget_effect_function_struct_block" />
+		<FieldExplanation Index="6" Name="theta" Explanation="" />
+		<FieldStruct Index="7" Name="your mom" StructName="hud_widget_effect_function_struct_block" />
+		<FieldExplanation Index="8" Name="horizontal and vertical offset" Explanation="" />
+		<FieldStruct Index="9" Name="your mom" StructName="hud_widget_effect_function_struct_block" />
+		<FieldStruct Index="10" Name="your mom" StructName="hud_widget_effect_function_struct_block" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

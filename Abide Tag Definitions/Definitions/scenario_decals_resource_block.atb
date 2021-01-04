@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_decals_resource_block" DisplayName="scenario_decals_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="Palette" BlockName="scenario_decal_palette_block" />
+		<FieldBlock Index="1" Name="Decals" BlockName="scenario_decals_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

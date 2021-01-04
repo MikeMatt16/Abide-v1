@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="response_block" DisplayName="response_block" MaximumElementCount="20">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="vocalization name" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="nonexclusive" />
+			<Option Name="trigger response" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="2" Name="vocalization index (post process)*" />
+		<FieldEnum Index="3" Name="response type">
+			<Option Name="friend" />
+			<Option Name="enemy" />
+			<Option Name="listener" />
+			<Option Name="joint" />
+			<Option Name="peer" />
+		</FieldEnum>
+		<FieldShortInteger Index="4" Name="dialogue index (import)*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vehicle_suspension_block" DisplayName="vehicle_suspension_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="12">
+		<FieldStringId Index="0" Name="label^" />
+		<FieldStruct Index="1" Name="animation*" StructName="animation_index_struct_block" />
+		<FieldStringId Index="2" Name="marker name" />
+		<FieldReal Index="3" Name="mass point offset" />
+		<FieldReal Index="4" Name="full extension ground_depth" />
+		<FieldReal Index="5" Name="full compression ground_depth" />
+		<FieldExplanation Index="6" Name="Destroyed Suspension" Explanation="Only Necessary for suspensions with a destroyed state" />
+		<FieldStringId Index="7" Name="region name" />
+		<FieldReal Index="8" Name="destroyed mass point offset" />
+		<FieldReal Index="9" Name="destroyed full extension ground_depth" />
+		<FieldReal Index="10" Name="destroyed full compression ground_depth" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

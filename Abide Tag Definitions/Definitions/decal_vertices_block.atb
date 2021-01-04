@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decal_vertices_block" DisplayName="decal_vertices_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="5">
+		<FieldRealPoint3D Index="0" Name="Position*" />
+		<FieldRealPoint2D Index="1" Name="texcoord 0*" />
+		<FieldRealPoint2D Index="2" Name="texcoord 1*" />
+		<FieldRgbColor Index="3" Name="Color*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

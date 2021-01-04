@@ -1113,9 +1113,9 @@ namespace Texture_Editor.Halo2
         {
             Local = 0,
             LocalMask = ~SinglePlayerShared,
-            Shared = 0x80000000,
             Mainmenu = 0x40000000,
-            SinglePlayerShared = Shared | Mainmenu,
+            Shared = 0x80000000,
+            SinglePlayerShared = 0xC0000000,
         };
     }
 }

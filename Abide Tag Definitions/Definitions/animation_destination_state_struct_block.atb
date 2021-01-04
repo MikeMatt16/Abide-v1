@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_destination_state_struct_block" DisplayName="animation_destination_state_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="state name*#name of the state" />
+		<FieldCharEnum Index="1" Name="frame event link*#which frame event to link to">
+			<Option Name="NO KEYFRAME" />
+			<Option Name="KEYFRAME TYPE A" />
+			<Option Name="KEYFRAME TYPE B" />
+			<Option Name="KEYFRAME TYPE C" />
+			<Option Name="KEYFRAME TYPE D" />
+		</FieldCharEnum>
+		<FieldPad Index="2" Name="" Length="1" />
+		<FieldCharInteger Index="3" Name="index a*#first level sub-index into state" />
+		<FieldCharInteger Index="4" Name="index b*#second level sub-index into state" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

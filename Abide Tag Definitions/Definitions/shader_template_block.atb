@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_block" DisplayName="shader_template" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="21">
+		<FieldData Index="0" Name="Documentation" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldStringId Index="1" Name="Default Material Name" />
+		<FieldExplanation Index="2" Name="FLAGS" Explanation="* Force Active Camo: Should be used with cautuion, as this causes a backbuffer copy when this shader is rendered.|n* Water: ???.|n* Foliage: Used with lightmapped foliage (two-sided lighting) shaders. It affects importing but not rendering." />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldWordFlags Index="4" Name="Flags">
+			<Option Name="Force Active Camo" />
+			<Option Name="Water" />
+			<Option Name="Foliage" />
+			<Option Name="Hide Standard Parameters" />
+		</FieldWordFlags>
+		<FieldBlock Index="5" Name="Properties" BlockName="shader_template_property_block" />
+		<FieldBlock Index="6" Name="Categories" BlockName="shader_template_category_block" />
+		<FieldExplanation Index="7" Name="LIGHT RESPONSE" Explanation="Not used anymore." />
+		<FieldTagReference Index="8" Name="Light Response" GroupTag="1936484724" />
+		<FieldBlock Index="9" Name="LODs" BlockName="shader_template_level_of_detail_block" />
+		<FieldBlock Index="10" Name="" BlockName="shader_template_runtime_external_light_response_index_block" />
+		<FieldBlock Index="11" Name="" BlockName="shader_template_runtime_external_light_response_index_block" />
+		<FieldExplanation Index="12" Name="RECURSIVE RENDERING" Explanation="Really cool stuff." />
+		<FieldTagReference Index="13" Name="Aux 1 Shader" GroupTag="1936220516" />
+		<FieldEnum Index="14" Name="Aux 1 Layer">
+			<Option Name="texaccum" />
+			<Option Name="Environment Map" />
+			<Option Name="Self-Illumination" />
+			<Option Name="Overlay" />
+			<Option Name="Transparent" />
+			<Option Name="Lightmap (Indirect)" />
+			<Option Name="Diffuse" />
+			<Option Name="Specular" />
+			<Option Name="Shadow Generate" />
+			<Option Name="Shadow Apply" />
+			<Option Name="Boom" />
+			<Option Name="Fog" />
+			<Option Name="Sh Prt" />
+			<Option Name="Active Camo" />
+			<Option Name="Water Edge Blend" />
+			<Option Name="Decal" />
+			<Option Name="Active Camo Stencil Modulate" />
+			<Option Name="Hologram" />
+			<Option Name="Light Albedo" />
+		</FieldEnum>
+		<FieldPad Index="15" Name="" Length="2" />
+		<FieldTagReference Index="16" Name="Aux 2 Shader" GroupTag="1936220516" />
+		<FieldEnum Index="17" Name="Aux 2 Layer">
+			<Option Name="texaccum" />
+			<Option Name="Environment Map" />
+			<Option Name="Self-Illumination" />
+			<Option Name="Overlay" />
+			<Option Name="Transparent" />
+			<Option Name="Lightmap (Indirect)" />
+			<Option Name="Diffuse" />
+			<Option Name="Specular" />
+			<Option Name="Shadow Generate" />
+			<Option Name="Shadow Apply" />
+			<Option Name="Boom" />
+			<Option Name="Fog" />
+			<Option Name="Sh Prt" />
+			<Option Name="Active Camo" />
+			<Option Name="Water Edge Blend" />
+			<Option Name="Decal" />
+			<Option Name="Active Camo Stencil Modulate" />
+			<Option Name="Hologram" />
+			<Option Name="Light Albedo" />
+		</FieldEnum>
+		<FieldPad Index="18" Name="" Length="2" />
+		<FieldBlock Index="19" Name="Postprocess Definition*" BlockName="shader_template_postprocess_definition_new_block" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

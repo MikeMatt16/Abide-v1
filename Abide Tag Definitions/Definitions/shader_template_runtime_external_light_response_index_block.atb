@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_runtime_external_light_response_index_block" DisplayName="shader_template_runtime_external_light_response_index_block" MaximumElementCount="65535">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongInteger Index="0" Name="" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

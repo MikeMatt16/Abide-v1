@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_lightmap_data_block" DisplayName="structure_bsp_cluster_lightmap_data_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="Type*">
+			<Option Name="Single Texture" />
+		</FieldEnum>
+		<FieldWordFlags Index="1" Name="Flags*">
+			<Option Name="Use Cluster Vertex Buffer" />
+		</FieldWordFlags>
+		<FieldLongInteger Index="2" Name="Lightmap Group Index*" />
+		<FieldLongInteger Index="3" Name="Lightmap Group Index*" />
+		<FieldBlock Index="4" Name="Indices*" BlockName="structure_bsp_cluster_lightmap_index_block" />
+		<FieldBlock Index="5" Name="Texture Coordinates*" BlockName="structure_bsp_cluster_lightmap_texture_coordinate_block" />
+		<FieldBlock Index="6" Name="Duplicate Indices*" BlockName="structure_bsp_cluster_lightmap_duplicate_index_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

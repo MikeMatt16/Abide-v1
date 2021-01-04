@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_light_fixture_struct_block" DisplayName="scenario_light_fixture_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldRealRgbColor Index="0" Name="Color" />
+		<FieldReal Index="1" Name="Intensity" />
+		<FieldAngle Index="2" Name="Falloff Angle:Degrees" />
+		<FieldAngle Index="3" Name="Cutoff Angle:Degrees" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

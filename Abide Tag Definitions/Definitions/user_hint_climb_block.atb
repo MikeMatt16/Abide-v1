@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_climb_block" DisplayName="user_hint_climb_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="3">
+		<FieldWordFlags Index="0" Name="Flags">
+			<Option Name="bidirectional" />
+			<Option Name="closed" />
+		</FieldWordFlags>
+		<FieldShortBlockIndex1 Index="1" Name="geometry index*" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_ready_block" DisplayName="character_ready_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="2">
+		<FieldRealBounds Index="0" Name="ready time bounds#Character will pause for given time before engaging threat" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

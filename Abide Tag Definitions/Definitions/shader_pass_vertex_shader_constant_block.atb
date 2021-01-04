@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_vertex_shader_constant_block" DisplayName="vs constant" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="Source Parameter" />
+		<FieldEnum Index="1" Name="Scale by Texture Stage">
+			<Option Name="None" />
+			<Option Name="Stage 0" />
+			<Option Name="Stage 1" />
+			<Option Name="Stage 2" />
+			<Option Name="Stage 3" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="Register Bank">
+			<Option Name="Vn [0,15]" />
+			<Option Name="Cn [0,12]" />
+		</FieldEnum>
+		<FieldShortInteger Index="3" Name="Register Index" />
+		<FieldEnum Index="4" Name="Component Mask">
+			<Option Name="x (value)" />
+			<Option Name="y (value)" />
+			<Option Name="z (value)" />
+			<Option Name="w (value)" />
+			<Option Name="xyz/rgb (color)" />
+			<Option Name="x (uniform scale)" />
+			<Option Name="y (uniform scale)" />
+			<Option Name="z (uniform scale)" />
+			<Option Name="w (uniform scale)" />
+			<Option Name="xy (2D scale)" />
+			<Option Name="zw (2D scale)" />
+			<Option Name="xy (2D translation)" />
+			<Option Name="zw (2D translation)" />
+			<Option Name="xyzw (2D simple xform)" />
+			<Option Name="xyw Row 1 (2D affine xform)" />
+			<Option Name="xyw Row 2 (2D affine xform)" />
+			<Option Name="xyz (3D scale)" />
+			<Option Name="xyz (3D translation)" />
+			<Option Name="xyzw Row 1 (3D affine xform)" />
+			<Option Name="xyzw Row 2 (3D affine xform)" />
+			<Option Name="xyzw Row 3 (3D affine xform)" />
+		</FieldEnum>
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

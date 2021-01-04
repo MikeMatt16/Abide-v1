@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="mission_dialogue_variants_block" DisplayName="mission_dialogue_variants_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStringId Index="0" Name="variant designation#3-letter designation for the character^" />
+		<FieldTagReference Index="1" Name="sound" GroupTag="1936614433" />
+		<FieldStringId Index="2" Name="sound effect" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_sampling_info_block" DisplayName="structure_lightmap_sampling_info_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="Leaves*" BlockName="structure_lightmap_bsp_leaf_block" />
+		<FieldBlock Index="1" Name="Surfaces*" BlockName="structure_lightmap_surface_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

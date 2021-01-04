@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_button_icon_block" DisplayName="hud_button_icon_block" MaximumElementCount="18">
+	<FieldSet Alignment="4" Count="8">
+		<FieldShortInteger Index="0" Name="sequence index#sequence index into the global hud icon bitmap" />
+		<FieldShortInteger Index="1" Name="width offset#extra spacing beyond bitmap width for text alignment" />
+		<FieldPoint2D Index="2" Name="offset from reference corner" />
+		<FieldArgbColor Index="3" Name="override icon color" />
+		<FieldCharInteger Index="4" Name="frame rate [0,30]" />
+		<FieldByteFlags Index="5" Name="flags">
+			<Option Name="use text from string_list instead" />
+			<Option Name="override default color" />
+			<Option Name="width offset is absolute icon width" />
+		</FieldByteFlags>
+		<FieldShortInteger Index="6" Name="text index" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="behavior_names_block" DisplayName="behavior_names_block" MaximumElementCount="160">
+	<FieldSet Alignment="4" Count="2">
+		<FieldString Index="0" Name="behavior name*^" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

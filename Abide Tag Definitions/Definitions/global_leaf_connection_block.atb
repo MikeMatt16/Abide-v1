@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_leaf_connection_block" DisplayName="global_leaf_connection_block" MaximumElementCount="524288">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="plane index*" />
+		<FieldLongInteger Index="1" Name="back leaf index*" />
+		<FieldLongInteger Index="2" Name="front leaf index*" />
+		<FieldBlock Index="3" Name="vertices*" BlockName="leaf_connection_vertex_block" />
+		<FieldReal Index="4" Name="area*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

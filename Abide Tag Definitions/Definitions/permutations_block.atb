@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="permutations_block" DisplayName="permutations_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldBlock Index="1" Name="rigid bodies" BlockName="rigid_body_indices_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

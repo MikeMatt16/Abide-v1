@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_property_block" DisplayName="property" MaximumElementCount="14">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="Property^">
+			<Option Name="Unused" />
+			<Option Name="Diffuse Map" />
+			<Option Name="Lightmap Emissive Map" />
+			<Option Name="Lightmap Emissive Color" />
+			<Option Name="Lightmap Emissive Power" />
+			<Option Name="Lightmap Resolution Scale" />
+			<Option Name="Lightmap Half Life" />
+			<Option Name="Lightmap Diffuse Scale" />
+			<Option Name="Lightmap Alpha Test Map" />
+			<Option Name="Lightmap Translucent Map" />
+			<Option Name="Lightmap Translucent Color" />
+			<Option Name="Lightmap Translucent Alpha" />
+			<Option Name="Active Camo Map" />
+			<Option Name="Lightmap Foliage Scale" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldStringId Index="2" Name="Parameter Name" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

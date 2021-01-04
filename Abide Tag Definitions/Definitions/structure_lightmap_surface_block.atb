@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_surface_block" DisplayName="structure_lightmap_surface_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongInteger Index="0" Name="Plane Designator*" />
+		<FieldShortInteger Index="1" Name="Strip Segment Reference Index*" />
+		<FieldShortInteger Index="2" Name="Strip Triangle Index*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

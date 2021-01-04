@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="indices_block" DisplayName="indices_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="Index*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

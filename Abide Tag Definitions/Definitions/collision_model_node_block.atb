@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_model_node_block" DisplayName="collision_model_node_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="2" Name="parent node*" />
+		<FieldShortBlockIndex1 Index="3" Name="next sibling node*" />
+		<FieldShortBlockIndex1 Index="4" Name="first child node*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_aiming_screen_struct_block" DisplayName="animation_aiming_screen_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldAngle Index="0" Name="right yaw per frame" />
+		<FieldAngle Index="1" Name="left yaw per frame" />
+		<FieldShortInteger Index="2" Name="right frame count" />
+		<FieldShortInteger Index="3" Name="left frame count" />
+		<FieldAngle Index="4" Name="down pitch per frame" />
+		<FieldAngle Index="5" Name="up pitch per frame" />
+		<FieldShortInteger Index="6" Name="down pitch frame count" />
+		<FieldShortInteger Index="7" Name="up pitch frame count" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

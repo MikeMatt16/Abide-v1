@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multiplayer_variant_settings_interface_definition_block" DisplayName="multiplayer_variant_settings_interface_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="32">
+		<FieldTagReference Index="0" Name="" GroupTag="2003265908" />
+		<FieldTagReference Index="1" Name="" GroupTag="2003265908" />
+		<FieldTagReference Index="2" Name="" GroupTag="2003265908" />
+		<FieldBlock Index="3" Name="game engine settings" BlockName="variant_setting_edit_reference_block" />
+		<FieldTagReference Index="4" Name="default variant strings" GroupTag="1970170211" />
+		<FieldBlock Index="5" Name="default variants" BlockName="g_default_variants_block" />
+		<FieldExplanation Index="6" Name="create new slayer variant" Explanation="" />
+		<FieldStruct Index="7" Name="" StructName="create_new_variant_struct_block" />
+		<FieldExplanation Index="8" Name="create new king of the hill variant" Explanation="" />
+		<FieldStruct Index="9" Name="" StructName="create_new_variant_struct_block" />
+		<FieldCustom Index="10" Name="" />
+		<FieldStruct Index="11" Name="" StructName="create_new_variant_struct_block" />
+		<FieldCustom Index="12" Name="" />
+		<FieldExplanation Index="13" Name="create new oddball variant" Explanation="" />
+		<FieldStruct Index="14" Name="" StructName="create_new_variant_struct_block" />
+		<FieldExplanation Index="15" Name="create new juggernaut variant" Explanation="" />
+		<FieldStruct Index="16" Name="" StructName="create_new_variant_struct_block" />
+		<FieldCustom Index="17" Name="" />
+		<FieldStruct Index="18" Name="" StructName="create_new_variant_struct_block" />
+		<FieldCustom Index="19" Name="" />
+		<FieldExplanation Index="20" Name="create new capture the flag variant" Explanation="" />
+		<FieldStruct Index="21" Name="" StructName="create_new_variant_struct_block" />
+		<FieldExplanation Index="22" Name="create new assault variant" Explanation="" />
+		<FieldStruct Index="23" Name="" StructName="create_new_variant_struct_block" />
+		<FieldExplanation Index="24" Name="create new territories variant" Explanation="" />
+		<FieldStruct Index="25" Name="" StructName="create_new_variant_struct_block" />
+		<FieldCustom Index="26" Name="" />
+		<FieldArrayStart Index="27" Name="unused_create_new_variants" Length="7">
+			<FieldStruct Index="0" Name="" StructName="create_new_variant_struct_block" />
+		</FieldArrayStart>
+		<FieldStruct Index="28" Name="" StructName="create_new_variant_struct_block" />
+		<FieldArrayEnd Index="29" Name="" />
+		<FieldCustom Index="30" Name="" />
+		<FieldTerminator Index="31" Name="" />
+	</FieldSet>
+</AbideTagBlock>

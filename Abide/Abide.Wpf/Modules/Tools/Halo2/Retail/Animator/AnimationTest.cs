@@ -18,42 +18,23 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.Animator
     /// <summary>
     /// 
     /// </summary>
-    [AddOn]
     public sealed class AnimationTest : ITool
     {
         public IHost Host { get; private set; }
 
         public MapVersion Version => MapVersion.Halo2;
 
-        public IndexEntry SelectedEntry
-        {
-            get { return (IndexEntry)Host?.Request(this, "GetSelectedEntry") ?? null; }
-        }
+        public HaloTag SelectedEntry => (HaloTag)Host?.Request(this, "GetSelectedTag") ?? null;
 
-        public HaloMap Map
-        {
-            get { return (HaloMap)Host?.Request(this, "GetMap") ?? null; }
-        }
+        public HaloMapFile Map => (HaloMapFile)Host?.Request(this, "GetMap") ?? null;
 
-        public Xbox Xbox
-        {
-            get { return (Xbox)Host?.Request(this, "GetXbox") ?? null; }
-        }
+        public Xbox Xbox => (Xbox)Host?.Request(this, "GetXbox") ?? null;
 
-        public string Name
-        {
-            get { return "Animation Test"; }
-        }
+        public string Name => "Animation Test";
 
-        public string Description
-        {
-            get { return "Animation Test"; }
-        }
+        public string Description => "Animation Test";
 
-        public string Author
-        {
-            get { return "Click16"; }
-        }
+        public string Author => "Click16";
 
         public FrameworkElement Element => null;
 
@@ -77,61 +58,61 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.Animator
 
         public void OnSelectedEntryChanged()
         {
-            if (SelectedEntry != null && SelectedEntry.Root == HaloTags.jmad)
-                if (SelectedEntry.Resources.TryGetResource(17322496, out HaloMapDataContainer resource))
-                {
-                    List<AnimationVertexBuffer> buffer = new List<AnimationVertexBuffer>();
-
-                    using (var stream = resource.GetVirtualStream())
-                    using (BinaryReader reader = new BinaryReader(stream))
-                    {
-                        //Read animation codec
-                        AnimationCodec codec = (AnimationCodec)reader.PeekChar();
-
-                        StaticHeader staticHeader = new StaticHeader();
-                        AnimatedHeader animatedHeader = new AnimatedHeader();
-                        
-                        switch (codec)
-                        {
-                            case AnimationCodec.UncompressedStaticData:
-                            case AnimationCodec.UncompressedAnimatedData:
-                            case AnimationCodec.QuantizedRotationOnly:
-                            case AnimationCodec.BlendScreen:
-                                staticHeader = reader.Read<StaticHeader>();
-                                break;
-                            case AnimationCodec.ByteKeyframeLightlyQuantized:
-                            case AnimationCodec.WordKeyframeLightlyQuantized:
-                            case AnimationCodec.ReverseByteKeyframeLightlyQuantized:
-                            case AnimationCodec.ReverseWordKeyframeLightlyQuantized:
-                                animatedHeader = reader.Read<AnimatedHeader>();
-                                break;
-                        }
-
-                        if (staticHeader.CompressionType != 0)
-                        {
-                            for (int n = 0; n < staticHeader.RotationFrameSize / 8; n++)
-                            {
-                                float i = reader.ReadInt16() * 0.000030518509f;
-                                float j = reader.ReadInt16() * 0.000030518509f;
-                                float k = reader.ReadInt16() * 0.000030518509f;
-                                float w = reader.ReadInt16() * 0.000030518509f;
-
-                                buffer.Add(new AnimationVertexBuffer()
-                                {
-                                    RotationI = i,
-                                    RotationJ = j,
-                                    RotationK = k,
-                                    RotationW = w
-                                });
-                            }
-                        }
-                        else if (animatedHeader.CompressionType != 0)
-                        {
-
-                        }
-                        else throw new NotImplementedException();
-                    }
-                }
+            //if (SelectedEntry != null && SelectedEntry.GroupTag == HaloTags.jmad)
+            //    if (SelectedEntry.Resources.TryGetResource(17322496, out HaloMapDataContainer resource))
+            //    {
+            //        List<AnimationVertexBuffer> buffer = new List<AnimationVertexBuffer>();
+            //
+            //        using (var stream = resource.GetVirtualStream())
+            //        using (BinaryReader reader = new BinaryReader(stream))
+            //        {
+            //            //Read animation codec
+            //            AnimationCodec codec = (AnimationCodec)reader.PeekChar();
+            //
+            //            StaticHeader staticHeader = new StaticHeader();
+            //            AnimatedHeader animatedHeader = new AnimatedHeader();
+            //            
+            //            switch (codec)
+            //            {
+            //                case AnimationCodec.UncompressedStaticData:
+            //                case AnimationCodec.UncompressedAnimatedData:
+            //                case AnimationCodec.QuantizedRotationOnly:
+            //                case AnimationCodec.BlendScreen:
+            //                    staticHeader = reader.Read<StaticHeader>();
+            //                    break;
+            //                case AnimationCodec.ByteKeyframeLightlyQuantized:
+            //                case AnimationCodec.WordKeyframeLightlyQuantized:
+            //                case AnimationCodec.ReverseByteKeyframeLightlyQuantized:
+            //                case AnimationCodec.ReverseWordKeyframeLightlyQuantized:
+            //                    animatedHeader = reader.Read<AnimatedHeader>();
+            //                    break;
+            //            }
+            //
+            //            if (staticHeader.CompressionType != 0)
+            //            {
+            //                for (int n = 0; n < staticHeader.RotationFrameSize / 8; n++)
+            //                {
+            //                    float i = reader.ReadInt16() * 0.000030518509f;
+            //                    float j = reader.ReadInt16() * 0.000030518509f;
+            //                    float k = reader.ReadInt16() * 0.000030518509f;
+            //                    float w = reader.ReadInt16() * 0.000030518509f;
+            //
+            //                    buffer.Add(new AnimationVertexBuffer()
+            //                    {
+            //                        RotationI = i,
+            //                        RotationJ = j,
+            //                        RotationK = k,
+            //                        RotationW = w
+            //                    });
+            //                }
+            //            }
+            //            else if (animatedHeader.CompressionType != 0)
+            //            {
+            //
+            //            }
+            //            else throw new NotImplementedException();
+            //        }
+            //    }
         }
     }
 

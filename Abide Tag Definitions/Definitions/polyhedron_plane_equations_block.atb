@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="polyhedron_plane_equations_block" DisplayName="polyhedron_plane_equations_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="2">
+		<FieldSkip Index="0" Name="" Length="16" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

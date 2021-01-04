@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multiplayer_constants_block" DisplayName="multiplayer_constants_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="27">
+		<FieldReal Index="0" Name="maximum random spawn bias" />
+		<FieldReal Index="1" Name="teleporter recharge time:seconds" />
+		<FieldReal Index="2" Name="grenade danger weight" />
+		<FieldReal Index="3" Name="grenade danger inner radius" />
+		<FieldReal Index="4" Name="grenade danger outer radius" />
+		<FieldReal Index="5" Name="grenade danger lead time:seconds" />
+		<FieldReal Index="6" Name="vehicle danger min speed:wu/sec" />
+		<FieldReal Index="7" Name="vehicle danger weight" />
+		<FieldReal Index="8" Name="vehicle danger radius" />
+		<FieldReal Index="9" Name="vehicle danger lead time:seconds" />
+		<FieldReal Index="10" Name="vehicle nearby player dist#how nearby a player is to count a vehicle as 'occupied'" />
+		<FieldPad Index="11" Name="" Length="84" />
+		<FieldPad Index="12" Name="" Length="32" />
+		<FieldPad Index="13" Name="" Length="32" />
+		<FieldTagReference Index="14" Name="hill shader" GroupTag="1936220516" />
+		<FieldPad Index="15" Name="" Length="16" />
+		<FieldReal Index="16" Name="flag reset stop distance" />
+		<FieldTagReference Index="17" Name="bomb explode effect" GroupTag="1701209701" />
+		<FieldTagReference Index="18" Name="bomb explode dmg effect" GroupTag="1785754657" />
+		<FieldTagReference Index="19" Name="bomb defuse effect" GroupTag="1701209701" />
+		<FieldStringId Index="20" Name="bomb defusal string" />
+		<FieldStringId Index="21" Name="blocked teleporter string" />
+		<FieldPad Index="22" Name="" Length="4" />
+		<FieldPad Index="23" Name="" Length="32" />
+		<FieldPad Index="24" Name="" Length="32" />
+		<FieldPad Index="25" Name="" Length="32" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

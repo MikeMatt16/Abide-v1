@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_dialogue_globals_block" DisplayName="ai_dialogue_globals" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldBlock Index="0" Name="vocalizations" BlockName="vocalization_definitions_block_0" />
+		<FieldBlock Index="1" Name="patterns" BlockName="vocalization_patterns_block" />
+		<FieldPad Index="2" Name="" Length="12" />
+		<FieldBlock Index="3" Name="dialogue data" BlockName="dialogue_data_block" />
+		<FieldBlock Index="4" Name="involuntary data" BlockName="involuntary_data_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

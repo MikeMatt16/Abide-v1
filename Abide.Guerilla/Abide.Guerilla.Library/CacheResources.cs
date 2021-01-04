@@ -1,4 +1,5 @@
 ﻿using Abide.HaloLibrary;
+using Abide.HaloLibrary.Halo2.Retail;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.Tag;
 using System;
@@ -18,7 +19,7 @@ namespace Abide.Guerilla.Library
         /// <summary>
         /// Returns the resource map file.
         /// </summary>
-        public MapFile ResourceMap { get; }
+        public HaloMap ResourceMap { get; }
         /// <summary>
         /// Returns the globals tag group file.
         /// </summary>
@@ -35,14 +36,14 @@ namespace Abide.Guerilla.Library
         /// Returns a list of tag group file elements.
         /// </summary>
         public List<AbideTagGroupFile> TagGroupFiles { get; } = new List<AbideTagGroupFile>();
-        private readonly Dictionary<string, int> m_FileNameLookup = new Dictionary<string, int>();
-        private readonly Dictionary<string, int> m_TagPathLookup = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> fileNameLookup = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> tagPathLookup = new Dictionary<string, int>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheResources"/> class.
         /// </summary>
         /// <param name="resourceMap">A resource map.</param>
-        public CacheResources(MapFile resourceMap)
+        public CacheResources(HaloMap resourceMap)
         {
             //Set
             ResourceMap = resourceMap ?? throw new ArgumentNullException(nameof(resourceMap));
@@ -52,10 +53,10 @@ namespace Abide.Guerilla.Library
             for (int i = 0; i < resourceMap.IndexEntries.Count; i++)
             {
                 //Add to lookup
-                m_TagPathLookup.Add($"{resourceMap.IndexEntries[i].Filename}.{resourceMap.IndexEntries[i].Root}", i);
+                tagPathLookup.Add($"{resourceMap.IndexEntries[i].Filename}.{resourceMap.IndexEntries[i].Root}", i);
                 using (ITagGroup tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(resourceMap.IndexEntries[i].Root))
-                    fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.Name}";
-                m_FileNameLookup.Add(fileName, i);
+                    fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.GroupName}";
+                fileNameLookup.Add(fileName, i);
 
                 //Add resource
                 TagGroupFiles.Add(new AbideTagGroupFile() { Id = resourceMap.IndexEntries[i].Id });
@@ -66,16 +67,17 @@ namespace Abide.Guerilla.Library
             //Load globals and sound cache file gestalt
             Globals.TagGroup = new Abide.Tag.Cache.Generated.Globals();
             SoundCacheFileGestalt.TagGroup = new Abide.Tag.Cache.Generated.SoundCacheFileGestalt();
-            using (BinaryReader reader = resourceMap.TagDataStream.CreateReader())
+            using (var stream = resourceMap.Globals.Data.GetVirtualStream())
+            using (var reader = stream.CreateReader())
             {
                 //Goto globals
                 Globals.Id = resourceMap.IndexEntries.First.Id;
-                reader.BaseStream.Seek(resourceMap.IndexEntries.First.Offset, SeekOrigin.Begin);
+                reader.BaseStream.Seek(resourceMap.IndexEntries.First.Address, SeekOrigin.Begin);
                 Globals.TagGroup.Read(reader);
 
                 //Goto sound cache file gestalt
                 SoundCacheFileGestalt.Id = resourceMap.IndexEntries.Last.Id;
-                reader.BaseStream.Seek(resourceMap.IndexEntries.Last.Offset, SeekOrigin.Begin);
+                reader.BaseStream.Seek(resourceMap.IndexEntries.Last.Address, SeekOrigin.Begin);
                 SoundCacheFileGestalt.TagGroup.Read(reader);
             }
         }
@@ -87,8 +89,8 @@ namespace Abide.Guerilla.Library
         public int FindIndex(TagResourceInfo resource)
         {
             string tagPath = $"{resource.TagPath}.{resource.Root}";
-            if (m_TagPathLookup.ContainsKey(tagPath))
-                return m_TagPathLookup[tagPath];
+            if (tagPathLookup.ContainsKey(tagPath))
+                return tagPathLookup[tagPath];
             return -1;
         }
         /// <summary>
@@ -98,8 +100,8 @@ namespace Abide.Guerilla.Library
         /// <returns></returns>
         public int FindIndex(string fileName)
         {
-            if (m_FileNameLookup.ContainsKey(fileName))
-                return m_FileNameLookup[fileName];
+            if (fileNameLookup.ContainsKey(fileName))
+                return fileNameLookup[fileName];
             return -1;
         }
         /// <summary>
@@ -110,8 +112,8 @@ namespace Abide.Guerilla.Library
         /// <returns></returns>
         public int FindIndex(string tagPath, string tagRoot)
         {
-            if (m_TagPathLookup.ContainsKey($"{tagPath}.{tagRoot}"))
-                return m_TagPathLookup[$"{tagPath}.{tagRoot}"];
+            if (tagPathLookup.ContainsKey($"{tagPath}.{tagRoot}"))
+                return tagPathLookup[$"{tagPath}.{tagRoot}"];
             return -1;
         }
         /// <summary>
@@ -123,8 +125,8 @@ namespace Abide.Guerilla.Library
             ResourceMap.Dispose();
 
             //Clear
-            m_FileNameLookup.Clear();
-            m_TagPathLookup.Clear();
+            fileNameLookup.Clear();
+            tagPathLookup.Clear();
             TagResources.Clear();
         }
     }

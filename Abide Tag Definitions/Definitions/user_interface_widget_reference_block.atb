@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_interface_widget_reference_block" DisplayName="user_interface_widget_reference_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="widget tag" GroupTag="2003265908" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

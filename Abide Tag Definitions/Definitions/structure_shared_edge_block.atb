@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_shared_edge_block" DisplayName="structure_shared_edge_block" MaximumElementCount="16384">
+	<FieldSet Alignment="4" Count="6">
+		<FieldArrayStart Index="0" Name="Vertex Indices*" Length="2">
+			<FieldShortInteger Index="0" Name="Vertex Index*" />
+		</FieldArrayStart>
+		<FieldShortInteger Index="1" Name="Vertex Index*" />
+		<FieldArrayEnd Index="2" Name="" />
+		<FieldShortInteger Index="3" Name="Triangle Index*" />
+		<FieldShortInteger Index="4" Name="Adjacent Cluster Shared Edge Index*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

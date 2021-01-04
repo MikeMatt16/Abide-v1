@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="player_information_block" DisplayName="player_information_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="39">
+		<FieldTagReference Index="0" Name="unused" GroupTag="1970170228" />
+		<FieldPad Index="1" Name="" Length="28" />
+		<FieldReal Index="2" Name="walking speed:world units per second" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldReal Index="4" Name="run forward:world units per second" />
+		<FieldReal Index="5" Name="run backward:world units per second" />
+		<FieldReal Index="6" Name="run sideways:world units per second" />
+		<FieldReal Index="7" Name="run acceleration:world units per second squared" />
+		<FieldReal Index="8" Name="sneak forward:world units per second" />
+		<FieldReal Index="9" Name="sneak backward:world units per second" />
+		<FieldReal Index="10" Name="sneak sideways:world units per second" />
+		<FieldReal Index="11" Name="sneak acceleration:world units per second squared" />
+		<FieldReal Index="12" Name="airborne acceleration:world units per second squared" />
+		<FieldPad Index="13" Name="" Length="16" />
+		<FieldRealPoint3D Index="14" Name="grenade origin" />
+		<FieldPad Index="15" Name="" Length="12" />
+		<FieldReal Index="16" Name="stun movement penalty:[0,1]#1.0 prevents moving while stunned" />
+		<FieldReal Index="17" Name="stun turning penalty:[0,1]#1.0 prevents turning while stunned" />
+		<FieldReal Index="18" Name="stun jumping penalty:[0,1]#1.0 prevents jumping while stunned" />
+		<FieldReal Index="19" Name="minimum stun time:seconds#all stunning damage will last for at least this long" />
+		<FieldReal Index="20" Name="maximum stun time:seconds#no stunning damage will last for longer than this" />
+		<FieldPad Index="21" Name="" Length="8" />
+		<FieldRealBounds Index="22" Name="first person idle time:seconds" />
+		<FieldRealFraction Index="23" Name="first person skip fraction:[0,1]" />
+		<FieldPad Index="24" Name="" Length="16" />
+		<FieldTagReference Index="25" Name="coop respawn effect" GroupTag="1701209701" />
+		<FieldLongInteger Index="26" Name="binoculars zoom count" />
+		<FieldRealBounds Index="27" Name="binoculars zoom range" />
+		<FieldTagReference Index="28" Name="binoculars zoom in sound" GroupTag="1936614433" />
+		<FieldTagReference Index="29" Name="binoculars zoom out sound" GroupTag="1936614433" />
+		<FieldPad Index="30" Name="" Length="16" />
+		<FieldTagReference Index="31" Name="active camouflage on" GroupTag="1936614433" />
+		<FieldTagReference Index="32" Name="active camouflage off" GroupTag="1936614433" />
+		<FieldTagReference Index="33" Name="active camouflage error" GroupTag="1936614433" />
+		<FieldTagReference Index="34" Name="active camouflage ready" GroupTag="1936614433" />
+		<FieldTagReference Index="35" Name="flashlight on" GroupTag="1936614433" />
+		<FieldTagReference Index="36" Name="flashlight off" GroupTag="1936614433" />
+		<FieldTagReference Index="37" Name="ice cream" GroupTag="1936614433" />
+		<FieldTerminator Index="38" Name="" />
+	</FieldSet>
+</AbideTagBlock>

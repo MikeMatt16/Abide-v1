@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="globals_block" DisplayName="globals" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="32">
+		<FieldPad Index="0" Name="" Length="172" />
+		<FieldLongEnum Index="1" Name="language">
+			<Option Name="english" />
+			<Option Name="japanese" />
+			<Option Name="german" />
+			<Option Name="french" />
+			<Option Name="spanish" />
+			<Option Name="italian" />
+			<Option Name="korean" />
+			<Option Name="chinese" />
+			<Option Name="portuguese" />
+		</FieldLongEnum>
+		<FieldBlock Index="2" Name="havok cleanup resources" BlockName="havok_cleanup_resources_block" />
+		<FieldBlock Index="3" Name="collision damage" BlockName="collision_damage_block" />
+		<FieldBlock Index="4" Name="sound globals" BlockName="sound_globals_block" />
+		<FieldBlock Index="5" Name="ai globals" BlockName="ai_globals_block" />
+		<FieldBlock Index="6" Name="damage table" BlockName="game_globals_damage_block" />
+		<FieldBlock Index="7" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="8" Name="sounds" BlockName="sound_block" />
+		<FieldBlock Index="9" Name="camera" BlockName="camera_block" />
+		<FieldBlock Index="10" Name="player control" BlockName="player_control_block" />
+		<FieldBlock Index="11" Name="difficulty" BlockName="difficulty_block" />
+		<FieldBlock Index="12" Name="grenades" BlockName="grenades_block" />
+		<FieldBlock Index="13" Name="rasterizer data" BlockName="rasterizer_data_block" />
+		<FieldBlock Index="14" Name="interface tags" BlockName="interface_tag_references" />
+		<FieldBlock Index="15" Name="@weapon list (update _weapon_list enum in game_globals.h)" BlockName="cheat_weapons_block" />
+		<FieldBlock Index="16" Name="@cheat powerups" BlockName="cheat_powerups_block" />
+		<FieldBlock Index="17" Name="@multiplayer information" BlockName="multiplayer_information_block" />
+		<FieldBlock Index="18" Name="@player information" BlockName="player_information_block" />
+		<FieldBlock Index="19" Name="@player representation" BlockName="player_representation_block" />
+		<FieldBlock Index="20" Name="falling damage" BlockName="falling_damage_block" />
+		<FieldBlock Index="21" Name="old materials" BlockName="old_materials_block" />
+		<FieldBlock Index="22" Name="materials" BlockName="materials_block" />
+		<FieldBlock Index="23" Name="multiplayer UI" BlockName="multiplayer_ui_block" />
+		<FieldBlock Index="24" Name="profile colors" BlockName="multiplayer_color_block" />
+		<FieldTagReference Index="25" Name="multiplayer globals" GroupTag="1836412007" />
+		<FieldBlock Index="26" Name="runtime level data" BlockName="runtime_levels_definition_block" />
+		<FieldBlock Index="27" Name="ui level data" BlockName="ui_levels_definition_block" />
+		<FieldExplanation Index="28" Name="Default global lighting" Explanation="" />
+		<FieldTagReference Index="29" Name="default global lighting" GroupTag="1735156838" />
+		<FieldPad Index="30" Name="" Length="252" />
+		<FieldTerminator Index="31" Name="" />
+	</FieldSet>
+</AbideTagBlock>

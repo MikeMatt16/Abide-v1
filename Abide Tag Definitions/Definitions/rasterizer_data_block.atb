@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rasterizer_data_block" DisplayName="rasterizer_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="39">
+		<FieldExplanation Index="0" Name="function textures" Explanation="Used internally by the rasterizer. (Do not change unless you know what you're doing!)" />
+		<FieldTagReference Index="1" Name="distance attenuation" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="vector normalization" GroupTag="1651078253" />
+		<FieldTagReference Index="3" Name="gradients" GroupTag="1651078253" />
+		<FieldTagReference Index="4" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="5" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="6" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="7" Name="glow" GroupTag="1651078253" />
+		<FieldTagReference Index="8" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="9" Name="UNUSED" GroupTag="1651078253" />
+		<FieldPad Index="10" Name="" Length="16" />
+		<FieldBlock Index="11" Name="global vertex shaders" BlockName="vertex_shader_reference_block" />
+		<FieldExplanation Index="12" Name="default textures" Explanation="Used internally by the rasterizer - additive, multiplicative, detail, vector. (Do not change ever, period.)" />
+		<FieldTagReference Index="13" Name="default 2D" GroupTag="1651078253" />
+		<FieldTagReference Index="14" Name="default 3D" GroupTag="1651078253" />
+		<FieldTagReference Index="15" Name="default cube map" GroupTag="1651078253" />
+		<FieldExplanation Index="16" Name="experimental textures" Explanation="Used internally by the rasterizer. (Used by Bernie's experimental shaders.)" />
+		<FieldTagReference Index="17" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="18" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="19" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="20" Name="UNUSED" GroupTag="1651078253" />
+		<FieldExplanation Index="21" Name="video effect textures" Explanation="Used in cinematics." />
+		<FieldTagReference Index="22" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTagReference Index="23" Name="UNUSED" GroupTag="1651078253" />
+		<FieldPad Index="24" Name="" Length="36" />
+		<FieldExplanation Index="25" Name="global shader" Explanation="Used for layers that need to do something for other layers to work correctly if the layer is disabled, also used for active-camo, etc." />
+		<FieldTagReference Index="26" Name="global shader" GroupTag="1936220516" />
+		<FieldExplanation Index="27" Name="active camouflage" Explanation="" />
+		<FieldWordFlags Index="28" Name="flags">
+			<Option Name="tint edge density" />
+		</FieldWordFlags>
+		<FieldPad Index="29" Name="" Length="2" />
+		<FieldReal Index="30" Name="refraction amount:pixels" />
+		<FieldReal Index="31" Name="distance falloff" />
+		<FieldRealRgbColor Index="32" Name="tint color" />
+		<FieldReal Index="33" Name="hyper-stealth refraction:pixels" />
+		<FieldReal Index="34" Name="hyper-stealth distance falloff" />
+		<FieldRealRgbColor Index="35" Name="hyper-stealth tint color" />
+		<FieldExplanation Index="36" Name="PC textures" Explanation="The PC can't use 3D textures, so we use this instead." />
+		<FieldTagReference Index="37" Name="UNUSED" GroupTag="1651078253" />
+		<FieldTerminator Index="38" Name="" />
+	</FieldSet>
+</AbideTagBlock>

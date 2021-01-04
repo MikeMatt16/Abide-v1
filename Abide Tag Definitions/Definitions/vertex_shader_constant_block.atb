@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vertex_shader_constant_block" DisplayName="vertex_shader_constant_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="5">
+		<FieldCharInteger Index="0" Name="register index" />
+		<FieldCharInteger Index="1" Name="parameter index" />
+		<FieldCharInteger Index="2" Name="destination mask" />
+		<FieldCharInteger Index="3" Name="scale by texture stage" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

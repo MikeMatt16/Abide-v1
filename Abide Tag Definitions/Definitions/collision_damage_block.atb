@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_damage_block" DisplayName="collision_damage_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="11">
+		<FieldTagReference Index="0" Name="collision damage" GroupTag="1785754657" />
+		<FieldReal Index="1" Name="min game acc (default)#0-oo" />
+		<FieldReal Index="2" Name="max game acc (default)#0-oo" />
+		<FieldReal Index="3" Name="min game scale (default)#0-1" />
+		<FieldReal Index="4" Name="max game scale (default)#0-1" />
+		<FieldReal Index="5" Name="min abs acc (default)#0-oo" />
+		<FieldReal Index="6" Name="max abs acc (default)#0-oo" />
+		<FieldReal Index="7" Name="min abs scale (default)#0-1" />
+		<FieldReal Index="8" Name="max abs scale (default)#0-1" />
+		<FieldPad Index="9" Name="" Length="32" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

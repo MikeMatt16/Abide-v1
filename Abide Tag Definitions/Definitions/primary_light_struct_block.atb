@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="primary_light_struct_block" DisplayName="primary_light_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldExplanation Index="0" Name="Primary light" Explanation="" />
+		<FieldRealRgbColor Index="1" Name="Min lightmap color" />
+		<FieldRealRgbColor Index="2" Name="Max lightmap color" />
+		<FieldReal Index="3" Name="exclusion angle from up#degrees from up the direct light cannot be" />
+		<FieldExplanation Index="4" Name="Primary light function" Explanation="input: accuracy, output: primary light scale" />
+		<FieldCustom Index="5" Name="function" />
+		<FieldStruct Index="6" Name="function" StructName="mapping_function_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

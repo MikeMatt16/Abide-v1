@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lightmap_vertex_buffer_bucket_block" DisplayName="lightmap_vertex_buffer_bucket_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="6">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="incident direction" />
+			<Option Name="color" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="raw vertices" BlockName="lightmap_bucket_raw_vertex_block" />
+		<FieldStruct Index="3" Name="geometry block info" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="4" Name="cache data" BlockName="lightmap_vertex_buffer_bucket_cache_data_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

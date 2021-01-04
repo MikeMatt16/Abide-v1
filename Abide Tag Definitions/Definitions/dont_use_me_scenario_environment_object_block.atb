@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="dont_use_me_scenario_environment_object_block" DisplayName="dont_use_me_scenario_environment_object_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="9">
+		<FieldCustom Index="0" Name="" />
+		<FieldShortBlockIndex1 Index="1" Name="BSP*" />
+		<FieldShortInteger Index="2" Name="" />
+		<FieldLongInteger Index="3" Name="Unique ID*" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldTag Index="5" Name="Object Definition Tag*" />
+		<FieldLongInteger Index="6" Name="Object*^" />
+		<FieldPad Index="7" Name="" Length="44" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

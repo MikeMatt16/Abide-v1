@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Abide.HaloLibrary;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace System
@@ -19,7 +20,6 @@ namespace System
             Array.Reverse(chars);
             return new string(chars);
         }
-
         /// <summary>
         /// Pads up a uint to match a multiple of a supplied length.
         /// The resulting value will always be greater than or equal to the supplied number.
@@ -138,7 +138,7 @@ namespace System.IO
     public static class IOExtensions
     {
         /// <summary>
-        /// If we can't find the whitespace after 4KB, we're just gonna call it quits.
+        /// If we can't find the whitespace after 4KiB, we're just gonna call it quits.
         /// </summary>
         private const int NullTerminatedCutoff = 4096;
 
@@ -147,65 +147,42 @@ namespace System.IO
         /// </summary>
         /// <param name="stream">The stream to align.</param>
         /// <param name="alignment">The alignment.</param>
+        /// <param name="padByte">The byte to fill the empty space with.</param>
         /// <returns>The <see cref="Stream.Position"/> of <paramref name="stream"/>.</returns>
-        public static long Align(this Stream stream, long alignment)
+        public static long Align(this Stream stream, long alignment, byte padByte)
         {
             //Check
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (!stream.CanSeek) throw new ArgumentException("Stream does not support seeking.", nameof(stream));
 
-            //Align
+            //Get remainder
             long remainder = stream.Position % alignment;
-            if (remainder > 0) return stream.Seek(alignment - remainder, SeekOrigin.Current);
+
+            //Check if remainder is greater than zero
+            if (remainder > 0)
+            {
+                //Setup padding buffer
+                byte[] padding = new byte[alignment - remainder];
+                for (long i = 0; i < padding.Length; i++)
+                    padding[i] = padByte;
+
+                //Write padding
+                stream.Write(padding, 0, padding.Length);
+            }
+
+            //Return position
             return stream.Position;
         }
         /// <summary>
-        /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
+        /// Seeks the stream to align with the specified alignment and returns the new position of the stream.
         /// </summary>
-        /// <param name="stream">The stream to seek within.</param>
-        /// <param name="offset">The translator-addressed to seek to.</param>
-        /// <param name="translator">The value to translate the address.</param>
-        /// <param name="origin">The reference point used to obtain the new position.</param>
-        /// <returns>The new position of the current stream.</returns>
-        /// <exception cref="IOException"></exception> 
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="OverflowException"></exception>
-        public static long Seek(this Stream stream, int offset, int translator, SeekOrigin origin)
+        /// <param name="stream">The stream to align.</param>
+        /// <param name="alignment">The alignment.</param>
+        /// <returns>The <see cref="Stream.Position"/> of <paramref name="stream"/>.</returns>
+        public static long Align(this Stream stream, long alignment)
         {
-            return stream.Seek(offset - translator, origin);
-        }
-        /// <summary>
-        /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
-        /// </summary>
-        /// <param name="stream">The stream to seek within.</param>
-        /// <param name="offset">The translator-addressed to seek to.</param>
-        /// <param name="translator">The value to translate the address.</param>
-        /// <param name="origin">The reference point used to obtain the new position.</param>
-        /// <returns>The new position of the current stream.</returns>
-        /// <exception cref="IOException"></exception> 
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="OverflowException"></exception>
-        public static long Seek(this Stream stream, uint offset, uint translator, SeekOrigin origin)
-        {
-            return stream.Seek(offset - translator, origin);
-        }
-        /// <summary>
-        /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
-        /// </summary>
-        /// <param name="stream">The stream to seek within.</param>
-        /// <param name="offset">The translator-addressed offset to seek to.</param>
-        /// <param name="translator">The value to translate the address.</param>
-        /// <param name="origin">The reference point used to obtain the new position.</param>
-        /// <returns>The new position of the current stream.</returns>
-        /// <exception cref="IOException"></exception> 
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="OverflowException"></exception>
-        public static long Seek(this Stream stream, int offset, uint translator, SeekOrigin origin)
-        {
-            return stream.Seek(offset - (int)translator, origin);
+            //Align using a zero byte
+            return Align(stream, alignment, 0x0);
         }
         /// <summary>
         /// Sets the position within the current stream to an offset whose difference is that of the supplied offset, and a translator value.
@@ -262,7 +239,7 @@ namespace System.IO
                 reader.BaseStream.Seek(stringsOffset + offsets[i], SeekOrigin.Begin);
                 strings[i] = reader.ReadUTF8NullTerminated();
             }
-            
+
             //Return
             return strings;
         }
@@ -389,7 +366,7 @@ namespace System.IO
 
             //Read Data
             try { data = reader.ReadBytes(Marshal.SizeOf(typeof(T))); }
-            catch(Exception ex) { throw new IOException("Unable to read structure.", ex); }
+            catch (Exception ex) { throw new IOException("Unable to read structure.", ex); }
 
             //Check
             if (data != null)
@@ -404,6 +381,33 @@ namespace System.IO
 
             //Return
             return structure;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static TagBlock ReadTagBlock(this BinaryReader reader)
+        {
+            return new TagBlock(reader.ReadUInt32(), reader.ReadUInt32());
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static TagId ReadTagId(this BinaryReader reader)
+        {
+            return new TagId(reader.ReadUInt32());
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static TagFourCc ReadTag(this BinaryReader reader)
+        {
+            return new TagFourCc(reader.ReadUInt32());
         }
         /// <summary>
         /// Writes the specified structure to the underlying stream and advances the current position of the stream by the length of the structure.
@@ -471,6 +475,24 @@ namespace System.IO
             }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="tagBlock"></param>
+        public static void WriteTagBlock(this BinaryWriter writer, TagBlock tagBlock)
+        {
+            writer.Write(tagBlock);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="tagId"></param>
+        public static void WriteTagId(this BinaryWriter writer, TagId tagId)
+        {
+            writer.Write(tagId);
+        }
+        /// <summary>
         /// Writes a null-terminated string to the underlying stream using the supplied encoding.
         /// </summary>
         /// <param name="Out">The System.IO.BinaryWriter instance.</param>
@@ -505,7 +527,7 @@ namespace System.IO
                 { writer.Write(c); c = In.ReadByte(); length++; }
 
                 //Encode
-                value = encoding.GetString(ms.GetBuffer(), 0, length);
+                value = encoding.GetString(ms.ToArray(), 0, length);
             }
 
             //Return
@@ -566,9 +588,9 @@ namespace System.IO
             return In.ReadStringNullTerminated(Encoding.Unicode);
         }
         /// <summary>
-        /// Writes a non-lengthed prefix UTF-8-Encoded string to the underlying stream.
+        /// Writes a  string to the underlying stream using the specified encoding.
         /// </summary>
-        /// <param name="Out">The System.IO.BinaryWriter instance.</param>
+        /// <param name="Out">The <see cref="BinaryWriter"/> instance.</param>
         /// <param name="text">The string to be written</param>
         /// <param name="encoding">The encoding to use to encode the string.</param>
         public static void WriteStringData(this BinaryWriter Out, string text, Encoding encoding)
@@ -576,9 +598,9 @@ namespace System.IO
             Out.Write(encoding.GetBytes(text));
         }
         /// <summary>
-        /// Reads an UTF-8-Encoded string from the underlying stream.
+        /// Reads a string from the underlying stream using the specified encoding.
         /// </summary>
-        /// <param name="In">The System.IO.BinaryReader instance.</param>
+        /// <param name="In">The <see cref="BinaryReader"/> instance.</param>
         /// <param name="length">The length of the data to be read.</param>
         /// <param name="encoding">The encoding used to decode the string.</param>
         /// <returns>The UTF-8-Encoded string.</returns>
@@ -588,16 +610,16 @@ namespace System.IO
             return new string(encoding.GetChars(data));
         }
         /// <summary>
-        /// Writes a non-lengthed prefix UTF-8-Encoded string to the underlying stream.
+        /// Writes a UTF-8-Encoded string to the underlying stream.
         /// </summary>
-        /// <param name="Out">The System.IO.BinaryWriter instance.</param>
+        /// <param name="Out">The <see cref="BinaryWriter"/> instance.</param>
         /// <param name="text">The string to be written</param>
         public static void WriteUTF8(this BinaryWriter Out, string text)
         {
             Out.WriteStringData(text, Encoding.UTF8);
         }
         /// <summary>
-        /// Reads an UTF-8-Encoded string from the underlying stream.
+        /// Reads a UTF-8-Encoded string from the underlying stream.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
         /// <param name="length">The length of the data to be read.</param>
@@ -607,7 +629,7 @@ namespace System.IO
             return In.ReadStringData(length, Encoding.UTF8);
         }
         /// <summary>
-        /// Writes a non-lengthed prefix ASCII-Encoded string to the underlying stream.
+        /// Writes an ASCII-Encoded string to the underlying stream.
         /// </summary>
         /// <param name="Out">The System.IO.BinaryWriter instance.</param>
         /// <param name="text">The string to be written</param>
@@ -626,7 +648,7 @@ namespace System.IO
             return In.ReadStringData(length, Encoding.ASCII);
         }
         /// <summary>
-        /// Writes a non-lengthed prefix Unicode-Encoded string to the underlying stream.
+        /// Writes a Unicode-Encoded string to the underlying stream.
         /// </summary>
         /// <param name="Out">The System.IO.BinaryWriter instance.</param>
         /// <param name="text">The string to be written</param>
@@ -635,7 +657,7 @@ namespace System.IO
             Out.WriteStringData(text, Encoding.Unicode);
         }
         /// <summary>
-        /// Reads an Unicode-Encoded string from the underlying stream.
+        /// Reads a Unicode-Encoded string from the underlying stream.
         /// </summary>
         /// <param name="In">The System.IO.BinaryReader instance.</param>
         /// <param name="length">The length of the data to be read.</param>

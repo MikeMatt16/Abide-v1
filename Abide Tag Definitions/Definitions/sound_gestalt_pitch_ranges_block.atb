@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_gestalt_pitch_ranges_block" DisplayName="sound_gestalt_pitch_ranges_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="7">
+		<FieldShortBlockIndex1 Index="0" Name="name^" />
+		<FieldShortBlockIndex1 Index="1" Name="parameters" />
+		<FieldShortInteger Index="2" Name="encoded permutation data" />
+		<FieldShortInteger Index="3" Name="first runtime permutation flag index" />
+		<FieldShortBlockIndex1 Index="4" Name="first permutation" />
+		<FieldShortInteger Index="5" Name="permutation count" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

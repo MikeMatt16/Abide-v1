@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_depth_state_block" DisplayName="depth state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldEnum Index="0" Name="mode">
+			<Option Name="use Z" />
+			<Option Name="use W" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="depth compare function">
+			<Option Name="never" />
+			<Option Name="less" />
+			<Option Name="equal" />
+			<Option Name="less or equal" />
+			<Option Name="greater" />
+			<Option Name="not equal" />
+			<Option Name="greater or equal" />
+			<Option Name="always" />
+		</FieldEnum>
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="depth write" />
+			<Option Name="offset points" />
+			<Option Name="offset lines" />
+			<Option Name="offset triangles" />
+			<Option Name="clip control don't cull primitive" />
+			<Option Name="clip control clamp" />
+			<Option Name="clip control ignore W sign" />
+		</FieldWordFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="depth bias slope scale" />
+		<FieldReal Index="5" Name="depth bias" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

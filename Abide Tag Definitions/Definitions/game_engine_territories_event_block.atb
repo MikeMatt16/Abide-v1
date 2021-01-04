@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="game_engine_territories_event_block" DisplayName="game_engine_territories_event_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="22">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="quantity message" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="event^">
+			<Option Name="game start" />
+			<Option Name="territory control gained" />
+			<Option Name="territory contest lost" />
+			<Option Name="all territories cntrld" />
+			<Option Name="team territory ctrl gained" />
+			<Option Name="team territory ctrl lost" />
+			<Option Name="team all territories cntrld" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="audience^">
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+			<Option Name="all" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldStringId Index="6" Name="display string" />
+		<FieldEnum Index="7" Name="required field">
+			<Option Name="NONE" />
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="excluded audience">
+			<Option Name="NONE" />
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+		</FieldEnum>
+		<FieldStringId Index="9" Name="primary string" />
+		<FieldLongInteger Index="10" Name="primary string duration:seconds" />
+		<FieldStringId Index="11" Name="plural display string" />
+		<FieldPad Index="12" Name="" Length="28" />
+		<FieldReal Index="13" Name="sound delay (announcer only)" />
+		<FieldWordFlags Index="14" Name="sound flags">
+			<Option Name="announcer sound" />
+		</FieldWordFlags>
+		<FieldPad Index="15" Name="" Length="2" />
+		<FieldTagReference Index="16" Name="sound^" GroupTag="1936614433" />
+		<FieldStruct Index="17" Name="extra sounds" StructName="sound_response_extra_sounds_struct_block" />
+		<FieldPad Index="18" Name="" Length="4" />
+		<FieldPad Index="19" Name="" Length="16" />
+		<FieldBlock Index="20" Name="sound permutations" BlockName="sound_response_definition_block" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

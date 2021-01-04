@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_screen_effect_widgets" DisplayName="hud_screen_effect_widgets" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="16">
+		<FieldStringId Index="0" Name="name" />
+		<FieldStruct Index="1" Name="" StructName="hud_widget_inputs_struct_block" />
+		<FieldStruct Index="2" Name="" StructName="hud_widget_state_definition_struct_block" />
+		<FieldEnum Index="3" Name="anchor">
+			<Option Name="health and shield" />
+			<Option Name="weapon hud" />
+			<Option Name="motion sensor" />
+			<Option Name="scoreboard" />
+			<Option Name="crosshair" />
+			<Option Name="lock-on target" />
+		</FieldEnum>
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldTagReference Index="5" Name="bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="6" Name="fullscreen screen effect" GroupTag="1701277554" />
+		<FieldStruct Index="7" Name="waa" StructName="screen_effect_bonus_struct_block" />
+		<FieldCharInteger Index="8" Name="fullscreen sequence index" />
+		<FieldCharInteger Index="9" Name="halfscreen sequence index" />
+		<FieldCharInteger Index="10" Name="quarterscreen sequence index" />
+		<FieldPad Index="11" Name="" Length="1" />
+		<FieldPoint2D Index="12" Name="fullscreen offset" />
+		<FieldPoint2D Index="13" Name="halfscreen offset" />
+		<FieldPoint2D Index="14" Name="quarterscreen offset" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

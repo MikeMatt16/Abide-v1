@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_sound_environment_palette_block" DisplayName="structure_bsp_sound_environment_palette_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="6">
+		<FieldString Index="0" Name="Name^" />
+		<FieldTagReference Index="1" Name="Sound Environment" GroupTag="1936614501" />
+		<FieldReal Index="2" Name="Cutoff Distance" />
+		<FieldReal Index="3" Name="Interpolation Speed:1/sec" />
+		<FieldPad Index="4" Name="" Length="24" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_light_block" DisplayName="sky_light_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="7">
+		<FieldRealVector3D Index="0" Name="Direction Vector" />
+		<FieldEulerAngles2D Index="1" Name="Direction" />
+		<FieldTagReference Index="2" Name="Lens Flare" GroupTag="1818586739" />
+		<FieldBlock Index="3" Name="Fog" BlockName="sky_light_fog_block" />
+		<FieldBlock Index="4" Name="Fog Opposite" BlockName="sky_light_fog_block" />
+		<FieldBlock Index="5" Name="Radiosity" BlockName="sky_radiosity_light_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

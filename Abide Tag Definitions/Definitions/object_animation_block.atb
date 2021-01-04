@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_animation_block" DisplayName="object_animation_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="7">
+		<FieldStringId Index="0" Name="label^" />
+		<FieldStruct Index="1" Name="animation*" StructName="animation_index_struct_block" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldEnum Index="3" Name="function controls">
+			<Option Name="frame" />
+			<Option Name="scale" />
+		</FieldEnum>
+		<FieldStringId Index="4" Name="function" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

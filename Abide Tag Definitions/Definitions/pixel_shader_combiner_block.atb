@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pixel_shader_combiner_block" DisplayName="pixel_shader_combiner_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="12">
+		<FieldPad Index="0" Name="" Length="16" />
+		<FieldArgbColor Index="1" Name="constant color0" />
+		<FieldArgbColor Index="2" Name="constant color1" />
+		<FieldCharInteger Index="3" Name="color A register ptr index" />
+		<FieldCharInteger Index="4" Name="color B register ptr index" />
+		<FieldCharInteger Index="5" Name="color C register ptr index" />
+		<FieldCharInteger Index="6" Name="color D register ptr index" />
+		<FieldCharInteger Index="7" Name="alpha A register ptr index" />
+		<FieldCharInteger Index="8" Name="alpha B register ptr index" />
+		<FieldCharInteger Index="9" Name="alpha C register ptr index" />
+		<FieldCharInteger Index="10" Name="alpha D register ptr index" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

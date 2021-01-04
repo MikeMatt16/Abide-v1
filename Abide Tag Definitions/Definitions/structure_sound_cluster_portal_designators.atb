@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_sound_cluster_portal_designators" DisplayName="structure_sound_cluster_portal_designators" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="portal designator*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

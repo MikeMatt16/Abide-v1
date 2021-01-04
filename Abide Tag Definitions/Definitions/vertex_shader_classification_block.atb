@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vertex_shader_classification_block" DisplayName="classification" MaximumElementCount="12">
+	<FieldSet Alignment="4" Count="4">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldData Index="1" Name="compiled shader" Alignment="4" MaximumSize="8192" ElementSize="1" />
+		<FieldData Index="2" Name="code" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

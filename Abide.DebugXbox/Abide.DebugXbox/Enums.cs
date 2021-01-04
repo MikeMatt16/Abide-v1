@@ -26,6 +26,7 @@
         /// </summary>
         Stop,
     };
+
     /// <summary>
     /// Specifies the status of a debug Xbox response.
     /// </summary>
@@ -119,7 +120,7 @@
         /// </summary>
         L,
         /// <summary>
-        /// Memory Unit 4A
+        /// Memory Unit 4B
         /// </summary>
         M,
         /// <summary>

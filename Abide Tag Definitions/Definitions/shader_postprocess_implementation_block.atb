@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_implementation_block" DisplayName="shader_postprocess_implementation_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStruct Index="0" Name="GPU Constant State" StructName="shader_gpu_state_reference_struct_block" />
+		<FieldStruct Index="1" Name="GPU Volatile State" StructName="shader_gpu_state_reference_struct_block" />
+		<FieldStruct Index="2" Name="bitmap parameters" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="3" Name="bitmap transforms" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="4" Name="value parameters" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="5" Name="color parameters" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="6" Name="bitmap transform overlays" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="7" Name="value overlays" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="8" Name="color overlays" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="9" Name="vertex shader constants" StructName="tag_block_index_struct_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

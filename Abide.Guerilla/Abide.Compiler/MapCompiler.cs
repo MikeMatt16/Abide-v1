@@ -1,5 +1,6 @@
 ﻿using Abide.Guerilla.Library;
 using Abide.HaloLibrary;
+using Abide.HaloLibrary.Halo2.Retail;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.HaloLibrary.IO;
 using Abide.Tag;
@@ -18,126 +19,70 @@ namespace Abide.Compiler
     /// </summary>
     public sealed class MapCompiler
     {
-        private const short C_NullShort = unchecked((short)0xffff);
-        private const byte C_NullByte = 0xff;
-        private const uint C_LocationMask = 0xC0000000;
-        private const uint C_MainmenuFlag = 0x40000000;
-        private const uint C_SharedFlag = 0x80000000;
-        private const uint C_SinglePlayerSharedFlag = C_LocationMask;
+        private const short NullShort = unchecked((short)0xffff);
+        private const byte NullByte = 0xff;
+        private const uint LocationMask = 0xC0000000;
 
-        /// <summary>
-        /// Returns the output map file name.
-        /// </summary>
+        private readonly MultilingualUnicodeStringsContainer multilingualUnicodeStringsContainer = new MultilingualUnicodeStringsContainer();
+        private readonly Dictionary<string, AbideTagGroupFile> tagResources = new Dictionary<string, AbideTagGroupFile>();
+        private readonly string workspaceDirectory;
+        private readonly string scenarioFileName;
+        private HaloMap resourceMapFile;
+        private List<string> stringsList = new List<string>();
+        private TagId currentId = TagId.Null;
+        private int mapType = -1;
+
         public string OutputMapFileName { get; }
-        /// <summary>
-        /// Returns the map name.
-        /// </summary>
         public string MapName { get; }
-        /// <summary>
-        /// Returns the scenario tag path.
-        /// </summary>
         public string ScenarioPath { get; }
-        /// <summary>
-        /// Returns the scenario tag group file.
-        /// </summary>
         public AbideTagGroupFile ScenarioFile { get; } = new AbideTagGroupFile();
-        /// <summary>
-        /// Returns the sound cache file gestalt tag group file.
-        /// </summary>
         public AbideTagGroupFile SoundCacheFileGestaltFile { get; } = new AbideTagGroupFile();
-        /// <summary>
-        /// Returns the globals tag group file.
-        /// </summary>
         public AbideTagGroupFile GlobalsFile { get; } = new AbideTagGroupFile();
-        /// <summary>
-        /// Returns the sound classes tag group file.
-        /// </summary>
         public AbideTagGroupFile SoundClassesFile { get; } = new AbideTagGroupFile();
-        /// <summary>
-        /// Returns the combat dialog constants tag group file.
-        /// </summary>
         public AbideTagGroupFile CombatDialogueConstantFile { get; } = new AbideTagGroupFile();
-        /// <summary>
-        /// Returns the multiplayer globals tag group file.
-        /// </summary>
         public AbideTagGroupFile MultiplayerGlobalsFile { get; } = new AbideTagGroupFile();
         
-        private readonly string m_ScenarioFileName;
-        private readonly string m_WorkspaceDirectory;
-        private readonly MapFile m_ResourceMapFile = new MapFile();
-        private readonly Dictionary<string, AbideTagGroupFile> m_TagResources = new Dictionary<string, AbideTagGroupFile>();
-        private readonly MultilingualUnicodeStringsContainer m_MultilingualUnicodeStringsContainer = new MultilingualUnicodeStringsContainer();
-        private List<string> m_StringsList = new List<string>();
-        private TagId m_CurrentId = TagId.Null;
-        private int m_MapType = -1;
-
         public MapCompiler(string scenarioFileName, string workspaceDirectory)
         {
-            //Prepare
+            this.scenarioFileName = scenarioFileName;
+            this.workspaceDirectory = workspaceDirectory;
+            
             ScenarioPath = scenarioFileName.Replace(Path.Combine(workspaceDirectory, "tags"), string.Empty).Substring(1).Replace(".scenario", string.Empty);
             MapName = Path.GetFileName(ScenarioPath);
-            m_ScenarioFileName = scenarioFileName;
-            m_WorkspaceDirectory = workspaceDirectory;
-
-            //Get resulting map file
-            OutputMapFileName = Path.Combine(m_WorkspaceDirectory, "maps", $"{MapName}.map");
-            if (!Directory.Exists(Path.Combine(m_WorkspaceDirectory, "maps")))
-                Directory.CreateDirectory(Path.Combine(m_WorkspaceDirectory, "maps"));
+            OutputMapFileName = Path.Combine(this.workspaceDirectory, "maps", $"{MapName}.map");
         }
-
         public void Compile()
         {
-            //Prepare
             DateTime start = DateTime.Now;
 
-            //Read scenario
-            ScenarioFile.Load(m_ScenarioFileName);
-            m_MapType = (short)ScenarioFile.TagGroup[0].Fields[2].Value;
+            ScenarioFile.Load(scenarioFileName);
+            mapType = (short)ScenarioFile.TagGroup.TagBlocks[0].Fields[2].Value;
 
-            //Prepare
-            m_StringsList = new List<string>(DefaultStrings.GetDefaultStrings());
-            m_CurrentId = 0xe1740000;
+            stringsList = new List<string>(CommonStrings.GetCommonStrings());
+            currentId = 0xe1740000;
 
-            //Write
-            Console.WriteLine("Map: {0} ({1})", MapName, OutputMapFileName);
-
-            //Prepare globals
-            Console.WriteLine("Preparing tag resources...");
+            Console.WriteLine("Compile Map: {0} ({1})", MapName, OutputMapFileName);
+            Console.WriteLine("Preparing tag resources");
             Globals_Prepare();
-
-            //Prepare scenario
             Scenario_Prepare();
-
-            //Prepare sound cache file gestalt
             SoundCacheFileGestalt_Prepare();
 
-            //Build scenario resource tree
-            Console.WriteLine("Discovering tag references...");
+            Console.WriteLine("Discovering tag references");
             TagResources_Discover(ScenarioFile.TagGroup);
-
-            //Build multiplayer globals resource tree
             TagResources_Discover(MultiplayerGlobalsFile.TagGroup);
-
-            //Set multiplayer globals ID
-            MultiplayerGlobalsFile.Id = m_CurrentId++;
-
-            //Build globals resource tree
+            MultiplayerGlobalsFile.Id = currentId++;
             TagResources_Discover(GlobalsFile.TagGroup);
+            SoundCacheFileGestaltFile.Id = currentId++;
 
-            //Set sound cache file gestalt ID
-            SoundCacheFileGestaltFile.Id = m_CurrentId++;
+            Dictionary<string, AbideTagGroupFile> orderedTagResources = tagResources
+                .OrderBy(kvp => kvp.Value.Id)
+                .ToDictionary(x => x.Key, x => x.Value);
 
-            //Order resources
-            Dictionary<string, AbideTagGroupFile> orderedTagResources = m_TagResources.OrderBy(kvp => kvp.Value.Id).ToDictionary(x => x.Key, x => x.Value);
-
-            //Process
             foreach (KeyValuePair<string, AbideTagGroupFile> resource in orderedTagResources)
             {
-                //Process
-                Console.WriteLine("Processing {0} tag \'{1}\'", resource.Value.TagGroup.Name, resource.Key);
+                Console.WriteLine("Processing {0} tag \'{1}\'", resource.Value.TagGroup.GroupName, resource.Key);
                 TagFourCc groupTag = resource.Value.TagGroup.GroupTag;
 
-                //Check type
                 switch (resource.Value.TagGroup.GroupTag)
                 {
                     case HaloTags.unic:
@@ -151,44 +96,35 @@ namespace Abide.Compiler
                         break;
                 }
 
-                //Write and re-read
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 using (BinaryReader reader = new BinaryReader(ms))
                 {
-                    //Write tag group
                     resource.Value.TagGroup.Write(writer);
                     ms.Seek(0, SeekOrigin.Begin);
 
-                    //Re-initialize and read
                     resource.Value.TagGroup = Tag.Cache.Generated.TagLookup.CreateTagGroup(groupTag);
                     resource.Value.TagGroup.Read(reader);
                 }
             }
 
-            //Build file
             Map_BuildFile(orderedTagResources);
 
-            //Cleanup
-            m_ResourceMapFile.Close();
-            m_ResourceMapFile.Dispose();
-            m_TagResources.Clear();
-            m_MultilingualUnicodeStringsContainer.Clear();
-            m_StringsList.Clear();
-            m_CurrentId = TagId.Null;
-            m_MapType = -1;
+            resourceMapFile.Dispose();
+            tagResources.Clear();
+            multilingualUnicodeStringsContainer.Clear();
+            stringsList.Clear();
+            currentId = TagId.Null;
+            mapType = -1;
 
-            //Done
             Console.WriteLine("Cache file created in {0} seconds.", (DateTime.Now - start).TotalSeconds);
         }
 
         private void Map_BuildFile(Dictionary<string, AbideTagGroupFile> tagResources)
         {
-            //Get Tag References
             AbideTagGroupFile[] references = tagResources.Select(kvp => kvp.Value).ToArray();
             string[] tagNames = tagResources.Select(kvp => kvp.Key.Substring(0, kvp.Key.LastIndexOf('.'))).ToArray();
 
-            //Prepare
             StructureBspBlockHeader bspHeader = new StructureBspBlockHeader();
             Header header = Header.CreateDefault();
             Index index = new Index();
@@ -196,19 +132,18 @@ namespace Abide.Compiler
             ObjectEntry[] objects = new ObjectEntry[references.Length];
             long indexLength = 0, bspAddress = 0, bspLength = 0, tagDataAddress = 0, tagDataLength = 0;
 
-            //Create Map
+            string outputDirectory = Path.Combine(workspaceDirectory, "maps");
+            if (!Directory.Exists(outputDirectory))
+                Directory.CreateDirectory(outputDirectory);
+
             using (FileStream fs = new FileStream(OutputMapFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
             using (BinaryWriter mapWriter = new BinaryWriter(fs))
             using (BinaryReader mapReader = new BinaryReader(fs))
             {
-                //Setup
                 header.ScenarioPath = ScenarioPath;
                 header.Name = MapName;
 
-                //Skip header
                 fs.Seek(Header.Length, SeekOrigin.Begin);
-
-                //Write raws
                 foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound cache file gestalt
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
                 foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.mode))  //render model geometry
@@ -221,37 +156,25 @@ namespace Abide.Compiler
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
                 foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.DECR))  //decorator set geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
-                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound gestalt extra info
-                    SoundTagGroupFile_WriteExtraInfoRaws(reference.Value, fs, mapWriter);
                 foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.PRTM))  //particle model geometry
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
+                foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.ugh_))  //sound gestalt extra info geometry
+                    SoundTagGroupFile_WriteExtraInfoRaws(reference.Value, fs, mapWriter);
                 foreach (var reference in tagResources.Where(r => r.Value.TagGroup.GroupTag == HaloTags.jmad))  //model animation
                     TagGroupFile_WriteRaws(reference.Value, fs, mapWriter);
 
-                //Build
                 Console.WriteLine("Building map tag data table...");
-
-                //Create index
                 using (VirtualStream indexStream = new VirtualStream(Index.IndexVirtualAddress))
                 using (BinaryWriter indexWriter = new BinaryWriter(indexStream))
                 {
-                    //Skip header
                     indexStream.Seek(Index.Length, SeekOrigin.Current);
-
-                    //Skip tags
                     indexStream.Seek(tags.Length * TagHierarchy.Length, SeekOrigin.Current);
-
-                    //Skip objects
                     indexStream.Seek(objects.Length * ObjectEntry.Length, SeekOrigin.Current);
-
-                    //Align to 4096 bytes
                     indexStream.Align(4096, 0);
 
-                    //Get length
                     indexLength = indexStream.Length;
                 }
 
-                //Setup relevant information
                 header.IndexLength = (uint)indexLength;
                 index.TagsAddress = Index.IndexTagsAddress;
                 index.TagCount = (uint)tags.Length;
@@ -261,105 +184,79 @@ namespace Abide.Compiler
                 index.ObjectCount = (uint)references.Length;
                 index.Tags = "tags";
 
-                //Log
                 Console.WriteLine("Writing BSP tag data...");
-
-                //Get Structure BSPs
-                foreach (ITagBlock structureBsp in ScenarioFile.TagGroup[0].Fields[68].GetBlockList())
+                foreach (Block structureBsp in ScenarioFile.TagGroup.TagBlocks[0].Fields[68].GetBlockList())
                 {
-                    //Change field
                     structureBsp.Fields[0] = new StructField<Tag.Cache.Generated.ScenarioStructureBspInfoStructBlock>(string.Empty);
-                    ITagBlock scenarioStructureBspInfoStructBlock = (ITagBlock)structureBsp.Fields[0].Value;
+                    Block scenarioStructureBspInfoStructBlock = (Block)structureBsp.Fields[0].Value;
 
-                    //Write BSP
                     bspAddress = Index.IndexVirtualAddress + indexLength;
                     TagReference structureBspTagReference = (TagReference)structureBsp.Fields[1].Value;
                     TagReference structureLightmapReference = (TagReference)structureBsp.Fields[2].Value;
                     using (VirtualStream bspDataStream = new VirtualStream(bspAddress))
                     using (BinaryWriter writer = bspDataStream.CreateWriter())
                     {
-                        //Skip header
                         bspDataStream.Seek(StructureBspBlockHeader.Length, SeekOrigin.Current);
                         AbideTagGroupFile structureBspFile, structureLightmapFile;
                         if (tagResources.Any(kvp => kvp.Value.Id == structureBspTagReference.Id.Dword))
                         {
-                            //Write
                             bspHeader.StructureBspOffset = (uint)bspDataStream.Position;
                             structureBspFile = tagResources.First(kvp => kvp.Value.Id == structureBspTagReference.Id).Value;
                             structureBspFile.TagGroup.Write(writer);
-
-                            //Align
                             bspDataStream.Align(4096);
                         }
-                        bspHeader.StructureLightmapOffset = 0;
+
                         if (tagResources.Any(kvp => kvp.Value.Id == structureLightmapReference.Id.Dword))
                         {
-                            //Write
                             bspHeader.StructureLightmapOffset = (uint)bspDataStream.Position;
                             structureLightmapFile = tagResources.First(kvp => kvp.Value.Id == structureLightmapReference.Id).Value;
                             structureLightmapFile.TagGroup.Write(writer);
-
-                            //Align
                             bspDataStream.Align(4096);
                         }
 
-                        //Setup header
                         bspHeader.StructureBsp = HaloTags.sbsp;
                         bspHeader.BlockLength = (int)bspDataStream.Length;
 
-                        //Get length
                         if (bspDataStream.Length > bspLength)
                             bspLength = bspDataStream.Length;
 
-                        //Goto
                         bspDataStream.Seek(bspAddress, SeekOrigin.Begin);
                         writer.Write(bspHeader);
 
-                        //Set memory address
                         scenarioStructureBspInfoStructBlock.Fields[0].Value = (int)fs.Position;
                         scenarioStructureBspInfoStructBlock.Fields[1].Value = (int)bspDataStream.Length;
                         scenarioStructureBspInfoStructBlock.Fields[2].Value = (int)bspAddress;
 
-                        //Write
                         mapWriter.Write(bspDataStream.ToArray());
                     }
                 }
 
-                //Log
                 Console.WriteLine("Writing strings...");
-
-                //Write strings 128
-                header.StringCount = (uint)m_StringsList.Count;
+                header.StringCount = (uint)stringsList.Count;
                 header.Strings128Offset = (uint)fs.Position;
-                foreach (string stringId in m_StringsList)
+                foreach (string stringId in stringsList)
                     mapWriter.WriteUTF8(stringId.PadRight(128, '\0'));
 
-                //Write string index
                 int offset = 0;
                 header.StringsIndexOffset = (uint)fs.Align(512, 0);
-                foreach (string stringId in m_StringsList)
+                foreach (string stringId in stringsList)
                 {
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringId) + 1;
                 }
 
-                //Write string IDs
                 header.StringsOffset = (uint)fs.Align(512, 0);
-                foreach (string stringId in m_StringsList)
+                foreach (string stringId in stringsList)
                     mapWriter.WriteUTF8NullTerminated(stringId);
-                header.StringsLength = (uint)m_StringsList.Sum(s => Encoding.UTF8.GetByteCount(s) + 1);
+                header.StringsLength = (uint)stringsList.Sum(s => Encoding.UTF8.GetByteCount(s) + 1);
 
-                //Log
                 Console.WriteLine("Writing file names...");
-
-                //Write file names
                 header.FileNameCount = (uint)tagNames.Length;
                 header.FileNamesOffset = (uint)fs.Align(512, 0);
                 header.FileNamesLength = (uint)tagNames.Sum(s => Encoding.UTF8.GetByteCount(s) + 1);
                 foreach (string fileName in tagNames)
                     mapWriter.WriteUTF8NullTerminated(fileName);
 
-                //Write files Index
                 offset = 0;
                 header.FileNamesIndexOffset = (uint)fs.Align(512, 0);
                 foreach (var fileName in tagNames)
@@ -368,16 +265,13 @@ namespace Abide.Compiler
                     offset += Encoding.UTF8.GetByteCount(fileName) + 1;
                 }
 
-                //Log
                 Console.WriteLine("Writing multilingual unicode strings...");
-
-                //Write english unicode table
                 offset = 0;
                 uint enIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.En.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.En.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.En[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.En[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -385,19 +279,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.En)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.En)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.EnSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.EnSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write japanese unicode table
                 offset = 0;
                 uint jpIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Jp.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Jp.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Jp[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Jp[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -405,19 +298,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Jp)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Jp)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.JpSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.JpSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write german unicode table
                 offset = 0;
                 uint nlIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Nl.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Nl.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Nl[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Nl[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -425,19 +317,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Nl)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Nl)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.NlSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.NlSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write french unicode table
                 offset = 0;
                 uint frIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Fr.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Fr.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Fr[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Fr[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -445,19 +336,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Fr)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Fr)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.FrSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.FrSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write spanish unicode table
                 offset = 0;
                 uint esIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Es.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Es.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Es[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Es[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -465,19 +355,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Es)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Es)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.EsSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.EsSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write italian unicode table
                 offset = 0;
                 uint itIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.It.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.It.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.It[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.It[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -485,19 +374,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.It)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.It)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.ItSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.ItSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write korean unicode table
                 offset = 0;
                 uint krIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Kr.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Kr.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Kr[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Kr[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -505,19 +393,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Kr)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Kr)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.KrSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.KrSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write chinese unicode table
                 offset = 0;
                 uint zhIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Zh.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Zh.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Zh[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Zh[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -525,19 +412,18 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Zh)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Zh)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.ZhSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.ZhSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write portuguese unicode table
                 offset = 0;
                 uint prIndex = (uint)fs.Align(512, 0);
-                for (int i = 0; i < m_MultilingualUnicodeStringsContainer.Pr.Count; i++)
+                for (int i = 0; i < multilingualUnicodeStringsContainer.Pr.Count; i++)
                 {
-                    var stringObject = m_MultilingualUnicodeStringsContainer.Pr[i];
-                    mapWriter.Write(StringId.FromString(stringObject.ID, m_StringsList.IndexOf(stringObject.ID)));
+                    var stringObject = multilingualUnicodeStringsContainer.Pr[i];
+                    mapWriter.Write(StringId.FromString(stringObject.ID, stringsList.IndexOf(stringObject.ID)));
                     mapWriter.Write(offset);
                     offset += Encoding.UTF8.GetByteCount(stringObject.Value) + 1;
                 }
@@ -545,199 +431,158 @@ namespace Abide.Compiler
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    foreach (var stringObject in m_MultilingualUnicodeStringsContainer.Pr)
+                    foreach (var stringObject in multilingualUnicodeStringsContainer.Pr)
                         writer.WriteUTF8NullTerminated(stringObject.Value);
-                    m_MultilingualUnicodeStringsContainer.PrSize = (int)ms.Length;
+                    multilingualUnicodeStringsContainer.PrSize = (int)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 }
 
-                //Write credits into crazy
-                Console.WriteLine("Writing credits...");
+                Console.WriteLine("Writing crazy...");
                 header.CrazyOffset = (uint)fs.Align(512, 0);
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter writer = new BinaryWriter(ms))
                 {
-                    //Write credits
                     string credits = string.Format(Properties.Resources.Credits, DateTime.Now.ToLongDateString());
                     writer.WriteUTF8(credits);
                     header.CrazyLength = (uint)ms.Length;
                     mapWriter.Write(ms.ToArray());
                 };
 
-                //Write bitmaps
                 foreach (AbideTagGroupFile tagGroupFile in references.Where(r => r.TagGroup.GroupTag == HaloTags.bitm))  //bitmap
                     TagGroupFile_WriteRaws(tagGroupFile, fs, mapWriter);
 
-                //Log
                 Console.WriteLine("Writing index...");
-
-                //Write tags to virtual stream
                 tagDataAddress = bspAddress + bspLength;
                 using (VirtualStream tagDataStream = new VirtualStream(tagDataAddress))
                 using (BinaryWriter writer = new BinaryWriter(tagDataStream))
                 {
-                    //Loop through each reference
                     for (int i = 0; i < references.Length; i++)
                     {
-                        //Check
                         AbideTagGroupFile tagGroupFile = references[i];
                         objects[i] = new ObjectEntry() { Id = references[i].Id, Tag = references[i].TagGroup.GroupTag };
                         if (objects[i].Tag == HaloTags.sbsp || objects[i].Tag == HaloTags.ltmp) continue;
 
-                        //Write tag to virtual stream
                         using (VirtualStream tagStream = new VirtualStream(tagDataStream.Position))
                         using (BinaryWriter tagWriter = tagStream.CreateWriter())
                         {
-                            //Write
                             tagGroupFile.TagGroup.Write(tagWriter);
-
-                            //Get length and address
                             objects[i].Size = (uint)tagStream.Length;
-                            objects[i].Offset = (uint)tagStream.MemoryAddress;
+                            objects[i].Offset = (uint)tagStream.BaseAddress;
 
-                            //Write tag stream to the underlying tag data stream
                             writer.Write(tagStream.ToArray());
                         }
                     }
 
-                    //Align tag data
                     tagDataStream.Align(4096);
                     tagDataLength = tagDataStream.Length;
 
-                    //Write index
                     using (VirtualStream indexStream = new VirtualStream(Index.IndexVirtualAddress, new byte[indexLength]))
                     using (BinaryWriter indexWriter = indexStream.CreateWriter())
                     {
-                        //Write header
                         indexWriter.Write(index);
 
-                        //Write tags
                         foreach (TagHierarchy tag in tags)
                             indexWriter.Write(tag);
 
-                        //Write objects
                         foreach (ObjectEntry objectEntry in objects)
                             indexWriter.Write(objectEntry);
 
-                        //Setup header
                         header.IndexOffset = (uint)fs.Align(512, 0);
                         header.MapDataLength = (uint)(indexLength + bspLength + tagDataLength);
                         header.TagDataLength = (uint)tagDataLength;
 
-                        //Write index to map
                         mapWriter.Write(indexStream.ToArray());
                     }
 
-                    //Log
                     Console.WriteLine("Writing tag data...");
-
-                    //Write tag data
                     mapWriter.Write(tagDataStream.ToArray());
                 }
 
-                //Align
                 fs.Align(1024);
-
-                //Goto string information in globals
                 fs.Seek(header.IndexOffset + header.IndexLength + 400, SeekOrigin.Begin);
 
-                //write english
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.En.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.EnSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.En.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.EnSize);
                 mapWriter.Write(enIndex);
                 mapWriter.Write(enTable);
 
-                //write japanese
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Jp.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.JpSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Jp.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.JpSize);
                 mapWriter.Write(jpIndex);
                 mapWriter.Write(jpTable);
 
-                //write german
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Nl.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.NlSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Nl.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.NlSize);
                 mapWriter.Write(nlIndex);
                 mapWriter.Write(nlTable);
 
-                //write french
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Fr.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.FrSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Fr.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.FrSize);
                 mapWriter.Write(frIndex);
                 mapWriter.Write(frTable);
 
-                //write spanish
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Es.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.EsSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Es.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.EsSize);
                 mapWriter.Write(esIndex);
                 mapWriter.Write(esTable);
 
-                //write italian
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.It.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.ItSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.It.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.ItSize);
                 mapWriter.Write(itIndex);
                 mapWriter.Write(itTable);
 
-                //write korean
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Kr.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.KrSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Kr.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.KrSize);
                 mapWriter.Write(krIndex);
                 mapWriter.Write(krTable);
 
-                //write chinese
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Zh.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.ZhSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Zh.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.ZhSize);
                 mapWriter.Write(zhIndex);
                 mapWriter.Write(zhTable);
 
-                //write portuguese
                 fs.Seek(12, SeekOrigin.Current);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.Pr.Count);
-                mapWriter.Write(m_MultilingualUnicodeStringsContainer.PrSize);
+                mapWriter.Write(multilingualUnicodeStringsContainer.Pr.Count);
+                mapWriter.Write(multilingualUnicodeStringsContainer.PrSize);
                 mapWriter.Write(prIndex);
                 mapWriter.Write(prTable);
 
-                //Log
-                Console.WriteLine("Finalizing header...");
+                Console.WriteLine("Caculationg checksum...");
                 header.FileLength = (uint)fs.Length;
-
-                //Sign
                 header.Checksum = 0;
                 fs.Seek(2048, SeekOrigin.Begin);
                 for (int i = 0; i < (header.FileLength - 2048) / 4; i++)
                     header.Checksum ^= mapReader.ReadUInt32();
 
-                //Write header
+                Console.WriteLine("Writing header...");
                 fs.Seek(0, SeekOrigin.Begin);
                 mapWriter.Write(header);
             }
         }
-
         private void Tag_Process(AbideTagGroupFile file)
         {
             //Process
             Tag_Process(file.Id, file.TagGroup);
         }
-
-        private void Tag_Process(TagId ownerId, ITagGroup tagGroup)
+        private void Tag_Process(TagId ownerId, Group tagGroup)
         {
             //Loop
-            foreach (ITagBlock tagBlock in tagGroup)
+            foreach (Block tagBlock in tagGroup)
                 Tag_Process(ownerId, tagBlock);
         }
-
-        private void Tag_Process(TagId ownerId, ITagBlock tagBlock)
+        private void Tag_Process(TagId ownerId, Block tagBlock)
         {
             //Prepare
             Field field = null;
             string valueString = null;
-            
+
             //Loop
             for (int i = 0; i < tagBlock.Fields.Count; i++)
             {
@@ -749,46 +594,54 @@ namespace Abide.Compiler
                 switch (field.Type)
                 {
                     case FieldType.FieldBlock:
-                        foreach (ITagBlock nestedTagBlock in field.GetBlockList())
+                        foreach (Block nestedTagBlock in field.GetBlockList())
                             Tag_Process(ownerId, nestedTagBlock);
                         break;
 
                     case FieldType.FieldStruct:
-                        Tag_Process(ownerId, field.GetStruct());
+                        Tag_Process(ownerId, ((StructField)field).GetStruct());
                         break;
 
                     case FieldType.FieldStringId:
                         Tag.Cache.StringIdField stringIdField = new Tag.Cache.StringIdField(field.GetName());
                         if (!string.IsNullOrEmpty(valueString))
-                            stringIdField.Value = StringId.FromString(valueString, m_StringsList.IndexOf(valueString));
+                            stringIdField.Value = StringId.FromString(valueString, stringsList.IndexOf(valueString));
                         tagBlock.Fields[i] = stringIdField;
                         break;
                     case FieldType.FieldOldStringId:
                         Tag.Cache.OldStringIdField oldStringIdField = new Tag.Cache.OldStringIdField(field.GetName());
                         if (!string.IsNullOrEmpty(valueString))
-                            oldStringIdField.Value = StringId.FromString(valueString, m_StringsList.IndexOf(valueString));
+                            oldStringIdField.Value = StringId.FromString(valueString, stringsList.IndexOf(valueString));
                         tagBlock.Fields[i] = oldStringIdField;
                         break;
 
                     case FieldType.FieldTagReference:
                         Tag.Cache.TagReferenceField tagReferenceField = new Tag.Cache.TagReferenceField(field.GetName(), field.GetGroupTag());
                         TagReference tagReference = new TagReference() { Tag = tagReferenceField.GroupTag, Id = TagId.Null };
-                        if (!string.IsNullOrEmpty(valueString) && m_TagResources.ContainsKey(valueString))
-                            tagReference.Id = m_TagResources[valueString].Id;
+                        if (!string.IsNullOrEmpty(valueString) && tagResources.ContainsKey(valueString))
+                        {
+                            var resource = tagResources[valueString];
+                            tagReference.Id = resource.Id;
+                        }
+
                         tagReferenceField.Value = tagReference;
                         tagBlock.Fields[i] = tagReferenceField;
                         break;
                     case FieldType.FieldTagIndex:
                         Tag.Cache.TagIndexField tagIndexField = new Tag.Cache.TagIndexField(field.GetName());
-                        if (!string.IsNullOrEmpty(valueString) && m_TagResources.ContainsKey(valueString))
-                            tagIndexField.Value = m_TagResources[valueString].Id;
+                        if (!string.IsNullOrEmpty(valueString) && tagResources.ContainsKey(valueString))
+                        {
+                            var resource = tagResources[valueString];
+                            tagIndexField.Value = resource.Id;
+                        }
+
                         tagBlock.Fields[i] = tagIndexField;
                         break;
                 }
             }
 
             //Check tag block name
-            switch (tagBlock.Name)
+            switch (tagBlock.BlockName)
             {
                 case "global_geometry_block_info_struct_block":
                     tagBlock.Fields[6].Value = ownerId;     //self reference
@@ -799,10 +652,10 @@ namespace Abide.Compiler
                     break;
 
                 case "scenario_block":
-                    Tag.Cache.Generated.ScenarioSimulationDefinitionTableBlock tableBlock = null;
+                    Block tableBlock = null;
                     BlockList simulationDefinitionTableBlockList = tagBlock.Fields[143].GetBlockList();
                     simulationDefinitionTableBlockList.Clear();
-                    foreach (KeyValuePair<string, AbideTagGroupFile> tagResource in m_TagResources)
+                    foreach (KeyValuePair<string, AbideTagGroupFile> tagResource in tagResources)
                     {
                         switch (tagResource.Value.TagGroup.GroupTag)
                         {
@@ -846,15 +699,13 @@ namespace Abide.Compiler
 
             //TODO: I'm sure there are other blocks that possibly need some post-processing (think weapons and other tags with predicted resources)
         }
-
-        private void TagResources_Discover(ITagGroup tagGroup)
+        private void TagResources_Discover(Group tagGroup)
         {
             //Loop
-            foreach (ITagBlock tagBlock in tagGroup)
+            foreach (Block tagBlock in tagGroup)
                 TagResources_Discover(tagBlock);
         }
-
-        private void TagResources_Discover(ITagBlock tagBlock)
+        private void TagResources_Discover(Block tagBlock)
         {
             //Prepare
             string valueString = null;
@@ -871,7 +722,7 @@ namespace Abide.Compiler
                 switch (field.Type)
                 {
                     case FieldType.FieldBlock:
-                        foreach (ITagBlock nestedTagBlock in field.GetBlockList())
+                        foreach (Block nestedTagBlock in field.GetBlockList())
                             TagResources_Discover(nestedTagBlock);
                         break;
 
@@ -881,8 +732,8 @@ namespace Abide.Compiler
 
                     case FieldType.FieldStringId:
                     case FieldType.FieldOldStringId:
-                        if (!m_StringsList.Contains(valueString))
-                            m_StringsList.Add(valueString);
+                        if (!stringsList.Contains(valueString))
+                            stringsList.Add(valueString);
                         break;
 
                     case FieldType.FieldTagReference:
@@ -890,10 +741,10 @@ namespace Abide.Compiler
                         if (!string.IsNullOrEmpty(valueString))
                         {
                             //Get file name
-                            tagFileName = Path.Combine(m_WorkspaceDirectory, "tags", valueString);
+                            tagFileName = Path.Combine(workspaceDirectory, "tags", valueString);
 
                             //Check
-                            if (!m_TagResources.ContainsKey(valueString))
+                            if (!tagResources.ContainsKey(valueString))
                             {
                                 //Check
                                 if (!File.Exists(tagFileName))
@@ -904,8 +755,8 @@ namespace Abide.Compiler
                                 else
                                 {
                                     //Add
-                                    m_TagResources.Add(valueString, new AbideTagGroupFile() { Id = m_CurrentId++ });
-                                    tagFile = m_TagResources[valueString];
+                                    tagResources.Add(valueString, new AbideTagGroupFile() { Id = currentId++ });
+                                    tagFile = tagResources[valueString];
 
                                     //Load
                                     tagFile.Load(tagFileName);
@@ -919,85 +770,78 @@ namespace Abide.Compiler
                 }
             }
         }
-
         private void SoundCacheFileGestalt_Prepare()
         {
             //Setup
             SoundCacheFileGestaltFile.TagGroup = new Tag.Guerilla.Generated.SoundCacheFileGestalt();
 
             //Add default playback
-            ITagBlock playbackTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[0]).Add(out bool success);
+            Block playbackTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup.TagBlocks[0].Fields[0]).Add(out bool success);
             if (success)
             {
-                ITagBlock playbackParametersStructBlock = (ITagBlock)playbackTagBlock.Fields[0].Value;
+                Block playbackParametersStructBlock = (Block)playbackTagBlock.Fields[0].Value;
                 playbackParametersStructBlock.Fields[9].Value = (float)Math.PI;
                 playbackParametersStructBlock.Fields[10].Value = (float)Math.PI;
             }
 
             //Add default scale
-            ITagBlock scaleTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[1]).Add(out success);
+            Block scaleTagBlock = ((BlockField)SoundCacheFileGestaltFile.TagGroup.TagBlocks[0].Fields[1]).Add(out success);
             if (success)
             {
-                ITagBlock scaleModifiersStructBlock = (ITagBlock)scaleTagBlock.Fields[0].Value;
+                Block scaleModifiersStructBlock = (Block)scaleTagBlock.Fields[0].Value;
                 scaleModifiersStructBlock.Fields[3].Value = new FloatBounds(1f, 1f);
             }
 
             //Add flags
             for (int i = 0; i < 686; i++)
             {
-                ITagBlock runtimePermutationBitVector = ((BlockField)SoundCacheFileGestaltFile.TagGroup[0].Fields[7]).Add(out success);
+                Block runtimePermutationBitVector = ((BlockField)SoundCacheFileGestaltFile.TagGroup.TagBlocks[0].Fields[7]).Add(out success);
                 if (success) runtimePermutationBitVector.Fields[0].Value = (byte)0;
             }
 
             //Add
-            m_TagResources.Add($@"i've got a lovely bunch of coconuts.{SoundCacheFileGestaltFile.TagGroup.Name}", SoundCacheFileGestaltFile);
+            tagResources.Add($"i've got a lovely bunch of coconuts.sound_cache_file_gestalt", SoundCacheFileGestaltFile);
         }
-
         private void Globals_Prepare()
         {
-            //Read globals
-            switch (m_MapType)
+            switch (mapType)
             {
                 case 1:
-                    m_ResourceMapFile.Load(RegistrySettings.SharedFileName);
+                    resourceMapFile = new HaloMap(RegistrySettings.SharedFileName);
                     using (Stream stream = SharedResources.GetMultiplayerSharedGlobals())
                         GlobalsFile.Load(stream);
                     using (Stream stream = SharedResources.GetMultiplayerGlobals(true))
                         MultiplayerGlobalsFile.Load(stream);
                     break;
+
                 default: throw new Exception("Unable to compile map of specified type.");
             }
 
-            //Read sound classes
             using (Stream stream = SharedResources.GetSoundClasses())
                 SoundClassesFile.Load(stream);
 
-            //Read combat dialoge constant
             using (Stream stream = SharedResources.GetCombatDialogueConstants())
                 CombatDialogueConstantFile.Load(stream);
 
-            //Add
-            m_TagResources.Add(@"globals\globals.globals", GlobalsFile);
-            GlobalsFile.Id = m_CurrentId++;
-            m_TagResources.Add(@"sound\sound_classes.sound_classes", SoundClassesFile);
-            SoundClassesFile.Id = m_CurrentId++;
-            m_TagResources.Add(@"sound\combat_dialogue_constants.sound_dialogue_constants", CombatDialogueConstantFile);
-            CombatDialogueConstantFile.Id = m_CurrentId++;
-            m_TagResources.Add(@"multiplayer\multiplayer_globals.multiplayer_globals", MultiplayerGlobalsFile);
+            tagResources.Add(@"globals\globals.globals", GlobalsFile);
+            GlobalsFile.Id = currentId++;
+            tagResources.Add(@"sound\sound_classes.sound_classes", SoundClassesFile);
+            SoundClassesFile.Id = currentId++;
+            tagResources.Add(@"sound\combat_dialogue_constants.sound_dialogue_constants", CombatDialogueConstantFile);
+            CombatDialogueConstantFile.Id = currentId++;
+            tagResources.Add(@"multiplayer\multiplayer_globals.multiplayer_globals", MultiplayerGlobalsFile);
         }
-
         private void Scenario_Prepare()
         {
             //Add
-            m_TagResources.Add($"{ScenarioPath}.{ScenarioFile.TagGroup.Name}", ScenarioFile);
-            ScenarioFile.Id = m_CurrentId++;
+            tagResources.Add($"{ScenarioPath}.{ScenarioFile.TagGroup.GroupName}", ScenarioFile);
+            ScenarioFile.Id = currentId++;
         }
-
         private void MultilingualUnicodeStringList_Process(AbideTagGroupFile tagGroupFile)
         {
             //Prepare
             StringContainer strings = new StringContainer();
-            byte[] stringData = tagGroupFile.TagGroup[0].Fields[1].GetData();
+            byte[] stringData = tagGroupFile.TagGroup.TagBlocks[0].Fields[1].GetData();
             string unicodeString = string.Empty;
             string stringId = string.Empty;
             int offset = 0;
@@ -1007,14 +851,14 @@ namespace Abide.Compiler
             using (BinaryReader reader = new BinaryReader(ms))
             {
                 //Loop
-                foreach (ITagBlock stringReferenceBlock in tagGroupFile.TagGroup[0].Fields[0].GetBlockList())
+                foreach (Block stringReferenceBlock in tagGroupFile.TagGroup.TagBlocks[0].Fields[0].GetBlockList())
                 {
                     //Get string ID
                     stringId = (string)stringReferenceBlock.Fields[0].Value;
 
                     //Add string
-                    if (!m_StringsList.Contains(stringId))
-                        m_StringsList.Add(stringId);
+                    if (!stringsList.Contains(stringId))
+                        stringsList.Add(stringId);
 
                     //Goto English
                     offset = (int)stringReferenceBlock.Fields[1].Value;
@@ -1101,74 +945,75 @@ namespace Abide.Compiler
 
             //Process tag
             tagGroupFile.TagGroup = new Tag.Cache.Generated.MultilingualUnicodeStringList();
-            byte[] padding = (byte[])((PadField)tagGroupFile.TagGroup[0].Fields[2]).Value;
+            byte[] padding = (byte[])((PadField)tagGroupFile.TagGroup.TagBlocks[0].Fields[2]).Value;
             using (MemoryStream ms = new MemoryStream(padding))
             using (BinaryWriter writer = new BinaryWriter(ms))
             {
                 //Write English
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.En.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.En.Count);
                 writer.Write((ushort)strings.English.Count);
-                m_MultilingualUnicodeStringsContainer.En.AddRange(strings.English);
+                multilingualUnicodeStringsContainer.En.AddRange(strings.English);
 
                 //Write Japanese
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Jp.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Jp.Count);
                 writer.Write((ushort)strings.Japanese.Count);
-                m_MultilingualUnicodeStringsContainer.Jp.AddRange(strings.Japanese);
+                multilingualUnicodeStringsContainer.Jp.AddRange(strings.Japanese);
 
                 //Write German
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Nl.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Nl.Count);
                 writer.Write((ushort)strings.German.Count);
-                m_MultilingualUnicodeStringsContainer.Nl.AddRange(strings.German);
+                multilingualUnicodeStringsContainer.Nl.AddRange(strings.German);
 
                 //Write French
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Fr.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Fr.Count);
                 writer.Write((ushort)strings.French.Count);
-                m_MultilingualUnicodeStringsContainer.Fr.AddRange(strings.French);
+                multilingualUnicodeStringsContainer.Fr.AddRange(strings.French);
 
                 //Write Spanish
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Es.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Es.Count);
                 writer.Write((ushort)strings.Spanish.Count);
-                m_MultilingualUnicodeStringsContainer.Es.AddRange(strings.Spanish);
+                multilingualUnicodeStringsContainer.Es.AddRange(strings.Spanish);
 
                 //Write Italian
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.It.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.It.Count);
                 writer.Write((ushort)strings.Italian.Count);
-                m_MultilingualUnicodeStringsContainer.It.AddRange(strings.Italian);
+                multilingualUnicodeStringsContainer.It.AddRange(strings.Italian);
 
                 //Write Korean
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Kr.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Kr.Count);
                 writer.Write((ushort)strings.Korean.Count);
-                m_MultilingualUnicodeStringsContainer.Kr.AddRange(strings.Korean);
+                multilingualUnicodeStringsContainer.Kr.AddRange(strings.Korean);
 
                 //Write Chinese
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Zh.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Zh.Count);
                 writer.Write((ushort)strings.Chinese.Count);
-                m_MultilingualUnicodeStringsContainer.Zh.AddRange(strings.Chinese);
+                multilingualUnicodeStringsContainer.Zh.AddRange(strings.Chinese);
 
                 //Write Portuguese
-                writer.Write((ushort)m_MultilingualUnicodeStringsContainer.Pr.Count);
+                writer.Write((ushort)multilingualUnicodeStringsContainer.Pr.Count);
                 writer.Write((ushort)strings.Portuguese.Count);
-                m_MultilingualUnicodeStringsContainer.Pr.AddRange(strings.Portuguese);
+                multilingualUnicodeStringsContainer.Pr.AddRange(strings.Portuguese);
             }
         }
-
         private void Sound_Process(AbideTagGroupFile tagGroupFile)
         {
             //Prepare
-            ITagGroup soundCacheFileGestalt = SoundCacheFileGestaltFile.TagGroup;
-            ITagGroup cacheFileSound = new Tag.Cache.Generated.Sound();
-            ITagGroup sound = tagGroupFile.TagGroup;
+            Group soundCacheFileGestalt = SoundCacheFileGestaltFile.TagGroup;
+            Group cacheFileSound = new Tag.Cache.Generated.Sound();
+            Group sound = tagGroupFile.TagGroup;
             bool success = false;
             int index = 0;
 
             //Get tag blocks
-            ITagBlock soundCacheFileGestaltBlock = soundCacheFileGestalt[0];
-            ITagBlock cacheFileSoundBlock = cacheFileSound[0];
-            ITagBlock soundBlock = sound[0];
+            Block soundCacheFileGestaltBlock = soundCacheFileGestalt.TagBlocks[0];
+            Block cacheFileSoundBlock = cacheFileSound.TagBlocks[0];
+            Block soundBlock = sound.TagBlocks[0];
 
             //Transfer raws
             foreach (int rawOffset in tagGroupFile.GetRawOffsets())
+            {
                 SoundCacheFileGestaltFile.SetRaw(rawOffset, tagGroupFile.GetRaw(rawOffset));
+            }
 
             //Get block fields from sound cache file gestalt
             BlockField playbacks = (BlockField)soundCacheFileGestaltBlock.Fields[0];
@@ -1194,64 +1039,64 @@ namespace Abide.Compiler
             cacheFileSoundBlock.Fields[4].Value = soundBlock.Fields[10].Value;              //compression
 
             //Read 'extra' data that I chose to store in a pad field
-            bool validPromotion = false;
             using (MemoryStream ms = new MemoryStream((byte[])soundBlock.Fields[12].Value))
             using (BinaryReader reader = new BinaryReader(ms))
             {
-                cacheFileSoundBlock.Fields[12].Value = reader.ReadInt32();  //max playback time
-                validPromotion = reader.ReadByte() != C_NullByte;
+                int maxPlaybackTime = reader.ReadInt32();  //max playback time
+                if (reader.ReadByte() != NullByte)
+                    cacheFileSoundBlock.Fields[12].Value = maxPlaybackTime;
             }
 
             //Add or get playback index
-            cacheFileSoundBlock.Fields[5].Value = (short)SoundGestalt_FindPlaybackIndex((ITagBlock)soundBlock.Fields[5].Value);
+            cacheFileSoundBlock.Fields[5].Value = (short)SoundGestalt_FindPlaybackIndex((Block)soundBlock.Fields[5].Value);
 
             //Add scale
-            cacheFileSoundBlock.Fields[8].Value = (byte)(sbyte)SoundGestalt_FindScaleIndex((ITagBlock)soundBlock.Fields[6].Value);
+            cacheFileSoundBlock.Fields[8].Value = (byte)(sbyte)SoundGestalt_FindScaleIndex((Block)soundBlock.Fields[6].Value);
 
             //Add promotion
-            ITagBlock soundPromotionParametersStruct = (ITagBlock)soundBlock.Fields[11].Value;
+            Block soundPromotionParametersStruct = (Block)soundBlock.Fields[11].Value;
             if (soundPromotionParametersStruct.Fields[0].GetBlockList().Count > 0)
-                cacheFileSoundBlock.Fields[9].Value = (byte)(sbyte)SoundGestalt_FindPromotionIndex((ITagBlock)soundBlock.Fields[11].Value);
-            else cacheFileSoundBlock.Fields[9].Value = C_NullByte;
+                cacheFileSoundBlock.Fields[9].Value = (byte)(sbyte)SoundGestalt_FindPromotionIndex((Block)soundBlock.Fields[11].Value);
+            else cacheFileSoundBlock.Fields[9].Value = NullByte;
 
             //Add custom playback
             if (soundBlock.Fields[14].GetBlockList().Count > 0)
             {
                 index = customPlaybacks.BlockList.Count;
-                ITagBlock customPlayback = customPlaybacks.Add(out success);
+                Block customPlayback = customPlaybacks.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[10].Value = (byte)index;
                     customPlayback.Fields[0].Value = (ITagBlock)soundBlock.Fields[14].GetBlockList()[0].Fields[0].Value;
                 }
-                else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
+                else cacheFileSoundBlock.Fields[10].Value = NullByte;
             }
-            else cacheFileSoundBlock.Fields[10].Value = C_NullByte;
+            else cacheFileSoundBlock.Fields[10].Value = NullByte;
 
             //Add extra info
             if (soundBlock.Fields[15].GetBlockList().Count > 0)
             {
                 index = extraInfos.BlockList.Count;
-                ITagBlock soundExtraInfo = soundBlock.Fields[15].GetBlockList()[0];
-                ITagBlock extraInfo = extraInfos.Add(out success);
+                Block soundExtraInfo = soundBlock.Fields[15].GetBlockList()[0];
+                Block extraInfo = extraInfos.Add(out success);
                 if (success)
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
-                    ((ITagBlock)extraInfo.Fields[1].Value).Fields[6].Value = new StringValue($"i've got a lovely bunch of coconuts.{soundCacheFileGestalt.Name}");
-                    foreach (ITagBlock block in soundExtraInfo.Fields[1].GetBlockList())
+                    ((Block)extraInfo.Fields[1].Value).Fields[6].Value = new StringValue($"i've got a lovely bunch of coconuts.sound_cache_file_gestalt");
+                    foreach (Block block in soundExtraInfo.Fields[1].GetBlockList())
                         soundExtraInfo.Fields[1].GetBlockList().Add(block);
                 }
-                else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
+                else cacheFileSoundBlock.Fields[11].Value = NullShort;
             }
-            else cacheFileSoundBlock.Fields[11].Value = C_NullShort;
+            else cacheFileSoundBlock.Fields[11].Value = NullShort;
 
             //Add pitch range
             cacheFileSoundBlock.Fields[7].Value = (byte)((BlockField)soundBlock.Fields[13]).BlockList.Count;
             foreach (var soundPitchRange in ((BlockField)soundBlock.Fields[13]).BlockList)
             {
                 index = pitchRanges.BlockList.Count;
-                ITagBlock gestaltPitchRange = pitchRanges.Add(out success);
+                Block gestaltPitchRange = pitchRanges.Add(out success);
                 if (success)
                 {
                     //Set pitch range
@@ -1269,9 +1114,9 @@ namespace Abide.Compiler
                     gestaltPitchRange.Fields[5].Value = (short)((BlockField)soundPitchRange.Fields[7]).BlockList.Count;
 
                     //Loop
-                    foreach (ITagBlock soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
+                    foreach (Block soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
                     {
-                        ITagBlock gestaltPermutation = permutations.Add(out success);
+                        Block gestaltPermutation = permutations.Add(out success);
                         if (success)
                         {
                             //Add import name
@@ -1289,33 +1134,36 @@ namespace Abide.Compiler
                             gestaltPermutation.Fields[7].Value = (short)((BlockField)soundPermutation.Fields[6]).BlockList.Count;
 
                             //Loop
-                            foreach (ITagBlock soundChunk in ((BlockField)soundPermutation.Fields[6]).BlockList)
+                            foreach (Block soundChunk in ((BlockField)soundPermutation.Fields[6]).BlockList)
+                            {
                                 chunks.BlockList.Add(soundChunk);
+                                int offset = (int)soundChunk.Fields[0].Value;
+                                if ((offset & 0xc0000000) == 0 && tagGroupFile.GetRaw(offset) == null) System.Diagnostics.Debugger.Break();
+                            }
                         }
                         else
                         {
-                            gestaltPitchRange.Fields[4].Value = C_NullShort;
+                            gestaltPitchRange.Fields[4].Value = NullShort;
                             gestaltPitchRange.Fields[5].Value = (short)0;
                         }
                     }
                 }
                 else
                 {
-                    cacheFileSoundBlock.Fields[6].Value = C_NullShort;
-                    cacheFileSoundBlock.Fields[7].Value = C_NullByte;
+                    cacheFileSoundBlock.Fields[6].Value = NullShort;
+                    cacheFileSoundBlock.Fields[7].Value = NullByte;
                 }
             }
         }
-
         private int SoundGestalt_FindPitchRangeParameter(short s1, ShortBounds sb1, ShortBounds sb2)
         {
             //Prepare
-            ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
+            Block soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup.TagBlocks[0];
             BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[3];
             int index = -1;
 
             //Check
-            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            foreach (Block gestaltBlock in blockField.BlockList)
             {
                 if ((short)gestaltBlock.Fields[0].Value == s1)
                     if (((ShortBounds)gestaltBlock.Fields[1].Value).Equals(sb1))
@@ -1330,7 +1178,7 @@ namespace Abide.Compiler
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                Block gestaltBlock = blockField.Add(out bool success);
                 if (success)
                 {
                     gestaltBlock.Fields[0].Value = s1;
@@ -1344,16 +1192,15 @@ namespace Abide.Compiler
             //return
             return index;
         }
-
         private int SoundGestalt_FindImportNameIndex(string stringId)
         {
             //Prepare
-            ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
+            Block soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup.TagBlocks[0];
             BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[2];
             int index = -1;
 
             //Check
-            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            foreach (Block gestaltBlock in blockField.BlockList)
             {
                 if (((string)gestaltBlock.Fields[0].Value).Equals(stringId))
                 {
@@ -1366,7 +1213,7 @@ namespace Abide.Compiler
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                Block gestaltBlock = blockField.Add(out bool success);
                 if (success) gestaltBlock.Fields[0].Value = stringId;
                 else index = -1;
             }
@@ -1374,18 +1221,17 @@ namespace Abide.Compiler
             //return
             return index;
         }
-
-        private int SoundGestalt_FindPromotionIndex(ITagBlock structBlock)
+        private int SoundGestalt_FindPromotionIndex(Block structBlock)
         {
             //Prepare
-            ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
+            Block soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup.TagBlocks[0];
             BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[9];
             int index = -1;
 
             //Check
-            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            foreach (Block gestaltBlock in blockField.BlockList)
             {
-                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                if (((Block)gestaltBlock.Fields[0].Value).Equals(structBlock))
                 {
                     index = blockField.BlockList.IndexOf(gestaltBlock);
                     break;
@@ -1396,7 +1242,7 @@ namespace Abide.Compiler
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                Block gestaltBlock = blockField.Add(out bool success);
                 if (success) gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
@@ -1404,18 +1250,17 @@ namespace Abide.Compiler
             //return
             return index;
         }
-
-        private int SoundGestalt_FindScaleIndex(ITagBlock structBlock)
+        private int SoundGestalt_FindScaleIndex(Block structBlock)
         {
             //Prepare
-            ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
+            Block soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup.TagBlocks[0];
             BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[1];
             int index = -1;
 
             //Check
-            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            foreach (Block gestaltBlock in blockField.BlockList)
             {
-                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                if (((Block)gestaltBlock.Fields[0].Value).Equals(structBlock))
                 {
                     index = blockField.BlockList.IndexOf(gestaltBlock);
                     break;
@@ -1426,7 +1271,7 @@ namespace Abide.Compiler
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                Block gestaltBlock = blockField.Add(out bool success);
                 if (success)
                 {
                     gestaltBlock.Fields[0].Value = structBlock;
@@ -1438,18 +1283,17 @@ namespace Abide.Compiler
             //return
             return index;
         }
-
-        private int SoundGestalt_FindPlaybackIndex(ITagBlock structBlock)
+        private int SoundGestalt_FindPlaybackIndex(Block structBlock)
         {
             //Prepare
-            ITagBlock soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup[0];
+            Block soundCacheFileGestaltBlock = SoundCacheFileGestaltFile.TagGroup.TagBlocks[0];
             BlockField blockField = (BlockField)soundCacheFileGestaltBlock.Fields[0];
             int index = -1;
 
             //Check
-            foreach (ITagBlock gestaltBlock in blockField.BlockList)
+            foreach (Block gestaltBlock in blockField.BlockList)
             {
-                if (TagBlock_Equals((ITagBlock)gestaltBlock.Fields[0].Value, structBlock))
+                if (((Block)gestaltBlock.Fields[0].Value).Equals(structBlock))
                 {
                     index = blockField.BlockList.IndexOf(gestaltBlock);
                     break;
@@ -1460,7 +1304,7 @@ namespace Abide.Compiler
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                ITagBlock gestaltBlock = blockField.Add(out bool success);
+                Block gestaltBlock = blockField.Add(out bool success);
                 if (success) gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
@@ -1468,50 +1312,6 @@ namespace Abide.Compiler
             //return
             return index;
         }
-
-        private bool TagBlock_Equals(ITagBlock b1, ITagBlock b2)
-        {
-            //Start
-            bool equals = b1.Fields.Count == b2.Fields.Count && b1.Name == b2.Name;
-
-            //Check
-            if (equals)
-                for (int i = 0; i < b1.Fields.Count; i++)
-                {
-                    if (!equals) break;
-                    Field f1 = b1.Fields[i], f2 = b2.Fields[i];
-                    equals &= f1.Type == f2.Type;
-                    if (equals)
-                        switch (b1.Fields[i].Type)
-                        {
-                            case FieldType.FieldBlock:
-                                BlockField bf1 = (BlockField)f1;
-                                BlockField bf2 = (BlockField)f2;
-                                equals &= bf1.BlockList.Count == bf2.BlockList.Count;
-                                if (equals)
-                                    for (int j = 0; j < bf1.BlockList.Count; j++)
-                                        if (equals) equals = TagBlock_Equals(bf1.BlockList[j], bf2.BlockList[j]);
-                                break;
-                            case FieldType.FieldStruct:
-                                equals &= TagBlock_Equals((ITagBlock)f1.Value, (ITagBlock)f2.Value);
-                                break;
-                            case FieldType.FieldPad:
-                                PadField pf1 = (PadField)f1;
-                                PadField pf2 = (PadField)f2;
-                                for (int j = 0; j < pf1.Length; j++)
-                                    if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
-                                break;
-                            default:
-                                if (f1.Value == null && f2.Value == null) continue;
-                                else equals &= f1.Value.Equals(f2.Value);
-                                break;
-                        }
-                }
-
-            //Return
-            return equals;
-        }
-
         private void TagGroupFile_WriteRaws(AbideTagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
         {
             //Check
@@ -1536,7 +1336,7 @@ namespace Abide.Compiler
                 {
                     #region sound cache file gestalt
                     case HaloTags.ugh_:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(64, SeekOrigin.Begin);
                         TagBlock chunks = reader.Read<TagBlock>();
                         for (int i = 0; i < chunks.Count; i++)
@@ -1545,7 +1345,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1564,7 +1364,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1578,7 +1378,7 @@ namespace Abide.Compiler
                     #endregion
                     #region render model
                     case HaloTags.mode:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(36, SeekOrigin.Begin);
                         TagBlock sections = reader.Read<TagBlock>();
                         for (int i = 0; i < sections.Count; i++)
@@ -1587,7 +1387,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1606,7 +1406,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1620,7 +1420,7 @@ namespace Abide.Compiler
                     #endregion
                     #region weather system
                     case HaloTags.weat:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(0, SeekOrigin.Begin);
                         TagBlock particleSystem = reader.Read<TagBlock>();
                         for (int i = 0; i < particleSystem.Count; i++)
@@ -1629,7 +1429,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1643,12 +1443,12 @@ namespace Abide.Compiler
                     #endregion
                     #region decorator set
                     case HaloTags.DECR:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(56, SeekOrigin.Begin);
                         offsetAddress = tagStream.Position;
                         rawAddress = reader.ReadUInt32();
 
-                        if ((rawAddress & C_LocationMask) == 0)
+                        if ((rawAddress & LocationMask) == 0)
                         {
                             modified = true;
                             rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1661,12 +1461,12 @@ namespace Abide.Compiler
                     #endregion
                     #region particle model
                     case HaloTags.PRTM:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(160, SeekOrigin.Begin);
                         offsetAddress = tagStream.Position;
                         rawAddress = reader.ReadUInt32();
 
-                        if ((rawAddress & C_LocationMask) == 0)
+                        if ((rawAddress & LocationMask) == 0)
                         {
                             modified = true;
                             rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1679,7 +1479,7 @@ namespace Abide.Compiler
                     #endregion
                     #region model animation graph
                     case HaloTags.jmad:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(172, SeekOrigin.Begin);
                         TagBlock xboxAnimationData = reader.Read<TagBlock>();
                         for (int i = 0; i < xboxAnimationData.Count; i++)
@@ -1688,7 +1488,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1702,7 +1502,7 @@ namespace Abide.Compiler
                     #endregion
                     #region scenario structure bsp
                     case HaloTags.sbsp:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(156, SeekOrigin.Begin);
                         TagBlock clusters = reader.Read<TagBlock>();
                         for (int i = 0; i < clusters.Count; i++)
@@ -1711,7 +1511,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1730,7 +1530,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1749,7 +1549,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1772,7 +1572,7 @@ namespace Abide.Compiler
                                 offsetAddress = tagStream.Position;
                                 rawAddress = reader.ReadUInt32();
 
-                                if ((rawAddress & C_LocationMask) == 0)
+                                if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
                                     rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1787,7 +1587,7 @@ namespace Abide.Compiler
                     #endregion
                     #region scenario structure lightmap
                     case HaloTags.ltmp:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(128, SeekOrigin.Begin);
                         TagBlock lightmapGroups = reader.Read<TagBlock>();
                         for (int i = 0; i < lightmapGroups.Count; i++)
@@ -1800,7 +1600,7 @@ namespace Abide.Compiler
                                 offsetAddress = tagStream.Position;
                                 rawAddress = reader.ReadUInt32();
 
-                                if ((rawAddress & C_LocationMask) == 0)
+                                if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
                                     rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1819,7 +1619,7 @@ namespace Abide.Compiler
                                 offsetAddress = tagStream.Position;
                                 rawAddress = reader.ReadUInt32();
 
-                                if ((rawAddress & C_LocationMask) == 0)
+                                if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
                                     rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1838,7 +1638,7 @@ namespace Abide.Compiler
                                 offsetAddress = tagStream.Position;
                                 rawAddress = reader.ReadUInt32();
 
-                                if ((rawAddress & C_LocationMask) == 0)
+                                if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
                                     rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1853,7 +1653,7 @@ namespace Abide.Compiler
                     #endregion
                     #region bitmap
                     case HaloTags.bitm:
-                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.Name);
+                        Console.WriteLine("Writing {0} data", tagGroupFile.TagGroup.GroupName);
                         tagStream.Seek(68, SeekOrigin.Begin);
                         TagBlock bitmapData = reader.Read<TagBlock>();
                         for (int i = 0; i < bitmapData.Count; i++)
@@ -1862,7 +1662,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1876,7 +1676,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1890,7 +1690,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1904,7 +1704,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1918,7 +1718,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1932,7 +1732,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);
@@ -1954,7 +1754,6 @@ namespace Abide.Compiler
                 }
             }
         }
-
         private void SoundTagGroupFile_WriteExtraInfoRaws(AbideTagGroupFile tagGroupFile, Stream mapFileStream, BinaryWriter mapFileWriter)
         {
             //Check
@@ -1985,7 +1784,7 @@ namespace Abide.Compiler
                             offsetAddress = tagStream.Position;
                             rawAddress = reader.ReadUInt32();
 
-                            if ((rawAddress & C_LocationMask) == 0)
+                            if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
                                 rawData = tagGroupFile.GetRaw((int)rawAddress);

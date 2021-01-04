@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_swarm_block" DisplayName="character_swarm_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="14">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldShortInteger Index="1" Name="scatter killed count#After the given number of deaths, the swarm scatters" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldReal Index="3" Name="scatter radius#the distance from the target that the swarm scatters" />
+		<FieldReal Index="4" Name="scatter time#amount of time to remain scattered" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldReal Index="6" Name="hound min distance" />
+		<FieldReal Index="7" Name="hound max distance" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldReal Index="9" Name="perlin offset scale:[0-1]#amount of randomness added to creature's throttle" />
+		<FieldRealBounds Index="10" Name="offset period:s#how fast the creature changes random offset to throttle" />
+		<FieldReal Index="11" Name="perlin idle movement threshold:[0-1]#a random offset lower then given threshold is made 0. (threshold of 1 = no movement)" />
+		<FieldReal Index="12" Name="perlin combat movement threshold:[0-1]#a random offset lower then given threshold is made 0. (threshold of 1 = no movement)" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

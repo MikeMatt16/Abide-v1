@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_firing_pattern_properties_block" DisplayName="character_firing_pattern_properties_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="4">
+		<FieldTagReference Index="0" Name="weapon^" GroupTag="2003132784" />
+		<FieldUselessPad Index="1" Name="" />
+		<FieldBlock Index="2" Name="firing patterns" BlockName="character_firing_pattern_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

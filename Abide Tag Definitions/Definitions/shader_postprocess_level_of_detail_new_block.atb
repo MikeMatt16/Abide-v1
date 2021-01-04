@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_level_of_detail_new_block" DisplayName="shader_postprocess_level_of_detail_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongInteger Index="0" Name="available layer flags" />
+		<FieldStruct Index="1" Name="layers" StructName="tag_block_index_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

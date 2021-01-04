@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenery_block" DisplayName="scenery" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldExplanation Index="0" Name="Pathfinding" Explanation="Indicate whether, by default, we should create pathfinding data for this type of scenery" />
+		<FieldEnum Index="1" Name="pathfinding policy">
+			<Option Name="Pathfinding CUT-OUT" />
+			<Option Name="Pathfinding STATIC" />
+			<Option Name="Pathfinding DYNAMIC" />
+			<Option Name="Pathfinding NONE" />
+		</FieldEnum>
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="physically simulates#stimulates?" />
+		</FieldWordFlags>
+		<FieldExplanation Index="3" Name="Lightmapping" Explanation="Indicate whether, by default, how we should lightmap this type of scenery" />
+		<FieldEnum Index="4" Name="lightmapping policy">
+			<Option Name="Per-Vertex" />
+			<Option Name="Per-Pixel (not implemented)" />
+			<Option Name="Dynamic" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

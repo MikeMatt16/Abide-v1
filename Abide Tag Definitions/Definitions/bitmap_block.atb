@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bitmap_block" DisplayName="bitmap" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="37">
+		<FieldCustom Index="0" Name="" />
+		<FieldExplanation Index="1" Name="Type" Explanation="Type controls bitmap geometry. All dimensions must be a power of 2 except for SPRITES and INTERFACE BITMAPS:|n|n* 2D TEXTURES: Ordinary 2D textures will be generated.|n* 3D TEXTURES: Volume textures will be generated from each sequence of 2D texture slices.|n* CUBE MAPS: Generated from each consecutive set of six 2D textures in each sequence, all faces of a cube map must be square and the same size.|n* SPRITES: Sprite texture pages will be generated.|n* INTERFACE BITMAPS: Similar to 2D TEXTURES but without mipmaps and without the power of 2 restriction." />
+		<FieldEnum Index="2" Name="Type">
+			<Option Name="2D Textures" />
+			<Option Name="3D Textures" />
+			<Option Name="Cube Maps" />
+			<Option Name="Sprites" />
+			<Option Name="Interface Bitmaps" />
+		</FieldEnum>
+		<FieldExplanation Index="3" Name="Format" Explanation="Format controls how pixels will be stored internally:|n|n* COMPRESSED WITH COLOR-KEY TRANSPARENCY: DXT1 compression, using 4 bits/pixel. 4-x-4 blocks of pixels, are reduced to two colors and interpolated, alpha channel uses color-key transparency instead of alpha from the plate (all zero-alpha pixels also have zero-color).|n* COMPRESSED WITH EXPLICIT ALPHA: DXT2/3 compression, using 8 bits/pixel. Same as DXT1 without the color key transparency, alpha channel uses alpha from plate quantized down to 4 bits/pixel.|n* COMPRESSED WITH INTERPOLATED ALPHA: DXT4/5 compression, using 8 bits/pixel. Same as DXT2/3, except alpha is smoother. Better for smooth alpha gradients, but worse for noisy alpha.|n* 16-BIT COLOR: Uses 16 bits/pixel. Depending on the alpha channel, bitmaps are quantized to either r5g6b5 (no alpha), a1r5g5b5 (1-bit alpha), or a4r4g4b4 (&gt;1-bit alpha).|n* 32-BIT COLOR: Uses 32 bits/pixel. Very high quality and can have alpha at no added cost. This format takes up the most memory, however. Bitmap formats are x8r8g8b8 and a8r8g8b.|n* MONOCHROME: Uses either 8 or 16 bits/pixel. Bitmap formats are a8 (alpha), y8 (intensity), ay8 (combined alpha intensity), and a8y8 (separate alpha intensity)." />
+		<FieldEnum Index="4" Name="Format">
+			<Option Name="Compressed with Color-Key Transparency" />
+			<Option Name="Compressed with Explicit Alpha" />
+			<Option Name="Compressed with Interpolated Alpha" />
+			<Option Name="16-Bit Color" />
+			<Option Name="32-Bit Color" />
+			<Option Name="Monochrome" />
+		</FieldEnum>
+		<FieldExplanation Index="5" Name="Usage" Explanation="Usage controls how mipmaps are generated:|n|n* ALPHA BLEND: Pixels with zero alpha are ignored in mipmaps, to prevent bleeding the transparent color.|n* DEFAULT: Downsampling works normally, as in Photoshop.|n* HEIGHT MAP: The bitmap (normally grayscale) is a height map that gets converted to a bump map. Uses &lt;bump height&gt; below. Alpha is passed through unmodified.|n* DETAIL MAP: Mipmap color fades to gray, controlled by &lt;detail fade factor&gt; below. Alpha fades to white.|n* LIGHT MAP: Generates no mipmaps. Do not use!|n* VECTOR MAP: Used mostly for special effects; pixels are treated as xyz vectors and normalized after downsampling. Alpha is passed through unmodified." />
+		<FieldEnum Index="6" Name="Usage">
+			<Option Name="Alpha Blend" />
+			<Option Name="Default" />
+			<Option Name="Height Map" />
+			<Option Name="Detail Map" />
+			<Option Name="Light Map" />
+			<Option Name="Vector Map" />
+			<Option Name="Height Map BLUE 255" />
+			<Option Name="embm" />
+			<Option Name="Height Map A8L8" />
+			<Option Name="Height Map G8B8" />
+			<Option Name="Height Map G8B8 w/ Alpha" />
+		</FieldEnum>
+		<FieldWordFlags Index="7" Name="Flags">
+			<Option Name="Enable Diffusion Dithering" />
+			<Option Name="Disable Height Map Compression" />
+			<Option Name="Uniform Sprite Sequences" />
+			<Option Name="Filthy Sprite Bug Fix" />
+			<Option Name="Use Sharp Bump Filter" />
+			<Option Name="UNUSED" />
+			<Option Name="Use Clamped/Mirrored Bump Filter" />
+			<Option Name="Invert Detail Fade" />
+			<Option Name="Swap x-y Vector Components" />
+			<Option Name="Convert from Signed" />
+			<Option Name="Convert to Signed" />
+			<Option Name="Import mipmap Chains" />
+			<Option Name="Intentionally True Color" />
+		</FieldWordFlags>
+		<FieldExplanation Index="8" Name="Postprocessing" Explanation="These properties control how mipmaps are postprocessed." />
+		<FieldRealFraction Index="9" Name="Detail Fade Factor:[0,1]#0 means fade to gray by last mipmap; 1 means fade to gray by first mipmap." />
+		<FieldRealFraction Index="10" Name="Sharpen Amount:[0,1]#Sharpens mipmap after downsampling." />
+		<FieldReal Index="11" Name="Bump Height:repeats#tApparent height of the bump map above the triangle onto which it is textured, in texture repeats (i.e., 1.0 would be as high as the texture is wide)." />
+		<FieldEnum Index="12" Name="">
+			<Option Name="32 x 32" />
+			<Option Name="64 x 64" />
+			<Option Name="128 x 128" />
+			<Option Name="256 x 256" />
+			<Option Name="512 x 512" />
+			<Option Name="1024 x 1024" />
+		</FieldEnum>
+		<FieldShortInteger Index="13" Name="" />
+		<FieldExplanation Index="14" Name="Color Plate" Explanation="The original image file used to import the bitmap group." />
+		<FieldShortInteger Index="15" Name="Color Plate Width*:pixels" />
+		<FieldShortInteger Index="16" Name="Color Plate Height*:pixels" />
+		<FieldData Index="17" Name="Compressed Color Plate Data*" Alignment="4" MaximumSize="1073741824" ElementSize="1" />
+		<FieldExplanation Index="18" Name="Processed Pixel Data" Explanation="Pixel data after being processed by the tool." />
+		<FieldData Index="19" Name="Processed Pixel Data*" Alignment="4" MaximumSize="1073741824" ElementSize="1" />
+		<FieldExplanation Index="20" Name="Miscellaneous" Explanation="" />
+		<FieldReal Index="21" Name="Blur Filter Size:[0,10] pixels#Blurs the bitmap before generating mipmaps." />
+		<FieldReal Index="22" Name="Alpha Bias:[-1,1]#Affects alpha mipmap generation." />
+		<FieldShortInteger Index="23" Name="Mipmap Count:levels#0 Defaults to all levels." />
+		<FieldExplanation Index="24" Name="...More Sprite Processing" Explanation="Sprite usage controls the background color of sprite plates." />
+		<FieldEnum Index="25" Name="Sprite Usage">
+			<Option Name="Blend/Add/Subtract/Max" />
+			<Option Name="Multiply/Min" />
+			<Option Name="Double Multiply" />
+		</FieldEnum>
+		<FieldShortInteger Index="26" Name="Sprite Spacing*" />
+		<FieldExplanation Index="27" Name="...More Stuff" Explanation="" />
+		<FieldEnum Index="28" Name="Force Format">
+			<Option Name="Default" />
+			<Option Name="Force G8B8" />
+			<Option Name="Force DXT1" />
+			<Option Name="Force DXT3" />
+			<Option Name="Force DXT5" />
+			<Option Name="Force ALPHA-LUMINANCE8" />
+			<Option Name="Force A4R4G4B4" />
+		</FieldEnum>
+		<FieldBlock Index="29" Name="Sequences*" BlockName="bitmap_group_sequence_block" />
+		<FieldBlock Index="30" Name="Bitmaps*" BlockName="bitmap_data_block" />
+		<FieldExplanation Index="31" Name="WDP fields" Explanation="" />
+		<FieldCharInteger Index="32" Name="color compression quality:[1,127]#1 means lossless, 127 means crappy" />
+		<FieldCharInteger Index="33" Name="alpha compression quality:[1,127]#1 means lossless, 127 means crappy" />
+		<FieldCharInteger Index="34" Name="overlap*" />
+		<FieldCharEnum Index="35" Name="color subsampling*">
+			<Option Name="4:0:0" />
+			<Option Name="4:2:0" />
+			<Option Name="4:2:2" />
+			<Option Name="4:4:4" />
+		</FieldCharEnum>
+		<FieldTerminator Index="36" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_controller" DisplayName="particle_controller" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="physics" />
+			<Option Name="collider" />
+			<Option Name="swarm" />
+			<Option Name="wind" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="parameters" BlockName="particle_controller_parameters" />
+		<FieldPad Index="3" Name="" Length="8" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

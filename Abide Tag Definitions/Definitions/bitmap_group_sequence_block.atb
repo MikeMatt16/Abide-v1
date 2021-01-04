@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bitmap_group_sequence_block" DisplayName="bitmap_group_sequence_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="6">
+		<FieldString Index="0" Name="Name^" />
+		<FieldShortInteger Index="1" Name="First Bitmap Index*" />
+		<FieldShortInteger Index="2" Name="Bitmap Count*" />
+		<FieldPad Index="3" Name="" Length="16" />
+		<FieldBlock Index="4" Name="Sprites*" BlockName="bitmap_group_sprite_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -21,7 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Abide.Tag.Guerilla.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -81,8 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fields.cs" />
-    <Compile Include="Generated\AbideXboxAnimationRawDataBlock.Generated.cs" />
-    <Compile Include="Generated\AbideXboxAnimationUnknownBlock.Generated.cs" />
     <Compile Include="Generated\ActorStartingLocationsBlock.Generated.cs" />
     <Compile Include="Generated\AdditionalNodeDataBlock.Generated.cs" />
     <Compile Include="Generated\AiAnimationReferenceBlock.Generated.cs" />
@@ -382,7 +381,6 @@
     <Compile Include="Generated\GlobalTagImportInfoBlock.Generated.cs" />
     <Compile Include="Generated\GlobalUiCampaignLevelBlock.Generated.cs" />
     <Compile Include="Generated\GlobalUiMultiplayerLevelBlock.Generated.cs" />
-    <Compile Include="Generated\GlobalUnicodeInfoStructBlock.Generated.cs" />
     <Compile Include="Generated\GlobalVisibilityBoundsBlock.Generated.cs" />
     <Compile Include="Generated\GlobalWaterDefinitionsBlock.Generated.cs" />
     <Compile Include="Generated\GlobalWeatherBackgroundPlateBlock.Generated.cs" />
@@ -600,7 +598,6 @@
     <Compile Include="Generated\PersistentBackgroundAnimationBlock.Generated.cs" />
     <Compile Include="Generated\PhantomsBlock.Generated.cs" />
     <Compile Include="Generated\PhantomTypesBlock.Generated.cs" />
-    <Compile Include="Generated\PhmoMaterialsBlock.cs" />
     <Compile Include="Generated\Physics.Generated.cs" />
     <Compile Include="Generated\PhysicsBlock.Generated.cs" />
     <Compile Include="Generated\PhysicsModel.Generated.cs" />
@@ -798,7 +795,6 @@
     <Compile Include="Generated\ScenarioSpawnDataBlock.Generated.cs" />
     <Compile Include="Generated\ScenarioSphericalHarmonicLightingPoint.Generated.cs" />
     <Compile Include="Generated\ScenarioStartingEquipmentBlock.Generated.cs" />
-    <Compile Include="Generated\ScenarioStructureBlockInfoStruct.Generated.cs" />
     <Compile Include="Generated\ScenarioStructureBsp.Generated.cs" />
     <Compile Include="Generated\ScenarioStructureBspBlock.Generated.cs" />
     <Compile Include="Generated\ScenarioStructureBspReferenceBlock.Generated.cs" />
@@ -1134,12 +1130,12 @@
     <Compile Include="Generated\VibrationDefinitionStructBlock.Generated.cs" />
     <Compile Include="Generated\VibrationFrequencyDefinitionStructBlock.Generated.cs" />
     <Compile Include="Generated\VisibilityStructBlock.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock0.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock1.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock2.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock3.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock4.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock5.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_0.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_1.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_2.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_3.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_4.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_5.Generated.cs" />
     <Compile Include="Generated\VocalizationPatternsBlock.Generated.cs" />
     <Compile Include="Generated\WaterGeometrySectionBlock.Generated.cs" />
     <Compile Include="Generated\Weapon.Generated.cs" />
@@ -1187,5 +1183,6 @@
       <Name>Abide.Tag</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

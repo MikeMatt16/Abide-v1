@@ -1,7 +1,10 @@
-﻿using Abide.Tag.Definition;
+﻿using Abide.HaloLibrary;
+using Abide.Tag.Definition;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace Abide.Tag.CodeDom
 {
@@ -10,27 +13,29 @@ namespace Abide.Tag.CodeDom
     /// </summary>
     public sealed class AbideTagBlockCodeCompileUnit : CodeCompileUnit
     {
-        private const string c_TagNamespace = "Abide.Tag";
-        private const string c_IoNamespace = "System.IO";
-
         private readonly CodeTypeDeclaration tagGroupCodeTypeDeclaration;
+        private List<string> fieldNames = new List<string>();
+        private int currentFieldIndex = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagBlockCodeCompileUnit"/> class.
         /// </summary>
         /// <param name="tagBlock">The tag block definition.</param>
         /// <param name="namespaceString">The optional namespace string. This defaults to "Cache."</param>
-        public AbideTagBlockCodeCompileUnit(AbideTagBlock tagBlock, string namespaceString = "Cache")
+        /// <param name="tagNamespace"></param>
+        public AbideTagBlockCodeCompileUnit(AbideTagBlock tagBlock, string namespaceString = "Cache", string tagNamespace = "Abide.Tag")
         {
             //Prepare
             string blockTypeName = AbideCodeDomGlobals.GetMemberName(tagBlock);
             string baseTypeName = nameof(Block);
 
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{namespaceString}.Generated");
 
             //Add imports
-            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.SystemNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.HaloLibraryNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(tagNamespace));
 
             //Create type
             tagGroupCodeTypeDeclaration = new CodeTypeDeclaration(blockTypeName)
@@ -43,11 +48,11 @@ namespace Abide.Tag.CodeDom
             tagGroupCodeTypeDeclaration.Comments.Add(new CodeCommentStatement($"Represents the generated {tagBlock.Name} tag block.", true));
             tagGroupCodeTypeDeclaration.Comments.Add(new CodeCommentStatement("</summary>", true));
 
-            //Name property
+            //BlockName property
             CodeMemberProperty nameMemberProperty = new CodeMemberProperty()
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                Name = nameof(Block.Name),
+                Name = nameof(Block.BlockName),
                 Type = new CodeTypeReference(typeof(string))
             };
             nameMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagBlock.Name)));
@@ -109,7 +114,7 @@ namespace Abide.Tag.CodeDom
             List<AbideTagField> processedFields = ProcessTagFields(tagBlock.FieldSet);
 
             //Add fields to fields list
-            CodeExpression fieldCreateExpression = null; int index = 0;
+            CodeExpression fieldCreateExpression = null;
             foreach (AbideTagField field in processedFields)
             {
                 //Check
@@ -122,8 +127,8 @@ namespace Abide.Tag.CodeDom
                         constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
                             new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldExpression));
 
-                        //Increment
-                        index++;
+                        //Create property
+                        CreateFieldProperty(++currentFieldIndex, field);
                     }
                 }
                 else
@@ -138,8 +143,8 @@ namespace Abide.Tag.CodeDom
                         constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
                             new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
 
-                        //Increment
-                        index++;
+                        //Create property
+                        CreateFieldProperty(++currentFieldIndex, field);
                     }
                 }
             }
@@ -404,6 +409,181 @@ namespace Abide.Tag.CodeDom
 
             //Return
             return expressions.ToArray();
+        }
+
+        private void CreateFieldProperty(int index, AbideTagField field)
+        {
+            return;
+
+            if (field == null) throw new ArgumentNullException(nameof(field));
+            if (string.IsNullOrEmpty(field.Name))
+                return;
+
+            Type returnType = null;
+
+            switch (field.FieldType)
+            {
+                case FieldType.FieldString:
+                case FieldType.FieldLongString:
+                case FieldType.FieldStringId:
+                    returnType = typeof(string);
+                    break;
+
+                case FieldType.FieldCharInteger:
+                    returnType = typeof(byte);
+                    break;
+
+                case FieldType.FieldShortInteger:
+                    returnType = typeof(short);
+                    break;
+
+                case FieldType.FieldLongInteger:
+                    returnType = typeof(int);
+                    break;
+
+                case FieldType.FieldAngle:
+                    returnType = typeof(float);
+                    break;
+
+                case FieldType.FieldTag:
+                    returnType = typeof(TagFourCc);
+                    break;
+
+                case FieldType.FieldCharEnum:
+                    returnType = typeof(byte);
+                    break;
+
+                case FieldType.FieldEnum:
+                    returnType = typeof(short);
+                    break;
+
+                case FieldType.FieldLongEnum:
+                    returnType = typeof(int);
+                    break;
+
+                case FieldType.FieldLongFlags:
+                    returnType = typeof(int);
+                    break;
+
+                case FieldType.FieldWordFlags:
+                    returnType = typeof(short);
+                    break;
+
+                case FieldType.FieldByteFlags:
+                    returnType = typeof(byte);
+                    break;
+
+                case FieldType.FieldPoint2D:
+                    returnType = typeof(Point2);
+                    break;
+
+                case FieldType.FieldRectangle2D:
+                    returnType = typeof(Rectangle2);
+                    break;
+
+                case FieldType.FieldRgbColor:
+                    returnType = typeof(ColorRgb);
+                    break;
+
+                case FieldType.FieldArgbColor:
+                    returnType = typeof(ColorArgb);
+                    break;
+
+                case FieldType.FieldReal:
+                case FieldType.FieldRealFraction:
+                    returnType = typeof(float);
+                    break;
+
+                case FieldType.FieldRealPoint2D:
+                    returnType = typeof(Point2F);
+                    break;
+
+                case FieldType.FieldRealPoint3D:
+                    returnType = typeof(Point3F);
+                    break;
+
+                case FieldType.FieldRealVector2D:
+                    returnType = typeof(Vector2);
+                    break;
+
+                case FieldType.FieldRealVector3D:
+                    returnType = typeof(Vector3);
+                    break;
+
+                case FieldType.FieldQuaternion:
+                    returnType = typeof(Quaternion);
+                    break;
+
+                case FieldType.FieldEulerAngles2D:
+                    returnType = typeof(Vector2);
+                    break;
+
+                case FieldType.FieldEulerAngles3D:
+                    returnType = typeof(Vector3);
+                    break;
+            }
+
+            //Format name
+            string originalName = AbideCodeDomGlobals.GeneratePascalCasedName(field.Name);
+            if (string.IsNullOrEmpty(originalName))
+                return;
+
+            int nameCount = 0;
+            string formattedName = originalName;
+            while (fieldNames.Contains(formattedName))
+                formattedName = $"{originalName}{++nameCount}";
+
+            //Add to list
+            fieldNames.Add(formattedName);
+
+            //Create field indexer
+            CodeIndexerExpression fieldsIndexerExpression = new CodeIndexerExpression(
+                new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), nameof(Block.Fields)));
+            fieldsIndexerExpression.Indices.Add(new CodePrimitiveExpression(index));
+
+            //Create field value property expression
+            CodePropertyReferenceExpression valuePropRef = new CodePropertyReferenceExpression(
+                fieldsIndexerExpression, nameof(Field.Value));
+
+            CodeAssignStatement setStatement = new CodeAssignStatement(valuePropRef, new CodePropertySetValueReferenceExpression());
+            CodeMethodReturnStatement returnStatement = null;
+            CodeTypeReference returnTypeReference = null;
+            if (returnType != null)
+            {
+                returnTypeReference = new CodeTypeReference(returnType.Name);
+                returnStatement = new CodeMethodReturnStatement(new CodeCastExpression(
+                    new CodeTypeReference(returnType.Name), valuePropRef));
+            }
+            else
+            {
+                switch (field.FieldType)
+                {
+                    case FieldType.FieldBlock:
+                        returnTypeReference = new CodeTypeReference($"BlockField<{AbideCodeDomGlobals.GetMemberName(field.ReferencedBlock)}>");
+                        returnStatement = new CodeMethodReturnStatement(new CodeCastExpression(
+                            returnTypeReference, fieldsIndexerExpression));
+                        setStatement = null;
+                        break;
+                }
+            }
+
+            //Check
+            if (returnStatement == null | returnTypeReference == null)
+                return;
+
+            //Create field property
+            CodeMemberProperty fieldMemberProperty = new CodeMemberProperty()
+            {
+                Attributes = MemberAttributes.Public | MemberAttributes.Final,
+                Name = formattedName,
+                Type = returnTypeReference
+            };
+            fieldMemberProperty.GetStatements.Add(returnStatement);
+            if (setStatement != null) fieldMemberProperty.SetStatements.Add(setStatement);
+            fieldMemberProperty.Comments.Add(new CodeCommentStatement("<summary>", true));
+            fieldMemberProperty.Comments.Add(new CodeCommentStatement($"Gets or sets the value of the {field.Name} field.", true));
+            fieldMemberProperty.Comments.Add(new CodeCommentStatement("</summary>", true));
+            tagGroupCodeTypeDeclaration.Members.Add(fieldMemberProperty);
         }
     }
 }

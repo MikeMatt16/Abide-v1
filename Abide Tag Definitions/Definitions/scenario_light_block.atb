@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_light_block" DisplayName="scenario_light_block" MaximumElementCount="500">
+	<FieldSet Alignment="4" Count="11">
+		<FieldExplanation Index="0" Name="~Controls" Explanation=" " />
+		<FieldCustom Index="1" Name="" />
+		<FieldCustom Index="2" Name="" />
+		<FieldCustom Index="3" Name="" />
+		<FieldShortBlockIndex1 Index="4" Name="Type" />
+		<FieldCustom Index="5" Name="" />
+		<FieldShortBlockIndex1 Index="6" Name="Name^" />
+		<FieldStruct Index="7" Name="Object Data" StructName="scenario_object_datum_struct_block" />
+		<FieldStruct Index="8" Name="Device Data" StructName="scenario_device_struct_block" />
+		<FieldStruct Index="9" Name="Light Data" StructName="scenario_light_struct_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

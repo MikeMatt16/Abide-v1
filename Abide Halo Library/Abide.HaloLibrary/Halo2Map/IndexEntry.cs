@@ -165,9 +165,8 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         public void Dispose()
         {
-            //Dispose
             Raws.Dispose();
-            Strings.Dispose();
+            Strings.Clear();
             TagData = null;
         }
     }

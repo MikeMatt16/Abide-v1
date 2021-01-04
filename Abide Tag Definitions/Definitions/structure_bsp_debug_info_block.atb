@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_debug_info_block" DisplayName="structure_bsp_debug_info_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldPad Index="0" Name="" Length="64" />
+		<FieldBlock Index="1" Name="Clusters*" BlockName="structure_bsp_cluster_debug_info_block" />
+		<FieldBlock Index="2" Name="Fog Planes*" BlockName="structure_bsp_fog_plane_debug_info_block" />
+		<FieldBlock Index="3" Name="Fog Zones*" BlockName="structure_bsp_fog_zone_debug_info_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

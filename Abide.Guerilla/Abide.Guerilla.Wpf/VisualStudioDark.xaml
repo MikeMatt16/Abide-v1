@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="clr-namespace:Abide.Guerilla.Wpf.Ui;assembly=Abide.Guerilla.Wpf.Ui">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <SolidColorBrush x:Key="ActiveAccent" Color="#eb156b"/>
     <SolidColorBrush x:Key="AccentLight" Color="#ee3b83"/>
@@ -26,6 +25,31 @@
     <SolidColorBrush x:Key="AccentHighlightMagenta" Color="#eb5390"/>
     <SolidColorBrush x:Key="AccentDarkMagenta" Color="#800b3a"/>
 
+    <Style x:Key="CaptionButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="Transparent" Name="Border">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#3f3f41"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ActiveAccent}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <ControlTemplate x:Key="VisualStudioComboBoxToggleButton" TargetType="ToggleButton">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -239,10 +263,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
-    <Style x:Key="VisualStudioWindow" TargetType="ui:GlowWindowHost">
-        <Setter Property="Background" Value="{StaticResource Background}"/>
-    </Style>
-
     <Style x:Key="VisualStudioScrollBarThumb" TargetType="Thumb">
         <Setter Property="Template">
             <Setter.Value>

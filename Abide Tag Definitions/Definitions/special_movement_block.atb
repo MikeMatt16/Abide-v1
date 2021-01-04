@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="special_movement_block" DisplayName="special_movement_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongFlags Index="0" Name="Special movement 1">
+			<Option Name="jump" />
+			<Option Name="climb" />
+			<Option Name="vault" />
+			<Option Name="mount" />
+			<Option Name="hoist" />
+			<Option Name="wall jump" />
+			<Option Name="n/a" />
+		</FieldLongFlags>
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

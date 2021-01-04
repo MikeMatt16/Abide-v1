@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_gestalt_permutations_block" DisplayName="sound_gestalt_permutations_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="9">
+		<FieldShortBlockIndex1 Index="0" Name="name^" />
+		<FieldShortInteger Index="1" Name="encoded skip fraction" />
+		<FieldCharInteger Index="2" Name="encoded gain:dB" />
+		<FieldCharInteger Index="3" Name="permutation info index" />
+		<FieldShortInteger Index="4" Name="language neutral time:ms" />
+		<FieldLongInteger Index="5" Name="sample size" />
+		<FieldShortBlockIndex1 Index="6" Name="first chunk" />
+		<FieldShortInteger Index="7" Name="chunk count" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_permutations_block" DisplayName="sound_permutations_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="11">
+		<FieldCustom Index="0" Name="" />
+		<FieldStringId Index="1" Name="name*^#name of the file from which this sample was imported" />
+		<FieldCustom Index="2" Name="Update skip fraction" />
+		<FieldRealFraction Index="3" Name="skip fraction#fraction of requests to play this permutation that are ignored (a different permutation is selected.)" />
+		<FieldCustom Index="4" Name="Update gain" />
+		<FieldReal Index="5" Name="gain:dB#additional attenuation when played" />
+		<FieldLongInteger Index="6" Name="" />
+		<FieldShortBlockIndex2 Index="7" Name="" />
+		<FieldShortInteger Index="8" Name="" />
+		<FieldBlock Index="9" Name="" BlockName="sound_permutation_chunk_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_number_block" DisplayName="hud_number" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldTagReference Index="0" Name="digits bitmap" GroupTag="1651078253" />
+		<FieldCharInteger Index="1" Name="bitmap digit width" />
+		<FieldCharInteger Index="2" Name="screen digit width" />
+		<FieldCharInteger Index="3" Name="x offset" />
+		<FieldCharInteger Index="4" Name="y offset" />
+		<FieldCharInteger Index="5" Name="decimal point width" />
+		<FieldCharInteger Index="6" Name="colon width" />
+		<FieldPad Index="7" Name="" Length="2" />
+		<FieldPad Index="8" Name="" Length="76" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_parameter_block" DisplayName="parameter" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="13">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldData Index="1" Name="Explanation" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldEnum Index="2" Name="Type">
+			<Option Name="Bitmap" />
+			<Option Name="Value" />
+			<Option Name="Color" />
+			<Option Name="Switch" />
+		</FieldEnum>
+		<FieldWordFlags Index="3" Name="Flags">
+			<Option Name="Animated" />
+			<Option Name="Hide Bitmap Reference" />
+		</FieldWordFlags>
+		<FieldTagReference Index="4" Name="Default Bitmap" GroupTag="1651078253" />
+		<FieldReal Index="5" Name="Default Const Value" />
+		<FieldRealRgbColor Index="6" Name="Default Const Color" />
+		<FieldEnum Index="7" Name="Bitmap Type">
+			<Option Name="2D" />
+			<Option Name="3D" />
+			<Option Name="Cube Map" />
+		</FieldEnum>
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldWordFlags Index="9" Name="Bitmap Animation Flags">
+			<Option Name="Scale Uniform" />
+			<Option Name="Scale" />
+			<Option Name="Translation" />
+			<Option Name="Rotation" />
+			<Option Name="Index" />
+		</FieldWordFlags>
+		<FieldPad Index="10" Name="" Length="2" />
+		<FieldReal Index="11" Name="Bitmap Scale" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -4,30 +4,30 @@ using System.Runtime.InteropServices;
 
 namespace Abide.Wpf.Modules.Win32
 {
-    public delegate IntPtr WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
+    internal delegate IntPtr WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MINMAXINFO
+    internal struct MINMAXINFO
     {
         public POINT MaxPosition
         {
-            get { return ptMaxPosition; }
-            set { ptMaxPosition = value; }
+            get => ptMaxPosition;
+            set => ptMaxPosition = value;
         }
         public POINT MaxSize
         {
-            get { return ptMaxSize; }
-            set { ptMaxSize = value; }
+            get => ptMaxSize;
+            set => ptMaxSize = value;
         }
         public POINT MinTrackSize
         {
-            get { return ptMinTrackSize; }
-            set { ptMinTrackSize = value; }
+            get => ptMinTrackSize;
+            set => ptMinTrackSize = value;
         }
         public POINT MaxTrackSize
         {
-            get { return ptMaxTrackSize; }
-            set { ptMaxTrackSize = value; }
+            get => ptMaxTrackSize;
+            set => ptMaxTrackSize = value;
         }
 
         private POINT ptReserved;
@@ -38,23 +38,23 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BLENDFUNCTION
+    internal struct BLENDFUNCTION
     {
         public byte BlendOp, BlendFlags, SourceConstantAlpha, AlphaFormat;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct SIZE : IEquatable<SIZE>
+    internal struct SIZE : IEquatable<SIZE>
     {
         public int Width
         {
-            get { return width; }
-            set { width = value; }
+            get => width;
+            set => width = value;
         }
         public int Height
         {
-            get { return height; }
-            set { height = value; }
+            get => height;
+            set => height = value;
         }
 
         private int width, height;
@@ -110,17 +110,17 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct POINT : IEquatable<POINT>
+    internal struct POINT : IEquatable<POINT>
     {
         public int X
         {
-            get { return x; }
-            set { x = value; }
+            get => x;
+            set => x = value;
         }
         public int Y
         {
-            get { return y; }
-            set { y = value; }
+            get => y;
+            set => y = value;
         }
 
         private int x, y;
@@ -183,7 +183,7 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct WNDCLASSEX
+    internal struct WNDCLASSEX
     {
         public int cbSize;
         public uint style;
@@ -200,47 +200,47 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct RECT
+    internal struct RECT
     {
         public int X
         {
-            get { return left; }
-            set { left = value; }
+            get => left;
+            set => left = value;
         }
         public int Y
         {
-            get { return top; }
-            set { top = value; }
+            get => top;
+            set => top = value;
         }
         public int Width
         {
-            get { return right - left; }
-            set { right = left + value; }
+            get => right - left;
+            set => right = left + value;
         }
         public int Height
         {
-            get { return bottom - top; }
-            set { bottom = top + value; }
+            get => bottom - top;
+            set => bottom = top + value;
         }
         public int Left
         {
-            get { return left; }
-            set { left = value; }
+            get => left;
+            set => left = value;
         }
         public int Top
         {
-            get { return top; }
-            set { top = value; }
+            get => top;
+            set => top = value;
         }
         public int Right
         {
-            get { return right; }
-            set { right = value; }
+            get => right;
+            set => right = value;
         }
         public int Bottom
         {
-            get { return bottom; }
-            set { bottom = value; }
+            get => bottom;
+            set => bottom = value;
         }
 
         private int left, top, right, bottom;
@@ -282,7 +282,7 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct WINDOWPOS
+    internal struct WINDOWPOS
     {
         public IntPtr hwndInsertAfter;
         public IntPtr hwnd;
@@ -294,13 +294,13 @@ namespace Abide.Wpf.Modules.Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NCCALCSIZE_PARAMS
+    internal struct NCCALCSIZE_PARAMS
     {
         public RECT rgrc0, rgrc1, rgrc2;
         public WINDOWPOS lppos;
     }
 
-    public enum WindowMessages : int
+    internal enum WindowMessages : int
     {
         WM_NULL = 0x00,
         WM_CREATE = 0x01,
@@ -511,7 +511,7 @@ namespace Abide.Wpf.Modules.Win32
         WM_APP = 0x8000,
     }
 
-    public static class WinUser
+    internal static class WinUser
     {
         public const uint WM_NULL = 0x00;
         public const uint WM_CREATE = 0x01;

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_transition_state_struct_block" DisplayName="animation_transition_state_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="state name*#name of the state" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldCharInteger Index="2" Name="index a*#first level sub-index into state" />
+		<FieldCharInteger Index="3" Name="index b*#second level sub-index into state" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

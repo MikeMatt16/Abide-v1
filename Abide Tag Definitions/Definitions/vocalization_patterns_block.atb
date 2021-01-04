@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vocalization_patterns_block" DisplayName="vocalization_patterns_block" MaximumElementCount="1000">
+	<FieldSet Alignment="4" Count="24">
+		<FieldEnum Index="0" Name="dialogue type">
+			<Option Name="death" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="damage" />
+			<Option Name="damage unused 1" />
+			<Option Name="damage unused 2" />
+			<Option Name="sighted_new" />
+			<Option Name="sighted_new major" />
+			<Option Name="unused" />
+			<Option Name="sighted_old" />
+			<Option Name="sighted_first" />
+			<Option Name="sighted_special" />
+			<Option Name="unused" />
+			<Option Name="heard_new" />
+			<Option Name="unused" />
+			<Option Name="heard_old" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="acknowledge_multiple" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="found_unit" />
+			<Option Name="found_unit_presearch" />
+			<Option Name="found_unit_pursuit" />
+			<Option Name="found_unit_self_preserving" />
+			<Option Name="found_unit_retreating" />
+			<Option Name="throwing_grenade" />
+			<Option Name="noticed_grenade" />
+			<Option Name="fighting" />
+			<Option Name="charging" />
+			<Option Name="suppressing_fire" />
+			<Option Name="grenade_uncover" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="dive" />
+			<Option Name="evade" />
+			<Option Name="avoid" />
+			<Option Name="surprised" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="presearch" />
+			<Option Name="presearch_start" />
+			<Option Name="search" />
+			<Option Name="search_start" />
+			<Option Name="investigate_failed" />
+			<Option Name="uncover_failed" />
+			<Option Name="pursuit_failed" />
+			<Option Name="investigate_start" />
+			<Option Name="abandoned_search_space" />
+			<Option Name="abandoned_search_time" />
+			<Option Name="presearch_failed" />
+			<Option Name="abandoned_search_restricted" />
+			<Option Name="investigate_pursuit_start" />
+			<Option Name="postcombat_inspect_body" />
+			<Option Name="vehicle_slow_down" />
+			<Option Name="vehicle_get_in" />
+			<Option Name="idle" />
+			<Option Name="taunt" />
+			<Option Name="taunt_reply" />
+			<Option Name="retreat" />
+			<Option Name="retreat_from_scary_target" />
+			<Option Name="retreat_from_dead_leader" />
+			<Option Name="retreat_from_proximity" />
+			<Option Name="retreat_from_low_shield" />
+			<Option Name="flee" />
+			<Option Name="cowering" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="cover" />
+			<Option Name="covered" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="pursuit_start" />
+			<Option Name="pursuit_sync_start" />
+			<Option Name="pursuit_sync_join" />
+			<Option Name="pursuit_sync_quorum" />
+			<Option Name="melee" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="vehicle_falling" />
+			<Option Name="vehicle_woohoo" />
+			<Option Name="vehicle_scared" />
+			<Option Name="vehicle_crazy" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="leap" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="postcombat_win" />
+			<Option Name="postcombat_lose" />
+			<Option Name="postcombat_neutral" />
+			<Option Name="shoot_corpse" />
+			<Option Name="postcombat start" />
+			<Option Name="inspect_body_start" />
+			<Option Name="postcombat_status" />
+			<Option Name="unused" />
+			<Option Name="vehicle_entry_start_driver" />
+			<Option Name="vehicle_enter" />
+			<Option Name="vehicle_entry_start_gun" />
+			<Option Name="vehicle_entry_start_passenger" />
+			<Option Name="vehicle_exit" />
+			<Option Name="evict_driver" />
+			<Option Name="evict_gunner" />
+			<Option Name="evict_passenger" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="new_order_advance" />
+			<Option Name="new_order_charge" />
+			<Option Name="new_order_fallback" />
+			<Option Name="new_order_retreat" />
+			<Option Name="new_order_moveon" />
+			<Option Name="new_order_arrival" />
+			<Option Name="new_order_entervcl" />
+			<Option Name="new_order_exitvcl" />
+			<Option Name="new_order_fllplr" />
+			<Option Name="new_order_leaveplr" />
+			<Option Name="new_order_support" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="emerge" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="curse" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="threaten" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="cover_friend" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="strike" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="gloat" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="greet" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="player_look" />
+			<Option Name="player_look_longtime" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="panic_grenade_attached" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="help response" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="remind" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="weapon_trade_better" />
+			<Option Name="weapon_trade_worse" />
+			<Option Name="weapon_reade_equal" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="betray" />
+			<Option Name="unused" />
+			<Option Name="forgive" />
+			<Option Name="unused" />
+			<Option Name="reanimate" />
+			<Option Name="unused" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="vocalization index" />
+		<FieldStringId Index="2" Name="vocalization name" />
+		<FieldEnum Index="3" Name="speaker type">
+			<Option Name="subject" />
+			<Option Name="cause" />
+			<Option Name="friend" />
+			<Option Name="target" />
+			<Option Name="enemy" />
+			<Option Name="vehicle" />
+			<Option Name="joint" />
+			<Option Name="squad" />
+			<Option Name="leader" />
+			<Option Name="joint_leader" />
+			<Option Name="clump" />
+			<Option Name="peer" />
+		</FieldEnum>
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="subject visible" />
+			<Option Name="cause visible" />
+			<Option Name="friends present" />
+			<Option Name="subject is speaker's target" />
+			<Option Name="cause is speaker's target" />
+			<Option Name="cause is player or speaker is player ally" />
+			<Option Name="speaker is searching" />
+			<Option Name="speaker is following player" />
+			<Option Name="cause is primary player ally" />
+		</FieldWordFlags>
+		<FieldEnum Index="5" Name="listener/target#who/what am I speaking to/of?">
+			<Option Name="subject" />
+			<Option Name="cause" />
+			<Option Name="friend" />
+			<Option Name="target" />
+			<Option Name="enemy" />
+			<Option Name="vehicle" />
+			<Option Name="joint" />
+			<Option Name="squad" />
+			<Option Name="leader" />
+			<Option Name="joint_leader" />
+			<Option Name="clump" />
+			<Option Name="peer" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldEnum Index="8" Name="hostility#The relationship between the subject and the cause">
+			<Option Name="NONE" />
+			<Option Name="self" />
+			<Option Name="neutral" />
+			<Option Name="friend" />
+			<Option Name="enemy" />
+			<Option Name="traitor" />
+		</FieldEnum>
+		<FieldEnum Index="9" Name="damage type">
+			<Option Name="NONE" />
+			<Option Name="falling" />
+			<Option Name="bullet" />
+			<Option Name="grenade" />
+			<Option Name="explosive" />
+			<Option Name="sniper" />
+			<Option Name="melee" />
+			<Option Name="flame" />
+			<Option Name="mounted weapon" />
+			<Option Name="vehicle" />
+			<Option Name="plasma" />
+			<Option Name="needle" />
+			<Option Name="shotgun" />
+		</FieldEnum>
+		<FieldEnum Index="10" Name="danger level#Speaker must have danger level of at least this much">
+			<Option Name="NONE" />
+			<Option Name="broadly facing" />
+			<Option Name="shooting near" />
+			<Option Name="shooting at" />
+			<Option Name="extremely close" />
+			<Option Name="shield damage" />
+			<Option Name="shield extended damage" />
+			<Option Name="body damage" />
+			<Option Name="body extended damage" />
+		</FieldEnum>
+		<FieldEnum Index="11" Name="attitude">
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldEnum>
+		<FieldPad Index="12" Name="" Length="4" />
+		<FieldEnum Index="13" Name="subject actor type">
+			<Option Name="NONE" />
+			<Option Name="elite" />
+			<Option Name="jackal" />
+			<Option Name="grunt" />
+			<Option Name="hunter" />
+			<Option Name="engineer" />
+			<Option Name="assassin" />
+			<Option Name="player" />
+			<Option Name="marine" />
+			<Option Name="crew" />
+			<Option Name="combat form" />
+			<Option Name="infection form" />
+			<Option Name="carrier form" />
+			<Option Name="monitor" />
+			<Option Name="sentinel" />
+			<Option Name="none" />
+			<Option Name="mounted weapon" />
+			<Option Name="brute" />
+			<Option Name="prophet" />
+			<Option Name="bugger" />
+			<Option Name="juggernaut" />
+		</FieldEnum>
+		<FieldEnum Index="14" Name="cause actor type">
+			<Option Name="NONE" />
+			<Option Name="elite" />
+			<Option Name="jackal" />
+			<Option Name="grunt" />
+			<Option Name="hunter" />
+			<Option Name="engineer" />
+			<Option Name="assassin" />
+			<Option Name="player" />
+			<Option Name="marine" />
+			<Option Name="crew" />
+			<Option Name="combat form" />
+			<Option Name="infection form" />
+			<Option Name="carrier form" />
+			<Option Name="monitor" />
+			<Option Name="sentinel" />
+			<Option Name="none" />
+			<Option Name="mounted weapon" />
+			<Option Name="brute" />
+			<Option Name="prophet" />
+			<Option Name="bugger" />
+			<Option Name="juggernaut" />
+		</FieldEnum>
+		<FieldEnum Index="15" Name="cause type">
+			<Option Name="NONE" />
+			<Option Name="player" />
+			<Option Name="actor" />
+			<Option Name="biped" />
+			<Option Name="body" />
+			<Option Name="vehicle" />
+			<Option Name="projectile" />
+			<Option Name="actor or player" />
+			<Option Name="turret" />
+			<Option Name="unit in vehicle" />
+			<Option Name="unit in turret" />
+			<Option Name="driver" />
+			<Option Name="gunner" />
+			<Option Name="passenger" />
+			<Option Name="postcombat" />
+			<Option Name="postcombat_won" />
+			<Option Name="postcombat_lost" />
+			<Option Name="player masterchief" />
+			<Option Name="player dervish" />
+			<Option Name="heretic" />
+			<Option Name="majorly scary" />
+			<Option Name="last man in vehicle" />
+			<Option Name="male" />
+			<Option Name="female" />
+			<Option Name="grenade" />
+		</FieldEnum>
+		<FieldEnum Index="16" Name="subject type">
+			<Option Name="NONE" />
+			<Option Name="player" />
+			<Option Name="actor" />
+			<Option Name="biped" />
+			<Option Name="body" />
+			<Option Name="vehicle" />
+			<Option Name="projectile" />
+			<Option Name="actor or player" />
+			<Option Name="turret" />
+			<Option Name="unit in vehicle" />
+			<Option Name="unit in turret" />
+			<Option Name="driver" />
+			<Option Name="gunner" />
+			<Option Name="passenger" />
+			<Option Name="postcombat" />
+			<Option Name="postcombat_won" />
+			<Option Name="postcombat_lost" />
+			<Option Name="player masterchief" />
+			<Option Name="player dervish" />
+			<Option Name="heretic" />
+			<Option Name="majorly scary" />
+			<Option Name="last man in vehicle" />
+			<Option Name="male" />
+			<Option Name="female" />
+			<Option Name="grenade" />
+		</FieldEnum>
+		<FieldStringId Index="17" Name="cause ai type name" />
+		<FieldEnum Index="18" Name="spatial relation#with respect to the subject, the cause is ...">
+			<Option Name="none" />
+			<Option Name="very near (&lt;1wu)" />
+			<Option Name="near (&lt;2.5wus)" />
+			<Option Name="medium range (&lt;5wus)" />
+			<Option Name="far (&lt;10wus)" />
+			<Option Name="very far (&gt;10wus)" />
+			<Option Name="in front of" />
+			<Option Name="behind" />
+			<Option Name="above (delta&gt;1 wu)" />
+			<Option Name="below (delta&gt;1 wu)" />
+		</FieldEnum>
+		<FieldPad Index="19" Name="" Length="2" />
+		<FieldStringId Index="20" Name="subject ai type name" />
+		<FieldPad Index="21" Name="" Length="8" />
+		<FieldLongFlags Index="22" Name="Conditions">
+			<Option Name="asleep" />
+			<Option Name="idle" />
+			<Option Name="alert" />
+			<Option Name="active" />
+			<Option Name="uninspected orphan" />
+			<Option Name="definite orphan" />
+			<Option Name="certain orphan" />
+			<Option Name="visible enemy" />
+			<Option Name="clear los enemy" />
+			<Option Name="dangerous enemy" />
+			<Option Name="no vehicle" />
+			<Option Name="vehicle driver" />
+			<Option Name="vehicle passenger" />
+		</FieldLongFlags>
+		<FieldTerminator Index="23" Name="" />
+	</FieldSet>
+</AbideTagBlock>

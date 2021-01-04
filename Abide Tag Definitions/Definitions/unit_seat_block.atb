@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_seat_block" DisplayName="unit_seat_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="40">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="invisible" />
+			<Option Name="locked" />
+			<Option Name="driver" />
+			<Option Name="gunner" />
+			<Option Name="third person camera" />
+			<Option Name="allows weapons" />
+			<Option Name="third person on enter" />
+			<Option Name="first person camera slaved to gun." />
+			<Option Name="allow vehicle communication animations" />
+			<Option Name="not valid without driver" />
+			<Option Name="allow AI noncombatants" />
+			<Option Name="boarding seat" />
+			<Option Name="ai firing disabled by max acceleration" />
+			<Option Name="boarding enters seat" />
+			<Option Name="boarding need any passenger" />
+			<Option Name="controls open and close" />
+			<Option Name="invalid for player" />
+			<Option Name="invalid for non-player" />
+			<Option Name="gunner (player only)" />
+			<Option Name="invisible under major damage" />
+		</FieldLongFlags>
+		<FieldOldStringId Index="1" Name="label^" />
+		<FieldOldStringId Index="2" Name="marker name" />
+		<FieldStringId Index="3" Name="entry marker(s) name" />
+		<FieldStringId Index="4" Name="boarding grenade marker" />
+		<FieldStringId Index="5" Name="boarding grenade string" />
+		<FieldStringId Index="6" Name="boarding melee string" />
+		<FieldRealFraction Index="7" Name="ping scale#nathan is too lazy to make pings for each seat." />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldReal Index="9" Name="turnover time:seconds#how much time it takes to evict a rider from a flipped vehicle" />
+		<FieldStruct Index="10" Name="acceleration" StructName="unit_seat_acceleration_struct_block" />
+		<FieldReal Index="11" Name="AI scariness" />
+		<FieldEnum Index="12" Name="ai seat type">
+			<Option Name="NONE" />
+			<Option Name="passenger" />
+			<Option Name="gunner" />
+			<Option Name="small cargo" />
+			<Option Name="large cargo" />
+			<Option Name="driver" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="13" Name="boarding seat" />
+		<FieldRealFraction Index="14" Name="listener interpolation factor#how far to interpolate listener position from camera to occupant's head" />
+		<FieldExplanation Index="15" Name="speed dependant turn rates" Explanation="when the unit velocity is 0, the yaw/pitch rates are the left values|nat [max speed reference], the yaw/pitch rates are the right values.|nthe max speed reference is what the code uses to generate a clamped speed from 0..1|nthe exponent controls how midrange speeds are interpreted." />
+		<FieldRealBounds Index="16" Name="yaw rate bounds:degrees per second" />
+		<FieldRealBounds Index="17" Name="pitch rate bounds:degrees per second" />
+		<FieldReal Index="18" Name="min speed reference" />
+		<FieldReal Index="19" Name="max speed reference" />
+		<FieldReal Index="20" Name="speed exponent" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldExplanation Index="22" Name="camera fields" Explanation="" />
+		<FieldStruct Index="23" Name="unit camera" StructName="unit_camera_struct_block" />
+		<FieldBlock Index="24" Name="unit hud interface" BlockName="unit_hud_reference_block" />
+		<FieldStringId Index="25" Name="enter seat string" />
+		<FieldUselessPad Index="26" Name="" />
+		<FieldAngle Index="27" Name="yaw minimum" />
+		<FieldAngle Index="28" Name="yaw maximum" />
+		<FieldTagReference Index="29" Name="built-in gunner" GroupTag="1667785074" />
+		<FieldUselessPad Index="30" Name="" />
+		<FieldExplanation Index="31" Name="entry fields" Explanation="note: the entry radius shouldn't exceed 3 world units, |nas that is as far as the player will search for a vehicle|nto enter." />
+		<FieldReal Index="32" Name="entry radius#how close to the entry marker a unit must be" />
+		<FieldAngle Index="33" Name="entry marker cone angle#angle from marker forward the unit must be" />
+		<FieldAngle Index="34" Name="entry marker facing angle#angle from unit facing the marker must be" />
+		<FieldReal Index="35" Name="maximum relative velocity" />
+		<FieldUselessPad Index="36" Name="" />
+		<FieldStringId Index="37" Name="invisible seat region" />
+		<FieldLongInteger Index="38" Name="runtime invisible seat region index*" />
+		<FieldTerminator Index="39" Name="" />
+	</FieldSet>
+</AbideTagBlock>

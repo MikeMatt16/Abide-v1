@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="falling_damage_block" DisplayName="falling_damage_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldPad Index="0" Name="" Length="8" />
+		<FieldRealBounds Index="1" Name="harmful falling distance:world units" />
+		<FieldTagReference Index="2" Name="falling damage" GroupTag="1785754657" />
+		<FieldPad Index="3" Name="" Length="8" />
+		<FieldReal Index="4" Name="maximum falling distance:world units" />
+		<FieldTagReference Index="5" Name="distance damage" GroupTag="1785754657" />
+		<FieldTagReference Index="6" Name="vehicle environemtn collision damage effect" GroupTag="1785754657" />
+		<FieldTagReference Index="7" Name="vehicle killed unit damage effect" GroupTag="1785754657" />
+		<FieldTagReference Index="8" Name="vehicle collision damage" GroupTag="1785754657" />
+		<FieldTagReference Index="9" Name="flaming death damage" GroupTag="1785754657" />
+		<FieldPad Index="10" Name="" Length="28" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_extra_info_block" DisplayName="sound_extra_info_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="language permutation info" BlockName="sound_definition_language_permutation_info_block" />
+		<FieldBlock Index="1" Name="encoded permutation section" BlockName="sound_encoded_dialogue_section_block" />
+		<FieldStruct Index="2" Name="geometry block info" StructName="global_geometry_block_info_struct_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

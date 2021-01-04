@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="old_unused_strucure_physics_block" DisplayName="old_unused_strucure_physics_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="6">
+		<FieldData Index="0" Name="*mopp code" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldBlock Index="1" Name="*Evironment Object Identifiers" BlockName="old_unused_object_identifiers_block" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldRealPoint3D Index="3" Name="mopp Bounds Min*" />
+		<FieldRealPoint3D Index="4" Name="mopp Bounds Max*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

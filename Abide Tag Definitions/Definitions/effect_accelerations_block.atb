@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="effect_accelerations_block" DisplayName="effect_accelerations_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="create in">
+			<Option Name="any environment" />
+			<Option Name="air only" />
+			<Option Name="water only" />
+			<Option Name="space only" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="create in">
+			<Option Name="either mode" />
+			<Option Name="violent mode only" />
+			<Option Name="nonviolent mode only" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="2" Name="location" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="acceleration" />
+		<FieldReal Index="5" Name="inner cone angle:degrees" />
+		<FieldReal Index="6" Name="outer cone angle:degrees" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

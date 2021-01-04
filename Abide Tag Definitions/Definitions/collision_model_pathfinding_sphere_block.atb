@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_model_pathfinding_sphere_block" DisplayName="sphere" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="6">
+		<FieldShortBlockIndex1 Index="0" Name="node*" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="remains when open" />
+			<Option Name="vehicle only" />
+			<Option Name="with sectors" />
+		</FieldWordFlags>
+		<FieldUselessPad Index="2" Name="" />
+		<FieldRealPoint3D Index="3" Name="center*" />
+		<FieldReal Index="4" Name="radius*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="environment_object_bsp_refs" DisplayName="environment_object_bsp_refs" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="bsp reference*" />
+		<FieldLongInteger Index="1" Name="first sector*" />
+		<FieldLongInteger Index="2" Name="last sector*" />
+		<FieldShortInteger Index="3" Name="node_index*" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

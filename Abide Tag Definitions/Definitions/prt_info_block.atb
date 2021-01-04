@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="prt_info_block" DisplayName="prt_info_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="15">
+		<FieldShortInteger Index="0" Name="SH Order*" />
+		<FieldShortInteger Index="1" Name="num of clusters*" />
+		<FieldShortInteger Index="2" Name="pca vectors per cluster*" />
+		<FieldShortInteger Index="3" Name="number of rays*" />
+		<FieldShortInteger Index="4" Name="number of bounces*" />
+		<FieldShortInteger Index="5" Name="mat index for sbsfc scattering*" />
+		<FieldReal Index="6" Name="length scale*" />
+		<FieldShortInteger Index="7" Name="number of lods in model*" />
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldBlock Index="9" Name="lod info*" BlockName="prt_lod_info_block" />
+		<FieldBlock Index="10" Name="cluster basis*" BlockName="prt_cluster_basis_block" />
+		<FieldBlock Index="11" Name="raw_pca_data*" BlockName="prt_raw_pca_data_block" />
+		<FieldBlock Index="12" Name="vertex buffers*" BlockName="prt_vertex_buffers_block" />
+		<FieldStruct Index="13" Name="geometry block info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

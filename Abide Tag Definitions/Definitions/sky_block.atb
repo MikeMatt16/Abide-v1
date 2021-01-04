@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_block" DisplayName="sky" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="30">
+		<FieldTagReference Index="0" Name="Render Model" GroupTag="1836016741" />
+		<FieldTagReference Index="1" Name="Animation Graph" GroupTag="1785553252" />
+		<FieldLongFlags Index="2" Name="Flags">
+			<Option Name="Fixed in World Space" />
+			<Option Name="Depreciated" />
+			<Option Name="Sky Casts Light from Below" />
+			<Option Name="Disable Sky in Lightmaps" />
+			<Option Name="Fog Only Affects Containing Clusters" />
+			<Option Name="Use Clear Color" />
+		</FieldLongFlags>
+		<FieldReal Index="3" Name="Render Model Scale#Multiplier by which to scale the model's geometry up or down (0 defaults to standard, 0.03)." />
+		<FieldReal Index="4" Name="Movement Scale#How much the sky moves to remain centered on the player (0 defaults to 1.0, which means no parallax)." />
+		<FieldBlock Index="5" Name="Cube Map" BlockName="sky_cubemap_block" />
+		<FieldExplanation Index="6" Name="AMBIENT LIGHT" Explanation="" />
+		<FieldRealRgbColor Index="7" Name="Indoor Ambient Color#Indoor ambient light color." />
+		<FieldPad Index="8" Name="" Length="4" />
+		<FieldRealRgbColor Index="9" Name="Outdoor Ambient Color#Indoor ambient light color." />
+		<FieldPad Index="10" Name="" Length="4" />
+		<FieldExplanation Index="11" Name="FOG" Explanation="" />
+		<FieldReal Index="12" Name="Fog Spread Distance:world units#How far fog spreads into adjacent clusters." />
+		<FieldBlock Index="13" Name="Atmospheric Fog" BlockName="sky_atmospheric_fog_block" />
+		<FieldBlock Index="14" Name="Secondary Fog" BlockName="sky_atmospheric_fog_block" />
+		<FieldBlock Index="15" Name="Sky Fog" BlockName="sky_fog_block" />
+		<FieldBlock Index="16" Name="Patchy Fog" BlockName="sky_patchy_fog_block" />
+		<FieldExplanation Index="17" Name="BLOOM OVERRIDE" Explanation="" />
+		<FieldRealFraction Index="18" Name="Amount:[0,1]" />
+		<FieldRealFraction Index="19" Name="Threshold:[0,1]" />
+		<FieldRealFraction Index="20" Name="Brightness:[0,1]" />
+		<FieldReal Index="21" Name="Gamma Power" />
+		<FieldBlock Index="22" Name="Lights" BlockName="sky_light_block" />
+		<FieldExplanation Index="23" Name="ROTATION" Explanation="" />
+		<FieldAngle Index="24" Name="Global Sky Rotation" />
+		<FieldBlock Index="25" Name="Shader Functions" BlockName="sky_shader_function_block" />
+		<FieldBlock Index="26" Name="Animations" BlockName="sky_animation_block" />
+		<FieldPad Index="27" Name="" Length="12" />
+		<FieldRealRgbColor Index="28" Name="Clear Color" />
+		<FieldTerminator Index="29" Name="" />
+	</FieldSet>
+</AbideTagBlock>

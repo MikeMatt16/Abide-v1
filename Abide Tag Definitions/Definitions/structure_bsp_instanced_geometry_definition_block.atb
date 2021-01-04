@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_instanced_geometry_definition_block" DisplayName="structure_bsp_instanced_geometry_definition_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="9">
+		<FieldStruct Index="0" Name="Render Info" StructName="structure_instanced_geometry_render_info_struct_block" />
+		<FieldLongInteger Index="1" Name="Checksum*" />
+		<FieldRealPoint3D Index="2" Name="Bounding Sphere Center" />
+		<FieldReal Index="3" Name="Bounding Sphere Radius" />
+		<FieldStruct Index="4" Name="Collision Info" StructName="global_collision_bsp_struct_block" />
+		<FieldBlock Index="5" Name="bsp_physics*" BlockName="collision_bsp_physics_block" />
+		<FieldBlock Index="6" Name="Render Leaves*" BlockName="structure_bsp_leaf_block" />
+		<FieldBlock Index="7" Name="Surface References*" BlockName="structure_bsp_surface_reference_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

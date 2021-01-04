@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_interface_list_skin_definition_block" DisplayName="user_interface_list_skin_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="14">
+		<FieldLongFlags Index="0" Name="list flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="1" Name="" />
+		<FieldTagReference Index="2" Name="arrows bitmap" GroupTag="1651078253" />
+		<FieldPoint2D Index="3" Name="up-arrows offset:from bot-left of 1st item" />
+		<FieldPoint2D Index="4" Name="down-arrows offset:from bot-left of 1st item" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldExplanation Index="6" Name="Item Animations" Explanation="Animations ordered as follows:|n0) list item focused|n1) list item unfocused|n2) list item ambient|n3) list item hovered|n4) list item unhovered|n5) list item clicked (hovered-&gt;focused)|n6) list item unfocused back to hovered state (focused-&gt;hovered)|n" />
+		<FieldBlock Index="7" Name="item animations" BlockName="single_animation_reference_block" />
+		<FieldBlock Index="8" Name="text blocks" BlockName="text_block_reference_block" />
+		<FieldExplanation Index="9" Name="NOTE:" Explanation="the bitmap block top-left is actually bottom-left here in list skin land!" />
+		<FieldBlock Index="10" Name="bitmap blocks" BlockName="bitmap_block_reference_block" />
+		<FieldBlock Index="11" Name="hud blocks" BlockName="hud_block_reference_block" />
+		<FieldBlock Index="12" Name="player blocks" BlockName="player_block_reference_block" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

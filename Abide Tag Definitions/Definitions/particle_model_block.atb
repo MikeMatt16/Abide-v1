@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_model_block" DisplayName="particle_model" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="27">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="spins" />
+			<Option Name="random u mirror" />
+			<Option Name="random v mirror" />
+			<Option Name="frame animation one shot" />
+			<Option Name="select random sequence" />
+			<Option Name="disable frame blending" />
+			<Option Name="can animate backwards" />
+			<Option Name="receive lightmap lighting" />
+			<Option Name="tint from diffuse texture" />
+			<Option Name="dies at rest" />
+			<Option Name="dies on structure collision" />
+			<Option Name="dies in media" />
+			<Option Name="dies in air" />
+			<Option Name="bitmap authored vertically" />
+			<Option Name="has sweetener" />
+		</FieldLongFlags>
+		<FieldLongEnum Index="1" Name="orientation">
+			<Option Name="screen facing" />
+			<Option Name="parallel to direction" />
+			<Option Name="perpendicular to direction" />
+			<Option Name="vertical" />
+			<Option Name="horizontal" />
+		</FieldLongEnum>
+		<FieldPad Index="2" Name="" Length="16" />
+		<FieldTagReference Index="3" Name="shader" GroupTag="1936220516" />
+		<FieldExplanation Index="4" Name="SCALE X" Explanation="scale of model on x axis" />
+		<FieldStruct Index="5" Name="scale x" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="6" Name="SCALE Y" Explanation="scale of model on y axis" />
+		<FieldStruct Index="7" Name="scale y" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="8" Name="SCALE Z" Explanation="scale of model on z axis" />
+		<FieldStruct Index="9" Name="scale z" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="10" Name="ROTATION" Explanation="rotation where 0=0 degrees, 0.5=180 degrees, 1.0=360 degrees" />
+		<FieldStruct Index="11" Name="rotation" StructName="particle_property_scalar_struct_new_block" />
+		<FieldExplanation Index="12" Name="Spawned Effects" Explanation="collision occurs when particle physics has collision, death spawned when particle dies" />
+		<FieldTagReference Index="13" Name="collision effect#effect, material effect or sound spawned when this particle collides with something" GroupTag="-3" />
+		<FieldTagReference Index="14" Name="death effect#effect, material effect or sound spawned when this particle dies" GroupTag="-3" />
+		<FieldExplanation Index="15" Name="Attached Particle Systems" Explanation="Locations:|nup - particles shoot straight up|ngravity - particles shoot straight down|nNONE - opposite of particle direction" />
+		<FieldBlock Index="16" Name="locations" BlockName="effect_locations_block" />
+		<FieldBlock Index="17" Name="attached particle systems" BlockName="particle_system_definition_block_new" />
+		<FieldBlock Index="18" Name="models*" BlockName="particle_models_block" />
+		<FieldBlock Index="19" Name="raw vertices*" BlockName="particle_model_vertices_block" />
+		<FieldBlock Index="20" Name="indices*" BlockName="particle_model_indices_block" />
+		<FieldBlock Index="21" Name="cached data" BlockName="cached_data_block" />
+		<FieldStruct Index="22" Name="geometry section info" StructName="global_geometry_block_info_struct_block" />
+		<FieldPad Index="23" Name="" Length="16" />
+		<FieldPad Index="24" Name="" Length="8" />
+		<FieldPad Index="25" Name="" Length="4" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

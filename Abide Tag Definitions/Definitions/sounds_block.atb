@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sounds_block" DisplayName="sounds_block" MaximumElementCount="60">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="sound^" GroupTag="1936614433" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

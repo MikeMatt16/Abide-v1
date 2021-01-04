@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_block" DisplayName="object" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="45">
+		<FieldPad Index="0" Name="" Length="2" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="does not cast shadow" />
+			<Option Name="search cardinal direction lightmaps on failure" />
+			<Option Name="unused" />
+			<Option Name="not a pathfinding obstacle" />
+			<Option Name="extension of parent#object passes all function values to parent and uses parent's markers" />
+			<Option Name="does not cause collision damage" />
+			<Option Name="early mover" />
+			<Option Name="early mover localized physics" />
+			<Option Name="use static massive lightmap sample#cast a ton of rays once and store the results for lighting" />
+			<Option Name="object scales attachments" />
+			<Option Name="inherits player's appearance" />
+			<Option Name="dead bipeds can't localize" />
+			<Option Name="attach to clusters by dynamic sphere#use this for the mac gun on spacestation" />
+			<Option Name="Effects created by this object do not spawn objects in multiplayer." />
+		</FieldWordFlags>
+		<FieldReal Index="2" Name="bounding radius:world units" />
+		<FieldRealPoint3D Index="3" Name="bounding offset" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldReal Index="5" Name="acceleration scale:[0,+inf]#marine 1.0, grunt 1.4, elite 0.9, hunter 0.5, etc." />
+		<FieldEnum Index="6" Name="lightmap shadow mode">
+			<Option Name="default" />
+			<Option Name="never" />
+			<Option Name="always" />
+		</FieldEnum>
+		<FieldCharEnum Index="7" Name="sweetener size">
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+		</FieldCharEnum>
+		<FieldPad Index="8" Name="" Length="1" />
+		<FieldPad Index="9" Name="" Length="4" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldReal Index="11" Name="dynamic light sphere radius#sphere to use for dynamic lights and shadows. only used if not 0" />
+		<FieldRealPoint3D Index="12" Name="dynamic light sphere offset#only used if radius not 0" />
+		<FieldStringId Index="13" Name="default model variant" />
+		<FieldTagReference Index="14" Name="model" GroupTag="1751936372" />
+		<FieldTagReference Index="15" Name="crate object" GroupTag="1651273571" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldTagReference Index="17" Name="modifier shader" GroupTag="1936220516" />
+		<FieldTagReference Index="18" Name="creation effect" GroupTag="1701209701" />
+		<FieldTagReference Index="19" Name="material effects" GroupTag="1718579060" />
+		<FieldUselessPad Index="20" Name="" />
+		<FieldBlock Index="21" Name="ai properties" BlockName="object_ai_properties_block" />
+		<FieldUselessPad Index="22" Name="" />
+		<FieldBlock Index="23" Name="functions" BlockName="object_function_block" />
+		<FieldUselessPad Index="24" Name="" />
+		<FieldExplanation Index="25" Name="Applying collision damage" Explanation="for things that want to cause more or less collision damage" />
+		<FieldReal Index="26" Name="Apply collision damage scale#0 means 1.  1 is standard scale.  Some things may want to apply more damage" />
+		<FieldExplanation Index="27" Name="Game collision damage parameters" Explanation="0 - means take default value from globals.globals" />
+		<FieldReal Index="28" Name="min game acc (default)#0-oo" />
+		<FieldReal Index="29" Name="max game acc (default)#0-oo" />
+		<FieldReal Index="30" Name="min game scale (default)#0-1" />
+		<FieldReal Index="31" Name="max game scale (default)#0-1" />
+		<FieldExplanation Index="32" Name="Absolute collision damage parameters" Explanation="0 - means take default value from globals.globals" />
+		<FieldReal Index="33" Name="min abs acc (default)#0-oo" />
+		<FieldReal Index="34" Name="max abs acc (default)#0-oo" />
+		<FieldReal Index="35" Name="min abs scale (default)#0-1" />
+		<FieldReal Index="36" Name="max abs scale (default)#0-1" />
+		<FieldShortInteger Index="37" Name="hud text message index" />
+		<FieldPad Index="38" Name="" Length="2" />
+		<FieldBlock Index="39" Name="attachments" BlockName="object_attachment_block" />
+		<FieldBlock Index="40" Name="widgets" BlockName="object_widget_block" />
+		<FieldBlock Index="41" Name="old functions" BlockName="old_object_function_block" />
+		<FieldBlock Index="42" Name="change colors" BlockName="object_change_colors" />
+		<FieldBlock Index="43" Name="predicted resources*" BlockName="predicted_resource_block" />
+		<FieldTerminator Index="44" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_particle_system_lite_block" DisplayName="global_particle_system_lite_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="25">
+		<FieldTagReference Index="0" Name="sprites" GroupTag="1651078253" />
+		<FieldReal Index="1" Name="view box width" />
+		<FieldReal Index="2" Name="view box height" />
+		<FieldReal Index="3" Name="view box depth" />
+		<FieldReal Index="4" Name="exclusion radius" />
+		<FieldReal Index="5" Name="max velocity" />
+		<FieldReal Index="6" Name="min mass" />
+		<FieldReal Index="7" Name="max mass" />
+		<FieldReal Index="8" Name="min size" />
+		<FieldReal Index="9" Name="max size" />
+		<FieldLongInteger Index="10" Name="maximum number of particles" />
+		<FieldRealVector3D Index="11" Name="initial velocity" />
+		<FieldReal Index="12" Name="bitmap animation speed" />
+		<FieldStruct Index="13" Name="geometry block info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="14" Name="particle system data" BlockName="particle_system_lite_data_block" />
+		<FieldEnum Index="15" Name="type">
+			<Option Name="generic" />
+			<Option Name="snow" />
+			<Option Name="rain" />
+			<Option Name="rain splash" />
+			<Option Name="bugs" />
+			<Option Name="sand storm" />
+			<Option Name="debris" />
+			<Option Name="bubbles" />
+		</FieldEnum>
+		<FieldPad Index="16" Name="" Length="2" />
+		<FieldReal Index="17" Name="mininum opacity" />
+		<FieldReal Index="18" Name="maxinum opacity" />
+		<FieldReal Index="19" Name="rain streak scale" />
+		<FieldReal Index="20" Name="rain line width" />
+		<FieldPad Index="21" Name="" Length="4" />
+		<FieldPad Index="22" Name="" Length="4" />
+		<FieldPad Index="23" Name="" Length="4" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_light_fixture_palette_block" DisplayName="scenario_light_fixture_palette_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="3">
+		<FieldTagReference Index="0" Name="Name^" GroupTag="1818846825" />
+		<FieldPad Index="1" Name="" Length="32" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

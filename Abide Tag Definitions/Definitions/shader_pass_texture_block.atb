@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_texture_block" DisplayName="texture stage" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="15">
+		<FieldStringId Index="0" Name="Source Parameter" />
+		<FieldEnum Index="1" Name="Source Extern">
+			<Option Name="None" />
+			<Option Name="GLOBAL: Vector Normalization" />
+			<Option Name="UNUSED" />
+			<Option Name="GLOBAL: Target texaccum" />
+			<Option Name="UNUSED" />
+			<Option Name="GLOBAL: Target Frame Buffer" />
+			<Option Name="GLOBA: Target z" />
+			<Option Name="UNUSED" />
+			<Option Name="GLOBAL: Target Shadow" />
+			<Option Name="LIGHT: Falloff" />
+			<Option Name="LIGHT: Gel" />
+			<Option Name="LIGHTMAP" />
+			<Option Name="UNUSED" />
+			<Option Name="GLOBAL: Shadow Buffer" />
+			<Option Name="GLOBAL: Gradient Separate" />
+			<Option Name="GLOBAL: Gradient Product" />
+			<Option Name="HUD: Bitmap" />
+			<Option Name="GLOBAL: active camo" />
+			<Option Name="GLOBAL: Texture Camera" />
+			<Option Name="GLOBAL: Water Reflection" />
+			<Option Name="GLOBAL: Water Refraction" />
+			<Option Name="GLOBAL: Aux 1" />
+			<Option Name="GLOBAL: Aux 2" />
+			<Option Name="GLOBAL: Particle Distortion" />
+			<Option Name="GLOBAL: Convolution 1" />
+			<Option Name="GLOBAL: Convolution 2" />
+			<Option Name="SHADER: Active Camo Bump" />
+			<Option Name="FIRST PERSON: Scope" />
+		</FieldEnum>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldSkip Index="3" Name="" Length="2" />
+		<FieldEnum Index="4" Name="Mode">
+			<Option Name="2D" />
+			<Option Name="3D" />
+			<Option Name="Cube Map" />
+			<Option Name="Passthrough" />
+			<Option Name="texkill" />
+			<Option Name="2D Dependent AR" />
+			<Option Name="2D Dependent GB" />
+			<Option Name="2D bumpenv" />
+			<Option Name="2D bumpenv Luminance" />
+			<Option Name="3D BRDF" />
+			<Option Name="Dot Product" />
+			<Option Name="Dot Product 2D" />
+			<Option Name="Dot Product 3D" />
+			<Option Name="Dot Product Cube Map" />
+			<Option Name="Dot Product ZW" />
+			<Option Name="Dot Reflect Diffuse" />
+			<Option Name="Dot Reflect Specular" />
+			<Option Name="Dot Reflect Specular Const" />
+			<Option Name="None" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldEnum Index="6" Name="Dot Mapping">
+			<Option Name="0 to 1" />
+			<Option Name="Signed D3D" />
+			<Option Name="Signed GL" />
+			<Option Name="Signed NV" />
+			<Option Name="HILO: 0 to 1" />
+			<Option Name="HILO: Signed Hemisphere D3D" />
+			<Option Name="HILO: Signed Hemisphere GL" />
+			<Option Name="HILO: Signed Hemisphere NV" />
+		</FieldEnum>
+		<FieldShortInteger Index="7" Name="Input Stage:[0,3]" />
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldBlock Index="9" Name="address state" BlockName="shader_texture_state_address_state_block" />
+		<FieldBlock Index="10" Name="filter state" BlockName="shader_texture_state_filter_state_block" />
+		<FieldBlock Index="11" Name="kill state" BlockName="shader_texture_state_kill_state_block" />
+		<FieldBlock Index="12" Name="misc state" BlockName="shader_texture_state_misc_state_block" />
+		<FieldBlock Index="13" Name="constants" BlockName="shader_texture_state_constant_block" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

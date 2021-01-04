@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="effect_locations_block" DisplayName="effect_locations_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="3">
+		<FieldExplanation Index="0" Name="MARKER NAMES" Explanation="In addition to the marker in the render model there are several special marker names:|n|nreplace|nReplace allows you to use the same effect with different markers. Damage transition effects support this for example.|n|ngravity, up|nThe direction of gravity (down) and the opposite direction (up).  Always supplied|n|nnormal|nVector pointing directly away from the surface you collided with. Supplied for effects from collision.|n|nforward|nThe 'negative incident' vector i.e. the direction the object is moving in. Most commonly used to generated decals. Supplied for effects from collision.|n|nbackward|nThe 'incident' vector i.e. the opposite of the direction the object is moving in. Supplied for effects from collision.|n|nreflection|nThe way the effect would reflect off the surface it hit. Supplied for effects from collision.|n|nroot|nThe object root (pivot). These can used for all effects which are associated with an object.|n|nimpact|nThe location of a havok impact.|n|n" />
+		<FieldOldStringId Index="1" Name="marker name^" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

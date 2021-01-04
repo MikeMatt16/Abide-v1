@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_description_block" DisplayName="scenario_description_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="6">
+		<FieldExplanation Index="0" Name="net map info" Explanation="these provide the info required by the UI to load a net map" />
+		<FieldTagReference Index="1" Name="descriptive bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="displayed map name" GroupTag="1970170211" />
+		<FieldString Index="3" Name="scenario tag directory path#this is the path to the directory containing the scenario tag file of the same name" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

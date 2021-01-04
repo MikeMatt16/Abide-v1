@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="instantaneous_damage_repsonse_block" DisplayName="instantaneous_damage_repsonse_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="28">
+		<FieldEnum Index="0" Name="response type">
+			<Option Name="receives all damage" />
+			<Option Name="receives area effect damage" />
+			<Option Name="receives local damage" />
+		</FieldEnum>
+		<FieldExplanation Index="1" Name="Constraint damage type" Explanation="* if you specify a constraint group name (see lower section of this block)|n  you can specify a constraint damage|n* loosening a constraint takes it out of the rigid state - activates it|n* destroying a constraint sets the attached body free" />
+		<FieldEnum Index="2" Name="constraint damage type">
+			<Option Name="none" />
+			<Option Name="destroy one of group" />
+			<Option Name="destroy entire group" />
+			<Option Name="loosen one of group" />
+			<Option Name="loosen entire group" />
+		</FieldEnum>
+		<FieldExplanation Index="3" Name="Damage response flags" Explanation="* kills object: when the response fires the object dies regardless of its current health|n* inhibits &lt;x&gt;: from halo 1 - disallows basic behaviors for a unit|n* forces drop weapon: from halo 1 - makes the unit drop its current weapon|n* kills weapon &lt;x&gt; trigger: destroys the &lt;x&gt; trigger on the unit's current weapon|n* destroys object: when the response fires the object is destroyed" />
+		<FieldLongFlags Index="4" Name="flags">
+			<Option Name="kills object" />
+			<Option Name="inhibits melee attack" />
+			<Option Name="inhibits weapon attack" />
+			<Option Name="inhibits walking" />
+			<Option Name="forces drop weapon" />
+			<Option Name="kills weapon primary trigger" />
+			<Option Name="kills weapon secondary trigger" />
+			<Option Name="destroys object" />
+			<Option Name="damages weapon primary trigger" />
+			<Option Name="damages weapon secondary trigger" />
+			<Option Name="light damage left turn" />
+			<Option Name="major damage left turn" />
+			<Option Name="light damage right turn" />
+			<Option Name="major damage right turn" />
+			<Option Name="light damage engine" />
+			<Option Name="major damage engine" />
+			<Option Name="kills object (no player solo)" />
+			<Option Name="causes detonation" />
+			<Option Name="destroy all group constraints" />
+			<Option Name="kills variant objects" />
+			<Option Name="force unattached effects" />
+			<Option Name="fires under threshold" />
+			<Option Name="triggers special death" />
+			<Option Name="only on special death" />
+			<Option Name="only NOT on special death" />
+		</FieldLongFlags>
+		<FieldReal Index="5" Name="damage threshold#repsonse fires after crossing this threshold.  1=full health" />
+		<FieldTagReference Index="6" Name="transition effect" GroupTag="1701209701" />
+		<FieldStruct Index="7" Name="damage effect" StructName="instantaneous_response_damage_effect_struct_block" />
+		<FieldStringId Index="8" Name="region" />
+		<FieldEnum Index="9" Name="new state">
+			<Option Name="default" />
+			<Option Name="minor damage" />
+			<Option Name="medium damage" />
+			<Option Name="major damage" />
+			<Option Name="destroyed" />
+		</FieldEnum>
+		<FieldShortInteger Index="10" Name="runtime region index*" />
+		<FieldStringId Index="11" Name="effect marker name" />
+		<FieldStruct Index="12" Name="damage effect marker" StructName="instantaneous_response_damage_effect_marker_struct_block" />
+		<FieldExplanation Index="13" Name="Response delay" Explanation="If desired, you can specify a delay until the response fires.This delay is pre-empted if another timed response for the same section fires.The delay effect plays while the timer is counting down" />
+		<FieldReal Index="14" Name="response delay#in seconds" />
+		<FieldTagReference Index="15" Name="delay effect" GroupTag="1701209701" />
+		<FieldStringId Index="16" Name="delay effect marker name" />
+		<FieldExplanation Index="17" Name="Constraint destruction" Explanation="- a response can destroy a single constraint by naming it explicitly.|n- alternatively it can randomly destroy a single constraint from a specified group if the &quot;destroy one group constraint&quot; flag is set|n- also it can destroy all constraints in a specified group if the &quot;destroy all group constraints&quot; flag is set|n" />
+		<FieldStringId Index="18" Name="constraint/group name" />
+		<FieldExplanation Index="19" Name="seat ejaculation" Explanation="" />
+		<FieldStringId Index="20" Name="ejecting seat label" />
+		<FieldExplanation Index="21" Name="skip fraction" Explanation="0.0 always fires, 1.0 never fires" />
+		<FieldRealFraction Index="22" Name="skip fraction" />
+		<FieldExplanation Index="23" Name="destroyed child object marker name" Explanation="when this response fires, any children objects created at the supplied marker name will be destroyed" />
+		<FieldStringId Index="24" Name="destroyed child object marker name" />
+		<FieldExplanation Index="25" Name="total damage threshold" Explanation="scale on total damage section vitality" />
+		<FieldRealFraction Index="26" Name="total damage threshold" />
+		<FieldTerminator Index="27" Name="" />
+	</FieldSet>
+</AbideTagBlock>

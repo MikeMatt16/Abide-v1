@@ -199,7 +199,14 @@ namespace XbExplorer
 
         private static string GetLocalName(string root, string path)
         {
-            return path.Replace(root, string.Empty).Substring(1);
+            if (path.StartsWith(root))
+            {
+                path = path.Substring(root.Length);
+                if (path.StartsWith("\\")) path = path.Substring(1);
+                return path;
+            }
+
+            throw new ArgumentException();
         }
 
         private static string GetSizeString(long size)

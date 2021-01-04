@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_fog_zone_debug_info_block" DisplayName="structure_bsp_fog_zone_debug_info_block" MaximumElementCount="127">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongInteger Index="0" Name="Media Index:Scenario Fog Plane*" />
+		<FieldLongInteger Index="1" Name="Base Fog Plane Index*" />
+		<FieldPad Index="2" Name="" Length="24" />
+		<FieldBlock Index="3" Name="Lines*" BlockName="structure_bsp_debug_info_render_line_block" />
+		<FieldBlock Index="4" Name="Immersed Cluster Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="5" Name="Bounding Fog Plane Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="6" Name="Collision Fog Plane Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

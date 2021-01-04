@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="leaves_block" DisplayName="leaves_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="4">
+		<FieldByteFlags Index="0" Name="Flags*">
+			<Option Name="Contains Double-Sided Surfaces" />
+		</FieldByteFlags>
+		<FieldCharInteger Index="1" Name="BSP 2D Reference Count*" />
+		<FieldShortInteger Index="2" Name="First BSP 2D Reference*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

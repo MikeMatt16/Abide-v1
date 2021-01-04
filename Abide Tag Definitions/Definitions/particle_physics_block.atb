@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_physics_block" DisplayName="particle_physics" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldTagReference Index="0" Name="template" GroupTag="1886220150" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="physics" />
+			<Option Name="collide with structure" />
+			<Option Name="collide with media" />
+			<Option Name="collide with scenery" />
+			<Option Name="collide with vehicles" />
+			<Option Name="collide with bipeds" />
+			<Option Name="swarm" />
+			<Option Name="wind" />
+		</FieldLongFlags>
+		<FieldBlock Index="2" Name="movements" BlockName="particle_controller" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

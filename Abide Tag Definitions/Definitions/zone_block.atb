@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="zone_block" DisplayName="zone_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="8">
+		<FieldString Index="0" Name="name^" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="manual bsp index" />
+		</FieldLongFlags>
+		<FieldShortBlockIndex1 Index="2" Name="manual bsp" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldBlock Index="5" Name="firing positions" BlockName="firing_positions_block" />
+		<FieldBlock Index="6" Name="areas" BlockName="areas_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

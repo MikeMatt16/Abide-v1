@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="melee_damage_parameters_struct_block" DisplayName="melee_damage_parameters_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldEulerAngles2D Index="0" Name="damage pyramid angles" />
+		<FieldReal Index="1" Name="damage pyramid depth" />
+		<FieldExplanation Index="2" Name="melee combo damage" Explanation="" />
+		<FieldTagReference Index="3" Name="1st hit melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="4" Name="1st hit melee response" GroupTag="1785754657" />
+		<FieldTagReference Index="5" Name="2nd hit melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="6" Name="2nd hit melee response" GroupTag="1785754657" />
+		<FieldTagReference Index="7" Name="3rd hit melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="8" Name="3rd hit melee response" GroupTag="1785754657" />
+		<FieldTagReference Index="9" Name="lunge melee damage#this is only important for the energy sword" GroupTag="1785754657" />
+		<FieldTagReference Index="10" Name="lunge melee response#this is only important for the energy sword" GroupTag="1785754657" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

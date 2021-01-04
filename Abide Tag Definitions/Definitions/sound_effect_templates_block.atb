@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_templates_block" DisplayName="sound_effect_templates_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="dsp effect" />
+		<FieldExplanation Index="1" Name="WARNING" Explanation="DON'T MODIFY THIS TAG UNLESS YOU KNOW WHAT YOU ARE DOING" />
+		<FieldData Index="2" Name="explanation" Alignment="4" MaximumSize="65536" ElementSize="1" />
+		<FieldLongFlags Index="3" Name="flags">
+			<Option Name="use high level parameters" />
+			<Option Name="custom parameters" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="4" Name="" />
+		<FieldShortInteger Index="5" Name="" />
+		<FieldBlock Index="6" Name="parameters" BlockName="sound_effect_template_parameter_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

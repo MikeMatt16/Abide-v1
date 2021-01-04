@@ -8,17 +8,31 @@ namespace Abide.Wpf.Modules.Win32
     /// <summary>
     /// Exposes functions for configuring Abide with the Windows Registry.
     /// </summary>
-    public static class AbideRegistry
+    internal static class AbideRegistry
     {
         private static readonly RegistryKey classes = Registry.CurrentUser.CreateSubKey(@"Software\Classes");
         private static readonly RegistryKey abide = Registry.CurrentUser.CreateSubKey(@"Software\Abide");
+        private static readonly RegistryKey guerilla = Registry.CurrentUser.CreateSubKey(@"Software\Abide\Guerilla");
         private static readonly RegistryKey halo2 = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2");
-        private static readonly RegistryKey halo2b = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2 Beta");
+        private static readonly RegistryKey halo2b = Registry.CurrentUser.CreateSubKey(@"Software\Xbox\Halo2\Beta");
 
         public static TagView TagViewType
         {
-            get { return (TagView)(Enum.Parse(typeof(TagView), GetValue<string>(abide, "TagViewType")) ?? TagView.TagPath); }
-            set { SetValue(abide, "TagViewType", Enum.GetName(typeof(TagView), value)); }
+            get
+            {
+                SetDefault(abide, "TagViewType", Enum.GetName(typeof(TagView), TagView.TagType));
+                return (TagView)Enum.Parse(typeof(TagView), GetValue<string>(abide, "TagViewType"));
+            }
+            set => SetValue(abide, "TagViewType", Enum.GetName(typeof(TagView), value));
+        }
+        public static string GuerillaWorkspaceDirectory
+        {
+            get
+            {
+                SetDefault(guerilla, "WorkspaceDirectory", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Abide", "Guerilla"));
+                return GetValue<string>(guerilla, "WorkspaceDirectory");
+            }
+            set => SetValue(guerilla, "WorkspaceDirectory", value);
         }
         public static string AddOnsDirectory
         {
@@ -27,7 +41,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(abide, "AddOns", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Abide", "AddOns"));
                 return GetValue<string>(abide, "AddOns");
             }
-            set { SetValue(abide, "AddOns", value); }
+            set => SetValue(abide, "AddOns", value);
         }
         public static string[] Halo2RecentFiles
         {
@@ -61,8 +75,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2, "Paths", "Plugins", string.Empty);
                 return GetValue<string>(halo2, "Paths", "Plugins");
             }
-            set
-            { SetValue(halo2, "Paths", "Plugins", value); }
+            set => SetValue(halo2, "Paths", "Plugins", value);
         }
         public static string Halo2Shared
         {
@@ -71,8 +84,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2, "Paths", "Shared", string.Empty);
                 return GetValue<string>(halo2, "Paths", "Shared");
             }
-            set
-            { SetValue(halo2, "Paths", "Shared", value); }
+            set => SetValue(halo2, "Paths", "Shared", value);
         }
         public static string Halo2SpShared
         {
@@ -81,8 +93,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2, "Paths", "SPShared", string.Empty);
                 return GetValue<string>(halo2, "Paths", "SPShared");
             }
-            set
-            { SetValue(halo2, "Paths", "SPShared", value); }
+            set => SetValue(halo2, "Paths", "SPShared", value);
         }
         public static string Halo2Mainmenu
         {
@@ -91,8 +102,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2, "Paths", "MainMenu", string.Empty);
                 return GetValue<string>(halo2, "Paths", "MainMenu");
             }
-            set
-            { SetValue(halo2, "Paths", "MainMenu", value); }
+            set => SetValue(halo2, "Paths", "MainMenu", value);
         }
         public static string[] Halo2bRecentFiles
         {
@@ -126,8 +136,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2b, "Paths", "Plugins", string.Empty);
                 return GetValue<string>(halo2b, "Paths", "Plugins");
             }
-            set
-            { SetValue(halo2b, "Paths", "Plugins", value); }
+            set => SetValue(halo2b, "Paths", "Plugins", value);
         }
         public static string Halo2bShared
         {
@@ -136,8 +145,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2b, "Paths", "Shared", string.Empty);
                 return GetValue<string>(halo2b, "Paths", "Shared");
             }
-            set
-            { SetValue(halo2b, "Paths", "Shared", value); }
+            set => SetValue(halo2b, "Paths", "Shared", value);
         }
         public static string Halo2bSpShared
         {
@@ -146,8 +154,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2b, "Paths", "SPShared", string.Empty);
                 return GetValue<string>(halo2b, "Paths", "SPShared");
             }
-            set
-            { SetValue(halo2b, "Paths", "SPShared", value); }
+            set => SetValue(halo2b, "Paths", "SPShared", value);
         }
         public static string Halo2bMainmenu
         {
@@ -156,8 +163,7 @@ namespace Abide.Wpf.Modules.Win32
                 SetDefault(halo2b, "Paths", "MainMenu", string.Empty);
                 return GetValue<string>(halo2b, "Paths", "MainMenu");
             }
-            set
-            { SetValue(halo2b, "Paths", "MainMenu", value); }
+            set => SetValue(halo2b, "Paths", "MainMenu", value);
         }
         private static T GetValue<T>(RegistryKey key, string name)
         {

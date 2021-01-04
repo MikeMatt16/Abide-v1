@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="constraint_bodies_struct_block" DisplayName="constraint_bodies_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="node a*" />
+		<FieldShortBlockIndex1 Index="2" Name="node b*" />
+		<FieldReal Index="3" Name="a scale*" />
+		<FieldRealVector3D Index="4" Name="a forward*" />
+		<FieldRealVector3D Index="5" Name="a left*" />
+		<FieldRealVector3D Index="6" Name="a up*" />
+		<FieldRealPoint3D Index="7" Name="a position*" />
+		<FieldReal Index="8" Name="b scale*" />
+		<FieldRealVector3D Index="9" Name="b forward*" />
+		<FieldRealVector3D Index="10" Name="b left*" />
+		<FieldRealVector3D Index="11" Name="b up*" />
+		<FieldRealPoint3D Index="12" Name="b position*" />
+		<FieldShortBlockIndex1 Index="13" Name="edge index*" />
+		<FieldPad Index="14" Name="" Length="2" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

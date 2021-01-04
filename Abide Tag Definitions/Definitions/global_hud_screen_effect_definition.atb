@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_hud_screen_effect_definition" DisplayName="global_hud_screen_effect_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="25">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldExplanation Index="1" Name="Mask" Explanation="Mask bitmap overlay. Use either a 2D bitmap or an interface bitmap." />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="only when zoomed" />
+			<Option Name="mirror horizontally" />
+			<Option Name="mirror vertically" />
+			<Option Name="use new hotness" />
+		</FieldWordFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="16" />
+		<FieldTagReference Index="5" Name="mask (fullscreen)" GroupTag="1651078253" />
+		<FieldTagReference Index="6" Name="mask (splitscreen)" GroupTag="1651078253" />
+		<FieldPad Index="7" Name="" Length="8" />
+		<FieldPad Index="8" Name="" Length="20" />
+		<FieldPad Index="9" Name="" Length="24" />
+		<FieldPad Index="10" Name="" Length="8" />
+		<FieldPad Index="11" Name="" Length="24" />
+		<FieldPad Index="12" Name="" Length="20" />
+		<FieldPad Index="13" Name="" Length="24" />
+		<FieldExplanation Index="14" Name="Screen effect (fullscreen)" Explanation="" />
+		<FieldLongFlags Index="15" Name="screen effect flags">
+			<Option Name="only when zoomed" />
+		</FieldLongFlags>
+		<FieldPad Index="16" Name="" Length="32" />
+		<FieldTagReference Index="17" Name="screen effect" GroupTag="1701277554" />
+		<FieldPad Index="18" Name="" Length="32" />
+		<FieldExplanation Index="19" Name="Screen effect (splitscreen)" Explanation="" />
+		<FieldLongFlags Index="20" Name="screen effect flags">
+			<Option Name="only when zoomed" />
+		</FieldLongFlags>
+		<FieldPad Index="21" Name="" Length="32" />
+		<FieldTagReference Index="22" Name="screen effect" GroupTag="1701277554" />
+		<FieldPad Index="23" Name="" Length="32" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

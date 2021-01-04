@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_starting_equipment_block" DisplayName="scenario_starting_equipment_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="14">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="No Grenades" />
+			<Option Name="Plasma Grenades" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="Game Type 1">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="Game Type 2">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="Game Type 3">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="Game Type 4">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="48" />
+		<FieldTagReference Index="6" Name="Item Collection 1" GroupTag="1769237859" />
+		<FieldTagReference Index="7" Name="Item Collection 2" GroupTag="1769237859" />
+		<FieldTagReference Index="8" Name="Item Collection 3" GroupTag="1769237859" />
+		<FieldTagReference Index="9" Name="Item Collection 4" GroupTag="1769237859" />
+		<FieldTagReference Index="10" Name="Item Collection 5" GroupTag="1769237859" />
+		<FieldTagReference Index="11" Name="Item Collection 6" GroupTag="1769237859" />
+		<FieldPad Index="12" Name="" Length="48" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

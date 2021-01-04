@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_effect_sound_effect_definition_block" DisplayName="damage_effect_sound_effect_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="effect name" />
+		<FieldReal Index="1" Name="duration:seconds" />
+		<FieldCustom Index="2" Name="effect scale function" />
+		<FieldStruct Index="3" Name="effect scale function" StructName="mapping_function_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

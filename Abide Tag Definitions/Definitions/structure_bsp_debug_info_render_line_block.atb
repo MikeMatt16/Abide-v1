@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_debug_info_render_line_block" DisplayName="structure_bsp_debug_info_render_line_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="7">
+		<FieldEnum Index="0" Name="Type*">
+			<Option Name="Fog Plane Boundary Edge" />
+			<Option Name="Fog Plane Internal Edge" />
+			<Option Name="Fog Zone Floodfill" />
+			<Option Name="Fog Zone Cluster Centroid" />
+			<Option Name="Fog Zone Cluster Geometry" />
+			<Option Name="Fog Zone Portal Centroid" />
+			<Option Name="Fog Zone Portal Geometry" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="Code*" />
+		<FieldShortInteger Index="2" Name="Pad Thai*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldRealPoint3D Index="4" Name="Point 0*" />
+		<FieldRealPoint3D Index="5" Name="Point 1*" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

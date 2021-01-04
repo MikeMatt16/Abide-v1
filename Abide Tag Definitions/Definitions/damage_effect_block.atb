@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_effect_block" DisplayName="damage_effect" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="67">
+		<FieldRealBounds Index="0" Name="radius:world units" />
+		<FieldRealFraction Index="1" Name="cutoff scale:[0,1]" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="don't scale damage by distance" />
+			<Option Name="area damage players only#area of effect damage only affects players" />
+		</FieldLongFlags>
+		<FieldExplanation Index="3" Name="damage" Explanation="" />
+		<FieldEnum Index="4" Name="side effect">
+			<Option Name="none" />
+			<Option Name="harmless" />
+			<Option Name="lethal to the unsuspecting" />
+			<Option Name="emp" />
+		</FieldEnum>
+		<FieldEnum Index="5" Name="category">
+			<Option Name="none" />
+			<Option Name="falling" />
+			<Option Name="bullet" />
+			<Option Name="grenade" />
+			<Option Name="high explosive" />
+			<Option Name="sniper" />
+			<Option Name="melee" />
+			<Option Name="flame" />
+			<Option Name="mounted weapon" />
+			<Option Name="vehicle" />
+			<Option Name="plasma" />
+			<Option Name="needle" />
+			<Option Name="shotgun" />
+		</FieldEnum>
+		<FieldLongFlags Index="6" Name="flags">
+			<Option Name="does not hurt owner" />
+			<Option Name="can cause headshots" />
+			<Option Name="pings resistant units" />
+			<Option Name="does not hurt friends" />
+			<Option Name="does not ping units" />
+			<Option Name="detonates explosives" />
+			<Option Name="only hurts shields" />
+			<Option Name="causes flaming death" />
+			<Option Name="damage indicators always point down" />
+			<Option Name="skips shields" />
+			<Option Name="only hurts one infection form" />
+			<Option Name="obsolete, was can cause multiplayer headshots" />
+			<Option Name="infection form pop" />
+			<Option Name="ignore seat scale for dir. dmg" />
+			<Option Name="forces hard ping" />
+			<Option Name="does not hurt players" />
+		</FieldLongFlags>
+		<FieldReal Index="7" Name="AOE core radius:world units#if this is area of effect damage" />
+		<FieldReal Index="8" Name="damage lower bound" />
+		<FieldRealBounds Index="9" Name="damage upper bound" />
+		<FieldAngle Index="10" Name="dmg inner cone angle" />
+		<FieldStruct Index="11" Name="blah" StructName="damage_outer_cone_angle_struct_block" />
+		<FieldReal Index="12" Name="active camouflage damage:[0,1]#how much more visible this damage makes a player who is active camouflaged" />
+		<FieldReal Index="13" Name="stun:[0,1]#amount of stun added to damaged unit" />
+		<FieldReal Index="14" Name="maximum stun:[0,1]#damaged unit's stun will never exceed this amount" />
+		<FieldReal Index="15" Name="stun time:seconds#duration of stun due to this damage" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldReal Index="17" Name="instantaneous acceleration:[0,+inf]" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldUselessPad Index="19" Name="" />
+		<FieldReal Index="20" Name="rider direct damage scale" />
+		<FieldReal Index="21" Name="rider maximum transfer damage scale" />
+		<FieldReal Index="22" Name="rider minimum transfer damage scale" />
+		<FieldUselessPad Index="23" Name="" />
+		<FieldStringId Index="24" Name="general_damage" />
+		<FieldStringId Index="25" Name="specific_damage" />
+		<FieldReal Index="26" Name="AI stun radius:world units" />
+		<FieldRealBounds Index="27" Name="AI stun bounds:(0-1)" />
+		<FieldReal Index="28" Name="shake radius" />
+		<FieldReal Index="29" Name="EMP radius" />
+		<FieldBlock Index="30" Name="player responses" BlockName="damage_effect_player_response_block" />
+		<FieldExplanation Index="31" Name="temporary camera impulse" Explanation="" />
+		<FieldReal Index="32" Name="duration:seconds" />
+		<FieldEnum Index="33" Name="fade function">
+			<Option Name="linear" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="cosine" />
+			<Option Name="zero" />
+			<Option Name="one" />
+		</FieldEnum>
+		<FieldPad Index="34" Name="" Length="2" />
+		<FieldAngle Index="35" Name="rotation:degrees" />
+		<FieldReal Index="36" Name="pushback:world units" />
+		<FieldRealBounds Index="37" Name="jitter:world units" />
+		<FieldUselessPad Index="38" Name="" />
+		<FieldUselessPad Index="39" Name="" />
+		<FieldExplanation Index="40" Name="camera shaking" Explanation="The wobble function and weight affects how the camera shake oscilates over time.|nIf the weight is one, then the wobble function completely scales the translational|nand rotational magnitudes.  The less the weight, the less the effect wobble has.|nIf the wobble weight is 0 then wobble is completely ignored." />
+		<FieldReal Index="41" Name="duration:seconds#the effect will last for this duration." />
+		<FieldEnum Index="42" Name="falloff function#a function to envelope the effect's magnitude over time">
+			<Option Name="linear" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="cosine" />
+			<Option Name="zero" />
+			<Option Name="one" />
+		</FieldEnum>
+		<FieldPad Index="43" Name="" Length="2" />
+		<FieldReal Index="44" Name="random translation:world units#random translation in all directions" />
+		<FieldAngle Index="45" Name="random rotation:degrees#random rotation in all directions" />
+		<FieldUselessPad Index="46" Name="" />
+		<FieldEnum Index="47" Name="wobble function#a function to perturb the effect's behavior over time">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldPad Index="48" Name="" Length="2" />
+		<FieldReal Index="49" Name="wobble function period:seconds" />
+		<FieldRealFraction Index="50" Name="wobble weight#a value of 0.0 signifies that the wobble function has no effect; a value of 1.0 signifies that the effect will not be felt when the wobble function's value is zero." />
+		<FieldUselessPad Index="51" Name="" />
+		<FieldUselessPad Index="52" Name="" />
+		<FieldUselessPad Index="53" Name="" />
+		<FieldExplanation Index="54" Name="sound" Explanation="" />
+		<FieldTagReference Index="55" Name="sound" GroupTag="1936614433" />
+		<FieldUselessPad Index="56" Name="" />
+		<FieldExplanation Index="57" Name="breaking effect" Explanation="Controls particle velocities when a damage effect shatters a materal.|n|nAll particles created within 'forward radius' will be kicked along the|ndamage direction with a speed equivalent to 'forward velocity' at the|nepicenter of the damage and 0 at the outer radius.  'Forward exponent'|nis used to modify the velocity scale.  A low exponent (like 0.5) means that|nparticles between the epicenter and the radius will be kicked out with a speed|ncloser to 'forward velocity' than if a higher exponent (like 2.0) was used|n|nThe outward fields work in a similar way, except instead of kicking along the|ndamage direction, they get kick away from the damage epicenter." />
+		<FieldReal Index="58" Name="forward velocity:world units per second" />
+		<FieldReal Index="59" Name="forward radius:world units" />
+		<FieldReal Index="60" Name="forward exponent" />
+		<FieldUselessPad Index="61" Name="" />
+		<FieldReal Index="62" Name="outward velocity:world units per second" />
+		<FieldReal Index="63" Name="outward radius:world units" />
+		<FieldReal Index="64" Name="outward exponent" />
+		<FieldUselessPad Index="65" Name="" />
+		<FieldTerminator Index="66" Name="" />
+	</FieldSet>
+</AbideTagBlock>

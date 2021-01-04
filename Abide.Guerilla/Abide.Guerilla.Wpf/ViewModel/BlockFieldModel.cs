@@ -192,7 +192,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
             int count = BlockList.Count;
 
             //Add
-            ITagBlock tagBlock = TagField.Add(out bool success);
+            Block tagBlock = TagField.Add(out bool success);
             if (success)
             {
                 //Add
@@ -209,7 +209,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
         private void InsertBlock()
         {
             //Create
-            ITagBlock tagBlock = TagField.Create();
+            Block tagBlock = TagField.Create();
             TagField.BlockList.Insert(selectedBlockIndex, tagBlock);
             BlockList.Insert(selectedBlockIndex, new TagBlockModel() { Owner = Owner, TagBlock = tagBlock });
 

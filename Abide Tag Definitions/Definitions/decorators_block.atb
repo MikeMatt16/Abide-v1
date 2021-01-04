@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorators_block" DisplayName="decorators" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldRealPoint3D Index="0" Name="Grid Origin" />
+		<FieldLongInteger Index="1" Name="Cell Count per Dimension" />
+		<FieldBlock Index="2" Name="Cache Blocks" BlockName="decorator_cache_block_block" />
+		<FieldBlock Index="3" Name="Groups" BlockName="decorator_group_block" />
+		<FieldBlock Index="4" Name="Cells" BlockName="decorator_cell_collection_block" />
+		<FieldBlock Index="5" Name="Decals" BlockName="decorator_projected_decal_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

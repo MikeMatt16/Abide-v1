@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="effect_event_block" DisplayName="effect_event_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="10">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="disabled for debugging" />
+		</FieldLongFlags>
+		<FieldRealFraction Index="1" Name="skip fraction#chance that this event will be skipped entirely" />
+		<FieldRealBounds Index="2" Name="delay bounds:seconds#delay before this event takes place" />
+		<FieldRealBounds Index="3" Name="duration bounds:seconds#duration of this event" />
+		<FieldBlock Index="4" Name="parts" BlockName="effect_part_block" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldBlock Index="6" Name="beams" BlockName="beam_block" />
+		<FieldBlock Index="7" Name="accelerations" BlockName="effect_accelerations_block" />
+		<FieldBlock Index="8" Name="particle systems" BlockName="particle_system_definition_block_new" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

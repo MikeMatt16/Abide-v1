@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_scene_role_variants_block" DisplayName="ai_scene_role_variants_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="2">
+		<FieldStringId Index="0" Name="variant designation^" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

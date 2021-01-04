@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="materials_sweeteners_struct_block" DisplayName="materials_sweeteners_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="17">
+		<FieldTagReference Index="0" Name="sound sweetener (small)" GroupTag="1936614433" />
+		<FieldTagReference Index="1" Name="sound sweetener (medium)" GroupTag="1936614433" />
+		<FieldTagReference Index="2" Name="sound sweetener (large)" GroupTag="1936614433" />
+		<FieldTagReference Index="3" Name="sound sweetener rolling" GroupTag="1819504228" />
+		<FieldTagReference Index="4" Name="sound sweetener grinding" GroupTag="1819504228" />
+		<FieldTagReference Index="5" Name="sound sweetener (melee)" GroupTag="1936614433" />
+		<FieldTagReference Index="6" Name="" GroupTag="-3" />
+		<FieldTagReference Index="7" Name="effect sweetener (small)" GroupTag="1701209701" />
+		<FieldTagReference Index="8" Name="effect sweetener (medium)" GroupTag="1701209701" />
+		<FieldTagReference Index="9" Name="effect sweetener (large)" GroupTag="1701209701" />
+		<FieldTagReference Index="10" Name="effect sweetener rolling" GroupTag="1701209701" />
+		<FieldTagReference Index="11" Name="effect sweetener grinding" GroupTag="1701209701" />
+		<FieldTagReference Index="12" Name="effect sweetener (melee)" GroupTag="1701209701" />
+		<FieldTagReference Index="13" Name="" GroupTag="-3" />
+		<FieldExplanation Index="14" Name="sweetener inheritance flags" Explanation="when a sweetener inheritance flag is set the sound\effect is not inherited from the parent material.  If you leave the sweetener blank and set the flag than no effect\sound will play" />
+		<FieldLongFlags Index="15" Name="sweetener inheritance flags">
+			<Option Name="sound_small" />
+			<Option Name="sound_medium" />
+			<Option Name="sound_large" />
+			<Option Name="sound_rolling" />
+			<Option Name="sound_grinding" />
+			<Option Name="sound_melee" />
+			<Option Name="" />
+			<Option Name="effect_small" />
+			<Option Name="effect_medium" />
+			<Option Name="effect_large" />
+			<Option Name="effect_rolling" />
+			<Option Name="effect_grinding" />
+			<Option Name="effect_melee" />
+			<Option Name="" />
+		</FieldLongFlags>
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

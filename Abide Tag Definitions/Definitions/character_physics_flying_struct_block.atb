@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_physics_flying_struct_block" DisplayName="character_physics_flying_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="13">
+		<FieldAngle Index="0" Name="bank angle:degrees#angle at which we bank left/right when sidestepping or turning while moving forwards" />
+		<FieldReal Index="1" Name="bank apply time:seconds#time it takes us to apply a bank" />
+		<FieldReal Index="2" Name="bank decay time:seconds#time it takes us to recover from a bank" />
+		<FieldReal Index="3" Name="pitch ratio#amount that we pitch up/down when moving up or down" />
+		<FieldReal Index="4" Name="max velocity:world units per second#max velocity when not crouching" />
+		<FieldReal Index="5" Name="max sidestep velocity:world units per second#max sideways or up/down velocity when not crouching" />
+		<FieldReal Index="6" Name="acceleration:world units per second squared" />
+		<FieldReal Index="7" Name="deceleration:world units per second squared" />
+		<FieldAngle Index="8" Name="angular velocity maximum:degrees per second#turn rate" />
+		<FieldAngle Index="9" Name="angular acceleration maximum:degrees per second squared#turn acceleration rate" />
+		<FieldReal Index="10" Name="crouch velocity modifier:[0,1]#how much slower we fly if crouching (zero = same speed)" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

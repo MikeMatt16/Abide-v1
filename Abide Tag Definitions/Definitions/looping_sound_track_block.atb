@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="looping_sound_track_block" DisplayName="looping_sound_track_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="18">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="fade in at start#the loop sound should fade in while the start sound is playing." />
+			<Option Name="fade out at stop#the loop sound should fade out while the stop sound is playing." />
+			<Option Name="crossfade alt loop#when the sound changes to the alternate version,  ." />
+			<Option Name="master surround sound track" />
+			<Option Name="fade out at alt stop" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="gain:dB" />
+		<FieldReal Index="3" Name="fade in duration:seconds" />
+		<FieldReal Index="4" Name="fade out duration:seconds" />
+		<FieldTagReference Index="5" Name="in" GroupTag="1936614433" />
+		<FieldTagReference Index="6" Name="loop" GroupTag="1936614433" />
+		<FieldTagReference Index="7" Name="out" GroupTag="1936614433" />
+		<FieldTagReference Index="8" Name="alt loop" GroupTag="1936614433" />
+		<FieldTagReference Index="9" Name="alt out" GroupTag="1936614433" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldEnum Index="11" Name="output effect">
+			<Option Name="none" />
+			<Option Name="output front speakers" />
+			<Option Name="output rear speakers" />
+			<Option Name="output center speakers" />
+		</FieldEnum>
+		<FieldPad Index="12" Name="" Length="2" />
+		<FieldTagReference Index="13" Name="alt trans in" GroupTag="1936614433" />
+		<FieldTagReference Index="14" Name="alt trans out" GroupTag="1936614433" />
+		<FieldReal Index="15" Name="alt crossfade duration:seconds" />
+		<FieldReal Index="16" Name="alt fade out duration:seconds" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

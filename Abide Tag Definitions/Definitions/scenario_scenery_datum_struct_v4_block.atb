@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_scenery_datum_struct_v4_block" DisplayName="scenario_scenery_datum_struct_v4" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCustom Index="0" Name="" />
+		<FieldEnum Index="1" Name="Pathfinding Policy">
+			<Option Name="Tag Default" />
+			<Option Name="Pathfinding DYNAMIC" />
+			<Option Name="Pathfinding CUT-OUT" />
+			<Option Name="Pathfinding STATIC" />
+			<Option Name="Pathfinding NONE" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="Lightmapping Policy">
+			<Option Name="Tag Default" />
+			<Option Name="Dynamic" />
+			<Option Name="Per-Vertex" />
+		</FieldEnum>
+		<FieldBlock Index="3" Name="Pathfinding References*" BlockName="pathfinding_object_index_list_block" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldWordFlags Index="5" Name="Valid Multiplayer Games">
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="Assault" />
+		</FieldWordFlags>
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

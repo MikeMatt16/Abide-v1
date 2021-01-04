@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_scale_modifiers_struct_block" DisplayName="sound_scale_modifiers_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldExplanation Index="0" Name="scale modifiers" Explanation="as the sound's input scale changes from zero to one, these modifiers move between the two values specified here. the sound will play using the current scale modifier multiplied by the values specified above. (0 values are ignored.)" />
+		<FieldRealBounds Index="1" Name="gain modifier:dB" />
+		<FieldShortBounds Index="2" Name="pitch modifier:cents" />
+		<FieldRealFractionBounds Index="3" Name="skip fraction modifier" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

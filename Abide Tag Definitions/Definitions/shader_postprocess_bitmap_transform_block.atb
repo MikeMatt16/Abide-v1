@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_bitmap_transform_block" DisplayName="shader_postprocess_bitmap_transform_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="4">
+		<FieldCharInteger Index="0" Name="parameter index" />
+		<FieldCharInteger Index="1" Name="bitmap transform index" />
+		<FieldReal Index="2" Name="value" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

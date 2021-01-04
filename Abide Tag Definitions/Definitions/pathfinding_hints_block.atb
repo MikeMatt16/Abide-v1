@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pathfinding_hints_block" DisplayName="pathfinding_hints_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="11">
+		<FieldEnum Index="0" Name="hint type">
+			<Option Name="intersection link" />
+			<Option Name="jump link" />
+			<Option Name="climb link" />
+			<Option Name="vault link" />
+			<Option Name="mount link" />
+			<Option Name="hoist link" />
+			<Option Name="wall jump link" />
+			<Option Name="breakable floor" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="Next hint index" />
+		<FieldShortInteger Index="2" Name="hint data 0*" />
+		<FieldShortInteger Index="3" Name="hint data 1*" />
+		<FieldShortInteger Index="4" Name="hint data 2*" />
+		<FieldShortInteger Index="5" Name="hint data 3*" />
+		<FieldShortInteger Index="6" Name="hint data 4*" />
+		<FieldShortInteger Index="7" Name="hint data 5*" />
+		<FieldShortInteger Index="8" Name="hint data 6*" />
+		<FieldShortInteger Index="9" Name="hint data 7*" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

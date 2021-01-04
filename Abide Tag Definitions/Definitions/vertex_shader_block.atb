@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vertex_shader_block" DisplayName="vertex_shader" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="platform">
+			<Option Name="pc" />
+			<Option Name="xbox" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="geometry classifications" BlockName="vertex_shader_classification_block" />
+		<FieldLongInteger Index="3" Name="output swizzles" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="item_block" DisplayName="item" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="27">
+		<FieldExplanation Index="0" Name="$$$ ITEM $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="always maintains z up" />
+			<Option Name="destroyed by explosions" />
+			<Option Name="unaffected by gravity" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="2" Name="OLD message index" />
+		<FieldShortInteger Index="3" Name="sort order" />
+		<FieldReal Index="4" Name="multiplayer on-ground scale" />
+		<FieldReal Index="5" Name="campaign on-ground scale" />
+		<FieldExplanation Index="6" Name="NEW hud messages" Explanation="everything you need to display stuff" />
+		<FieldStringId Index="7" Name="pickup message" />
+		<FieldStringId Index="8" Name="swap message" />
+		<FieldStringId Index="9" Name="pickup or dual msg" />
+		<FieldStringId Index="10" Name="swap or dual msg" />
+		<FieldStringId Index="11" Name="dual-only msg" />
+		<FieldStringId Index="12" Name="picked up msg" />
+		<FieldStringId Index="13" Name="singluar quantity msg" />
+		<FieldStringId Index="14" Name="plural quantity msg" />
+		<FieldStringId Index="15" Name="switch-to msg" />
+		<FieldStringId Index="16" Name="switch-to from ai msg" />
+		<FieldUselessPad Index="17" Name="" />
+		<FieldTagReference Index="18" Name="UNUSED*" GroupTag="1718579060" />
+		<FieldTagReference Index="19" Name="collision sound" GroupTag="1936614433" />
+		<FieldBlock Index="20" Name="predicted bitmaps" BlockName="predicted_bitmaps_block" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldTagReference Index="22" Name="detonation damage effect" GroupTag="1785754657" />
+		<FieldRealBounds Index="23" Name="detonation delay:seconds" />
+		<FieldTagReference Index="24" Name="detonating effect" GroupTag="1701209701" />
+		<FieldTagReference Index="25" Name="detonation effect" GroupTag="1701209701" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -33,8 +33,8 @@ namespace Abide.AddOnApi.Wpf
         [Browsable(false)]
         public bool IsDirty
         {
-            get { return (bool)GetValue(IsDirtyProperty); }
-            set { SetValue(IsDirtyProperty, value); }
+            get => (bool)GetValue(IsDirtyProperty);
+            set => SetValue(IsDirtyProperty, value);
         }
         /// <summary>
         /// Gets or sets the path of the file.
@@ -42,8 +42,8 @@ namespace Abide.AddOnApi.Wpf
         [Category("File Editor")]
         public string Path
         {
-            get { return (string)GetValue(PathProperty); }
-            set { SetValue(PathProperty, value); }
+            get => (string)GetValue(PathProperty);
+            set => SetValue(PathProperty, value);
         }
         /// <summary>
         /// Gets and returns the AddOn host.

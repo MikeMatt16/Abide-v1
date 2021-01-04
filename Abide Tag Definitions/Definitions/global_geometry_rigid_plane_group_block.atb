@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_rigid_plane_group_block" DisplayName="rigid plane group" MaximumElementCount="65280">
+	<FieldSet Alignment="4" Count="4">
+		<FieldCharInteger Index="0" Name="Rigid Node Index*" />
+		<FieldCharInteger Index="1" Name="Part Index*" />
+		<FieldShortInteger Index="2" Name="Triangle Count*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

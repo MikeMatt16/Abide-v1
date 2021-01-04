@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_dashlights_block" DisplayName="hud_dashlights_block" MaximumElementCount="9">
+	<FieldSet Alignment="4" Count="6">
+		<FieldTagReference Index="0" Name="bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="shader" GroupTag="1936220516" />
+		<FieldShortInteger Index="2" Name="sequence index" />
+		<FieldWordFlags Index="3" Name="flags">
+			<Option Name="don't scale when pulsing" />
+		</FieldWordFlags>
+		<FieldTagReference Index="4" Name="sound" GroupTag="1936614433" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

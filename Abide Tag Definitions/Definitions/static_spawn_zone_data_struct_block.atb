@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="static_spawn_zone_data_struct_block" DisplayName="static_spawn_zone_data_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="Name" />
+		<FieldLongFlags Index="1" Name="Relevant Team">
+			<Option Name="Red (Alpha)" />
+			<Option Name="Blue (Bravo)" />
+			<Option Name="Yellow (Charlie)" />
+			<Option Name="Green (Delta)" />
+			<Option Name="Purple (Echo)" />
+			<Option Name="Orange (Foxtrot)" />
+			<Option Name="Brown (Golf)" />
+			<Option Name="Pink (Hotel)" />
+			<Option Name="NEUTRAL" />
+		</FieldLongFlags>
+		<FieldCustom Index="2" Name="" />
+		<FieldLongFlags Index="3" Name="Relevant Games">
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="4" Name="Flags">
+			<Option Name="Disabled If Flag Home" />
+			<Option Name="Disabled If Flag Away" />
+			<Option Name="Disabled If Bomb Home" />
+			<Option Name="Disabled If Bomb Away" />
+		</FieldLongFlags>
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

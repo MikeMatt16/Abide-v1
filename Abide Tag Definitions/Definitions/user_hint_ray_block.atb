@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_ray_block" DisplayName="user_hint_ray_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="5">
+		<FieldRealPoint3D Index="0" Name="Point" />
+		<FieldShortInteger Index="1" Name="reference frame*" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldRealVector3D Index="3" Name="Vector" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

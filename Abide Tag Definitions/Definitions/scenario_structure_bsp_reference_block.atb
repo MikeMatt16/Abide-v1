@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_structure_bsp_reference_block" DisplayName="scenario_structure_bsp_reference_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="14">
+		<FieldPad Index="0" Name="" Length="16" />
+		<FieldTagReference Index="1" Name="Structure BSP^" GroupTag="1935831920" />
+		<FieldTagReference Index="2" Name="Structure Lightmap^" GroupTag="1819569520" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldReal Index="4" Name="UNUSED radiance est. search distance" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldReal Index="6" Name="UNUSED luminels per world unit" />
+		<FieldReal Index="7" Name="UNUSED output white reference" />
+		<FieldPad Index="8" Name="" Length="8" />
+		<FieldWordFlags Index="9" Name="Flags">
+			<Option Name="Default Sky Enabled" />
+		</FieldWordFlags>
+		<FieldPad Index="10" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="11" Name="Default Sky" />
+		<FieldPad Index="12" Name="" Length="2" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

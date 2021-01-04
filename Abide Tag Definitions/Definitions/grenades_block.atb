@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="grenades_block" DisplayName="grenades_block" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="7">
+		<FieldShortInteger Index="0" Name="maximum count" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTagReference Index="2" Name="throwing effect" GroupTag="1701209701" />
+		<FieldPad Index="3" Name="" Length="16" />
+		<FieldTagReference Index="4" Name="equipment" GroupTag="1701931376" />
+		<FieldTagReference Index="5" Name="projectile" GroupTag="1886547818" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

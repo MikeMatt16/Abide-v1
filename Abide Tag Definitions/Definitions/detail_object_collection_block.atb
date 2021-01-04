@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="detail_object_collection_block" DisplayName="detail_object_collection" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="Collection Type">
+			<Option Name="Screen-Facing" />
+			<Option Name="Viewer-Facing" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldReal Index="2" Name="Global z Offset: Applied to all detail objects in this collection so they don't float above the ground." />
+		<FieldPad Index="3" Name="" Length="44" />
+		<FieldTagReference Index="4" Name="Sprite Plate" GroupTag="1651078253" />
+		<FieldBlock Index="5" Name="Types" BlockName="detail_object_type_block" />
+		<FieldPad Index="6" Name="" Length="48" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

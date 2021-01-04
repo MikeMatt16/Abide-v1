@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_damage_section_block" DisplayName="global_damage_section_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="13">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldExplanation Index="1" Name="damage section flags" Explanation="* absorbs body damage: damage to this section does not count against body vitality|n* headshottable: takes extra headshot damage when shot|n* ignores shields: damage to this section bypasses shields" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="absorbs body damage" />
+			<Option Name="takes full dmg when object dies" />
+			<Option Name="cannot die with riders" />
+			<Option Name="takes full dmg when obj dstryd" />
+			<Option Name="restored on ressurection" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="heatshottable" />
+			<Option Name="ignores shields" />
+		</FieldLongFlags>
+		<FieldRealFraction Index="3" Name="vitality percentage:[0.1]#percentage of total object vitality" />
+		<FieldBlock Index="4" Name="instant responses" BlockName="instantaneous_damage_repsonse_block" />
+		<FieldBlock Index="5" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="6" Name="" BlockName="g_null_block" />
+		<FieldReal Index="7" Name="stun time:seconds" />
+		<FieldReal Index="8" Name="recharge time:seconds" />
+		<FieldPad Index="9" Name="" Length="4" />
+		<FieldStringId Index="10" Name="resurrection restored region name" />
+		<FieldPad Index="11" Name="" Length="4" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

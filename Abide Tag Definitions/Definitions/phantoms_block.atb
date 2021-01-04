@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="phantoms_block" DisplayName="phantoms_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="11">
+		<FieldSkip Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="size*" />
+		<FieldShortInteger Index="2" Name="count*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldSkip Index="6" Name="" Length="4" />
+		<FieldShortInteger Index="7" Name="size*" />
+		<FieldShortInteger Index="8" Name="count*" />
+		<FieldSkip Index="9" Name="" Length="4" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

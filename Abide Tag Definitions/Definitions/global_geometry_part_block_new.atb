@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_part_block_new" DisplayName="part" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="20">
+		<FieldEnum Index="0" Name="Type*">
+			<Option Name="Not Drawn" />
+			<Option Name="Opaque Shadow Only" />
+			<Option Name="Opaque Shadow-Casting" />
+			<Option Name="Opaque Nonshadowing" />
+			<Option Name="Transparent" />
+			<Option Name="Lightmap Only" />
+		</FieldEnum>
+		<FieldWordFlags Index="1" Name="Flags*">
+			<Option Name="Decalable" />
+			<Option Name="New Part Types" />
+			<Option Name="Dislikes Photons" />
+			<Option Name="Override Triangle List" />
+			<Option Name="ignored by lightmapper" />
+		</FieldWordFlags>
+		<FieldShortBlockIndex1 Index="2" Name="Material*" />
+		<FieldShortInteger Index="3" Name="Strip Start Index*" />
+		<FieldShortInteger Index="4" Name="Strip Length*" />
+		<FieldShortInteger Index="5" Name="First Subpart Index*" />
+		<FieldShortInteger Index="6" Name="Subpart Count*" />
+		<FieldCharInteger Index="7" Name="Max Nodes/Vertex*" />
+		<FieldCharInteger Index="8" Name="Contributing Compound Node Count*" />
+		<FieldExplanation Index="9" Name="CENTROID" Explanation="" />
+		<FieldRealPoint3D Index="10" Name="Position*" />
+		<FieldArrayStart Index="11" Name="Node Indices*" Length="4">
+			<FieldCharInteger Index="0" Name="Node Index*" />
+		</FieldArrayStart>
+		<FieldCharInteger Index="12" Name="Node Index*" />
+		<FieldArrayEnd Index="13" Name="" />
+		<FieldArrayStart Index="14" Name="Node Weights*" Length="3">
+			<FieldReal Index="0" Name="Node Weight*" />
+		</FieldArrayStart>
+		<FieldReal Index="15" Name="Node Weight*" />
+		<FieldArrayEnd Index="16" Name="" />
+		<FieldReal Index="17" Name="lod mipmap magic number*" />
+		<FieldSkip Index="18" Name="" Length="24" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

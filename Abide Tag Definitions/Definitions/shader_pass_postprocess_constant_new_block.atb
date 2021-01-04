@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_constant_new_block" DisplayName="shader_pass_postprocess_constant_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="parameter name" />
+		<FieldCharInteger Index="1" Name="component mask" />
+		<FieldCharInteger Index="2" Name="scale by texture stage" />
+		<FieldCharInteger Index="3" Name="function index" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -66,8 +66,11 @@ namespace Abide.HaloLibrary
         /// <param name="dword"></param>
         public TagFourCc(uint dword)
         {
-            uint a = dword & 0xff, b = dword & 0xff00, c = dword & 0xff0000, d = dword & 0xff000000;
-            this.d = (sbyte)(d >> 24); this.c = (sbyte)(c >> 16); this.b = (sbyte)(b >> 8); this.a = (sbyte)a;
+            uint d = dword & 0xff, c = dword & 0xff00, b = dword & 0xff0000, a = dword & 0xff000000;
+            this.a = (sbyte)(a >> 24); 
+            this.b = (sbyte)(b >> 16); 
+            this.c = (sbyte)(c >> 8); 
+            this.d = (sbyte)d;
         }
         /// <summary>
         /// Compares this instance with a specified <see cref="TagFourCc"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified tag.
@@ -144,8 +147,13 @@ namespace Abide.HaloLibrary
         /// <param name="dword">The tag dword.</param>
         public static explicit operator TagFourCc(uint dword)
         {
-            uint a = dword & 0xff, b = dword & 0xff00, c = dword & 0xff0000, d = dword & 0xff000000;
-            return new TagFourCc() { d = (sbyte)(d >> 24), c = (sbyte)(c >> 16), b = (sbyte)(b >> 8), a = (sbyte)a };
+            TagFourCc tag = new TagFourCc();
+            uint d = dword & 0xff, c = dword & 0xff00, b = dword & 0xff0000, a = dword & 0xff000000;
+            tag.a = (sbyte)(a >> 24);
+            tag.b = (sbyte)(b >> 16);
+            tag.c = (sbyte)(c >> 8);
+            tag.d = (sbyte)d;
+            return tag;
         }
     }
 }

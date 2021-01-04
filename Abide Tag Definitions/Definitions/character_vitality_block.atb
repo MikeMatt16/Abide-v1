@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_vitality_block" DisplayName="character_vitality_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="32">
+		<FieldLongFlags Index="0" Name="vitality flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="normal body vitality#maximum body vitality of our unit" />
+		<FieldReal Index="2" Name="normal shield vitality#maximum shield vitality of our unit" />
+		<FieldReal Index="3" Name="legendary body vitality#maximum body vitality of our unit (on legendary)" />
+		<FieldReal Index="4" Name="legendary shield vitality#maximum shield vitality of our unit (on legendary)" />
+		<FieldReal Index="5" Name="body recharge fraction#fraction of body health that can be regained after damage" />
+		<FieldReal Index="6" Name="soft ping threshold (with shields)#damage necessary to trigger a soft ping when shields are up" />
+		<FieldReal Index="7" Name="soft ping threshold (no shields)#damage necessary to trigger a soft ping when shields are down" />
+		<FieldReal Index="8" Name="soft ping min interrupt time#minimum time before a soft ping can be interrupted" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldReal Index="10" Name="hard ping threshold (with shields)#damage necessary to trigger a hard ping when shields are up" />
+		<FieldReal Index="11" Name="hard ping threshold (no shields)#damage necessary to trigger a hard ping when shields are down" />
+		<FieldReal Index="12" Name="hard ping min interrupt time#minimum time before a hard ping can be interrupted" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldReal Index="14" Name="current damage decay delay#current damage begins to fall after a time delay has passed since last the damage" />
+		<FieldReal Index="15" Name="current damage decay time#amount of time it would take for 100% current damage to decay to 0" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldReal Index="17" Name="recent damage decay delay#recent damage begins to fall after a time delay has passed since last the damage" />
+		<FieldReal Index="18" Name="recent damage decay time#amount of time it would take for 100% recent damage to decay to 0" />
+		<FieldReal Index="19" Name="body recharge delay time#amount of time delay before a shield begins to recharge" />
+		<FieldReal Index="20" Name="body recharge time#amount of time for shields to recharge completely" />
+		<FieldReal Index="21" Name="shield recharge delay time#amount of time delay before a shield begins to recharge" />
+		<FieldReal Index="22" Name="shield recharge time#amount of time for shields to recharge completely" />
+		<FieldReal Index="23" Name="stun threshold#stun level that triggers the stunned state (currently, the 'stunned' behavior)" />
+		<FieldRealBounds Index="24" Name="stun time bounds:seconds" />
+		<FieldUselessPad Index="25" Name="" />
+		<FieldReal Index="26" Name="extended shield damage threshold:%#Amount of shield damage sustained before it is considered 'extended'" />
+		<FieldReal Index="27" Name="extended body damage threshold:%#Amount of body damage sustained before it is considered 'extended'" />
+		<FieldUselessPad Index="28" Name="" />
+		<FieldReal Index="29" Name="suicide radius#when I die and explode, I damage stuff within this distance of me." />
+		<FieldSkip Index="30" Name="" Length="8" />
+		<FieldTerminator Index="31" Name="" />
+	</FieldSet>
+</AbideTagBlock>

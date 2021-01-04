@@ -142,7 +142,11 @@ namespace Abide.TagBuilder
 
                         //Open
                         try { map.Load(mapStream); }
+#if DEBUG
+                        catch { throw; }
+#else
                         catch { MessageBox.Show("Failed to load map.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error); success = false; }
+#endif
 
                         //Check
                         if (success)
@@ -456,7 +460,7 @@ namespace Abide.TagBuilder
                                     xmlWriter.WriteStartAttribute("version"); xmlWriter.WriteValue("1.0"); xmlWriter.WriteEndAttribute();
 
                                     //Write headersize
-                                    xmlWriter.WriteStartAttribute("headersize"); xmlWriter.WriteValue(fields_GetSize(tagGroup.SelectMany(b => b.Fields).ToArray())); xmlWriter.WriteEndAttribute();
+                                    xmlWriter.WriteStartAttribute("headersize"); xmlWriter.WriteValue(fields_GetSize(tagGroup.SelectMany(b=>b).ToArray())); xmlWriter.WriteEndAttribute();
 
                                     //Write revision
                                     xmlWriter.WriteStartElement("revision");
@@ -485,7 +489,7 @@ namespace Abide.TagBuilder
         private void tagBlock_WriteEnt(XmlWriter xmlWriter, ITagBlock tagBlock, ref int offset)
         {
             //Loop
-            foreach (Field field in tagBlock.Fields)
+            foreach (var field in tagBlock)
             {
                 //Check
                 if (field.Type == Abide.Tag.Definition.FieldType.FieldUselessPad || field.Type == Abide.Tag.Definition.FieldType.FieldExplanation) continue;
@@ -1256,7 +1260,7 @@ namespace Abide.TagBuilder
                             xmlWriter.WriteEndAttribute();
 
                             string labelName = string.Empty;
-                            if (block.Fields.Any(f => f.IsBlockName)) labelName = block.Fields.First(f => f.IsBlockName).Name;
+                            if (block.Any(f => f.IsBlockName)) labelName = block.First(f => f.IsBlockName).Name;
                             xmlWriter.WriteStartAttribute("label");
                             xmlWriter.WriteValue(labelName);
                             xmlWriter.WriteEndAttribute();
@@ -1365,12 +1369,9 @@ namespace Abide.TagBuilder
             }
         }
 
-        private object fields_GetSize(Field[] fields)
+        private object fields_GetSize(ITagField[] fields)
         {
-            int length = 0;
-            foreach (Field field in fields)
-                length += field.Size;
-            return length;
+            return fields?.Sum(f => f.Size) ?? 0;
         }
     }
 }

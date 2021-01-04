@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="equipment_block" DisplayName="equipment" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldEnum Index="0" Name="powerup type">
+			<Option Name="none" />
+			<Option Name="double speed" />
+			<Option Name="over shield" />
+			<Option Name="active camouflage" />
+			<Option Name="full-spectrum vision" />
+			<Option Name="health" />
+			<Option Name="grenade" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="grenade type">
+			<Option Name="human fragmentation" />
+			<Option Name="covenant plasma" />
+		</FieldEnum>
+		<FieldReal Index="2" Name="powerup time:seconds" />
+		<FieldTagReference Index="3" Name="pickup sound" GroupTag="1936614433" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_weather_palette_block" DisplayName="structure_bsp_weather_palette_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="11">
+		<FieldString Index="0" Name="Name^" />
+		<FieldTagReference Index="1" Name="Weather System" GroupTag="2003132788" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="32" />
+		<FieldTagReference Index="5" Name="Wind" GroupTag="2003398244" />
+		<FieldRealVector3D Index="6" Name="Wind Direction" />
+		<FieldReal Index="7" Name="Wind Magnitude" />
+		<FieldPad Index="8" Name="" Length="4" />
+		<FieldString Index="9" Name="Wind Scale Function" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

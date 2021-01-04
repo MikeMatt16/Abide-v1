@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="screen_animation_keyframe_reference_block" DisplayName="screen_animation_keyframe_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="4">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldReal Index="1" Name="alpha" />
+		<FieldRealPoint3D Index="2" Name="position" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_waypoint_arrow_block" DisplayName="hud_waypoint_arrow_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="8">
+		<FieldTagReference Index="0" Name="bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="shader" GroupTag="1936220516" />
+		<FieldShortInteger Index="2" Name="sequence index" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="smallest size" />
+		<FieldReal Index="5" Name="smallest distance" />
+		<FieldTagReference Index="6" Name="border bitmap" GroupTag="1651078253" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

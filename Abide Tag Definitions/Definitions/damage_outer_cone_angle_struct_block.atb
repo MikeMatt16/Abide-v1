@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_outer_cone_angle_struct_block" DisplayName="damage_outer_cone_angle_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldAngle Index="0" Name="dmg outer cone angle" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

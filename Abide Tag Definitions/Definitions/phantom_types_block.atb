@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="phantom_types_block" DisplayName="phantom_types_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="23">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="generates effects" />
+			<Option Name="use acc as force" />
+			<Option Name="negates gravity" />
+			<Option Name="ignores players" />
+			<Option Name="ignores nonplayers" />
+			<Option Name="ignores bipeds" />
+			<Option Name="ignores vehicles" />
+			<Option Name="ignores weapons" />
+			<Option Name="ignores equipment" />
+			<Option Name="ignores garbage" />
+			<Option Name="ignores projectiles" />
+			<Option Name="ignores scenery" />
+			<Option Name="ignores machines" />
+			<Option Name="ignores controls" />
+			<Option Name="ignores light fixtures" />
+			<Option Name="ignores sound scenery" />
+			<Option Name="ignores crates" />
+			<Option Name="ignores creatures" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="localizes physics" />
+			<Option Name="disable linear damping" />
+			<Option Name="disable angular damping" />
+			<Option Name="ignores dead bipeds" />
+		</FieldLongFlags>
+		<FieldCharEnum Index="1" Name="minimum size">
+			<Option Name="default" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="extra huge" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="2" Name="maximum size">
+			<Option Name="default" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="extra huge" />
+		</FieldCharEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldStringId Index="4" Name="marker name#you don't need this if you're just generating effects.  If empty it defaults to the up of the object" />
+		<FieldStringId Index="5" Name="alignment marker name#you don't need this if you're just generating effects.  If empty it defaults to &quot;marker name&quot;" />
+		<FieldExplanation Index="6" Name="Linear Motion" Explanation="0 - means do nothing|nCENTER: motion towards marker position |nAXIS: motion towards marker axis, such that object is on the axis|nDIRECTION: motion along marker direction" />
+		<FieldPad Index="7" Name="" Length="8" />
+		<FieldReal Index="8" Name="hookes law e#0 if you don't want this to behave like spring.  1 is a good starting point if you do." />
+		<FieldReal Index="9" Name="linear dead radius#radius from linear motion origin in which acceleration is dead." />
+		<FieldReal Index="10" Name="center acc" />
+		<FieldReal Index="11" Name="center max vel" />
+		<FieldReal Index="12" Name="axis acc" />
+		<FieldReal Index="13" Name="axis max vel" />
+		<FieldReal Index="14" Name="direction acc" />
+		<FieldReal Index="15" Name="direction max vel" />
+		<FieldPad Index="16" Name="" Length="28" />
+		<FieldExplanation Index="17" Name="Angular Motion" Explanation="0 - means do nothing|nALIGNMENT: algin objects in the phantom with the marker|nSPIN: spin the object about the marker axis" />
+		<FieldReal Index="18" Name="alignment hookes law e#0 if you don't want this to behave like spring.  1 is a good starting point if you do." />
+		<FieldReal Index="19" Name="alignment acc" />
+		<FieldReal Index="20" Name="alignment max vel" />
+		<FieldPad Index="21" Name="" Length="8" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

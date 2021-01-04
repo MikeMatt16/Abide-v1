@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_portal_block" DisplayName="structure_bsp_cluster_portal_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="8">
+		<FieldShortInteger Index="0" Name="Back Cluster*" />
+		<FieldShortInteger Index="1" Name="Front Cluster*" />
+		<FieldLongInteger Index="2" Name="Plane Index*" />
+		<FieldRealPoint3D Index="3" Name="Centroid*" />
+		<FieldReal Index="4" Name="Bounding Radius*" />
+		<FieldLongFlags Index="5" Name="Flags*">
+			<Option Name="AI Cannot Hear through This" />
+			<Option Name="One-Way" />
+			<Option Name="Door" />
+			<Option Name="No-Way" />
+			<Option Name="One-Way Reversed" />
+			<Option Name="No One Can Hear through This" />
+		</FieldLongFlags>
+		<FieldBlock Index="6" Name="Vertices*" BlockName="structure_bsp_cluster_portal_vertex_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

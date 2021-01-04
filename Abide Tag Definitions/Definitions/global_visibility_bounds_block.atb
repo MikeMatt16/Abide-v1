@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_visibility_bounds_block" DisplayName="visibility bounds" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="7">
+		<FieldReal Index="0" Name="Position x*" />
+		<FieldReal Index="1" Name="Position y*" />
+		<FieldReal Index="2" Name="Position z*" />
+		<FieldReal Index="3" Name="Radius*" />
+		<FieldCharInteger Index="4" Name="Node 0*" />
+		<FieldPad Index="5" Name="" Length="3" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

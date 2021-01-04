@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_boost_struct_block" DisplayName="unit_boost_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldReal Index="0" Name="boost peak power" />
+		<FieldReal Index="1" Name="boost rise power" />
+		<FieldReal Index="2" Name="boost peak time" />
+		<FieldReal Index="3" Name="boost fall power" />
+		<FieldReal Index="4" Name="dead time" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

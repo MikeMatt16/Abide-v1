@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="grenade_hud_interface_block" DisplayName="grenade_hud_interface" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="85">
+		<FieldCustom Index="0" Name="" />
+		<FieldExplanation Index="1" Name="Grenade hud screen alignment" Explanation="" />
+		<FieldEnum Index="2" Name="anchor">
+			<Option Name="top left" />
+			<Option Name="top right" />
+			<Option Name="bottom left" />
+			<Option Name="bottom right" />
+			<Option Name="center" />
+			<Option Name="crosshair" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="32" />
+		<FieldExplanation Index="5" Name="Grenade hud background" Explanation="" />
+		<FieldPoint2D Index="6" Name="anchor offset" />
+		<FieldReal Index="7" Name="width scale" />
+		<FieldReal Index="8" Name="height scale" />
+		<FieldWordFlags Index="9" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="10" Name="" Length="2" />
+		<FieldPad Index="11" Name="" Length="20" />
+		<FieldTagReference Index="12" Name="interface bitmap" GroupTag="1651078253" />
+		<FieldArgbColor Index="13" Name="default color" />
+		<FieldArgbColor Index="14" Name="flashing color" />
+		<FieldReal Index="15" Name="flash period" />
+		<FieldReal Index="16" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="17" Name="number of flashes" />
+		<FieldWordFlags Index="18" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="19" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="20" Name="disabled color" />
+		<FieldPad Index="21" Name="" Length="4" />
+		<FieldShortInteger Index="22" Name="sequence index" />
+		<FieldPad Index="23" Name="" Length="2" />
+		<FieldBlock Index="24" Name="multitex overlay" BlockName="global_hud_multitexture_overlay_definition" />
+		<FieldPad Index="25" Name="" Length="4" />
+		<FieldExplanation Index="26" Name="Total grenades background" Explanation="" />
+		<FieldPoint2D Index="27" Name="anchor offset" />
+		<FieldReal Index="28" Name="width scale" />
+		<FieldReal Index="29" Name="height scale" />
+		<FieldWordFlags Index="30" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="31" Name="" Length="2" />
+		<FieldPad Index="32" Name="" Length="20" />
+		<FieldTagReference Index="33" Name="interface bitmap" GroupTag="1651078253" />
+		<FieldArgbColor Index="34" Name="default color" />
+		<FieldArgbColor Index="35" Name="flashing color" />
+		<FieldReal Index="36" Name="flash period" />
+		<FieldReal Index="37" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="38" Name="number of flashes" />
+		<FieldWordFlags Index="39" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="40" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="41" Name="disabled color" />
+		<FieldPad Index="42" Name="" Length="4" />
+		<FieldShortInteger Index="43" Name="sequence index" />
+		<FieldPad Index="44" Name="" Length="2" />
+		<FieldBlock Index="45" Name="multitex overlay" BlockName="global_hud_multitexture_overlay_definition" />
+		<FieldPad Index="46" Name="" Length="4" />
+		<FieldExplanation Index="47" Name="Total grenades numbers" Explanation="" />
+		<FieldPoint2D Index="48" Name="anchor offset" />
+		<FieldReal Index="49" Name="width scale" />
+		<FieldReal Index="50" Name="height scale" />
+		<FieldWordFlags Index="51" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="52" Name="" Length="2" />
+		<FieldPad Index="53" Name="" Length="20" />
+		<FieldArgbColor Index="54" Name="default color" />
+		<FieldArgbColor Index="55" Name="flashing color" />
+		<FieldReal Index="56" Name="flash period" />
+		<FieldReal Index="57" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="58" Name="number of flashes" />
+		<FieldWordFlags Index="59" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="60" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="61" Name="disabled color" />
+		<FieldPad Index="62" Name="" Length="4" />
+		<FieldCharInteger Index="63" Name="maximum number of digits" />
+		<FieldByteFlags Index="64" Name="flags">
+			<Option Name="show leading zeros" />
+			<Option Name="only show when zoomed" />
+			<Option Name="draw a trailing m" />
+		</FieldByteFlags>
+		<FieldCharInteger Index="65" Name="number of fractional digits" />
+		<FieldPad Index="66" Name="" Length="1" />
+		<FieldPad Index="67" Name="" Length="12" />
+		<FieldShortInteger Index="68" Name="flash cutoff" />
+		<FieldPad Index="69" Name="" Length="2" />
+		<FieldExplanation Index="70" Name="Total grenades overlays" Explanation="" />
+		<FieldTagReference Index="71" Name="Overlay bitmap" GroupTag="1651078253" />
+		<FieldBlock Index="72" Name="Overlays" BlockName="grenade_hud_overlay_block" />
+		<FieldBlock Index="73" Name="Warning sounds" BlockName="grenade_hud_sound_block" />
+		<FieldPad Index="74" Name="" Length="68" />
+		<FieldExplanation Index="75" Name="Messaging information" Explanation="" />
+		<FieldShortInteger Index="76" Name="sequence index#sequence index into the global hud icon bitmap" />
+		<FieldShortInteger Index="77" Name="width offset#extra spacing beyond bitmap width for text alignment" />
+		<FieldPoint2D Index="78" Name="offset from reference corner" />
+		<FieldArgbColor Index="79" Name="override icon color" />
+		<FieldCharInteger Index="80" Name="frame rate [0,30]" />
+		<FieldByteFlags Index="81" Name="flags">
+			<Option Name="use text from string_list instead" />
+			<Option Name="override default color" />
+			<Option Name="width offset is absolute icon width" />
+		</FieldByteFlags>
+		<FieldShortInteger Index="82" Name="text index" />
+		<FieldPad Index="83" Name="" Length="48" />
+		<FieldTerminator Index="84" Name="" />
+	</FieldSet>
+</AbideTagBlock>

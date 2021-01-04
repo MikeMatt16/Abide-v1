@@ -1,51 +1,30 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf.Halo2;
-using System;
+using System.Collections.ObjectModel;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Represents an object that can create instances of <see cref="IHaloAddOn"/> AddOn types.
-    /// </summary>
     public sealed class HaloAddOnFactory : AddOnFactory
     {
-        /// <summary>
-        /// Gets and returns a list of Halo 2 AddOns.
-        /// </summary>
-        public AddOnCollection<IHaloAddOn> HaloAddOns { get; } = new AddOnCollection<IHaloAddOn>();
-        /// <summary>
-        /// Gets and returns a list of Halo 2 tool AddOns.
-        /// </summary>
-        public AddOnCollection<ITool> ToolAddOns { get; } = new AddOnCollection<ITool>();
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HaloAddOnFactory"/> class.
-        /// </summary>
-        public HaloAddOnFactory(IHost host) : base(host) { }
-        protected override void LoadAddOn(Type type)
-        {
-            //Prepare
-            ITool toolAddOn;
+        public ObservableCollection<IHaloAddOn> HaloAddOns { get; } = new ObservableCollection<IHaloAddOn>();
+        public ObservableCollection<ITool> ToolAddOns { get; } = new ObservableCollection<ITool>();
+        public ObservableCollection<IToolButton> ToolButtonAddOns { get; } = new ObservableCollection<IToolButton>();
 
-            //Check
-            if (type.GetInterface(typeof(IHaloAddOn).FullName) != null) //Check if type implements IHaloAddOn
+        public HaloAddOnFactory(IHost host) : base(host, typeof(ITool), typeof(IToolButton)) { }
+        protected override void LoadAddOn(IAddOn addOn)
+        {
+            switch (addOn)
             {
-                //Check for ITool implementation
-                if (type.GetInterface(typeof(ITool).FullName) != null)
-                {
-                    //Instantiate
-                    try { toolAddOn = Instantiate<ITool>(type, Host); }
-                    catch { toolAddOn = null; }
+                case ITool tool:
+                    ToolAddOns.Add(tool);
+                    HaloAddOns.Add(tool);
+                    break;
 
-                    //Add to list
-                    if (toolAddOn != null) AddToolAddOn(toolAddOn);
-                }
+                case IToolButton toolButton:
+                    ToolButtonAddOns.Add(toolButton);
+                    HaloAddOns.Add(toolButton);
+                    break;
             }
-        }
-        private void AddToolAddOn(ITool tool)
-        {
-            if (tool == null) throw new ArgumentNullException(nameof(tool));
-            HaloAddOns.Add(tool);
-            ToolAddOns.Add(tool);
         }
     }
 }

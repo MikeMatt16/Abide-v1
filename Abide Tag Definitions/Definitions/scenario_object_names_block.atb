@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_object_names_block" DisplayName="scenario_object_names_block" MaximumElementCount="640">
+	<FieldSet Alignment="4" Count="4">
+		<FieldString Index="0" Name="Name^" />
+		<FieldShortBlockIndex1 Index="1" Name="" />
+		<FieldShortBlockIndex2 Index="2" Name="" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_pool_block" DisplayName="animation_pool_block" MaximumElementCount="2048">
+	<FieldSet Alignment="4" Count="29">
+		<FieldStringId Index="0" Name="name*^" />
+		<FieldLongInteger Index="1" Name="node list checksum*" />
+		<FieldLongInteger Index="2" Name="production checksum*" />
+		<FieldLongInteger Index="3" Name="import_checksum*" />
+		<FieldCharEnum Index="4" Name="type*">
+			<Option Name="base" />
+			<Option Name="overlay" />
+			<Option Name="replacement" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="5" Name="frame info type*">
+			<Option Name="none" />
+			<Option Name="dx,dy" />
+			<Option Name="dx,dy,dyaw" />
+			<Option Name="dx,dy,dz,dyaw" />
+		</FieldCharEnum>
+		<FieldCharBlockIndex1 Index="6" Name="blend screen" />
+		<FieldCharInteger Index="7" Name="node count*" />
+		<FieldShortInteger Index="8" Name="frame count*" />
+		<FieldByteFlags Index="9" Name="internal flags*">
+			<Option Name="&lt;unused0&gt;!" />
+			<Option Name="world relative" />
+			<Option Name="&lt;unused1&gt;!" />
+			<Option Name="&lt;unused2&gt;!" />
+			<Option Name="&lt;unused3&gt;!" />
+			<Option Name="compression disabled" />
+			<Option Name="old production checksum" />
+			<Option Name="valid production checksum" />
+		</FieldByteFlags>
+		<FieldByteFlags Index="10" Name="production flags">
+			<Option Name="do not monitor changes" />
+			<Option Name="verify sound events" />
+			<Option Name="do not inherit for player graphs" />
+		</FieldByteFlags>
+		<FieldWordFlags Index="11" Name="playback flags">
+			<Option Name="disable interpolation_in" />
+			<Option Name="disable interpolation_out" />
+			<Option Name="disable mode ik" />
+			<Option Name="disable weapon ik" />
+			<Option Name="disable weapon aim/1st person" />
+			<Option Name="disable look screen" />
+			<Option Name="disable transition adjustment" />
+		</FieldWordFlags>
+		<FieldCharEnum Index="12" Name="desired compression">
+			<Option Name="best score" />
+			<Option Name="best compression" />
+			<Option Name="best accuracy" />
+			<Option Name="best fullframe" />
+			<Option Name="best small keyframe" />
+			<Option Name="best large keyframe" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="13" Name="current compression*">
+			<Option Name="best score" />
+			<Option Name="best compression" />
+			<Option Name="best accuracy" />
+			<Option Name="best fullframe" />
+			<Option Name="best small keyframe" />
+			<Option Name="best large keyframe" />
+		</FieldCharEnum>
+		<FieldReal Index="14" Name="weight" />
+		<FieldLongInteger Index="15" Name="parent graph index!" />
+		<FieldLongInteger Index="16" Name="parent graph block index!" />
+		<FieldLongInteger Index="17" Name="parent graph block offset!" />
+		<FieldShortInteger Index="18" Name="parent graph starting point index!" />
+		<FieldShortInteger Index="19" Name="loop frame index" />
+		<FieldShortBlockIndex1 Index="20" Name="parent animation*!" />
+		<FieldShortBlockIndex1 Index="21" Name="next animation*!" />
+		<FieldData Index="22" Name="animation data*!" Alignment="16" MaximumSize="33724160" ElementSize="1" />
+		<FieldStruct Index="23" Name="data sizes*!" StructName="packed_data_sizes_struct_block" />
+		<FieldBlock Index="24" Name="frame events|ABCDCC" BlockName="animation_frame_event_block" />
+		<FieldBlock Index="25" Name="sound events|ABCDCC" BlockName="animation_sound_event_block" />
+		<FieldBlock Index="26" Name="effect events|ABCDCC" BlockName="animation_effect_event_block" />
+		<FieldBlock Index="27" Name="object-space parent nodes|ABCDCC" BlockName="object_space_node_data_block" />
+		<FieldTerminator Index="28" Name="" />
+	</FieldSet>
+</AbideTagBlock>

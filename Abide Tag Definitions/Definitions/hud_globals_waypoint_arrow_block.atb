@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_globals_waypoint_arrow_block" DisplayName="hud_waypoint_arrow_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="13">
+		<FieldString Index="0" Name="name^" />
+		<FieldPad Index="1" Name="" Length="8" />
+		<FieldRgbColor Index="2" Name="color" />
+		<FieldReal Index="3" Name="opacity" />
+		<FieldReal Index="4" Name="translucency" />
+		<FieldShortInteger Index="5" Name="on screen sequence index" />
+		<FieldShortInteger Index="6" Name="off screen sequence index" />
+		<FieldShortInteger Index="7" Name="occluded sequence index" />
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldPad Index="9" Name="" Length="16" />
+		<FieldLongFlags Index="10" Name="flags">
+			<Option Name="don't rotate when pointing offscreen" />
+		</FieldLongFlags>
+		<FieldPad Index="11" Name="" Length="24" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

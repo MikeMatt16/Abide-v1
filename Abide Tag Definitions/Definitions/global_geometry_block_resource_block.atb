@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_block_resource_block" DisplayName="block resources" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCharEnum Index="0" Name="Type*">
+			<Option Name="Tag Block" />
+			<Option Name="Tag Data" />
+			<Option Name="Vertex Buffer" />
+		</FieldCharEnum>
+		<FieldPad Index="1" Name="" Length="3" />
+		<FieldShortInteger Index="2" Name="Primary Locator*" />
+		<FieldShortInteger Index="3" Name="Secondary Locator*" />
+		<FieldLongInteger Index="4" Name="Resource Data Size*" />
+		<FieldLongInteger Index="5" Name="Resource Data Offset*" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

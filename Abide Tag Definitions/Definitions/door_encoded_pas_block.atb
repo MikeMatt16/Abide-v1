@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="door_encoded_pas_block" DisplayName="door_encoded_pas_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongInteger Index="0" Name="" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

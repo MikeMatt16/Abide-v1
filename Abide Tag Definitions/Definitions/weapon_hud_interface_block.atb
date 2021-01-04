@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_hud_interface_block" DisplayName="weapon_hud_interface" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="33">
+		<FieldTagReference Index="0" Name="child hud" GroupTag="2003855465" />
+		<FieldExplanation Index="1" Name="Flash cutoffs" Explanation="" />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="use parent hud flashing parameters" />
+		</FieldWordFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldShortInteger Index="4" Name="inventory ammo cutoff" />
+		<FieldShortInteger Index="5" Name="loaded ammo cutoff" />
+		<FieldShortInteger Index="6" Name="heat cutoff" />
+		<FieldShortInteger Index="7" Name="age cutoff" />
+		<FieldPad Index="8" Name="" Length="32" />
+		<FieldExplanation Index="9" Name="Weapon hud screen alignment" Explanation="" />
+		<FieldEnum Index="10" Name="anchor">
+			<Option Name="top left" />
+			<Option Name="top right" />
+			<Option Name="bottom left" />
+			<Option Name="bottom right" />
+			<Option Name="center" />
+			<Option Name="crosshair" />
+		</FieldEnum>
+		<FieldPad Index="11" Name="" Length="2" />
+		<FieldPad Index="12" Name="" Length="32" />
+		<FieldBlock Index="13" Name="static elements" BlockName="weapon_hud_static_block" />
+		<FieldBlock Index="14" Name="meter elements" BlockName="weapon_hud_meter_block" />
+		<FieldBlock Index="15" Name="number elements" BlockName="weapon_hud_number_block" />
+		<FieldExplanation Index="16" Name="Crosshairs" Explanation="Crosshairs always go in the center of the screen.|nCrosshairs can be attached to one of four different states:|n|n* Aim: Default crosshair. Frame 0 is the default state, frame 1 is the auto-aim state (frame rate ignored)|n* Zoom: Zoom overlay. Each zoom level has a corresponding frame (frame rate ignored)|n* Charge: Charging overlay. If you wish to display an animation for charging, put it here.|n* Flash: Similar to charging, but for low ammo/batter/heat states|n* Reload/Overheat: Similar to charging, but for reloading/overheating|n" />
+		<FieldBlock Index="17" Name="crosshairs" BlockName="weapon_hud_crosshair_block" />
+		<FieldBlock Index="18" Name="overlay elements" BlockName="weapon_hud_overlays_block" />
+		<FieldPad Index="19" Name="" Length="4" />
+		<FieldBlock Index="20" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="21" Name="screen effect" BlockName="global_hud_screen_effect_definition" />
+		<FieldPad Index="22" Name="" Length="132" />
+		<FieldExplanation Index="23" Name="Messaging information" Explanation="" />
+		<FieldShortInteger Index="24" Name="sequence index#sequence index into the global hud icon bitmap" />
+		<FieldShortInteger Index="25" Name="width offset#extra spacing beyond bitmap width for text alignment" />
+		<FieldPoint2D Index="26" Name="offset from reference corner" />
+		<FieldArgbColor Index="27" Name="override icon color" />
+		<FieldCharInteger Index="28" Name="frame rate [0,30]" />
+		<FieldByteFlags Index="29" Name="flags">
+			<Option Name="use text from string_list instead" />
+			<Option Name="override default color" />
+			<Option Name="width offset is absolute icon width" />
+		</FieldByteFlags>
+		<FieldShortInteger Index="30" Name="text index" />
+		<FieldPad Index="31" Name="" Length="48" />
+		<FieldTerminator Index="32" Name="" />
+	</FieldSet>
+</AbideTagBlock>

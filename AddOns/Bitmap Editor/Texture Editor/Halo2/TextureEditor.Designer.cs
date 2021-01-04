@@ -78,8 +78,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
-            this.splitContainer1.Size = new System.Drawing.Size(1527, 916);
-            this.splitContainer1.SplitterDistance = 678;
+            this.splitContainer1.Size = new System.Drawing.Size(1502, 929);
+            this.splitContainer1.SplitterDistance = 691;
             this.splitContainer1.TabIndex = 3;
             // 
             // textureBox
@@ -92,7 +92,7 @@
             this.textureBox.Location = new System.Drawing.Point(3, 38);
             this.textureBox.MinimumSize = new System.Drawing.Size(2, 2);
             this.textureBox.Name = "textureBox";
-            this.textureBox.Size = new System.Drawing.Size(1521, 637);
+            this.textureBox.Size = new System.Drawing.Size(1496, 650);
             this.textureBox.TabIndex = 3;
             this.textureBox.Texture = null;
             // 
@@ -163,8 +163,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.bitmapProperties);
-            this.splitContainer2.Size = new System.Drawing.Size(1527, 209);
-            this.splitContainer2.SplitterDistance = 760;
+            this.splitContainer2.Size = new System.Drawing.Size(1502, 209);
+            this.splitContainer2.SplitterDistance = 747;
             this.splitContainer2.TabIndex = 0;
             // 
             // importProperties
@@ -175,7 +175,7 @@
             this.importProperties.Location = new System.Drawing.Point(0, 0);
             this.importProperties.Name = "importProperties";
             this.importProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.importProperties.Size = new System.Drawing.Size(760, 209);
+            this.importProperties.Size = new System.Drawing.Size(747, 209);
             this.importProperties.TabIndex = 0;
             this.importProperties.ToolbarVisible = false;
             this.importProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);
@@ -188,7 +188,7 @@
             this.bitmapProperties.Location = new System.Drawing.Point(0, 0);
             this.bitmapProperties.Name = "bitmapProperties";
             this.bitmapProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.bitmapProperties.Size = new System.Drawing.Size(763, 209);
+            this.bitmapProperties.Size = new System.Drawing.Size(751, 209);
             this.bitmapProperties.TabIndex = 2;
             this.bitmapProperties.ToolbarVisible = false;
             this.bitmapProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.bitmapProperties_PropertyValueChanged);
@@ -204,7 +204,7 @@
             this.dumpTexturesToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1527, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1502, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -248,7 +248,7 @@
             this.dumpTexturesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("dumpTexturesToolStripButton.Image")));
             this.dumpTexturesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.dumpTexturesToolStripButton.Name = "dumpTexturesToolStripButton";
-            this.dumpTexturesToolStripButton.Size = new System.Drawing.Size(61, 22);
+            this.dumpTexturesToolStripButton.Size = new System.Drawing.Size(62, 22);
             this.dumpTexturesToolStripButton.Text = "&Export All";
             this.dumpTexturesToolStripButton.ToolTipText = "Export All Textures";
             this.dumpTexturesToolStripButton.Click += new System.EventHandler(this.dumpTexturesToolStripButton_Click);
@@ -263,7 +263,7 @@
             this.Description = "Allows bitmap texture tag manipulation.";
             this.Icon = global::Texture_Editor.Properties.Resources.texture_edit;
             this.Name = "TextureEditor";
-            this.Size = new System.Drawing.Size(1527, 916);
+            this.Size = new System.Drawing.Size(1502, 929);
             this.ToolName = "Texture Editor";
             this.SelectedEntryChanged += new System.EventHandler(this.BitmapEditor_SelectedEntryChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TextureEditor_DragDrop);

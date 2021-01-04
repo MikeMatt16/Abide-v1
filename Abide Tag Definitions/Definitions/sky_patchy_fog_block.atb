@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_patchy_fog_block" DisplayName="sky_patchy_fog_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldRealRgbColor Index="0" Name="Color" />
+		<FieldPad Index="1" Name="" Length="12" />
+		<FieldRealFractionBounds Index="2" Name="Density:[0,1]" />
+		<FieldRealBounds Index="3" Name="Distance:world units" />
+		<FieldPad Index="4" Name="" Length="32" />
+		<FieldTagReference Index="5" Name="Patchy Fog" GroupTag="1718641512" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

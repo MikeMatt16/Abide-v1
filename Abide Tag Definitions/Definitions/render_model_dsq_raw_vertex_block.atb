@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_dsq_raw_vertex_block" DisplayName="vertex" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="4">
+		<FieldRealPoint3D Index="0" Name="position*" />
+		<FieldRealPlane3D Index="1" Name="plane*" />
+		<FieldLongInteger Index="2" Name="node index*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

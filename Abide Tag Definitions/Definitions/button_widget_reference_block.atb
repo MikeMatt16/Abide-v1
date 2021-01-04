@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="button_widget_reference_block" DisplayName="button_widget_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="14">
+		<FieldLongFlags Index="0" Name="text flags">
+			<Option Name="left justify text" />
+			<Option Name="right justify text" />
+			<Option Name="pulsating text" />
+			<Option Name="callout text" />
+			<Option Name="small (31 char) buffer" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="animation index">
+			<Option Name="NONE" />
+			<Option Name="00" />
+			<Option Name="01" />
+			<Option Name="02" />
+			<Option Name="03" />
+			<Option Name="04" />
+			<Option Name="05" />
+			<Option Name="06" />
+			<Option Name="07" />
+			<Option Name="08" />
+			<Option Name="09" />
+			<Option Name="10" />
+			<Option Name="11" />
+			<Option Name="12" />
+			<Option Name="13" />
+			<Option Name="14" />
+			<Option Name="15" />
+			<Option Name="16" />
+			<Option Name="17" />
+			<Option Name="18" />
+			<Option Name="19" />
+			<Option Name="20" />
+			<Option Name="21" />
+			<Option Name="22" />
+			<Option Name="23" />
+			<Option Name="24" />
+			<Option Name="25" />
+			<Option Name="26" />
+			<Option Name="27" />
+			<Option Name="28" />
+			<Option Name="29" />
+			<Option Name="30" />
+			<Option Name="31" />
+			<Option Name="32" />
+			<Option Name="33" />
+			<Option Name="34" />
+			<Option Name="35" />
+			<Option Name="36" />
+			<Option Name="37" />
+			<Option Name="38" />
+			<Option Name="39" />
+			<Option Name="40" />
+			<Option Name="41" />
+			<Option Name="42" />
+			<Option Name="43" />
+			<Option Name="44" />
+			<Option Name="45" />
+			<Option Name="46" />
+			<Option Name="47" />
+			<Option Name="48" />
+			<Option Name="49" />
+			<Option Name="50" />
+			<Option Name="51" />
+			<Option Name="52" />
+			<Option Name="53" />
+			<Option Name="54" />
+			<Option Name="55" />
+			<Option Name="56" />
+			<Option Name="57" />
+			<Option Name="58" />
+			<Option Name="59" />
+			<Option Name="60" />
+			<Option Name="61" />
+			<Option Name="62" />
+			<Option Name="63" />
+		</FieldEnum>
+		<FieldShortInteger Index="2" Name="intro animation delay milliseconds" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldEnum Index="4" Name="custom font">
+			<Option Name="terminal" />
+			<Option Name="body text" />
+			<Option Name="title" />
+			<Option Name="super large font" />
+			<Option Name="large body text" />
+			<Option Name="split screen hud message" />
+			<Option Name="full screen hud message" />
+			<Option Name="english body text" />
+			<Option Name="HUD number text" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldRealArgbColor Index="5" Name="text color" />
+		<FieldRectangle2D Index="6" Name="bounds" />
+		<FieldTagReference Index="7" Name="bitmap" GroupTag="1651078253" />
+		<FieldPoint2D Index="8" Name="bitmap offset#from top-left" />
+		<FieldStringId Index="9" Name="string id" />
+		<FieldShortInteger Index="10" Name="render depth bias" />
+		<FieldShortInteger Index="11" Name="mouse region top offset" />
+		<FieldLongFlags Index="12" Name="button flags">
+			<Option Name="DOESN'T tab vertically" />
+			<Option Name="DOESN'T tab horizontally" />
+		</FieldLongFlags>
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

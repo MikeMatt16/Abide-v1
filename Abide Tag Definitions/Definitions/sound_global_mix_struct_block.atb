@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_global_mix_struct_block" DisplayName="sound_global_mix_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="17">
+		<FieldReal Index="0" Name="mono unspatialized gain:dB" />
+		<FieldReal Index="1" Name="stereo to 3d gain:dB" />
+		<FieldReal Index="2" Name="rear surround to front stereo gain:dB" />
+		<FieldExplanation Index="3" Name="surround center mix" Explanation="for sounds that use the center speaker" />
+		<FieldReal Index="4" Name="front speaker gain:dB" />
+		<FieldReal Index="5" Name="center speaker gain:dB" />
+		<FieldExplanation Index="6" Name="stereo center mix" Explanation="for sounds that use the center speaker" />
+		<FieldReal Index="7" Name="front speaker gain:dB" />
+		<FieldReal Index="8" Name="center speaker gain:dB" />
+		<FieldExplanation Index="9" Name="more sound lovin'" Explanation="for sounds that use the center speaker" />
+		<FieldReal Index="10" Name="stereo unspatialized gain:dB" />
+		<FieldExplanation Index="11" Name="last minute values" Explanation="" />
+		<FieldReal Index="12" Name="solo player fade out delay: seconds" />
+		<FieldReal Index="13" Name="solo player fade out time: seconds" />
+		<FieldReal Index="14" Name="solo player fade in time: seconds" />
+		<FieldReal Index="15" Name="game music fade out time: seconds" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -69,8 +69,8 @@ namespace Abide.HaloLibrary.Halo2Map
             set { tagDataLength = value; }
         }
         /// <summary>
-        /// Gets or sets the length of the map's data.
-        /// This value is the sum of map's index length, the map's bsp allocation length, and the map's tag data length. 
+        /// Gets or sets the length of the map's total tag data.
+        /// This value is the sum of map's index length, bsp tag data length, tag data length. 
         /// </summary>
         public uint MapDataLength
         {
@@ -270,14 +270,15 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <returns>A <see cref="Header"/> instance.</returns>
         public static Header CreateDefault()
         {
-            Header header = new Header();
-            header.Head = "head";
-            header.Version = 8;
-            header.Build = "02.09.27.09809";
-            header.IndexOffset = 2048;
-            header.IndexLength = 4096;
-            header.Foot = "foot";
-            return header;
+            return new Header
+            {
+                Head = "head",
+                Version = 8,
+                Build = "02.09.27.09809",
+                IndexOffset = 2048,
+                IndexLength = 4096,
+                Foot = "foot"
+            };
         }
     }
 
@@ -397,14 +398,13 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <returns>An <see cref="Index"/> instance.</returns>
         public static Index CreateDefault()
         {
-            Index index = new Index
+            return new Index
             {
                 TagsAddress = IndexTagsAddress,
                 ScenarioId = TagId.Null,
                 GlobalsId = TagId.Null,
                 Tags = "tags"
             };
-            return index;
         }
     }
 
@@ -524,7 +524,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// Represents a tag hierarchy structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct TagHierarchy
+    public struct TagHierarchy : IEquatable<TagHierarchy>
     {
         /// <summary>
         /// Represents the length of a <see cref="TagHierarchy"/> structure in bytes.
@@ -569,6 +569,15 @@ namespace Abide.HaloLibrary.Halo2Map
             this.root = root;
             this.parent = parent;
             this.@class = @class;
+        }
+        /// <summary>
+        /// Determines whether this instance and another specified <see cref="TagHierarchy"/> object have the same value.
+        /// </summary>
+        /// <param name="other">The tag to compare to this instance.</param>
+        /// <returns>true if the value of the <paramref name="other"/> parameter is the same as the value of this instance; otherwise, false.</returns>
+        public bool Equals(TagHierarchy other)
+        {
+            return root.Equals(other.root) && parent.Equals(other.parent) && @class.Equals(other.@class);
         }
         /// <summary>
         /// Gets a string representation of this <see cref="TagHierarchy"/> instance.

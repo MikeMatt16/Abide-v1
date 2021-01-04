@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_texture_state_misc_state_block" DisplayName="misc state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldWordFlags Index="0" Name="component sign flags">
+			<Option Name="R signed" />
+			<Option Name="G signed" />
+			<Option Name="B signed" />
+			<Option Name="A signed" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldArgbColor Index="2" Name="border color" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_projected_decal_block" DisplayName="decorator_projected_decal_block" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="10">
+		<FieldCharBlockIndex1 Index="0" Name="Decorator Set" />
+		<FieldCharInteger Index="1" Name="Decorator Class" />
+		<FieldCharInteger Index="2" Name="Decorator Permutation" />
+		<FieldCharInteger Index="3" Name="Sprite Index" />
+		<FieldRealPoint3D Index="4" Name="Position" />
+		<FieldRealVector3D Index="5" Name="Left" />
+		<FieldRealVector3D Index="6" Name="Up" />
+		<FieldRealVector3D Index="7" Name="Extents" />
+		<FieldRealPoint3D Index="8" Name="Previous Position" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

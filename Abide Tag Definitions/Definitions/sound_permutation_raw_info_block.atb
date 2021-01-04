@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_permutation_raw_info_block" DisplayName="sound_permutation_raw_info_block" MaximumElementCount="18">
+	<FieldSet Alignment="4" Count="10">
+		<FieldCustom Index="0" Name="" />
+		<FieldStringId Index="1" Name="skip fraction name" />
+		<FieldData Index="2" Name="" Alignment="4" MaximumSize="16777216" ElementSize="1" />
+		<FieldData Index="3" Name="" Alignment="4" MaximumSize="8192" ElementSize="1" />
+		<FieldData Index="4" Name="" Alignment="4" MaximumSize="1048576" ElementSize="1" />
+		<FieldBlock Index="5" Name="" BlockName="sound_permutation_marker_block" />
+		<FieldEnum Index="6" Name="compression*">
+			<Option Name="none (big endian)" />
+			<Option Name="xbox adpcm" />
+			<Option Name="ima adpcm" />
+			<Option Name="none (little endian)" />
+			<Option Name="wma" />
+		</FieldEnum>
+		<FieldCharEnum Index="7" Name="language*">
+			<Option Name="english" />
+			<Option Name="japanese" />
+			<Option Name="german" />
+			<Option Name="french" />
+			<Option Name="spanish" />
+			<Option Name="italian" />
+			<Option Name="korean" />
+			<Option Name="chinese" />
+			<Option Name="portuguese" />
+		</FieldCharEnum>
+		<FieldPad Index="8" Name="" Length="1" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

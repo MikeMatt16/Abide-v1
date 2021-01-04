@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lens_flare_block" DisplayName="lens_flare" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="33">
+		<FieldExplanation Index="0" Name="LENS FLARE" Explanation="" />
+		<FieldAngle Index="1" Name="falloff angle:degrees" />
+		<FieldAngle Index="2" Name="cutoff angle:degrees" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldSkip Index="4" Name="" Length="4" />
+		<FieldExplanation Index="5" Name="OCCLUSION" Explanation="Occlusion factor affects overall lens flare brightness and can also affect scale. Occlusion never affects rotation." />
+		<FieldReal Index="6" Name="occlusion radius:world units#radius of the square used to test occlusion" />
+		<FieldEnum Index="7" Name="occlusion offset direction">
+			<Option Name="toward viewer" />
+			<Option Name="marker forward" />
+			<Option Name="none" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="occlusion inner radius scale">
+			<Option Name="none" />
+			<Option Name="1/2" />
+			<Option Name="1/4" />
+			<Option Name="1/8" />
+			<Option Name="1/16" />
+			<Option Name="1/32" />
+			<Option Name="1/64" />
+		</FieldEnum>
+		<FieldReal Index="9" Name="near fade distance:world units#distance at which the lens flare brightness is maximum" />
+		<FieldReal Index="10" Name="far fade distance:world units#distance at which the lens flare brightness is minimum; set to zero to disable distance fading" />
+		<FieldTagReference Index="11" Name="bitmap" GroupTag="1651078253" />
+		<FieldWordFlags Index="12" Name="flags">
+			<Option Name="sun" />
+			<Option Name="no occlusion test" />
+			<Option Name="only render in first person" />
+			<Option Name="only render in third person" />
+			<Option Name="fade in more quickly" />
+			<Option Name="fade out more quickly" />
+			<Option Name="scale by marker" />
+		</FieldWordFlags>
+		<FieldSkip Index="13" Name="" Length="2" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldEnum Index="15" Name="rotation function">
+			<Option Name="none" />
+			<Option Name="rotation A" />
+			<Option Name="rotation B" />
+			<Option Name="rotation-translation" />
+			<Option Name="translation" />
+		</FieldEnum>
+		<FieldPad Index="16" Name="" Length="2" />
+		<FieldAngle Index="17" Name="rotation function scale:degrees" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldRealVector2D Index="19" Name="corona scale#amount to stretch the corona" />
+		<FieldExplanation Index="20" Name="EFFECT PARAMETERS" Explanation="Only affects lens flares created by effects." />
+		<FieldEnum Index="21" Name="falloff function">
+			<Option Name="linear" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="cosine" />
+			<Option Name="zero" />
+			<Option Name="one" />
+		</FieldEnum>
+		<FieldPad Index="22" Name="" Length="2" />
+		<FieldUselessPad Index="23" Name="" />
+		<FieldBlock Index="24" Name="reflections" BlockName="lens_flare_reflection_block" />
+		<FieldExplanation Index="25" Name="ANIMATION" Explanation="" />
+		<FieldWordFlags Index="26" Name="flags">
+			<Option Name="synchronized" />
+		</FieldWordFlags>
+		<FieldPad Index="27" Name="" Length="2" />
+		<FieldBlock Index="28" Name="brightness" BlockName="lens_flare_scalar_animation_block" />
+		<FieldBlock Index="29" Name="color" BlockName="lens_flare_color_animation_block" />
+		<FieldBlock Index="30" Name="rotation" BlockName="lens_flare_scalar_animation_block" />
+		<FieldUselessPad Index="31" Name="" />
+		<FieldTerminator Index="32" Name="" />
+	</FieldSet>
+</AbideTagBlock>

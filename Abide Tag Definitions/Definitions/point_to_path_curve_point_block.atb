@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="point_to_path_curve_point_block" DisplayName="point_to_path_curve_point_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="3">
+		<FieldRealPoint3D Index="0" Name="position*" />
+		<FieldReal Index="1" Name="t value*" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,20 +1,90 @@
 ﻿<h2:ToolControl x:Class="Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor.ModelEditor"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:h2="clr-namespace:Abide.AddOnApi.Wpf.Halo2;assembly=Abide.AddOnApi.Wpf"
                 xmlns:local="clr-namespace:Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
-                AddOnName="Model Editor" AddOnDescription="Halo 3d model editor"
+                AddOnName="Model Editor"
+                AddOnDescription="Halo model editor"
                 AddOnAuthor="Click16"
                 MapLoad="ToolControl_MapLoad"
-                SelectedEntryChanged="ToolControl_SelectedEntryChanged">
+                SelectedEntryChanged="ToolControl_SelectedEntryChanged"
+                Background="{StaticResource Background}">
+    <h2:ToolControl.Resources>
+    </h2:ToolControl.Resources>
     <h2:ToolControl.DataContext>
         <local:ModelEditorViewModel/>
     </h2:ToolControl.DataContext>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" Margin="0,0,4,0" ItemsSource="{Binding Model.ModelContainers}"
+                  SelectedItem="{Binding SelectedContainer, Mode=TwoWay}">
+            <ListView.Resources>
+                <Style TargetType="ListView">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListView">
+                                <ScrollViewer>
+                                    <StackPanel Orientation="Vertical">
+                                        <ItemsPresenter/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="2" Text="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <GridSplitter HorizontalAlignment="Right" Grid.Column="0" ResizeDirection="Columns" Width="4">
+            <GridSplitter.Style>
+                <Style TargetType="GridSplitter">
+                    <Setter Property="Background" Value="{StaticResource Background}"/>
+                </Style>
+            </GridSplitter.Style>
+        </GridSplitter>
+        <Border Grid.Column="1" Background="CornflowerBlue" BorderBrush="{StaticResource BackgroundDark}" BorderThickness="1" Margin="2" Focusable="True"
+                MouseDown="viewport_MouseDown" MouseMove="viewport_MouseMove" MouseUp="viewport_MouseUp" MouseWheel="viewport_MouseWheel">
+            <Viewport3D x:Name="viewport">
+                <Viewport3D.Camera>
+                    <PerspectiveCamera FarPlaneDistance="100" LookDirection="1,0,0" UpDirection="0,1,0" NearPlaneDistance="0.01"
+                                       Position="-2,0,0" FieldOfView="45"/>
+                </Viewport3D.Camera>
+                <Viewport3D.Children>
+                    <ModelVisual3D>
+                        <ModelVisual3D.Content>
+                            <Model3DGroup>
+                                <DirectionalLight Color="#FF808080" Direction="2.5,5,2.5"/>
+                                <GeometryModel3D Geometry="{Binding SelectedContainer.Mesh}">
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial Brush="White"/>
+                                    </GeometryModel3D.Material>
+                                </GeometryModel3D>
+                            </Model3DGroup>
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+                </Viewport3D.Children>
+            </Viewport3D>
+        </Border>
     </Grid>
 </h2:ToolControl>

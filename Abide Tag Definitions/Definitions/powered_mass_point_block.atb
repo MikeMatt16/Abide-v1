@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="powered_mass_point_block" DisplayName="powered_mass_point_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="11">
+		<FieldString Index="0" Name="name^" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="ground friction" />
+			<Option Name="water friction" />
+			<Option Name="air friction" />
+			<Option Name="water lift" />
+			<Option Name="air lift" />
+			<Option Name="thrust" />
+			<Option Name="antigrav" />
+			<Option Name="gets damage from region" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="antigrav strength" />
+		<FieldReal Index="3" Name="antigrav offset" />
+		<FieldReal Index="4" Name="antigrav height" />
+		<FieldReal Index="5" Name="antigrav damp fraction" />
+		<FieldReal Index="6" Name="antigrav normal k1" />
+		<FieldReal Index="7" Name="antigrav normal k0" />
+		<FieldStringId Index="8" Name="damage source region name" />
+		<FieldPad Index="9" Name="" Length="64" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sector_block" DisplayName="sector_block" MaximumElementCount="65534">
+	<FieldSet Alignment="4" Count="4">
+		<FieldWordFlags Index="0" Name="Path-finding sector flags">
+			<Option Name="sector walkable" />
+			<Option Name="sector breakable" />
+			<Option Name="sector mobile" />
+			<Option Name="sector bsp source" />
+			<Option Name="floor" />
+			<Option Name="ceiling" />
+			<Option Name="wall north" />
+			<Option Name="wall south" />
+			<Option Name="wall east" />
+			<Option Name="wall west" />
+			<Option Name="crouchable" />
+			<Option Name="aligned" />
+			<Option Name="sector step" />
+			<Option Name="sector interior" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="1" Name="hint index" />
+		<FieldLongInteger Index="2" Name="first link (do not set manually)" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

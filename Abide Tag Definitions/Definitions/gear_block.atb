@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="gear_block" DisplayName="gear_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="12">
+		<FieldExplanation Index="0" Name="loaded torque" Explanation="" />
+		<FieldStruct Index="1" Name="loaded torque curve" StructName="torque_curve_struct_block" />
+		<FieldExplanation Index="2" Name="cruising torque" Explanation="" />
+		<FieldStruct Index="3" Name="cruising torque curve" StructName="torque_curve_struct_block" />
+		<FieldExplanation Index="4" Name="gearing" Explanation="" />
+		<FieldReal Index="5" Name="min time to upshift#seconds" />
+		<FieldReal Index="6" Name="engine up-shift scale#0-1" />
+		<FieldReal Index="7" Name="gear ratio" />
+		<FieldReal Index="8" Name="min time to downshift#seconds" />
+		<FieldReal Index="9" Name="engine down-shift scale#0-1" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

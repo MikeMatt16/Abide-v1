@@ -10,7 +10,7 @@ namespace Abide.Guerilla
 {
     public static partial class Tags
     {
-        public static void GenerateControls(FlowLayoutPanel panel, ITagBlock block)
+        public static void GenerateControls(FlowLayoutPanel panel, Block block)
         {
             //Suspend
             panel.SuspendLayout();

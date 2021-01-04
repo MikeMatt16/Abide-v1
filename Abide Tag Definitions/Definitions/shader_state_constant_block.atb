@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_constant_block" DisplayName="render state constant" MaximumElementCount="7">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStringId Index="0" Name="source parameter" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="constant^">
+			<Option Name="constant blend color" />
+			<Option Name="constant blend alpha (value)" />
+			<Option Name="alpha-test ref (value)" />
+			<Option Name="depth bias slope scale (value)" />
+			<Option Name="depth bias (value)" />
+			<Option Name="line width (value)" />
+			<Option Name="fog color" />
+		</FieldEnum>
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

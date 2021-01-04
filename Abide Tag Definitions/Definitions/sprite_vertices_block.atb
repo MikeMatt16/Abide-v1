@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sprite_vertices_block" DisplayName="sprite_vertices_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="6">
+		<FieldRealPoint3D Index="0" Name="Position*" />
+		<FieldRealVector3D Index="1" Name="Offset*" />
+		<FieldRealVector3D Index="2" Name="Axis*" />
+		<FieldRealPoint2D Index="3" Name="texcoord*" />
+		<FieldRgbColor Index="4" Name="Color*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

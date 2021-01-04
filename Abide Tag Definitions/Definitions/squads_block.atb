@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="squads_block" DisplayName="squads_block" MaximumElementCount="335">
+	<FieldSet Alignment="4" Count="27">
+		<FieldCustom Index="0" Name="" />
+		<FieldString Index="1" Name="name^" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="unused" />
+			<Option Name="never search" />
+			<Option Name="start timer immediately" />
+			<Option Name="no timer, delay forever" />
+			<Option Name="magic sight after timer" />
+			<Option Name="automatic migration" />
+			<Option Name="DEPRECATED" />
+			<Option Name="respawn enabled" />
+			<Option Name="blind" />
+			<Option Name="deaf" />
+			<Option Name="braindead" />
+			<Option Name="3d_firing_positions" />
+			<Option Name="initially placed" />
+			<Option Name="units not enterable by player" />
+		</FieldLongFlags>
+		<FieldEnum Index="3" Name="team">
+			<Option Name="default" />
+			<Option Name="player" />
+			<Option Name="human" />
+			<Option Name="covenant" />
+			<Option Name="flood" />
+			<Option Name="sentinel" />
+			<Option Name="heretic" />
+			<Option Name="prophet" />
+			<Option Name="unused8" />
+			<Option Name="unused9" />
+			<Option Name="unused10" />
+			<Option Name="unused11" />
+			<Option Name="unused12" />
+			<Option Name="unused13" />
+			<Option Name="unused14" />
+			<Option Name="unused15" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="4" Name="parent" />
+		<FieldReal Index="5" Name="squad delay time:seconds" />
+		<FieldShortInteger Index="6" Name="normal diff count#initial number of actors on normal difficulty" />
+		<FieldShortInteger Index="7" Name="insane diff count#initial number of actors on insane difficulty (hard difficulty is midway between normal and insane)" />
+		<FieldEnum Index="8" Name="major upgrade">
+			<Option Name="normal" />
+			<Option Name="few" />
+			<Option Name="many" />
+			<Option Name="none" />
+			<Option Name="all" />
+		</FieldEnum>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldExplanation Index="11" Name="Actor defaults" Explanation="The following default values are used for spawned actors" />
+		<FieldShortBlockIndex1 Index="12" Name="vehicle type" />
+		<FieldShortBlockIndex1 Index="13" Name="character type" />
+		<FieldShortBlockIndex1 Index="14" Name="initial zone" />
+		<FieldPad Index="15" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="16" Name="initial weapon" />
+		<FieldShortBlockIndex1 Index="17" Name="initial secondary weapon" />
+		<FieldEnum Index="18" Name="grenade type">
+			<Option Name="NONE" />
+			<Option Name="Human grenade" />
+			<Option Name="Covenant Plasma" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="19" Name="initial order" />
+		<FieldStringId Index="20" Name="vehicle variant" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldBlock Index="22" Name="starting locations" BlockName="actor_starting_locations_block" />
+		<FieldString Index="23" Name="Placement script" />
+		<FieldSkip Index="24" Name="" Length="2" />
+		<FieldPad Index="25" Name="" Length="2" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

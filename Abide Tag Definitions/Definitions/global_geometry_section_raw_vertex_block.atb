@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_section_raw_vertex_block" DisplayName="vertex" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="25">
+		<FieldRealPoint3D Index="0" Name="Position*" />
+		<FieldArrayStart Index="1" Name="Node Indices (OLD)*" Length="4">
+			<FieldLongInteger Index="0" Name="Node Index (OLD)*" />
+		</FieldArrayStart>
+		<FieldLongInteger Index="2" Name="Node Index (OLD)*" />
+		<FieldArrayEnd Index="3" Name="" />
+		<FieldArrayStart Index="4" Name="Node Weights*" Length="4">
+			<FieldReal Index="0" Name="node_weight*" />
+		</FieldArrayStart>
+		<FieldReal Index="5" Name="node_weight*" />
+		<FieldArrayEnd Index="6" Name="" />
+		<FieldArrayStart Index="7" Name="Node Indices (NEW)*" Length="4">
+			<FieldLongInteger Index="0" Name="Node Index (NEW)*" />
+		</FieldArrayStart>
+		<FieldLongInteger Index="8" Name="Node Index (NEW)*" />
+		<FieldArrayEnd Index="9" Name="" />
+		<FieldLongInteger Index="10" Name="Use New Node Indices*" />
+		<FieldLongInteger Index="11" Name="Adjusted Compound Node Index*" />
+		<FieldRealPoint2D Index="12" Name="texcoord*" />
+		<FieldRealVector3D Index="13" Name="Normal*" />
+		<FieldRealVector3D Index="14" Name="Binormal*" />
+		<FieldRealVector3D Index="15" Name="Tangent*" />
+		<FieldRealVector3D Index="16" Name="Anisotropic Binormal*" />
+		<FieldRealPoint2D Index="17" Name="Secondary texcoord*" />
+		<FieldRealRgbColor Index="18" Name="Primary Lightmap Color" />
+		<FieldRealPoint2D Index="19" Name="Primary Lightmap texcoord" />
+		<FieldRealVector3D Index="20" Name="Primary Lightmap Incident Direction" />
+		<FieldPad Index="21" Name="" Length="12" />
+		<FieldPad Index="22" Name="" Length="8" />
+		<FieldPad Index="23" Name="" Length="12" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

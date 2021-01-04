@@ -11,7 +11,7 @@ namespace Abide.Guerilla.Dialogs
         /// <summary>
         /// Gets and returns the selected tag group.
         /// </summary>
-        public ITagGroup SelectedGroup { get; private set; } = null;
+        public Group SelectedGroup { get; private set; } = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewTagGroupDialog"/> class.

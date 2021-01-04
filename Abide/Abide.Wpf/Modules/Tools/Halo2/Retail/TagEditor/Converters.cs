@@ -17,8 +17,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
         public BaseAddOnViewModel ViewModel
         {
-            get { return (BaseAddOnViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (BaseAddOnViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -28,13 +28,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
             if (value is StringId stringId)
             {
-                return ViewModel.Map.Strings[stringId.Index];
+                return ViewModel.Map.GetStringById(stringId);
             }
             else if (value is TagId tagId)
             {
-                if(ViewModel.Map.IndexEntries.ContainsId(tagId))
+                var tag = ViewModel.Map.GetTagById(tagId);
+                if (tag != null)
                 {
-                    return $"{ViewModel.Map.IndexEntries[tagId].Filename}.{ViewModel.Map.IndexEntries[tagId].Root}";
+                    return $"{tag.TagName}.{tag.GroupTag}";
                 }
                 else
                 {
@@ -43,9 +44,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             }
             else if (value is TagReference tagRef)
             {
-                if (ViewModel.Map.IndexEntries.ContainsId(tagRef.Id))
+                var tag = ViewModel.Map.GetTagById(tagRef.Id);
+                if (tag != null)
                 {
-                    return $"{ViewModel.Map.IndexEntries[tagRef.Id].Filename}.{tagRef.Tag}";
+                    return $"{tag.TagName}.{tagRef.Tag}";
                 }
                 else
                 {
@@ -131,16 +133,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         }
     }
 
-    public sealed class FlagsValueConverter : BaseViewModel, IMultiValueConverter
+    public enum SpecificValue
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        Point2dX,
+        Point2dY,
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

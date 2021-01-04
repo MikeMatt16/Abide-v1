@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_conversation_line_block" DisplayName="ai_conversation_line_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="14">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="addressee look at speaker" />
+			<Option Name="everyone look at speaker" />
+			<Option Name="everyone look at addressee" />
+			<Option Name="wait after until told to advance" />
+			<Option Name="wait until speaker nearby" />
+			<Option Name="wait until everyone nearby" />
+		</FieldWordFlags>
+		<FieldShortBlockIndex1 Index="1" Name="participant" />
+		<FieldEnum Index="2" Name="addressee">
+			<Option Name="none" />
+			<Option Name="player" />
+			<Option Name="participant" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="3" Name="addressee participant#this field is only used if the addressee type is 'participant'" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldReal Index="5" Name="line delay time" />
+		<FieldPad Index="6" Name="" Length="12" />
+		<FieldTagReference Index="7" Name="variant 1" GroupTag="1936614433" />
+		<FieldTagReference Index="8" Name="variant 2" GroupTag="1936614433" />
+		<FieldTagReference Index="9" Name="variant 3" GroupTag="1936614433" />
+		<FieldTagReference Index="10" Name="variant 4" GroupTag="1936614433" />
+		<FieldTagReference Index="11" Name="variant 5" GroupTag="1936614433" />
+		<FieldTagReference Index="12" Name="variant 6" GroupTag="1936614433" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

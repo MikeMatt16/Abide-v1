@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_sound_event_block" DisplayName="animation_sound_event_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortBlockIndex1 Index="0" Name="sound" />
+		<FieldShortInteger Index="1" Name="frame" />
+		<FieldStringId Index="2" Name="marker name" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

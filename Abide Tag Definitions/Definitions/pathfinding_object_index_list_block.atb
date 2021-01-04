@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pathfinding_object_index_list_block" DisplayName="pathfinding_object_index_list_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="3">
+		<FieldShortInteger Index="0" Name="BSP Index" />
+		<FieldShortInteger Index="1" Name="Pathfinding Object Index" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="states_block" DisplayName="states_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="17">
+		<FieldString Index="0" Name="name^" />
+		<FieldRealRgbColor Index="1" Name="color" />
+		<FieldShortInteger Index="2" Name="counts as:neighbors" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="initial placement weight" />
+		<FieldPad Index="5" Name="" Length="24" />
+		<FieldShortBlockIndex1 Index="6" Name="zero" />
+		<FieldShortBlockIndex1 Index="7" Name="one" />
+		<FieldShortBlockIndex1 Index="8" Name="two" />
+		<FieldShortBlockIndex1 Index="9" Name="three" />
+		<FieldShortBlockIndex1 Index="10" Name="four" />
+		<FieldShortBlockIndex1 Index="11" Name="five" />
+		<FieldShortBlockIndex1 Index="12" Name="six" />
+		<FieldShortBlockIndex1 Index="13" Name="seven" />
+		<FieldShortBlockIndex1 Index="14" Name="eight" />
+		<FieldPad Index="15" Name="" Length="2" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

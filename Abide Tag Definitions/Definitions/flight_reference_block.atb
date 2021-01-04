@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="flight_reference_block" DisplayName="flight_reference_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="3">
+		<FieldShortInteger Index="0" Name="flight hint index" />
+		<FieldShortInteger Index="1" Name="poit index" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

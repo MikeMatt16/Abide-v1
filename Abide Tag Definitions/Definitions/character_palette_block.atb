@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_palette_block" DisplayName="character_palette_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="reference^" GroupTag="1667785074" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

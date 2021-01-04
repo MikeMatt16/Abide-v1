@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_layer_block" DisplayName="shader_postprocess_layer_block" MaximumElementCount="25">
+	<FieldSet Alignment="4" Count="2">
+		<FieldStruct Index="0" Name="passes" StructName="tag_block_index_struct_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

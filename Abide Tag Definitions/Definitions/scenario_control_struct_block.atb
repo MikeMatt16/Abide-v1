@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_control_struct_block" DisplayName="scenario_control_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="Usable from Both Sides" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="1" Name="*DON'T TOUCH THIS" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

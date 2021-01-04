@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="light_volume_volume_block" DisplayName="volume" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="33">
+		<FieldExplanation Index="0" Name="VOLUME" Explanation="If no bitmap is selected, the default glow bitmap will be used. Sprite count controls how many sprites are used to render this volume. Using more sprites will result in a smoother and brighter effect, at a slight performance penalty. Don't touch the flags unless you know what you're doing (they should be off by default).|n|nBe careful with the 'fuzzy' flag! It should be used on very wide light volumes to make them blend smoothly into solid geometry rather than &quot;cutting&quot; into the zbuffer. Using this feature will make light volumes several times slower when they fill a large portion of the screen." />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="force linear radius function" />
+			<Option Name="force linear offset" />
+			<Option Name="force differential evaluation" />
+			<Option Name="fuzzy" />
+			<Option Name="not scaled by event duration" />
+			<Option Name="scaled by marker" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="2" Name="" />
+		<FieldTagReference Index="3" Name="bitmap" GroupTag="1651078253" />
+		<FieldLongInteger Index="4" Name="sprite count:[4,256]" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldExplanation Index="6" Name="OFFSET" Explanation="This function controls the offset along the projected forward axis of the light volume. The output range of this function is the distance in WORLD UNITS from the origin where the first and last sprite are rendered. The input to this function is the fractional value (from 0 to 1) along the projected axis. Using a transition function such as &quot;late&quot; will result in more sprites being bunched up towards the origin and spaced further apart near the end.|n|nNote that this and other functions in this tag have a range-input, which is controlled by the output of the FACING function below." />
+		<FieldStruct Index="7" Name="offset function" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="8" Name="RADIUS" Explanation="This function controls the radius in WORLD UNITS of each sprite along the projected forward axis. Using a smaller min value and a larger max value results in a light volume that looks like a cone." />
+		<FieldStruct Index="9" Name="radius function" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="10" Name="BRIGHTNESS" Explanation="This function controls the overall brightness (in [0,1]) of each sprite along the projected forward axis. Note that since the sprites are additive, they will be brighter in areas where they overlap more even if this function is constant, so it may be useful to use the brightness function to compensate for this." />
+		<FieldStruct Index="11" Name="brightness function" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="12" Name="COLOR" Explanation="This function controls the color of each sprite along the projected forward axis. Color is multiplied by brightness to produce the final color that will be applied to the sprite." />
+		<FieldStruct Index="13" Name="color function" StructName="color_function_struct_block" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldExplanation Index="15" Name="FACING" Explanation="The input to this function is the facing angle between the light volume and the camera. Zero represents facing towards (parallel) or away from the camera and 1.0 represents facing perpendicular to the camera.|n|nThe output of this function is fed into the range-input of the functions above." />
+		<FieldStruct Index="16" Name="facing function" StructName="scalar_function_struct_block" />
+		<FieldUselessPad Index="17" Name="" />
+		<FieldBlock Index="18" Name="aspect" BlockName="light_volume_aspect_block" />
+		<FieldUselessPad Index="19" Name="" />
+		<FieldExplanation Index="20" Name="POSTPROCESS CONTROL" Explanation="ADVANCED STUFF!! Don't change these values!!" />
+		<FieldRealFraction Index="21" Name="radius frac min*:[0.00390625, 1.0]" />
+		<FieldRealFraction Index="22" Name="DEPRECATED!! x-step exponent*:[0.5, 0.875]" />
+		<FieldLongInteger Index="23" Name="DEPRECATED!! x-buffer length*:[32, 512]" />
+		<FieldLongInteger Index="24" Name="x-buffer spacing*:[1, 256]" />
+		<FieldLongInteger Index="25" Name="x-buffer min iterations*:[1, 256]" />
+		<FieldLongInteger Index="26" Name="x-buffer max iterations*:[1, 256]" />
+		<FieldRealFraction Index="27" Name="x-delta max error*:[0.001, 0.1]" />
+		<FieldUselessPad Index="28" Name="" />
+		<FieldSkip Index="29" Name="" Length="4" />
+		<FieldBlock Index="30" Name="*" BlockName="light_volume_runtime_offset_block" />
+		<FieldSkip Index="31" Name="" Length="48" />
+		<FieldTerminator Index="32" Name="" />
+	</FieldSet>
+</AbideTagBlock>

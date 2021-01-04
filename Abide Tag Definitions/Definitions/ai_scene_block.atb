@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_scene_block" DisplayName="ai_scene_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="scene can play multiple times" />
+			<Option Name="enable combat dialogue" />
+		</FieldLongFlags>
+		<FieldBlock Index="2" Name="trigger conditions" BlockName="ai_scene_trigger_block" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldBlock Index="4" Name="roles" BlockName="ai_scene_role_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

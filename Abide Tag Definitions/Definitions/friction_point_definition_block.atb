@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="friction_point_definition_block" DisplayName="friction_point_definition_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="19">
+		<FieldStringId Index="0" Name="marker name^" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="gets damage from region" />
+			<Option Name="powered" />
+			<Option Name="front turning" />
+			<Option Name="rear turning" />
+			<Option Name="attached to e-brake" />
+			<Option Name="can be destroyed" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="fraction of total mass#(0.0-1.0) fraction of total vehicle mass" />
+		<FieldReal Index="3" Name="radius" />
+		<FieldReal Index="4" Name="damaged radius#radius when the tire is blown off." />
+		<FieldEnum Index="5" Name="friction type">
+			<Option Name="point" />
+			<Option Name="forward" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldReal Index="7" Name="moving friction velocity diff" />
+		<FieldReal Index="8" Name="e-brake moving friction" />
+		<FieldReal Index="9" Name="e-brake friction" />
+		<FieldReal Index="10" Name="e-brake moving friction vel diff" />
+		<FieldPad Index="11" Name="" Length="20" />
+		<FieldStringId Index="12" Name="collision global material name" />
+		<FieldPad Index="13" Name="" Length="2" />
+		<FieldExplanation Index="14" Name="friction point destruction data" Explanation="" />
+		<FieldEnum Index="15" Name="model state destroyed#only need point can destroy flag set">
+			<Option Name="default" />
+			<Option Name="minor damage" />
+			<Option Name="medium damage" />
+			<Option Name="major damage" />
+			<Option Name="destroyed" />
+		</FieldEnum>
+		<FieldStringId Index="16" Name="region name#only need point can destroy flag set" />
+		<FieldPad Index="17" Name="" Length="4" />
+		<FieldTerminator Index="18" Name="" />
+	</FieldSet>
+</AbideTagBlock>

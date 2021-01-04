@@ -83,7 +83,7 @@ namespace Abide.DebugXbox
                     {
                         socket.Bind(new IPEndPoint(ua.Address, 0));
                         socket.SendTo(discoveryPacket, discoveryEndPoint);
-
+                        
                         //Add socket to list
                         sockets.Add(socket);
                     }

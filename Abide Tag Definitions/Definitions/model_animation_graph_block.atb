@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_animation_graph_block" DisplayName="model_animation_graph" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldStruct Index="0" Name="resources" StructName="animation_graph_resources_struct_block" />
+		<FieldStruct Index="1" Name="content" StructName="animation_graph_contents_struct_block" />
+		<FieldStruct Index="2" Name="run time data" StructName="model_animation_runtime_data_struct_block" />
+		<FieldExplanation Index="3" Name="RESULTS OF THE LAST IMPORT" Explanation="" />
+		<FieldData Index="4" Name="last import results*" Alignment="4" MaximumSize="131072" ElementSize="1" />
+		<FieldBlock Index="5" Name="additional node data" BlockName="additional_node_data_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

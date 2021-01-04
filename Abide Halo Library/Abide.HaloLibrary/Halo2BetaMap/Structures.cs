@@ -243,19 +243,31 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// </summary>
         public const int Length = 20;
         /// <summary>
+        /// Represents the address of the tags start in the index table in Xbox memory.
+        /// This value is constant.
+        /// </summary>
+        public const uint IndexObjectsAddress = 0x80061014;
+        /// <summary>
         /// Represents the memory address of the index table.
         /// This value is constant.
         /// </summary>
+        [Obsolete("IndexMemoryAddress is deprecated. Use IndexObjectsAddress instead.")]
         public const uint IndexMemoryAddress = 2147880980;
 
         /// <summary>
         /// Gets or sets the memory address of the index.
         /// This value should remain consistant across all maps.
         /// </summary>
+        [Obsolete("IndexAddress is obsolete. Use ObjectsAddress instead.")]
         public uint IndexAddress
         {
-            get { return indexAddress; }
-            set { indexAddress = value; }
+            get { return objectsOffset; }
+            set { objectsOffset = value; }
+        }
+        public uint ObjectsAddress
+        {
+            get { return objectsOffset; }
+            set { objectsOffset = value; }
         }
         /// <summary>
         /// Gets or sets the map's scenario ID.
@@ -283,7 +295,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         }
 
         [FieldOffset(0)]
-        private uint indexAddress;
+        private uint objectsOffset;
         [FieldOffset(4)]
         private TagId scenarioId;
         [FieldOffset(8)]
@@ -405,7 +417,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
         /// <summary>
         /// Gets or sets the lightmap virtual offset.
         /// </summary>
-        public uint LightmapOffset { get; set; }
+        public uint StructureLightmapOffset { get; set; }
         /// <summary>
         /// Gets or sets the Structure BSP header tag.
         /// </summary>

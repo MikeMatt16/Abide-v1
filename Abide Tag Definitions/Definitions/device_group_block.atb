@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="device_group_block" DisplayName="device_group_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="5">
+		<FieldString Index="0" Name="Name^" />
+		<FieldReal Index="1" Name="Initial Value:[0,1]" />
+		<FieldLongFlags Index="2" Name="Flags">
+			<Option Name="Can change only once." />
+		</FieldLongFlags>
+		<FieldUselessPad Index="3" Name="" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

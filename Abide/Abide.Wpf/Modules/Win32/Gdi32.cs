@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Abide.Wpf.Modules.Win32
 {
-    public static class Gdi32
+    internal static class Gdi32
     {
         [DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr ho);

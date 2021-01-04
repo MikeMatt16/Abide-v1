@@ -24,8 +24,8 @@ namespace Abide.Wpf.Modules.Win32
         /// <remarks>Visit https://docs.microsoft.com/en-us/windows/win32/winmsg/about-window-classes#class-name for more information regarding class names.</remarks>
         public string ClassName
         {
-            get { return wndClass; }
-            set { wndClass = value ?? throw new ArgumentNullException("Window class cannot be null.", nameof(value)); }
+            get => wndClass;
+            set => wndClass = value ?? throw new ArgumentNullException("Window class cannot be null.", nameof(value));
         }
         /// <summary>
         /// Gets or sets the window class style flags.
@@ -33,8 +33,8 @@ namespace Abide.Wpf.Modules.Win32
         /// <remarks>Visit https://docs.microsoft.com/en-us/windows/win32/winmsg/about-window-classes#class-name for more information regarding class styles</remarks>
         public WindowClassStyles WindowClassStyles
         {
-            get { return (WindowClassStyles)wndStyle; }
-            set { wndStyle = (uint)value; }
+            get => (WindowClassStyles)wndStyle;
+            set => wndStyle = (uint)value;
         }
 
         private string wndClass = string.Empty;
@@ -48,7 +48,7 @@ namespace Abide.Wpf.Modules.Win32
         /// Returns a new instance of the <see cref="WNDCLASSEX"/> structure to be used to register a window class.
         /// </summary>
         /// <returns>A new <see cref="WNDCLASSEX"/> structure.</returns>
-        public WNDCLASSEX GetWndClassEx()
+        internal WNDCLASSEX GetWndClassEx()
         {
             return new WNDCLASSEX()
             {

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lens_flare_reflection_block" DisplayName="reflection" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="17">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="align rotation with screen center" />
+			<Option Name="radius NOT scaled by distance" />
+			<Option Name="radius scaled by occlusion factor" />
+			<Option Name="occluded by solid objects" />
+			<Option Name="ignore light color" />
+			<Option Name="not affected by inner occlusion" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldShortInteger Index="2" Name="bitmap index" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldReal Index="5" Name="position:along flare axis#0 is on top of light, 1 is opposite light, 0.5 is the center of the screen, etc." />
+		<FieldReal Index="6" Name="rotation offset:degrees" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldRealBounds Index="8" Name="radius:world units#interpolated by external input" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldRealFractionBounds Index="10" Name="brightness:[0,1]#interpolated by external input" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldExplanation Index="12" Name="TINT COLOR" Explanation="Tinting and modulating are not the same; 'tinting' a reflection will color the darker regions but leave the highlights, while 'modulating' will color everything uniformly. The modulation factor controls how much the reflection is modulated as opposed to tinted (0 is tinted, 1 is modulated)." />
+		<FieldRealFraction Index="13" Name="modulation factor:[0,1]" />
+		<FieldRealRgbColor Index="14" Name="color" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

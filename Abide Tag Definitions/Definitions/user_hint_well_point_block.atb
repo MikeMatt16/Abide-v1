@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_well_point_block" DisplayName="user_hint_well_point_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="jump" />
+			<Option Name="climb" />
+			<Option Name="hoist" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldRealVector3D Index="2" Name="point" />
+		<FieldShortInteger Index="3" Name="reference frame" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldLongInteger Index="5" Name="sector index" />
+		<FieldEulerAngles2D Index="6" Name="normal" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

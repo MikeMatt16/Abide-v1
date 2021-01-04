@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_evasion_block" DisplayName="character_evasion_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="8">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldReal Index="1" Name="Evasion danger threshold#Consider evading when immediate danger surpasses threshold" />
+		<FieldReal Index="2" Name="Evasion delay timer#Wait at least this delay between evasions" />
+		<FieldReal Index="3" Name="Evasion chance#If danger is above threshold, the chance that we will evade. Expressed as chance of evading within a 1 second time period" />
+		<FieldReal Index="4" Name="Evasion proximity threshold#If target is within given proximity, possibly evade" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldReal Index="6" Name="dive retreat chance#Chance of retreating (fleeing) after danger avoidance dive" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

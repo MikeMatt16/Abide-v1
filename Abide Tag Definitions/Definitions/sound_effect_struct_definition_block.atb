@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_struct_definition_block" DisplayName="sound_effect_struct_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCustom Index="0" Name="sound effect" />
+		<FieldTagReference Index="1" Name="" GroupTag="1013348414" />
+		<FieldBlock Index="2" Name="components" BlockName="sound_effect_component_block" />
+		<FieldBlock Index="3" Name="" BlockName="sound_effect_overrides_block" />
+		<FieldData Index="4" Name="" Alignment="4" MaximumSize="1024" ElementSize="1" />
+		<FieldBlock Index="5" Name="" BlockName="platform_sound_effect_collection_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

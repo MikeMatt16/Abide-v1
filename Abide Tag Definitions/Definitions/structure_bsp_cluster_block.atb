@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_block" DisplayName="structure_bsp_cluster_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="28">
+		<FieldStruct Index="0" Name="Section Info*" StructName="global_geometry_section_info_struct_block" />
+		<FieldStruct Index="1" Name="Geometry Block Info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="2" Name="Cluster Data*" BlockName="structure_bsp_cluster_data_block_new" />
+		<FieldExplanation Index="3" Name="CLUSTER INFO" Explanation="" />
+		<FieldRealBounds Index="4" Name="Bounds x*" />
+		<FieldRealBounds Index="5" Name="Bounds y*" />
+		<FieldRealBounds Index="6" Name="Bounds z*" />
+		<FieldCharInteger Index="7" Name="Scenario Sky Index*" />
+		<FieldCharInteger Index="8" Name="Media Index*" />
+		<FieldCharInteger Index="9" Name="Scenario Visible Sky Index*" />
+		<FieldCharInteger Index="10" Name="Scenario Atmospheric Fog Index*" />
+		<FieldCharInteger Index="11" Name="Planar Fog Designator*" />
+		<FieldCharInteger Index="12" Name="Visible Fog Plane Index*" />
+		<FieldShortBlockIndex1 Index="13" Name="Background Sound*" />
+		<FieldShortBlockIndex1 Index="14" Name="Sound Environment*" />
+		<FieldShortBlockIndex1 Index="15" Name="Weather*" />
+		<FieldShortInteger Index="16" Name="Transition Structure BSP" />
+		<FieldPad Index="17" Name="" Length="2" />
+		<FieldPad Index="18" Name="" Length="4" />
+		<FieldWordFlags Index="19" Name="Flags">
+			<Option Name="One-Way Portal" />
+			<Option Name="Door Portal" />
+			<Option Name="Postprocessed Geometry" />
+			<Option Name="is the sky" />
+		</FieldWordFlags>
+		<FieldPad Index="20" Name="" Length="2" />
+		<FieldBlock Index="21" Name="Predicted Resources*" BlockName="predicted_resource_block" />
+		<FieldBlock Index="22" Name="Portals*" BlockName="structure_bsp_cluster_portal_index_block" />
+		<FieldLongInteger Index="23" Name="Checksum from Structure*" />
+		<FieldBlock Index="24" Name="Instanced Geometry Indices*" BlockName="structure_bsp_cluster_instanced_geometry_index_block" />
+		<FieldBlock Index="25" Name="Index Reorder Table*" BlockName="global_geometry_section_strip_index_block" />
+		<FieldData Index="26" Name="Collision mopp Code*" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldTerminator Index="27" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="s_text_value_pair_reference_block_UNUSED" DisplayName="s_text_value_pair_reference_block_UNUSED" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="OBSOLETE" Explanation="this is all obsolete" />
+		<FieldEnum Index="1" Name="value type">
+			<Option Name="integer number" />
+			<Option Name="floating point number" />
+			<Option Name="boolean" />
+			<Option Name="text string" />
+		</FieldEnum>
+		<FieldExplanation Index="2" Name="Value" Explanation="Enter the value in the box corresponding to the value type you specified above" />
+		<FieldEnum Index="3" Name="boolean value">
+			<Option Name="FALSE" />
+			<Option Name="TRUE" />
+		</FieldEnum>
+		<FieldLongInteger Index="4" Name="integer value" />
+		<FieldReal Index="5" Name="fp value" />
+		<FieldStringId Index="6" Name="text value string_id" />
+		<FieldExplanation Index="7" Name="Text Label" Explanation="This is text string associated with data when it has the value specified above.|nThe string comes from the screen's string list tag." />
+		<FieldStringId Index="8" Name="text label string_id" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

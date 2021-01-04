@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_device_struct_block" DisplayName="scenario_device_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortBlockIndex1 Index="0" Name="Power Group" />
+		<FieldShortBlockIndex1 Index="1" Name="Position Group" />
+		<FieldLongFlags Index="2" Name="Flags">
+			<Option Name="Initially Open (1.0)" />
+			<Option Name="Initially Off (0.0)" />
+			<Option Name="Can change only once." />
+			<Option Name="Position Reversed" />
+			<Option Name="Not Usable from Any Side" />
+		</FieldLongFlags>
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

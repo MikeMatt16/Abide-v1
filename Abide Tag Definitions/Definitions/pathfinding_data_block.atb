@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pathfinding_data_block" DisplayName="pathfinding_data_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="13">
+		<FieldBlock Index="0" Name="sectors" BlockName="sector_block" />
+		<FieldBlock Index="1" Name="links" BlockName="sector_link_block" />
+		<FieldBlock Index="2" Name="refs" BlockName="ref_block" />
+		<FieldBlock Index="3" Name="bsp2d nodes" BlockName="sector_bsp2d_nodes_block" />
+		<FieldBlock Index="4" Name="surface flags" BlockName="surface_flags_block" />
+		<FieldBlock Index="5" Name="vertices" BlockName="sector_vertex_block" />
+		<FieldBlock Index="6" Name="object refs" BlockName="environment_object_refs" />
+		<FieldBlock Index="7" Name="pathfinding hints" BlockName="pathfinding_hints_block" />
+		<FieldBlock Index="8" Name="instanced geometry refs" BlockName="instanced_geometry_reference_block" />
+		<FieldLongInteger Index="9" Name="structure checksum*" />
+		<FieldPad Index="10" Name="" Length="32" />
+		<FieldBlock Index="11" Name="user-placed hints" BlockName="user_hint_block" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

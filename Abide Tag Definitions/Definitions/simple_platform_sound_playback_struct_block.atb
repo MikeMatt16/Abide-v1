@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="simple_platform_sound_playback_struct_block" DisplayName="simple_platform_sound_playback_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldBlock Index="0" Name="" BlockName="platform_sound_override_mixbins_block" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="use 3d radio hack" />
+		</FieldLongFlags>
+		<FieldPad Index="2" Name="" Length="8" />
+		<FieldBlock Index="3" Name="filter" BlockName="platform_sound_filter_block" />
+		<FieldBlock Index="4" Name="pitch lfo" BlockName="platform_sound_pitch_lfo_block" />
+		<FieldBlock Index="5" Name="filter lfo" BlockName="platform_sound_filter_lfo_block" />
+		<FieldBlock Index="6" Name="sound effect" BlockName="sound_effect_playback_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

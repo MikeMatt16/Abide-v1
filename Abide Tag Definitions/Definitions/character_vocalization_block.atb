@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_vocalization_block" DisplayName="character_vocalization_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldReal Index="0" Name="look comment time:s#How long does the player look at an AI before the AI responds?" />
+		<FieldReal Index="1" Name="look long comment time:s#How long does the player look at the AI before he responds with his 'long look' comment?" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

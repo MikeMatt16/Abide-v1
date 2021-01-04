@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="breakable_surface_block" DisplayName="breakable_surface" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldReal Index="0" Name="maximum vitality" />
+		<FieldTagReference Index="1" Name="effect" GroupTag="1701209701" />
+		<FieldTagReference Index="2" Name="sound" GroupTag="1936614433" />
+		<FieldBlock Index="3" Name="particle effects" BlockName="particle_system_definition_block_new" />
+		<FieldReal Index="4" Name="particle density" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

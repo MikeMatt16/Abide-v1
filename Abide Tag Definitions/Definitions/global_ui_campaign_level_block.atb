@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_ui_campaign_level_block" DisplayName="global_ui_campaign_level_block" MaximumElementCount="20">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="Campaign ID" />
+		<FieldLongInteger Index="1" Name="Map ID" />
+		<FieldTagReference Index="2" Name="Bitmap" GroupTag="1651078253" />
+		<FieldSkip Index="3" Name="" Length="576" />
+		<FieldSkip Index="4" Name="" Length="2304" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

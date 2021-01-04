@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="old_materials_block" DisplayName="old_materials_block" MaximumElementCount="33">
+	<FieldSet Alignment="4" Count="15">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldStringId Index="1" Name="new material name" />
+		<FieldStringId Index="2" Name="new general material name" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldExplanation Index="5" Name="vehicle terrain parameters" Explanation="the following fields modify the way a vehicle drives over terrain of this material type." />
+		<FieldReal Index="6" Name="ground friction scale#fraction of original velocity parallel to the ground after one tick" />
+		<FieldReal Index="7" Name="ground friction normal k1 scale#cosine of angle at which friction falls off" />
+		<FieldReal Index="8" Name="ground friction normal k0 scale#cosine of angle at which friction is zero" />
+		<FieldReal Index="9" Name="ground depth scale#depth a point mass rests in the ground" />
+		<FieldReal Index="10" Name="ground damp fraction scale#fraction of original velocity perpendicular to the ground after one tick" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldTagReference Index="13" Name="melee hit sound" GroupTag="1936614433" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

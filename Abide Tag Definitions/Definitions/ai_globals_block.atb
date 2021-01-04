@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_globals_block" DisplayName="ai_globals_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="42">
+		<FieldReal Index="0" Name="danger broadly facing" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldReal Index="2" Name="danger shooting near" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldReal Index="4" Name="danger shooting at" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldReal Index="6" Name="danger extremely close" />
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldReal Index="8" Name="danger shield damage" />
+		<FieldReal Index="9" Name="danger exetended shield damage" />
+		<FieldReal Index="10" Name="danger body damage" />
+		<FieldReal Index="11" Name="danger extended body damage" />
+		<FieldPad Index="12" Name="" Length="48" />
+		<FieldTagReference Index="13" Name="global dialogue tag" GroupTag="1633971303" />
+		<FieldStringId Index="14" Name="default mission dialogue sound effect" />
+		<FieldPad Index="15" Name="" Length="20" />
+		<FieldReal Index="16" Name="jump down:wu/tick" />
+		<FieldReal Index="17" Name="jump step:wu/tick" />
+		<FieldReal Index="18" Name="jump crouch:wu/tick" />
+		<FieldReal Index="19" Name="jump stand:wu/tick" />
+		<FieldReal Index="20" Name="jump storey:wu/tick" />
+		<FieldReal Index="21" Name="jump tower:wu/tick" />
+		<FieldReal Index="22" Name="max jump down height down:wu" />
+		<FieldReal Index="23" Name="max jump down height step:wu" />
+		<FieldReal Index="24" Name="max jump down height crouch:wu" />
+		<FieldReal Index="25" Name="max jump down height stand:wu" />
+		<FieldReal Index="26" Name="max jump down height storey:wu" />
+		<FieldReal Index="27" Name="max jump down height tower:wu" />
+		<FieldRealBounds Index="28" Name="hoist step:wus" />
+		<FieldRealBounds Index="29" Name="hoist crouch:wus" />
+		<FieldRealBounds Index="30" Name="hoist stand:wus" />
+		<FieldPad Index="31" Name="" Length="24" />
+		<FieldRealBounds Index="32" Name="vault step:wus" />
+		<FieldRealBounds Index="33" Name="vault crouch:wus" />
+		<FieldPad Index="34" Name="" Length="48" />
+		<FieldBlock Index="35" Name="gravemind properties" BlockName="ai_globals_gravemind_block" />
+		<FieldPad Index="36" Name="" Length="48" />
+		<FieldReal Index="37" Name="scary target threhold#A target of this scariness is offically considered scary (by combat dialogue, etc.)" />
+		<FieldReal Index="38" Name="scary weapon threhold#A weapon of this scariness is offically considered scary (by combat dialogue, etc.)" />
+		<FieldReal Index="39" Name="player scariness" />
+		<FieldReal Index="40" Name="berserking actor scariness" />
+		<FieldTerminator Index="41" Name="" />
+	</FieldSet>
+</AbideTagBlock>

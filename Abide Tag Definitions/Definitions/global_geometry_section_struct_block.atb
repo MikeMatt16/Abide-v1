@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_section_struct_block" DisplayName="global_geometry_section_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldBlock Index="0" Name="Parts*" BlockName="global_geometry_part_block_new" />
+		<FieldBlock Index="1" Name="Subparts*" BlockName="global_subparts_block" />
+		<FieldBlock Index="2" Name="Visibility Bounds*" BlockName="global_visibility_bounds_block" />
+		<FieldBlock Index="3" Name="Raw Vertices*" BlockName="global_geometry_section_raw_vertex_block" />
+		<FieldBlock Index="4" Name="Strip Indices*" BlockName="global_geometry_section_strip_index_block" />
+		<FieldData Index="5" Name="Visibility mopp Code*" Alignment="16" MaximumSize="393216" ElementSize="1" />
+		<FieldBlock Index="6" Name="mopp Reorder Table*" BlockName="global_geometry_section_strip_index_block" />
+		<FieldBlock Index="7" Name="Vertex Buffers*" BlockName="global_geometry_section_vertex_buffer_block" />
+		<FieldPad Index="8" Name="" Length="4" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

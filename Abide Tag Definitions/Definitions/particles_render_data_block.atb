@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particles_render_data_block" DisplayName="particles_render_data_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="6">
+		<FieldReal Index="0" Name="position.x*" />
+		<FieldReal Index="1" Name="position.y*" />
+		<FieldReal Index="2" Name="position.z*" />
+		<FieldReal Index="3" Name="size*" />
+		<FieldRgbColor Index="4" Name="color*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="aim_assist_struct_block" DisplayName="aim_assist_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldAngle Index="0" Name="autoaim angle:degrees#the maximum angle that autoaim works at full strength" />
+		<FieldReal Index="1" Name="autoaim range:world units#the maximum distance that autoaim works at full strength" />
+		<FieldAngle Index="2" Name="magnetism angle:degrees#the maximum angle that magnetism works at full strength" />
+		<FieldReal Index="3" Name="magnetism range:world units#the maximum distance that magnetism works at full strength" />
+		<FieldAngle Index="4" Name="deviation angle:degrees#the maximum angle that a projectile is allowed to deviate from the gun barrel" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldPad Index="6" Name="" Length="12" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

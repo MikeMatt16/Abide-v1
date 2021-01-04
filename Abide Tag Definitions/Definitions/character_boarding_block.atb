@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_boarding_block" DisplayName="character_boarding_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="airborne boarding" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="max distance:wus#maximum distance from entry point that we will consider boarding" />
+		<FieldReal Index="2" Name="abort distance:wus#give up trying to get in boarding seat if entry point is further away than this" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldReal Index="4" Name="max speed:wu/s#maximum speed at which we will consider boarding" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

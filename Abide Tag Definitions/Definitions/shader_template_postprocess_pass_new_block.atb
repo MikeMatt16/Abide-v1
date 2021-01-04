@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_postprocess_pass_new_block" DisplayName="shader_template_postprocess_pass_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="3">
+		<FieldTagReference Index="0" Name="pass" GroupTag="1936744819" />
+		<FieldStruct Index="1" Name="implementations" StructName="tag_block_index_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

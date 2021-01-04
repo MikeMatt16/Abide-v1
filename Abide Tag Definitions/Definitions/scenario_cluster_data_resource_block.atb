@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cluster_data_resource_block" DisplayName="scenario_cluster_data_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldBlock Index="0" Name="Cluster Data" BlockName="scenario_cluster_data_block" />
+		<FieldBlock Index="1" Name="Background Sound Palette" BlockName="structure_bsp_background_sound_palette_block" />
+		<FieldBlock Index="2" Name="Sound Environment Palette" BlockName="structure_bsp_sound_environment_palette_block" />
+		<FieldBlock Index="3" Name="Weather Palette" BlockName="structure_bsp_weather_palette_block" />
+		<FieldBlock Index="4" Name="Atmospheric Fog Palette" BlockName="scenario_atmospheric_fog_palette" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

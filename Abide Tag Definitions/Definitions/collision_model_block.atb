@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_model_block" DisplayName="collision_model" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldBlock Index="0" Name="import info*" BlockName="global_tag_import_info_block" />
+		<FieldBlock Index="1" Name="errors*" BlockName="global_error_report_categories_block" />
+		<FieldLongFlags Index="2" Name="flags*">
+			<Option Name="contains open edges" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="3" Name="" />
+		<FieldBlock Index="4" Name="materials*" BlockName="collision_model_material_block" />
+		<FieldBlock Index="5" Name="regions*" BlockName="collision_model_region_block" />
+		<FieldBlock Index="6" Name="pathfinding spheres*" BlockName="collision_model_pathfinding_sphere_block" />
+		<FieldBlock Index="7" Name="nodes*" BlockName="collision_model_node_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

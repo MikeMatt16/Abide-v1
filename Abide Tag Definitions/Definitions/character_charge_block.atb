@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_charge_block" DisplayName="character_charge_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="16">
+		<FieldLongFlags Index="0" Name="Charge flags">
+			<Option Name="offhand melee allowed" />
+			<Option Name="berserk whenever charge" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="melee consider range" />
+		<FieldReal Index="2" Name="melee chance#chance of initiating a melee within a 1 second period" />
+		<FieldReal Index="3" Name="melee attack range" />
+		<FieldReal Index="4" Name="melee abort range" />
+		<FieldReal Index="5" Name="melee attack timeout:seconds#Give up after given amount of time spent charging" />
+		<FieldReal Index="6" Name="melee attack delay timer:seconds#don't attempt again before given time since last melee" />
+		<FieldRealBounds Index="7" Name="melee leap range" />
+		<FieldReal Index="8" Name="melee leap chance" />
+		<FieldReal Index="9" Name="ideal leap velocity" />
+		<FieldReal Index="10" Name="max leap velocity" />
+		<FieldReal Index="11" Name="melee leap ballistic" />
+		<FieldReal Index="12" Name="melee delay timer:seconds#time between melee leaps" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldTagReference Index="14" Name="berserk weapon#when I berserk, I pull out a ..." GroupTag="2003132784" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

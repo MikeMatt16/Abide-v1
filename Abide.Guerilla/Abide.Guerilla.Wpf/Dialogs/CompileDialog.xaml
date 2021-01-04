@@ -3,40 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Abide.Guerilla.Wpf.Ui;assembly=Abide.Guerilla.Wpf.Ui"
         xmlns:local="clr-namespace:Abide.Guerilla.Wpf"
         xmlns:VM="clr-namespace:Abide.Guerilla.Wpf.ViewModel"
         mc:Ignorable="d"
         Title="Map Compiler"
-        Height="110"
+        Height="135"
         Width="450" 
         ShowInTaskbar="False" 
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Style="{StaticResource VisualStudioWindow}">
+        Background="{StaticResource Background}">
     <Window.DataContext>
         <VM:MapCompilerModel/>
     </Window.DataContext>
     <Window.Resources>
         <local:FileNameToShortStringConverter x:Key="fileNameToShort"/>
     </Window.Resources>
-    <Grid Margin="8">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="31"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Scenario File:"/>
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ScenarioFileName, ConverterParameter=50, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
-            <Button Grid.Row="0" Grid.Column="4" Command="{Binding Path=BrowseCommand}" Content="_Browse"/>
+            
         </Grid>
-        <Button Grid.Row="2" Content="_Compile" Command="{Binding Path=CompileCommand}"/>
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Scenario File:"/>
+                <TextBox Grid.Column="2" Text="{Binding ScenarioFileName, ConverterParameter=50, Converter={StaticResource fileNameToShort}}" IsReadOnly="True"/>
+                <Button Grid.Column="4" Command="{Binding Path=BrowseCommand}" Content="_Browse"/>
+            </Grid>
+            <Button Grid.Row="2" Content="_Compile" Command="{Binding Path=CompileCommand}"/>
+        </Grid>
     </Grid>
 </Window>

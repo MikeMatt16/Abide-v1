@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="order_ending_block" DisplayName="order_ending_block" MaximumElementCount="12">
+	<FieldSet Alignment="4" Count="8">
+		<FieldShortBlockIndex1 Index="0" Name="next order^" />
+		<FieldEnum Index="1" Name="combination rule">
+			<Option Name="OR" />
+			<Option Name="AND" />
+		</FieldEnum>
+		<FieldReal Index="2" Name="delay time" />
+		<FieldEnum Index="3" Name="dialogue type#when this ending is triggered, launch a dialogue event of the given type">
+			<Option Name="none" />
+			<Option Name="advance" />
+			<Option Name="charge" />
+			<Option Name="fall_back" />
+			<Option Name="retreat" />
+			<Option Name="moveone" />
+			<Option Name="arrival" />
+			<Option Name="enter_vehicle" />
+			<Option Name="exit_vehicle" />
+			<Option Name="follow_player" />
+			<Option Name="leave_player" />
+			<Option Name="support" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldBlock Index="6" Name="triggers" BlockName="trigger_references" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

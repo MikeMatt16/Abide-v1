@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_decorators_resource_block" DisplayName="scenario_decorators_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="Decorator" BlockName="decorator_placement_definition_block" />
+		<FieldBlock Index="1" Name="Decorator Palette" BlockName="scenario_decorator_set_palette_entry_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

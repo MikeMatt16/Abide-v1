@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_gpu_state_struct_block" DisplayName="shader_gpu_state_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldBlock Index="0" Name="render states" BlockName="render_state_block" />
+		<FieldBlock Index="1" Name="texture stage states" BlockName="texture_stage_state_block" />
+		<FieldBlock Index="2" Name="render state parameters" BlockName="render_state_parameter_block" />
+		<FieldBlock Index="3" Name="texture stage parameters" BlockName="texture_stage_state_parameter_block" />
+		<FieldBlock Index="4" Name="textures" BlockName="texture_block" />
+		<FieldBlock Index="5" Name="Vn Constants" BlockName="vertex_shader_constant_block" />
+		<FieldBlock Index="6" Name="Cn Constants" BlockName="vertex_shader_constant_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_object_id_struct_block" DisplayName="scenario_object_id_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldLongInteger Index="0" Name="Unique ID*" />
+		<FieldShortBlockIndex1 Index="1" Name="Origin BSP Index*" />
+		<FieldCharEnum Index="2" Name="Type*">
+			<Option Name="Biped" />
+			<Option Name="Vehicle" />
+			<Option Name="Weapon" />
+			<Option Name="Equipment" />
+			<Option Name="Garbage" />
+			<Option Name="Projectile" />
+			<Option Name="Scenery" />
+			<Option Name="Machine" />
+			<Option Name="Control" />
+			<Option Name="light_fixture" />
+			<Option Name="sound_scenery" />
+			<Option Name="Crate" />
+			<Option Name="Creature" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="3" Name="Source*">
+			<Option Name="Structure" />
+			<Option Name="Editor" />
+			<Option Name="Dynamic" />
+			<Option Name="Legacy" />
+		</FieldCharEnum>
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

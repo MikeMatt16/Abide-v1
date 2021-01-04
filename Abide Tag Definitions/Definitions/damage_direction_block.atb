@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_direction_block" DisplayName="damage_direction_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="2">
+		<FieldBlock Index="0" Name="regions*|AABBCC" BlockName="damage_region_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="list_shapes_block" DisplayName="list_shapes_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="shape type*">
+			<Option Name="sphere" />
+			<Option Name="pill" />
+			<Option Name="box" />
+			<Option Name="triangle" />
+			<Option Name="polyhedron" />
+			<Option Name="multi sphere" />
+			<Option Name="unused 0" />
+			<Option Name="unused 1" />
+			<Option Name="unused 2" />
+			<Option Name="unused 3" />
+			<Option Name="unused 4" />
+			<Option Name="unused 5" />
+			<Option Name="unused 6" />
+			<Option Name="unused 7" />
+			<Option Name="list" />
+			<Option Name="mopp" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="1" Name="shape*" />
+		<FieldLongInteger Index="2" Name="collision filter*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

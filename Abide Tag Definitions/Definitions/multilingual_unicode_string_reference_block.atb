@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multilingual_unicode_string_reference_block" DisplayName="multilingual_unicode_string_reference_block" MaximumElementCount="9216">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStringId Index="0" Name="string id" />
+		<FieldLongInteger Index="1" Name="english offset" />
+		<FieldLongInteger Index="2" Name="japanese offset" />
+		<FieldLongInteger Index="3" Name="german offset" />
+		<FieldLongInteger Index="4" Name="french offset" />
+		<FieldLongInteger Index="5" Name="spanish offset" />
+		<FieldLongInteger Index="6" Name="italian offset" />
+		<FieldLongInteger Index="7" Name="korean offset" />
+		<FieldLongInteger Index="8" Name="chinese offset" />
+		<FieldLongInteger Index="9" Name="portuguese offset" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

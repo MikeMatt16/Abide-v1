@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_texture_state_block" DisplayName="shader_pass_postprocess_texture_state_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="2">
+		<FieldSkip Index="0" Name="" Length="24" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

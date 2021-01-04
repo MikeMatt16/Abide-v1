@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_bsp_physics_block" DisplayName="collision_bsp_physics_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="20">
+		<FieldSkip Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="Size*" />
+		<FieldShortInteger Index="2" Name="Count*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldSkip Index="5" Name="" Length="32" />
+		<FieldPad Index="6" Name="" Length="16" />
+		<FieldSkip Index="7" Name="" Length="4" />
+		<FieldShortInteger Index="8" Name="Size*" />
+		<FieldShortInteger Index="9" Name="Count*" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldPad Index="11" Name="" Length="4" />
+		<FieldSkip Index="12" Name="" Length="4" />
+		<FieldShortInteger Index="13" Name="Size*" />
+		<FieldShortInteger Index="14" Name="Count*" />
+		<FieldSkip Index="15" Name="" Length="4" />
+		<FieldPad Index="16" Name="" Length="8" />
+		<FieldData Index="17" Name="mopp Code Data*" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldPad Index="18" Name="" Length="8" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

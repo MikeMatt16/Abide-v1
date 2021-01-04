@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_conversation_block" DisplayName="ai_conversation_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="10">
+		<FieldString Index="0" Name="name^" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="stop if death#this conversation will be aborted if any participant dies" />
+			<Option Name="stop if damaged#an actor will abort this conversation if they are damaged" />
+			<Option Name="stop if visible enemy#an actor will abort this conversation if they see an enemy" />
+			<Option Name="stop if alerted to enemy#an actor will abort this conversation if they suspect an enemy" />
+			<Option Name="player must be visible#this conversation cannot take place unless the participants can _see_ a nearby player" />
+			<Option Name="stop other actions#participants stop doing whatever they were doing in order to perform this conversation" />
+			<Option Name="keep trying to play#if this conversation fails initially, it will keep testing to see when it can play" />
+			<Option Name="player must be looking#this conversation will not start until the player is looking at one of the participants" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldReal Index="3" Name="trigger distance:world units#distance the player must enter before the conversation can trigger" />
+		<FieldReal Index="4" Name="run-to-player dist:world units#if the 'involves player' flag is set, when triggered the conversation's participant(s) will run to within this distance of the player" />
+		<FieldPad Index="5" Name="" Length="36" />
+		<FieldBlock Index="6" Name="participants" BlockName="ai_conversation_participant_block" />
+		<FieldBlock Index="7" Name="lines" BlockName="ai_conversation_line_block" />
+		<FieldBlock Index="8" Name="" BlockName="g_null_block" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

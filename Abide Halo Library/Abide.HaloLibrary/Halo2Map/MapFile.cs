@@ -12,7 +12,7 @@ namespace Abide.HaloLibrary.Halo2Map
     /// <summary>
     /// Represents a Halo 2 binary map file.
     /// </summary>
-    [Serializable]
+    [Serializable, Obsolete("Deprecated, use Abide.HaloLibrary.Halo2.Retail.HaloMap instead")]
     public sealed class MapFile : MarshalByRefObject, IDisposable
     {
         /// <summary>
@@ -114,6 +114,7 @@ namespace Abide.HaloLibrary.Halo2Map
         /// </summary>
         /// <param name="sourceIndex">Are you...</param>
         /// <param name="destinationIndex">... serious?</param>
+        [Obsolete("Please don't use this method it's a bad method and you are bad if you use it.")]
         public void MoveBspTagData(int sourceIndex, int destinationIndex)
         {
             List<VirtualStream> bspTagData = new List<VirtualStream>(this.bspTagData);
@@ -443,7 +444,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         case HaloTags.ugh_:
                             entry.TagData.Seek(entry.Offset + 64, SeekOrigin.Begin);
                             int soundsCount = metaReader.ReadInt32();
-                            int soundsOffset = metaReader.ReadInt32();
+                            uint soundsOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < soundsCount; i++)
                             {
                                 //Goto
@@ -468,7 +469,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                             entry.TagData.Seek(entry.Offset + 80, SeekOrigin.Begin);
                             int extraInfosCount = metaReader.ReadInt32();
-                            int extraInfosOffset = metaReader.ReadInt32();
+                            uint extraInfosOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < extraInfosCount; i++)
                             {
                                 //Goto
@@ -496,7 +497,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         case HaloTags.mode:
                             entry.TagData.Seek(entry.Offset + 36, SeekOrigin.Begin);
                             int sectionCount = metaReader.ReadInt32();
-                            int sectionOffset = metaReader.ReadInt32();
+                            uint sectionOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < sectionCount; i++)
                             {
                                 entry.TagData.Seek(sectionOffset + (i * 92) + 56, SeekOrigin.Begin);
@@ -520,7 +521,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                             entry.TagData.Seek(entry.Offset + 116, SeekOrigin.Begin);
                             int prtCount = metaReader.ReadInt32();
-                            int prtOffset = metaReader.ReadInt32();
+                            uint prtOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < prtCount; i++)
                             {
                                 entry.TagData.Seek(prtOffset + (i * 88) + 52, SeekOrigin.Begin);
@@ -547,7 +548,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         case HaloTags.weat:
                             entry.TagData.Seek(entry.Offset, SeekOrigin.Begin);
                             int particleSystemCount = metaReader.ReadInt32();
-                            int particleSystemOffset = metaReader.ReadInt32();
+                            uint particleSystemOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < particleSystemCount; i++)
                             {
                                 entry.TagData.Seek(particleSystemOffset + (i * 140) + 64, SeekOrigin.Begin);
@@ -616,7 +617,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         case HaloTags.jmad:
                             entry.TagData.Seek(entry.Offset + 172, SeekOrigin.Begin);
                             int animationCount = metaReader.ReadInt32();
-                            int animationOffset = metaReader.ReadInt32();
+                            uint animationOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < animationCount; i++)
                             {
                                 entry.TagData.Seek(animationOffset + (i * 20) + 4, SeekOrigin.Begin);
@@ -643,7 +644,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         case HaloTags.bitm:
                             entry.TagData.Seek(entry.Offset + 68, SeekOrigin.Begin);
                             int bitmapCount = metaReader.ReadInt32();
-                            int bitmapOffset = metaReader.ReadInt32();
+                            uint bitmapOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < bitmapCount; i++)
                             {
                                 //LOD0
@@ -770,11 +771,11 @@ namespace Abide.HaloLibrary.Halo2Map
                         #endregion
                         #region sbsp
                         case HaloTags.sbsp:
-                            long bspAddress = entry.PostProcessedOffset;
+                            long bspAddress = (uint)entry.PostProcessedOffset;
 
                             //Goto Clusters
                             entry.TagData.Seek(bspAddress + 156, SeekOrigin.Begin);
-                            uint clusterCount = metaReader.ReadUInt32();
+                            int clusterCount = metaReader.ReadInt32();
                             uint clusterOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < clusterCount; i++)
                             {
@@ -799,7 +800,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                             //Goto Geometries definitions
                             entry.TagData.Seek(bspAddress + 312, SeekOrigin.Begin);
-                            uint geometriesCount = metaReader.ReadUInt32();
+                            int geometriesCount = metaReader.ReadInt32();
                             uint geometriesOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < geometriesCount; i++)
                             {
@@ -824,7 +825,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                             //Goto Water definitions
                             entry.TagData.Seek(bspAddress + 532, SeekOrigin.Begin);
-                            uint watersCount = metaReader.ReadUInt32();
+                            int watersCount = metaReader.ReadInt32();
                             uint watersOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < watersCount; i++)
                             {
@@ -849,7 +850,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                             //Goto Decorators Definitions
                             entry.TagData.Seek(bspAddress + 564, SeekOrigin.Begin);
-                            uint decoratorsCount = metaReader.ReadUInt32();
+                            int decoratorsCount = metaReader.ReadInt32();
                             uint decoratorsOffset = metaReader.ReadUInt32();
                             for (int i = 0; i < decoratorsCount; i++)
                             {
@@ -881,17 +882,17 @@ namespace Abide.HaloLibrary.Halo2Map
                         #endregion
                         #region ltmp
                         case HaloTags.ltmp:
-                            int lightmapAddress = entry.PostProcessedOffset;
+                            long lightmapAddress = (uint)entry.PostProcessedOffset;
 
                             //Goto Lightmap Groups
                             entry.TagData.Seek(lightmapAddress + 128);
-                            uint groupsCount = metaReader.ReadUInt32();
+                            int groupsCount = metaReader.ReadInt32();
                             uint groupsPointer = metaReader.ReadUInt32();
                             for (int i = 0; i < groupsCount; i++)
                             {
                                 //Goto Cluster Definitions
                                 entry.TagData.Seek(groupsPointer + (i * 104) + 32, SeekOrigin.Begin);
-                                uint clustersCount = metaReader.ReadUInt32();
+                                int clustersCount = metaReader.ReadInt32();
                                 uint clustersOffset = metaReader.ReadUInt32();
                                 for (int j = 0; j < clustersCount; j++)
                                 {
@@ -916,7 +917,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                                 //Goto Poop Definitions
                                 entry.TagData.Seek(groupsPointer + (i * 104) + 48, SeekOrigin.Begin);
-                                uint poopsCount = metaReader.ReadUInt32();
+                                int poopsCount = metaReader.ReadInt32();
                                 uint poopsOffset = metaReader.ReadUInt32();
                                 for (int j = 0; j < poopsCount; j++)
                                 {
@@ -941,7 +942,7 @@ namespace Abide.HaloLibrary.Halo2Map
 
                                 //Goto Geometry Buckets
                                 entry.TagData.Seek(groupsPointer + (i * 104) + 64, SeekOrigin.Begin);
-                                uint bucketsCount = metaReader.ReadUInt32();
+                                int bucketsCount = metaReader.ReadInt32();
                                 uint bucketsOffset = metaReader.ReadUInt32();
                                 for (int j = 0; j < bucketsCount; j++)
                                 {
@@ -1127,7 +1128,7 @@ namespace Abide.HaloLibrary.Halo2Map
                     int bspLength = 0;
                     tagData.Seek(scenario.Offset + 528, SeekOrigin.Begin);
                     int sbspsCount = metaReader.ReadInt32();
-                    int sbspsOffset = metaReader.ReadInt32();
+                    uint sbspsOffset = metaReader.ReadUInt32();
                     for (int i = 0; i < sbspsCount; i++)
                     {
                         //Get tag data
@@ -1151,7 +1152,7 @@ namespace Abide.HaloLibrary.Halo2Map
                             structureBspBlockHeader.BlockLength = (int)bspTagData.Length;
 
                             //Write
-                            bspTagData.Seek(bspTagData.MemoryAddress, SeekOrigin.Begin);
+                            bspTagData.Seek(bspTagData.BaseAddress, SeekOrigin.Begin);
                             using (BinaryWriter bspWriter = bspTagData.CreateWriter())
                                 bspWriter.Write(structureBspBlockHeader);
                         }
@@ -1166,7 +1167,7 @@ namespace Abide.HaloLibrary.Halo2Map
                         tagData.Seek(sbspsOffset + (i * 68), SeekOrigin.Begin);
                         metaWriter.Write(offset);
                         metaWriter.Write((int)bspTagData.Length);
-                        metaWriter.Write((int)(bspTagData.MemoryAddress));
+                        metaWriter.Write((int)(bspTagData.BaseAddress));
                         metaWriter.Write(0x0);
                         metaWriter.Write<TagFourCc>(HaloTags.sbsp);
                         tagData.Seek(4, SeekOrigin.Current);
@@ -1179,7 +1180,7 @@ namespace Abide.HaloLibrary.Halo2Map
                             bspLength = (int)bspTagData.Length;
                     }
                     header.MapDataLength += (uint)bspLength;
-                    this.bspTagData = bspTagDataList.ToArray();
+                    bspTagData = bspTagDataList.ToArray();
 
                     //Write Strings 128
                     header.StringCount = (uint)strings.Count;

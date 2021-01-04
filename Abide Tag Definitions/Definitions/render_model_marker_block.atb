@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_marker_block" DisplayName="marker" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="8">
+		<FieldCharInteger Index="0" Name="region index*" />
+		<FieldCharInteger Index="1" Name="permutation index*" />
+		<FieldCharInteger Index="2" Name="node index*" />
+		<FieldPad Index="3" Name="" Length="1" />
+		<FieldRealPoint3D Index="4" Name="translation*" />
+		<FieldQuaternion Index="5" Name="rotation*" />
+		<FieldReal Index="6" Name="scale" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

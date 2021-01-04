@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_structure_lighting_resource_block" DisplayName="scenario_structure_lighting_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldBlock Index="0" Name="Structure Lighting" BlockName="scenario_structure_bsp_spherical_harmonic_lighting_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

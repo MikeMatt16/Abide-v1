@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_scenario_load_parameters_block" DisplayName="scenario load parameters" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="5">
+		<FieldExplanation Index="0" Name="SCENARIO LOAD PARAMETERS" Explanation="strip-variant &lt;variant-name&gt;|nstrips a given variant out of the model tag|nstrip-dialogue|nstrips all the dialogue for this model i.e. cinematic only" />
+		<FieldTagReference Index="1" Name="scenario^" GroupTag="1935896178" />
+		<FieldData Index="2" Name="parameters" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldPad Index="3" Name="" Length="32" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

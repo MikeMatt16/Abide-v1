@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="player_control_block" DisplayName="player_control_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="31">
+		<FieldRealFraction Index="0" Name="magnetism friction#how much the crosshair slows over enemies" />
+		<FieldRealFraction Index="1" Name="magnetism adhesion#how much the crosshair sticks to enemies" />
+		<FieldRealFraction Index="2" Name="inconsequential target scale#scales magnetism level for inconsequential targets like infection forms" />
+		<FieldPad Index="3" Name="" Length="12" />
+		<FieldExplanation Index="4" Name="crosshair" Explanation="" />
+		<FieldRealPoint2D Index="5" Name="crosshair location#-1..1, 0 is middle of the screen" />
+		<FieldExplanation Index="6" Name="sprinting" Explanation="" />
+		<FieldReal Index="7" Name="seconds to start#how long you must be pegged before you start sprinting" />
+		<FieldReal Index="8" Name="seconds to full speed#how long you must sprint before you reach top speed" />
+		<FieldReal Index="9" Name="decay rate#how fast being unpegged decays the timer (seconds per second)" />
+		<FieldReal Index="10" Name="full speed multiplier#how much faster we actually go when at full sprint" />
+		<FieldReal Index="11" Name="pegged magnitude#how far the stick needs to be pressed before being considered pegged" />
+		<FieldReal Index="12" Name="pegged angular threshold#how far off straight up (in degrees) we consider pegged" />
+		<FieldPad Index="13" Name="" Length="8" />
+		<FieldExplanation Index="14" Name="looking" Explanation="" />
+		<FieldReal Index="15" Name="look default pitch rate:degrees" />
+		<FieldReal Index="16" Name="look default yaw rate:degrees" />
+		<FieldRealFraction Index="17" Name="look peg threshold [0,1]#magnitude of yaw for pegged acceleration to kick in" />
+		<FieldReal Index="18" Name="look yaw acceleration time:seconds#time for a pegged look to reach maximum effect" />
+		<FieldReal Index="19" Name="look yaw acceleration scale#maximum effect of a pegged look (scales last value in the look function below)" />
+		<FieldReal Index="20" Name="look pitch acceleration time:seconds#time for a pegged look to reach maximum effect" />
+		<FieldReal Index="21" Name="look pitch acceleration scale#maximum effect of a pegged look (scales last value in the look function below)" />
+		<FieldReal Index="22" Name="look autolevelling scale#1 is fast, 0 is none, &gt;1 will probably be really fast" />
+		<FieldPad Index="23" Name="" Length="8" />
+		<FieldReal Index="24" Name="gravity_scale" />
+		<FieldPad Index="25" Name="" Length="2" />
+		<FieldShortInteger Index="26" Name="minimum autolevelling ticks#amount of time player needs to move and not look up or down for autolevelling to kick in" />
+		<FieldAngle Index="27" Name="minimum angle for vehicle flipping#0 means the vehicle's up vector is along the ground, 90 means the up vector is pointing straight up:degrees" />
+		<FieldBlock Index="28" Name="look function" BlockName="look_function_block" />
+		<FieldReal Index="29" Name="minimum action hold time:seconds#time that player needs to press ACTION to register as a HOLD" />
+		<FieldTerminator Index="30" Name="" />
+	</FieldSet>
+</AbideTagBlock>

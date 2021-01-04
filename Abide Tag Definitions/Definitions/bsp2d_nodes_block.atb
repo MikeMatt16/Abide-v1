@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bsp2d_nodes_block" DisplayName="bsp2d_nodes_block" MaximumElementCount="131072">
+	<FieldSet Alignment="16" Count="4">
+		<FieldRealPlane2D Index="0" Name="Plane*" />
+		<FieldShortInteger Index="1" Name="Left Child*" />
+		<FieldShortInteger Index="2" Name="Right Child*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

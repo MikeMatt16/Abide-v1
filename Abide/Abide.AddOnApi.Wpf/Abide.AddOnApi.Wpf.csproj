@@ -57,6 +57,7 @@
     <Compile Include="IElementSupport.cs" />
     <Compile Include="IFileEditor.cs" />
     <Compile Include="IProjectEditor.cs" />
+    <Compile Include="IProjectMenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

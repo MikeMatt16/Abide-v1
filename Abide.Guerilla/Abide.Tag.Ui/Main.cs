@@ -1,4 +1,5 @@
-﻿using Abide.Tag.CodeDom;
+﻿using Abide.Ifp;
+using Abide.Tag.CodeDom;
 using Abide.Tag.Definition;
 using Microsoft.CSharp;
 using System;
@@ -42,6 +43,76 @@ namespace Abide.Tag.Ui
             }
         }
 
+        private void cacheLibraryFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Clear
+            AbideCodeDomGlobals.Clear();
+
+            //Prepare
+            CodeCompileUnit compileUnit = null;
+            CodeGeneratorOptions options = new CodeGeneratorOptions() { BracingStyle = "C", BlankLinesBetweenMembers = false };
+
+            //Preprocess
+            AbideCodeDomGlobals.PreprocessForCache(collection);
+
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create *.cs files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    //Clear directory
+                    foreach (string file in Directory.GetFiles(folderDlg.SelectedPath))
+                        File.Delete(file);
+
+                    //Create Code Files
+                    using (CSharpCodeProvider provider = new CSharpCodeProvider())
+                    {
+                        //Loop through tag blocks
+                        foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Loop through tag groups
+                        foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
+                        {
+                            //Create group code compile unit
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+
+                            //Create writer
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
+                            {
+                                //Write
+                                provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                            }
+                        }
+
+                        //Create static lookup
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
+                        {
+                            //Create tag lookup compile unit
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+
+                            //Write
+                            provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
+                        }
+                    }
+                }
+            }
+        }
+
         private void cacheFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Clear
@@ -74,7 +145,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Cache");
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Abide.Tag.Cache");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
@@ -88,7 +159,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Cache");
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Abide.Tag.Cache");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
@@ -102,7 +173,7 @@ namespace Abide.Tag.Ui
                         using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
                         {
                             //Create tag lookup compile unit
-                            compileUnit = new AbideTagLookupCodeCompileUnit("Cache");
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Abide.Tag.Cache");
 
                             //Write
                             provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
@@ -144,7 +215,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Guerilla");
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Abide.Tag.Guerilla");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
@@ -158,7 +229,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Guerilla");
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Abide.Tag.Guerilla");
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
@@ -172,7 +243,7 @@ namespace Abide.Tag.Ui
                         using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
                         {
                             //Create tag lookup compile unit
-                            compileUnit = new AbideTagLookupCodeCompileUnit("Guerilla");
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Abide.Tag.Guerilla");
 
                             //Write
                             provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);
@@ -271,7 +342,8 @@ namespace Abide.Tag.Ui
                     //Loop through tag groups
                     foreach (AbideTagGroup tagGroup in collection.GetTagGroups())
                     {
-
+                        string pluginName = tagGroup.GroupTag.FourCc.Replace('<', '_').Replace('>', '_').Replace('?', '_');
+                        string path = Path.Combine(folderDlg.SelectedPath, $"{pluginName}.ent");
                     }
                 }
             }
@@ -394,8 +466,8 @@ namespace Abide.Tag.Ui
 
         private void mapFormToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (MapForm mapForm = new MapForm())
-                mapForm.ShowDialog();
+            //using (MapForm mapForm = new MapForm())
+            //    mapForm.ShowDialog();
         }
     }
 }

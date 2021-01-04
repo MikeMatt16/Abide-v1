@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_map_leaf_block" DisplayName="global_map_leaf_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="faces*" BlockName="map_leaf_face_block" />
+		<FieldBlock Index="1" Name="connection indices*" BlockName="map_leaf_connection_index_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

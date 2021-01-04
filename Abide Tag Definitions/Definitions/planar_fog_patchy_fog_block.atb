@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="planar_fog_patchy_fog_block" DisplayName="planar_fog_patchy_fog_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldRealRgbColor Index="0" Name="color" />
+		<FieldPad Index="1" Name="" Length="12" />
+		<FieldRealFractionBounds Index="2" Name="density:[0,1]" />
+		<FieldRealBounds Index="3" Name="distance:world units" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldRealFraction Index="5" Name="min depth fraction:[0,1]#in range (0,max_depth) world units, where patchy fog starts fading in" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTagReference Index="7" Name="patchy fog" GroupTag="1718641512" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

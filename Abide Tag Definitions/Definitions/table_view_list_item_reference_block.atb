@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="table_view_list_item_reference_block" DisplayName="table_view_list_item_reference_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="9">
+		<FieldLongFlags Index="0" Name="text flags">
+			<Option Name="left justify text" />
+			<Option Name="right justify text" />
+			<Option Name="pulsating text" />
+			<Option Name="callout text" />
+			<Option Name="small (31 char) buffer" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="1" Name="cell width" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPoint2D Index="3" Name="bitmap top-left:if there is a bitmap" />
+		<FieldTagReference Index="4" Name="bitmap tag" GroupTag="1651078253" />
+		<FieldStringId Index="5" Name="string id" />
+		<FieldShortInteger Index="6" Name="render depth bias" />
+		<FieldPad Index="7" Name="" Length="2" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

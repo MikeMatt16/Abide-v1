@@ -14,7 +14,7 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the vertex attribute type.
         /// </summary>
-        public VertexAttributeType Type { get; set; }
+        public VertexAttributeType Type { get; }
 
         private byte b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29;
 
@@ -165,11 +165,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the minimum value in the boundaries.
         /// </summary>
-        public short Min { get; set; }
+        public short Min { get; }
         /// <summary>
         /// Gets or sets the maximum value in the boundaries.
         /// </summary>
-        public short Max { get; set; }
+        public short Max { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortBounds"/> structure.
@@ -214,11 +214,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the minimum value in the boundaries.
         /// </summary>
-        public float Min { get; set; }
+        public float Min { get; }
         /// <summary>
         /// Gets or sets the maximum value in the boundaries.
         /// </summary>
-        public float Max { get; set; }
+        public float Max { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FloatBounds"/> structure.
@@ -265,15 +265,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public byte Red { get; set; }
+        public byte Red { get; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public byte Green { get; set; }
+        public byte Green { get; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public byte Blue { get; set; }
+        public byte Blue { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -320,19 +320,19 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the alpha component of the color.
         /// </summary>
-        public byte Alpha { get; set; }
+        public byte Alpha { get; }
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public byte Red { get; set; }
+        public byte Red { get; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public byte Green { get; set; }
+        public byte Green { get; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public byte Blue { get; set; }
+        public byte Blue { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorArgb"/> structure.
@@ -381,15 +381,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public float Red { get; set; }
+        public float Red { get; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public float Green { get; set; }
+        public float Green { get; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public float Blue { get; set; }
+        public float Blue { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -436,19 +436,19 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the alpha component of the color.
         /// </summary>
-        public float Alpha { get; set; }
+        public float Alpha { get; }
         /// <summary>
         /// Gets or sets the red component of the color.
         /// </summary>
-        public float Red { get; set; }
+        public float Red { get; }
         /// <summary>
         /// Gets or sets the green component of the color.
         /// </summary>
-        public float Green { get; set; }
+        public float Green { get; }
         /// <summary>
         /// Gets or sets the blue component of the color.
         /// </summary>
-        public float Blue { get; set; }
+        public float Blue { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorRgb"/> structure.
@@ -496,15 +496,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the hue of the color.
         /// </summary>
-        public float Hue { get; set; }
+        public float Hue { get; }
         /// <summary>
         /// Gets or sets the saturation of the color.
         /// </summary>
-        public float Saturation { get; set; }
+        public float Saturation { get; }
         /// <summary>
         /// Gets or sets the value of the color.
         /// </summary>
-        public float Value { get; set; }
+        public float Value { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorHsv"/> structure using the specified hue, saturation, and value values.
@@ -537,24 +537,24 @@ namespace Abide.Tag
         /// <summary>
         /// Represents a zero-value color.
         /// </summary>
-        public static ColorHsv Zero = new ColorHsv(0, 0, 0);
+        public static ColorAhsv Zero = new ColorAhsv(0, 0, 0, 0);
 
         /// <summary>
         /// Gets or sets the alpha.
         /// </summary>
-        public float Alpha { get; set; }
+        public float Alpha { get; }
         /// <summary>
         /// Gets or sets the hue of the color.
         /// </summary>
-        public float Hue { get; set; }
+        public float Hue { get; }
         /// <summary>
         /// Gets or sets the saturation of the color.
         /// </summary>
-        public float Saturation { get; set; }
+        public float Saturation { get; }
         /// <summary>
         /// Gets or sets the value of the color.
         /// </summary>
-        public float Value { get; set; }
+        public float Value { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorAhsv"/> structure using the specified hue, saturation, and value values.
@@ -1219,19 +1219,19 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the distance from the top of the screen.
         /// </summary>
-        public short Top { get; set; }
+        public short Top { get; }
         /// <summary>
         /// Gets or sets the distance from the left of the screen.
         /// </summary>
-        public short Left { get; set; }
+        public short Left { get; }
         /// <summary>
         /// Gets or sets the distance from the bottom of the screen.
         /// </summary>
-        public short Bottom { get; set; }
+        public short Bottom { get; }
         /// <summary>
         /// Gets or sets the distance from the right of the screen.
         /// </summary>
-        public short Right { get; set; }
+        public short Right { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Rectangle2"/> structure.
@@ -1272,11 +1272,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the the x-component of this point.
         /// </summary>
-        public short X { get; set; }
+        public short X { get; }
         /// <summary>
         /// Gets or sets the the y-component of this point.
         /// </summary>
-        public short Y { get; set; }
+        public short Y { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point2"/> structure using the supplied x, and y component values.
@@ -1321,11 +1321,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the the x-component of this point.
         /// </summary>
-        public float X { get; set; }
+        public float X { get; }
         /// <summary>
         /// Gets or sets the the y-component of this point.
         /// </summary>
-        public float Y { get; set; }
+        public float Y { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point2F"/> structure using the supplied x, and y component values.
@@ -1378,15 +1378,15 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the the x-component of this point.
         /// </summary>
-        public float X { get; set; }
+        public float X { get; }
         /// <summary>
         /// Gets or sets the the y-component of this point.
         /// </summary>
-        public float Y { get; set; }
+        public float Y { get; }
         /// <summary>
         /// Gets or sets the the y-component of this point.
         /// </summary>
-        public float Z { get; set; }
+        public float Z { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point3F"/> structure using the supplied x, y, and z component values.

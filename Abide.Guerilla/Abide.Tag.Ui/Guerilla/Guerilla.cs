@@ -18,7 +18,7 @@ namespace Abide.Tag.Ui.Guerilla
             panel.SuspendLayout();
 
             //Loop
-            foreach (Field field in block.Fields)
+            foreach (Field field in block)
             {
                 //Prepare
                 Control control = null;

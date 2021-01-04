@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_interface_globals_definition_block" DisplayName="user_interface_globals_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldExplanation Index="0" Name="Shared Globals" Explanation="This is a reference to the ui shared globals tag" />
+		<FieldTagReference Index="1" Name="shared globals" GroupTag="2003396460" />
+		<FieldExplanation Index="2" Name="Screen Widgets" Explanation="These are the screen widgets" />
+		<FieldBlock Index="3" Name="screen widgets" BlockName="user_interface_widget_reference_block" />
+		<FieldExplanation Index="4" Name="Multiplayer Variant Settings Interface" Explanation="This blob defines the ui for setting multiplayer game variant parameters" />
+		<FieldTagReference Index="5" Name="mp variant settings ui" GroupTag="1735356262" />
+		<FieldExplanation Index="6" Name="Game Hopper Localization Strings" Explanation="This is for the loc game hopper strings" />
+		<FieldTagReference Index="7" Name="game hopper descriptions" GroupTag="1970170211" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

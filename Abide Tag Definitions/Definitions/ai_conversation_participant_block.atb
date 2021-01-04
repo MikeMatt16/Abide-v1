@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_conversation_participant_block" DisplayName="ai_conversation_participant_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="9">
+		<FieldPad Index="0" Name="" Length="8" />
+		<FieldShortBlockIndex1 Index="1" Name="use this object#if a unit with this name exists, we try to pick them to start the conversation" />
+		<FieldShortBlockIndex1 Index="2" Name="set new name#once we pick a unit, we name it this" />
+		<FieldPad Index="3" Name="" Length="12" />
+		<FieldPad Index="4" Name="" Length="12" />
+		<FieldString Index="5" Name="encounter name" />
+		<FieldPad Index="6" Name="" Length="4" />
+		<FieldPad Index="7" Name="" Length="12" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

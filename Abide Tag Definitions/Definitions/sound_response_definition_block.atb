@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_response_definition_block" DisplayName="sound_response_definition_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="6">
+		<FieldWordFlags Index="0" Name="sound flags">
+			<Option Name="announcer sound" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTagReference Index="2" Name="english sound^" GroupTag="1936614433" />
+		<FieldStruct Index="3" Name="extra sounds" StructName="sound_response_extra_sounds_struct_block" />
+		<FieldReal Index="4" Name="probability" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

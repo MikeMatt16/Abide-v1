@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_texture_state_address_state_block" DisplayName="address state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="U address mode">
+			<Option Name="wrap" />
+			<Option Name="mirror" />
+			<Option Name="clamp" />
+			<Option Name="border" />
+			<Option Name="clamp to edge" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="V address mode">
+			<Option Name="wrap" />
+			<Option Name="mirror" />
+			<Option Name="clamp" />
+			<Option Name="border" />
+			<Option Name="clamp to edge" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="W address mode">
+			<Option Name="wrap" />
+			<Option Name="mirror" />
+			<Option Name="clamp" />
+			<Option Name="border" />
+			<Option Name="clamp to edge" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

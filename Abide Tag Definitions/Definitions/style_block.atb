@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="style_block" DisplayName="style" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="32">
+		<FieldString Index="0" Name="name^" />
+		<FieldExplanation Index="1" Name="Combat status decay options" Explanation="Controls how combat status is allowed to be automatically reduced in the absence of combat stimuli. 'Latch at X' means that once the level of x is attained (and/or surpassed) the combat status never falls below it" />
+		<FieldEnum Index="2" Name="Combat status decay options">
+			<Option Name="Latch at Idle" />
+			<Option Name="Latch at Alert" />
+			<Option Name="Latch at Combat" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldExplanation Index="4" Name="Atittude" Explanation="Indicates general stance for style. This matches the property blocks in the character definition (e.g. defense properties)" />
+		<FieldEnum Index="5" Name="Attitude">
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldCharEnum Index="7" Name="engage attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="8" Name="evasion attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="9" Name="cover attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="10" Name="search attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="11" Name="presearch attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="12" Name="retreat attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="13" Name="charge attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="14" Name="ready attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="15" Name="idle attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="16" Name="weapon attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="17" Name="swarm attitude">
+			<Option Name="Default" />
+			<Option Name="Normal" />
+			<Option Name="Timid" />
+			<Option Name="Aggressive" />
+		</FieldCharEnum>
+		<FieldPad Index="18" Name="" Length="1" />
+		<FieldUselessPad Index="19" Name="" />
+		<FieldExplanation Index="20" Name="Style Behavior Control" Explanation="Check the appropriate box to turn on/off the given behavior" />
+		<FieldLongFlags Index="21" Name="Style control">
+			<Option Name="New behaviors default to ON" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="22" Name="Behaviors1">
+			<Option Name="------GENERAL------" />
+			<Option Name="root" />
+			<Option Name="null" />
+			<Option Name="null_discrete" />
+			<Option Name="obey" />
+			<Option Name="guard" />
+			<Option Name="follow behavior" />
+			<Option Name="ready" />
+			<Option Name="smash_obstacle" />
+			<Option Name="destroy_obstacle" />
+			<Option Name="perch" />
+			<Option Name="cover_friend" />
+			<Option Name="blind_panic" />
+			<Option Name="------ENGAGE------" />
+			<Option Name="engage" />
+			<Option Name="fight" />
+			<Option Name="melee_charge" />
+			<Option Name="melee_leaping_charge" />
+			<Option Name="surprise" />
+			<Option Name="grenade_impulse" />
+			<Option Name="anti_vehicle_grenade" />
+			<Option Name="stalk" />
+			<Option Name="berserk_wander_impulse" />
+			<Option Name="------BERSERK------" />
+			<Option Name="last_man_berserk" />
+			<Option Name="stuck_with_grenade_berserk" />
+			<Option Name="------PRESEARCH------" />
+			<Option Name="presearch" />
+			<Option Name="presearch uncover" />
+			<Option Name="destroy_cover" />
+			<Option Name="suppressing fire" />
+			<Option Name="grenade_uncover" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="23" Name="Behaviors2">
+			<Option Name="leap_on_cover" />
+			<Option Name="------SEARCH------" />
+			<Option Name="search" />
+			<Option Name="uncover" />
+			<Option Name="investigate" />
+			<Option Name="pursuit_sync" />
+			<Option Name="pursuit" />
+			<Option Name="postsearch" />
+			<Option Name="coverme_investigate" />
+			<Option Name="------SELF-DEFENSE------" />
+			<Option Name="self_preservation" />
+			<Option Name="cover" />
+			<Option Name="cover peek" />
+			<Option Name="avoid" />
+			<Option Name="evasion_impulse" />
+			<Option Name="dive_impulse" />
+			<Option Name="danger cover impulse" />
+			<Option Name="danger crouch impulse" />
+			<Option Name="proximity_melee" />
+			<Option Name="proximity_self_preservation" />
+			<Option Name="unreachable_enemy_cover" />
+			<Option Name="scary_target_cover" />
+			<Option Name="group_emerge" />
+			<Option Name="------RETREAT------" />
+			<Option Name="retreat" />
+			<Option Name="retreat_grenade" />
+			<Option Name="flee" />
+			<Option Name="cower" />
+			<Option Name="low_shield_retreat" />
+			<Option Name="scary_target_retreat" />
+			<Option Name="leader_dead_retreat" />
+			<Option Name="peer_dead_retreat" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="24" Name="Behaviors3">
+			<Option Name="danger_retreat" />
+			<Option Name="proximity_retreat" />
+			<Option Name="charge when cornered" />
+			<Option Name="surprise_retreat" />
+			<Option Name="overheated_weapon_retreat" />
+			<Option Name="------AMBUSH------" />
+			<Option Name="ambush" />
+			<Option Name="coordinated_ambush" />
+			<Option Name="proximity_ambush" />
+			<Option Name="vulnerable_enemy_ambush" />
+			<Option Name="nowhere_to_run_ambush" />
+			<Option Name="------VEHICLE------" />
+			<Option Name="vehicle" />
+			<Option Name="enter_friendly_vehicle" />
+			<Option Name="re-enter_flipped_vehicle" />
+			<Option Name="vehicle_entry_engage_impulse" />
+			<Option Name="vehicle_board" />
+			<Option Name="vehicle_fight" />
+			<Option Name="vehicle_charge" />
+			<Option Name="vehicle_ram_behavior" />
+			<Option Name="vehicle_cover" />
+			<Option Name="damage_vehicle_cover" />
+			<Option Name="exposed_rear_cover_impulse" />
+			<Option Name="player_endagered_cover_impulse" />
+			<Option Name="vehicle_avoid" />
+			<Option Name="vehicle_pickup" />
+			<Option Name="vehicle_player_pickup" />
+			<Option Name="vehicle_exit_impulse" />
+			<Option Name="danger_vehicle_exit_impulse" />
+			<Option Name="vehicle_flip" />
+			<Option Name="vehicle_turtle" />
+			<Option Name="vehicle_engage_patrol_impulse" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="25" Name="Behaviors4">
+			<Option Name="vehicle_engage_wander_impulse" />
+			<Option Name="------POSTCOMBAT------" />
+			<Option Name="postcombat" />
+			<Option Name="post_postcombat" />
+			<Option Name="check_friend" />
+			<Option Name="shoot_corpse" />
+			<Option Name="postcombat_approach" />
+			<Option Name="------ALERT------" />
+			<Option Name="alert" />
+			<Option Name="------IDLE------" />
+			<Option Name="idle" />
+			<Option Name="wander behavior" />
+			<Option Name="flight_wander" />
+			<Option Name="patrol" />
+			<Option Name="fall_sleep" />
+			<Option Name="------BUGGERS------" />
+			<Option Name="bugger_ground_uncover" />
+			<Option Name="------SWARMS------" />
+			<Option Name="swarm_root" />
+			<Option Name="swarm_attack" />
+			<Option Name="support_attack" />
+			<Option Name="infect" />
+			<Option Name="scatter" />
+			<Option Name="eject parasite" />
+			<Option Name="flood_self_preservation" />
+			<Option Name="juggernaut flurry" />
+			<Option Name="------SENTINELS------" />
+			<Option Name="enforcer weapon control" />
+			<Option Name="grapple" />
+			<Option Name="------SPECIAL------" />
+			<Option Name="formation" />
+			<Option Name="grunt scared by elite" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="26" Name="Behaviors5">
+			<Option Name="stunned" />
+			<Option Name="cure_isolation" />
+			<Option Name="deploy_turret" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="27" Name="" />
+		<FieldBlock Index="28" Name="Special movement" BlockName="special_movement_block" />
+		<FieldUselessPad Index="29" Name="" />
+		<FieldBlock Index="30" Name="Behavior list" BlockName="behavior_names_block" />
+		<FieldTerminator Index="31" Name="" />
+	</FieldSet>
+</AbideTagBlock>

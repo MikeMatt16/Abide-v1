@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="looping_sound_detail_block" DisplayName="looping_sound_detail_block" MaximumElementCount="12">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldTagReference Index="1" Name="sound" GroupTag="1936614433" />
+		<FieldExplanation Index="2" Name="frequency of play" Explanation="" />
+		<FieldRealBounds Index="3" Name="random period bounds:seconds#the time between successive playings of this sound will be randomly selected from this range." />
+		<FieldReal Index="4" Name="" />
+		<FieldLongFlags Index="5" Name="flags">
+			<Option Name="don't play with alternate" />
+			<Option Name="don't play without alternate" />
+			<Option Name="start immediately with loop" />
+		</FieldLongFlags>
+		<FieldExplanation Index="6" Name="random spatialization" Explanation="if the sound specified above is not stereo it will be randomly spatialized according to the following constraints. if both lower and upper bounds are zero for any of the following fields, the sound's position will be randomly selected from all possible directions or distances." />
+		<FieldAngleBounds Index="7" Name="yaw bounds:degrees#the sound's position along the horizon will be randomly selected from this range." />
+		<FieldAngleBounds Index="8" Name="pitch bounds:degrees#the sound's position above (positive values) or below (negative values) the horizon will be randomly selected from this range." />
+		<FieldRealBounds Index="9" Name="distance bounds:world units#the sound's distance (from its spatialized looping sound or from the listener if the looping sound is stereo) will be randomly selected from this range." />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="inherited_animation_block" DisplayName="inherited_animation_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="6">
+		<FieldTagReference Index="0" Name="inherited graph*" GroupTag="1785553252" />
+		<FieldBlock Index="1" Name="node map*" BlockName="inherited_animation_node_map_block" />
+		<FieldBlock Index="2" Name="node map flags*" BlockName="inherited_animation_node_map_flag_block" />
+		<FieldReal Index="3" Name="root z offset*" />
+		<FieldLongInteger Index="4" Name="inheritance_flags*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

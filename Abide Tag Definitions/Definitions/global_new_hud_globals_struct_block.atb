@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_new_hud_globals_struct_block" DisplayName="global_new_hud_globals_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldTagReference Index="0" Name="hud text" GroupTag="1970170211" />
+		<FieldBlock Index="1" Name="dashlights" BlockName="hud_dashlights_block" />
+		<FieldBlock Index="2" Name="waypoint arrows" BlockName="hud_waypoint_arrow_block" />
+		<FieldBlock Index="3" Name="waypoints" BlockName="hud_waypoint_block" />
+		<FieldBlock Index="4" Name="hud sounds" BlockName="new_hud_sound_block" />
+		<FieldBlock Index="5" Name="player training data" BlockName="player_training_entry_data_block" />
+		<FieldStruct Index="6" Name="constants" StructName="global_new_hud_globals_constants_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_gestalt_extra_info_block" DisplayName="sound_gestalt_extra_info_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="encoded permutation section" BlockName="sound_encoded_dialogue_section_block" />
+		<FieldStruct Index="1" Name="geometry block info" StructName="global_geometry_block_info_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

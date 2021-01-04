@@ -21,6 +21,9 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// </summary>
         public event EventHandler TagFieldChanged;
 
+        private ITagField tagField = null;
+        private string name = string.Empty;
+
         /// <summary>
         /// Gets or sets the value of the tag field.
         /// </summary>
@@ -45,7 +48,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// <summary>
         /// Gets or sets the tag field.
         /// </summary>
-        public Field TagField
+        public ITagField TagField
         {
             get { return tagField; }
             set
@@ -100,9 +103,6 @@ namespace Abide.Guerilla.Wpf.ViewModel
                 return tagField.Details;
             }
         }
-
-        private Field tagField = null;
-        private string name = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldModel"/> class.

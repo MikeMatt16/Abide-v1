@@ -81,11 +81,11 @@ namespace Abide.Guerilla.Helper
                         {
                             case 0:
                                 sharedResources.CollideSingleplayer(map.IndexEntries.Select(
-                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.Name}"; }).ToArray());
+                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.GroupName}"; }).ToArray());
                                 break;
                             case 1:
                                 sharedResources.CollideMultiplayer(map.IndexEntries.Select(
-                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.Name}"; }).ToArray());
+                                    i => { tagGroup = TagLookup.CreateTagGroup(i.Root); return $"{i.Filename}.{tagGroup.GroupName}"; }).ToArray());
                                 break;
                         }
                     }
@@ -205,7 +205,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.MainmenuFileName);
 
                     //Get tags
-                    m_UiSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
+                    m_UiSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.GroupName}"; }));
                 }
 
                 //Gather multiplayer shared resources
@@ -215,7 +215,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.SharedFileName);
 
                     //Get tags
-                    m_MultiplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
+                    m_MultiplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.GroupName}"; }));
                 }
 
                 //Gather singleplayer shared resources
@@ -225,7 +225,7 @@ namespace Abide.Guerilla.Helper
                     resourceMap.Load(RegistrySettings.SharedFileName);
 
                     //Get tags
-                    m_SingleplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.Name}"; }));
+                    m_SingleplayerSharedResources.AddRange(resourceMap.IndexEntries.Select(e => { tagGroup = TagLookup.CreateTagGroup(e.Root); return $"{e.Filename}.{tagGroup.GroupName}"; }));
                 }
             }
             public void CollideMultiplayer(string[] resources)

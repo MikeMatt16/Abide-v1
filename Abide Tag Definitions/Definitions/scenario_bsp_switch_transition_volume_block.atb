@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_bsp_switch_transition_volume_block" DisplayName="scenario_bsp_switch_transition_volume_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongInteger Index="0" Name="BSP Index Key" />
+		<FieldShortBlockIndex1 Index="1" Name="Trigger Volume^" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

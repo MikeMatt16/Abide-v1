@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multilingual_unicode_string_list_block" DisplayName="multilingual_unicode_string_list" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="string references" BlockName="multilingual_unicode_string_reference_block" />
+		<FieldData Index="1" Name="string data utf8" Alignment="4" MaximumSize="18874368" ElementSize="1" />
+		<FieldPad Index="2" Name="" Length="36" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

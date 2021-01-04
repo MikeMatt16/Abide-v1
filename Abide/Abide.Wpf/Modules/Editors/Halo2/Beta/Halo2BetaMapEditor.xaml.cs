@@ -1,6 +1,7 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
 using Abide.HaloLibrary;
+using Abide.HaloLibrary.Halo2.Beta;
 using Abide.HaloLibrary.Halo2BetaMap;
 using System.IO;
 
@@ -73,26 +74,16 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
         /// <param name="path">The path of the file name.</param>
         public override void Load(string path)
         {
-            //Prepare
-            HaloMapViewModel model = new HaloMapViewModel();
-
-            //Base procedures
             base.Load(path);
 
-            //Check
             if (File.Exists(path))
-                using (FileStream fs = File.OpenRead(path))
-                {
-                    //Load map
-                    MapFile mapFile = new MapFile();
-                    mapFile.Load(fs);
+            {
+                HaloMapFile mapFile = HaloMapFile.Load(path);
 
-                    //Set
-                    model = new HaloMapViewModel(mapFile);
-                }
-
-            //Set DataContext
-            DataContext = model;
+                HaloMapViewModel model = new HaloMapViewModel(mapFile);
+                DataContext = model;
+            }
+            else DataContext = new HaloMapViewModel();
         }
     }
 }

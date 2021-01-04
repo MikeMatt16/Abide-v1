@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_well_block" DisplayName="user_hint_well_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="bidirectional" />
+		</FieldLongFlags>
+		<FieldBlock Index="1" Name="points" BlockName="user_hint_well_point_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_gestalt_playback_block" DisplayName="sound_gestalt_playback_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="2">
+		<FieldStruct Index="0" Name="" StructName="sound_playback_parameters_struct_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

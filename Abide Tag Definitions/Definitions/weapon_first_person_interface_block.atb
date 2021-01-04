@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_first_person_interface_block" DisplayName="weapon_first_person_interface_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="3">
+		<FieldTagReference Index="0" Name="first person model" GroupTag="1836016741" />
+		<FieldTagReference Index="1" Name="first person animations" GroupTag="1785553252" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

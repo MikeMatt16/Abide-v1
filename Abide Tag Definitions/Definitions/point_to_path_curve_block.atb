@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="point_to_path_curve_block" DisplayName="point_to_path_curve_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="node index*" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldBlock Index="3" Name="points*" BlockName="point_to_path_curve_point_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

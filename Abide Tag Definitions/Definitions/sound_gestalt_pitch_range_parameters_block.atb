@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_gestalt_pitch_range_parameters_block" DisplayName="sound_gestalt_pitch_range_parameters_block" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortInteger Index="0" Name="natural pitch:cents" />
+		<FieldShortBounds Index="1" Name="bend bounds:cents#the range of pitches that will be represented using this sample." />
+		<FieldShortBounds Index="2" Name="max gain pitch bounds:cents" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

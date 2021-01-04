@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_wind_model_struct_block" DisplayName="global_wind_model_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="23">
+		<FieldReal Index="0" Name="wind tiling scale" />
+		<FieldRealVector3D Index="1" Name="wind primary heading/pitch/strength" />
+		<FieldReal Index="2" Name="primary rate of change" />
+		<FieldReal Index="3" Name="primary min strength" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldPad Index="5" Name="" Length="4" />
+		<FieldPad Index="6" Name="" Length="12" />
+		<FieldRealVector3D Index="7" Name="wind gusting heading/pitch/strength" />
+		<FieldReal Index="8" Name="gust diretional rate of change" />
+		<FieldReal Index="9" Name="gust strength rate of change" />
+		<FieldReal Index="10" Name="gust cone angle" />
+		<FieldPad Index="11" Name="" Length="4" />
+		<FieldPad Index="12" Name="" Length="4" />
+		<FieldPad Index="13" Name="" Length="12" />
+		<FieldPad Index="14" Name="" Length="12" />
+		<FieldPad Index="15" Name="" Length="12" />
+		<FieldPad Index="16" Name="" Length="12" />
+		<FieldReal Index="17" Name="turbulance rate of change" />
+		<FieldRealVector3D Index="18" Name="turbulence_scale x, y, z" />
+		<FieldReal Index="19" Name="gravity constant" />
+		<FieldBlock Index="20" Name="wind_pirmitives" BlockName="gloal_wind_primitives_block" />
+		<FieldPad Index="21" Name="" Length="4" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="error_report_vertices_block" DisplayName="error report vertex" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="10">
+		<FieldRealPoint3D Index="0" Name="Position*" />
+		<FieldArrayStart Index="1" Name="Node Indices*" Length="4">
+			<FieldCharInteger Index="0" Name="Node Index*" />
+		</FieldArrayStart>
+		<FieldCharInteger Index="2" Name="Node Index*" />
+		<FieldArrayEnd Index="3" Name="" />
+		<FieldArrayStart Index="4" Name="Node Weights*" Length="4">
+			<FieldReal Index="0" Name="Node Weight*" />
+		</FieldArrayStart>
+		<FieldReal Index="5" Name="Node Weight*" />
+		<FieldArrayEnd Index="6" Name="" />
+		<FieldRealArgbColor Index="7" Name="Color*" />
+		<FieldReal Index="8" Name="Screen Size*" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

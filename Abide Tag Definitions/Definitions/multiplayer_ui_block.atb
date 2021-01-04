@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multiplayer_ui_block" DisplayName="multiplayer_ui_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldTagReference Index="0" Name="random player names" GroupTag="1970170211" />
+		<FieldBlock Index="1" Name="obsolete profile colors" BlockName="multiplayer_color_block" />
+		<FieldBlock Index="2" Name="team colors" BlockName="multiplayer_color_block" />
+		<FieldTagReference Index="3" Name="team names" GroupTag="1970170211" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

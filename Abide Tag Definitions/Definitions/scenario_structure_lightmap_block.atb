@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_structure_lightmap_block" DisplayName="scenario_structure_lightmap" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="21">
+		<FieldExplanation Index="0" Name="lightmap options" Explanation="The following fields control the behavior of the lightmapper|n|nRADIANCE ESTIMATE SEARCH DISTANCE UPPER BOUND: the largest distance the code will look for photons. bigger levels need a bigger search radius.  Measured, in world units, 0.0 defaults to 1.0|n|nRADIANCE ESTIMATE SEARCH DISTANCE LOWER BOUND: the smallest distance the code will look for photons. bigger levels need a bigger search radius.  Measured, in world units, 0.0 defaults to 1.0|n|nLUMINELS PER WORLD UNIT: how many lightmap pixels there should be per world unit.  0.0 defaults to 3.0|n|nOUTPUT WHITE REFERENCE: for experimentation - what wattage the lightmapper considers &quot;white&quot; to be for output.  0.0 defaults to 1.0|n|nOUTPUT BLACK REFERENCE: for experimentation - what wattage the lightmapper considers &quot;black&quot; to be for output.  0.0 defaults to 0.0|n|nOUTPUT SCHLICK PARAMETER: controls the way midtones are mapped.  0.0 defaults to 4.5|n|nDIFFUSE MAP SCALE: controls how diffuse maps are scaled.  0.0 defaults to 1.5|n|nPRT SUN SCALE: 0.0 defaults to 100.0|n|nPRT SKY SCALE: 0.0 defaults to 1.0|n|nPRT INDIRECT SCALE: 0.0 defaults to 1.0|n|nPRT SCALE: you must set this value.|n|nPRT SURFACE LIGHT SCALE: 0.0 defaults to 1.0|n|nPRT SCENARIO LIGHT SCALE: 0.0 defaults to 1.0|n|nLIGHTPROBE INTERPOLATION OVERIDE(speed): overide the default sampling behavior" />
+		<FieldReal Index="1" Name="search distance lower bound" />
+		<FieldReal Index="2" Name="search distance upper bound" />
+		<FieldReal Index="3" Name="luminels per world unit" />
+		<FieldReal Index="4" Name="output white reference" />
+		<FieldReal Index="5" Name="output black reference" />
+		<FieldReal Index="6" Name="output schlick parameter" />
+		<FieldReal Index="7" Name="diffuse map scale" />
+		<FieldReal Index="8" Name="sun scale" />
+		<FieldReal Index="9" Name="sky scale" />
+		<FieldReal Index="10" Name="indirect scale" />
+		<FieldReal Index="11" Name="prt scale" />
+		<FieldReal Index="12" Name="surface light scale" />
+		<FieldReal Index="13" Name="scenario light scale" />
+		<FieldReal Index="14" Name="lightprobe interpolation overide" />
+		<FieldPad Index="15" Name="" Length="72" />
+		<FieldBlock Index="16" Name="lightmap groups" BlockName="structure_lightmap_group_block" />
+		<FieldPad Index="17" Name="" Length="12" />
+		<FieldBlock Index="18" Name="errors*" BlockName="global_error_report_categories_block" />
+		<FieldPad Index="19" Name="" Length="104" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_palette_color_block" DisplayName="structure_lightmap_palette_color_block" MaximumElementCount="128">
+	<FieldSet Alignment="64" Count="3">
+		<FieldLongInteger Index="0" Name="FIRST palette color*" />
+		<FieldSkip Index="1" Name="" Length="1020" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

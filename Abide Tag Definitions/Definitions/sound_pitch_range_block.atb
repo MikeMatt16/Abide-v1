@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_pitch_range_block" DisplayName="sound_pitch_range_block" MaximumElementCount="9">
+	<FieldSet Alignment="4" Count="9">
+		<FieldStringId Index="0" Name="name*#the name of the imported pitch range directory" />
+		<FieldExplanation Index="1" Name="pitch control" Explanation="these settings control what pitches this set of samples represents. if there is only one pitch range, all three values are ignored." />
+		<FieldShortInteger Index="2" Name="natural pitch:cents#the apparent pitch when these samples are played at their recorded pitch." />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldShortBounds Index="4" Name="bend bounds:cents#the range of pitches that will be represented using this sample." />
+		<FieldShortBounds Index="5" Name="" />
+		<FieldPad Index="6" Name="" Length="4" />
+		<FieldBlock Index="7" Name="permutations*#permutations represent equivalent variations of this sound." BlockName="sound_permutations_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

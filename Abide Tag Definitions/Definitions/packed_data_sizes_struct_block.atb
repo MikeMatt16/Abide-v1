@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="packed_data_sizes_struct_block" DisplayName="packed_data_sizes_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldCharInteger Index="0" Name="" />
+		<FieldCharInteger Index="1" Name="" />
+		<FieldShortInteger Index="2" Name="" />
+		<FieldShortInteger Index="3" Name="" />
+		<FieldShortInteger Index="4" Name="" />
+		<FieldLongInteger Index="5" Name="" />
+		<FieldLongInteger Index="6" Name="" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

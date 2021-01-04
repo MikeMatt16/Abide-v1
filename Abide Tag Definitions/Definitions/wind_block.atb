@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="wind_block" DisplayName="wind" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldRealBounds Index="0" Name="velocity:world units#the wind magnitude in the weather region scales the wind between these bounds" />
+		<FieldEulerAngles2D Index="1" Name="variation area#the wind direction varies inside a box defined by these angles on either side of the direction from the weather region." />
+		<FieldReal Index="2" Name="local variation weight" />
+		<FieldReal Index="3" Name="local variation rate" />
+		<FieldReal Index="4" Name="damping" />
+		<FieldPad Index="5" Name="" Length="36" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

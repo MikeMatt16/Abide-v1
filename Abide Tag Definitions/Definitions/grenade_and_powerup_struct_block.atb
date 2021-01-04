@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="grenade_and_powerup_struct_block" DisplayName="grenade_and_powerup_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="grenades" BlockName="grenade_block" />
+		<FieldBlock Index="1" Name="powerups" BlockName="powerup_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

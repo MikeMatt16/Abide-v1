@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vehicle_permutation" DisplayName="vehicle_permutation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="4">
+		<FieldReal Index="0" Name="weight#relatively how likely this vehicle will be chosen" />
+		<FieldTagReference Index="1" Name="vehicle^#which vehicle to " GroupTag="1986357353" />
+		<FieldStringId Index="2" Name="variant name" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

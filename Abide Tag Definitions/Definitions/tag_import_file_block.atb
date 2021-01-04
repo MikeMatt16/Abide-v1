@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="tag_import_file_block" DisplayName="import file" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="9">
+		<FieldLongString Index="0" Name="path*" />
+		<FieldString Index="1" Name="modification date*" />
+		<FieldSkip Index="2" Name="" Length="8" />
+		<FieldPad Index="3" Name="" Length="88" />
+		<FieldLongInteger Index="4" Name="checksum*:crc32" />
+		<FieldLongInteger Index="5" Name="size*:bytes" />
+		<FieldData Index="6" Name="zipped data*" Alignment="4" MaximumSize="134217728" ElementSize="1" />
+		<FieldPad Index="7" Name="" Length="128" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ui_object_reference_block" DisplayName="ui_object_reference_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="2">
+		<FieldString Index="0" Name="name" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

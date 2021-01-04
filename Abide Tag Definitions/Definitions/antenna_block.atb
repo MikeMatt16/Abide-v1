@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="antenna_block" DisplayName="antenna" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldOldStringId Index="0" Name="attachment marker name#the marker name where the antenna should be attached" />
+		<FieldTagReference Index="1" Name="bitmaps" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="physics" GroupTag="1886414969" />
+		<FieldPad Index="3" Name="" Length="80" />
+		<FieldRealFraction Index="4" Name="spring strength coefficient#strength of the spring (larger values make the spring stronger)" />
+		<FieldReal Index="5" Name="falloff pixels" />
+		<FieldReal Index="6" Name="cutoff pixels" />
+		<FieldPad Index="7" Name="" Length="40" />
+		<FieldBlock Index="8" Name="vertices" BlockName="antenna_vertex_block" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

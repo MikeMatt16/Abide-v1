@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cutscene_camera_point_block" DisplayName="scenario_cutscene_camera_point_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="10">
+		<FieldWordFlags Index="0" Name="Flags">
+			<Option Name="edit as relative" />
+		</FieldWordFlags>
+		<FieldEnum Index="1" Name="Type">
+			<Option Name="normal" />
+			<Option Name="ignore target orientation" />
+			<Option Name="dolly" />
+			<Option Name="ignore target updates" />
+		</FieldEnum>
+		<FieldString Index="2" Name="Name^" />
+		<FieldCustom Index="3" Name="" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldRealPoint3D Index="5" Name="Position" />
+		<FieldEulerAngles3D Index="6" Name="Orientation" />
+		<FieldAngle Index="7" Name=")Unused" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

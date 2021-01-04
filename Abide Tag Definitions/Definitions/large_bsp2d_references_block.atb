@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="large_bsp2d_references_block" DisplayName="bsp2d reference" MaximumElementCount="131072">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongInteger Index="0" Name="Plane*" />
+		<FieldLongInteger Index="1" Name="BSP 2D Node*" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

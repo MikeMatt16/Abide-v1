@@ -1,6 +1,8 @@
 ﻿using Abide.AddOnApi.Wpf;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Abide.Wpf.Modules.ViewModel
 {
@@ -10,9 +12,16 @@ namespace Abide.Wpf.Modules.ViewModel
     public sealed class FileItem : DependencyObject
     {
         private static readonly DependencyPropertyKey FileNamePropertyKey =
-            DependencyProperty.RegisterReadOnly("FileName", typeof(string), typeof(FileItem), new PropertyMetadata(string.Empty));
+            DependencyProperty.RegisterReadOnly(nameof(FileName), typeof(string), typeof(FileItem), new PropertyMetadata(string.Empty));
         private static readonly DependencyPropertyKey EditorElementPropertyKey =
-            DependencyProperty.RegisterReadOnly("EditorElement", typeof(FrameworkElement), typeof(FileItem), new PropertyMetadata(null));
+            DependencyProperty.RegisterReadOnly(nameof(EditorElement), typeof(FrameworkElement), typeof(FileItem), new PropertyMetadata(null));
+        private static readonly DependencyPropertyKey CloseFileCommandPropertyKey =
+            DependencyProperty.RegisterReadOnly(nameof(CloseFileCommand), typeof(ICommand), typeof(FileItem), new PropertyMetadata(null));
+        /// <summary>
+        /// Identifies the <see cref="CloseFileCommand"/> property.
+        /// </summary>
+        public static readonly DependencyProperty CloseFileCommandProperty =
+            CloseFileCommandPropertyKey.DependencyProperty;
         /// <summary>
         /// Identifies the <see cref="FileName"/> property.
         /// </summary>
@@ -22,48 +31,67 @@ namespace Abide.Wpf.Modules.ViewModel
         /// Identifies the <see cref="Path"/> property.
         /// </summary>
         public static readonly DependencyProperty PathProperty =
-            DependencyProperty.Register("Path", typeof(string), typeof(FileItem), new PropertyMetadata(string.Empty, PathPropertyChanged));
+            DependencyProperty.Register(nameof(Path), typeof(string), typeof(FileItem), new PropertyMetadata(string.Empty, PathPropertyChanged));
         /// <summary>
         /// Identifies the <see cref="Editor"/> property.
         /// </summary>
         public static readonly DependencyProperty EditorProperty =
-            DependencyProperty.Register("Editor", typeof(IFileEditor), typeof(FileItem), new PropertyMetadata(null, EditorPropertyChanged));
+            DependencyProperty.Register(nameof(Editor), typeof(IFileEditor), typeof(FileItem), new PropertyMetadata(null, EditorPropertyChanged));
         /// <summary>
         /// Identifies the <see cref="EditorElement"/> property.
         /// </summary>
         public static readonly DependencyProperty EditorElementProperty =
             EditorElementPropertyKey.DependencyProperty;
+        
+        /// <summary>
+        /// Gets and returns the file collection that owns this item.
+        /// </summary>
+        public FileCollection Owner { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand CloseFileCommand
+        {
+            get => (ICommand)GetValue(CloseFileCommandProperty);
+            private set => SetValue(CloseFileCommandPropertyKey, value);
+        }
         /// <summary>
         /// Gets and returns the file name of <see cref="Path"/>.
         /// </summary>
         public string FileName
         {
-            get { return (string)GetValue(FileNameProperty); }
-            private set { SetValue(FileNamePropertyKey, value); }
+            get => (string)GetValue(FileNameProperty);
+            private set => SetValue(FileNamePropertyKey, value);
         }
         /// <summary>
         /// Gets or sets the file path.
         /// </summary>
         public string Path
         {
-            get { return (string)GetValue(PathProperty); }
-            set { SetValue(PathProperty, value); }
+            get => (string)GetValue(PathProperty);
+            set => SetValue(PathProperty, value);
         }
         /// <summary>
         /// Gets or sets the file editor.
         /// </summary>
         public IFileEditor Editor
         {
-            get { return (IFileEditor)GetValue(EditorProperty); }
-            set { SetValue(EditorProperty, value); }
+            get => (IFileEditor)GetValue(EditorProperty);
+            set => SetValue(EditorProperty, value);
         }
         /// <summary>
         /// Gets and returns the editor framework element.
         /// </summary>
         public FrameworkElement EditorElement
         {
-            get { return (FrameworkElement)GetValue(EditorElementProperty); }
-            private set { SetValue(EditorElementPropertyKey, value); }
+            get => (FrameworkElement)GetValue(EditorElementProperty);
+            private set => SetValue(EditorElementPropertyKey, value);
+        }
+
+        internal FileItem(FileCollection owner)
+        {
+            Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            CloseFileCommand = new ActionCommand(o => { owner.Remove(this); });
         }
         /// <summary>
         /// Returns the value of the <see cref="Path"/> property.
@@ -103,5 +131,21 @@ namespace Abide.Wpf.Modules.ViewModel
         /// Initializes a new instance of the <see cref="FileCollection"/> class.
         /// </summary>
         public FileCollection() { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="editor"></param>
+        /// <returns></returns>
+        public FileItem New(string path, IFileEditor editor)
+        {
+            if (editor == null) throw new ArgumentNullException(nameof(editor));
+
+            return new FileItem(this)
+            {
+                Path = path,
+                Editor = editor
+            };
+        }
     }
 }

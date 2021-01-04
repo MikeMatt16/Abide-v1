@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_vertex_shader_constant_block" DisplayName="shader_postprocess_vertex_shader_constant_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCharInteger Index="0" Name="register index" />
+		<FieldCharInteger Index="1" Name="register bank" />
+		<FieldReal Index="2" Name="data" />
+		<FieldReal Index="3" Name="data" />
+		<FieldReal Index="4" Name="data" />
+		<FieldReal Index="5" Name="data" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

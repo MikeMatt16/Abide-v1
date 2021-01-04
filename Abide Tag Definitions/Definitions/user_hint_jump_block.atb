@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_hint_jump_block" DisplayName="user_hint_jump_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="5">
+		<FieldWordFlags Index="0" Name="Flags">
+			<Option Name="bidirectional" />
+			<Option Name="closed" />
+		</FieldWordFlags>
+		<FieldShortBlockIndex1 Index="1" Name="geometry index*" />
+		<FieldEnum Index="2" Name="force jump height">
+			<Option Name="NONE" />
+			<Option Name="down" />
+			<Option Name="step" />
+			<Option Name="crouch" />
+			<Option Name="stand" />
+			<Option Name="storey" />
+			<Option Name="tower" />
+			<Option Name="infinite" />
+		</FieldEnum>
+		<FieldWordFlags Index="3" Name="control flags">
+			<Option Name="magic lift" />
+		</FieldWordFlags>
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

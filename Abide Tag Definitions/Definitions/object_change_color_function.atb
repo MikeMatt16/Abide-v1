@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_change_color_function" DisplayName="object_change_color_function" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="7">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldLongFlags Index="1" Name="scale flags">
+			<Option Name="blend in hsv#blends colors in hsv rather than rgb space" />
+			<Option Name="...more colors#blends colors through more hues (goes the long way around the color wheel)" />
+		</FieldLongFlags>
+		<FieldRealRgbColor Index="2" Name="color lower bound" />
+		<FieldRealRgbColor Index="3" Name="color upper bound" />
+		<FieldStringId Index="4" Name="darken by" />
+		<FieldStringId Index="5" Name="scale by" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

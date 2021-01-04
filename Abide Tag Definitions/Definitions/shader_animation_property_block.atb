@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_animation_property_block" DisplayName="animation property" MaximumElementCount="14">
+	<FieldSet Alignment="4" Count="9">
+		<FieldEnum Index="0" Name="Type^">
+			<Option Name="Bitmap Scale Uniform" />
+			<Option Name="Bitmap Scale x" />
+			<Option Name="Bitmap Scale y" />
+			<Option Name="Bitmap Scale z" />
+			<Option Name="Bitmap Translation x" />
+			<Option Name="Bitmap Translation y" />
+			<Option Name="Bitmap Translation z" />
+			<Option Name="Bitmap Rotation Angle" />
+			<Option Name="Bitmap Rotation Axis x" />
+			<Option Name="Bitmap Rotation Axis y" />
+			<Option Name="Bitmap Rotation Axis z" />
+			<Option Name="Value" />
+			<Option Name="Color" />
+			<Option Name="Bitmap Index" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldStringId Index="2" Name="Input Name" />
+		<FieldStringId Index="3" Name="Range Name" />
+		<FieldReal Index="4" Name="Time Period:sec" />
+		<FieldExplanation Index="5" Name="FUNCTION" Explanation="" />
+		<FieldCustom Index="6" Name="animation function" />
+		<FieldStruct Index="7" Name="Function" StructName="mapping_function_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

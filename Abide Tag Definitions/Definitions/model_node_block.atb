@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_node_block" DisplayName="model_node_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="13">
+		<FieldStringId Index="0" Name="name*^" />
+		<FieldShortBlockIndex1 Index="1" Name="parent node*" />
+		<FieldShortBlockIndex1 Index="2" Name="first child node*" />
+		<FieldShortBlockIndex1 Index="3" Name="next sibling node*" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldRealPoint3D Index="5" Name="default translation*" />
+		<FieldQuaternion Index="6" Name="default rotation*" />
+		<FieldReal Index="7" Name="default inverse scale*" />
+		<FieldRealVector3D Index="8" Name="default inverse forward*" />
+		<FieldRealVector3D Index="9" Name="default inverse left*" />
+		<FieldRealVector3D Index="10" Name="default inverse up*" />
+		<FieldRealPoint3D Index="11" Name="default inverse position*" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

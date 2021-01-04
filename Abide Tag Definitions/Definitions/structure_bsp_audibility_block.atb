@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_audibility_block" DisplayName="structure_bsp_audibility_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongInteger Index="0" Name="door portal count" />
+		<FieldRealBounds Index="1" Name="cluster distance bounds" />
+		<FieldBlock Index="2" Name="encoded door pas" BlockName="door_encoded_pas_block" />
+		<FieldBlock Index="3" Name="cluster door portal encoded pas" BlockName="cluster_door_portal_encoded_pas_block" />
+		<FieldBlock Index="4" Name="ai deafening pas" BlockName="ai_deafening_encoded_pas_block" />
+		<FieldBlock Index="5" Name="cluster distances" BlockName="encoded_cluster_distances_block" />
+		<FieldBlock Index="6" Name="machine door mapping" BlockName="occluder_to_machine_door_mapping" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

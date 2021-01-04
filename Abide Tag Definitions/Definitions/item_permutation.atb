@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="item_permutation" DisplayName="item_permutation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="6">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldReal Index="1" Name="weight#relatively how likely this item will be chosen" />
+		<FieldTagReference Index="2" Name="item^#which item to " GroupTag="1769235821" />
+		<FieldStringId Index="3" Name="variant name" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

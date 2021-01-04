@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_texture_new_block" DisplayName="shader_pass_postprocess_texture_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="5">
+		<FieldCharInteger Index="0" Name="bitmap parameter index" />
+		<FieldCharInteger Index="1" Name="bitmap extern index" />
+		<FieldCharInteger Index="2" Name="texture stage index" />
+		<FieldCharInteger Index="3" Name="flags" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

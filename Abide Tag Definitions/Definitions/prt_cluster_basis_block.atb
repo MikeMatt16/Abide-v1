@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="prt_cluster_basis_block" DisplayName="cluster basis" MaximumElementCount="34560">
+	<FieldSet Alignment="4" Count="2">
+		<FieldReal Index="0" Name="basis data" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

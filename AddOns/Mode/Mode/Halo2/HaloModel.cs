@@ -166,7 +166,7 @@ namespace Mode.Halo2
                             //Dump
                             try
                             {
-                                using (FileStream fs = new FileStream(@"G:\model.bin", FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+                                using (FileStream fs = new FileStream(@"F:\model.bin", FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                                     fs.Write(sourceData, 0, sourceData.Length);
                             }
                             catch { }

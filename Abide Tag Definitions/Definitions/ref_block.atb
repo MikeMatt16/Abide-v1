@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ref_block" DisplayName="ref_block" MaximumElementCount="131072">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongInteger Index="0" Name="node ref or sector ref" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

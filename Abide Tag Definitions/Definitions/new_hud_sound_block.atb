@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="new_hud_sound_block" DisplayName="new_hud_sound_block" MaximumElementCount="6">
+	<FieldSet Alignment="4" Count="5">
+		<FieldTagReference Index="0" Name="chief sound^" GroupTag="-3" />
+		<FieldLongFlags Index="1" Name="latched to">
+			<Option Name="shield recharging" />
+			<Option Name="shield damaged" />
+			<Option Name="shield low" />
+			<Option Name="shield empty" />
+			<Option Name="health low" />
+			<Option Name="health empty" />
+			<Option Name="health minor damage" />
+			<Option Name="health major damage" />
+			<Option Name="rocket locking" />
+			<Option Name="rocket locked" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="scale" />
+		<FieldTagReference Index="3" Name="dervish sound" GroupTag="-3" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

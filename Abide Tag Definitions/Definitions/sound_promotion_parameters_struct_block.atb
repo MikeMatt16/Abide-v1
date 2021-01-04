@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_promotion_parameters_struct_block" DisplayName="sound_promotion_parameters_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="promotion rules" BlockName="sound_promotion_rule_block" />
+		<FieldBlock Index="1" Name="" BlockName="sound_promotion_runtime_timer_block" />
+		<FieldPad Index="2" Name="" Length="12" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

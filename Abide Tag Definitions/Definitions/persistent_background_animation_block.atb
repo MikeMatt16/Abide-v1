@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="persistent_background_animation_block" DisplayName="persistent_background_animation_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="4">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldLongInteger Index="1" Name="animation period:milliseconds" />
+		<FieldBlock Index="2" Name="interpolated keyframes" BlockName="background_animation_keyframe_reference_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

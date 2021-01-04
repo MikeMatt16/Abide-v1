@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="physics_model_block" DisplayName="physics_model" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="36">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="mass" />
+		<FieldReal Index="2" Name="low freq. deactivation scale#0 is default (1). LESS than 1 deactivates less aggressively. GREATER than 1 is more agressive." />
+		<FieldReal Index="3" Name="high freq. deactivation scale#0 is default (1). LESS than 1 deactivates less aggressively. GREATER than 1 is more agressive." />
+		<FieldPad Index="4" Name="" Length="24" />
+		<FieldBlock Index="5" Name="phantom types" BlockName="phantom_types_block" />
+		<FieldBlock Index="6" Name="node edges*" BlockName="physics_model_node_constraint_edge_block" />
+		<FieldBlock Index="7" Name="rigid bodies*" BlockName="rigid_bodies_block" />
+		<FieldBlock Index="8" Name="materials*" BlockName="physics_model_materials_block" />
+		<FieldBlock Index="9" Name="spheres*" BlockName="spheres_block" />
+		<FieldBlock Index="10" Name="multi spheres*" BlockName="multi_spheres_block" />
+		<FieldBlock Index="11" Name="pills*" BlockName="pills_block" />
+		<FieldBlock Index="12" Name="boxes*" BlockName="boxes_block" />
+		<FieldBlock Index="13" Name="triangles*" BlockName="triangles_block" />
+		<FieldBlock Index="14" Name="polyhedra*" BlockName="polyhedra_block" />
+		<FieldExplanation Index="15" Name="ALL THESE WORLDS ARE YOURS, EXCEPT EUROPA..." Explanation="Attempt no landings there.  And you can't edit anything below this point, so why even look at it?" />
+		<FieldBlock Index="16" Name="polyhedron four vectors*" BlockName="polyhedron_four_vectors_block" />
+		<FieldBlock Index="17" Name="polyhedron plane equations*" BlockName="polyhedron_plane_equations_block" />
+		<FieldBlock Index="18" Name="mass distributions*" BlockName="mass_distributions_block" />
+		<FieldBlock Index="19" Name="lists*" BlockName="lists_block" />
+		<FieldBlock Index="20" Name="list shapes*" BlockName="list_shapes_block" />
+		<FieldBlock Index="21" Name="mopps*" BlockName="mopps_block" />
+		<FieldData Index="22" Name="mopp codes*" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldBlock Index="23" Name="hinge constraints*" BlockName="hinge_constraints_block" />
+		<FieldBlock Index="24" Name="ragdoll constraints*" BlockName="ragdoll_constraints_block" />
+		<FieldBlock Index="25" Name="regions*" BlockName="regions_block" />
+		<FieldBlock Index="26" Name="nodes*" BlockName="nodes_block" />
+		<FieldBlock Index="27" Name="import info*" BlockName="global_tag_import_info_block" />
+		<FieldBlock Index="28" Name="errors*" BlockName="global_error_report_categories_block" />
+		<FieldBlock Index="29" Name="point to path curves*" BlockName="point_to_path_curve_block" />
+		<FieldBlock Index="30" Name="limited hinge constraints*" BlockName="limited_hinge_constraints_block" />
+		<FieldBlock Index="31" Name="ball and socket constraints*" BlockName="ball_and_socket_constraints_block" />
+		<FieldBlock Index="32" Name="stiff spring constraints*" BlockName="stiff_spring_constraints_block" />
+		<FieldBlock Index="33" Name="prismatic constraints*" BlockName="prismatic_constraints_block" />
+		<FieldBlock Index="34" Name="phantoms*" BlockName="phantoms_block" />
+		<FieldTerminator Index="35" Name="" />
+	</FieldSet>
+</AbideTagBlock>

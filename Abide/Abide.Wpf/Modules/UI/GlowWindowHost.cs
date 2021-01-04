@@ -98,81 +98,79 @@ namespace Abide.Wpf.Modules.UI
         /// </summary>
         public int CaptionHeight
         {
-            get { return (int)GetValue(CaptionHeightProperty); }
-            set { SetValue(CaptionHeightProperty, value); }
+            get => (int)GetValue(CaptionHeightProperty);
+            set => SetValue(CaptionHeightProperty, value);
         }
         /// <summary>
         /// Gets or sets the visibility state of the border.
         /// </summary>
         public bool BordersVisible
         {
-            get { return (bool)GetValue(BorderVisibleProperty); }
-            set { SetValue(BorderVisibleProperty, value); }
+            get => (bool)GetValue(BorderVisibleProperty);
+            set => SetValue(BorderVisibleProperty, value);
         }
         /// <summary>
         /// Gets and returns the current icon brush.
         /// </summary>
         public WpfBrush CurrentIcon
         {
-            get { return (WpfBrush)GetValue(CurrentIconProperty); }
-            set { SetValue(CurrentIconProperty, value); }
+            get => (WpfBrush)GetValue(CurrentIconProperty);
+            set => SetValue(CurrentIconProperty, value);
         }
         /// <summary>
         /// Gets and returns the current icon brush.
         /// </summary>
         public WpfBrush ActiveIcon
         {
-            get { return (WpfBrush)GetValue(ActiveIconProperty); }
-            set { SetValue(ActiveIconProperty, value); }
+            get => (WpfBrush)GetValue(ActiveIconProperty);
+            set => SetValue(ActiveIconProperty, value);
         }
         /// <summary>
         /// Gets and returns the current icon brush.
         /// </summary>
         public WpfBrush InactiveIcon
         {
-            get { return (WpfBrush)GetValue(InactiveIconProperty); }
-            set { SetValue(InactiveIconProperty, value); }
+            get => (WpfBrush)GetValue(InactiveIconProperty);
+            set => SetValue(InactiveIconProperty, value);
         }
         /// <summary>
         /// Gets or sets the window icon image source.
         /// </summary>
         public ImageSource WindowIconImageSource
         {
-            get { return (ImageSource)GetValue(WindowIconImageSourceProperty); }
-            set { SetValue(WindowIconImageSourceProperty, value); }
+            get => (ImageSource)GetValue(WindowIconImageSourceProperty);
+            set => SetValue(WindowIconImageSourceProperty, value);
         }
         /// <summary>
         /// Gets or sets the active glow color of the window.
         /// </summary>
         public WpfColor ActiveGlowColor
         {
-            get { return (WpfColor)GetValue(ActiveGlowColorProperty); }
-            set { SetValue(ActiveGlowColorProperty, value); }
+            get => (WpfColor)GetValue(ActiveGlowColorProperty);
+            set => SetValue(ActiveGlowColorProperty, value);
         }
         /// <summary>
         /// Gets or sets the inactive glow color of the window.
         /// </summary>
         public WpfColor InactiveGlowColor
         {
-            get { return (WpfColor)GetValue(InactiveGlowColorProperty); }
-            set { SetValue(InactiveGlowColorProperty, value); }
+            get => (WpfColor)GetValue(InactiveGlowColorProperty);
+            set => SetValue(InactiveGlowColorProperty, value);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GlowWindowHost"/> class.
         /// </summary>
         public GlowWindowHost() : base()
         {
-            //Prepare
+            SnapsToDevicePixels = true;
+            Background = new SolidColorBrush(WpfColor.FromRgb(0x2d, 0x2d, 0x30));
+            Foreground = WpfBrushes.White;
+
             windowHandle = new WindowHandle();
             leftHandle = new WindowHandle();
             topHandle = new WindowHandle();
             rightHandle = new WindowHandle();
             bottomHandle = new WindowHandle();
-
-            //Setup
-            SnapsToDevicePixels = true;
-            Background = new SolidColorBrush(WpfColor.FromRgb(0x2d, 0x2d, 0x30));
-            Foreground = WpfBrushes.White;
         }
         /// <summary>
         /// Raises the <see cref="Window.SourceInitialized"/> event.
@@ -180,13 +178,10 @@ namespace Abide.Wpf.Modules.UI
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected override void OnSourceInitialized(EventArgs e)
         {
-            //Base OnSourceInitialized(EventArgs)
             base.OnSourceInitialized(e);
 
-            //Get window handle
             if (PresentationSource.FromVisual(this) is HwndSource hWndSource)
             {
-                //Get handles
                 windowHandle.Handle = hWndSource.Handle;
                 IntPtr hInstance = Marshal.GetHINSTANCE(typeof(GlowWindowHost).Module);
 
@@ -342,11 +337,11 @@ namespace Abide.Wpf.Modules.UI
                     {
                         //Set visibility
                         int wmSizeWParam = wParam.ToInt32();
-                        switch (wParam.ToInt32())
+                        switch (wmSizeWParam)
                         {
                             case 1:
                             case 2: BordersVisible = false; break;
-                            case 0: BordersVisible = true; break;
+                            default: BordersVisible = true; break;
                         }
 
                         //Set size
@@ -360,7 +355,7 @@ namespace Abide.Wpf.Modules.UI
                         {
                             this.wmSizeWParam = wmSizeWParam;
                             Point sz = new Point(lParam.ToInt32());
-                            User32.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, sz.X, sz.Y, 0x0020 | 0x0002);
+                            _ = User32.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, sz.X, sz.Y, 0x0020 | 0x0002);
                         }
                     }
                     break;
@@ -403,6 +398,7 @@ namespace Abide.Wpf.Modules.UI
                         HitTestResult result = VisualTreeHelper.HitTest(this, new WpfPoint(
                             (htPoint.X - wndRect.Left) * dpi.DpiScaleX,
                             (htPoint.Y - wndRect.Top) * dpi.DpiScaleY));
+
                         if (result?.VisualHit is UIElement element)
                         {
                             if (element.GetValue(NonClientActionProperty) is NonClientHitAction action)
@@ -433,6 +429,7 @@ namespace Abide.Wpf.Modules.UI
                                         return (IntPtr)16;
                                     case NonClientHitAction.BottomRight:
                                         return (IntPtr)17;
+                                    case NonClientHitAction.Client:
                                     default: return (IntPtr)1;
                                 }
                             }
@@ -861,16 +858,13 @@ namespace Abide.Wpf.Modules.UI
         /// </summary>
         public IntPtr Handle
         {
-            get { return Object; }
-            set { Object = value; }
+            get => Object;
+            set => Object = value;
         }
         /// <summary>
         /// Gets and returns <see langword="true"/> if the window's handle was created; otherwise, <see langword="false"/>.
         /// </summary>
-        public bool IsHandleCreated
-        {
-            get { return Object != IntPtr.Zero; }
-        }
+        public bool IsHandleCreated => Object != IntPtr.Zero;
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowHandle"/> class.
         /// </summary>
@@ -885,20 +879,23 @@ namespace Abide.Wpf.Modules.UI
     /// </summary>
     public sealed class WindowClassAtom : Lockable<ushort>
     {
+        private new ushort Object
+        {
+            get => base.Object;
+            set => base.Object = value;
+        }
+
         /// <summary>
         /// Gets and returns <see langword="true"/> if the window class atom is valid; otherwise, <see langword="false"/>.
         /// </summary>
-        public bool IsValid
-        {
-            get { return Object != 0; }
-        }
+        public bool IsValid => Object != 0;
         /// <summary>
         /// Gets and returns the class atom.
         /// </summary>
         public ushort ClassAtom
         {
-            get { return Object; }
-            set { Object = value; }
+            get => Object;
+            set => Object = value;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowClassAtom"/> class.
@@ -942,7 +939,7 @@ namespace Abide.Wpf.Modules.UI
         /// <exception cref="InvalidOperationException"><see cref="IsLocked"/> is true while trying to set.</exception>
         protected T Object
         {
-            get { return obj; }
+            get => obj;
             set
             {
                 if (!IsLocked) obj = value;
@@ -982,6 +979,8 @@ namespace Abide.Wpf.Modules.UI
 
     internal class GlowTextures : IDisposable
     {
+        private bool isDisposed = false;
+
         public TextureBrush LeftBrush;
         public TextureBrush TopBrush;
         public TextureBrush RightBrush;
@@ -1007,8 +1006,24 @@ namespace Abide.Wpf.Modules.UI
         }
         public void Render(Color glowColor)
         {
-            //Dispose
-            Dispose();
+            if (isDisposed) throw new ObjectDisposedException(nameof(GlowTextures));
+
+            LeftWindowTop?.Dispose();
+            LeftWindow?.Dispose();
+            LeftWindowBottom?.Dispose();
+            TopWindowRight?.Dispose();
+            TopWindow?.Dispose();
+            TopWindowLeft?.Dispose();
+            RightWindowTop?.Dispose();
+            RightWindow?.Dispose();
+            RightWindowBottom?.Dispose();
+            BottomWindowLeft?.Dispose();
+            BottomWindow?.Dispose();
+            BottomWindowRight?.Dispose();
+            LeftBrush?.Dispose();
+            TopBrush?.Dispose();
+            RightBrush?.Dispose();
+            BottomBrush?.Dispose();
 
             //Prepare
             var glowWindow = Properties.Resources.Glow_Window;
@@ -1094,29 +1109,26 @@ namespace Abide.Wpf.Modules.UI
         }
         public void Dispose()
         {
-            try
-            {
-                //Dispose bitmaps
-                LeftWindowTop?.Dispose();
-                LeftWindow?.Dispose();
-                LeftWindowBottom?.Dispose();
-                TopWindowRight?.Dispose();
-                TopWindow?.Dispose();
-                TopWindowLeft?.Dispose();
-                RightWindowTop?.Dispose();
-                RightWindow?.Dispose();
-                RightWindowBottom?.Dispose();
-                BottomWindowLeft?.Dispose();
-                BottomWindow?.Dispose();
-                BottomWindowRight?.Dispose();
+            if (isDisposed) return;
+            isDisposed = true;
 
-                //Dispose brushes
-                LeftBrush?.Dispose();
-                TopBrush?.Dispose();
-                RightBrush?.Dispose();
-                BottomBrush?.Dispose();
-            }
-            catch (ObjectDisposedException) { }
+            LeftWindowTop?.Dispose();
+            LeftWindow?.Dispose();
+            LeftWindowBottom?.Dispose();
+            TopWindowRight?.Dispose();
+            TopWindow?.Dispose();
+            TopWindowLeft?.Dispose();
+            RightWindowTop?.Dispose();
+            RightWindow?.Dispose();
+            RightWindowBottom?.Dispose();
+            BottomWindowLeft?.Dispose();
+            BottomWindow?.Dispose();
+            BottomWindowRight?.Dispose();
+
+            LeftBrush?.Dispose();
+            TopBrush?.Dispose();
+            RightBrush?.Dispose();
+            BottomBrush?.Dispose();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Abide.HaloLibrary
     /// <summary>
     /// Represents a 64-bit tag_block reference.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct TagBlock : IComparable<TagBlock>, IComparable<long>, IComparable<ulong>, IEquatable<TagBlock>, IEquatable<long>, IEquatable<ulong>
     {
         /// <summary>
@@ -44,7 +44,7 @@ namespace Abide.HaloLibrary
             get
             {
                 long count = this.count;
-                long pointer = this.offset;
+                long pointer = offset;
                 return (ulong)((pointer << 32) | count);
             }
             set
@@ -54,7 +54,9 @@ namespace Abide.HaloLibrary
             }
         }
 
+        [FieldOffset(0)]
         private uint count;
+        [FieldOffset(4)]
         private uint offset;
 
         /// <summary>
@@ -67,7 +69,6 @@ namespace Abide.HaloLibrary
             this.count = count;
             this.offset = offset;
         }
-
         /// <summary>
         /// Translates the tag block's memory-addressed pointer using a supplied value.
         /// </summary>
@@ -140,25 +141,25 @@ namespace Abide.HaloLibrary
             return string.Format("Count: {0} Pointer: {1}", count, offset);
         }
         /// <summary>
-        /// 
+        /// Converts a <see cref="TagBlock"/> to an unsigned 64-bit ingeger.
         /// </summary>
-        /// <param name="reference"></param>
-        public static explicit operator ulong(TagBlock reference)
+        /// <param name="tagBlock">The tag block to convert.</param>
+        public static explicit operator ulong(TagBlock tagBlock)
         {
-            return reference.Qword;
+            return tagBlock.Qword;
         }
         /// <summary>
-        /// 
+        /// Converts a <see cref="TagBlock"/> to a signed 64-bit integer.
         /// </summary>
-        /// <param name="reference"></param>
-        public static explicit operator long(TagBlock reference)
+        /// <param name="tagBlock">The tag block to convert.</param>
+        public static explicit operator long(TagBlock tagBlock)
         {
-            return (long)reference.Qword;
+            return (long)tagBlock.Qword;
         }
         /// <summary>
-        /// 
+        /// Converts an unsigned 64-bit integer to a <see cref="TagBlock"/> value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The unsigned 64-bit integer to convert.</param>
         public static explicit operator TagBlock(ulong value)
         {
             uint count = (uint)(value & 0xFFFFFFFF);
@@ -166,9 +167,9 @@ namespace Abide.HaloLibrary
             return new TagBlock() { count = count, offset = pointer };
         }
         /// <summary>
-        /// 
+        /// Converts a signed 64-bit integer to a <see cref="TagBlock"/> value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The signed 64-bit integer to convert.</param>
         public static explicit operator TagBlock(long value)
         {
             uint count = (uint)(value & 0xFFFFFFFF);

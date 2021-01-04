@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_scenery_datum_struct_v3_block" DisplayName="scenario_scenery_datum_struct_v3" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldWordFlags Index="0" Name=")Pathfinding Flags">
+			<Option Name="DEPRECATED" />
+			<Option Name="DEPRECATED" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="1" Name="Pathfinding Object Index" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldCustom Index="3" Name="" />
+		<FieldEnum Index="4" Name="Pathfinding Policy">
+			<Option Name="Tag Default" />
+			<Option Name="Pathfinding DYNAMIC" />
+			<Option Name="Pathfinding CUT-OUT" />
+			<Option Name="Pathfinding STATIC" />
+			<Option Name="Pathfinding NONE" />
+		</FieldEnum>
+		<FieldEnum Index="5" Name="Lightmapping Policy">
+			<Option Name="Tag Default" />
+			<Option Name="Dynamic" />
+			<Option Name="Per-Vertex" />
+		</FieldEnum>
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

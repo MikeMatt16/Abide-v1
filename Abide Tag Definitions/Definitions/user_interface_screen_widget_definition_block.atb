@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_interface_screen_widget_definition_block" DisplayName="user_interface_screen_widget_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="34">
+		<FieldExplanation Index="0" Name="Notes on screen widgets:" Explanation="- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)|n  with the origin centered in the display (regardless of display size)|n- for widget component placement, all coordinates you define in the tag specifiy the object's|n  placement prior to the application of any animation|n- all coordinates you define are local to that object|n- all text specific to objects in the screen comes from the screen's string list tag|n  all of the string indices you may need to specify will refer to the screen's string list tag|n- a pane may contain either buttons OR a list OR a table-view, but never a combination of those|n  (widget won't function correctly if you try that)|n- all text is centered unless you specify otherwise" />
+		<FieldExplanation Index="1" Name="Flags" Explanation="Set misc. screen behavior here" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="1/4 screen dialog" />
+			<Option Name="multiple panes are for list flavor items" />
+			<Option Name="no header text" />
+			<Option Name="1/2 screen dialog" />
+			<Option Name="large dialog" />
+			<Option Name="disable overlay effect" />
+		</FieldLongFlags>
+		<FieldEnum Index="3" Name="screen ID">
+			<Option Name="Test #1" />
+			<Option Name="Test #2" />
+			<Option Name="Test #3" />
+			<Option Name="Test #4" />
+			<Option Name="Test #5" />
+			<Option Name="Game Shell Background" />
+			<Option Name="Main Menu" />
+			<Option Name="Error Dialog OK Cancel" />
+			<Option Name="Error Dialog OK" />
+			<Option Name="Press Start Intro" />
+			<Option Name="Player Profile Select" />
+			<Option Name="SP Level Select" />
+			<Option Name="SP Difficulty Select" />
+			<Option Name="Network Squad Browser" />
+			<Option Name="MP Pregame Lobby" />
+			<Option Name="Custom Game Menu" />
+			<Option Name="Postgame Stats" />
+			<Option Name="MP Map Select" />
+			<Option Name="SP Pause Game" />
+			<Option Name="Settings" />
+			<Option Name="Gamertag Select" />
+			<Option Name="Gamertag Passcode Entry" />
+			<Option Name="Multiplayer Protocol" />
+			<Option Name="Squad Settings" />
+			<Option Name="Squad Game Settings" />
+			<Option Name="Squad Privacy Settings" />
+			<Option Name="Y Menu-Gameshell" />
+			<Option Name="Y Menu-Gameshell Collapsed" />
+			<Option Name="Y Menu-InGame" />
+			<Option Name="Y Menu-InGame Collapsed" />
+			<Option Name="4way join screen" />
+			<Option Name="Y Menu-Player Selected Options" />
+			<Option Name="Player Selected Options" />
+			<Option Name="Confirmation Dialog" />
+			<Option Name="Live Feedback Menu Dialog" />
+			<Option Name="Live Message Type Dialog" />
+			<Option Name="Voice Msg Dialog" />
+			<Option Name="Stereo Faceplate" />
+			<Option Name="Player Profile Edit Menu" />
+			<Option Name="PP Controller Settings" />
+			<Option Name="PP Button Settings" />
+			<Option Name="PP Thumbstick Settings" />
+			<Option Name="PP Look Sensitivity Settings" />
+			<Option Name="PP Invert Look Settings" />
+			<Option Name="PP Autolevel Settings" />
+			<Option Name="PP Handicap Settings" />
+			<Option Name="PP High Score Rec Settings" />
+			<Option Name="PP Multiplayer Settings Menu" />
+			<Option Name="PP Profile Delete Confirmation Dlg" />
+			<Option Name="PP Choose Foreground Emblem" />
+			<Option Name="PP Choose Primary Color" />
+			<Option Name="PP Choose Secondary Color" />
+			<Option Name="PP Choose Model" />
+			<Option Name="PP Voice Settings Menu" />
+			<Option Name="PP Choose Voice Mask" />
+			<Option Name="PP Voice thru TV" />
+			<Option Name="PP Edit Rotation List" />
+			<Option Name="PP XBL Status Menu" />
+			<Option Name="PP Appear Offline" />
+			<Option Name="PP Auto-Offline" />
+			<Option Name="Game Engine Category Listing" />
+			<Option Name="Edit Slayer Menu" />
+			<Option Name="Edit KOTH Menu" />
+			<Option Name="Edit Race Menu" />
+			<Option Name="Edit Oddball Menu" />
+			<Option Name="Edit Juggernaut Menu" />
+			<Option Name="Edit Headhunter Menu" />
+			<Option Name="Edit CTF Menu" />
+			<Option Name="Edit Assault Menu" />
+			<Option Name="Edit Slayer Score to Win" />
+			<Option Name="Edit Slayer Time Limit" />
+			<Option Name="Edit Slayer Teams" />
+			<Option Name="Edit Slayer Score 4 Killing" />
+			<Option Name="Edit Slayer Kill in Order" />
+			<Option Name="Edit Slayer Death Pt Loss" />
+			<Option Name="Edit Slayer Suicide Pt Loss" />
+			<Option Name="Edit Slayer Dmg After Kill" />
+			<Option Name="Edit Slayer Dmg After Death" />
+			<Option Name="Edit Slayer Speed After Kill" />
+			<Option Name="Edit Slayer Speed After Death" />
+			<Option Name="Edit KOTH Score to Win" />
+			<Option Name="Edit KOTH Time Limit" />
+			<Option Name="Edit KOTH Teams" />
+			<Option Name="Edit KOTH Moving Hills" />
+			<Option Name="Edit KOTH Uncontesed Control" />
+			<Option Name="Edit KOTH Xtra Dmg" />
+			<Option Name="Edit Race Laps to Win" />
+			<Option Name="Edit Race Time Limit" />
+			<Option Name="Edit Race Teams" />
+			<Option Name="Edit Race Team Scoring" />
+			<Option Name="Edit Race Type" />
+			<Option Name="Edit Race Flag Order" />
+			<Option Name="Edit Race Game End Condition" />
+			<Option Name="Edit Race Dmg with Laps" />
+			<Option Name="Edit Race Speed with Laps" />
+			<Option Name="Edit Oddball Time to Win" />
+			<Option Name="Edit Oddball Time Limit" />
+			<Option Name="Edit Oddball Teams" />
+			<Option Name="Edit Oddball Ball Spawn Count" />
+			<Option Name="Edit Oddball Ball Waypoints" />
+			<Option Name="Edit Oddball Damage with Ball" />
+			<Option Name="Edit Oddball Speed with Ball" />
+			<Option Name="Edit Oddball Invisibility with Ball" />
+			<Option Name="Edit Jug Score to Win" />
+			<Option Name="Edit Jug Time Limit" />
+			<Option Name="Edit Jug Pts for Killing Jugger" />
+			<Option Name="Edit Jug Count" />
+			<Option Name="Edit Jug Species" />
+			<Option Name="Edit Jug Starting Equip" />
+			<Option Name="Edit Jug Damage" />
+			<Option Name="Edit Jug Health" />
+			<Option Name="Edit Jug Speed" />
+			<Option Name="Edit Jug Regeneration" />
+			<Option Name="Edit Jug Waypoints" />
+			<Option Name="Edit HH Score to Win" />
+			<Option Name="Edit HH Time Limit" />
+			<Option Name="Edit HH Teams" />
+			<Option Name="Edit HH Death Pt Loss" />
+			<Option Name="Edit HH Suicide Pt Loss" />
+			<Option Name="Edit HH Speed with Token" />
+			<Option Name="Edit HH Dropped Token Lifetime" />
+			<Option Name="Edit HH Score Multiplier" />
+			<Option Name="Edit CTF Score to Win" />
+			<Option Name="Edit CTF Time Limit" />
+			<Option Name="Edit CTF Tie Resolution" />
+			<Option Name="Edit CTF Single Flag" />
+			<Option Name="Edit CTF Role Swapping" />
+			<Option Name="Edit CTF Flag at Home to Score" />
+			<Option Name="Edit CTF Flag Must Reset" />
+			<Option Name="Edit CTF Dmg with Flag" />
+			<Option Name="Edit CTF Speed with Flag" />
+			<Option Name="Edit Assault Score to Win" />
+			<Option Name="Edit Assault Time Limit" />
+			<Option Name="Edit Assault Tie Resolution" />
+			<Option Name="Edit Assault Single Flag" />
+			<Option Name="Edit Assault Role Swapping" />
+			<Option Name="Edit Assault Enemy Flag at Home to Score" />
+			<Option Name="Edit Assault Flag Must Reset" />
+			<Option Name="Edit Assault Dmg with Flag" />
+			<Option Name="Edit Assault Speed with Flag" />
+			<Option Name="Edit Player Number of Lives" />
+			<Option Name="Edit Player Max Health" />
+			<Option Name="Edit Player Shields" />
+			<Option Name="Edit Player Respawn Time" />
+			<Option Name="Edit Player Count" />
+			<Option Name="Edit Player Invisibility" />
+			<Option Name="Edit Player Suicide Penalty" />
+			<Option Name="Edit Player Friendly Fire" />
+			<Option Name="Edit Item Respawn Grenades" />
+			<Option Name="Edit Item Powerups" />
+			<Option Name="Edit Item Weapon Set" />
+			<Option Name="Edit Item Starting Equipment" />
+			<Option Name="Edit Item Warthogs" />
+			<Option Name="Edit Item Ghosts" />
+			<Option Name="Edit Item Scorpions" />
+			<Option Name="Edit Item Banshees" />
+			<Option Name="Edit Item Mongeese" />
+			<Option Name="Edit Item Shadows" />
+			<Option Name="Edit Item Wraiths" />
+			<Option Name="Edit Indicator Objectives" />
+			<Option Name="Edit Indicator Players on Motion Sensor" />
+			<Option Name="Edit Indicator Invisible Players on Motion Sensor" />
+			<Option Name="Edit Indicator Friends" />
+			<Option Name="Edit Indicator Enemies" />
+			<Option Name="Edit Player Options" />
+			<Option Name="Edit Item Options" />
+			<Option Name="Edit Indicator Options" />
+			<Option Name="Virtual Keyboard" />
+			<Option Name="Custom Game Menu" />
+			<Option Name="Slayer Quick Options" />
+			<Option Name="KOTH Quick Options" />
+			<Option Name="Race Quick Options" />
+			<Option Name="Oddball Quick Options" />
+			<Option Name="Jugger Quick Options" />
+			<Option Name="HH Quick Options" />
+			<Option Name="CTF Quick Options" />
+			<Option Name="Assault Quick Options" />
+			<Option Name="Pick New Squad Leader" />
+			<Option Name="Variant Editing Options Menu" />
+			<Option Name="Playlist List-Settings" />
+			<Option Name="Playlist Contents" />
+			<Option Name="Playlist Selected Options" />
+			<Option Name="Xbox Live Task Progress" />
+			<Option Name="PP Vibration Settings" />
+			<Option Name="Boot Player Dialog" />
+			<Option Name="Postgame Stats-Lobby" />
+			<Option Name="XBox Live Main Menu" />
+			<Option Name="Edit Terries Menu" />
+			<Option Name="Edit Terries Score to Win" />
+			<Option Name="Edit Terries Time Limit" />
+			<Option Name="Edit Terries Teams" />
+			<Option Name="Terries Quick Options" />
+			<Option Name="XBox Live Notification Beeper" />
+			<Option Name="Player Profile Select-Fancy" />
+			<Option Name="Saved Game File Actions Dialog" />
+			<Option Name="MP Start Menu" />
+			<Option Name="MP Start Player Settings" />
+			<Option Name="MP Start Handicap Settings" />
+			<Option Name="MP Start Change Teams" />
+			<Option Name="MP Start Admin Settings" />
+			<Option Name="MP Start Controller Settings" />
+			<Option Name="MP Start Voice Settings" />
+			<Option Name="MP Start Online Status" />
+			<Option Name="MPAlpha Legal Warning" />
+			<Option Name="Squad Join Progress Dialog" />
+			<Option Name="MP Alpha Postgame Legal Warning" />
+			<Option Name="MP Map Select-Lobby" />
+			<Option Name="MP Variant Type-Lobby" />
+			<Option Name="MP Variant List-Lobby" />
+			<Option Name="Loading Progress" />
+			<Option Name="Matchmaking Progress" />
+			<Option Name="Live Message Display" />
+			<Option Name="Fade-in From Black" />
+			<Option Name="Live Player Profile" />
+			<Option Name="Live Clan Profile" />
+			<Option Name="Live Message Send" />
+			<Option Name="Friends Options Dialog" />
+			<Option Name="Clan Options Dialog" />
+			<Option Name="Campaign Options Dialog" />
+			<Option Name="Optimatch Hoppers Fullscreen" />
+			<Option Name="Playlist List-dialog" />
+			<Option Name="Variant Editing Format" />
+			<Option Name="Variant Quick Options Format" />
+			<Option Name="Variant Param Setting Format" />
+			<Option Name="Vehicle Options" />
+			<Option Name="Match Options" />
+			<Option Name="Player Options" />
+			<Option Name="Team Options" />
+			<Option Name="Game Options" />
+			<Option Name="Equipment Options" />
+			<Option Name="Multiple Choice Dialog" />
+			<Option Name="Network Transition Progress" />
+			<Option Name="Xbox Live Stats" />
+			<Option Name="PP Choose Background Emblem" />
+			<Option Name="PP Buttons Qtr" />
+			<Option Name="PP Stix Qtr" />
+			<Option Name="Clan Member Privs" />
+			<Option Name="Optimatch Hoppers Lobby" />
+			<Option Name="Saved game file dialog" />
+			<Option Name="XYZZY" />
+			<Option Name="Error OK Cancel Large" />
+			<Option Name="YZZYX" />
+			<Option Name="Subtitle Display" />
+			<Option Name="PP Keyboard Settings" />
+			<Option Name="PP Keyboard Settings Qtr" />
+			<Option Name="PP Invert Dual Wield" />
+			<Option Name="System Settings" />
+			<Option Name="Bungie News" />
+			<Option Name="Filter Select" />
+			<Option Name="Live Game Browser" />
+			<Option Name="Game Details" />
+			<Option Name="MP Custom Map Select" />
+			<Option Name="MP All Maps Select" />
+			<Option Name="PP Advanced Keyboard Settings" />
+			<Option Name="PP Advanced Keyboard Settings Qtr" />
+			<Option Name="Network Adapter Settings" />
+		</FieldEnum>
+		<FieldUselessPad Index="4" Name="" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldExplanation Index="6" Name="Button Key" Explanation="The labels here are just a guide; the actual string used comes from the Nth position|nof this button key entry as found in the ui globals button key string list tag" />
+		<FieldEnum Index="7" Name="button key type">
+			<Option Name="NONE" />
+			<Option Name="A=SELECT B=BACK" />
+			<Option Name="A=SELECT B=CANCEL" />
+			<Option Name="A=ENTER B=CANCEL" />
+			<Option Name="Y=XBOX LIVE PLAYERS" />
+			<Option Name="X=FRIENDS OPTIONS" />
+			<Option Name="X=CLAN OPTIONS" />
+			<Option Name="X=RECENT PLAYERS OPTIONS" />
+			<Option Name="X=OPTIONS" />
+			<Option Name="A=SELECT" />
+			<Option Name="X=SETTINGS A=SELECT B=BACK" />
+			<Option Name="X=DELETE A=SELECT B=DONE" />
+			<Option Name="A=ACCEPT" />
+			<Option Name="B=CANCEL" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=SELECT B=BACK" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=SELECT B=CANCEL" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=ENTER B=CANCEL" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=SELECT" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=SELECT B=DONE" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS A=ACCEPT" />
+			<Option Name="Y=XBOX_LIVE_PLAYERS B=CANCEL" />
+			<Option Name="X=DELETE A=SELECT B=BACK" />
+			<Option Name="A=OK" />
+		</FieldEnum>
+		<FieldExplanation Index="8" Name="Default Text Color" Explanation="Any ui elements that don't explicitly set a text color will use this color" />
+		<FieldRealArgbColor Index="9" Name="text color" />
+		<FieldExplanation Index="10" Name="Screen Text" Explanation="All text specific to this screen" />
+		<FieldTagReference Index="11" Name="string list tag" GroupTag="1970170211" />
+		<FieldExplanation Index="12" Name="Panes" Explanation="Define the screen's panes here (normal screens have 1 pane, tab-view screens have 2+ panes)" />
+		<FieldBlock Index="13" Name="panes" BlockName="window_pane_reference_block" />
+		<FieldExplanation Index="14" Name="Shape Group" Explanation="If the screen is to have a shape group, specify it here (references group in user interface globals tag)" />
+		<FieldEnum Index="15" Name="shape group">
+			<Option Name="NONE" />
+			<Option Name="00" />
+			<Option Name="01" />
+			<Option Name="02" />
+			<Option Name="03" />
+			<Option Name="04" />
+			<Option Name="05" />
+			<Option Name="06" />
+			<Option Name="07" />
+			<Option Name="08" />
+			<Option Name="09" />
+			<Option Name="10" />
+			<Option Name="11" />
+			<Option Name="12" />
+			<Option Name="13" />
+			<Option Name="14" />
+			<Option Name="15" />
+			<Option Name="16" />
+			<Option Name="17" />
+			<Option Name="18" />
+			<Option Name="19" />
+			<Option Name="20" />
+			<Option Name="21" />
+			<Option Name="22" />
+			<Option Name="23" />
+			<Option Name="24" />
+			<Option Name="25" />
+			<Option Name="26" />
+			<Option Name="27" />
+			<Option Name="28" />
+			<Option Name="29" />
+			<Option Name="30" />
+			<Option Name="31" />
+		</FieldEnum>
+		<FieldPad Index="16" Name="" Length="2" />
+		<FieldExplanation Index="17" Name="More Screen Parameters" Explanation="These are down here because they got added on later. Have a nice day." />
+		<FieldStringId Index="18" Name="header string id" />
+		<FieldExplanation Index="19" Name="Local strings" Explanation="String IDs here allow defining new string ids that are visible only to this screen." />
+		<FieldBlock Index="20" Name="local strings" BlockName="local_string_id_list_section_reference_block" />
+		<FieldExplanation Index="21" Name="Local bitmaps" Explanation="Bitmaps here allow adding a bitmap that's accessible in code for use in this screen." />
+		<FieldBlock Index="22" Name="local bitmaps" BlockName="local_bitmap_reference_block" />
+		<FieldExplanation Index="23" Name="LEVEL LOAD PROGRESS FIELDS" Explanation="These are used only for level load progress bitmaps" />
+		<FieldRealRgbColor Index="24" Name="source color" />
+		<FieldRealRgbColor Index="25" Name="destination color" />
+		<FieldReal Index="26" Name="accumulate zoom scale x" />
+		<FieldReal Index="27" Name="accumulate zoom scale y" />
+		<FieldReal Index="28" Name="refraction scale x" />
+		<FieldReal Index="29" Name="refraction scale y" />
+		<FieldExplanation Index="30" Name="Mouse cursors" Explanation="The mouse cursor definition for this screen." />
+		<FieldTagReference Index="31" Name="mouse cursor definition" GroupTag="1835234162" />
+		<FieldUselessPad Index="32" Name="" />
+		<FieldTerminator Index="33" Name="" />
+	</FieldSet>
+</AbideTagBlock>

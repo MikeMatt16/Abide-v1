@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="interface_tag_references" DisplayName="interface_tag_references" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="20">
+		<FieldTagReference Index="0" Name="obsolete1" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="obsolete2" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="screen color table" GroupTag="1668246639" />
+		<FieldTagReference Index="3" Name="hud color table" GroupTag="1668246639" />
+		<FieldTagReference Index="4" Name="editor color table" GroupTag="1668246639" />
+		<FieldTagReference Index="5" Name="dialog color table" GroupTag="1668246639" />
+		<FieldTagReference Index="6" Name="hud globals" GroupTag="1752523879" />
+		<FieldTagReference Index="7" Name="motion sensor sweep bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="8" Name="motion sensor sweep bitmap mask" GroupTag="1651078253" />
+		<FieldTagReference Index="9" Name="multiplayer hud bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="10" Name="" GroupTag="-3" />
+		<FieldTagReference Index="11" Name="hud digits definition" GroupTag="1752523811" />
+		<FieldTagReference Index="12" Name="motion sensor blip bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="13" Name="interface goo map1" GroupTag="1651078253" />
+		<FieldTagReference Index="14" Name="interface goo map2" GroupTag="1651078253" />
+		<FieldTagReference Index="15" Name="interface goo map3" GroupTag="1651078253" />
+		<FieldTagReference Index="16" Name="mainmenu ui globals" GroupTag="2003268730" />
+		<FieldTagReference Index="17" Name="singleplayer ui globals" GroupTag="2003268730" />
+		<FieldTagReference Index="18" Name="multiplayer ui globals" GroupTag="2003268730" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

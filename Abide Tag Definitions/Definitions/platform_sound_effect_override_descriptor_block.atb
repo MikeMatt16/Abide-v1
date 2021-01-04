@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_effect_override_descriptor_block" DisplayName="platform_sound_effect_override_descriptor_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="2">
+		<FieldCharInteger Index="0" Name="override descriptor" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

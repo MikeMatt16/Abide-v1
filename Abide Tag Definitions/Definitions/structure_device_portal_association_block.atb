@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_device_portal_association_block" DisplayName="structure_device_portal_association_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStruct Index="0" Name="device id" StructName="scenario_object_id_struct_block" />
+		<FieldShortInteger Index="1" Name="first game portal index" />
+		<FieldShortInteger Index="2" Name="game portal count" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

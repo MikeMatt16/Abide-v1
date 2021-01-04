@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="edges_block" DisplayName="edges_block" MaximumElementCount="262144">
+	<FieldSet Alignment="4" Count="7">
+		<FieldShortInteger Index="0" Name="Start Vertex*" />
+		<FieldShortInteger Index="1" Name="End Vertex*" />
+		<FieldShortInteger Index="2" Name="Forward Edge*" />
+		<FieldShortInteger Index="3" Name="Reverse Edge*" />
+		<FieldShortInteger Index="4" Name="Left Surface*" />
+		<FieldShortInteger Index="5" Name="Right Surface*" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

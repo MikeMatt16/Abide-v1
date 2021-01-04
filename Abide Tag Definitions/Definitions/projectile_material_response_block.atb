@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="projectile_material_response_block" DisplayName="projectile_material_response_block" MaximumElementCount="200">
+	<FieldSet Alignment="4" Count="29">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="cannot be overpenetrated" />
+		</FieldWordFlags>
+		<FieldExplanation Index="1" Name="default result" Explanation="(if the potential result, below, fails to happen)" />
+		<FieldEnum Index="2" Name="response">
+			<Option Name="impact (detonate)" />
+			<Option Name="fizzle" />
+			<Option Name="overpenetrate" />
+			<Option Name="attach" />
+			<Option Name="bounce" />
+			<Option Name="bounce (dud)" />
+			<Option Name="fizzle (ricochet)" />
+		</FieldEnum>
+		<FieldTagReference Index="3" Name="DO NOT USE (OLD effect)" GroupTag="1701209701" />
+		<FieldStringId Index="4" Name="material name" />
+		<FieldSkip Index="5" Name="" Length="4" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldExplanation Index="7" Name="potential result" Explanation="" />
+		<FieldEnum Index="8" Name="response">
+			<Option Name="impact (detonate)" />
+			<Option Name="fizzle" />
+			<Option Name="overpenetrate" />
+			<Option Name="attach" />
+			<Option Name="bounce" />
+			<Option Name="bounce (dud)" />
+			<Option Name="fizzle (ricochet)" />
+		</FieldEnum>
+		<FieldWordFlags Index="9" Name="flags">
+			<Option Name="only against units" />
+			<Option Name="never against units" />
+		</FieldWordFlags>
+		<FieldRealFraction Index="10" Name="chance fraction:[0,1]" />
+		<FieldAngleBounds Index="11" Name="between:degrees" />
+		<FieldRealBounds Index="12" Name="and:world units per second" />
+		<FieldTagReference Index="13" Name="DO NOT USE (OLD effect)" GroupTag="1701209701" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldExplanation Index="15" Name="misc" Explanation="" />
+		<FieldEnum Index="16" Name="scale effects by">
+			<Option Name="damage" />
+			<Option Name="angle" />
+		</FieldEnum>
+		<FieldPad Index="17" Name="" Length="2" />
+		<FieldAngle Index="18" Name="angular noise:degrees#the angle of incidence is randomly perturbed by at most this amount to simulate irregularity." />
+		<FieldReal Index="19" Name="velocity noise:world units per second#the velocity is randomly perturbed by at most this amount to simulate irregularity." />
+		<FieldTagReference Index="20" Name="DO NOT USE (OLD detonation effect)" GroupTag="1701209701" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldExplanation Index="22" Name="penetration" Explanation="" />
+		<FieldReal Index="23" Name="initial friction#the fraction of the projectile's velocity lost on penetration" />
+		<FieldReal Index="24" Name="maximum distance#the maximum distance the projectile can travel through on object of this material" />
+		<FieldExplanation Index="25" Name="reflection" Explanation="" />
+		<FieldReal Index="26" Name="parallel friction#the fraction of the projectile's velocity parallel to the surface lost on impact" />
+		<FieldReal Index="27" Name="perpendicular friction#the fraction of the projectile's velocity perpendicular to the surface lost on impact" />
+		<FieldTerminator Index="28" Name="" />
+	</FieldSet>
+</AbideTagBlock>

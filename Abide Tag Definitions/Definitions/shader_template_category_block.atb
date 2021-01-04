@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_category_block" DisplayName="category" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldBlock Index="1" Name="Parameters" BlockName="shader_template_parameter_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

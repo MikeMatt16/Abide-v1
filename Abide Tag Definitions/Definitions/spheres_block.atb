@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="spheres_block" DisplayName="spheres_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="29">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="material*" />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldReal Index="3" Name="relative mass scale" />
+		<FieldRealFraction Index="4" Name="friction" />
+		<FieldRealFraction Index="5" Name="restitution" />
+		<FieldReal Index="6" Name="volume *" />
+		<FieldReal Index="7" Name="mass*" />
+		<FieldSkip Index="8" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="9" Name="phantom*" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldShortInteger Index="11" Name="size*" />
+		<FieldShortInteger Index="12" Name="count*" />
+		<FieldSkip Index="13" Name="" Length="4" />
+		<FieldReal Index="14" Name="radius*" />
+		<FieldSkip Index="15" Name="" Length="4" />
+		<FieldShortInteger Index="16" Name="size*" />
+		<FieldShortInteger Index="17" Name="count*" />
+		<FieldSkip Index="18" Name="" Length="4" />
+		<FieldSkip Index="19" Name="" Length="4" />
+		<FieldRealVector3D Index="20" Name="rotation i*" />
+		<FieldSkip Index="21" Name="" Length="4" />
+		<FieldRealVector3D Index="22" Name="rotation j*" />
+		<FieldSkip Index="23" Name="" Length="4" />
+		<FieldRealVector3D Index="24" Name="rotation k*" />
+		<FieldSkip Index="25" Name="" Length="4" />
+		<FieldRealVector3D Index="26" Name="translation*" />
+		<FieldSkip Index="27" Name="" Length="4" />
+		<FieldTerminator Index="28" Name="" />
+	</FieldSet>
+</AbideTagBlock>

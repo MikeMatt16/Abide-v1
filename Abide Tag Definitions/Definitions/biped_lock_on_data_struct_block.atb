@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="biped_lock_on_data_struct_block" DisplayName="biped_lock_on_data_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldExplanation Index="0" Name="lock-on fields" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="locked by human targeting" />
+			<Option Name="locked by plasma targeting" />
+			<Option Name="always locked by plasma targeting" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="lock on distance" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

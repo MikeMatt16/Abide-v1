@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_group_block" DisplayName="decorator_group_block" MaximumElementCount="131072">
+	<FieldSet Alignment="4" Count="14">
+		<FieldCharBlockIndex1 Index="0" Name="Decorator Set*" />
+		<FieldCharEnum Index="1" Name="Decorator Type">
+			<Option Name="model" />
+			<Option Name="floating decal" />
+			<Option Name="projected decal" />
+			<Option Name="screen facing quad" />
+			<Option Name="axis rotating quad" />
+			<Option Name="cross quad" />
+		</FieldCharEnum>
+		<FieldCharInteger Index="2" Name="Shader Index*" />
+		<FieldCharInteger Index="3" Name="Compressed Radius*" />
+		<FieldShortInteger Index="4" Name="Cluster*" />
+		<FieldShortBlockIndex1 Index="5" Name="Cache Block*" />
+		<FieldShortInteger Index="6" Name="Decorator Start Index*" />
+		<FieldShortInteger Index="7" Name="Decorator Count*" />
+		<FieldShortInteger Index="8" Name="Vertex Start Offset*" />
+		<FieldShortInteger Index="9" Name="Vertex Count*" />
+		<FieldShortInteger Index="10" Name="Index Start Offset*" />
+		<FieldShortInteger Index="11" Name="Index Count*" />
+		<FieldLongInteger Index="12" Name="Compressed Bounding Center*" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_attachment_block" DisplayName="object_attachment_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="9">
+		<FieldTagReference Index="0" Name="type^" GroupTag="-3" />
+		<FieldOldStringId Index="1" Name="marker" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldEnum Index="3" Name="change color">
+			<Option Name="none" />
+			<Option Name="primary" />
+			<Option Name="secondary" />
+			<Option Name="tertiary" />
+			<Option Name="quaternary" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldStringId Index="5" Name="primary scale" />
+		<FieldStringId Index="6" Name="secondary scale" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

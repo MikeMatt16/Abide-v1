@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_weather_polyhedron_plane_block" DisplayName="structure_bsp_weather_polyhedron_plane_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="2">
+		<FieldRealPlane3D Index="0" Name="plane*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

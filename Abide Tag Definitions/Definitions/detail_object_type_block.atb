@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="detail_object_type_block" DisplayName="detail_object_type_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="15">
+		<FieldString Index="0" Name="Name^" />
+		<FieldCharInteger Index="1" Name="Sequence Index:[0,15]" />
+		<FieldByteFlags Index="2" Name="type flags">
+			<Option Name="Unused" />
+			<Option Name="Unused" />
+			<Option Name="Interpolate Color in HSV" />
+			<Option Name="...More Colors" />
+		</FieldByteFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldRealFraction Index="4" Name="Color Override Factor#Fraction of detail object color to use instead of the base map color in the environment:[0,1]" />
+		<FieldPad Index="5" Name="" Length="8" />
+		<FieldReal Index="6" Name="Near Fade Distance:world units" />
+		<FieldReal Index="7" Name="Far Fade Distance:world units" />
+		<FieldReal Index="8" Name="Size:world units per pixel" />
+		<FieldPad Index="9" Name="" Length="4" />
+		<FieldRealRgbColor Index="10" Name="Minimum Color:[0,1]" />
+		<FieldRealRgbColor Index="11" Name="Maximum Color:[0,1]" />
+		<FieldArgbColor Index="12" Name="ambient color:[0,255]" />
+		<FieldPad Index="13" Name="" Length="4" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

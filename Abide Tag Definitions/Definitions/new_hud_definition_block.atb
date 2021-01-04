@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="new_hud_definition_block" DisplayName="new_hud_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldTagReference Index="0" Name="DO NOT USE" GroupTag="1852335220" />
+		<FieldBlock Index="1" Name="bitmap widgets" BlockName="hud_bitmap_widgets" />
+		<FieldBlock Index="2" Name="text widgets" BlockName="hud_text_widgets" />
+		<FieldStruct Index="3" Name="dashlight data" StructName="new_hud_dashlight_data_struct_block" />
+		<FieldBlock Index="4" Name="screen effect widgets" BlockName="hud_screen_effect_widgets" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

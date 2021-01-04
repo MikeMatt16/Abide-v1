@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cs_point_block" DisplayName="cs_point_block" MaximumElementCount="20">
+	<FieldSet Alignment="4" Count="7">
+		<FieldString Index="0" Name="name^" />
+		<FieldRealPoint3D Index="1" Name="position" />
+		<FieldShortInteger Index="2" Name="reference frame*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldLongInteger Index="4" Name="surface index" />
+		<FieldEulerAngles2D Index="5" Name="facing direction" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

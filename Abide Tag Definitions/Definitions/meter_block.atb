@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="meter_block" DisplayName="meter" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="18">
+		<FieldLongFlags Index="0" Name="flags" />
+		<FieldTagReference Index="1" Name="stencil bitmaps#two bitmaps specifying the mask and the meter levels" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="source bitmap#optional bitmap to draw into the unmasked regions of the meter (modulated by the colors below)" GroupTag="1651078253" />
+		<FieldShortInteger Index="3" Name="stencil sequence index" />
+		<FieldShortInteger Index="4" Name="source sequence index" />
+		<FieldPad Index="5" Name="" Length="16" />
+		<FieldPad Index="6" Name="" Length="4" />
+		<FieldEnum Index="7" Name="interpolate colors...">
+			<Option Name="linearly" />
+			<Option Name="faster near empty" />
+			<Option Name="faster near full" />
+			<Option Name="through random noise" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="anchor colors...">
+			<Option Name="at both ends" />
+			<Option Name="at empty" />
+			<Option Name="at full" />
+		</FieldEnum>
+		<FieldPad Index="9" Name="" Length="8" />
+		<FieldRealArgbColor Index="10" Name="empty color" />
+		<FieldRealArgbColor Index="11" Name="full color" />
+		<FieldPad Index="12" Name="" Length="20" />
+		<FieldReal Index="13" Name="unmask distance:meter units#fade from fully masked to fully unmasked this distance beyond full (and below empty)" />
+		<FieldReal Index="14" Name="mask distance:meter units#fade from fully unmasked to fully masked this distance below full (and beyond empty)" />
+		<FieldPad Index="15" Name="" Length="20" />
+		<FieldData Index="16" Name="encoded stencil" Alignment="4" MaximumSize="65536" ElementSize="1" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

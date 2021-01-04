@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="visibility_struct_block" DisplayName="visibility_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldShortInteger Index="0" Name="Projection Count*" />
+		<FieldShortInteger Index="1" Name="Cluster Count*" />
+		<FieldShortInteger Index="2" Name="Volume Count*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldData Index="4" Name="Projections*" Alignment="4" MaximumSize="2664" ElementSize="1" />
+		<FieldData Index="5" Name="Visibility Clusters*" Alignment="4" MaximumSize="3328" ElementSize="1" />
+		<FieldData Index="6" Name="Cluster Remap Table*" Alignment="4" MaximumSize="512" ElementSize="1" />
+		<FieldData Index="7" Name="Visibility Volumes*" Alignment="4" MaximumSize="135168" ElementSize="1" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

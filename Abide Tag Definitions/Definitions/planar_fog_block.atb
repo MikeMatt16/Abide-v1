@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="planar_fog_block" DisplayName="planar_fog" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="31">
+		<FieldExplanation Index="0" Name="PLANAR FOG" Explanation="Please don't use these flags unless you know what you're doing! Come talk to Bernie first." />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="render only submerged geometry" />
+			<Option Name="extend infinitely while visible" />
+			<Option Name="don't floodfill" />
+			<Option Name="aggressive floodfill" />
+			<Option Name="do not render" />
+			<Option Name="do not render unless submerged" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="2" Name="priority" />
+		<FieldStringId Index="3" Name="global material name" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldExplanation Index="7" Name="DENSITY" Explanation="" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldRealFraction Index="9" Name="maximum density:[0,1]#planar fog density is clamped to this value" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldReal Index="11" Name="opaque distance:world units#the fog becomes opaque (maximum density) at this distance from the viewer" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldReal Index="13" Name="opaque depth:world units#the fog becomes opaque at this distance below fog plane" />
+		<FieldExplanation Index="14" Name="DENSITY (ADVANCED CONTROLS)" Explanation="" />
+		<FieldRealBounds Index="15" Name="atmospheric-planar depth:world units#distances above fog plane where atmospheric fog supercedes planar fog and visa-versa" />
+		<FieldReal Index="16" Name="eye offset scale:[-1,1]#negative numbers are bad, mmmkay?" />
+		<FieldUselessPad Index="17" Name="" />
+		<FieldExplanation Index="18" Name="COLOR" Explanation="" />
+		<FieldRealRgbColor Index="19" Name="color" />
+		<FieldUselessPad Index="20" Name="" />
+		<FieldBlock Index="21" Name="patchy fog" BlockName="planar_fog_patchy_fog_block" />
+		<FieldExplanation Index="22" Name="SOUND" Explanation="" />
+		<FieldTagReference Index="23" Name="background sound" GroupTag="1819504228" />
+		<FieldTagReference Index="24" Name="sound environment" GroupTag="1936614501" />
+		<FieldReal Index="25" Name="environment damping factor#scales the surrounding background sound by this much" />
+		<FieldReal Index="26" Name="background sound gain#scale for fog background sound" />
+		<FieldTagReference Index="27" Name="enter sound" GroupTag="1936614433" />
+		<FieldTagReference Index="28" Name="exit sound" GroupTag="1936614433" />
+		<FieldUselessPad Index="29" Name="" />
+		<FieldTerminator Index="30" Name="" />
+	</FieldSet>
+</AbideTagBlock>

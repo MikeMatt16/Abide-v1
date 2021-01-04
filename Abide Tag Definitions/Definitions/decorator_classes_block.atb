@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_classes_block" DisplayName="decorator_classes_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="name" />
+		<FieldCharEnum Index="1" Name="type">
+			<Option Name="model" />
+			<Option Name="floating decal" />
+			<Option Name="projected decal" />
+			<Option Name="screen facing quad" />
+			<Option Name="axis rotating quad" />
+			<Option Name="cross quad" />
+		</FieldCharEnum>
+		<FieldPad Index="2" Name="" Length="3" />
+		<FieldReal Index="3" Name="scale" />
+		<FieldBlock Index="4" Name="permutations" BlockName="decorator_permutations_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

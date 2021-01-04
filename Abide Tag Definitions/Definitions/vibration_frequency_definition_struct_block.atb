@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vibration_frequency_definition_struct_block" DisplayName="vibration_frequency_definition_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldReal Index="0" Name="duration:seconds" />
+		<FieldCustom Index="1" Name="whore function" />
+		<FieldStruct Index="2" Name="dirty whore" StructName="mapping_function_block" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

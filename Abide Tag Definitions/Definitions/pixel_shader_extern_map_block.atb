@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="pixel_shader_extern_map_block" DisplayName="pixel_shader_extern_map_block" MaximumElementCount="6">
+	<FieldSet Alignment="4" Count="3">
+		<FieldCharInteger Index="0" Name="switch parameter" />
+		<FieldCharInteger Index="1" Name="case scalar" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

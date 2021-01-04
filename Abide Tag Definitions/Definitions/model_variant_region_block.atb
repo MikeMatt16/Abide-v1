@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_variant_region_block" DisplayName="region" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="region name^:must match region name in render_model" />
+		<FieldPad Index="1" Name="" Length="1" />
+		<FieldPad Index="2" Name="" Length="1" />
+		<FieldShortBlockIndex1 Index="3" Name="parent variant" />
+		<FieldBlock Index="4" Name="permutations" BlockName="model_variant_permutation_block" />
+		<FieldEnum Index="5" Name="sort order#negative values mean closer to the camera">
+			<Option Name="no sorting" />
+			<Option Name="-5 (closest)" />
+			<Option Name="-4" />
+			<Option Name="-3" />
+			<Option Name="-2" />
+			<Option Name="-1" />
+			<Option Name="0 (same as model)" />
+			<Option Name="1" />
+			<Option Name="2" />
+			<Option Name="3" />
+			<Option Name="4" />
+			<Option Name="5 (farthest)" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

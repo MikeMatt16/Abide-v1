@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="difficulty_block" DisplayName="difficulty_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="123">
+		<FieldExplanation Index="0" Name="health" Explanation="scale values for enemy health and damage settings" />
+		<FieldReal Index="1" Name="easy enemy damage#enemy damage multiplier on easy difficulty" />
+		<FieldReal Index="2" Name="normal enemy damage#enemy damage multiplier on normal difficulty" />
+		<FieldReal Index="3" Name="hard enemy damage#enemy damage multiplier on hard difficulty" />
+		<FieldReal Index="4" Name="imposs. enemy damage#enemy damage multiplier on impossible difficulty" />
+		<FieldReal Index="5" Name="easy enemy vitality#enemy maximum body vitality scale on easy difficulty" />
+		<FieldReal Index="6" Name="normal enemy vitality#enemy maximum body vitality scale on normal difficulty" />
+		<FieldReal Index="7" Name="hard enemy vitality#enemy maximum body vitality scale on hard difficulty" />
+		<FieldReal Index="8" Name="imposs. enemy vitality#enemy maximum body vitality scale on impossible difficulty" />
+		<FieldReal Index="9" Name="easy enemy shield#enemy maximum shield vitality scale on easy difficulty" />
+		<FieldReal Index="10" Name="normal enemy shield#enemy maximum shield vitality scale on normal difficulty" />
+		<FieldReal Index="11" Name="hard enemy shield#enemy maximum shield vitality scale on hard difficulty" />
+		<FieldReal Index="12" Name="imposs. enemy shield#enemy maximum shield vitality scale on impossible difficulty" />
+		<FieldReal Index="13" Name="easy enemy recharge#enemy shield recharge scale on easy difficulty" />
+		<FieldReal Index="14" Name="normal enemy recharge#enemy shield recharge scale on normal difficulty" />
+		<FieldReal Index="15" Name="hard enemy recharge#enemy shield recharge scale on hard difficulty" />
+		<FieldReal Index="16" Name="imposs. enemy recharge#enemy shield recharge scale on impossible difficulty" />
+		<FieldReal Index="17" Name="easy friend damage#friend damage multiplier on easy difficulty" />
+		<FieldReal Index="18" Name="normal friend damage#friend damage multiplier on normal difficulty" />
+		<FieldReal Index="19" Name="hard friend damage#friend damage multiplier on hard difficulty" />
+		<FieldReal Index="20" Name="imposs. friend damage#friend damage multiplier on impossible difficulty" />
+		<FieldReal Index="21" Name="easy friend vitality#friend maximum body vitality scale on easy difficulty" />
+		<FieldReal Index="22" Name="normal friend vitality#friend maximum body vitality scale on normal difficulty" />
+		<FieldReal Index="23" Name="hard friend vitality#friend maximum body vitality scale on hard difficulty" />
+		<FieldReal Index="24" Name="imposs. friend vitality#friend maximum body vitality scale on impossible difficulty" />
+		<FieldReal Index="25" Name="easy friend shield#friend maximum shield vitality scale on easy difficulty" />
+		<FieldReal Index="26" Name="normal friend shield#friend maximum shield vitality scale on normal difficulty" />
+		<FieldReal Index="27" Name="hard friend shield#friend maximum shield vitality scale on hard difficulty" />
+		<FieldReal Index="28" Name="imposs. friend shield#friend maximum shield vitality scale on impossible difficulty" />
+		<FieldReal Index="29" Name="easy friend recharge#friend shield recharge scale on easy difficulty" />
+		<FieldReal Index="30" Name="normal friend recharge#friend shield recharge scale on normal difficulty" />
+		<FieldReal Index="31" Name="hard friend recharge#friend shield recharge scale on hard difficulty" />
+		<FieldReal Index="32" Name="imposs. friend recharge#friend shield recharge scale on impossible difficulty" />
+		<FieldReal Index="33" Name="easy infection forms#toughness of infection forms (may be negative) on easy difficulty" />
+		<FieldReal Index="34" Name="normal infection forms#toughness of infection forms (may be negative) on normal difficulty" />
+		<FieldReal Index="35" Name="hard infection forms#toughness of infection forms (may be negative) on hard difficulty" />
+		<FieldReal Index="36" Name="imposs. infection forms#toughness of infection forms (may be negative) on impossible difficulty" />
+		<FieldPad Index="37" Name="" Length="16" />
+		<FieldExplanation Index="38" Name="ranged fire" Explanation="difficulty-affecting values for enemy ranged combat settings" />
+		<FieldReal Index="39" Name="easy rate of fire#enemy rate of fire scale on easy difficulty" />
+		<FieldReal Index="40" Name="normal rate of fire#enemy rate of fire scale on normal difficulty" />
+		<FieldReal Index="41" Name="hard rate of fire#enemy rate of fire scale on hard difficulty" />
+		<FieldReal Index="42" Name="imposs. rate of fire#enemy rate of fire scale on impossible difficulty" />
+		<FieldReal Index="43" Name="easy projectile error#enemy projectile error scale, as a fraction of their base firing error. on easy difficulty" />
+		<FieldReal Index="44" Name="normal projectile error#enemy projectile error scale, as a fraction of their base firing error. on normal difficulty" />
+		<FieldReal Index="45" Name="hard projectile error#enemy projectile error scale, as a fraction of their base firing error. on hard difficulty" />
+		<FieldReal Index="46" Name="imposs. projectile error#enemy projectile error scale, as a fraction of their base firing error. on impossible difficulty" />
+		<FieldReal Index="47" Name="easy burst error#enemy burst error scale; reduces intra-burst shot distance. on easy difficulty" />
+		<FieldReal Index="48" Name="normal burst error#enemy burst error scale; reduces intra-burst shot distance. on normal difficulty" />
+		<FieldReal Index="49" Name="hard burst error#enemy burst error scale; reduces intra-burst shot distance. on hard difficulty" />
+		<FieldReal Index="50" Name="imposs. burst error#enemy burst error scale; reduces intra-burst shot distance. on impossible difficulty" />
+		<FieldReal Index="51" Name="easy new target delay#enemy new-target delay scale factor. on easy difficulty" />
+		<FieldReal Index="52" Name="normal new target delay#enemy new-target delay scale factor. on normal difficulty" />
+		<FieldReal Index="53" Name="hard new target delay#enemy new-target delay scale factor. on hard difficulty" />
+		<FieldReal Index="54" Name="imposs. new target delay#enemy new-target delay scale factor. on impossible difficulty" />
+		<FieldReal Index="55" Name="easy burst separation#delay time between bursts scale factor for enemies. on easy difficulty" />
+		<FieldReal Index="56" Name="normal burst separation#delay time between bursts scale factor for enemies. on normal difficulty" />
+		<FieldReal Index="57" Name="hard burst separation#delay time between bursts scale factor for enemies. on hard difficulty" />
+		<FieldReal Index="58" Name="imposs. burst separation#delay time between bursts scale factor for enemies. on impossible difficulty" />
+		<FieldReal Index="59" Name="easy target tracking#additional target tracking fraction for enemies. on easy difficulty" />
+		<FieldReal Index="60" Name="normal target tracking#additional target tracking fraction for enemies. on normal difficulty" />
+		<FieldReal Index="61" Name="hard target tracking#additional target tracking fraction for enemies. on hard difficulty" />
+		<FieldReal Index="62" Name="imposs. target tracking#additional target tracking fraction for enemies. on impossible difficulty" />
+		<FieldReal Index="63" Name="easy target leading#additional target leading fraction for enemies. on easy difficulty" />
+		<FieldReal Index="64" Name="normal target leading#additional target leading fraction for enemies. on normal difficulty" />
+		<FieldReal Index="65" Name="hard target leading#additional target leading fraction for enemies. on hard difficulty" />
+		<FieldReal Index="66" Name="imposs. target leading#additional target leading fraction for enemies. on impossible difficulty" />
+		<FieldReal Index="67" Name="easy overcharge chance#overcharge chance scale factor for enemies. on easy difficulty" />
+		<FieldReal Index="68" Name="normal overcharge chance#overcharge chance scale factor for enemies. on normal difficulty" />
+		<FieldReal Index="69" Name="hard overcharge chance#overcharge chance scale factor for enemies. on hard difficulty" />
+		<FieldReal Index="70" Name="imposs. overcharge chance#overcharge chance scale factor for enemies. on impossible difficulty" />
+		<FieldReal Index="71" Name="easy special fire delay#delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies. on easy difficulty" />
+		<FieldReal Index="72" Name="normal special fire delay#delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies. on normal difficulty" />
+		<FieldReal Index="73" Name="hard special fire delay#delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies. on hard difficulty" />
+		<FieldReal Index="74" Name="imposs. special fire delay#delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies. on impossible difficulty" />
+		<FieldReal Index="75" Name="easy guidance vs player#guidance velocity scale factor for all projectiles targeted on a player. on easy difficulty" />
+		<FieldReal Index="76" Name="normal guidance vs player#guidance velocity scale factor for all projectiles targeted on a player. on normal difficulty" />
+		<FieldReal Index="77" Name="hard guidance vs player#guidance velocity scale factor for all projectiles targeted on a player. on hard difficulty" />
+		<FieldReal Index="78" Name="imposs. guidance vs player#guidance velocity scale factor for all projectiles targeted on a player. on impossible difficulty" />
+		<FieldReal Index="79" Name="easy melee delay base#delay period added to all melee attacks, even when berserk. on easy difficulty" />
+		<FieldReal Index="80" Name="normal melee delay base#delay period added to all melee attacks, even when berserk. on normal difficulty" />
+		<FieldReal Index="81" Name="hard melee delay base#delay period added to all melee attacks, even when berserk. on hard difficulty" />
+		<FieldReal Index="82" Name="imposs. melee delay base#delay period added to all melee attacks, even when berserk. on impossible difficulty" />
+		<FieldReal Index="83" Name="easy melee delay scale#multiplier for all existing non-berserk melee delay times. on easy difficulty" />
+		<FieldReal Index="84" Name="normal melee delay scale#multiplier for all existing non-berserk melee delay times. on normal difficulty" />
+		<FieldReal Index="85" Name="hard melee delay scale#multiplier for all existing non-berserk melee delay times. on hard difficulty" />
+		<FieldReal Index="86" Name="imposs. melee delay scale#multiplier for all existing non-berserk melee delay times. on impossible difficulty" />
+		<FieldPad Index="87" Name="" Length="16" />
+		<FieldExplanation Index="88" Name="grenades" Explanation="difficulty-affecting values for enemy grenade behavior" />
+		<FieldReal Index="89" Name="easy grenade chance scale#scale factor affecting the desicions to throw a grenade. on easy difficulty" />
+		<FieldReal Index="90" Name="normal grenade chance scale#scale factor affecting the desicions to throw a grenade. on normal difficulty" />
+		<FieldReal Index="91" Name="hard grenade chance scale#scale factor affecting the desicions to throw a grenade. on hard difficulty" />
+		<FieldReal Index="92" Name="imposs. grenade chance scale#scale factor affecting the desicions to throw a grenade. on impossible difficulty" />
+		<FieldReal Index="93" Name="easy grenade timer scale#scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often). on easy difficulty" />
+		<FieldReal Index="94" Name="normal grenade timer scale#scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often). on normal difficulty" />
+		<FieldReal Index="95" Name="hard grenade timer scale#scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often). on hard difficulty" />
+		<FieldReal Index="96" Name="imposs. grenade timer scale#scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often). on impossible difficulty" />
+		<FieldPad Index="97" Name="" Length="16" />
+		<FieldPad Index="98" Name="" Length="16" />
+		<FieldPad Index="99" Name="" Length="16" />
+		<FieldExplanation Index="100" Name="placement" Explanation="difficulty-affecting values for enemy placement" />
+		<FieldReal Index="101" Name="easy major upgrade (normal)#fraction of actors upgraded to their major variant. on easy difficulty" />
+		<FieldReal Index="102" Name="normal major upgrade (normal)#fraction of actors upgraded to their major variant. on normal difficulty" />
+		<FieldReal Index="103" Name="hard major upgrade (normal)#fraction of actors upgraded to their major variant. on hard difficulty" />
+		<FieldReal Index="104" Name="imposs. major upgrade (normal)#fraction of actors upgraded to their major variant. on impossible difficulty" />
+		<FieldReal Index="105" Name="easy major upgrade (few)#fraction of actors upgraded to their major variant when mix = normal. on easy difficulty" />
+		<FieldReal Index="106" Name="normal major upgrade (few)#fraction of actors upgraded to their major variant when mix = normal. on normal difficulty" />
+		<FieldReal Index="107" Name="hard major upgrade (few)#fraction of actors upgraded to their major variant when mix = normal. on hard difficulty" />
+		<FieldReal Index="108" Name="imposs. major upgrade (few)#fraction of actors upgraded to their major variant when mix = normal. on impossible difficulty" />
+		<FieldReal Index="109" Name="easy major upgrade (many)#fraction of actors upgraded to their major variant when mix = many. on easy difficulty" />
+		<FieldReal Index="110" Name="normal major upgrade (many)#fraction of actors upgraded to their major variant when mix = many. on normal difficulty" />
+		<FieldReal Index="111" Name="hard major upgrade (many)#fraction of actors upgraded to their major variant when mix = many. on hard difficulty" />
+		<FieldReal Index="112" Name="imposs. major upgrade (many)#fraction of actors upgraded to their major variant when mix = many. on impossible difficulty" />
+		<FieldExplanation Index="113" Name="vehicles" Explanation="difficulty-affecting values for vehicle driving/combat" />
+		<FieldReal Index="114" Name="easy player vehicle ram chance#Chance of deciding to ram the player in a vehicle on easy difficulty" />
+		<FieldReal Index="115" Name="normal player vehicle ram chance#Chance of deciding to ram the player in a vehicle on normal difficulty" />
+		<FieldReal Index="116" Name="hard player vehicle ram chance#Chance of deciding to ram the player in a vehicle on hard difficulty" />
+		<FieldReal Index="117" Name="imposs. player vehicle ram chance#Chance of deciding to ram the player in a vehicle on impossible difficulty" />
+		<FieldPad Index="118" Name="" Length="16" />
+		<FieldPad Index="119" Name="" Length="16" />
+		<FieldPad Index="120" Name="" Length="16" />
+		<FieldPad Index="121" Name="" Length="84" />
+		<FieldTerminator Index="122" Name="" />
+	</FieldSet>
+</AbideTagBlock>

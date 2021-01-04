@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="device_block" DisplayName="device" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="23">
+		<FieldExplanation Index="0" Name="$$$ DEVICE $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="position loops" />
+			<Option Name="(unused)" />
+			<Option Name="allow interpolation" />
+		</FieldLongFlags>
+		<FieldReal Index="2" Name="power transition time:seconds" />
+		<FieldReal Index="3" Name="power acceleration time:seconds" />
+		<FieldReal Index="4" Name="position transition time:seconds" />
+		<FieldReal Index="5" Name="position acceleration time:seconds" />
+		<FieldReal Index="6" Name="depowered position transition time:seconds" />
+		<FieldReal Index="7" Name="depowered position acceleration time:seconds" />
+		<FieldWordFlags Index="8" Name="lightmap flags">
+			<Option Name="don't use in lightmap" />
+			<Option Name="don't use in lightprobe" />
+		</FieldWordFlags>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldTagReference Index="11" Name="open (up)" GroupTag="-3" />
+		<FieldTagReference Index="12" Name="close (down)" GroupTag="-3" />
+		<FieldTagReference Index="13" Name="opened" GroupTag="-3" />
+		<FieldTagReference Index="14" Name="closed" GroupTag="-3" />
+		<FieldTagReference Index="15" Name="depowered" GroupTag="-3" />
+		<FieldTagReference Index="16" Name="repowered" GroupTag="-3" />
+		<FieldReal Index="17" Name="delay time:seconds" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldTagReference Index="19" Name="delay effect" GroupTag="-3" />
+		<FieldReal Index="20" Name="automatic activation radius:world units" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

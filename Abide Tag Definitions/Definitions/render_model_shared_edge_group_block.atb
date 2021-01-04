@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_shared_edge_group_block" DisplayName="shared edge group" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="7">
+		<FieldShortInteger Index="0" Name="first shared edge index*" />
+		<FieldShortInteger Index="1" Name="shared edge count*" />
+		<FieldPad Index="2" Name="" Length="1" />
+		<FieldCharInteger Index="3" Name="adjacent region index*" />
+		<FieldPad Index="4" Name="" Length="1" />
+		<FieldCharInteger Index="5" Name="section set index*" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_point_data_struct_block" DisplayName="global_geometry_point_data_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldBlock Index="0" Name="Raw Points*" BlockName="global_geometry_raw_point_block" />
+		<FieldData Index="1" Name="Runtime Point Data*" Alignment="4" MaximumSize="1048544" ElementSize="1" />
+		<FieldBlock Index="2" Name="Rigid Point Groups*" BlockName="global_geometry_rigid_point_group_block" />
+		<FieldBlock Index="3" Name="Vertex-Point Indices*" BlockName="global_geometry_point_data_index_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

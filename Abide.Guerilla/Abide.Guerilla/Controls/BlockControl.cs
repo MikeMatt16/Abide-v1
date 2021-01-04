@@ -55,20 +55,20 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         private void blockSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ITagBlock selectedBlock = (ITagBlock)blockSelectComboBox.SelectedItem;
-            for (int i = 0; i < selectedBlock.Fields.Count; i++)
+            for (int i = 0; i < selectedBlock.FieldCount; i++)
             {
-                switch (selectedBlock.Fields[i].Type)
+                switch (selectedBlock[i].Type)
                 {
                     case Definition.FieldType.FieldBlock:
-                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)selectedBlock.Fields[i];
+                        ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)selectedBlock[i];
                         break;
                     case Definition.FieldType.FieldStruct:
-                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)selectedBlock.Fields[i];
+                        ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)selectedBlock[i];
                         break;
                     case Definition.FieldType.FieldExplanation:
                         continue;
                     default:
-                        ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = selectedBlock.Fields[i];
+                        ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = selectedBlock[i];
                         break;
                 }
             }

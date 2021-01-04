@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="runtime_levels_definition_block" DisplayName="runtime_levels_definition_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldBlock Index="0" Name="Campaign Levels" BlockName="runtime_campaign_level_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

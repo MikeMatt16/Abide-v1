@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_physics_ground_struct_block" DisplayName="character_physics_ground_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldAngle Index="0" Name="maximum slope angle:degrees" />
+		<FieldAngle Index="1" Name="downhill falloff angle:degrees" />
+		<FieldAngle Index="2" Name="downhill cutoff angle:degrees" />
+		<FieldAngle Index="3" Name="uphill falloff angle:degrees" />
+		<FieldAngle Index="4" Name="uphill cutoff angle:degrees" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldReal Index="6" Name="downhill velocity scale" />
+		<FieldReal Index="7" Name="uphill velocity scale" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldPad Index="9" Name="" Length="20" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

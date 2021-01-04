@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="barrel_firing_effect_block" DisplayName="barrel_firing_effect_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="9">
+		<FieldShortInteger Index="0" Name="shot count lower bound#the minimum number of times this firing effect will be used, once it has been chosen" />
+		<FieldShortInteger Index="1" Name="shot count upper bound#the maximum number of times this firing effect will be used, once it has been chosen" />
+		<FieldTagReference Index="2" Name="firing effect^#this effect is used when the weapon is loaded and fired normally" GroupTag="-3" />
+		<FieldTagReference Index="3" Name="misfire effect#this effect is used when the weapon is loaded but fired while overheated" GroupTag="-3" />
+		<FieldTagReference Index="4" Name="empty effect#this effect is used when the weapon is not loaded" GroupTag="-3" />
+		<FieldTagReference Index="5" Name="firing damage#this effect is used when the weapon is loaded and fired normally" GroupTag="1785754657" />
+		<FieldTagReference Index="6" Name="misfire damage#this effect is used when the weapon is loaded but fired while overheated" GroupTag="1785754657" />
+		<FieldTagReference Index="7" Name="empty damage#this effect is used when the weapon is not loaded" GroupTag="1785754657" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

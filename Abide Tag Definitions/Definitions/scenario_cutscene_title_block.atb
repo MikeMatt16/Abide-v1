@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cutscene_title_block" DisplayName="scenario_cutscene_title_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="10">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldRectangle2D Index="1" Name="text bounds (on screen)" />
+		<FieldEnum Index="2" Name="justification">
+			<Option Name="left" />
+			<Option Name="right" />
+			<Option Name="center" />
+			<Option Name="custom_text_entry" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="font">
+			<Option Name="terminal font" />
+			<Option Name="body text font" />
+			<Option Name="title font" />
+			<Option Name="super large font" />
+			<Option Name="large body text font" />
+			<Option Name="split screen hud message font" />
+			<Option Name="full screen hud message font" />
+			<Option Name="english body text font" />
+			<Option Name="hud number font" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldRgbColor Index="4" Name="text color" />
+		<FieldRgbColor Index="5" Name="shadow color" />
+		<FieldReal Index="6" Name="fade in time [seconds]" />
+		<FieldReal Index="7" Name="up time [seconds]" />
+		<FieldReal Index="8" Name="fade out time [seconds]" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

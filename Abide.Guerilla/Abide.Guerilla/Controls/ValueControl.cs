@@ -19,7 +19,7 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         protected override void OnFieldChanged(EventArgs e)
         {
             base.OnFieldChanged(e);
-            valueTextBox.Text = Field?.Value.ToString();
+            valueTextBox.Text = Field?.Value?.ToString() ?? string.Empty;
         }
         private void valueTextBox_TextChanged(object sender, EventArgs e)
         {

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_models_block" DisplayName="particle_models_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStringId Index="0" Name="model name*" />
+		<FieldShortInteger Index="1" Name="index start*" />
+		<FieldShortInteger Index="2" Name="index count*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

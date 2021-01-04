@@ -36,7 +36,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
             get
             {
                 if (TagGroup == null) return "All Files (*.*)|*.*";
-                return $"{TagGroup.Name} files (*.{TagGroup.Name})|*.{TagGroup.Name}";
+                return $"{TagGroup.GroupName} files (*.{TagGroup.GroupName})|*.{TagGroup.GroupName}";
             }
         }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Abide.Guerilla.Wpf.ViewModel
         /// <summary>
         /// Gets or sets the tag group.
         /// </summary>
-        public ITagGroup TagGroup
+        public Group TagGroup
         {
             get { return tagGroupFile.TagGroup; }
             set

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_variant_permutation_block" DisplayName="permutation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="9">
+		<FieldStringId Index="0" Name="permutation name^" />
+		<FieldPad Index="1" Name="" Length="1" />
+		<FieldByteFlags Index="2" Name="flags">
+			<Option Name="copy states to all permutations" />
+		</FieldByteFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="probability:(0,+inf)" />
+		<FieldBlock Index="5" Name="states" BlockName="model_variant_state_block" />
+		<FieldPad Index="6" Name="" Length="5" />
+		<FieldPad Index="7" Name="" Length="7" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

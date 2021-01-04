@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_cover_block" DisplayName="character_cover_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="19">
+		<FieldLongFlags Index="0" Name="cover flags">
+			<Option Name="Flag1" />
+		</FieldLongFlags>
+		<FieldRealBounds Index="1" Name="hide behind cover time:seconds#how long we stay behind cover after seeking cover" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldReal Index="3" Name="Cover vitality threshold#When vitality drops below this level, possibly trigger a cover" />
+		<FieldReal Index="4" Name="Cover shield fraction#trigger cover when shield drops below this fraction (low shield cover impulse must be enabled)" />
+		<FieldReal Index="5" Name="Cover check delay#amount of time I will wait before trying again after covering" />
+		<FieldReal Index="6" Name="Emerge from cover when shield fraction reaches threshold#Emerge from cover when shield fraction reaches threshold" />
+		<FieldReal Index="7" Name="Cover danger threshold#Danger must be this high to cover. At a danger level of 'danger threshold', the chance of seeking cover is the cover chance lower bound (below)" />
+		<FieldReal Index="8" Name="Danger upper threshold#At or above danger level of upper threshold, the chance of seeking cover is the cover chance upper bound (below)" />
+		<FieldExplanation Index="9" Name="Cover chance" Explanation="The Bounds on the chance of seeking cover.|nThe lower bound is valid when the danger is at 'danger threshold'|nThe upper bound is valid when the danger is at or above 'danger upper threshold'.|nIt is interpolated linearly everywhere in between.|n All chances are expressed as 'chance of triggering cover in a 1 second period'." />
+		<FieldRealBounds Index="10" Name="Cover chance#Bounds on the chances of seeking cover." />
+		<FieldReal Index="11" Name="Proximity self-preserve:wus#When the proximity_self_preservation impulse is enabled, triggers self-preservation when target within this distance" />
+		<FieldReal Index="12" Name="Disallow cover distance:world units#Disallow covering from visible target under the given distance away" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldReal Index="14" Name="proximity melee distance#When self preserving from a target less than given distance, causes melee attack (assuming proximity_melee_impulse is enabled)" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldReal Index="16" Name="unreachable enemy danger threshold#When danger from an unreachable enemy surpasses threshold, actor cover (assuming unreachable_enemy_cover impulse is enabled)" />
+		<FieldReal Index="17" Name="scary target threshold#When target is aware of me and surpasses the given scariness, self-preserve (scary_target_cover_impulse)" />
+		<FieldTerminator Index="18" Name="" />
+	</FieldSet>
+</AbideTagBlock>

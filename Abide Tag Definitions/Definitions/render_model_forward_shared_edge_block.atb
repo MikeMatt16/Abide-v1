@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_forward_shared_edge_block" DisplayName="forward shared edge" MaximumElementCount="16384">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="triangle index*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="player_block_reference_block" DisplayName="player_block_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="10">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldTagReference Index="1" Name="skin" GroupTag="1936419182" />
+		<FieldPoint2D Index="2" Name="bottom-left" />
+		<FieldCharEnum Index="3" Name="table order">
+			<Option Name="row major" />
+			<Option Name="column major" />
+		</FieldCharEnum>
+		<FieldCharInteger Index="4" Name="maximum player count" />
+		<FieldCharInteger Index="5" Name="row count" />
+		<FieldCharInteger Index="6" Name="column count" />
+		<FieldShortInteger Index="7" Name="row height" />
+		<FieldShortInteger Index="8" Name="column width" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

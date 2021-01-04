@@ -1,9 +1,9 @@
 ﻿using Abide.Tag.Definition;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System;
 using Abide.Tag.Preprocess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Abide.Tag.CodeDom
 {
@@ -12,6 +12,23 @@ namespace Abide.Tag.CodeDom
     /// </summary>
     public static class AbideCodeDomGlobals
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string TagNamespace = "Abide.Tag";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string HaloLibraryNamespace = "Abide.HaloLibrary";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string IoNamespace = "System.IO";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SystemNamespace = "System";
+
         private static readonly List<string> memberNames = new List<string>();
         private static readonly Dictionary<string, AbideTagGroup> tagGroupTagLookup = new Dictionary<string, AbideTagGroup>();
         private static readonly Dictionary<AbideTagBlock, string> tagBlockMemberLookup = new Dictionary<AbideTagBlock, string>();
@@ -244,49 +261,61 @@ namespace Abide.Tag.CodeDom
             //Return
             return tagBlockNameLookup.Select(kvp => kvp.Value).ToArray();
         }
-
-        private static string GenerateCamelCasedMemberName(string name)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GenerateCamelCasedName(string name)
         {
             //Prepare
             StringBuilder memberName = new StringBuilder();
-            string[] parts = name.Split('_', ' ', '-', '.', ',');
+            string[] parts = MemberNameFilter(name).Split(new char[] { '_', ' ', '-', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            //Append
-            memberName.Append(parts[0].ToLower());
-
-            //Loop
-            for (int i = 1; i < parts.Length; i++)
-                if (parts[i].Length > 0)
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (char.IsNumber(parts[i][0]))
+                    memberName.Append("_");
+                if (i == 0)
                 {
-                    memberName.Append(char.ToUpper(parts[i][0]));
-                    if (parts[i].Length > 1)
-                        memberName.Append(parts[i].Substring(1));
+                    memberName.Append(parts[i]);
                 }
+                else
+                {
+                    memberName.Append(parts[i].Substring(0, 1).ToUpper());
+                    memberName.Append(parts[i].Substring(1, parts[i].Length - 1));
+                }
+            }
 
-            //Check
-            int duplicateCount = 0;
-            string baseMemberName = memberName.ToString();
-            while (memberNames.Contains(memberName.ToString()))
-                memberName = new StringBuilder(baseMemberName + (++duplicateCount).ToString());
-
-            //Return
             return memberName.ToString();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GeneratePascalCasedName(string name)
+        {
+            //Prepare
+            StringBuilder memberName = new StringBuilder();
+            string[] parts = MemberNameFilter(name).Split(nameSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var part in parts)
+            {
+                if (char.IsNumber(part[0]))
+                    memberName.Append("_");
+                memberName.Append(part.Substring(0, 1).ToUpper());
+                memberName.Append(part.Substring(1, part.Length - 1));
+            }
+
+            return memberName.ToString();
+        }
+
         private static string GeneratePascalMemberName(string name)
         {
             //Prepare
-            StringBuilder memberName = new StringBuilder();
-            string[] parts = name.Split('_', ' ', '-', '.', ',');
+            StringBuilder memberName = new StringBuilder(GeneratePascalCasedName(name));
 
-            //Loop
-            for (int i = 0; i < parts.Length; i++)
-                if (parts[i].Length > 0)
-                {
-                    memberName.Append(char.ToUpper(parts[i][0]));
-                    if (parts[i].Length > 1)
-                        memberName.Append(parts[i].Substring(1));
-                }
-            
             //Check
             int duplicateCount = 0;
             string baseMemberName = memberName.ToString();
@@ -296,5 +325,22 @@ namespace Abide.Tag.CodeDom
             //Return
             return memberName.ToString();
         }
+        private static string MemberNameFilter(string name)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(name))
+                for (int i = 0; i < name.Length; i++)
+                {
+                    if (char.IsLetterOrDigit(name[i]))
+                        sb.Append(name[i]);
+                    else if (nameSeparatorCharacters.Any(c => c == name[i]))
+                        sb.Append(name[i]);
+                    else break;
+                }
+
+            return sb.ToString();
+        }
+
+        private static readonly char[] nameSeparatorCharacters = new char[] { '_', ' ', '-', '.', ',' };
     }
 }

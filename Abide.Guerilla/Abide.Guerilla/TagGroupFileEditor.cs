@@ -47,7 +47,7 @@ namespace Abide.Guerilla
         }
         private void TagGroupFileEditor_Load(object sender, EventArgs e)
         {
-            foreach (ITagBlock tagBlock in TagGroupFile.TagGroup)
+            foreach (Block tagBlock in TagGroupFile.TagGroup.TagBlocks)
                 Tags.GenerateControls(guerillaFlowLayoutPanel, tagBlock);
         }
         /// <summary>

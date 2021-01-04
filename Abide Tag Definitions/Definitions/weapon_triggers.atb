@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_triggers" DisplayName="weapon_triggers" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="11">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="autofire single action only" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="input">
+			<Option Name="right trigger" />
+			<Option Name="left trigger" />
+			<Option Name="melee attack" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="behavior">
+			<Option Name="spew" />
+			<Option Name="latch" />
+			<Option Name="latch-autofire" />
+			<Option Name="charge" />
+			<Option Name="latch-zoom" />
+			<Option Name="latch-rocketlauncher" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="3" Name="primary barrel" />
+		<FieldShortBlockIndex1 Index="4" Name="secondary barrel" />
+		<FieldEnum Index="5" Name="prediction">
+			<Option Name="none" />
+			<Option Name="spew" />
+			<Option Name="charge" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldStruct Index="8" Name="autofire" StructName="weapon_trigger_autofire_struct_block" />
+		<FieldStruct Index="9" Name="charging" StructName="weapon_trigger_charging_struct_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="super_detonation_damage_struct_block" DisplayName="super_detonation_damage_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="super detonation damage" GroupTag="1785754657" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

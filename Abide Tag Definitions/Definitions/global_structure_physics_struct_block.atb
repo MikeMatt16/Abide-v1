@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_structure_physics_struct_block" DisplayName="global_structure_physics_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldData Index="0" Name="*mopp Code" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldRealPoint3D Index="2" Name="*mopp Bounds Min" />
+		<FieldRealPoint3D Index="3" Name="*mopp Bounds Max" />
+		<FieldData Index="4" Name="*Breakable Surfaces mopp Code" Alignment="16" MaximumSize="1048576" ElementSize="1" />
+		<FieldBlock Index="5" Name="Breakable Surface Key Table" BlockName="breakable_surface_key_table_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

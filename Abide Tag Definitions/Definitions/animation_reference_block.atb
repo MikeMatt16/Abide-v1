@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_reference_block" DisplayName="animation_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="18">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldExplanation Index="1" Name="Primary Intro Transition" Explanation="Defines the primary intro transitional animation" />
+		<FieldLongInteger Index="2" Name="animation period:milliseconds" />
+		<FieldBlock Index="3" Name="keyframes" BlockName="screen_animation_keyframe_reference_block" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldExplanation Index="6" Name="Primary Outro Transition" Explanation="Defines the primary outro transitional animation" />
+		<FieldLongInteger Index="7" Name="animation period:milliseconds" />
+		<FieldBlock Index="8" Name="keyframes" BlockName="screen_animation_keyframe_reference_block" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldExplanation Index="11" Name="Ambient Animation" Explanation="Defines the ambient animation" />
+		<FieldLongInteger Index="12" Name="animation period:milliseconds" />
+		<FieldEnum Index="13" Name="ambient animation looping style">
+			<Option Name="NONE" />
+			<Option Name="reverse loop" />
+			<Option Name="loop" />
+			<Option Name="don't loop" />
+		</FieldEnum>
+		<FieldPad Index="14" Name="" Length="2" />
+		<FieldBlock Index="15" Name="keyframes" BlockName="screen_animation_keyframe_reference_block" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

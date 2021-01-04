@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_ik_block" DisplayName="animation_ik_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="marker#the marker name on the object being attached" />
+		<FieldStringId Index="1" Name="attach to marker#the marker name object (weapon, vehicle, etc.) the above marker is being attached to" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

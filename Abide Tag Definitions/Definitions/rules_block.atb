@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rules_block" DisplayName="rules_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldString Index="0" Name="name^" />
+		<FieldRealRgbColor Index="1" Name="tint color" />
+		<FieldPad Index="2" Name="" Length="32" />
+		<FieldBlock Index="3" Name="states" BlockName="states_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

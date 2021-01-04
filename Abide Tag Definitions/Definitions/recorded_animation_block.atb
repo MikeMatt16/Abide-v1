@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="recorded_animation_block" DisplayName="recorded_animation_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="10">
+		<FieldString Index="0" Name="name^" />
+		<FieldCharInteger Index="1" Name="version*" />
+		<FieldCharInteger Index="2" Name="raw animation data*" />
+		<FieldCharInteger Index="3" Name="unit control data version*" />
+		<FieldPad Index="4" Name="" Length="1" />
+		<FieldShortInteger Index="5" Name="length of animation*:ticks" />
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldData Index="8" Name="recorded animation event stream*" Alignment="4" MaximumSize="2097152" ElementSize="1" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

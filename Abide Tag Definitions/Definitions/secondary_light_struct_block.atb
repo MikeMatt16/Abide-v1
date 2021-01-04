@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="secondary_light_struct_block" DisplayName="secondary_light_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="Secondary light" Explanation="" />
+		<FieldRealRgbColor Index="1" Name="Min lightmap color" />
+		<FieldRealRgbColor Index="2" Name="Max lightmap color" />
+		<FieldRealRgbColor Index="3" Name="Min diffuse sample" />
+		<FieldRealRgbColor Index="4" Name="Max diffuse sample" />
+		<FieldReal Index="5" Name="z axis rotation#degrees" />
+		<FieldExplanation Index="6" Name="Secondary light function" Explanation="input: accuracy, output: secondary light scale" />
+		<FieldCustom Index="7" Name="function" />
+		<FieldStruct Index="8" Name="function" StructName="mapping_function_block" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

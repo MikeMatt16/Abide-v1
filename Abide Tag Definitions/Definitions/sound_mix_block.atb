@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_mix_block" DisplayName="sound_mix" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="18">
+		<FieldExplanation Index="0" Name="first person left side mix" Explanation="for first person sounds to the left of you" />
+		<FieldReal Index="1" Name="left stereo gain:dB" />
+		<FieldReal Index="2" Name="right stereo gain:dB" />
+		<FieldExplanation Index="3" Name="first person middle mix" Explanation="for first person sounds between your ears" />
+		<FieldReal Index="4" Name="left stereo gain:dB" />
+		<FieldReal Index="5" Name="right stereo gain:dB" />
+		<FieldExplanation Index="6" Name="first person right side mix" Explanation="for first person sounds to the right of you" />
+		<FieldReal Index="7" Name="left stereo gain:dB" />
+		<FieldReal Index="8" Name="right stereo gain:dB" />
+		<FieldExplanation Index="9" Name="first person stereo mix" Explanation="" />
+		<FieldReal Index="10" Name="front speaker gain:dB" />
+		<FieldReal Index="11" Name="rear speaker gain:dB" />
+		<FieldExplanation Index="12" Name="ambient stereo mix" Explanation="" />
+		<FieldReal Index="13" Name="front speaker gain:dB" />
+		<FieldReal Index="14" Name="rear speaker gain:dB" />
+		<FieldExplanation Index="15" Name="global mix" Explanation="" />
+		<FieldStruct Index="16" Name="global mix" StructName="sound_global_mix_struct_block" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

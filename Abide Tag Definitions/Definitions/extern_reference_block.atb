@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="extern_reference_block" DisplayName="extern_reference_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="3">
+		<FieldCharInteger Index="0" Name="parameter index" />
+		<FieldCharInteger Index="1" Name="extern index" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

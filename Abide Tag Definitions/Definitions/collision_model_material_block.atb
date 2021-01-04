@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="collision_model_material_block" DisplayName="material" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="2">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_look_block" DisplayName="character_look_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldEulerAngles2D Index="0" Name="maximum aiming deviation:degrees#how far we can turn our weapon" />
+		<FieldEulerAngles2D Index="1" Name="maximum looking deviation:degrees#how far we can turn our head" />
+		<FieldPad Index="2" Name="" Length="16" />
+		<FieldAngle Index="3" Name="noncombat look delta L:degrees#how far we can turn our head left away from our aiming vector when not in combat" />
+		<FieldAngle Index="4" Name="noncombat look delta R:degrees#how far we can turn our head right away from our aiming vector when not in combat" />
+		<FieldAngle Index="5" Name="combat look delta L:degrees#how far we can turn our head left away from our aiming vector when in combat" />
+		<FieldAngle Index="6" Name="combat look delta R:degrees#how far we can turn our head right away from our aiming vector when in combat" />
+		<FieldRealBounds Index="7" Name="noncombat idle looking:seconds#rate at which we change look around randomly when not in combat" />
+		<FieldRealBounds Index="8" Name="noncombat idle aiming:seconds#rate at which we change aiming directions when looking around randomly when not in combat" />
+		<FieldRealBounds Index="9" Name="combat idle looking:seconds#rate at which we change look around randomly when searching or in combat" />
+		<FieldRealBounds Index="10" Name="combat idle aiming:seconds#rate at which we change aiming directions when looking around randomly when searching or in combat" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

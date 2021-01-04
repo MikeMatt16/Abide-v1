@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="move_positions_block" DisplayName="move_positions_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="10">
+		<FieldRealPoint3D Index="0" Name="position" />
+		<FieldAngle Index="1" Name="facing:degrees" />
+		<FieldReal Index="2" Name="weight" />
+		<FieldRealBounds Index="3" Name="time:seconds" />
+		<FieldShortBlockIndex1 Index="4" Name="animation" />
+		<FieldCharInteger Index="5" Name="sequence ID#identifies this move position as belonging to a sequence, only actors whose starting locations match this sequence ID can use it (zero = no sequence)" />
+		<FieldPad Index="6" Name="" Length="1" />
+		<FieldPad Index="7" Name="" Length="44" />
+		<FieldLongInteger Index="8" Name="surface index*" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

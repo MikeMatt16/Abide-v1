@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="polyhedra_block" DisplayName="polyhedra_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="36">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="material*" />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldReal Index="3" Name="relative mass scale" />
+		<FieldRealFraction Index="4" Name="friction" />
+		<FieldRealFraction Index="5" Name="restitution" />
+		<FieldReal Index="6" Name="volume *" />
+		<FieldReal Index="7" Name="mass*" />
+		<FieldSkip Index="8" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="9" Name="phantom*" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldShortInteger Index="11" Name="size*" />
+		<FieldShortInteger Index="12" Name="count*" />
+		<FieldSkip Index="13" Name="" Length="4" />
+		<FieldReal Index="14" Name="radius*" />
+		<FieldRealVector3D Index="15" Name="aabb half extents*" />
+		<FieldSkip Index="16" Name="" Length="4" />
+		<FieldRealVector3D Index="17" Name="aabb center*" />
+		<FieldSkip Index="18" Name="" Length="4" />
+		<FieldSkip Index="19" Name="" Length="4" />
+		<FieldLongInteger Index="20" Name="four vectors size*" />
+		<FieldLongInteger Index="21" Name="four vectors capacity*" />
+		<FieldLongInteger Index="22" Name="num vertices*" />
+		<FieldArrayStart Index="23" Name="four vectors storage*" Length="3">
+			<FieldRealVector3D Index="0" Name="four vectors x*" />
+			<FieldSkip Index="1" Name="" Length="4" />
+			<FieldRealVector3D Index="2" Name="four vectors y*" />
+			<FieldSkip Index="3" Name="" Length="4" />
+			<FieldRealVector3D Index="4" Name="four vectors z*" />
+			<FieldSkip Index="5" Name="" Length="4" />
+		</FieldArrayStart>
+		<FieldRealVector3D Index="24" Name="four vectors x*" />
+		<FieldSkip Index="25" Name="" Length="4" />
+		<FieldRealVector3D Index="26" Name="four vectors y*" />
+		<FieldSkip Index="27" Name="" Length="4" />
+		<FieldRealVector3D Index="28" Name="four vectors z*" />
+		<FieldSkip Index="29" Name="" Length="4" />
+		<FieldArrayEnd Index="30" Name="" />
+		<FieldSkip Index="31" Name="" Length="4" />
+		<FieldLongInteger Index="32" Name="plane equations size*" />
+		<FieldLongInteger Index="33" Name="plane equations capacity*" />
+		<FieldSkip Index="34" Name="" Length="4" />
+		<FieldTerminator Index="35" Name="" />
+	</FieldSet>
+</AbideTagBlock>

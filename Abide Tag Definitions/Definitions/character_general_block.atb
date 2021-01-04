@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_general_block" DisplayName="character_general_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongFlags Index="0" Name="general flags">
+			<Option Name="swarm" />
+			<Option Name="flying" />
+			<Option Name="dual wields" />
+			<Option Name="uses gravemind" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="type">
+			<Option Name="elite" />
+			<Option Name="jackal" />
+			<Option Name="grunt" />
+			<Option Name="hunter" />
+			<Option Name="engineer" />
+			<Option Name="assassin" />
+			<Option Name="player" />
+			<Option Name="marine" />
+			<Option Name="crew" />
+			<Option Name="combat_form" />
+			<Option Name="infection_form" />
+			<Option Name="carrier_form" />
+			<Option Name="monitor" />
+			<Option Name="sentinel" />
+			<Option Name="none" />
+			<Option Name="mounted_weapon" />
+			<Option Name="brute" />
+			<Option Name="prophet" />
+			<Option Name="bugger" />
+			<Option Name="juggernaut" />
+		</FieldEnum>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldReal Index="4" Name="scariness#the inherent scariness of the character" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

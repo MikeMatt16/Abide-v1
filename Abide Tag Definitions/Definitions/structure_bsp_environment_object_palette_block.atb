@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_environment_object_palette_block" DisplayName="structure_bsp_environment_object_palette_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="4">
+		<FieldTagReference Index="0" Name="Definition" GroupTag="1935893870" />
+		<FieldTagReference Index="1" Name="Model" GroupTag="1836016741" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

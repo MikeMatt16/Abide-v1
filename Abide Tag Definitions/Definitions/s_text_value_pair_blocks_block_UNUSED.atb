@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="s_text_value_pair_blocks_block_UNUSED" DisplayName="s_text_value_pair_blocks_block_UNUSED" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="4">
+		<FieldExplanation Index="0" Name="OBSOLETE" Explanation="this is all obsolete" />
+		<FieldString Index="1" Name="name" />
+		<FieldBlock Index="2" Name="text value pairs" BlockName="s_text_value_pair_reference_block_UNUSED" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

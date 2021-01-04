@@ -4,7 +4,7 @@ using Abide.Guerilla.Wpf.Dialogs;
 using Abide.Guerilla.Wpf.ViewModel;
 using Abide.HaloLibrary.Halo2Map;
 using Abide.Tag;
-using Abide.Tag.Guerilla.Generated;
+using Abide.Tag.Cache.Generated;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace Abide.Guerilla.Wpf
     /// <summary>
     /// Represents the main view container.
     /// </summary>
-    public sealed class MainViewModel : NotifyPropertyChangedViewModel, IDecompileHost
+    public sealed class MainViewModel : NotifyPropertyChangedViewModel, IDecompileReporter
     {
         /// <summary>
         /// Gets or sets the window that owns this view model.
@@ -223,10 +223,10 @@ namespace Abide.Guerilla.Wpf
             if (newFileDialog.ShowDialog() ?? false)
             {
                 //Get tag group
-                ITagGroup tagGroup = TagLookup.CreateTagGroup(newTagViewModel.SelectedTagDefinition.GroupTag);
+                Group tagGroup = TagLookup.CreateTagGroup(newTagViewModel.SelectedTagDefinition.GroupTag);
 
                 //Create file
-                TagFileModel newTagFileModel = new TagFileModel($"new_{tagGroup.Name}.{tagGroup.Name}", new AbideTagGroupFile()
+                TagFileModel newTagFileModel = new TagFileModel($"new_{tagGroup.GroupName}.{tagGroup.GroupName}", new AbideTagGroupFile()
                 { TagGroup = tagGroup })
                 { IsDirty = true, CloseCallback = File_Close };
                 newTagFileModel.OpenTagReferenceRequested += OpenTagReferenceRequested;
@@ -431,7 +431,7 @@ namespace Abide.Guerilla.Wpf
             }
         }
 
-        void IDecompileHost.Complete()
+        void IDecompileReporter.Complete()
         {
             //Set status
             Status = $"{decompiler.Map.Name} Decompiled successfully";
@@ -444,7 +444,7 @@ namespace Abide.Guerilla.Wpf
             decompiler = null;
         }
 
-        void IDecompileHost.Fail()
+        void IDecompileReporter.Fail()
         {
             //Set status
             Status = $"{decompiler.Map.Name} failed to decompile";
@@ -480,20 +480,6 @@ namespace Abide.Guerilla.Wpf
                 value = value ?? string.Empty;
                 bool changed = RegistrySettings.WorkspaceDirectory != value;
                 RegistrySettings.WorkspaceDirectory = value;
-                if (changed) NotifyPropertyChanged();
-            }
-        }
-        /// <summary>
-        /// Gets or sets the tags directory.
-        /// </summary>
-        public string TagsDirectory
-        {
-            get { return RegistrySettings.TagsDirectory; }
-            set
-            {
-                value = value ?? string.Empty;
-                bool changed = RegistrySettings.WorkspaceDirectory != value;
-                RegistrySettings.TagsDirectory = value;
                 if (changed) NotifyPropertyChanged();
             }
         }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="physics_model_constraint_edge_constraint_block" DisplayName="physics_model_constraint_edge_constraint_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="type*">
+			<Option Name="hinge" />
+			<Option Name="limited hinge" />
+			<Option Name="ragdoll" />
+			<Option Name="stiff spring" />
+			<Option Name="ball and socket" />
+			<Option Name="prismatic" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="1" Name="index*" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="is rigid#this constraint makes the edge rigid until it is loosened by damage" />
+			<Option Name="disable effects#this constraint will not generate impact effects" />
+		</FieldLongFlags>
+		<FieldReal Index="3" Name="friction#0 is the default (takes what it was set in max) anything else overrides that value" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

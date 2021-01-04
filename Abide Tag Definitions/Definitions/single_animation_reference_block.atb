@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="single_animation_reference_block" DisplayName="single_animation_reference_block" MaximumElementCount="7">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldLongInteger Index="1" Name="animation period:milliseconds" />
+		<FieldBlock Index="2" Name="keyframes" BlockName="screen_animation_keyframe_reference_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

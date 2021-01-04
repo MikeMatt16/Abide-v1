@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rigid_bodies_block" DisplayName="rigid_bodies_block" MaximumElementCount="64">
+	<FieldSet Alignment="16" Count="28">
+		<FieldShortBlockIndex1 Index="0" Name="node*" />
+		<FieldShortBlockIndex1 Index="1" Name="region*" />
+		<FieldShortBlockIndex2 Index="2" Name="permutattion*" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldRealPoint3D Index="4" Name="bouding sphere offset*" />
+		<FieldReal Index="5" Name="bounding sphere radius*" />
+		<FieldWordFlags Index="6" Name="flags">
+			<Option Name="no collisions w/self" />
+			<Option Name="only collide w/env" />
+			<Option Name="disable effects#this rigid body will not generate impact effects unless it hits another dynamic rigid body that does" />
+			<Option Name="does not interact w/environment#set this flag if this rigid bodies won't touch the environment, this allows us to open up some optimizations" />
+			<Option Name="best early mover body# if you have either of the early mover flags set in the object definitoin this body will be choosen as the one to make every thing local to, otherwise I pick :-)" />
+			<Option Name="has no phantom power version#don't check this flag without talking to eamon" />
+		</FieldWordFlags>
+		<FieldEnum Index="7" Name="motion type">
+			<Option Name="sphere" />
+			<Option Name="stabilized sphere" />
+			<Option Name="box" />
+			<Option Name="stabilized box" />
+			<Option Name="keyframed" />
+			<Option Name="fixed" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="8" Name="no phantom power alt" />
+		<FieldEnum Index="9" Name="size">
+			<Option Name="default" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="extra huge" />
+		</FieldEnum>
+		<FieldReal Index="10" Name="inertia tensor scale#0.0 defaults to 1.0" />
+		<FieldReal Index="11" Name="linear damping#this goes from 0-10 (10 is really, really high)" />
+		<FieldReal Index="12" Name="angular damping#this goes from 0-10 (10 is really, really high)" />
+		<FieldRealVector3D Index="13" Name="center off mass offset" />
+		<FieldEnum Index="14" Name="shape type*">
+			<Option Name="sphere" />
+			<Option Name="pill" />
+			<Option Name="box" />
+			<Option Name="triangle" />
+			<Option Name="polyhedron" />
+			<Option Name="multi sphere" />
+			<Option Name="unused 0" />
+			<Option Name="unused 1" />
+			<Option Name="unused 2" />
+			<Option Name="unused 3" />
+			<Option Name="unused 4" />
+			<Option Name="unused 5" />
+			<Option Name="unused 6" />
+			<Option Name="unused 7" />
+			<Option Name="list" />
+			<Option Name="mopp" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="15" Name="shape*" />
+		<FieldReal Index="16" Name="mass:kg*" />
+		<FieldRealVector3D Index="17" Name="center of mass*" />
+		<FieldSkip Index="18" Name="" Length="4" />
+		<FieldRealVector3D Index="19" Name="intertia tensor x*" />
+		<FieldSkip Index="20" Name="" Length="4" />
+		<FieldRealVector3D Index="21" Name="intertia tensor y*" />
+		<FieldSkip Index="22" Name="" Length="4" />
+		<FieldRealVector3D Index="23" Name="intertia tensor z*" />
+		<FieldSkip Index="24" Name="" Length="4" />
+		<FieldReal Index="25" Name="bounding sphere pad#the bounding sphere for this rigid body will be outset by this much" />
+		<FieldPad Index="26" Name="" Length="12" />
+		<FieldTerminator Index="27" Name="" />
+	</FieldSet>
+</AbideTagBlock>

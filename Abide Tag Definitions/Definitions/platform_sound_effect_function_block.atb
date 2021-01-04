@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_effect_function_block" DisplayName="platform_sound_effect_function_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="input">
+			<Option Name="zero" />
+			<Option Name="time" />
+			<Option Name="scale" />
+			<Option Name="rolloff" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="range">
+			<Option Name="zero" />
+			<Option Name="time" />
+			<Option Name="scale" />
+			<Option Name="rolloff" />
+		</FieldEnum>
+		<FieldStruct Index="2" Name="function" StructName="mapping_function_block" />
+		<FieldReal Index="3" Name="time period: seconds" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

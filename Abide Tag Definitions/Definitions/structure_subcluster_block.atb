@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_subcluster_block" DisplayName="structure_subcluster_block" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="8">
+		<FieldRealBounds Index="0" Name="Bounds x*" />
+		<FieldRealBounds Index="1" Name="Bounds y*" />
+		<FieldRealBounds Index="2" Name="Bounds z*" />
+		<FieldShortInteger Index="3" Name="First Strip Reference Index*" />
+		<FieldShortInteger Index="4" Name="Strip Reference Count*" />
+		<FieldShortInteger Index="5" Name="First Explicit Edge Index*" />
+		<FieldShortInteger Index="6" Name="Explicit Edge Count*" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

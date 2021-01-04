@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Abide.Guerilla.Wpf</RootNamespace>
     <AssemblyName>Abide Guerilla</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -148,10 +148,10 @@
     <Compile Include="Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\CustomTabControl.xaml.cs">
+    <Compile Include="Controls\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\CustomTabItem.xaml.cs">
+    <Compile Include="Controls\CustomTabItem.xaml.cs">
       <DependentUpon>CustomTabItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BlockFieldModel.cs" />
@@ -257,11 +257,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\CustomTabControl.xaml">
+    <Page Include="Controls\CustomTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\CustomTabItem.xaml">
+    <Page Include="Controls\CustomTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

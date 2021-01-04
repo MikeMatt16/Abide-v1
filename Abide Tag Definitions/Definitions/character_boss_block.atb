@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_boss_block" DisplayName="character_boss_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldUselessPad Index="1" Name="" />
+		<FieldReal Index="2" Name="flurry damage threshold:[0..1]#when more than x damage is caused a juggernaut flurry is triggered" />
+		<FieldReal Index="3" Name="flurry time:seconds#flurry lasts this long" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

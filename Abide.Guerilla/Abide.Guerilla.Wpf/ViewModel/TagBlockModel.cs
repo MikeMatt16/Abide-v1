@@ -79,10 +79,10 @@ namespace Abide.Guerilla.Wpf.ViewModel
                     if (value != null)
                     {
                         //Get name
-                        Name = value.Name;
+                        Name = value.BlockName;
 
                         //Loop through fields
-                        foreach (Field field in value.Fields)
+                        foreach (ITagField field in value)
                         {
                             //Handle type
                             switch (field.Type)

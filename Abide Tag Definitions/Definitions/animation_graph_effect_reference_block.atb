@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_graph_effect_reference_block" DisplayName="animation_graph_effect_reference_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="4">
+		<FieldTagReference Index="0" Name="effect^" GroupTag="1701209701" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="allow on player" />
+			<Option Name="left arm only" />
+			<Option Name="right arm only" />
+			<Option Name="first-person only" />
+			<Option Name="forward only" />
+			<Option Name="reverse only" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

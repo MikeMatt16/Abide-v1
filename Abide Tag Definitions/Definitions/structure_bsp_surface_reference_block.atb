@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_surface_reference_block" DisplayName="structure_bsp_surface_reference_block" MaximumElementCount="262144">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortInteger Index="0" Name="Strip Index*" />
+		<FieldShortInteger Index="1" Name="Lightmap Triangle Index*" />
+		<FieldLongInteger Index="2" Name="BSP Node Index*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="flock_definition_block" DisplayName="flock_definition_block" MaximumElementCount="20">
+	<FieldSet Alignment="4" Count="40">
+		<FieldShortBlockIndex1 Index="0" Name="bsp" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldShortBlockIndex1 Index="3" Name="bounding volume" />
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="hard boundaries on volume" />
+			<Option Name="flock initially stopped" />
+		</FieldWordFlags>
+		<FieldReal Index="5" Name="ecology margin:wus#distance from ecology boundary that creature begins to be repulsed" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldBlock Index="7" Name="sources" BlockName="flock_source_block" />
+		<FieldBlock Index="8" Name="sinks" BlockName="flock_sink_block" />
+		<FieldReal Index="9" Name="production frequency:boids/sec#How frequently boids are produced at one of the sources (limited by the max boid count)" />
+		<FieldRealBounds Index="10" Name="scale" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldTagReference Index="12" Name="creature^" GroupTag="1668441441" />
+		<FieldShortBounds Index="13" Name="boid count" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldExplanation Index="15" Name="Flock parameters" Explanation="Recommended initial values (for a sentinel-sized unit): |n&#x9;neighborhood radius= 6.0 |n&#x9;avoidance radius= 3 |n forward scale= 0.5 |n alignment scale= 0.5 |n avoidance scale= 1.0 |n leveling force scale= 0.1 |n perception angle= 120 |n average throttle= 0.75 |n maximum throttle= 1.0 |n position scale= 1.0 |n position min radius= 3 |n position max radius = 9" />
+		<FieldExplanation Index="16" Name="Let me give you a piece of free advice." Explanation="Flocks with a neighborhood radius of 0 don't FLOCK, per se (in the creature-creature interaction kind of way), but they are much cheaper. The best thing is to have a non-zero radius for small flocks, and a zero radius for large flocks (or for 'flow-flocks', ones with sources and sinks that are intended to create a steady flow of something). Note also that for flocks with a 0 neighborhood radius, the parameters for avoidance, alignment, position and perception angle are ignored entirely." />
+		<FieldReal Index="17" Name="neighborhood radius:world units#distance within which one boid is affected by another" />
+		<FieldReal Index="18" Name="avoidance radius:world units#distance that a boid tries to maintain from another" />
+		<FieldReal Index="19" Name="forward scale:[0..1]#weight given to boid's desire to fly straight ahead" />
+		<FieldReal Index="20" Name="alignment scale:[0..1]#weight given to boid's desire to align itself with neighboring boids" />
+		<FieldReal Index="21" Name="avoidance scale:[0..1]#weight given to boid's desire to avoid collisions with other boids, when within the avoidance radius" />
+		<FieldReal Index="22" Name="leveling force scale:[0..1]#weight given to boids desire to fly level" />
+		<FieldReal Index="23" Name="sink scale:[0..1]#weight given to boid's desire to fly towards its sinks" />
+		<FieldAngle Index="24" Name="perception angle:degrees#angle-from-forward within which one boid can perceive and react to another" />
+		<FieldReal Index="25" Name="average throttle:[0..1]#throttle at which boids will naturally fly" />
+		<FieldReal Index="26" Name="maximum throttle:[0..1]#maximum throttle applicable" />
+		<FieldReal Index="27" Name="position scale:[0..1]#weight given to boid's desire to be near flock center" />
+		<FieldReal Index="28" Name="position min radius:wus#distance to flock center beyond which an attracting force is applied" />
+		<FieldReal Index="29" Name="position max radius:wus#distance to flock center at which the maximum attracting force is applied" />
+		<FieldReal Index="30" Name="movement weight threshold#The threshold of accumulated weight over which movement occurs" />
+		<FieldReal Index="31" Name="danger radius:wus#distance within which boids will avoid a dangerous object (e.g. the player)" />
+		<FieldReal Index="32" Name="danger scale#weight given to boid's desire to avoid danger" />
+		<FieldExplanation Index="33" Name="Perlin noise parameters" Explanation="Recommended initial values: |n&#x9;random offset scale= 0.2 |n&#x9;offset period bounds= 1, 3" />
+		<FieldReal Index="34" Name="random offset scale:[0..1]#weight given to boid's random heading offset" />
+		<FieldRealBounds Index="35" Name="random offset period:seconds" />
+		<FieldUselessPad Index="36" Name="" />
+		<FieldUselessPad Index="37" Name="" />
+		<FieldStringId Index="38" Name="flock name" />
+		<FieldTerminator Index="39" Name="" />
+	</FieldSet>
+</AbideTagBlock>

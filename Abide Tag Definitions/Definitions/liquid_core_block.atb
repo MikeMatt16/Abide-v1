@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="liquid_core_block" DisplayName="core" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="14">
+		<FieldPad Index="0" Name="" Length="12" />
+		<FieldShortInteger Index="1" Name="bitmap index" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldExplanation Index="3" Name="THICKNESS" Explanation="In world units." />
+		<FieldStruct Index="4" Name="thickness" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="5" Name="COLOR" Explanation="" />
+		<FieldStruct Index="6" Name="color" StructName="color_function_struct_block" />
+		<FieldExplanation Index="7" Name="BRIGHTNESS/TIME" Explanation="Periodic function based on time." />
+		<FieldStruct Index="8" Name="brightness-time" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="9" Name="BRIGHTNESS/FACING" Explanation="Brightness when facing perpendicular versus parallel." />
+		<FieldStruct Index="10" Name="brightness-facing" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="11" Name="ALONG-AXIS SCALE" Explanation="Scale along-axis. Default should be 1." />
+		<FieldStruct Index="12" Name="along-axis scale" StructName="scalar_function_struct_block" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

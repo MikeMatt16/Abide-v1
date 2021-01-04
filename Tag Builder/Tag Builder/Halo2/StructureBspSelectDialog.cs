@@ -25,7 +25,7 @@ namespace Abide.TagBuilder.Halo2
                     //Read scenario structure bsp reference tag block
                     scenario.TagData.Seek(scenario.Offset + 528, SeekOrigin.Begin);
                     int sbspRefsCount = reader.ReadInt32();
-                    int sbspRefsOffset = reader.ReadInt32();
+                    uint sbspRefsOffset = reader.ReadUInt32();
                     if (sbspRefsCount > 0)
                     {
                         //Goto

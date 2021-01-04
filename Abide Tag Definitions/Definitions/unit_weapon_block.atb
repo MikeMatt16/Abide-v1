@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_weapon_block" DisplayName="unit_weapon_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="3">
+		<FieldTagReference Index="0" Name="weapon^" GroupTag="2003132784" />
+		<FieldUselessPad Index="1" Name="" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

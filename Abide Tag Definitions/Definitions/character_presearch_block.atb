@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_presearch_block" DisplayName="character_presearch_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="7">
+		<FieldLongFlags Index="0" Name="Pre-search flags">
+			<Option Name="Flag1" />
+		</FieldLongFlags>
+		<FieldRealBounds Index="1" Name="min presearch time:seconds#If the min presearch time expires and the target is (actually) outside the min-certainty radius, presearch turns off" />
+		<FieldRealBounds Index="2" Name="max presearch time:seconds#Presearch turns off after the given time" />
+		<FieldReal Index="3" Name="Min certainty radius" />
+		<FieldReal Index="4" Name="DEPRECATED" />
+		<FieldRealBounds Index="5" Name="min suppressing time#if the min suppressing time expires and the target is outside the min-certainty radius, suppressing fire turns off" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_system_definition_block_new" DisplayName="particle_system_definition_block_new" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="16">
+		<FieldTagReference Index="0" Name="particle" GroupTag="-3" />
+		<FieldLongBlockIndex1 Index="1" Name="location" />
+		<FieldEnum Index="2" Name="coordinate system">
+			<Option Name="world" />
+			<Option Name="local" />
+			<Option Name="parent" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="environment">
+			<Option Name="any environment" />
+			<Option Name="air only" />
+			<Option Name="water only" />
+			<Option Name="space only" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="disposition">
+			<Option Name="either mode" />
+			<Option Name="violent mode only" />
+			<Option Name="nonviolent mode only" />
+		</FieldEnum>
+		<FieldEnum Index="5" Name="camera mode">
+			<Option Name="independent of camera mode" />
+			<Option Name="only in first person" />
+			<Option Name="only in third person" />
+			<Option Name="both first and third" />
+		</FieldEnum>
+		<FieldShortInteger Index="6" Name="sort bias#use values between -10 and 10 to move closer and farther from camera (positive is closer)" />
+		<FieldWordFlags Index="7" Name="flags">
+			<Option Name="glow" />
+			<Option Name="cinematics" />
+			<Option Name="looping particle" />
+			<Option Name="disabled for debugging" />
+			<Option Name="inherit effect velocity" />
+			<Option Name="don't render system" />
+			<Option Name="render when zoomed" />
+			<Option Name="spread between ticks" />
+			<Option Name="persistent particle" />
+			<Option Name="expensive visibility" />
+		</FieldWordFlags>
+		<FieldReal Index="8" Name="LOD in distance#defaults to 0.0" />
+		<FieldReal Index="9" Name="LOD feather in delta#defaults to 0.0" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldReal Index="11" Name="LOD out distance#defaults to 30.0" />
+		<FieldReal Index="12" Name="LOD feather out delta#defaults to 10.0" />
+		<FieldSkip Index="13" Name="" Length="4" />
+		<FieldBlock Index="14" Name="emitters" BlockName="particle_system_emitter_definition_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_search_block" DisplayName="character_search_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="7">
+		<FieldLongFlags Index="0" Name="Search flags">
+			<Option Name="crouch on investigate" />
+			<Option Name="walk on pursuit" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="1" Name="" />
+		<FieldRealBounds Index="2" Name="search time" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldExplanation Index="4" Name="Uncover" Explanation="" />
+		<FieldRealBounds Index="5" Name="Uncover distance bounds#Distance of uncover point from target. Hard lower limit, soft upper limit." />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

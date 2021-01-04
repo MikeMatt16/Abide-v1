@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_perception_block" DisplayName="character_perception_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="19">
+		<FieldLongFlags Index="0" Name="perception flags">
+			<Option Name="Flag1" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="max vision distance:world units#maximum range of sight" />
+		<FieldAngle Index="2" Name="central vision angle:degrees#horizontal angle within which we see targets out to our maximum range" />
+		<FieldAngle Index="3" Name="max vision angle:degrees#maximum horizontal angle within which we see targets at range" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldAngle Index="5" Name="peripheral vision angle:degrees#maximum horizontal angle within which we can see targets out of the corner of our eye" />
+		<FieldReal Index="6" Name="peripheral distance:world units#maximum range at which we can see targets our of the corner of our eye" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldReal Index="9" Name="hearing distance:world units#maximum range at which sounds can be heard" />
+		<FieldReal Index="10" Name="notice projectile chance:[0,1]#random chance of noticing a dangerous enemy projectile (e.g. grenade)" />
+		<FieldReal Index="11" Name="notice vehicle chance:[0,1]#random chance of noticing a dangerous vehicle" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldReal Index="13" Name="combat perception time:seconds#time required to acknowledge a visible enemy when we are already in combat or searching for them" />
+		<FieldReal Index="14" Name="guard perception time:seconds#time required to acknowledge a visible enemy when we have been alerted" />
+		<FieldReal Index="15" Name="non-combat perception time:seconds#time required to acknowledge a visible enemy when we are not alerted" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldReal Index="17" Name="first ack. surprise distance:world units#If a new prop is acknowledged within the given distance, surprise is registerd" />
+		<FieldTerminator Index="18" Name="" />
+	</FieldSet>
+</AbideTagBlock>

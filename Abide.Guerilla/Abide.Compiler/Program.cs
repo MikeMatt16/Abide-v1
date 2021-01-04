@@ -12,7 +12,8 @@ namespace Abide.Compiler
         [STAThread]
         static void Main(string[] args)
         {
-            //Check
+            Console.WriteLine("Abide Compiler v{0}", typeof(Program).Assembly.GetName().Version);
+
             if (args.Length > 0)
             {
                 string fileName = Path.GetFullPath(args[0]);
@@ -23,11 +24,10 @@ namespace Abide.Compiler
 
         private static void Map_Compile(string scenarioFileName)
         {
-            //Compile
+            // var compiler = new OldMapCompiler(scenarioFileName, RegistrySettings.WorkspaceDirectory);
             var compiler = new MapCompiler(scenarioFileName, RegistrySettings.WorkspaceDirectory);
             compiler.Compile();
 
-            //Press any key
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }

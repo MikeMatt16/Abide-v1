@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Controls;
 
 namespace Abide.AddOnApi.Wpf
 {
@@ -12,7 +13,7 @@ namespace Abide.AddOnApi.Wpf
         /// </summary>
         string Extension { get; }
         /// <summary>
-        /// Gets and returns the type name of the file.
+        /// Gets and returns the type name of the project.
         /// </summary>
         string TypeName { get; }
         /// <summary>
@@ -32,5 +33,10 @@ namespace Abide.AddOnApi.Wpf
         /// <param name="stream">The stream to have the default project structure written to.</param>
         /// <param name="workingDirectory">The working directory of the project.</param>
         void CreateProject(Stream stream, string workingDirectory);
+        /// <summary>
+        /// Returns an array of <see cref="IProjectMenuItem"/> elements that contain menu items for the specified project.
+        /// </summary>
+        /// <returns></returns>
+        IProjectMenuItem[] GetMenuItems();
     }
 }

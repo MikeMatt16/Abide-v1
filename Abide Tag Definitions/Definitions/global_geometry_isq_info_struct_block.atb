@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_isq_info_struct_block" DisplayName="global_geometry_isq_info_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldWordFlags Index="0" Name="Flags*">
+			<Option Name="Compressed Planes" />
+			<Option Name="Swizzled Planes" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="Raw Planes*" BlockName="global_geometry_plane_block" />
+		<FieldData Index="3" Name="Runtime Plane Data*" Alignment="16" MaximumSize="2097120" ElementSize="1" />
+		<FieldBlock Index="4" Name="Rigid Plane Groups*" BlockName="global_geometry_rigid_plane_group_block" />
+		<FieldPad Index="5" Name="" Length="32" />
+		<FieldBlock Index="6" Name="Explicit Edges*" BlockName="global_geometry_explicit_edge_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

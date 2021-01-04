@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ui_error_category_block" DisplayName="ui_error_category_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStringId Index="0" Name="category name^" />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="use large dialog" />
+		</FieldWordFlags>
+		<FieldCharEnum Index="2" Name="default button">
+			<Option Name="no default" />
+			<Option Name="default ok" />
+			<Option Name="default cancel" />
+		</FieldCharEnum>
+		<FieldPad Index="3" Name="" Length="1" />
+		<FieldTagReference Index="4" Name="string tag" GroupTag="1970170211" />
+		<FieldStringId Index="5" Name="default title" />
+		<FieldStringId Index="6" Name="default message" />
+		<FieldStringId Index="7" Name="default ok" />
+		<FieldStringId Index="8" Name="default cancel" />
+		<FieldBlock Index="9" Name="error block" BlockName="ui_error_block" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

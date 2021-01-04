@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_properties_block" DisplayName="runtime properties" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="13">
+		<FieldTagReference Index="0" Name="Diffuse Map*" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="Lightmap Emissive Map*" GroupTag="1651078253" />
+		<FieldRealRgbColor Index="2" Name="Lightmap Emissive Color*" />
+		<FieldReal Index="3" Name="Lightmap Emissive Power*" />
+		<FieldReal Index="4" Name="Lightmap Resolution Scale*" />
+		<FieldReal Index="5" Name="Lightmap Half Life*" />
+		<FieldReal Index="6" Name="Lightmap Diffuse Scale*" />
+		<FieldTagReference Index="7" Name="Alpha Test Map*" GroupTag="1651078253" />
+		<FieldTagReference Index="8" Name="Translucent Map*" GroupTag="1651078253" />
+		<FieldRealRgbColor Index="9" Name="Lightmap Transparent Color*" />
+		<FieldReal Index="10" Name="Lightmap Transparent Alpha*" />
+		<FieldReal Index="11" Name="Lightmap Foliage Scale*" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

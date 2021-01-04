@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_detail_object_data_block" DisplayName="structure_bsp_detail_object_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldBlock Index="0" Name="Cells" BlockName="global_detail_object_cells_block" />
+		<FieldBlock Index="1" Name="Instances" BlockName="global_detail_object_block" />
+		<FieldBlock Index="2" Name="Counts" BlockName="global_detail_object_counts_block" />
+		<FieldBlock Index="3" Name="z Reference Vectors" BlockName="global_z_reference_vector_block" />
+		<FieldPad Index="4" Name="" Length="1" />
+		<FieldPad Index="5" Name="" Length="3" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

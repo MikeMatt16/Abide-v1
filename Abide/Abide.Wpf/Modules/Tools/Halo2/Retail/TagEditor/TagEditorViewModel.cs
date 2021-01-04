@@ -1,5 +1,7 @@
-﻿using Abide.HaloLibrary.Halo2.Retail.Tag;
+﻿using Abide.HaloLibrary.Halo2.Retail;
+using Abide.HaloLibrary.Halo2.Retail.Tag;
 using Abide.HaloLibrary.Halo2.Retail.Tag.Generated;
+using Abide.Wpf.Modules.ViewModel;
 using System.IO;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
@@ -7,10 +9,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
     public sealed class TagEditorViewModel : BaseAddOnViewModel
     {
         private TagGroupViewModel tagGroup = new TagGroupViewModel();
+        private TagData tagData = null;
 
         public TagGroupViewModel TagGroup
         {
-            get { return tagGroup; }
+            get => tagGroup;
             private set
             {
                 if (tagGroup != value)
@@ -22,25 +25,28 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         }
 
         public TagEditorViewModel() { }
-
-        protected override void OnSelectedEntryChanged()
+        protected override void OnMapChange()
         {
-            if (SelectedEntry != null)
+            tagGroup.Map = Map;
+        }
+        protected override void OnSelectedTagChanged()
+        {
+            if (SelectedTag != null)
             {
-                //Create tag group
-                Group tagGroup = TagLookup.CreateTagGroup(SelectedEntry.Root);
+                Group tagGroup = TagLookup.CreateTagGroup(SelectedTag.GroupTag);
 
-                //Check
                 if (tagGroup != null)
                 {
-                    //Goto tag data and read tag group
-                    var stream = SelectedEntry.Data.GetVirtualStream();
-                    stream.Seek(SelectedEntry.Address, SeekOrigin.Begin);
-                    using (var reader = stream.CreateReader())
+                    if (tagData != null) tagData.Dispose();
+                    tagData = Map.ReadTagData(SelectedTag);
+
+                    using (BinaryReader reader = tagData.Stream.CreateReader())
+                    {
+                        reader.BaseStream.Seek(SelectedTag.MemoryAddress, SeekOrigin.Begin);
                         tagGroup.Read(reader);
+                    }
                 }
 
-                //Set tag group
                 TagGroup.TagGroup = tagGroup;
             }
         }

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_looping_block" DisplayName="sound_looping" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="deafening to AIs#when used as a background stereo track, causes nearby AIs to be unable to hear" />
+			<Option Name="not a loop#this is a collection of permutations strung together that should play once then stop." />
+			<Option Name="stops music#all other music loops will stop when this one starts." />
+			<Option Name="always spatialize#always play as 3d sound, even in first person" />
+			<Option Name="synchronize playback#synchronizes playback with other looping sounds attached to the owner of this sound" />
+			<Option Name="synchronize tracks" />
+			<Option Name="fake spatialization with distance" />
+			<Option Name="combine all 3d playback" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="marty's music time: seconds" />
+		<FieldReal Index="2" Name="" />
+		<FieldPad Index="3" Name="" Length="8" />
+		<FieldTagReference Index="4" Name="" GroupTag="-3" />
+		<FieldBlock Index="5" Name="tracks#tracks play in parallel and loop continuously for the duration of the looping sound." BlockName="looping_sound_track_block" />
+		<FieldBlock Index="6" Name="detail sounds#detail sounds play at random throughout the duration of the looping sound." BlockName="looping_sound_detail_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

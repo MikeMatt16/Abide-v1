@@ -1,91 +1,27 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
-using System;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Abide.Wpf.Modules.AddOns
 {
-    /// <summary>
-    /// Represents an object that can create instances of <see cref="IFileEditor"/> AddOn types.
-    /// </summary>
-    public sealed class EditorAddOnFactory : AddOnFactory, IHost
+    public sealed class EditorAddOnFactory : AddOnFactory
     {
-        private class DummyHost : IHost
+        public ObservableCollection<IFileEditor> FileEditors { get; } = new ObservableCollection<IFileEditor>();
+        public ObservableCollection<IProjectEditor> ProjectEditors { get; } = new ObservableCollection<IProjectEditor>();
+
+        public EditorAddOnFactory(IHost host) : base(host, typeof(IFileEditor), typeof(IProjectEditor)) { }
+        protected override void LoadAddOn(IAddOn addOn)
         {
+            switch (addOn)
+            {
+                case IFileEditor fileEditor:
+                    FileEditors.Add(fileEditor);
+                    break;
 
-            public object Invoke(Delegate method)
-            {
-                //Call delegate
-                return method?.DynamicInvoke();
-            }
-            public object Invoke(Delegate method, object[] args)
-            {
-                //Call delegate
-                return method?.DynamicInvoke(args);
-            }
-            public object Request(IAddOn sender, string request, params object[] args)
-            {
-                //Return
-                return null;
-            }
-
-            bool ISynchronizeInvoke.InvokeRequired => throw new NotImplementedException();
-            IAsyncResult ISynchronizeInvoke.BeginInvoke(Delegate method, object[] args)
-            {
-                throw new NotImplementedException();
-            }
-            object ISynchronizeInvoke.EndInvoke(IAsyncResult result)
-            {
-                throw new NotImplementedException();
+                case IProjectEditor projectEditor:
+                    ProjectEditors.Add(projectEditor);
+                    break;
             }
         }
-
-        /// <summary>
-        /// Gets and returns a list of file editor AddOns.
-        /// </summary>
-        public AddOnCollection<IFileEditor> FileEditors { get; } = new AddOnCollection<IFileEditor>();
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EditorAddOnFactory"/> class.
-        /// </summary>
-        public EditorAddOnFactory() : base(new DummyHost()) { }
-        protected override void LoadAddOn(Type type)
-        {
-            //Prepare
-            IFileEditor editor;
-
-            //Check
-            if (type.GetInterface(typeof(IFileEditor).Name) != null)
-            {
-                //Instantiate
-                try { editor = Instantiate<IFileEditor>(type, Host); }
-                catch { editor = null; }
-
-                //Add to list
-                FileEditors.Add(editor);
-            }
-        }
-
-        object IHost.Invoke(Delegate method)
-        {
-            return method?.DynamicInvoke();
-        }
-        object IHost.Request(IAddOn sender, string request, params object[] args)
-        {
-            //Return
-            return null;
-        }
-        object ISynchronizeInvoke.Invoke(Delegate method, object[] args)
-        {
-            return method?.DynamicInvoke(args);
-        }
-        IAsyncResult ISynchronizeInvoke.BeginInvoke(Delegate method, object[] args)
-        {
-            throw new NotImplementedException();
-        }
-        object ISynchronizeInvoke.EndInvoke(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
-        bool ISynchronizeInvoke.InvokeRequired => throw new NotImplementedException();
     }
 }

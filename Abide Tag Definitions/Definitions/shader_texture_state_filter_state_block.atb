@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_texture_state_filter_state_block" DisplayName="filter state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="mag filter">
+			<Option Name="none" />
+			<Option Name="point sampled" />
+			<Option Name="linear" />
+			<Option Name="anisotropic" />
+			<Option Name="quincunx" />
+			<Option Name="gaussian cubic" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="min filter">
+			<Option Name="none" />
+			<Option Name="point sampled" />
+			<Option Name="linear" />
+			<Option Name="anisotropic" />
+			<Option Name="quincunx" />
+			<Option Name="gaussian cubic" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="mip filter">
+			<Option Name="none" />
+			<Option Name="point sampled" />
+			<Option Name="linear" />
+			<Option Name="anisotropic" />
+			<Option Name="quincunx" />
+			<Option Name="gaussian cubic" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="mipmap bias" />
+		<FieldShortInteger Index="5" Name="max mipmap index#0 means all mipmap levels are used" />
+		<FieldEnum Index="6" Name="anisotropy">
+			<Option Name="non anisotropic" />
+			<Option Name="2-tap" />
+			<Option Name="3-tap" />
+			<Option Name="4-tap" />
+		</FieldEnum>
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

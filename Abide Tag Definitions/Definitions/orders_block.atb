@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="orders_block" DisplayName="orders_block" MaximumElementCount="300">
+	<FieldSet Alignment="4" Count="18">
+		<FieldCustom Index="0" Name="" />
+		<FieldString Index="1" Name="name^" />
+		<FieldShortBlockIndex1 Index="2" Name="Style" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldLongFlags Index="4" Name="flags">
+			<Option Name="locked" />
+			<Option Name="always active" />
+			<Option Name="debug on" />
+			<Option Name="strict area def" />
+			<Option Name="follow closest player" />
+			<Option Name="follow squad" />
+			<Option Name="active camo" />
+			<Option Name="suppress combat until engaged" />
+			<Option Name="inhibit vehicle use" />
+		</FieldLongFlags>
+		<FieldEnum Index="5" Name="Force combat status">
+			<Option Name="NONE" />
+			<Option Name="Asleep" />
+			<Option Name="Idle" />
+			<Option Name="Alert" />
+			<Option Name="Combat" />
+		</FieldEnum>
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldString Index="7" Name="Entry Script" />
+		<FieldSkip Index="8" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="9" Name="Follow squad" />
+		<FieldReal Index="10" Name="follow radius" />
+		<FieldBlock Index="11" Name="Primary area set" BlockName="zone_set_block" />
+		<FieldBlock Index="12" Name="Secondary area set" BlockName="secondary_zone_set_block" />
+		<FieldBlock Index="13" Name="Secondary set trigger" BlockName="secondary_set_trigger_block" />
+		<FieldBlock Index="14" Name="Special movement" BlockName="special_movement_block" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldBlock Index="16" Name="Order endings" BlockName="order_ending_block" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

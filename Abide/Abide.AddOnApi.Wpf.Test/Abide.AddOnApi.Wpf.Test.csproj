@@ -62,11 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abide.HaloLibrary.Halo2.Retail.MapFile.Test.cs" />
+    <Compile Include="HaloMapFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abide.HaloLibrary.Halo2.Retail.HaloMap.Test.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +80,6 @@
     <ProjectReference Include="..\..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj">
       <Project>{c7b4df9c-d74c-4f1b-9083-5531bea84b6d}</Project>
       <Name>Abide.DebugXbox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj">
-      <Project>{b3cc2b9a-fdd7-4cbf-a87d-e1732737226e}</Project>
-      <Name>Abide.AddOnApi.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

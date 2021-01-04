@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="error_reports_block" DisplayName="error report" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="20">
+		<FieldEnum Index="0" Name="Type*">
+			<Option Name="Silent" />
+			<Option Name="Comment" />
+			<Option Name="Warning" />
+			<Option Name="Error" />
+		</FieldEnum>
+		<FieldWordFlags Index="1" Name="Flags*">
+			<Option Name="Rendered" />
+			<Option Name="Tangent Space" />
+			<Option Name="Noncritical" />
+			<Option Name="Lightmap Light" />
+			<Option Name="Report key is valid." />
+		</FieldWordFlags>
+		<FieldData Index="2" Name="Text*" Alignment="4" MaximumSize="8192" ElementSize="1" />
+		<FieldString Index="3" Name="Source Filename*" />
+		<FieldLongInteger Index="4" Name="Source Line Number*" />
+		<FieldBlock Index="5" Name="Vertices*" BlockName="error_report_vertices_block" />
+		<FieldBlock Index="6" Name="Vectors*" BlockName="error_report_vectors_block" />
+		<FieldBlock Index="7" Name="Lines*" BlockName="error_report_lines_block" />
+		<FieldBlock Index="8" Name="Triangles*" BlockName="error_report_triangles_block" />
+		<FieldBlock Index="9" Name="Quads*" BlockName="error_report_quads_block" />
+		<FieldBlock Index="10" Name="Comments*" BlockName="error_report_comments_block" />
+		<FieldPad Index="11" Name="" Length="380" />
+		<FieldLongInteger Index="12" Name="Report Key*" />
+		<FieldLongInteger Index="13" Name="Node Index*" />
+		<FieldRealBounds Index="14" Name="Bounds x*" />
+		<FieldRealBounds Index="15" Name="Bounds y*" />
+		<FieldRealBounds Index="16" Name="Bounds z*" />
+		<FieldRealArgbColor Index="17" Name="Color*" />
+		<FieldPad Index="18" Name="" Length="84" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cluster_door_portal_encoded_pas_block" DisplayName="cluster_door_portal_encoded_pas_block" MaximumElementCount="2048">
+	<FieldSet Alignment="4" Count="2">
+		<FieldLongInteger Index="0" Name="" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

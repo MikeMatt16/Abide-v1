@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_netgame_equipment_block" DisplayName="scenario_netgame_equipment_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="17">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="Levitate" />
+			<Option Name="Destroy Existing on New Spawn" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="Game Type 1">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="Game Type 2">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="Game Type 3">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="Game Type 4">
+			<Option Name="NONE" />
+			<Option Name="Capture the Flag" />
+			<Option Name="Slayer" />
+			<Option Name="Oddball" />
+			<Option Name="King of the Hill" />
+			<Option Name="Race" />
+			<Option Name="Headhunter" />
+			<Option Name="Juggernaut" />
+			<Option Name="Territories" />
+			<Option Name="stub" />
+			<Option Name="ignored3" />
+			<Option Name="ignored4" />
+			<Option Name="All Game Types" />
+			<Option Name="All Except CTF" />
+			<Option Name="All Except CTF &amp; Race" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldShortInteger Index="6" Name="Spawn Time (in seconds, 0 = default)" />
+		<FieldShortInteger Index="7" Name="Respawn on Empty Time:seconds" />
+		<FieldEnum Index="8" Name="Respawn Timer Starts">
+			<Option Name="On Pick Up" />
+			<Option Name="On Body Depletion" />
+		</FieldEnum>
+		<FieldCharEnum Index="9" Name="Classification">
+			<Option Name="Weapon" />
+			<Option Name="Primary Light Land" />
+			<Option Name="Secondary Light Land" />
+			<Option Name="Primary Heavy Land" />
+			<Option Name="Primary Flying" />
+			<Option Name="Secondary Heavy Land" />
+			<Option Name="Primary Turret" />
+			<Option Name="Secondary Turret" />
+			<Option Name="Grenade" />
+			<Option Name="Powerup" />
+		</FieldCharEnum>
+		<FieldPad Index="10" Name="" Length="3" />
+		<FieldPad Index="11" Name="" Length="40" />
+		<FieldRealPoint3D Index="12" Name="Position" />
+		<FieldStruct Index="13" Name="Orientation" StructName="scenario_netgame_equipment_orientation_struct_block" />
+		<FieldTagReference Index="14" Name="Item/Vehicle Collection" GroupTag="-3" />
+		<FieldPad Index="15" Name="" Length="48" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

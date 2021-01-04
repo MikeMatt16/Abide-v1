@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="stiff_spring_constraints_block" DisplayName="stiff_spring_constraints_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStruct Index="0" Name="constraint bodies*" StructName="constraint_bodies_struct_block" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldReal Index="2" Name="spring_length*" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

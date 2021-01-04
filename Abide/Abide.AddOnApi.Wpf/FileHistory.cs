@@ -29,24 +29,24 @@ namespace Abide.AddOnApi.Wpf
         /// </summary>
         public DateTime DateTime
         {
-            get { return (DateTime)GetValue(DateTimeProperty); }
-            set { SetValue(DateTimeProperty, value); }
+            get => (DateTime)GetValue(DateTimeProperty);
+            set => SetValue(DateTimeProperty, value);
         }
         /// <summary>
         /// Gets or sets the description of the file state.
         /// </summary>
         public string Description
         {
-            get { return (string)GetValue(DescriptionProperty); }
-            set { SetValue(DescriptionProperty, value); }
+            get => (string)GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
         }
         /// <summary>
         /// Gets or sets the state of the file.
         /// </summary>
         public object FileState
         {
-            get { return GetValue(FileStateProperty); }
-            set { SetValue(FileStateProperty, value); }
+            get => GetValue(FileStateProperty);
+            set => SetValue(FileStateProperty, value);
         }
     }
 

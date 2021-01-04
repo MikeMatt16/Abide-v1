@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_space_node_data_block" DisplayName="object_space_node_data_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortInteger Index="0" Name="node_index*" />
+		<FieldWordFlags Index="1" Name="component flags">
+			<Option Name="rotation" />
+			<Option Name="translation" />
+			<Option Name="scale" />
+		</FieldWordFlags>
+		<FieldStruct Index="2" Name="orientation*" StructName="quantized_orientation_struct_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

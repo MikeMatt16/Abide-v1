@@ -77,7 +77,7 @@ namespace Abide.TagBuilder.Halo2
             TreeNode node = new TreeNode(TagBlock_GetDisplayName(block)) { Tag = block };
 
             //Loop through fields
-            foreach (Field field in block.Fields)
+            foreach (Field field in block)
             {
                 //Check type
                 switch (field.Type)
@@ -102,7 +102,7 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             string displayName = blockField.Name;
-            if (string.IsNullOrEmpty(displayName)) displayName = $"unnamed ({blockField.Create().Name})";
+            if (string.IsNullOrEmpty(displayName)) displayName = $"unnamed ({blockField.Create().BlockName})";
 
             //Create tag block tree node
             TreeNode fieldNode = new TreeNode(displayName) { Tag = blockField };
@@ -127,7 +127,7 @@ namespace Abide.TagBuilder.Halo2
         private string TagBlock_GetDisplayName(ITagBlock tagBlock)
         {
             //Find name fields
-            Field[] nameFields = tagBlock.Fields.Where(f => f.IsBlockName).ToArray();
+            Field[] nameFields = tagBlock.Where(f => f.IsBlockName).Select(f => f as Field).ToArray();
             if (nameFields.Length == 0) return tagBlock.DisplayName;
 
             //Join
@@ -244,7 +244,7 @@ namespace Abide.TagBuilder.Halo2
                     header = new TagClipboardHeader
                     {
                         BlockCount = 1,
-                        BlockName = tagBlock.Name
+                        BlockName = tagBlock.BlockName
                     };
 
                     //Write header
@@ -273,7 +273,7 @@ namespace Abide.TagBuilder.Halo2
                     header = new TagClipboardHeader
                     {
                         BlockCount = 1,
-                        BlockName = structBlock.Name
+                        BlockName = structBlock.BlockName
                     };
 
                     //Write header
@@ -302,7 +302,7 @@ namespace Abide.TagBuilder.Halo2
                     header = new TagClipboardHeader
                     {
                         BlockCount = tagBlockField.BlockList.Count,
-                        BlockName = tagBlockField.Create().Name,
+                        BlockName = tagBlockField.Create().BlockName,
                     };
 
                     //Write header
@@ -347,7 +347,7 @@ namespace Abide.TagBuilder.Halo2
                 TagClipboardHeader header = reader.Read<TagClipboardHeader>();
 
                 //Check selected value
-                if(tagStructureTreeView.SelectedNode.Tag is ITagBlock tagBlock && header.BlockCount == 1 && tagBlock.Name == header.BlockName)
+                if(tagStructureTreeView.SelectedNode.Tag is ITagBlock tagBlock && header.BlockCount == 1 && tagBlock.BlockName == header.BlockName)
                 {
                     //Read block
                     tagBlock.Read(reader);
@@ -361,7 +361,7 @@ namespace Abide.TagBuilder.Halo2
                     parent.Nodes.RemoveAt(index);
                     parent.Nodes.Insert(index, newNode);
                 }
-                else if(tagStructureTreeView.SelectedNode.Tag is BlockField blockField && blockField.Create().Name == header.BlockName)
+                else if(tagStructureTreeView.SelectedNode.Tag is BlockField blockField && blockField.Create().BlockName == header.BlockName)
                 {
                     //Read and add blocks
                     for (int i = 0; i < header.BlockCount; i++)
@@ -379,7 +379,7 @@ namespace Abide.TagBuilder.Halo2
                         }
                     }
                 }
-                else if(tagStructureTreeView.SelectedNode.Tag is StructField structField && structField.Value is ITagBlock tagStruct && tagStruct.Name == header.BlockName && header.BlockCount == 1)
+                else if(tagStructureTreeView.SelectedNode.Tag is StructField structField && structField.Value is ITagBlock tagStruct && tagStruct.BlockName == header.BlockName && header.BlockCount == 1)
                 {
                     //Read block
                     tagStruct.Read(reader);
@@ -405,15 +405,12 @@ namespace Abide.TagBuilder.Halo2
         {
             //Prepare
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
-            BlockField tagBlockField = null;
-            ITagBlock tagBlock = null;
 
             //Check
-            if (selectedNode.Tag is ITagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField)
+            if (selectedNode.Tag is Block tagBlock && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField)
             {
                 //Get variables
-                tagBlock = (ITagBlock)selectedNode.Tag;
-                tagBlockField = (BlockField)selectedNode.Parent.Tag;
+                var tagBlockField = (BlockField)selectedNode.Parent.Tag;
 
                 //Delete
                 if (tagBlockField.BlockList.Remove(tagBlock)) selectedNode.Remove();
@@ -765,7 +762,7 @@ namespace Abide.TagBuilder.Halo2
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
 
             //Check
-            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
+            if (selectedNode.Tag is Block block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
             {
                 int index = -1;
                 if ((index = blockField.BlockList.IndexOf(block)) >= 0)
@@ -776,7 +773,7 @@ namespace Abide.TagBuilder.Halo2
                         blockField.BlockList.Move(index, index - 1);
 
                         //Debug
-                        if(block.Name == "scenario_structure_bsp_reference_block")
+                        if(block.BlockName == "scenario_structure_bsp_reference_block")
                         {
                             Map.MoveBspTagData(index, index - 1);
                         }
@@ -798,7 +795,7 @@ namespace Abide.TagBuilder.Halo2
             TreeNode selectedNode = tagStructureTreeView.SelectedNode;
 
             //Check
-            if (selectedNode.Tag is ITagBlock block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
+            if (selectedNode.Tag is Block block && selectedNode.Parent != null && selectedNode.Parent.Tag is BlockField blockField)
             {
                 int index = -1;
                 if ((index = blockField.BlockList.IndexOf(block)) >= 0)
@@ -809,7 +806,7 @@ namespace Abide.TagBuilder.Halo2
                         blockField.BlockList.Move(index, index + 1);
 
                         //Debug
-                        if (block.Name == "scenario_structure_bsp_reference_block")
+                        if (block.BlockName == "scenario_structure_bsp_reference_block")
                         {
                             Map.MoveBspTagData(index, index + 1);
                         }

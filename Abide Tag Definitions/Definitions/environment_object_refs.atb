@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="environment_object_refs" DisplayName="environment_object_refs" MaximumElementCount="2000">
+	<FieldSet Alignment="4" Count="7">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="mobile" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldLongInteger Index="2" Name="first sector*" />
+		<FieldLongInteger Index="3" Name="last sector*" />
+		<FieldBlock Index="4" Name="bsps*" BlockName="environment_object_bsp_refs" />
+		<FieldBlock Index="5" Name="nodes*" BlockName="environment_object_nodes" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

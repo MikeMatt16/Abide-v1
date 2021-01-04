@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_collision_bsp_block" DisplayName="global_collision_bsp_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldBlock Index="0" Name="BSP 3D Nodes*" BlockName="bsp3d_nodes_block" />
+		<FieldBlock Index="1" Name="Planes*" BlockName="planes_block" />
+		<FieldBlock Index="2" Name="Leaves*" BlockName="leaves_block" />
+		<FieldBlock Index="3" Name="BSP 2D References*" BlockName="bsp2d_references_block" />
+		<FieldBlock Index="4" Name="BSP 2D Nodes*" BlockName="bsp2d_nodes_block" />
+		<FieldBlock Index="5" Name="Surfaces*" BlockName="surfaces_block" />
+		<FieldBlock Index="6" Name="Edges*" BlockName="edges_block" />
+		<FieldBlock Index="7" Name="Vertices*" BlockName="vertices_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

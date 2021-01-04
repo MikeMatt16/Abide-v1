@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="areas_block" DisplayName="areas_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="9">
+		<FieldString Index="0" Name="name^`" />
+		<FieldLongFlags Index="1" Name="area flags">
+			<Option Name="vehicle area" />
+			<Option Name="perch" />
+			<Option Name="manual reference frame" />
+		</FieldLongFlags>
+		<FieldSkip Index="2" Name="" Length="20" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldPad Index="4" Name="" Length="64" />
+		<FieldShortInteger Index="5" Name="manual reference frame" />
+		<FieldPad Index="6" Name="" Length="2" />
+		<FieldBlock Index="7" Name="flight_hints" BlockName="flight_reference_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

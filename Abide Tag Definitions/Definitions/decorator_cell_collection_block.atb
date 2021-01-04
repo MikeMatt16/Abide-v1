@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_cell_collection_block" DisplayName="decorator_cell_collection_block" MaximumElementCount="65535">
+	<FieldSet Alignment="4" Count="7">
+		<FieldArrayStart Index="0" Name="Child Indices" Length="8">
+			<FieldShortInteger Index="0" Name="Child Index" />
+		</FieldArrayStart>
+		<FieldShortInteger Index="1" Name="Child Index" />
+		<FieldArrayEnd Index="2" Name="" />
+		<FieldShortBlockIndex1 Index="3" Name="Cache Block Index" />
+		<FieldShortInteger Index="4" Name="Group Count" />
+		<FieldLongInteger Index="5" Name="Group Start Index" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

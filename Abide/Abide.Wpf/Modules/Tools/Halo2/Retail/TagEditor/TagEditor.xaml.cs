@@ -1,5 +1,6 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf.Halo2;
+using Abide.Wpf.Modules.ViewModel;
 using System.ComponentModel;
 using System.Windows;
 
@@ -25,7 +26,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         private void ToolControl_SelectedEntryChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
-                vm.SelectedEntry = SelectedEntry;
+                vm.SelectedTag = SelectedEntry;
         }
 
         private void ToolControl_XboxConnectionStateChanged(object sender, RoutedEventArgs e)

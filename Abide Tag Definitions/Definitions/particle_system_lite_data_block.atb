@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_system_lite_data_block" DisplayName="particle_system_lite_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="particles render data*" BlockName="particles_render_data_block" />
+		<FieldBlock Index="1" Name="particles other data*" BlockName="particles_update_data_block" />
+		<FieldPad Index="2" Name="" Length="32" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

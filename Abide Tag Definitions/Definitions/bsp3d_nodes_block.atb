@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bsp3d_nodes_block" DisplayName="bsp3d_nodes_block" MaximumElementCount="131072">
+	<FieldSet Alignment="8" Count="2">
+		<FieldSkip Index="0" Name="" Length="8" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

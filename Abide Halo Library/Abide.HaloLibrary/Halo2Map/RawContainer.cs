@@ -362,11 +362,11 @@ namespace Abide.HaloLibrary.Halo2Map
         /// <summary>
         /// Gets and returns a list of addresses where this raw data's offset is referenced.
         /// </summary>
-        public List<long> OffsetAddresses { get; }
+        public List<long> OffsetAddresses { get; } = new List<long>();
         /// <summary>
         /// Gets and returns a list of addresses where this raw data's length is referenced.
         /// </summary>
-        public List<long> LengthAddresses { get; }
+        public List<long> LengthAddresses { get; } = new List<long>();
 
         /// <summary>
         /// Initializes a new <see cref="RawStream"/> using the supplied raw data buffer and raw data offset.
@@ -377,8 +377,6 @@ namespace Abide.HaloLibrary.Halo2Map
             base(rawBuffer)
         {
             RawOffset = rawOffset;
-            OffsetAddresses = new List<long>();
-            LengthAddresses = new List<long>();
         }
         /// <summary>
         /// Creates a new instance of the <see cref="BinaryReader"/> class based on the current stream and UTF-8 charecter encoding that leaves the current stream open.

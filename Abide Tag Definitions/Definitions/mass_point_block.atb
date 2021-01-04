@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="mass_point_block" DisplayName="mass_point_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="18">
+		<FieldString Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="powered mass point" />
+		<FieldShortInteger Index="2" Name="model node*" />
+		<FieldLongFlags Index="3" Name="flags">
+			<Option Name="metallic" />
+		</FieldLongFlags>
+		<FieldReal Index="4" Name="relative mass" />
+		<FieldReal Index="5" Name="mass*" />
+		<FieldReal Index="6" Name="relative density" />
+		<FieldReal Index="7" Name="density*" />
+		<FieldRealPoint3D Index="8" Name="position" />
+		<FieldRealVector3D Index="9" Name="forward" />
+		<FieldRealVector3D Index="10" Name="up" />
+		<FieldEnum Index="11" Name="friction type">
+			<Option Name="point" />
+			<Option Name="forward" />
+			<Option Name="left" />
+			<Option Name="up" />
+		</FieldEnum>
+		<FieldPad Index="12" Name="" Length="2" />
+		<FieldReal Index="13" Name="friction parallel scale" />
+		<FieldReal Index="14" Name="friction perpendicular scale" />
+		<FieldReal Index="15" Name="radius" />
+		<FieldPad Index="16" Name="" Length="20" />
+		<FieldTerminator Index="17" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="material_physics_properties_struct_block" DisplayName="material_physics_properties_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldPad Index="0" Name="" Length="4" />
+		<FieldReal Index="1" Name="friction" />
+		<FieldRealFraction Index="2" Name="restitution" />
+		<FieldReal Index="3" Name="density:kg/m^3" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

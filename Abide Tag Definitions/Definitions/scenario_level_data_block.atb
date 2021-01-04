@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_level_data_block" DisplayName="scenario_level_data_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldTagReference Index="0" Name="Level Description" GroupTag="1970170211" />
+		<FieldBlock Index="1" Name="Campaign Level Data" BlockName="global_ui_campaign_level_block" />
+		<FieldBlock Index="2" Name="Multiplayer" BlockName="global_ui_multiplayer_level_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

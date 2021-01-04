@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_cluster_debug_info_block" DisplayName="structure_bsp_cluster_debug_info_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="9">
+		<FieldWordFlags Index="0" Name="Errors*">
+			<Option Name="Multiple Fog Planes" />
+			<Option Name="Fog Zone Collision" />
+			<Option Name="Fog Zone Immersion" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="1" Name="Warnings*">
+			<Option Name="Multiple Visible Fog Planes" />
+			<Option Name="Visible Fog Cluster Omission" />
+			<Option Name="Fog Plane Missed Render-BSP" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="28" />
+		<FieldBlock Index="3" Name="Lines*" BlockName="structure_bsp_debug_info_render_line_block" />
+		<FieldBlock Index="4" Name="Fog Plane Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="5" Name="Visible Fog Plane Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="6" Name="Vis. Fog Omission Cluster Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="7" Name="Containing Fog Zone Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cache_file_sound_block" DisplayName="cache_file_sound" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="14">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="fit to adpcm blocksize" />
+			<Option Name="split long sound into permutations" />
+			<Option Name="always spatialize#always play as 3d sound, even in first person" />
+			<Option Name="never obstruct#disable occlusion/obstruction for this sound" />
+			<Option Name="internal don't touch" />
+			<Option Name="use huge sound transmission" />
+			<Option Name="link count to owner unit" />
+			<Option Name="pitch range is language" />
+			<Option Name="don't use sound class speaker flag" />
+			<Option Name="don't use lipsync data" />
+		</FieldWordFlags>
+		<FieldCharEnum Index="1" Name="sound class*">
+			<Option Name="projectile_impact" />
+			<Option Name="projectile_detonation" />
+			<Option Name="projectile_flyby" />
+			<Option Name="" />
+			<Option Name="weapon_fire" />
+			<Option Name="weapon_ready" />
+			<Option Name="weapon_reload" />
+			<Option Name="weapon_empty" />
+			<Option Name="weapon_charge" />
+			<Option Name="weapon_overheat" />
+			<Option Name="weapon_idle" />
+			<Option Name="weapon_melee" />
+			<Option Name="weapon_animation" />
+			<Option Name="object_impacts" />
+			<Option Name="particle_impacts" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="unit_footsteps" />
+			<Option Name="unit_dialog" />
+			<Option Name="unit_animation" />
+			<Option Name="" />
+			<Option Name="vehicle_collision" />
+			<Option Name="vehicle_engine" />
+			<Option Name="vehicle_animation" />
+			<Option Name="" />
+			<Option Name="device_door" />
+			<Option Name="" />
+			<Option Name="device_machinery" />
+			<Option Name="device_stationary" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="music" />
+			<Option Name="ambient_nature" />
+			<Option Name="ambient_machinery" />
+			<Option Name="" />
+			<Option Name="huge_ass" />
+			<Option Name="object_looping" />
+			<Option Name="cinematic_music" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="cortana_mission" />
+			<Option Name="cortana_cinematic" />
+			<Option Name="mission_dialog" />
+			<Option Name="cinematic_dialog" />
+			<Option Name="scripted_cinematic_foley" />
+			<Option Name="game_event" />
+			<Option Name="ui" />
+			<Option Name="test" />
+			<Option Name="multilingual_test" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="2" Name="sample rate*">
+			<Option Name="22kHz" />
+			<Option Name="44kHz" />
+			<Option Name="32kHz" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="3" Name="encoding*">
+			<Option Name="mono" />
+			<Option Name="stereo" />
+			<Option Name="codec" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="4" Name="compression*">
+			<Option Name="none (big endian)" />
+			<Option Name="xbox adpcm" />
+			<Option Name="ima adpcm" />
+			<Option Name="none (little endian)" />
+			<Option Name="wma" />
+		</FieldCharEnum>
+		<FieldShortInteger Index="5" Name="playback index" />
+		<FieldShortInteger Index="6" Name="first pitch range index" />
+		<FieldCharInteger Index="7" Name="pitch range count" />
+		<FieldCharInteger Index="8" Name="scale index" />
+		<FieldCharInteger Index="9" Name="promotion index" />
+		<FieldCharInteger Index="10" Name="custom playback index" />
+		<FieldShortInteger Index="11" Name="extra info index" />
+		<FieldLongInteger Index="12" Name="maximum play time:ms" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

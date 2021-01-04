@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_block" DisplayName="weapon" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="83">
+		<FieldExplanation Index="0" Name="$$$ WEAPON $$$" Explanation="All weapons should have 'primary trigger' and 'secondary trigger' markers as appropriate.|nBlurred permutations are called '$primary-blur' and '$secondary-blur'." />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="vertical heat display" />
+			<Option Name="mutually exclusive triggers" />
+			<Option Name="attacks automatically on bump" />
+			<Option Name="must be readied" />
+			<Option Name="doesn't count toward maximum" />
+			<Option Name="aim assists only when zoomed" />
+			<Option Name="prevents grenade throwing" />
+			<Option Name="must be picked up" />
+			<Option Name="holds triggers when dropped" />
+			<Option Name="prevents melee attack" />
+			<Option Name="detonates when dropped" />
+			<Option Name="cannot fire at maximum age" />
+			<Option Name="secondary trigger overrides grenades" />
+			<Option Name="(OBSOLETE)does not depower active camo in multilplayer" />
+			<Option Name="enables integrated night vision" />
+			<Option Name="AIs use weapon melee damage" />
+			<Option Name="forces no binoculars" />
+			<Option Name="loop fp firing animation" />
+			<Option Name="prevents sprinting" />
+			<Option Name="cannot fire while boosting" />
+			<Option Name="prevents driving" />
+			<Option Name="prevents gunning" />
+			<Option Name="can be dual wielded" />
+			<Option Name="can only be dual wielded" />
+			<Option Name="melee only" />
+			<Option Name="cant fire if parent dead" />
+			<Option Name="weapon ages with each kill" />
+			<Option Name="weapon uses old dual fire error code" />
+			<Option Name="primary trigger melee attacks" />
+			<Option Name="cannot be used by player" />
+		</FieldLongFlags>
+		<FieldOldStringId Index="2" Name="" />
+		<FieldEnum Index="3" Name="secondary trigger mode">
+			<Option Name="normal" />
+			<Option Name="slaved to primary" />
+			<Option Name="inhibits primary" />
+			<Option Name="loads alterate ammunition" />
+			<Option Name="loads multiple primary ammunition" />
+		</FieldEnum>
+		<FieldShortInteger Index="4" Name="maximum alternate shots loaded#if the second trigger loads alternate ammunition, this is the maximum number of shots that can be loaded at a time" />
+		<FieldReal Index="5" Name="turn on time#how long after being readied it takes this weapon to switch its 'turned_on' attachment to 1.0" />
+		<FieldExplanation Index="6" Name="old obsolete export to functions" Explanation="" />
+		<FieldReal Index="7" Name="ready time:seconds" />
+		<FieldTagReference Index="8" Name="ready effect" GroupTag="-3" />
+		<FieldTagReference Index="9" Name="ready damage effect" GroupTag="1785754657" />
+		<FieldExplanation Index="10" Name="heat" Explanation="" />
+		<FieldRealFraction Index="11" Name="heat recovery threshold:[0,1]#the heat value a weapon must return to before leaving the overheated state, once it has become overheated in the first place" />
+		<FieldRealFraction Index="12" Name="overheated threshold:[0,1]#the heat value over which a weapon first becomes overheated (should be greater than the heat recovery threshold)" />
+		<FieldRealFraction Index="13" Name="heat detonation threshold:[0,1]#the heat value above which the weapon has a chance of exploding each time it is fired" />
+		<FieldRealFraction Index="14" Name="heat detonation fraction:[0,1]#the percent chance (between 0.0 and 1.0) the weapon will explode when fired over the heat detonation threshold" />
+		<FieldRealFraction Index="15" Name="heat loss per second:[0,1]#the amount of heat lost each second when the weapon is not being fired" />
+		<FieldRealFraction Index="16" Name="heat illumination:[0,1]#the amount of illumination given off when the weapon is overheated" />
+		<FieldRealFraction Index="17" Name="overheated heat loss per second:[0,1]#the amount of heat lost each second when the weapon is not being fired" />
+		<FieldTagReference Index="18" Name="overheated" GroupTag="-3" />
+		<FieldTagReference Index="19" Name="overheated damage effect" GroupTag="1785754657" />
+		<FieldTagReference Index="20" Name="detonation" GroupTag="-3" />
+		<FieldTagReference Index="21" Name="detonation damage effect" GroupTag="1785754657" />
+		<FieldTagReference Index="22" Name="player melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="23" Name="player melee response" GroupTag="1785754657" />
+		<FieldExplanation Index="24" Name="melee aim assist" Explanation="magnetism angle: the maximum angle that magnetism works at full strength|nmagnetism range: the maximum distance that magnetism works at full strength|nthrottle magnitude: additional throttle to apply towards target when melee-ing w/ magnetism|nthrottle minimum distance: minimum distance to target that throttle magnetism kicks in|nthrottle maximum adjustment angle: maximum angle throttle magnetism will have an effect, relative to the players movement throttle|n" />
+		<FieldStruct Index="25" Name="melee aim assist" StructName="melee_aim_assist_struct_block" />
+		<FieldExplanation Index="26" Name="melee damage parameters" Explanation="damage pyramid angles: defines the frustum from the camera that the melee-attack uses to find targets|ndamage pyramid depth: how far the melee attack searches for a target" />
+		<FieldStruct Index="27" Name="melee damage parameters" StructName="melee_damage_parameters_struct_block" />
+		<FieldCharEnum Index="28" Name="melee damage reporting type">
+			<Option Name="teh guardians!!1!!1!" />
+			<Option Name="falling damage" />
+			<Option Name="generic collision damage" />
+			<Option Name="generic melee damage" />
+			<Option Name="generic explosion" />
+			<Option Name="magnum pistol" />
+			<Option Name="plasma pistol" />
+			<Option Name="needler" />
+			<Option Name="smg" />
+			<Option Name="plasma rifle" />
+			<Option Name="battle rifle" />
+			<Option Name="carbine" />
+			<Option Name="shotgun" />
+			<Option Name="sniper rifle" />
+			<Option Name="beam rifle" />
+			<Option Name="rocket launcher" />
+			<Option Name="flak cannon" />
+			<Option Name="brute shot" />
+			<Option Name="disintegrator" />
+			<Option Name="brute plasma rifle" />
+			<Option Name="energy sword" />
+			<Option Name="frag grenade" />
+			<Option Name="plasma grenade" />
+			<Option Name="flag melee damage" />
+			<Option Name="bomb melee damage" />
+			<Option Name="bomb explosion damage" />
+			<Option Name="ball melee damage" />
+			<Option Name="human turret" />
+			<Option Name="plasma turret" />
+			<Option Name="banshee" />
+			<Option Name="ghost" />
+			<Option Name="mongoose" />
+			<Option Name="scorpion" />
+			<Option Name="spectre driver" />
+			<Option Name="spectre gunner" />
+			<Option Name="warthog driver" />
+			<Option Name="warthog gunner" />
+			<Option Name="wraith" />
+			<Option Name="tank" />
+			<Option Name="sentinel beam" />
+			<Option Name="sentinel rpg" />
+			<Option Name="teleporter" />
+		</FieldCharEnum>
+		<FieldPad Index="29" Name="" Length="1" />
+		<FieldExplanation Index="30" Name="zoom" Explanation="" />
+		<FieldShortInteger Index="31" Name="magnification levels#the number of magnification levels this weapon allows" />
+		<FieldRealBounds Index="32" Name="magnification range" />
+		<FieldExplanation Index="33" Name="weapon aim assist" Explanation="" />
+		<FieldStruct Index="34" Name="weapon aim assist" StructName="aim_assist_struct_block" />
+		<FieldExplanation Index="35" Name="movement" Explanation="" />
+		<FieldEnum Index="36" Name="movement penalized">
+			<Option Name="always" />
+			<Option Name="when zoomed" />
+			<Option Name="when zoomed or reloading" />
+		</FieldEnum>
+		<FieldPad Index="37" Name="" Length="2" />
+		<FieldRealFraction Index="38" Name="forward movement penalty#percent slowdown to forward movement for units carrying this weapon" />
+		<FieldRealFraction Index="39" Name="sideways movement penalty#percent slowdown to sideways and backward movement for units carrying this weapon" />
+		<FieldUselessPad Index="40" Name="" />
+		<FieldExplanation Index="41" Name="AI targeting parameters" Explanation="" />
+		<FieldReal Index="42" Name="AI scariness" />
+		<FieldExplanation Index="43" Name="miscellaneous" Explanation="" />
+		<FieldReal Index="44" Name="weapon power-on time:seconds" />
+		<FieldReal Index="45" Name="weapon power-off time:seconds" />
+		<FieldTagReference Index="46" Name="weapon power-on effect" GroupTag="-3" />
+		<FieldTagReference Index="47" Name="weapon power-off effect" GroupTag="-3" />
+		<FieldReal Index="48" Name="age heat recovery penalty#how much the weapon's heat recovery is penalized as it ages" />
+		<FieldReal Index="49" Name="age rate of fire penalty#how much the weapon's rate of fire is penalized as it ages" />
+		<FieldRealFraction Index="50" Name="age misfire start:[0,1]#the age threshold when the weapon begins to misfire" />
+		<FieldRealFraction Index="51" Name="age misfire chance:[0,1]#at age 1.0, the misfire chance per shot" />
+		<FieldTagReference Index="52" Name="pickup sound" GroupTag="1936614433" />
+		<FieldTagReference Index="53" Name="zoom-in sound" GroupTag="1936614433" />
+		<FieldTagReference Index="54" Name="zoom-out sound" GroupTag="1936614433" />
+		<FieldReal Index="55" Name="active camo ding#how much to decrease active camo when a round is fired" />
+		<FieldReal Index="56" Name="active camo regrowth rate#how fast to increase active camo (per tick) when a round is fired" />
+		<FieldStringId Index="57" Name="handle node#the node that get's attached to the unit's hand" />
+		<FieldExplanation Index="58" Name="weapon labels" Explanation="" />
+		<FieldStringId Index="59" Name="weapon class" />
+		<FieldStringId Index="60" Name="weapon name" />
+		<FieldEnum Index="61" Name="multiplayer weapon type">
+			<Option Name="none" />
+			<Option Name="ctf flag" />
+			<Option Name="oddball ball" />
+			<Option Name="headhunter head" />
+			<Option Name="juggernaut powerup" />
+		</FieldEnum>
+		<FieldExplanation Index="62" Name="more miscellaneous" Explanation="" />
+		<FieldEnum Index="63" Name="weapon type">
+			<Option Name="undefined" />
+			<Option Name="shotgun" />
+			<Option Name="needler" />
+			<Option Name="plasma pistol" />
+			<Option Name="plasma rifle" />
+			<Option Name="rocket launcher" />
+		</FieldEnum>
+		<FieldStruct Index="64" Name="tracking" StructName="weapon_tracking_struct_block" />
+		<FieldStruct Index="65" Name="player interface" StructName="weapon_interface_struct_block" />
+		<FieldBlock Index="66" Name="predicted resources" BlockName="predicted_resource_block" />
+		<FieldBlock Index="67" Name="magazines" BlockName="magazines" />
+		<FieldBlock Index="68" Name="new triggers" BlockName="weapon_triggers" />
+		<FieldBlock Index="69" Name="barrels" BlockName="weapon_barrels" />
+		<FieldPad Index="70" Name="" Length="8" />
+		<FieldUselessPad Index="71" Name="" />
+		<FieldExplanation Index="72" Name="first-person movement control" Explanation="" />
+		<FieldReal Index="73" Name="max movement acceleration" />
+		<FieldReal Index="74" Name="max movement velocity" />
+		<FieldReal Index="75" Name="max turning acceleration" />
+		<FieldReal Index="76" Name="max turning velocity" />
+		<FieldTagReference Index="77" Name="deployed vehicle" GroupTag="1986357353" />
+		<FieldTagReference Index="78" Name="age effect" GroupTag="1701209701" />
+		<FieldTagReference Index="79" Name="aged weapon" GroupTag="2003132784" />
+		<FieldRealVector3D Index="80" Name="first person weapon offset" />
+		<FieldRealVector2D Index="81" Name="first person scope size" />
+		<FieldTerminator Index="82" Name="" />
+	</FieldSet>
+</AbideTagBlock>

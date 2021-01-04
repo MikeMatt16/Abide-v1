@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="material_effect_block_v1" DisplayName="material_effect_block_v1" MaximumElementCount="14">
+	<FieldSet Alignment="4" Count="3">
+		<FieldBlock Index="0" Name="materials" BlockName="material_effect_material_block_old_v1" />
+		<FieldPad Index="1" Name="" Length="16" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_response_extra_sounds_struct_block" DisplayName="sound_response_extra_sounds_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldTagReference Index="0" Name="japanese sound" GroupTag="1936614433" />
+		<FieldTagReference Index="1" Name="german sound" GroupTag="1936614433" />
+		<FieldTagReference Index="2" Name="french sound" GroupTag="1936614433" />
+		<FieldTagReference Index="3" Name="spanish sound" GroupTag="1936614433" />
+		<FieldTagReference Index="4" Name="italian sound" GroupTag="1936614433" />
+		<FieldTagReference Index="5" Name="korean sound" GroupTag="1936614433" />
+		<FieldTagReference Index="6" Name="chinese sound" GroupTag="1936614433" />
+		<FieldTagReference Index="7" Name="portuguese sound" GroupTag="1936614433" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

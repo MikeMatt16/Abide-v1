@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_cache_block_block" DisplayName="decorator_cache_block_block" MaximumElementCount="4096">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStruct Index="0" Name="Geometry Block Info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="1" Name="Cache Block Data*" BlockName="decorator_cache_block_data_block" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

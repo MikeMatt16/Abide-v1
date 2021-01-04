@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_engage_block" DisplayName="character_engage_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="engage perch" />
+			<Option Name="fight constant movement" />
+			<Option Name="flight fight constant movement" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="1" Name="" />
+		<FieldReal Index="2" Name="Crouch danger threshold#When danger rises above the threshold, the actor crouches" />
+		<FieldReal Index="3" Name="Stand danger threshold#When danger drops below this threshold, the actor can stand again." />
+		<FieldReal Index="4" Name="Fight danger move threshold#When danger goes above given level, this actor switches firing positions" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

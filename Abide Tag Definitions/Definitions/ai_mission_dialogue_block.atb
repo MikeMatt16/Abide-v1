@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_mission_dialogue_block" DisplayName="ai_mission_dialogue" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldBlock Index="0" Name="lines" BlockName="mission_dialogue_lines_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

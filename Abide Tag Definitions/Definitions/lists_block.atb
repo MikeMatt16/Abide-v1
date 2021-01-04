@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lists_block" DisplayName="lists_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="13">
+		<FieldSkip Index="0" Name="" Length="4" />
+		<FieldShortInteger Index="1" Name="size*" />
+		<FieldShortInteger Index="2" Name="count*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldSkip Index="4" Name="" Length="4" />
+		<FieldLongInteger Index="5" Name="child shapes size*" />
+		<FieldLongInteger Index="6" Name="child shapes capacity*" />
+		<FieldArrayStart Index="7" Name="child shapes storage*" Length="4">
+			<FieldEnum Index="0" Name="shape type*">
+				<Option Name="sphere" />
+				<Option Name="pill" />
+				<Option Name="box" />
+				<Option Name="triangle" />
+				<Option Name="polyhedron" />
+				<Option Name="multi sphere" />
+				<Option Name="unused 0" />
+				<Option Name="unused 1" />
+				<Option Name="unused 2" />
+				<Option Name="unused 3" />
+				<Option Name="unused 4" />
+				<Option Name="unused 5" />
+				<Option Name="unused 6" />
+				<Option Name="unused 7" />
+				<Option Name="list" />
+				<Option Name="mopp" />
+			</FieldEnum>
+			<FieldShortBlockIndex2 Index="1" Name="shape*" />
+			<FieldLongInteger Index="2" Name="collision filter*" />
+		</FieldArrayStart>
+		<FieldEnum Index="8" Name="shape type*">
+			<Option Name="sphere" />
+			<Option Name="pill" />
+			<Option Name="box" />
+			<Option Name="triangle" />
+			<Option Name="polyhedron" />
+			<Option Name="multi sphere" />
+			<Option Name="unused 0" />
+			<Option Name="unused 1" />
+			<Option Name="unused 2" />
+			<Option Name="unused 3" />
+			<Option Name="unused 4" />
+			<Option Name="unused 5" />
+			<Option Name="unused 6" />
+			<Option Name="unused 7" />
+			<Option Name="list" />
+			<Option Name="mopp" />
+		</FieldEnum>
+		<FieldShortBlockIndex2 Index="9" Name="shape*" />
+		<FieldLongInteger Index="10" Name="collision filter*" />
+		<FieldArrayEnd Index="11" Name="" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

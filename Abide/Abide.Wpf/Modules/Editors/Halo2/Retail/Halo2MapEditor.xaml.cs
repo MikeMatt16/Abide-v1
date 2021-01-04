@@ -20,22 +20,14 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         }
         public override bool IsValidEditor(string path)
         {
-            //Prepare
-            bool succeeded;
-
-            //Try to load file and perform checks
             try
             {
-                //Open file
                 using (FileStream fs = File.OpenRead(path))
                 {
-                    //Check length
                     if (fs.Length < 6144) return false;
 
-                    //Create reader
                     using (BinaryReader reader = new BinaryReader(fs))
                     {
-                        //Read parts of header
                         fs.Seek(0, SeekOrigin.Begin);
                         TagFourCc head = reader.Read<TagFourCc>();
                         uint version = reader.ReadUInt32();
@@ -45,7 +37,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                         fs.Seek(2044, SeekOrigin.Begin);
                         TagFourCc foot = reader.Read<TagFourCc>();
 
-                        //Check header...
                         if (head != HaloTags.head || foot != HaloTags.foot)
                             return false;
                         else if (version != 8)
@@ -55,30 +46,26 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                         else if (checksum == 0)
                             return false;
 
-                        //Return
                         return true;
                     }
                 }
             }
-            catch { succeeded = false; }
+            catch { }
 
-            //Return
-            return succeeded;
+            return false;
         }
         public override void Load(string path)
         {
-            //Prepare
-            HaloMapViewModel model = null;
-
-            //Base procedures
             base.Load(path);
 
-            //Check
             if (File.Exists(path))
-                model = new HaloMapViewModel(new HaloMap(path));
+            {
+                HaloMapFile mapFile = HaloMapFile.Load(path);
 
-            //Set DataContext
-            DataContext = model ?? new HaloMapViewModel();
+                HaloMapViewModel model = new HaloMapViewModel(mapFile);
+                DataContext = model;
+            }
+            else DataContext = new HaloMapViewModel();
         }
 
         private void ToolMenuItem_Click(object sender, RoutedEventArgs e)

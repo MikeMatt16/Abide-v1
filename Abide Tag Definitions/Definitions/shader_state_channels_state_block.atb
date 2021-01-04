@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_channels_state_block" DisplayName="channels" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="R" />
+			<Option Name="G" />
+			<Option Name="B" />
+			<Option Name="A" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

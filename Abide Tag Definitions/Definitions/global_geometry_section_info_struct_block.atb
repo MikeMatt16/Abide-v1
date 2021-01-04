@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_section_info_struct_block" DisplayName="global_geometry_section_info_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="21">
+		<FieldExplanation Index="0" Name="SECTION INFO" Explanation="" />
+		<FieldShortInteger Index="1" Name="Total Vertex Count*" />
+		<FieldShortInteger Index="2" Name="Total Triangle Count*" />
+		<FieldShortInteger Index="3" Name="Total Part Count*" />
+		<FieldShortInteger Index="4" Name="Shadow-Casting Triangle Count*" />
+		<FieldShortInteger Index="5" Name="Shadow-Casting Part Count*" />
+		<FieldShortInteger Index="6" Name="Opaque Point Count*" />
+		<FieldShortInteger Index="7" Name="Opaque Vertex Count*" />
+		<FieldShortInteger Index="8" Name="Opaque Part Count*" />
+		<FieldCharInteger Index="9" Name="Opaque Max Nodes/Vertex*" />
+		<FieldCharInteger Index="10" Name="Transparent Max Nodes/Vertex*" />
+		<FieldShortInteger Index="11" Name="Shadow-Casting Rigid Triangle Count*" />
+		<FieldEnum Index="12" Name="Geometry Classification*">
+			<Option Name="Worldspace" />
+			<Option Name="Rigid" />
+			<Option Name="Rigid Boned" />
+			<Option Name="Skinned" />
+			<Option Name="Unsupported (Reimport)" />
+		</FieldEnum>
+		<FieldWordFlags Index="13" Name="Geometry Compression Flags*">
+			<Option Name="Compressed Position" />
+			<Option Name="Compressed Texcoord" />
+			<Option Name="Compressed Secondary Texcoord" />
+		</FieldWordFlags>
+		<FieldBlock Index="14" Name="" BlockName="global_geometry_compression_info_block" />
+		<FieldCharInteger Index="15" Name="Hardware Node Count*" />
+		<FieldCharInteger Index="16" Name="Node Map Size*" />
+		<FieldShortInteger Index="17" Name="Software Plane Count*" />
+		<FieldShortInteger Index="18" Name="total subpart_cont*" />
+		<FieldWordFlags Index="19" Name="Section Lighting Flags*">
+			<Option Name="has lm texcoords" />
+			<Option Name="has lm inc. rad." />
+			<Option Name="Has lm Colors" />
+			<Option Name="has lm prt" />
+		</FieldWordFlags>
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -30,7 +30,7 @@ namespace Abide.TagBuilder.Halo2
         }
         public override string ToString()
         {
-            return $"{Name}.{TagGroup.Name}";
+            return $"{Name}.{TagGroup.GroupName}";
         }
     }
 }

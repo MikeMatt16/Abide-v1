@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_bitmap_widgets" DisplayName="hud_bitmap_widgets" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="21">
+		<FieldStringId Index="0" Name="name" />
+		<FieldStruct Index="1" Name="" StructName="hud_widget_inputs_struct_block" />
+		<FieldStruct Index="2" Name="" StructName="hud_widget_state_definition_struct_block" />
+		<FieldEnum Index="3" Name="anchor">
+			<Option Name="health and shield" />
+			<Option Name="weapon hud" />
+			<Option Name="motion sensor" />
+			<Option Name="scoreboard" />
+			<Option Name="crosshair" />
+			<Option Name="lock-on target" />
+		</FieldEnum>
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="flip horizontally" />
+			<Option Name="flip vertically" />
+			<Option Name="(scope) mirror horizontally" />
+			<Option Name="(scope) mirror vertically" />
+			<Option Name="(scope) stretch" />
+		</FieldWordFlags>
+		<FieldTagReference Index="5" Name="bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="6" Name="shader" GroupTag="1936220516" />
+		<FieldCharInteger Index="7" Name="fullscreen sequence index" />
+		<FieldCharInteger Index="8" Name="halfscreen sequence index" />
+		<FieldCharInteger Index="9" Name="quarterscreen sequence index" />
+		<FieldPad Index="10" Name="" Length="1" />
+		<FieldPoint2D Index="11" Name="fullscreen offset" />
+		<FieldPoint2D Index="12" Name="halfscreen offset" />
+		<FieldPoint2D Index="13" Name="quarterscreen offset" />
+		<FieldRealPoint2D Index="14" Name="fullscreen registration point" />
+		<FieldRealPoint2D Index="15" Name="halfscreen registration point" />
+		<FieldRealPoint2D Index="16" Name="quarterscreen registration point" />
+		<FieldBlock Index="17" Name="effect" BlockName="hud_widget_effect_block" />
+		<FieldEnum Index="18" Name="special hud type">
+			<Option Name="unspecial" />
+			<Option Name="s.b. player emblem" />
+			<Option Name="s.b. other player emblem" />
+			<Option Name="s.b. player score meter" />
+			<Option Name="s.b. other player score meter" />
+			<Option Name="unit shield meter" />
+			<Option Name="motion sensor" />
+			<Option Name="territory meter" />
+		</FieldEnum>
+		<FieldPad Index="19" Name="" Length="2" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

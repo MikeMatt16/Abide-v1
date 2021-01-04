@@ -26,17 +26,14 @@ namespace Abide.Wpf.Modules.Dialogs
         /// <summary>
         /// Gets and returns the list of editors.
         /// </summary>
-        public ObservableCollection<IFileEditor> Editors
-        {
-            get { return (ObservableCollection<IFileEditor>)GetValue(EditorsProperty); }
-        }
+        public ObservableCollection<IFileEditor> Editors => (ObservableCollection<IFileEditor>)GetValue(EditorsProperty);
         /// <summary>
         /// Gets or sets the currently selected editor.
         /// </summary>
         public IFileEditor SelectedEditor
         {
-            get { return (IFileEditor)GetValue(SelectedEditorProperty); }
-            set { SetValue(SelectedEditorProperty, value); }
+            get => (IFileEditor)GetValue(SelectedEditorProperty);
+            set => SetValue(SelectedEditorProperty, value);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChooseEditorDialog"/> class.

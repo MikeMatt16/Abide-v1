@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="beam_block" DisplayName="beam_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="16">
+		<FieldTagReference Index="0" Name="shader" GroupTag="1936220516" />
+		<FieldShortBlockIndex1 Index="1" Name="location" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldExplanation Index="3" Name="COLOR" Explanation="tint color of the beam" />
+		<FieldStruct Index="4" Name="color" StructName="color_function_struct_block" />
+		<FieldExplanation Index="5" Name="ALPHA" Explanation="how much to fade out beam" />
+		<FieldStruct Index="6" Name="alpha" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="7" Name="WIDTH" Explanation="how wide in world units" />
+		<FieldStruct Index="8" Name="width" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="9" Name="LENGTH" Explanation="how long in world units" />
+		<FieldStruct Index="10" Name="length" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="11" Name="YAW" Explanation="rotate the marker" />
+		<FieldStruct Index="12" Name="yaw" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="13" Name="PITCH" Explanation="rotate the marker" />
+		<FieldStruct Index="14" Name="pitch" StructName="scalar_function_struct_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

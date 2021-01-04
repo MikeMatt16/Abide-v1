@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_machine_struct_v3_block" DisplayName="scenario_machine_struct_v3" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="Does Not Operate Automatically" />
+			<Option Name="One-Sided" />
+			<Option Name="Never Appears Locked" />
+			<Option Name="Opened by Melee Attack" />
+			<Option Name="One-Sided for Player" />
+			<Option Name="Does Not Close Automatically" />
+		</FieldLongFlags>
+		<FieldBlock Index="1" Name="Pathfinding References*" BlockName="pathfinding_object_index_list_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

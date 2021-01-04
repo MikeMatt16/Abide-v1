@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_atmospheric_fog_palette" DisplayName="scenario_atmospheric_fog_palette" MaximumElementCount="127">
+	<FieldSet Alignment="4" Count="38">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldExplanation Index="1" Name="ATMOSPHERIC FOG" Explanation="" />
+		<FieldRealRgbColor Index="2" Name="Color" />
+		<FieldReal Index="3" Name="Spread Distance:World Units#How far fog spreads into adjacent clusters: 0 defaults to 1." />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldRealFraction Index="5" Name="Maximum Density:[0,1]#Fog density clamps to this value." />
+		<FieldReal Index="6" Name="Start Distance:World Units#Before this distance, there is no fog." />
+		<FieldReal Index="7" Name="Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance from viewer." />
+		<FieldExplanation Index="8" Name="SECONDARY FOG" Explanation="" />
+		<FieldRealRgbColor Index="9" Name="Color" />
+		<FieldPad Index="10" Name="" Length="4" />
+		<FieldRealFraction Index="11" Name="Maximum Density:[0,1]#Fog density clamps to this value." />
+		<FieldReal Index="12" Name="Start Distance:World Units#Before this distance, there is no fog." />
+		<FieldReal Index="13" Name="Opaque Distance:World Units#Fog becomes opaque (maximum density) at this distance from viewer." />
+		<FieldPad Index="14" Name="" Length="4" />
+		<FieldExplanation Index="15" Name="PLANAR FOG OVERRIDE" Explanation="Planar fog, if present, is interpolated toward these values." />
+		<FieldRealRgbColor Index="16" Name="Planar Color" />
+		<FieldRealFraction Index="17" Name="Planar Max Density:[0,1]" />
+		<FieldRealFraction Index="18" Name="Planar Override Amount:[0,1]" />
+		<FieldReal Index="19" Name="Planar Min Distance Bias:World Units#Don't ask." />
+		<FieldPad Index="20" Name="" Length="44" />
+		<FieldExplanation Index="21" Name="PATCHY FOG" Explanation="" />
+		<FieldRealRgbColor Index="22" Name="Patchy Color" />
+		<FieldPad Index="23" Name="" Length="12" />
+		<FieldRealFractionBounds Index="24" Name="Patchy Density:[0,1]" />
+		<FieldRealBounds Index="25" Name="Patchy Distance:World Units" />
+		<FieldPad Index="26" Name="" Length="32" />
+		<FieldTagReference Index="27" Name="Patchy Fog" GroupTag="1718641512" />
+		<FieldBlock Index="28" Name="Mixers" BlockName="scenario_atmospheric_fog_mixer_block" />
+		<FieldExplanation Index="29" Name="BLOOM OVERRIDE" Explanation="" />
+		<FieldRealFraction Index="30" Name="Amount:[0,1]" />
+		<FieldRealFraction Index="31" Name="Threshold:[0,1]" />
+		<FieldRealFraction Index="32" Name="Brightness:[0,1]" />
+		<FieldReal Index="33" Name="Gamma Power" />
+		<FieldExplanation Index="34" Name="CAMERA IMMERSION OVERRIDE" Explanation="" />
+		<FieldWordFlags Index="35" Name="Camera Immersion Flags">
+			<Option Name="Disable Atmospheric Fog" />
+			<Option Name="Disable Secondary Fog" />
+			<Option Name="Disable Planar Fog" />
+			<Option Name="Invert Planar Fog Priorities" />
+			<Option Name="Disable Water" />
+		</FieldWordFlags>
+		<FieldPad Index="36" Name="" Length="2" />
+		<FieldTerminator Index="37" Name="" />
+	</FieldSet>
+</AbideTagBlock>

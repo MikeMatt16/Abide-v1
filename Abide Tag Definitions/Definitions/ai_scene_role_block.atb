@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_scene_role_block" DisplayName="ai_scene_role_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldEnum Index="1" Name="group">
+			<Option Name="group 1" />
+			<Option Name="group 2" />
+			<Option Name="group 3" />
+		</FieldEnum>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldBlock Index="4" Name="role variants" BlockName="ai_scene_role_variants_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

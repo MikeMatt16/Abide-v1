@@ -1,4 +1,5 @@
-﻿using Abide.Wpf.Modules;
+﻿using Abide.HaloLibrary.Halo2.Retail;
+using Abide.Wpf.Modules;
 using Abide.Wpf.Modules.AddOns;
 using Abide.Wpf.Modules.Win32;
 using Abide.Wpf.Modules.Windows;
@@ -14,6 +15,9 @@ namespace Abide.Wpf
     {
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
+            using (HaloMap map = new HaloMap(@"F:\XBox\Original\Games\Halo 2\Clean Maps\ascension.map"))
+                map.Save($@"F:\{map.Name}.map");
+
             //Handle arguments
             for (int i = 0; i < e.Args.Length; i++)
             {

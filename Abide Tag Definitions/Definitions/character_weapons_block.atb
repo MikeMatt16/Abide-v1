@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_weapons_block" DisplayName="character_weapons_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="52">
+		<FieldLongFlags Index="0" Name="weapons flags">
+			<Option Name="bursting inhibits movement" />
+			<Option Name="must crouch to shoot" />
+			<Option Name="use extended safe-to-save range" />
+		</FieldLongFlags>
+		<FieldTagReference Index="1" Name="weapon^" GroupTag="2003132784" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldExplanation Index="3" Name="Combat ranges" Explanation="" />
+		<FieldReal Index="4" Name="maximum firing range:world units#we can only fire our weapon at targets within this distance" />
+		<FieldReal Index="5" Name="minimum firing range#weapon will not be fired at target closer than given distance" />
+		<FieldRealBounds Index="6" Name="normal combat range:world units" />
+		<FieldReal Index="7" Name="bombardment range#we offset our burst targets randomly by this range when firing at non-visible enemies (zero = never)" />
+		<FieldReal Index="8" Name="Max special target distance:world units#Specific target regions on a vehicle or unit will be fired upon only under the given distance" />
+		<FieldRealBounds Index="9" Name="timid combat range:world units" />
+		<FieldRealBounds Index="10" Name="aggressive combat range:world units" />
+		<FieldExplanation Index="11" Name="Ballistic Firing" Explanation="" />
+		<FieldReal Index="12" Name="super-ballistic range#we try to aim our shots super-ballistically if target is outside this range (zero = never)" />
+		<FieldRealBounds Index="13" Name="Ballistic firing bounds:world units#At the min range, the min ballistic fraction is used, at the max, the max ballistic fraction is used" />
+		<FieldRealBounds Index="14" Name="Ballistic fraction bounds:[0-1]#Controls speed and degree of arc. 0 = high, slow, 1 = low, fast" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldExplanation Index="16" Name="Behavior" Explanation="" />
+		<FieldRealBounds Index="17" Name="first burst delay time:seconds" />
+		<FieldReal Index="18" Name="surprise delay time:seconds" />
+		<FieldReal Index="19" Name="surprise fire-wildly time:seconds" />
+		<FieldReal Index="20" Name="death fire-wildly chance:[0,1]" />
+		<FieldReal Index="21" Name="death fire-wildly time:seconds" />
+		<FieldUselessPad Index="22" Name="" />
+		<FieldRealVector3D Index="23" Name="custom stand gun offset#custom standing gun offset for overriding the default in the base actor" />
+		<FieldRealVector3D Index="24" Name="custom crouch gun offset#custom crouching gun offset for overriding the default in the base actor" />
+		<FieldUselessPad Index="25" Name="" />
+		<FieldExplanation Index="26" Name="special-case firing properties" Explanation="" />
+		<FieldEnum Index="27" Name="special-fire mode#the type of special weapon fire that we can use">
+			<Option Name="none" />
+			<Option Name="overcharge" />
+			<Option Name="secondary trigger" />
+		</FieldEnum>
+		<FieldEnum Index="28" Name="special-fire situation#when we will decide to use our special weapon fire mode">
+			<Option Name="never" />
+			<Option Name="enemy visible" />
+			<Option Name="enemy out of sight" />
+			<Option Name="strafing" />
+		</FieldEnum>
+		<FieldReal Index="29" Name="special-fire chance:[0,1]#how likely we are to use our special weapon fire mode" />
+		<FieldReal Index="30" Name="special-fire delay:seconds#how long we must wait between uses of our special weapon fire mode" />
+		<FieldReal Index="31" Name="special damage modifier:[0,1]#damage modifier for special weapon fire (applied in addition to the normal damage modifier. zero = no change)" />
+		<FieldAngle Index="32" Name="special projectile error:degrees#projectile error angle for special weapon fire (applied in addition to the normal error)" />
+		<FieldUselessPad Index="33" Name="" />
+		<FieldExplanation Index="34" Name="Weapon drop when killed" Explanation="" />
+		<FieldRealBounds Index="35" Name="drop weapon loaded#amount of ammo loaded into the weapon that we drop (in fractions of a clip, e.g. 0.3 to 0.5)" />
+		<FieldShortBounds Index="36" Name="drop weapon ammo#total number of rounds in the weapon that we drop (ignored for energy weapons)" />
+		<FieldUselessPad Index="37" Name="" />
+		<FieldExplanation Index="38" Name="Accuracy" Explanation="Parameters control how accuracy changes over the duration of a series of bursts|nAccuracy is an analog value between 0 and 1. At zero, the parameters of the first|nfiring-pattern block is used. At 1, the parameters in the second block is used. In|nbetween, all the values are linearly interpolated" />
+		<FieldRealBounds Index="39" Name="normal accuracy bounds#Indicates starting and ending accuracies at normal difficulty" />
+		<FieldReal Index="40" Name="normal accuracy time#The amount of time it takes the accuracy to go from starting to ending" />
+		<FieldUselessPad Index="41" Name="" />
+		<FieldRealBounds Index="42" Name="heroic accuracy bounds#Indicates starting and ending accuracies at heroic difficulty" />
+		<FieldReal Index="43" Name="heroic accuracy time#The amount of time it takes the accuracy to go from starting to ending" />
+		<FieldUselessPad Index="44" Name="" />
+		<FieldRealBounds Index="45" Name="legendary accuracy bounds#Indicates starting and ending accuracies at legendary difficulty" />
+		<FieldReal Index="46" Name="legendary accuracy time#The amount of time it takes the accuracy to go from starting to ending" />
+		<FieldUselessPad Index="47" Name="" />
+		<FieldUselessPad Index="48" Name="" />
+		<FieldBlock Index="49" Name="firing patterns" BlockName="character_firing_pattern_block" />
+		<FieldTagReference Index="50" Name="weapon melee damage" GroupTag="1785754657" />
+		<FieldTerminator Index="51" Name="" />
+	</FieldSet>
+</AbideTagBlock>

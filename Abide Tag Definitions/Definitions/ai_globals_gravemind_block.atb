@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_globals_gravemind_block" DisplayName="ai_globals_gravemind_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldReal Index="0" Name="min retreat time:secs" />
+		<FieldReal Index="1" Name="ideal retreat time:secs" />
+		<FieldReal Index="2" Name="max retreat time:secs" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

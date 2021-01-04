@@ -149,7 +149,7 @@ namespace Abide.HaloLibrary
         /// Converts a <see cref="TagId"/> to a signed 32-bit integer.
         /// </summary>
         /// <param name="id">The <see cref="TagId"/> object.</param>
-        public static implicit operator int(TagId id)
+        public static explicit operator int(TagId id)
         {
             return (int)id.Dword;
         }
@@ -157,7 +157,7 @@ namespace Abide.HaloLibrary
         /// Converts a signed 32-bit integer to to a <see cref="TagId"/> instance.
         /// </summary>
         /// <param name="id">The <see cref="int"/> object.</param>
-        public static implicit operator TagId(int id)
+        public static explicit operator TagId(int id)
         {
             return new TagId(id);
         }

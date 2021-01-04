@@ -26,17 +26,20 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="0" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}"/>
             <TreeView Grid.Row="1" ItemsSource="{Binding TagPathNodes}" vm:ExtendedTreeView.SelectedItem="{Binding SelectedNode, Mode=TwoWay}">
-                <TreeView.Resources>
+                <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type local:TagPathNode}" ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding ImageSource}"/>
+                            <TextBlock Text="{Binding Name}" Foreground="{StaticResource Foreground}"/>
+                        </StackPanel>
                     </HierarchicalDataTemplate>
-                </TreeView.Resources>
+                </TreeView.ItemTemplate>
             </TreeView>
         </Grid>
         <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="{StaticResource Background}"/>
-        <DockPanel Grid.Column="2" Background="{StaticResource BackgroundDark}">
+        <DockPanel Grid.Column="2" Background="{StaticResource Background}">
             <ToolBar DockPanel.Dock="Top">
                 <Menu>
                     <MenuItem Header="_Tools" ItemsSource="{Binding ToolList}">
@@ -51,9 +54,23 @@
                             </DataTemplate>
                         </MenuItem.ItemTemplate>
                     </MenuItem>
+                    <MenuItem Header="_Tag Options" ItemsSource="{Binding ToolButtonList}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Command" Value="{Binding ClickCommand}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}"/>
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
                 </Menu>
             </ToolBar>
-            <ContentControl x:Name="ToolContent"/>
+            <Border BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}" Background="{StaticResource Background}">
+                <ContentControl x:Name="ToolContent"/>
+            </Border>
         </DockPanel>
     </Grid>
 </wpf:FileEditorControl>

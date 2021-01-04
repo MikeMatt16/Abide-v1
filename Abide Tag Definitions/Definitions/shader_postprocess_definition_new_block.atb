@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_definition_new_block" DisplayName="shader_postprocess_definition_new_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="17">
+		<FieldLongInteger Index="0" Name="shader template index" />
+		<FieldBlock Index="1" Name="bitmaps" BlockName="shader_postprocess_bitmap_new_block" />
+		<FieldBlock Index="2" Name="pixel constants" BlockName="pixel32_block" />
+		<FieldBlock Index="3" Name="vertex constants" BlockName="real_vector4d_block" />
+		<FieldBlock Index="4" Name="levels of detail" BlockName="shader_postprocess_level_of_detail_new_block" />
+		<FieldBlock Index="5" Name="layers" BlockName="tag_block_index_block" />
+		<FieldBlock Index="6" Name="passes" BlockName="tag_block_index_block" />
+		<FieldBlock Index="7" Name="implementations" BlockName="shader_postprocess_implementation_new_block" />
+		<FieldBlock Index="8" Name="overlays" BlockName="shader_postprocess_overlay_new_block" />
+		<FieldBlock Index="9" Name="overlay references" BlockName="shader_postprocess_overlay_reference_new_block" />
+		<FieldBlock Index="10" Name="animated parameters" BlockName="shader_postprocess_animated_parameter_new_block" />
+		<FieldBlock Index="11" Name="animated parameter references" BlockName="shader_postprocess_animated_parameter_reference_new_block" />
+		<FieldBlock Index="12" Name="bitmap properties" BlockName="shader_postprocess_bitmap_property_block" />
+		<FieldBlock Index="13" Name="color properties" BlockName="shader_postprocess_color_property_block" />
+		<FieldBlock Index="14" Name="value properties" BlockName="shader_postprocess_value_property_block" />
+		<FieldBlock Index="15" Name="old levels of detail" BlockName="shader_postprocess_level_of_detail_block" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

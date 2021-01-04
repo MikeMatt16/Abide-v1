@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="static_spawn_zone_block" DisplayName="static_spawn_zone_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="10">
+		<FieldCustom Index="0" Name="" />
+		<FieldExplanation Index="1" Name="Static Spawn Zones" Explanation="Lower and upper heights can be left at 0, in which case they use defaults.  Leaving relevant teams empty means all teams; leaving all games empty means all games." />
+		<FieldStruct Index="2" Name="Data" StructName="static_spawn_zone_data_struct_block" />
+		<FieldRealPoint3D Index="3" Name="Position" />
+		<FieldReal Index="4" Name="Lower Height" />
+		<FieldReal Index="5" Name="Upper Height" />
+		<FieldReal Index="6" Name="Inner Radius" />
+		<FieldReal Index="7" Name="Outer Radius" />
+		<FieldReal Index="8" Name="Weight" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

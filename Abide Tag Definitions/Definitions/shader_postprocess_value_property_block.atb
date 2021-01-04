@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_value_property_block" DisplayName="shader_postprocess_value_property_block" MaximumElementCount="6">
+	<FieldSet Alignment="4" Count="2">
+		<FieldReal Index="0" Name="value" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

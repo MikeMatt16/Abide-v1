@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="torque_curve_struct_block" DisplayName="torque_curve_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldReal Index="0" Name="min torque" />
+		<FieldReal Index="1" Name="max torque" />
+		<FieldReal Index="2" Name="peak torque scale" />
+		<FieldReal Index="3" Name="past peak torque exponent" />
+		<FieldReal Index="4" Name="torque at max angular velocity#generally 0 for loading torque and something less than max torque for cruising torque" />
+		<FieldReal Index="5" Name="torque at 2x max angular velocity" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

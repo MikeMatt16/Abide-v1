@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="decorator_placement_block" DisplayName="decorator_placement_block" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="7">
+		<FieldLongInteger Index="0" Name="Internal Data 1" />
+		<FieldLongInteger Index="1" Name="Compressed Position" />
+		<FieldRgbColor Index="2" Name="Tint Color" />
+		<FieldRgbColor Index="3" Name="Lightmap Color" />
+		<FieldLongInteger Index="4" Name="Compressed Light Direction" />
+		<FieldLongInteger Index="5" Name="Compressed Light 2 Direction" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

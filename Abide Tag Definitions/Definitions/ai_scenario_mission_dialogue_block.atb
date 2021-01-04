@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_scenario_mission_dialogue_block" DisplayName="ai_scenario_mission_dialogue_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="mission dialogue" GroupTag="1835297895" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

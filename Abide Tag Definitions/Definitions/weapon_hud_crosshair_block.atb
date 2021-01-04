@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_hud_crosshair_block" DisplayName="weapon_hud_crosshair_block" MaximumElementCount="19">
+	<FieldSet Alignment="4" Count="9">
+		<FieldEnum Index="0" Name="crosshair type">
+			<Option Name="aim" />
+			<Option Name="zoom" />
+			<Option Name="charge" />
+			<Option Name="should reload" />
+			<Option Name="flash heat" />
+			<Option Name="flash inventory ammo" />
+			<Option Name="flash battery" />
+			<Option Name="reload/overheat" />
+			<Option Name="flash when firing and no ammo" />
+			<Option Name="flash when throwing and no grenade" />
+			<Option Name="low ammo and none left to reload" />
+			<Option Name="should reload secondary trigger" />
+			<Option Name="flash secondary inventory ammo" />
+			<Option Name="flash secondary reload" />
+			<Option Name="flash when firing secondary trigger with no ammo" />
+			<Option Name="low secondary ammo and none left to reload" />
+			<Option Name="primary trigger ready" />
+			<Option Name="secondary trigger ready" />
+			<Option Name="flash when firing with depleted battery" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="can use on map type">
+			<Option Name="any" />
+			<Option Name="solo" />
+			<Option Name="multiplayer" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="28" />
+		<FieldTagReference Index="5" Name="Crosshair bitmap" GroupTag="1651078253" />
+		<FieldBlock Index="6" Name="Crosshair overlays" BlockName="weapon_hud_crosshair_item_block" />
+		<FieldPad Index="7" Name="" Length="40" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

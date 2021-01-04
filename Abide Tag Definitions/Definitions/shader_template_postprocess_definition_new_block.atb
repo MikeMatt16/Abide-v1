@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_postprocess_definition_new_block" DisplayName="shader_template_postprocess_definition_new_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldBlock Index="0" Name="levels of detail" BlockName="shader_template_postprocess_level_of_detail_new_block" />
+		<FieldBlock Index="1" Name="layers" BlockName="tag_block_index_block" />
+		<FieldBlock Index="2" Name="passes" BlockName="shader_template_postprocess_pass_new_block" />
+		<FieldBlock Index="3" Name="implementations" BlockName="shader_template_postprocess_implementation_new_block" />
+		<FieldBlock Index="4" Name="remappings" BlockName="shader_template_postprocess_remapping_new_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

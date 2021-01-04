@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="mass_distributions_block" DisplayName="mass_distributions_block" MaximumElementCount="256">
+	<FieldSet Alignment="16" Count="9">
+		<FieldRealVector3D Index="0" Name="center of mass*" />
+		<FieldSkip Index="1" Name="" Length="4" />
+		<FieldRealVector3D Index="2" Name="inertia tensor i*" />
+		<FieldSkip Index="3" Name="" Length="4" />
+		<FieldRealVector3D Index="4" Name="inertia tensor j*" />
+		<FieldSkip Index="5" Name="" Length="4" />
+		<FieldRealVector3D Index="6" Name="inertia tensor k*" />
+		<FieldSkip Index="7" Name="" Length="4" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

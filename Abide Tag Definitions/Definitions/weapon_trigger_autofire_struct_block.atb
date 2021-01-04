@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_trigger_autofire_struct_block" DisplayName="weapon_trigger_autofire_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldExplanation Index="0" Name="AUTOFIRE" Explanation="" />
+		<FieldReal Index="1" Name="autofire time" />
+		<FieldReal Index="2" Name="autofire throw" />
+		<FieldEnum Index="3" Name="secondary action">
+			<Option Name="fire" />
+			<Option Name="charge" />
+			<Option Name="track" />
+			<Option Name="fire other" />
+		</FieldEnum>
+		<FieldEnum Index="4" Name="primary action">
+			<Option Name="fire" />
+			<Option Name="charge" />
+			<Option Name="track" />
+			<Option Name="fire other" />
+		</FieldEnum>
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

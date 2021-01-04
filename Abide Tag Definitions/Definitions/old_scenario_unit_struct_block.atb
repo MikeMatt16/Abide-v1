@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="old_scenario_unit_struct_block" DisplayName="old_scenario_unit_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldReal Index="0" Name="Body Vitality:[0,1]" />
+		<FieldLongFlags Index="1" Name="Flags">
+			<Option Name="Dead" />
+			<Option Name="Closed" />
+			<Option Name="Not Enterable by Player" />
+		</FieldLongFlags>
+		<FieldPad Index="2" Name="" Length="8" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

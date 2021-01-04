@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_function_block" DisplayName="scenario_function_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="23">
+		<FieldLongFlags Index="0" Name="Flags">
+			<Option Name="Scripted#Level script will set this value; other settings here will be ignored." />
+			<Option Name="Invert#Result of function is 1 minus actual result." />
+			<Option Name="Additive" />
+			<Option Name="Always Active#Function does not deactivate when at or below lower bound." />
+		</FieldLongFlags>
+		<FieldString Index="1" Name="Name^" />
+		<FieldReal Index="2" Name="Period:Seconds#Period for above function (lower values make function oscillate quickly; higher values make it oscillate slowly)." />
+		<FieldShortBlockIndex1 Index="3" Name="Scale Period By#Multiply this function by above period" />
+		<FieldEnum Index="4" Name="Function">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="5" Name="Scale Function By#Multiply this function by result of above function." />
+		<FieldEnum Index="6" Name="Wobble Function#Curve used for wobble.">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldReal Index="7" Name="Wobble Period:Seconds#Time it takes for magnitude of this function to complete a wobble." />
+		<FieldReal Index="8" Name="Wobble Magnitude:Percent#Amount of random wobble in the magnitude." />
+		<FieldRealFraction Index="9" Name="Square Wave Threshold#If non-zero, all values above square wave threshold are snapped to 1.0, and all values below it are snapped to 0.0 to create a square wave." />
+		<FieldShortInteger Index="10" Name="Step Count#Number of discrete values to snap to (e.g., step count of 5 snaps function to 0.00, 0.25, 0.50,0.75, or 1.00)." />
+		<FieldEnum Index="11" Name="Map to">
+			<Option Name="linear" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="cosine" />
+			<Option Name="one" />
+			<Option Name="zero" />
+		</FieldEnum>
+		<FieldShortInteger Index="12" Name="Sawtooth Count#Number of times this function should repeat (e.g., sawtooth count of 5 gives function value of 1.0 at each of 0.25, 0.50, and 0.75, as well as at 1.0)." />
+		<FieldPad Index="13" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="14" Name="Scale Result by#Multiply this function (e.g., from a weapon, vehicle) final result of all of the above math." />
+		<FieldEnum Index="15" Name="Bounds Mode#Controls how bounds, below, are used.">
+			<Option Name="Clip" />
+			<Option Name="Clip and Normalize" />
+			<Option Name="Scale to Fit" />
+		</FieldEnum>
+		<FieldRealFractionBounds Index="16" Name="Bounds" />
+		<FieldPad Index="17" Name="" Length="4" />
+		<FieldPad Index="18" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="19" Name="Turn Off with#If specified function is off, so is this function." />
+		<FieldPad Index="20" Name="" Length="16" />
+		<FieldPad Index="21" Name="" Length="16" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

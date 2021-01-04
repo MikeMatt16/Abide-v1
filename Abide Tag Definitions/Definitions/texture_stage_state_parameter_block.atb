@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="texture_stage_state_parameter_block" DisplayName="texture_stage_state_parameter_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="5">
+		<FieldCharInteger Index="0" Name="parameter index" />
+		<FieldCharInteger Index="1" Name="parameter type" />
+		<FieldCharInteger Index="2" Name="state index" />
+		<FieldCharInteger Index="3" Name="stage index" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

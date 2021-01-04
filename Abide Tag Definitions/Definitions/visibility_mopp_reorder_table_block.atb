@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="visibility_mopp_reorder_table_block" DisplayName="visibility_mopp_reorder_table_block" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="mopp Leaf Index*" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

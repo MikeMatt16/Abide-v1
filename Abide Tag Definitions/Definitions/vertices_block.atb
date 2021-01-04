@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vertices_block" DisplayName="vertices_block" MaximumElementCount="131072">
+	<FieldSet Alignment="16" Count="4">
+		<FieldRealPoint3D Index="0" Name="Point*" />
+		<FieldShortInteger Index="1" Name="First Edge*" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

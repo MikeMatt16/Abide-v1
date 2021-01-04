@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ragdoll_constraints_block" DisplayName="ragdoll_constraints_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="10">
+		<FieldStruct Index="0" Name="constraint bodies*" StructName="constraint_bodies_struct_block" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldReal Index="2" Name="min twist*" />
+		<FieldReal Index="3" Name="max twist*" />
+		<FieldReal Index="4" Name="min cone*" />
+		<FieldReal Index="5" Name="max cone*" />
+		<FieldReal Index="6" Name="min plane*" />
+		<FieldReal Index="7" Name="max plane*" />
+		<FieldReal Index="8" Name="max friciton torque*" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_implementation_new_block" DisplayName="shader_postprocess_implementation_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStruct Index="0" Name="bitmap transforms" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="1" Name="render states" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="2" Name="texture states" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="3" Name="pixel constants" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="4" Name="vertex constants" StructName="tag_block_index_struct_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

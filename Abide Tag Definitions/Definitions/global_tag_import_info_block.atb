@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_tag_import_info_block" DisplayName="import info" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldLongInteger Index="0" Name="build*" />
+		<FieldLongString Index="1" Name="version*" />
+		<FieldString Index="2" Name="import date*" />
+		<FieldString Index="3" Name="culprit*" />
+		<FieldPad Index="4" Name="" Length="96" />
+		<FieldString Index="5" Name="import time*" />
+		<FieldPad Index="6" Name="" Length="4" />
+		<FieldBlock Index="7" Name="files*" BlockName="tag_import_file_block" />
+		<FieldPad Index="8" Name="" Length="128" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

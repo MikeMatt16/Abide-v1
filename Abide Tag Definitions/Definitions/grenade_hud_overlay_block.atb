@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="grenade_hud_overlay_block" DisplayName="grenade_hud_overlay_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="22">
+		<FieldPoint2D Index="0" Name="anchor offset" />
+		<FieldReal Index="1" Name="width scale" />
+		<FieldReal Index="2" Name="height scale" />
+		<FieldWordFlags Index="3" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="20" />
+		<FieldArgbColor Index="6" Name="default color" />
+		<FieldArgbColor Index="7" Name="flashing color" />
+		<FieldReal Index="8" Name="flash period" />
+		<FieldReal Index="9" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="10" Name="number of flashes" />
+		<FieldWordFlags Index="11" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="12" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="13" Name="disabled color" />
+		<FieldPad Index="14" Name="" Length="4" />
+		<FieldReal Index="15" Name="frame rate" />
+		<FieldShortInteger Index="16" Name="sequence index" />
+		<FieldWordFlags Index="17" Name="type">
+			<Option Name="show on flashing" />
+			<Option Name="show on empty" />
+			<Option Name="show on default" />
+			<Option Name="show always" />
+		</FieldWordFlags>
+		<FieldLongFlags Index="18" Name="flags">
+			<Option Name="flashes when active" />
+		</FieldLongFlags>
+		<FieldPad Index="19" Name="" Length="16" />
+		<FieldPad Index="20" Name="" Length="40" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

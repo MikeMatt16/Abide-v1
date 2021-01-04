@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rasterizer_screen_effect_texcoord_generation_advanced_control_block" DisplayName="advanced control" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldWordFlags Index="0" Name="stage 0 flags">
+			<Option Name="xy scaled by z_far" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="1" Name="stage 1 flags">
+			<Option Name="xy scaled by z_far" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="2" Name="stage 2 flags">
+			<Option Name="xy scaled by z_far" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="3" Name="stage 3 flags">
+			<Option Name="xy scaled by z_far" />
+		</FieldWordFlags>
+		<FieldRealPlane3D Index="4" Name="stage 0 offset" />
+		<FieldRealPlane3D Index="5" Name="stage 1 offset" />
+		<FieldRealPlane3D Index="6" Name="stage 2 offset" />
+		<FieldRealPlane3D Index="7" Name="stage 3 offset" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

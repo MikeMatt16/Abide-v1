@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cinematics_resource_block" DisplayName="scenario_cinematics_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="Flags" BlockName="scenario_cutscene_flag_block" />
+		<FieldBlock Index="1" Name="Camera Points" BlockName="scenario_cutscene_camera_point_block" />
+		<FieldBlock Index="2" Name="Recorded Animations" BlockName="recorded_animation_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

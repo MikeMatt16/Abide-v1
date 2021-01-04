@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_cull_state_block" DisplayName="cull state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldEnum Index="0" Name="mode">
+			<Option Name="none" />
+			<Option Name="CW" />
+			<Option Name="CCW" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="front face">
+			<Option Name="CW" />
+			<Option Name="CCW" />
+		</FieldEnum>
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_light_struct_block" DisplayName="scenario_light_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldEnum Index="0" Name="Type">
+			<Option Name="sphere" />
+			<Option Name="orthogonal" />
+			<Option Name="projective" />
+			<Option Name="pyramid" />
+		</FieldEnum>
+		<FieldWordFlags Index="1" Name="Flags">
+			<Option Name="Custom Geometry" />
+			<Option Name="Unused" />
+			<Option Name="cinematic_only" />
+		</FieldWordFlags>
+		<FieldEnum Index="2" Name="Lightmap Type">
+			<Option Name="Use Light Tag Setting" />
+			<Option Name="Dynamic Only" />
+			<Option Name="Dynamic with Lightmaps" />
+			<Option Name="Lightmaps Only" />
+		</FieldEnum>
+		<FieldWordFlags Index="3" Name="Lightmap Flags">
+			<Option Name="Unused" />
+		</FieldWordFlags>
+		<FieldReal Index="4" Name="Lightmap Half Life" />
+		<FieldReal Index="5" Name="Lightmap Light Scale" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldRealPoint3D Index="7" Name="Target Point*" />
+		<FieldReal Index="8" Name="Width:World Units*" />
+		<FieldReal Index="9" Name="Height Scale:World Units*" />
+		<FieldAngle Index="10" Name="Field of View:Degrees*" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldReal Index="12" Name="Falloff Distance:World Units*" />
+		<FieldReal Index="13" Name="Cutoff Distance:World Units (from Far Plane)*" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

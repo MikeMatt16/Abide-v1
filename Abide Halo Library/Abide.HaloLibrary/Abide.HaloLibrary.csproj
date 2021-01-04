@@ -21,7 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Abide.HaloLibrary.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -100,13 +101,14 @@
     <Compile Include="Halo2Map\IndexEntry.cs" />
     <Compile Include="Halo2Map\MapFile.cs" />
     <Compile Include="Halo2Map\RawContainer.cs" />
-    <Compile Include="Halo2Map\StringContainer.cs" />
+    <Compile Include="StringContainer.cs" />
     <Compile Include="Halo2Map\Structures.cs" />
     <Compile Include="Halo2Map\Tags.cs" />
     <Compile Include="Halo2VistaMap\MapFile.cs" />
     <Compile Include="Halo2VistaMap\Structures.cs" />
     <Compile Include="Halo2\Beta\HaloMap.cs" />
-    <Compile Include="Halo2\Retail\MapFile.cs" />
+    <Compile Include="Halo2\Beta\HaloMapFile.cs" />
+    <Compile Include="Halo2\Retail\HaloMapFile.cs" />
     <Compile Include="Halo2\Retail\Tag\BlockList.cs" />
     <Compile Include="Halo2\Retail\Tag\DataTypes.cs" />
     <Compile Include="Halo2\Retail\HaloMap.cs" />
@@ -1204,7 +1206,7 @@
     <Compile Include="HaloMapDataContainer.cs" />
     <Compile Include="IO\FixedMemoryMappedStream.cs" />
     <Compile Include="IO\MemoryIO.cs" />
-    <Compile Include="IO\VirtualStream.cs" />
+    <Compile Include="VirtualStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
     <Compile Include="SystemExtensions.cs" />

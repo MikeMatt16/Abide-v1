@@ -79,7 +79,8 @@
     <Compile Include="AbideProjectFile.cs" />
     <Compile Include="CacheResources.cs" />
     <Compile Include="Conversion.cs" />
-    <Compile Include="DefaultStrings.cs" />
+    <Compile Include="CommonStrings.cs" />
+    <Compile Include="CommonTagNames.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GuerillaException.cs" />
     <Compile Include="GuerillaTagFile.cs" />

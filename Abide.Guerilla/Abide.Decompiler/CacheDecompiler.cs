@@ -1,15 +1,18 @@
-﻿using Abide.HaloLibrary.Halo2Map;
+﻿using Abide.HaloLibrary.Halo2.Retail;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
 namespace Abide.Decompiler
 {
-    public partial class CacheDecompiler : Form, IDecompileHost 
+    public partial class CacheDecompiler : Form, IDecompileReporter 
     {
         public CacheDecompiler()
         {
             InitializeComponent();
+
+            if (File.Exists(Program.FileArgument))
+                mapFilePathTextBox.Text = Program.FileArgument;
         }
 
         private void decompileTagsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,36 +55,21 @@ namespace Abide.Decompiler
 
         private void decompileButton_Click(object sender, EventArgs e)
         {
-            //Prepare
-            MapFile map = new MapFile();
+            HaloMap map = new HaloMap(mapFilePathTextBox.Text);
 
-            //Load Map
-            try
-            {
-                using (FileStream fs = new FileStream(mapFilePathTextBox.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    map.Load(fs);
-            }
-            catch { MessageBox.Show("Faled to open map file."); }
-
-            //Get Directory
             string tagsDirectory = Path.Combine(Guerilla.Library.RegistrySettings.WorkspaceDirectory, "tags");
             if (!Directory.Exists(tagsDirectory))
                 Directory.CreateDirectory(tagsDirectory);
-
-            //Decompile
-            if (map != null) Map_Decompile(map, tagsDirectory);
+            
+            Map_Decompile(map, tagsDirectory);
         }
 
-        private void Map_Decompile(MapFile map, string outputDirectory)
+        private void Map_Decompile(HaloMap map, string outputDirectory)
         {
-            //Disable
             browseMapButton.Enabled = false;
             decompileButton.Enabled = false;
 
-            //Decompile
             MapDecompiler mapDecompiler = new MapDecompiler(map, outputDirectory) { Host = this };
-
-            //Start
             mapDecompiler.Start();
         }
         

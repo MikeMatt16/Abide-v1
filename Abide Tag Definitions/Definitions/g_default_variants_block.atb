@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="g_default_variants_block" DisplayName="g_default_variants_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="variant name^" />
+		<FieldLongEnum Index="1" Name="variant type">
+			<Option Name="slayer" />
+			<Option Name="oddball" />
+			<Option Name="juggernaut" />
+			<Option Name="king" />
+			<Option Name="ctf" />
+			<Option Name="invasion" />
+			<Option Name="territories" />
+		</FieldLongEnum>
+		<FieldBlock Index="2" Name="settings" BlockName="g_default_variant_settings_block" />
+		<FieldCharInteger Index="3" Name="description index" />
+		<FieldPad Index="4" Name="" Length="3" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_parameter_block" DisplayName="parameter" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="10">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldData Index="1" Name="Explanation" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldEnum Index="2" Name="Type">
+			<Option Name="Bitmap" />
+			<Option Name="Value" />
+			<Option Name="Color" />
+			<Option Name="Switch" />
+		</FieldEnum>
+		<FieldWordFlags Index="3" Name="Flags">
+			<Option Name="No Bitmap LOD" />
+			<Option Name="Required Parameter" />
+		</FieldWordFlags>
+		<FieldTagReference Index="4" Name="Default Bitmap" GroupTag="1651078253" />
+		<FieldReal Index="5" Name="Default Const Value" />
+		<FieldRealRgbColor Index="6" Name="Default Const Color" />
+		<FieldEnum Index="7" Name="Source Extern">
+			<Option Name="None" />
+			<Option Name="GLOBAL: Eye Forward Vector (z)" />
+			<Option Name="GLOBAL: Eye Right Vector (x)" />
+			<Option Name="GLOBAL: Eye Up Vector (y)" />
+			<Option Name="OBJECT: Primary Color" />
+			<Option Name="OBJECT: Secondary Color" />
+			<Option Name="OBJECT: Function Value" />
+			<Option Name="LIGHT: Diffuse Color" />
+			<Option Name="LIGHT: Specular Color" />
+			<Option Name="LIGHT: Forward Vector (z)" />
+			<Option Name="LIGHT: Right Vector (x)" />
+			<Option Name="LIGHT: Up Vector (y)" />
+			<Option Name="LIGHT: Object-Relative Forward Vector (z)" />
+			<Option Name="LIGHT: Object-Relative Right Vector (x)" />
+			<Option Name="LIGHT: Object-Relative Up Vector (y)" />
+			<Option Name="LIGHT: Object Falloff Value" />
+			<Option Name="LIGHT: Object Gel Color" />
+			<Option Name="LIGHTMAP: Object Ambient Factor" />
+			<Option Name="LIGHTMAP: Object Direct Vector" />
+			<Option Name="LIGHTMAP: Object Direct Color" />
+			<Option Name="LIGHTMAP: Object Indirect Vector" />
+			<Option Name="LIGHTMAP: Object Indirect Color" />
+			<Option Name="OLD FOG: Atmospheric Color" />
+			<Option Name="OLD FOG: Atmospheric Max Density" />
+			<Option Name="OLD FOG: Planar Color" />
+			<Option Name="OLD FOG: Planar Max Density" />
+			<Option Name="OLD FOG: Atmospheric Planar Blend Value" />
+			<Option Name="OLD FOG: Object Atmospheric Density" />
+			<Option Name="OLD FOG: Object Planar Density" />
+			<Option Name="OLD FOG: Object Color" />
+			<Option Name="OLD FOG: Object Density" />
+			<Option Name="OBJECT: Model Alpha" />
+			<Option Name="OBJECT: Shadow Alpha" />
+			<Option Name="LIGHT: Overbrighten Diffuse Shift" />
+			<Option Name="LIGHT: Overbrighten Specular Shift" />
+			<Option Name="LIGHT: Diffuse Contrast" />
+			<Option Name="LIGHT: Specular Gel" />
+			<Option Name="SHADER: Specular Type" />
+			<Option Name="pad3" />
+			<Option Name="pad3-scale" />
+			<Option Name="Pad Thai" />
+			<Option Name="Taco Salad" />
+			<Option Name="Anisotropic Binormal" />
+			<Option Name="OBJECT LIGHT: Shadow Fade" />
+			<Option Name="LIGHT: Shadow Fade" />
+			<Option Name="OLD FOG: Atmospheric Density" />
+			<Option Name="OLD FOG: Planar Density" />
+			<Option Name="OLD FOG: Planar Density Invert" />
+			<Option Name="OBJECT: Change Color Tertiary" />
+			<Option Name="OBJECT: Change Color Quaternary" />
+			<Option Name="LIGHTMAP: Object Specular Color" />
+			<Option Name="SHADER: Lightmap Type" />
+			<Option Name="LIGHTMAP: Object Ambient Color" />
+			<Option Name="SHADER: Lightmap Specular Brightness" />
+			<Option Name="GLOBAL: Lightmap Shadow Darkening" />
+			<Option Name="LIGHTMAP: Object Env Brightness" />
+			<Option Name="FOG: Atmospheric Max Density" />
+			<Option Name="FOG: Atmospheric Color" />
+			<Option Name="FOG: Atmospheric Color Adj" />
+			<Option Name="FOG: Atmospheric Planar Blend" />
+			<Option Name="FOG: Atmospheric Planar Blend Adj Inv" />
+			<Option Name="FOG: Atmospheric Planar Blend Adj" />
+			<Option Name="FOG: Secondary Max Density" />
+			<Option Name="FOG: Secondary Color" />
+			<Option Name="FOG: Secondary Color Adj" />
+			<Option Name="FOG: Atmospheric Secondary Blend" />
+			<Option Name="FOG: Atmospheric Secondary Blend Adj Inv" />
+			<Option Name="FOG: Atmospheric Secondary Blend Adj" />
+			<Option Name="FOG: Sky Density" />
+			<Option Name="FOG: Sky Color" />
+			<Option Name="FOG: Sky Color Adj" />
+			<Option Name="FOG: Planar Max Density" />
+			<Option Name="FOG: Planar Color" />
+			<Option Name="FOG: Planar Color Adj" />
+			<Option Name="FOG: Planar Eye Density" />
+			<Option Name="FOG: Planar Eye Density Adj Inv" />
+			<Option Name="FOG: Planar Eye Density Adj" />
+			<Option Name="HUD: Waypoint Primary Color" />
+			<Option Name="HUD: Waypoint Secondary Color" />
+			<Option Name="LIGHTMAP: Object Specular Color Times One Half" />
+			<Option Name="LIGHT: Specular Enabled" />
+			<Option Name="LIGHT: Definition Specular Enabled" />
+			<Option Name="OBJECT: Active Camo Amount" />
+			<Option Name="OBJECT: Super Camo Amount" />
+			<Option Name="HUD: Custom Color 1" />
+			<Option Name="HUD: Custom Color 2" />
+			<Option Name="HUD: Custom Color 3" />
+			<Option Name="HUD: Custom Color 4" />
+			<Option Name="OBJECT: Active Camo RGB" />
+			<Option Name="FOG: Patchy Plane n(xyz)" />
+			<Option Name="FOG: Patchy Plane d(w)" />
+			<Option Name="HUD: Global Fade" />
+			<Option Name="SCREEN EFFECT: Primary" />
+			<Option Name="SCREEN EFFECT: Secondary" />
+		</FieldEnum>
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

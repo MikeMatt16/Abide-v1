@@ -1,6 +1,5 @@
 ﻿using Abide.HaloLibrary.Halo2Map;
 using Abide.HaloLibrary.IO;
-using Abide.Tag.Cache.Generated;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +24,7 @@ namespace Abide.Tag.Ui
             //Setup fields
             m_Map = map ?? throw new ArgumentNullException(nameof(map));
             m_Entry = entry ?? throw new ArgumentNullException(nameof(entry));
-            m_TagGroup = TagLookup.CreateTagGroup(entry.Root);
+            //m_TagGroup = TagLookup.CreateTagGroup(entry.Root);
 
             //Setup tagBlockView
             tagBlockView.DataLength = m_Entry.PostProcessedSize;
@@ -47,7 +46,7 @@ namespace Abide.Tag.Ui
             if (m_TagGroup != null)
             {
                 //Setup
-                Text = m_TagGroup.Name;
+                Text = m_TagGroup.GroupName;
 
                 //Read
                 using (var reader = m_Entry.TagData.CreateReader())
@@ -92,7 +91,7 @@ namespace Abide.Tag.Ui
                 block.Write(writer);
 
                 //Add
-                tagBlockView.Blocks.Add(localOffset, (int)vs.Length, block.Name);
+                tagBlockView.Blocks.Add(localOffset, (int)vs.Length, block.BlockName);
                 offset += vs.Length;
             }
         }
@@ -100,7 +99,7 @@ namespace Abide.Tag.Ui
         private void TagBlock_CreateChildBlocks(ITagBlock block, long baseOffset, ref long offset)
         {
             //Loop through fields
-            foreach (Field field in block.Fields)
+            foreach (Field field in block)
             {
                 switch (field.Type)
                 {
@@ -115,7 +114,7 @@ namespace Abide.Tag.Ui
                     case Definition.FieldType.FieldData:
                         DataField dataField = (DataField)field;
                         int localOffset = (int)(dataField.DataAddress - baseOffset);
-                        tagBlockView.Blocks.Add(localOffset, dataField.BufferLength, block.Name);
+                        tagBlockView.Blocks.Add(localOffset, dataField.BufferLength, block.BlockName);
                         offset = dataField.DataAddress + dataField.BufferLength;
                         break;
                 }
@@ -143,7 +142,7 @@ namespace Abide.Tag.Ui
                         child.Write(writer);
 
                     //Add
-                    tagBlockView.Blocks.Add(localOffset, (int)vs.Length, block.Name);
+                    tagBlockView.Blocks.Add(localOffset, (int)vs.Length, block.BlockName);
                     offset = field.BlockAddress + vs.Length;
                 }
             }

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_template_pass_reference_block" DisplayName="pass" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="Layer">
+			<Option Name="texaccum" />
+			<Option Name="Environment Map" />
+			<Option Name="Self-Illumination" />
+			<Option Name="Overlay" />
+			<Option Name="Transparent" />
+			<Option Name="Lightmap (Indirect)" />
+			<Option Name="Diffuse" />
+			<Option Name="Specular" />
+			<Option Name="Shadow Generate" />
+			<Option Name="Shadow Apply" />
+			<Option Name="Boom" />
+			<Option Name="Fog" />
+			<Option Name="Sh Prt" />
+			<Option Name="Active Camo" />
+			<Option Name="Water Edge Blend" />
+			<Option Name="Decal" />
+			<Option Name="Active Camo Stencil Modulate" />
+			<Option Name="Hologram" />
+			<Option Name="Light Albedo" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTagReference Index="2" Name="Pass^" GroupTag="1936744819" />
+		<FieldPad Index="3" Name="" Length="12" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

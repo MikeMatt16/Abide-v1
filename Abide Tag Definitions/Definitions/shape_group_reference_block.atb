@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shape_group_reference_block" DisplayName="shape_group_reference_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="Unused Debug Geometry Shapes" Explanation="This is the old way" />
+		<FieldBlock Index="1" Name="shapes" BlockName="shape_block_reference_block" />
+		<FieldExplanation Index="2" Name="Model-Light Groups" Explanation="Specify commonly used model/light groups here" />
+		<FieldBlock Index="3" Name="model scene blocks" BlockName="ui_model_scene_reference_block" />
+		<FieldExplanation Index="4" Name="Bitmaps" Explanation="Specify more flavor bitmaps here" />
+		<FieldBlock Index="5" Name="bitmap blocks" BlockName="bitmap_block_reference_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

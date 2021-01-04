@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="contact_point_block" DisplayName="contact_point_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="3">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldOldStringId Index="1" Name="marker name^" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

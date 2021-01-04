@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_permutation_block" DisplayName="permutation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="8">
+		<FieldOldStringId Index="0" Name="name^*" />
+		<FieldShortInteger Index="1" Name="L1 section index*:(super low)" />
+		<FieldShortInteger Index="2" Name="L2 section index*:(low)" />
+		<FieldShortInteger Index="3" Name="L3 section index*:(medium)" />
+		<FieldShortInteger Index="4" Name="L4 section index*:(high)" />
+		<FieldShortInteger Index="5" Name="L5 section index*:(super high)" />
+		<FieldShortInteger Index="6" Name="L6 section index*:(hollywood)" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="dynamic_spawn_zone_overload_block" DisplayName="dynamic_spawn_zone_overload_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="6">
+		<FieldEnum Index="0" Name="Overload Type">
+			<Option Name="Enemy" />
+			<Option Name="Friend" />
+			<Option Name="Enemy Vehicle" />
+			<Option Name="Friendly Vehicle" />
+			<Option Name="Empty Vehicle" />
+			<Option Name="Oddball Inclusion" />
+			<Option Name="Oddball Exclusion" />
+			<Option Name="Hill Inclusion" />
+			<Option Name="Hill Exclusion" />
+			<Option Name="Last Race Flag" />
+			<Option Name="Dead Ally" />
+			<Option Name="Controlled Territory" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldReal Index="2" Name="Inner Radius" />
+		<FieldReal Index="3" Name="Outer Radius" />
+		<FieldReal Index="4" Name="Weight" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

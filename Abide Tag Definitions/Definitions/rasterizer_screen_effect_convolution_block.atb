@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="rasterizer_screen_effect_convolution_block" DisplayName="convolution" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="11">
+		<FieldExplanation Index="0" Name="CONVOLUTION" Explanation="Convolution blurs the target of this pass reference to the SCREEN EFFECT CONVOLUTION buffer, which is accessible in the shader system through a texture extern. It is not cheap especially for large convolution amounts, so please use it sparingly!! Note that the resolution will be clamped to 64x64 minimum and 768000 pixels total maximum." />
+		<FieldWordFlags Index="1" Name="flags">
+			<Option Name="only when primary is active" />
+			<Option Name="only when secondary is active" />
+			<Option Name="predator zoom" />
+		</FieldWordFlags>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="64" />
+		<FieldReal Index="4" Name="convolution amount:[0,+inf)" />
+		<FieldReal Index="5" Name="filter scale" />
+		<FieldRealFraction Index="6" Name="filter box factor:[0,1] not used for zoom" />
+		<FieldReal Index="7" Name="zoom falloff radius" />
+		<FieldReal Index="8" Name="zoom cutoff radius" />
+		<FieldRealFraction Index="9" Name="resolution scale:[0,1]" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

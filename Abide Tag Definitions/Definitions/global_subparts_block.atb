@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_subparts_block" DisplayName="subparts" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortInteger Index="0" Name="indices_start_index*" />
+		<FieldShortInteger Index="1" Name="indices_length*" />
+		<FieldShortInteger Index="2" Name="visibility_bounds_index*" />
+		<FieldShortInteger Index="3" Name="Part Index*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

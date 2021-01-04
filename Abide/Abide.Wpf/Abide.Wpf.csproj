@@ -25,6 +25,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,7 +39,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>bin\Release\Abide.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\abide-icon.ico</ApplicationIcon>
@@ -65,14 +70,33 @@
     <Compile Include="Modules\AddOns\AddOnEnvironment.cs" />
     <Compile Include="Modules\AddOns\AddOnManifest.cs" />
     <Compile Include="Modules\AddOns\AssemblyManager.cs" />
+    <Compile Include="Modules\Dialogs\NewProjectDialog.xaml.cs">
+      <DependentUpon>NewProjectDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\AbideTagGroupEditor.xaml.cs">
+      <DependentUpon>AbideTagGroupEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\TagGroupViewModel.cs" />
+    <Compile Include="Modules\Guerilla\Tag\Fields.cs" />
+    <Compile Include="Modules\Guerilla\Tag\Tag.cs" />
+    <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimationTest.cs" />
     <Compile Include="Modules\AddOns\HaloAddOnFactory.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimatorViewModel.cs" />
-    <Compile Include="Modules\Tools\Halo2\Retail\BaseAddOnViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagExtractor.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagImporter.cs" />
+    <Compile Include="Modules\ViewModel\BaseAddOnViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\HaloModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelViewer\Converters.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelViewer\HaloRenderModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditor.xaml.cs">
       <DependentUpon>ModelEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelViewer\ModelViewerViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelViewer\ModelViewer.xaml.cs">
+      <DependentUpon>ModelViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\Converters.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\FieldDataTemplateSelector.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\FieldTypeDataSelector.cs" />
@@ -80,6 +104,10 @@
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\TagEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagSwapper\TagSwapper.xaml.cs">
+      <DependentUpon>TagSwapper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tools\Halo2\Retail\TagSwapper\TagSwapperViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagViewModel.cs" />
     <Compile Include="Modules\ApplicationSettings.cs" />
     <Compile Include="Modules\Dialogs\ChooseEditorDialog.xaml.cs">
@@ -87,6 +115,16 @@
     </Compile>
     <Compile Include="Modules\AddOns\AddOnFactory.cs" />
     <Compile Include="Modules\AddOns\EditorAddOnFactory.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\Converters.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\HaloBitmap.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\HaloPixelFormats.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\ImageCanvas.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\TextureEditor.xaml.cs">
+      <DependentUpon>TextureEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\TextureEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TextureEditor\TextureHelper.cs" />
+    <Compile Include="Modules\ViewModel\BackgroundOperation.cs" />
     <Compile Include="Modules\ViewModel\BaseViewModel.cs" />
     <Compile Include="Modules\ViewModel\ExtendedTreeView.cs" />
     <Compile Include="Modules\ViewModel\FileItem.cs" />
@@ -99,6 +137,9 @@
       <DependentUpon>Halo2MapEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Editors\Halo2\Retail\HaloMapViewModel.cs" />
+    <Compile Include="Modules\ViewModel\ProjectViewModel.cs" />
+    <Compile Include="Modules\ViewModel\SolutionItemViewModel.cs" />
+    <Compile Include="Modules\ViewModel\SolutionViewModel.cs" />
     <Compile Include="Modules\ViewModel\TabItemTemplateSelector.cs" />
     <Compile Include="Modules\ViewModel\AbideViewModel.cs" />
     <Compile Include="Modules\Win32\AbideRegistry.cs" />
@@ -108,6 +149,14 @@
     <Compile Include="Modules\Win32\Win32Window.cs" />
     <Compile Include="Modules\Win32\WinUser.cs" />
     <Page Include="Modules\Dialogs\ChooseEditorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Dialogs\NewProjectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\AbideTagGroupEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -123,7 +172,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Tools\Halo2\Retail\ModelViewer\ModelViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Tools\Halo2\Retail\TagEditor\TagEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Tools\Halo2\Retail\TagSwapper\TagSwapper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Tools\Halo2\Retail\TextureEditor\TextureEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,8 +200,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\Windows\Test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\Windows\Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -189,6 +257,18 @@
       <Project>{c7b4df9c-d74c-4f1b-9083-5531bea84b6d}</Project>
       <Name>Abide.DebugXbox</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Abide.Guerilla\Abide.Guerilla.Library\Abide.Guerilla.Library.csproj">
+      <Project>{AE90EBBC-3C67-4E3B-AE2B-54336144313E}</Project>
+      <Name>Abide.Guerilla.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide.Guerilla\Abide.Tag.Cache\Abide.Tag.Cache.csproj">
+      <Project>{764C6399-3A25-4BDB-B746-8648CEDDD652}</Project>
+      <Name>Abide.Tag.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Abide.Guerilla\Abide.Tag\Abide.Tag.csproj">
+      <Project>{339D8B36-1875-44B0-8F58-2379CBF8E2A8}</Project>
+      <Name>Abide.Tag</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Abide.Ifp\Abide.Ifp\Abide.Ifp.csproj">
       <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
       <Name>Abide.Ifp</Name>
@@ -201,6 +281,12 @@
       <Project>{2f92e201-9c1a-441e-ae2d-894def96a8ba}</Project>
       <Name>Abide.Wpf.Ui</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modules\Windows\Resources\Map-Decompile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modules\Windows\Resources\Map-Compile.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

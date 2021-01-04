@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bitmap_data_block" DisplayName="bitmap_data_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="23">
+		<FieldTag Index="0" Name="Signature*" />
+		<FieldShortInteger Index="1" Name="Width*:pixels" />
+		<FieldShortInteger Index="2" Name="Height*:pixels" />
+		<FieldCharInteger Index="3" Name="Depth*:pixels#Depth is 1 for 2D textures and cube maps." />
+		<FieldByteFlags Index="4" Name="More Flags">
+			<Option Name="Delete from Cache File" />
+			<Option Name="bitmap create attempted" />
+			<Option Name="" />
+		</FieldByteFlags>
+		<FieldEnum Index="5" Name="Type*#Determines bitmap &quot;geometry.&quot;">
+			<Option Name="2D Texture" />
+			<Option Name="3D Texture" />
+			<Option Name="Cube Map" />
+		</FieldEnum>
+		<FieldEnum Index="6" Name="Format*#Determines how pixels are represented internally.">
+			<Option Name="a8" />
+			<Option Name="y8" />
+			<Option Name="ay8" />
+			<Option Name="a8y8" />
+			<Option Name="unused1" />
+			<Option Name="unused2" />
+			<Option Name="r5g6b5" />
+			<Option Name="unused3" />
+			<Option Name="a1r5g5b5" />
+			<Option Name="a4r4g4b4" />
+			<Option Name="x8r8g8b8" />
+			<Option Name="a8r8g8b8" />
+			<Option Name="unused4" />
+			<Option Name="unused5" />
+			<Option Name="dxt1" />
+			<Option Name="dxt3" />
+			<Option Name="dxt5" />
+			<Option Name="p8-bump" />
+			<Option Name="p8" />
+			<Option Name="argbfp32" />
+			<Option Name="rgbfp32" />
+			<Option Name="rgbfp16" />
+			<Option Name="v8u8" />
+			<Option Name="g8b8" />
+		</FieldEnum>
+		<FieldWordFlags Index="7" Name="Flags*">
+			<Option Name="Power of Two Dimensions" />
+			<Option Name="Compressed" />
+			<Option Name="Palettized" />
+			<Option Name="Swizzled" />
+			<Option Name="Linear" />
+			<Option Name="v16u16" />
+			<Option Name="MIP Map Debug Level" />
+			<Option Name="Prefer Stutter (Prefer Low Detail)" />
+		</FieldWordFlags>
+		<FieldPoint2D Index="8" Name="Registration Point*" />
+		<FieldShortInteger Index="9" Name="mipmap Count*" />
+		<FieldShortInteger Index="10" Name="Low-Detail mipmap Count*" />
+		<FieldLongInteger Index="11" Name="Pixels Offset*" />
+		<FieldSkip Index="12" Name="" Length="12" />
+		<FieldSkip Index="13" Name="" Length="12" />
+		<FieldSkip Index="14" Name="" Length="12" />
+		<FieldSkip Index="15" Name="" Length="12" />
+		<FieldSkip Index="16" Name="" Length="4" />
+		<FieldSkip Index="17" Name="" Length="4" />
+		<FieldSkip Index="18" Name="" Length="4" />
+		<FieldSkip Index="19" Name="" Length="4" />
+		<FieldSkip Index="20" Name="" Length="20" />
+		<FieldSkip Index="21" Name="" Length="4" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

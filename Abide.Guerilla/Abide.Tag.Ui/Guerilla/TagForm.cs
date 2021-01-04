@@ -1,6 +1,6 @@
 ﻿using Abide.HaloLibrary.Halo2Map;
-using Abide.Tag.Definition;
 using Abide.Tag.Cache.Generated;
+using Abide.Tag.Definition;
 using Abide.Tag.Ui.Guerilla.Controls;
 using System;
 using System.IO;

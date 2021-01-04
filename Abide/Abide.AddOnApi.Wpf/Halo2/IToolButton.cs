@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Abide.AddOnApi.Wpf.Halo2
 {
@@ -11,5 +12,6 @@ namespace Abide.AddOnApi.Wpf.Halo2
     /// </summary>
     public interface IToolButton : IHaloAddOn
     {
+        ICommand ClickCommand { get; }
     }
 }

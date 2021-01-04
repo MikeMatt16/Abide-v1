@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="user_interface_shared_globals_definition_block" DisplayName="user_interface_shared_globals_definition" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="86">
+		<FieldPad Index="0" Name="" Length="2" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldPad Index="2" Name="" Length="16" />
+		<FieldPad Index="3" Name="" Length="8" />
+		<FieldPad Index="4" Name="" Length="8" />
+		<FieldPad Index="5" Name="" Length="16" />
+		<FieldPad Index="6" Name="" Length="8" />
+		<FieldPad Index="7" Name="" Length="8" />
+		<FieldExplanation Index="8" Name="UI Rendering Globals" Explanation="miscellaneous rendering globals, more below..." />
+		<FieldReal Index="9" Name="overlayed screen alpha mod" />
+		<FieldShortInteger Index="10" Name="inc. text update period:milliseconds" />
+		<FieldShortInteger Index="11" Name="inc. text block character:ASCII code" />
+		<FieldReal Index="12" Name="callout text scale" />
+		<FieldRealArgbColor Index="13" Name="progress bar color" />
+		<FieldReal Index="14" Name="near clip plane distance:objects closer than this are not drawn" />
+		<FieldReal Index="15" Name="projection plane distance:distance at which objects are rendered when z=0 (normal size)" />
+		<FieldReal Index="16" Name="far clip plane distance:objects farther than this are not drawn" />
+		<FieldExplanation Index="17" Name="Overlayed UI Color" Explanation="This is the color of the overlayed ui effect; the alpha component is the maximum opacity" />
+		<FieldRealArgbColor Index="18" Name="overlayed interface color" />
+		<FieldPad Index="19" Name="" Length="12" />
+		<FieldExplanation Index="20" Name="Displayed Errors" Explanation="For each error condition displayed in the UI, set the title and description string ids here" />
+		<FieldBlock Index="21" Name="errors" BlockName="ui_error_category_block" />
+		<FieldExplanation Index="22" Name="Cursor Sound" Explanation="This is the sound that plays as you tab through items" />
+		<FieldTagReference Index="23" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="24" Name="Selection Sound" Explanation="This is the sound that plays when an item is selected" />
+		<FieldTagReference Index="25" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="26" Name="Error Sound" Explanation="This is the sound that plays to alert the user that something went wrong" />
+		<FieldTagReference Index="27" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="28" Name="Advancing Sound" Explanation="This is the sound that plays when advancing to a new screen" />
+		<FieldTagReference Index="29" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="30" Name="Retreating Sound" Explanation="This is the sound that plays when retreating to a previous screen" />
+		<FieldTagReference Index="31" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="32" Name="Initial Login Sound" Explanation="This is the sound that plays when advancing past the initial login screen" />
+		<FieldTagReference Index="33" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="34" Name="VKBD Cursor Sound" Explanation="This is the sound that plays when cursoring in the vkeyboard" />
+		<FieldTagReference Index="35" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="36" Name="VKBD Character Insertion Sound" Explanation="This is the sound that plays when selecting buttons in the vkeyboard" />
+		<FieldTagReference Index="37" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="38" Name="Online Notification Sound" Explanation="This is the sound that plays when you receive an online notification" />
+		<FieldTagReference Index="39" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="40" Name="Tabbed View Pane Tabbing Sound" Explanation="This is the sound that plays when tabbing thru views in a tabbed view pane (eg, online menu)" />
+		<FieldTagReference Index="41" Name="sound tag" GroupTag="1936614433" />
+		<FieldExplanation Index="42" Name="Pregame Countdown Timer Sound" Explanation="This is the sound that plays as the countdown timer progresses" />
+		<FieldTagReference Index="43" Name="sound tag" GroupTag="1936614433" />
+		<FieldTagReference Index="44" Name="" GroupTag="1936614433" />
+		<FieldExplanation Index="45" Name="Matchmaking Advance Sound" Explanation="This is the sound that plays as matchmaking enters the final stage" />
+		<FieldTagReference Index="46" Name="sound tag" GroupTag="1936614433" />
+		<FieldTagReference Index="47" Name="" GroupTag="1936614433" />
+		<FieldTagReference Index="48" Name="" GroupTag="1936614433" />
+		<FieldTagReference Index="49" Name="" GroupTag="1936614433" />
+		<FieldExplanation Index="50" Name="Global Bitmaps" Explanation="Sprite sequences for global ui bitmaps, as follows:|n1) vkeyboard cursor|n" />
+		<FieldTagReference Index="51" Name="global bitmaps tag" GroupTag="1651078253" />
+		<FieldExplanation Index="52" Name="Global Text Strings" Explanation="Global UI Text goes here" />
+		<FieldTagReference Index="53" Name="unicode string list tag" GroupTag="1970170211" />
+		<FieldExplanation Index="54" Name="Screen Animations" Explanation="Animations used by screen definitions for transitions and ambient animating" />
+		<FieldBlock Index="55" Name="screen animations" BlockName="animation_reference_block" />
+		<FieldExplanation Index="56" Name="Polygonal Shape Groups" Explanation="Define the various groups of shape-objects for use on any ui screens here" />
+		<FieldBlock Index="57" Name="shape groups" BlockName="shape_group_reference_block" />
+		<FieldExplanation Index="58" Name="Persistant Background Animations" Explanation="These are the animations used by elements that live in the persistant background" />
+		<FieldBlock Index="59" Name="animations" BlockName="persistent_background_animation_block" />
+		<FieldExplanation Index="60" Name="List Skins" Explanation="These define the visual appearances (skins) available for UI lists|nThey are expected to be entered in the following order:|n0) default|n1) squad lobby player list|n2) settings list|n3) playlist entry list|n4) variants list|n5) game browser list|n6) online player menu|n7) game setup menu|n8) playlist contents display|n9) profile picker|n10) mp map list|n11) main menu|n" />
+		<FieldBlock Index="61" Name="list item skins" BlockName="list_skin_reference_block" />
+		<FieldExplanation Index="62" Name="Additional UI Strings" Explanation="These are for specific purposes as noted" />
+		<FieldTagReference Index="63" Name="button key type strings" GroupTag="1970170211" />
+		<FieldTagReference Index="64" Name="game type strings" GroupTag="1970170211" />
+		<FieldTagReference Index="65" Name="" GroupTag="-3" />
+		<FieldExplanation Index="66" Name="Skill to rank mapping table" Explanation="" />
+		<FieldBlock Index="67" Name="skill mappings" BlockName="skill_to_rank_mapping_block" />
+		<FieldExplanation Index="68" Name="WINDOW PARAMETERS" Explanation="Various settings for different sized UI windows" />
+		<FieldEnum Index="69" Name="full screen header text font">
+			<Option Name="terminal" />
+			<Option Name="body text" />
+			<Option Name="title" />
+			<Option Name="super large font" />
+			<Option Name="large body text" />
+			<Option Name="split screen hud message" />
+			<Option Name="full screen hud message" />
+			<Option Name="english body text" />
+			<Option Name="HUD number text" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldEnum Index="70" Name="large dialog header text font">
+			<Option Name="terminal" />
+			<Option Name="body text" />
+			<Option Name="title" />
+			<Option Name="super large font" />
+			<Option Name="large body text" />
+			<Option Name="split screen hud message" />
+			<Option Name="full screen hud message" />
+			<Option Name="english body text" />
+			<Option Name="HUD number text" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldEnum Index="71" Name="half dialog header text font">
+			<Option Name="terminal" />
+			<Option Name="body text" />
+			<Option Name="title" />
+			<Option Name="super large font" />
+			<Option Name="large body text" />
+			<Option Name="split screen hud message" />
+			<Option Name="full screen hud message" />
+			<Option Name="english body text" />
+			<Option Name="HUD number text" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldEnum Index="72" Name="qtr dialog header text font">
+			<Option Name="terminal" />
+			<Option Name="body text" />
+			<Option Name="title" />
+			<Option Name="super large font" />
+			<Option Name="large body text" />
+			<Option Name="split screen hud message" />
+			<Option Name="full screen hud message" />
+			<Option Name="english body text" />
+			<Option Name="HUD number text" />
+			<Option Name="subtitle font" />
+			<Option Name="main menu font" />
+			<Option Name="text chat font" />
+		</FieldEnum>
+		<FieldRealArgbColor Index="73" Name="default text color" />
+		<FieldRectangle2D Index="74" Name="full screen header text bounds" />
+		<FieldRectangle2D Index="75" Name="full screen button key text bounds" />
+		<FieldRectangle2D Index="76" Name="large dialog header text bounds" />
+		<FieldRectangle2D Index="77" Name="large dialog button key text bounds" />
+		<FieldRectangle2D Index="78" Name="half dialog header text bounds" />
+		<FieldRectangle2D Index="79" Name="half dialog button key text bounds" />
+		<FieldRectangle2D Index="80" Name="qtr dialog header text bounds" />
+		<FieldRectangle2D Index="81" Name="qtr dialog button key text bounds" />
+		<FieldExplanation Index="82" Name="Main menu music" Explanation="Looping sound that plays while the main menu is active" />
+		<FieldTagReference Index="83" Name="main menu music" GroupTag="1819504228" />
+		<FieldLongInteger Index="84" Name="music fade time:milliseconds" />
+		<FieldTerminator Index="85" Name="" />
+	</FieldSet>
+</AbideTagBlock>

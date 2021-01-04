@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_tracking_struct_block" DisplayName="weapon_tracking_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldEnum Index="0" Name="tracking type">
+			<Option Name="no tracking" />
+			<Option Name="human tracking" />
+			<Option Name="plasma tracking" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -44,7 +44,7 @@ namespace Abide.Wpf.Modules
             AssemblyManager.SafeMode = SafeMode;
 
             //Check debug mode
-            if (DebugMode)
+            if (DebugMode && !Debugger.IsAttached)
                 Debugger.Launch();    //Launch debugger
 
             //Loop through debug AddOn paths

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_weather_background_plate_block" DisplayName="global_weather_background_plate_block" MaximumElementCount="3">
+	<FieldSet Alignment="4" Count="31">
+		<FieldTagReference Index="0" Name="texture 0" GroupTag="1651078253" />
+		<FieldTagReference Index="1" Name="texture 1" GroupTag="1651078253" />
+		<FieldTagReference Index="2" Name="texture 2" GroupTag="1651078253" />
+		<FieldReal Index="3" Name="plate positions 0" />
+		<FieldReal Index="4" Name="plate positions 1" />
+		<FieldReal Index="5" Name="plate positions 2" />
+		<FieldRealVector3D Index="6" Name="move speed 0" />
+		<FieldRealVector3D Index="7" Name="move speed 1" />
+		<FieldRealVector3D Index="8" Name="move speed 2" />
+		<FieldReal Index="9" Name="texture scale 0" />
+		<FieldReal Index="10" Name="texture scale 1" />
+		<FieldReal Index="11" Name="texture scale 2" />
+		<FieldRealVector3D Index="12" Name="jitter 0" />
+		<FieldRealVector3D Index="13" Name="jitter 1" />
+		<FieldRealVector3D Index="14" Name="jitter 2" />
+		<FieldReal Index="15" Name="plate z near" />
+		<FieldReal Index="16" Name="plate z far" />
+		<FieldReal Index="17" Name="depth blend z near" />
+		<FieldReal Index="18" Name="depth blend z far" />
+		<FieldReal Index="19" Name="opacity 0" />
+		<FieldReal Index="20" Name="opacity 1" />
+		<FieldReal Index="21" Name="opacity 2" />
+		<FieldLongFlags Index="22" Name="flags">
+			<Option Name="forward motion" />
+			<Option Name="auto position planes" />
+			<Option Name="auto scale planesauto update speed" />
+		</FieldLongFlags>
+		<FieldRealRgbColor Index="23" Name="tint color0" />
+		<FieldRealRgbColor Index="24" Name="tint color1" />
+		<FieldRealRgbColor Index="25" Name="tint color2" />
+		<FieldReal Index="26" Name="mass 1" />
+		<FieldReal Index="27" Name="mass 2" />
+		<FieldReal Index="28" Name="mass 3" />
+		<FieldPad Index="29" Name="" Length="736" />
+		<FieldTerminator Index="30" Name="" />
+	</FieldSet>
+</AbideTagBlock>

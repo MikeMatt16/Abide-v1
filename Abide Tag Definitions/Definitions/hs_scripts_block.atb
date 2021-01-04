@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hs_scripts_block" DisplayName="hs_scripts_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="6">
+		<FieldString Index="0" Name="name^*" />
+		<FieldEnum Index="1" Name="script type*">
+			<Option Name="startup" />
+			<Option Name="dormant" />
+			<Option Name="continuous" />
+			<Option Name="static" />
+			<Option Name="stub" />
+			<Option Name="command_script" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="return type*">
+			<Option Name="unparsed" />
+			<Option Name="special form" />
+			<Option Name="function name" />
+			<Option Name="passthrough" />
+			<Option Name="void" />
+			<Option Name="boolean" />
+			<Option Name="real" />
+			<Option Name="short" />
+			<Option Name="long" />
+			<Option Name="string" />
+			<Option Name="script" />
+			<Option Name="string_id" />
+			<Option Name="unit_seat_mapping" />
+			<Option Name="trigger_volume" />
+			<Option Name="cutscene_flag" />
+			<Option Name="cutscene_camera_point" />
+			<Option Name="cutscene_title" />
+			<Option Name="cutscene_recording" />
+			<Option Name="device_group" />
+			<Option Name="ai" />
+			<Option Name="ai_command_list" />
+			<Option Name="ai_command_script" />
+			<Option Name="ai_behavior" />
+			<Option Name="ai_orders" />
+			<Option Name="starting_profile" />
+			<Option Name="conversation" />
+			<Option Name="structure_bsp" />
+			<Option Name="navpoint" />
+			<Option Name="point reference" />
+			<Option Name="style" />
+			<Option Name="hud_message" />
+			<Option Name="object_list" />
+			<Option Name="sound" />
+			<Option Name="effect" />
+			<Option Name="damage" />
+			<Option Name="looping_sound" />
+			<Option Name="animation_graph" />
+			<Option Name="damage_effect" />
+			<Option Name="object_definition" />
+			<Option Name="bitmap" />
+			<Option Name="shader" />
+			<Option Name="render model" />
+			<Option Name="structure definition" />
+			<Option Name="lightmap definition" />
+			<Option Name="game_difficulty" />
+			<Option Name="team" />
+			<Option Name="actor_type" />
+			<Option Name="hud_corner" />
+			<Option Name="model_state" />
+			<Option Name="network_event" />
+			<Option Name="object" />
+			<Option Name="unit" />
+			<Option Name="vehicle" />
+			<Option Name="weapon" />
+			<Option Name="device" />
+			<Option Name="scenery" />
+			<Option Name="object_name" />
+			<Option Name="unit_name" />
+			<Option Name="vehicle_name" />
+			<Option Name="weapon_name" />
+			<Option Name="device_name" />
+			<Option Name="scenery_name" />
+		</FieldEnum>
+		<FieldLongInteger Index="3" Name="root expression index*" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

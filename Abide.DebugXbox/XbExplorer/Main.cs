@@ -49,13 +49,15 @@ namespace XbExplorer
             Folder
         }
 
+        private const string XbExplorerRootLocation = "XbExplorer";
+
         private Xbox CurrentXbox { get; set; } = null;
         private StringCollection SavedXboxNames
         {
             get { return Properties.Settings.Default.XboxNames; }
         }
         private VirtualLocation CurrentVirtualLocation { get; set; } = VirtualLocation.None;
-        private string CurrentLocation { get; set; } = "XbExplorer";
+        private string CurrentLocation { get; set; } = XbExplorerRootLocation;
         private List<string> LocationHistory { get; } = new List<string>();
         private List<string> ForwardHistory { get; } = new List<string>();
         
@@ -91,13 +93,7 @@ namespace XbExplorer
             //Register name answering protocol
             NameAnsweringProtocol.XboxDiscovered += NameAnsweringProtocol_XboxDiscovered;
         }
-        
-        ~Main()
-        {
-            //Remove event handler
-            NameAnsweringProtocol.XboxDiscovered -= NameAnsweringProtocol_XboxDiscovered;
-        }
-        
+
         private string GetLocalPath(string fullname)
         {
             //Check
@@ -111,7 +107,7 @@ namespace XbExplorer
         private void Navigate(string location, bool store = true)
         {
             //Check
-            if (string.IsNullOrEmpty(location) || location == "XbExplorer")
+            if (string.IsNullOrEmpty(location) || location == XbExplorerRootLocation)
                 XbExplorerRoot(store);
 
             //Check
@@ -123,7 +119,7 @@ namespace XbExplorer
             //Check
             if (parts.Length > 0)
             {
-                if (parts[0] != "XbExplorer") return;
+                if (parts[0] != XbExplorerRootLocation) return;
 
                 //Check
                 if (parts.Length == 2) XboxRoot(parts[1], store);
@@ -341,6 +337,16 @@ namespace XbExplorer
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
             }
 
+            if (xbox == null)
+            {
+                MessageBox.Show("Unable to open specified Xbox.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XbExplorerRoot();
+                
+                //End
+                mainListView.EndUpdate();
+                return;
+            }
+
             try
             {
                 //Connect
@@ -348,7 +354,7 @@ namespace XbExplorer
 
                 //Change location
                 if (store) { ChangeLocation(Path.Combine("XbExplorer", xboxName)); ForwardHistory.Clear(); }
-                    SetVirtualLocation(VirtualLocation.Xbox);
+                SetVirtualLocation(VirtualLocation.Xbox);
                 UpdateLocation();
 
                 //Enable or disable
@@ -391,7 +397,11 @@ namespace XbExplorer
                 //Set
                 CurrentXbox = xbox;
             }
-            catch { MessageBox.Show("Unable to open specified Xbox.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); XbExplorerRoot(); }
+            catch
+            {
+                MessageBox.Show("Unable to open specified Xbox.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XbExplorerRoot();
+            }
 
             //End
             mainListView.EndUpdate();

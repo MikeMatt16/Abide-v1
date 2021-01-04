@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="editor_comment_block" DisplayName="editor_comment_block" MaximumElementCount="65536">
+	<FieldSet Alignment="4" Count="5">
+		<FieldRealPoint3D Index="0" Name="Position" />
+		<FieldLongEnum Index="1" Name=")Type">
+			<Option Name="Generic" />
+		</FieldLongEnum>
+		<FieldString Index="2" Name="Name^" />
+		<FieldLongString Index="3" Name="Comment" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

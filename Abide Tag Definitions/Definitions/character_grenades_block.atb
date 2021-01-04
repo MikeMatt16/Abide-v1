@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_grenades_block" DisplayName="character_grenades_block" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="21">
+		<FieldLongFlags Index="0" Name="grenades flags">
+			<Option Name="Flag1" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="grenade type#type of grenades that we throw^">
+			<Option Name="human fragmentation" />
+			<Option Name="covenant plasma" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="trajectory type#how we throw our grenades">
+			<Option Name="toss" />
+			<Option Name="lob" />
+			<Option Name="bounce" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldShortInteger Index="4" Name="minimum enemy count#how many enemies must be within the radius of the grenade before we will consider throwing there" />
+		<FieldReal Index="5" Name="enemy radius:world units#we consider enemies within this radius when determining where to throw" />
+		<FieldReal Index="6" Name="grenade ideal velocity:world units per second#how fast we LIKE to throw our grenades" />
+		<FieldReal Index="7" Name="grenade velocity:world units per second#the fastest we can possibly throw our grenades" />
+		<FieldRealBounds Index="8" Name="grenade ranges:world units#ranges within which we will consider throwing a grenade" />
+		<FieldReal Index="9" Name="collateral damage radius:world units#we won't throw if there are friendlies around our target within this range" />
+		<FieldRealFraction Index="10" Name="grenade chance:[0,1]#how likely we are to throw a grenade in one second" />
+		<FieldReal Index="11" Name="grenade throw delay:seconds#How long we have to wait after throwing a grenade before we can throw another one" />
+		<FieldUselessPad Index="12" Name="" />
+		<FieldRealFraction Index="13" Name="grenade uncover chance:[0,1]#how likely we are to throw a grenade to flush out a target in one second" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldRealFraction Index="15" Name="anti-vehicle grenade chance:[0,1]#how likely we are to throw a grenade against a vehicle" />
+		<FieldUselessPad Index="16" Name="" />
+		<FieldExplanation Index="17" Name="Grenade drop when killed" Explanation="" />
+		<FieldShortBounds Index="18" Name="grenade count#number of grenades that we start with" />
+		<FieldReal Index="19" Name="dont drop grenades chance:[0,1]#how likely we are not to drop any grenades when we die, even if we still have some" />
+		<FieldTerminator Index="20" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -138,7 +138,7 @@ namespace Abide.Tag.Ui
                 TreeNode blockNode = new TreeNode($"{tagBlock} Size: {tagBlock.Size}");
 
                 //Loop
-                foreach (Field field in tagBlock.Fields)
+                foreach (Field field in tagBlock)
                     switch (field.Type)
                     {
                         case FieldType.FieldStruct:
@@ -272,7 +272,7 @@ namespace Abide.Tag.Ui
                                 tagGroup.Read(reader);
 
                                 //Get filename and create directory if needed
-                                string filename = Path.Combine(folderDlg.SelectedPath, $"{tag.Filename}.{ tagGroup.Name}");
+                                string filename = Path.Combine(folderDlg.SelectedPath, $"{tag.Filename}.{ tagGroup.GroupName}");
                                 string directory = Path.GetDirectoryName(filename);
                                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
@@ -361,7 +361,7 @@ namespace Abide.Tag.Ui
                     rebuildSizeLabel.Text = $"{tagData.Length} bytes";
 
                     //Get filename and create directory if needed
-                    string filename = Path.Combine(folderDlg.SelectedPath, $"{selectedTag.Filename}.{tagGroup.Name}");
+                    string filename = Path.Combine(folderDlg.SelectedPath, $"{selectedTag.Filename}.{tagGroup.GroupName}");
                     string directory = Path.GetDirectoryName(filename);
                     if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
@@ -412,7 +412,7 @@ namespace Abide.Tag.Ui
             TagGroup_BuildTreeView(tf.Tree, tagGroup);
             tf.Status = rebuildSizeLabel.Text;
             tf.Show();
-            tf.Text = $"{tagGroup.Name}";
+            tf.Text = $"{tagGroup.GroupName}";
 
             //Dispose
             buildStream.Dispose();
@@ -1638,7 +1638,7 @@ namespace Abide.Tag.Ui
                 {
                     //Write
                     map.TagDataStream.Seek(soundGlobalsBlock.Offset + 32);
-                    soundGestaltId = reader.ReadInt32();
+                    soundGestaltId = reader.ReadUInt32();
                 }
             }
 

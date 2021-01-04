@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Abide.Guerilla
 {
@@ -104,7 +105,7 @@ namespace Abide.Guerilla
                     while (openEditors.ContainsKey($"{tagName}{tagIndex}")) tagIndex++;
                     
                     //Create editor
-                    TagGroupFileEditor editor = new TagGroupFileEditor($"{tagName}{tagIndex}.{file.TagGroup.Name}", file) { MdiParent = this };
+                    TagGroupFileEditor editor = new TagGroupFileEditor($"{tagName}{tagIndex}.{file.TagGroup.GroupName}", file) { MdiParent = this };
                     editor.FileNameChanged += Editor_FileNameChanged;
                     editor.FormClosed += Editor_FormClosed;
                     
@@ -156,6 +157,265 @@ namespace Abide.Guerilla
             //Initialize StartupScreen instance...
             using (StartupScreen startup = new StartupScreen())
             startup.ShowDialog();   //Show
+        }
+
+        private void generateEntPluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Initialize
+            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog())
+            {
+                //Setup
+                folderDlg.Description = "Browse to directory to create *.ent files.";
+
+                //Show
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    foreach(var tag in Tags.GetExportedTagGroups())
+                    {
+                        //Get tag group
+                        var tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(tag);
+
+                        //Prepare
+                        XmlWriterSettings settings = new XmlWriterSettings()
+                        {
+                            Indent = true,
+                            NewLineOnAttributes = false,
+                            IndentChars = "\t"
+                        };
+
+                        //Get file path
+                        string tagName = tag.FourCc.Replace('<', '_').Replace('>', '_').Replace('?', '_').Replace('*', '_').Replace(' ', '_').Replace('\\', '_').Replace('/', '_');
+                        string path = Path.Combine(folderDlg.SelectedPath, $"{tagName}.ent");
+
+                        //Delete file
+                        if (File.Exists(path)) File.Delete(path);
+
+                        //Create stream
+                        using (FileStream fs = File.OpenWrite(path))
+                        using (XmlWriter writer = XmlWriter.Create(fs, settings))
+                        {
+                            //Write start document
+                            writer.WriteStartDocument();
+
+                            //Write plugin element
+                            writer.WriteStartElement("plugin");
+
+                            //Write attributes
+                            writer.WriteStartAttribute("class");
+                            writer.WriteValue(tag.FourCc);
+                            writer.WriteEndAttribute();
+
+                            writer.WriteStartAttribute("author");
+                            writer.WriteValue("Abide");
+                            writer.WriteEndAttribute();
+
+                            writer.WriteStartAttribute("version");
+                            writer.WriteValue("0.1");
+                            writer.WriteEndAttribute();
+
+                            int headerSize = 0;
+                            foreach (var tagBlock in tagGroup)
+                                headerSize += tagBlock.Size;
+
+                            writer.WriteStartAttribute("headersize");
+                            writer.WriteValue(headerSize);
+                            writer.WriteEndAttribute();
+
+                            //Write tag blocks
+                            Action<Tag.ITagBlock> writeTagBlock = new Action<Tag.ITagBlock>((tagBlock) =>
+                            {
+                                int offset = 0;
+                                foreach (var field in tagBlock)
+                                {
+                                    switch (field.Type)
+                                    {
+                                        case Abide.Tag.Definition.FieldType.FieldBlock:
+                                            writer.WriteStartElement("struct");
+
+                                            writer.WriteStartAttribute("name");
+                                            writer.WriteValue(field.Name);
+                                            writer.WriteEndAttribute();
+
+                                            writer.WriteStartAttribute("offset");
+                                            writer.WriteValue(offset);
+                                            writer.WriteEndAttribute();
+
+                                            writer.WriteStartAttribute("visible");
+                                            writer.WriteValue(true);
+                                            writer.WriteEndAttribute();
+
+                                            var blockFieldTagBlock = ((Tag.BlockField)field).Create();
+                                            writer.WriteStartAttribute("maxelementcount");
+                                            writer.WriteValue(blockFieldTagBlock.MaximumElementCount);
+                                            writer.WriteEndAttribute();
+
+                                            writer.WriteStartAttribute("padalign");
+                                            writer.WriteValue(blockFieldTagBlock.Alignment);
+                                            writer.WriteEndAttribute();
+
+
+                                            writer.WriteEndElement();
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldStruct:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldStringId:
+                                        case Abide.Tag.Definition.FieldType.FieldOldStringId:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldString:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldLongString:
+                                            break;
+                                        
+                                        case Abide.Tag.Definition.FieldType.FieldCharInteger:
+                                        case Abide.Tag.Definition.FieldType.FieldCharBlockIndex1:
+                                        case Abide.Tag.Definition.FieldType.FieldCharBlockIndex2:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldShortInteger:
+                                        case Abide.Tag.Definition.FieldType.FieldShortBlockIndex1:
+                                        case Abide.Tag.Definition.FieldType.FieldShortBlockIndex2:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldLongInteger:
+                                        case Abide.Tag.Definition.FieldType.FieldLongBlockIndex1:
+                                        case Abide.Tag.Definition.FieldType.FieldLongBlockIndex2:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldAngle:
+                                        case Abide.Tag.Definition.FieldType.FieldReal:
+                                        case Abide.Tag.Definition.FieldType.FieldRealFraction:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldTag:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldTagReference:
+                                            break;
+                                        
+                                        case Abide.Tag.Definition.FieldType.FieldCharEnum:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldEnum:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldLongEnum:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldLongFlags:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldWordFlags:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldByteFlags:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldPoint2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRectangle2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRgbColor:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldArgbColor:
+                                            break;
+                                        
+                                        case Abide.Tag.Definition.FieldType.FieldRealPoint2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealPoint3D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealVector2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealVector3D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldQuaternion:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldEulerAngles2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldEulerAngles3D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealPlane2D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealPlane3D:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealRgbColor:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealArgbColor:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealHsvColor:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealAhsvColor:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldShortBounds:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldAngleBounds:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealBounds:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldRealFractionBounds:
+                                            break;
+                                        
+
+                                        
+                                        case Abide.Tag.Definition.FieldType.FieldData:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldVertexBuffer:
+                                            break;
+                                        
+                                        case Abide.Tag.Definition.FieldType.FieldSkip:
+                                        case Abide.Tag.Definition.FieldType.FieldPad:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldTagIndex:
+                                            break;
+
+                                        case Abide.Tag.Definition.FieldType.FieldUselessPad:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldLongBlockFlags:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldWordBlockFlags:
+                                            break;
+                                        case Abide.Tag.Definition.FieldType.FieldByteBlockFlags:
+                                            break;
+                                    }
+
+                                    offset += field.Size;
+                                }
+                            });
+
+                            //Loop
+                            foreach (var tagBlock in tagGroup)
+                                writeTagBlock.Invoke(tagBlock);
+
+                            //Write end plugin element
+                            writer.WriteEndElement();
+
+                            //End document
+                            writer.WriteEndDocument();
+                            fs.Flush();
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -2297,23 +2297,20 @@ namespace Abide.Guerilla.Library
             //Return stream
             return new MemoryStream(globals);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static TagHierarchy[] GetTags()
         {
-            //Prepare
             TagHierarchy[] tags = new TagHierarchy[118];
             using (MemoryStream ms = new MemoryStream(Properties.Resources.tags_data))
             using (BinaryReader reader = new BinaryReader(ms))
             {
-                //huh?
-                long huh = ms.Length / TagHierarchy.Length;
-
-                //Read
                 for (int i = 0; i < tags.Length; i++)
                     tags[i] = reader.Read<TagHierarchy>();
             }
 
-            //Return
             return tags;
         }
     }

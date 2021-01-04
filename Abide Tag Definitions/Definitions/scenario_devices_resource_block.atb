@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_devices_resource_block" DisplayName="scenario_devices_resource" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="15">
+		<FieldBlock Index="0" Name="Names" BlockName="scenario_object_names_block" />
+		<FieldBlock Index="1" Name="*" BlockName="dont_use_me_scenario_environment_object_block" />
+		<FieldBlock Index="2" Name="Structure References" BlockName="scenario_structure_bsp_reference_block" />
+		<FieldBlock Index="3" Name="Device Groups" BlockName="device_group_block" />
+		<FieldBlock Index="4" Name="Machines" BlockName="scenario_machine_block" />
+		<FieldBlock Index="5" Name="Machines Palette" BlockName="scenario_machine_palette_block" />
+		<FieldBlock Index="6" Name="Controls" BlockName="scenario_control_block" />
+		<FieldBlock Index="7" Name="Controls Palette" BlockName="scenario_control_palette_block" />
+		<FieldBlock Index="8" Name="Light Fixtures" BlockName="scenario_light_fixture_block" />
+		<FieldBlock Index="9" Name="Light Fixtures Palette" BlockName="scenario_light_fixture_palette_block" />
+		<FieldLongInteger Index="10" Name="next machine id salt*" />
+		<FieldLongInteger Index="11" Name="Next Control ID Salt*" />
+		<FieldLongInteger Index="12" Name="Next Light Fixture ID Salt*" />
+		<FieldBlock Index="13" Name="Editor Folders*" BlockName="g_scenario_editor_folder_block" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

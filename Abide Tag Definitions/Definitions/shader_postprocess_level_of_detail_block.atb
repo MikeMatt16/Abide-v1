@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_level_of_detail_block" DisplayName="shader_postprocess_level_of_detail_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="15">
+		<FieldReal Index="0" Name="projected height percentage" />
+		<FieldLongInteger Index="1" Name="available layers" />
+		<FieldBlock Index="2" Name="layers" BlockName="shader_postprocess_layer_block" />
+		<FieldBlock Index="3" Name="passes" BlockName="shader_postprocess_pass_block" />
+		<FieldBlock Index="4" Name="implementations" BlockName="shader_postprocess_implementation_block" />
+		<FieldBlock Index="5" Name="bitmaps" BlockName="shader_postprocess_bitmap_block" />
+		<FieldBlock Index="6" Name="bitmap transforms" BlockName="shader_postprocess_bitmap_transform_block" />
+		<FieldBlock Index="7" Name="values" BlockName="shader_postprocess_value_block" />
+		<FieldBlock Index="8" Name="colors" BlockName="shader_postprocess_color_block" />
+		<FieldBlock Index="9" Name="bitmap transform overlays" BlockName="shader_postprocess_bitmap_transform_overlay_block" />
+		<FieldBlock Index="10" Name="value overlays" BlockName="shader_postprocess_value_overlay_block" />
+		<FieldBlock Index="11" Name="color overlays" BlockName="shader_postprocess_color_overlay_block" />
+		<FieldBlock Index="12" Name="vertex shader constants" BlockName="shader_postprocess_vertex_shader_constant_block" />
+		<FieldStruct Index="13" Name="GPU State" StructName="shader_gpu_state_struct_block" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

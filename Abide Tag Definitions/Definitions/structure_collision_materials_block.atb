@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_collision_materials_block" DisplayName="structure_collision_materials_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="5">
+		<FieldTagReference Index="0" Name="Old Shader*" GroupTag="1936220516" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="2" Name="Conveyor Surface Index*" />
+		<FieldTagReference Index="3" Name="New Shader*" GroupTag="1936220516" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

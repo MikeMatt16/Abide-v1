@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_hud_auxilary_overlay_block" DisplayName="unit_hud_auxilary_overlay_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="24">
+		<FieldPoint2D Index="0" Name="anchor offset" />
+		<FieldReal Index="1" Name="width scale" />
+		<FieldReal Index="2" Name="height scale" />
+		<FieldWordFlags Index="3" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="20" />
+		<FieldTagReference Index="6" Name="interface bitmap" GroupTag="1651078253" />
+		<FieldArgbColor Index="7" Name="default color" />
+		<FieldArgbColor Index="8" Name="flashing color" />
+		<FieldReal Index="9" Name="flash period" />
+		<FieldReal Index="10" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="11" Name="number of flashes" />
+		<FieldWordFlags Index="12" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="13" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="14" Name="disabled color" />
+		<FieldPad Index="15" Name="" Length="4" />
+		<FieldShortInteger Index="16" Name="sequence index" />
+		<FieldPad Index="17" Name="" Length="2" />
+		<FieldBlock Index="18" Name="multitex overlay" BlockName="global_hud_multitexture_overlay_definition" />
+		<FieldPad Index="19" Name="" Length="4" />
+		<FieldEnum Index="20" Name="type">
+			<Option Name="team icon" />
+		</FieldEnum>
+		<FieldWordFlags Index="21" Name="flags">
+			<Option Name="use team color" />
+		</FieldWordFlags>
+		<FieldPad Index="22" Name="" Length="24" />
+		<FieldTerminator Index="23" Name="" />
+	</FieldSet>
+</AbideTagBlock>

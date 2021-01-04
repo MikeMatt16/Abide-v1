@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_region_block" DisplayName="region" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldOldStringId Index="0" Name="name^*" />
+		<FieldShortInteger Index="1" Name="node map offset (OLD)*" />
+		<FieldShortInteger Index="2" Name="node map size (OLD)*" />
+		<FieldBlock Index="3" Name="permutations*" BlockName="render_model_permutation_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

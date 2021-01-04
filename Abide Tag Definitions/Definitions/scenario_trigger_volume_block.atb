@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_trigger_volume_block" DisplayName="scenario_trigger_volume_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="13">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldShortBlockIndex1 Index="1" Name="Object Name" />
+		<FieldSkip Index="2" Name="" Length="2" />
+		<FieldStringId Index="3" Name="Node Name" />
+		<FieldArrayStart Index="4" Name="" Length="6">
+			<FieldReal Index="0" Name="" />
+		</FieldArrayStart>
+		<FieldReal Index="5" Name="" />
+		<FieldArrayEnd Index="6" Name="" />
+		<FieldRealPoint3D Index="7" Name="Position" />
+		<FieldRealPoint3D Index="8" Name="Extents" />
+		<FieldPad Index="9" Name="" Length="4" />
+		<FieldShortBlockIndex1 Index="10" Name="~Kill Trigger Volume*" />
+		<FieldPad Index="11" Name="" Length="2" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

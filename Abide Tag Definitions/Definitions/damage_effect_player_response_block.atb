@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_effect_player_response_block" DisplayName="damage_effect_player_response_block" MaximumElementCount="2">
+	<FieldSet Alignment="4" Count="10">
+		<FieldEnum Index="0" Name="response type">
+			<Option Name="shielded" />
+			<Option Name="unshielded" />
+			<Option Name="all" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldExplanation Index="2" Name="screen flash" Explanation="There are seven screen flash types:|n|nNONE: DST'= DST|nLIGHTEN: DST'= DST(1 - A) + C|nDARKEN: DST'= DST(1 - A) - C|nMAX: DST'= MAX[DST(1 - C), (C - A)(1-DST)]|nMIN: DST'= MIN[DST(1 - C), (C + A)(1-DST)]|nTINT: DST'= DST(1 - C) + (A*PIN[2C - 1, 0, 1] + A)(1-DST)|nINVERT: DST'= DST(1 - C) + A)|n|nIn the above equations C and A represent the color and alpha of the screen flash, DST represents the color in the framebuffer before the screen flash is applied, and DST' represents the color after the screen flash is applied." />
+		<FieldStruct Index="3" Name="screen flash*" StructName="screen_flash_definition_struct_block" />
+		<FieldExplanation Index="4" Name="vibration" Explanation="" />
+		<FieldStruct Index="5" Name="vibration*" StructName="vibration_definition_struct_block" />
+		<FieldExplanation Index="6" Name="sound effect" Explanation="" />
+		<FieldStruct Index="7" Name="sound effect" StructName="damage_effect_sound_effect_definition_block" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

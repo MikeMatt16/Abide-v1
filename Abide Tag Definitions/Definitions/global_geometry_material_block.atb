@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_material_block" DisplayName="material" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="7">
+		<FieldTagReference Index="0" Name="Old Shader*" GroupTag="1936220516" />
+		<FieldTagReference Index="1" Name="Shader^*" GroupTag="1936220516" />
+		<FieldBlock Index="2" Name="Properties*" BlockName="global_geometry_material_property_block" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldCharInteger Index="4" Name="Breakable Surface Index*" />
+		<FieldPad Index="5" Name="" Length="3" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

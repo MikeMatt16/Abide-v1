@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_boarding_melee_struct_block" DisplayName="unit_boarding_melee_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldTagReference Index="0" Name="boarding melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="1" Name="boarding melee response" GroupTag="1785754657" />
+		<FieldTagReference Index="2" Name="landing melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="3" Name="flurry melee damage" GroupTag="1785754657" />
+		<FieldTagReference Index="4" Name="obstacle smash damage" GroupTag="1785754657" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

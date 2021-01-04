@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_damage_info_block" DisplayName="global_damage_info_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="40">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="takes shield damage for children" />
+			<Option Name="takes body damage for children" />
+			<Option Name="always shields friendly damage" />
+			<Option Name="passes area damage to children" />
+			<Option Name="parent never takes body damage for us" />
+			<Option Name="only damaged by explosives" />
+			<Option Name="parent never takes shield damage for us" />
+			<Option Name="cannot die from damage" />
+			<Option Name="passes attached damage to riders" />
+		</FieldLongFlags>
+		<FieldStringId Index="1" Name="global indirect material name#absorbes AOE or child damage" />
+		<FieldShortBlockIndex2 Index="2" Name="indirect damage section#absorbes AOE or child damage" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldCharEnum Index="5" Name="collision damage reporting type">
+			<Option Name="teh guardians!!1!!1!" />
+			<Option Name="falling damage" />
+			<Option Name="generic collision damage" />
+			<Option Name="generic melee damage" />
+			<Option Name="generic explosion" />
+			<Option Name="magnum pistol" />
+			<Option Name="plasma pistol" />
+			<Option Name="needler" />
+			<Option Name="smg" />
+			<Option Name="plasma rifle" />
+			<Option Name="battle rifle" />
+			<Option Name="carbine" />
+			<Option Name="shotgun" />
+			<Option Name="sniper rifle" />
+			<Option Name="beam rifle" />
+			<Option Name="rocket launcher" />
+			<Option Name="flak cannon" />
+			<Option Name="brute shot" />
+			<Option Name="disintegrator" />
+			<Option Name="brute plasma rifle" />
+			<Option Name="energy sword" />
+			<Option Name="frag grenade" />
+			<Option Name="plasma grenade" />
+			<Option Name="flag melee damage" />
+			<Option Name="bomb melee damage" />
+			<Option Name="bomb explosion damage" />
+			<Option Name="ball melee damage" />
+			<Option Name="human turret" />
+			<Option Name="plasma turret" />
+			<Option Name="banshee" />
+			<Option Name="ghost" />
+			<Option Name="mongoose" />
+			<Option Name="scorpion" />
+			<Option Name="spectre driver" />
+			<Option Name="spectre gunner" />
+			<Option Name="warthog driver" />
+			<Option Name="warthog gunner" />
+			<Option Name="wraith" />
+			<Option Name="tank" />
+			<Option Name="sentinel beam" />
+			<Option Name="sentinel rpg" />
+			<Option Name="teleporter" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="6" Name="response damage reporting type">
+			<Option Name="teh guardians!!1!!1!" />
+			<Option Name="falling damage" />
+			<Option Name="generic collision damage" />
+			<Option Name="generic melee damage" />
+			<Option Name="generic explosion" />
+			<Option Name="magnum pistol" />
+			<Option Name="plasma pistol" />
+			<Option Name="needler" />
+			<Option Name="smg" />
+			<Option Name="plasma rifle" />
+			<Option Name="battle rifle" />
+			<Option Name="carbine" />
+			<Option Name="shotgun" />
+			<Option Name="sniper rifle" />
+			<Option Name="beam rifle" />
+			<Option Name="rocket launcher" />
+			<Option Name="flak cannon" />
+			<Option Name="brute shot" />
+			<Option Name="disintegrator" />
+			<Option Name="brute plasma rifle" />
+			<Option Name="energy sword" />
+			<Option Name="frag grenade" />
+			<Option Name="plasma grenade" />
+			<Option Name="flag melee damage" />
+			<Option Name="bomb melee damage" />
+			<Option Name="bomb explosion damage" />
+			<Option Name="ball melee damage" />
+			<Option Name="human turret" />
+			<Option Name="plasma turret" />
+			<Option Name="banshee" />
+			<Option Name="ghost" />
+			<Option Name="mongoose" />
+			<Option Name="scorpion" />
+			<Option Name="spectre driver" />
+			<Option Name="spectre gunner" />
+			<Option Name="warthog driver" />
+			<Option Name="warthog gunner" />
+			<Option Name="wraith" />
+			<Option Name="tank" />
+			<Option Name="sentinel beam" />
+			<Option Name="sentinel rpg" />
+			<Option Name="teleporter" />
+		</FieldCharEnum>
+		<FieldPad Index="7" Name="" Length="2" />
+		<FieldPad Index="8" Name="" Length="20" />
+		<FieldExplanation Index="9" Name="body" Explanation="" />
+		<FieldReal Index="10" Name="maximum vitality" />
+		<FieldReal Index="11" Name="minimum stun damage#the minimum damage required to stun this object's health" />
+		<FieldReal Index="12" Name="stun time:seconds#the length of time the health stay stunned (do not recharge) after taking damage" />
+		<FieldReal Index="13" Name="recharge time:seconds#the length of time it would take for the shields to fully recharge after being completely depleted" />
+		<FieldRealFraction Index="14" Name="recharge fraction#0 defaults to 1 - to what maximum level the body health will be allowed to recharge" />
+		<FieldPad Index="15" Name="" Length="64" />
+		<FieldExplanation Index="16" Name="shield" Explanation="" />
+		<FieldTagReference Index="17" Name="shield damaged first person shader" GroupTag="1936220516" />
+		<FieldTagReference Index="18" Name="shield damaged shader" GroupTag="1936220516" />
+		<FieldReal Index="19" Name="maximum shield vitality#the default initial and maximum shield vitality of this object" />
+		<FieldStringId Index="20" Name="global shield material name" />
+		<FieldReal Index="21" Name="minimum stun damage#the minimum damage required to stun this object's shields" />
+		<FieldReal Index="22" Name="stun time:seconds#the length of time the shields stay stunned (do not recharge) after taking damage" />
+		<FieldReal Index="23" Name="recharge time:seconds#the length of time it would take for the shields to fully recharge after being completely depleted" />
+		<FieldReal Index="24" Name="shield damaged threshold" />
+		<FieldTagReference Index="25" Name="shield damaged effect" GroupTag="1701209701" />
+		<FieldTagReference Index="26" Name="shield depleted effect" GroupTag="1701209701" />
+		<FieldTagReference Index="27" Name="shield recharging effect" GroupTag="1701209701" />
+		<FieldBlock Index="28" Name="damage sections" BlockName="global_damage_section_block" />
+		<FieldBlock Index="29" Name="nodes*" BlockName="global_damage_nodes_block" />
+		<FieldPad Index="30" Name="" Length="2" />
+		<FieldPad Index="31" Name="" Length="2" />
+		<FieldPad Index="32" Name="" Length="4" />
+		<FieldPad Index="33" Name="" Length="4" />
+		<FieldBlock Index="34" Name="damage seats" BlockName="damage_seat_info_block" />
+		<FieldBlock Index="35" Name="damage constraints" BlockName="damage_constraint_info_block" />
+		<FieldExplanation Index="36" Name="overshield" Explanation="" />
+		<FieldTagReference Index="37" Name="overshield first person shader" GroupTag="1936220516" />
+		<FieldTagReference Index="38" Name="overshield shader" GroupTag="1936220516" />
+		<FieldTerminator Index="39" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_pitch_lfo_block" DisplayName="platform_sound_pitch_lfo_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="delay" Explanation="seconds" />
+		<FieldStruct Index="1" Name="delay" StructName="sound_playback_parameter_definition_block" />
+		<FieldExplanation Index="2" Name="frequency" Explanation="Hz[0,43.7]" />
+		<FieldStruct Index="3" Name="frequency" StructName="sound_playback_parameter_definition_block" />
+		<FieldExplanation Index="4" Name="pitch modulation" Explanation="octaves[-1,1]" />
+		<FieldStruct Index="5" Name="pitch modulation" StructName="sound_playback_parameter_definition_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

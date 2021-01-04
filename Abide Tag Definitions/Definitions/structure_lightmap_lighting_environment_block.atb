@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_lightmap_lighting_environment_block" DisplayName="structure_lightmap_lighting_environment_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="23">
+		<FieldRealPoint3D Index="0" Name="sample_point*" />
+		<FieldArrayStart Index="1" Name="red coefficients*" Length="9">
+			<FieldReal Index="0" Name="red coefficient*" />
+		</FieldArrayStart>
+		<FieldReal Index="2" Name="red coefficient*" />
+		<FieldArrayEnd Index="3" Name="" />
+		<FieldArrayStart Index="4" Name="green coefficients*" Length="9">
+			<FieldReal Index="0" Name="green coefficient*" />
+		</FieldArrayStart>
+		<FieldReal Index="5" Name="green coefficient*" />
+		<FieldArrayEnd Index="6" Name="" />
+		<FieldArrayStart Index="7" Name="blue coefficients*" Length="9">
+			<FieldReal Index="0" Name="blue coefficient*" />
+		</FieldArrayStart>
+		<FieldReal Index="8" Name="blue coefficient*" />
+		<FieldArrayEnd Index="9" Name="" />
+		<FieldRealVector3D Index="10" Name="mean incoming light direction" />
+		<FieldRealPoint3D Index="11" Name="incoming light intensity" />
+		<FieldLongInteger Index="12" Name="specular bitmap index" />
+		<FieldRealVector3D Index="13" Name="rotation axis" />
+		<FieldReal Index="14" Name="rotation speed" />
+		<FieldRealVector3D Index="15" Name="bump direction" />
+		<FieldRealRgbColor Index="16" Name="color tint" />
+		<FieldEnum Index="17" Name="procedural overide">
+			<Option Name="no overide" />
+			<Option Name="CIE clear sky" />
+			<Option Name="CIE partly cloudy" />
+			<Option Name="CIE cloudy" />
+			<Option Name="directional light" />
+			<Option Name="cone light" />
+			<Option Name="sphere light" />
+			<Option Name="hemisphere light" />
+		</FieldEnum>
+		<FieldWordFlags Index="18" Name="flags">
+			<Option Name="leave me alone please" />
+		</FieldWordFlags>
+		<FieldRealVector3D Index="19" Name="procedural param0" />
+		<FieldRealVector3D Index="20" Name="procedural param1.xyz" />
+		<FieldReal Index="21" Name="procedural param1.w" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

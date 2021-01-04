@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="screen_effect_block" DisplayName="screen_effect" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldExplanation Index="0" Name="SCREEN EFFECT" Explanation="A screen effect is essentially a collection of pass references, each one corresponding to a shader pass reference from the template. Note that only shader passes in the TRANSPARENT layer are considered during screen effect rendering." />
+		<FieldPad Index="1" Name="" Length="64" />
+		<FieldTagReference Index="2" Name="shader" GroupTag="1936220516" />
+		<FieldPad Index="3" Name="" Length="64" />
+		<FieldBlock Index="4" Name="pass references" BlockName="rasterizer_screen_effect_pass_reference_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

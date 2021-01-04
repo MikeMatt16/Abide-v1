@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_ui_multiplayer_level_block" DisplayName="global_ui_multiplayer_level_block" MaximumElementCount="50">
+	<FieldSet Alignment="4" Count="25">
+		<FieldLongInteger Index="0" Name="Map ID" />
+		<FieldTagReference Index="1" Name="Bitmap" GroupTag="1651078253" />
+		<FieldSkip Index="2" Name="" Length="576" />
+		<FieldSkip Index="3" Name="" Length="2304" />
+		<FieldLongString Index="4" Name="Path" />
+		<FieldLongInteger Index="5" Name="Sort Order" />
+		<FieldByteFlags Index="6" Name="Flags">
+			<Option Name="Unlockable" />
+		</FieldByteFlags>
+		<FieldPad Index="7" Name="" Length="3" />
+		<FieldCharInteger Index="8" Name="Max Teams None" />
+		<FieldCharInteger Index="9" Name="Max Teams CTF" />
+		<FieldCharInteger Index="10" Name="Max Teams Slayer" />
+		<FieldCharInteger Index="11" Name="Max Teams Oddball" />
+		<FieldCharInteger Index="12" Name="Max Teams KOTH" />
+		<FieldCharInteger Index="13" Name="Max Teams Race" />
+		<FieldCharInteger Index="14" Name="Max Teams Headhunter" />
+		<FieldCharInteger Index="15" Name="Max Teams Juggernaut" />
+		<FieldCharInteger Index="16" Name="Max Teams Territories" />
+		<FieldCharInteger Index="17" Name="Max Teams Assault" />
+		<FieldCharInteger Index="18" Name="Max Teams Stub 10" />
+		<FieldCharInteger Index="19" Name="Max Teams Stub 11" />
+		<FieldCharInteger Index="20" Name="Max Teams Stub 12" />
+		<FieldCharInteger Index="21" Name="Max Teams Stub 13" />
+		<FieldCharInteger Index="22" Name="Max Teams Stub 14" />
+		<FieldCharInteger Index="23" Name="Max Teams Stub 15" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

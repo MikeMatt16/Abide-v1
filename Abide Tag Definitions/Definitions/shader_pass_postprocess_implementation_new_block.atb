@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_implementation_new_block" DisplayName="shader_pass_postprocess_implementation_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="27">
+		<FieldStruct Index="0" Name="textures" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="1" Name="render states" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="2" Name="texture states" StructName="tag_block_index_struct_block" />
+		<FieldSkip Index="3" Name="" Length="240" />
+		<FieldStruct Index="4" Name="ps fragments" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="5" Name="ps permutations" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="6" Name="ps combiners" StructName="tag_block_index_struct_block" />
+		<FieldTagReference Index="7" Name="vertex shader" GroupTag="1987212408" />
+		<FieldSkip Index="8" Name="" Length="8" />
+		<FieldSkip Index="9" Name="" Length="8" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldSkip Index="11" Name="" Length="4" />
+		<FieldStruct Index="12" Name="default render states" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="13" Name="render state externs" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="14" Name="texture state externs" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="15" Name="pixel constant externs" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="16" Name="vertex constant externs" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="17" Name="ps constants" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="18" Name="vs constants" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="19" Name="pixel constant info" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="20" Name="vertex constant info" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="21" Name="render state info" StructName="tag_block_index_struct_block" />
+		<FieldStruct Index="22" Name="texture state info" StructName="tag_block_index_struct_block" />
+		<FieldBlock Index="23" Name="pixel shader" BlockName="shader_postprocess_pixel_shader" />
+		<FieldBlock Index="24" Name="pixel shader switch extern map" BlockName="pixel_shader_extern_map_block" />
+		<FieldBlock Index="25" Name="pixel shader index block" BlockName="pixel_shader_index_block" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

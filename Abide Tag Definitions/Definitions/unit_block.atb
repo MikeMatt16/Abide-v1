@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_block" DisplayName="unit" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="56">
+		<FieldExplanation Index="0" Name="$$$ UNIT $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="circular aiming" />
+			<Option Name="destroyed after dying" />
+			<Option Name="half-speed interpolation" />
+			<Option Name="fires from camera" />
+			<Option Name="entrance inside bounding sphere" />
+			<Option Name="doesn't show readied weapon" />
+			<Option Name="causes passenger dialogue" />
+			<Option Name="resists pings" />
+			<Option Name="melee attack is fatal" />
+			<Option Name="don't reface during pings" />
+			<Option Name="has no aiming" />
+			<Option Name="simple creature" />
+			<Option Name="impact melee attaches to unit" />
+			<Option Name="impact melee dies on shields" />
+			<Option Name="cannot open doors automatically" />
+			<Option Name="melee attackers cannot attach" />
+			<Option Name="not instantly killed by melee" />
+			<Option Name="shield sapping" />
+			<Option Name="runs around flaming" />
+			<Option Name="inconsequential" />
+			<Option Name="special cinematic unit" />
+			<Option Name="ignored by autoaiming" />
+			<Option Name="shields fry infection forms" />
+			<Option Name="unused" />
+			<Option Name="unused" />
+			<Option Name="acts as gunner for parent" />
+			<Option Name="controlled by parent gunner" />
+			<Option Name="parent's primary weapon" />
+			<Option Name="unit has boost" />
+		</FieldLongFlags>
+		<FieldEnum Index="2" Name="default team">
+			<Option Name="default" />
+			<Option Name="player" />
+			<Option Name="human" />
+			<Option Name="covenant" />
+			<Option Name="flood" />
+			<Option Name="sentinel" />
+			<Option Name="heretic" />
+			<Option Name="prophet" />
+			<Option Name="unused8" />
+			<Option Name="unused9" />
+			<Option Name="unused10" />
+			<Option Name="unused11" />
+			<Option Name="unused12" />
+			<Option Name="unused13" />
+			<Option Name="unused14" />
+			<Option Name="unused15" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="constant sound volume">
+			<Option Name="silent" />
+			<Option Name="medium" />
+			<Option Name="loud" />
+			<Option Name="shout" />
+			<Option Name="quiet" />
+		</FieldEnum>
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTagReference Index="5" Name="integrated light toggle" GroupTag="1701209701" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldAngle Index="7" Name="camera field of view:degrees" />
+		<FieldReal Index="8" Name="camera stiffness" />
+		<FieldStruct Index="9" Name="unit camera" StructName="unit_camera_struct_block" />
+		<FieldStruct Index="10" Name="acceleration" StructName="unit_seat_acceleration_struct_block" />
+		<FieldUselessPad Index="11" Name="" />
+		<FieldReal Index="12" Name="soft ping threshold:[0,1]" />
+		<FieldReal Index="13" Name="soft ping interrupt time:seconds" />
+		<FieldReal Index="14" Name="hard ping threshold:[0,1]" />
+		<FieldReal Index="15" Name="hard ping interrupt time:seconds" />
+		<FieldReal Index="16" Name="hard death threshold:[0,1]" />
+		<FieldReal Index="17" Name="feign death threshold:[0,1]" />
+		<FieldReal Index="18" Name="feign death time:seconds" />
+		<FieldReal Index="19" Name="distance of evade anim:world units#this must be set to tell the AI how far it should expect our evade animation to move us" />
+		<FieldReal Index="20" Name="distance of dive anim:world units#this must be set to tell the AI how far it should expect our dive animation to move us" />
+		<FieldUselessPad Index="21" Name="" />
+		<FieldReal Index="22" Name="stunned movement threshold:[0,1]#if we take this much damage in a short space of time we will play our 'stunned movement' animations" />
+		<FieldReal Index="23" Name="feign death chance:[0,1]" />
+		<FieldReal Index="24" Name="feign repeat chance:[0,1]" />
+		<FieldTagReference Index="25" Name="spawned turret character#automatically created character when this unit is driven" GroupTag="1667785074" />
+		<FieldShortBounds Index="26" Name="spawned actor count#number of actors which we spawn" />
+		<FieldReal Index="27" Name="spawned velocity#velocity at which we throw spawned actors" />
+		<FieldAngle Index="28" Name="aiming velocity maximum:degrees per second" />
+		<FieldAngle Index="29" Name="aiming acceleration maximum:degrees per second squared" />
+		<FieldRealFraction Index="30" Name="casual aiming modifier:[0,1]" />
+		<FieldAngle Index="31" Name="looking velocity maximum:degrees per second" />
+		<FieldAngle Index="32" Name="looking acceleration maximum:degrees per second squared" />
+		<FieldStringId Index="33" Name="right_hand_node#where the primary weapon is attached" />
+		<FieldStringId Index="34" Name="left_hand_node#where the seconday weapon is attached (for dual-pistol modes)" />
+		<FieldStruct Index="35" Name="more damn nodes" StructName="unit_additional_node_names_struct_block" />
+		<FieldUselessPad Index="36" Name="" />
+		<FieldTagReference Index="37" Name="melee damage" GroupTag="1785754657" />
+		<FieldStruct Index="38" Name="your momma" StructName="unit_boarding_melee_struct_block" />
+		<FieldEnum Index="39" Name="motion sensor blip size">
+			<Option Name="medium" />
+			<Option Name="small" />
+			<Option Name="large" />
+		</FieldEnum>
+		<FieldPad Index="40" Name="" Length="2" />
+		<FieldBlock Index="41" Name="postures" BlockName="unit_postures_block" />
+		<FieldBlock Index="42" Name="NEW HUD INTERFACES" BlockName="unit_hud_reference_block" />
+		<FieldBlock Index="43" Name="dialogue variants" BlockName="dialogue_variant_block" />
+		<FieldReal Index="44" Name="grenade velocity:world units per second" />
+		<FieldEnum Index="45" Name="grenade type">
+			<Option Name="human fragmentation" />
+			<Option Name="covenant plasma" />
+		</FieldEnum>
+		<FieldShortInteger Index="46" Name="grenade count" />
+		<FieldUselessPad Index="47" Name="" />
+		<FieldBlock Index="48" Name="powered seats" BlockName="powered_seat_block" />
+		<FieldBlock Index="49" Name="weapons" BlockName="unit_weapon_block" />
+		<FieldBlock Index="50" Name="seats" BlockName="unit_seat_block" />
+		<FieldExplanation Index="51" Name="Boost" Explanation="" />
+		<FieldStruct Index="52" Name="boost" StructName="unit_boost_struct_block" />
+		<FieldExplanation Index="53" Name="Lipsync" Explanation="" />
+		<FieldStruct Index="54" Name="lipsync" StructName="unit_lipsync_scales_struct_block" />
+		<FieldTerminator Index="55" Name="" />
+	</FieldSet>
+</AbideTagBlock>

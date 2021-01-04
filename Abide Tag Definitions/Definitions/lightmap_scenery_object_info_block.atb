@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lightmap_scenery_object_info_block" DisplayName="lightmap_scenery_object_info_block" MaximumElementCount="2000">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="unique ID" />
+		<FieldShortInteger Index="1" Name="origin BSP index" />
+		<FieldCharInteger Index="2" Name="type" />
+		<FieldCharInteger Index="3" Name="source" />
+		<FieldLongInteger Index="4" Name="render model checksum" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

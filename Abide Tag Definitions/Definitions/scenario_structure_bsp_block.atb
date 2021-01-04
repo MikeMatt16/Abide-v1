@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_structure_bsp_block" DisplayName="scenario_structure_bsp" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="56">
+		<FieldBlock Index="0" Name="Import Info*" BlockName="global_tag_import_info_block" />
+		<FieldPad Index="1" Name="" Length="4" />
+		<FieldBlock Index="2" Name="Collision Materials*" BlockName="structure_collision_materials_block" />
+		<FieldBlock Index="3" Name="Collision BSP*" BlockName="global_collision_bsp_block" />
+		<FieldReal Index="4" Name="Vehicle Floor:World Units#Height below which vehicles get pushed up by an unstoppable force." />
+		<FieldReal Index="5" Name="Vehicle Ceiling:World Units#Height above which vehicles get pushed down by an unstoppable force." />
+		<FieldBlock Index="6" Name="UNUSED nodes*" BlockName="UNUSED_structure_bsp_node_block" />
+		<FieldBlock Index="7" Name="Leaves*" BlockName="structure_bsp_leaf_block" />
+		<FieldRealBounds Index="8" Name="World Bounds x*" />
+		<FieldRealBounds Index="9" Name="World Bounds y*" />
+		<FieldRealBounds Index="10" Name="World Bounds z*" />
+		<FieldBlock Index="11" Name="Surface References*" BlockName="structure_bsp_surface_reference_block" />
+		<FieldData Index="12" Name="Cluster Data*" Alignment="4" MaximumSize="65536" ElementSize="1" />
+		<FieldBlock Index="13" Name="Cluster Portals*" BlockName="structure_bsp_cluster_portal_block" />
+		<FieldBlock Index="14" Name="Fog Planes*" BlockName="structure_bsp_fog_plane_block" />
+		<FieldPad Index="15" Name="" Length="24" />
+		<FieldBlock Index="16" Name="Weather Palette*" BlockName="structure_bsp_weather_palette_block" />
+		<FieldBlock Index="17" Name="Weather Polyhedra*" BlockName="structure_bsp_weather_polyhedron_block" />
+		<FieldBlock Index="18" Name="Detail Objects*" BlockName="structure_bsp_detail_object_data_block" />
+		<FieldBlock Index="19" Name="Clusters*" BlockName="structure_bsp_cluster_block" />
+		<FieldBlock Index="20" Name="Materials*" BlockName="global_geometry_material_block" />
+		<FieldBlock Index="21" Name="Sky Owner Cluster*" BlockName="structure_bsp_sky_owner_cluster_block" />
+		<FieldBlock Index="22" Name="Conveyor Surfaces*" BlockName="structure_bsp_conveyor_surface_block" />
+		<FieldBlock Index="23" Name="Breakable Surfaces*" BlockName="structure_bsp_breakable_surface_block" />
+		<FieldBlock Index="24" Name="Pathfinding Data" BlockName="pathfinding_data_block" />
+		<FieldBlock Index="25" Name="Pathfinding Edges*" BlockName="structure_bsp_pathfinding_edges_block" />
+		<FieldBlock Index="26" Name="Background Sound Palette*" BlockName="structure_bsp_background_sound_palette_block" />
+		<FieldBlock Index="27" Name="Sound Environment Palette*" BlockName="structure_bsp_sound_environment_palette_block" />
+		<FieldData Index="28" Name="Sound PAS Data*" Alignment="4" MaximumSize="131072" ElementSize="1" />
+		<FieldBlock Index="29" Name="Markers*" BlockName="structure_bsp_marker_block" />
+		<FieldBlock Index="30" Name="Runtime Decals*" BlockName="structure_bsp_runtime_decal_block" />
+		<FieldBlock Index="31" Name="Environment Object Palette*" BlockName="structure_bsp_environment_object_palette_block" />
+		<FieldBlock Index="32" Name="Environment Objects*" BlockName="structure_bsp_environment_object_block" />
+		<FieldBlock Index="33" Name="Lightmaps*" BlockName="structure_bsp_lightmap_data_block" />
+		<FieldPad Index="34" Name="" Length="4" />
+		<FieldBlock Index="35" Name="Leaf Map Leaves*" BlockName="global_map_leaf_block" />
+		<FieldBlock Index="36" Name="Leaf Map Connections*" BlockName="global_leaf_connection_block" />
+		<FieldBlock Index="37" Name="Errors*" BlockName="global_error_report_categories_block" />
+		<FieldBlock Index="38" Name="Precomputed Lighting*" BlockName="structure_bsp_precomputed_lighting_block" />
+		<FieldBlock Index="39" Name="Instanced Geometries Definitions*" BlockName="structure_bsp_instanced_geometry_definition_block" />
+		<FieldBlock Index="40" Name="Instanced Geometry Instances*" BlockName="structure_bsp_instanced_geometry_instances_block" />
+		<FieldBlock Index="41" Name=")Ambience Sound Clusters" BlockName="structure_bsp_sound_cluster_block" />
+		<FieldBlock Index="42" Name=")Reverb Sound Clusters" BlockName="structure_bsp_sound_cluster_block" />
+		<FieldBlock Index="43" Name="Transparent Planes*" BlockName="transparent_planes_block" />
+		<FieldPad Index="44" Name="" Length="96" />
+		<FieldReal Index="45" Name="Vehicle Sperical Limit Radius#Distances this far and longer from limit origin will pull you back in." />
+		<FieldRealPoint3D Index="46" Name="Vehicle Sperical Limit Center#Center of space in which vehicle can move." />
+		<FieldBlock Index="47" Name="Debug Info*" BlockName="structure_bsp_debug_info_block" />
+		<FieldTagReference Index="48" Name="Decorators" GroupTag="1145389904" />
+		<FieldStruct Index="49" Name="structure_physics*" StructName="global_structure_physics_struct_block" />
+		<FieldBlock Index="50" Name="Water Definitions" BlockName="global_water_definitions_block" />
+		<FieldBlock Index="51" Name=")portal=&gt;device mapping" BlockName="structure_portal_device_mapping_block" />
+		<FieldBlock Index="52" Name=")Audibility" BlockName="structure_bsp_audibility_block" />
+		<FieldBlock Index="53" Name=")Object Fake Lightprobes" BlockName="structure_bsp_fake_lightprobes_block" />
+		<FieldBlock Index="54" Name="Decorators" BlockName="decorator_placement_definition_block" />
+		<FieldTerminator Index="55" Name="" />
+	</FieldSet>
+</AbideTagBlock>

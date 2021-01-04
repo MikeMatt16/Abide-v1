@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_error_report_categories_block" DisplayName="error report category" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongString Index="0" Name="Name^*" />
+		<FieldEnum Index="1" Name="Report Type*">
+			<Option Name="Silent" />
+			<Option Name="Comment" />
+			<Option Name="Warning" />
+			<Option Name="Error" />
+		</FieldEnum>
+		<FieldWordFlags Index="2" Name="Flags*">
+			<Option Name="Rendered" />
+			<Option Name="Tangent Space" />
+			<Option Name="Noncritical" />
+			<Option Name="Lightmap Light" />
+			<Option Name="Report key is valid." />
+		</FieldWordFlags>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="404" />
+		<FieldBlock Index="6" Name="Reports*" BlockName="error_reports_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

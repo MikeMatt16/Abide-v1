@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="quantized_orientation_struct_block" DisplayName="quantized_orientation_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldShortInteger Index="0" Name="rotation x*" />
+		<FieldShortInteger Index="1" Name="rotation y*" />
+		<FieldShortInteger Index="2" Name="rotation z*" />
+		<FieldShortInteger Index="3" Name="rotation w*" />
+		<FieldRealPoint3D Index="4" Name="default translation*" />
+		<FieldReal Index="5" Name="default scale*" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_light_response_block" DisplayName="shader_light_response" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldBlock Index="0" Name="categories" BlockName="shader_template_category_block" />
+		<FieldBlock Index="1" Name="shader LODs" BlockName="shader_template_level_of_detail_block" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

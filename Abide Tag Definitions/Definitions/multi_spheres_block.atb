@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multi_spheres_block" DisplayName="multi_spheres_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="20">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="material*" />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldReal Index="3" Name="relative mass scale" />
+		<FieldRealFraction Index="4" Name="friction" />
+		<FieldRealFraction Index="5" Name="restitution" />
+		<FieldReal Index="6" Name="volume *" />
+		<FieldReal Index="7" Name="mass*" />
+		<FieldSkip Index="8" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="9" Name="phantom*" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldShortInteger Index="11" Name="size*" />
+		<FieldShortInteger Index="12" Name="count*" />
+		<FieldSkip Index="13" Name="" Length="4" />
+		<FieldLongInteger Index="14" Name="num spheres*" />
+		<FieldArrayStart Index="15" Name="four vectors storage*" Length="8">
+			<FieldRealVector3D Index="0" Name="sphere*" />
+			<FieldSkip Index="1" Name="" Length="4" />
+		</FieldArrayStart>
+		<FieldRealVector3D Index="16" Name="sphere*" />
+		<FieldSkip Index="17" Name="" Length="4" />
+		<FieldArrayEnd Index="18" Name="" />
+		<FieldTerminator Index="19" Name="" />
+	</FieldSet>
+</AbideTagBlock>

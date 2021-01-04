@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="player_representation_block" DisplayName="player_representation_block" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="7">
+		<FieldTagReference Index="0" Name="first person hands" GroupTag="1836016741" />
+		<FieldTagReference Index="1" Name="first person body" GroupTag="1836016741" />
+		<FieldPad Index="2" Name="" Length="40" />
+		<FieldPad Index="3" Name="" Length="120" />
+		<FieldTagReference Index="4" Name="third person unit" GroupTag="1970170228" />
+		<FieldStringId Index="5" Name="third person variant" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

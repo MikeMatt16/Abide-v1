@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_shader_parameter_block" DisplayName="parameter" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="Name^" />
+		<FieldEnum Index="1" Name="Type">
+			<Option Name="Bitmap" />
+			<Option Name="Value" />
+			<Option Name="Color" />
+			<Option Name="Switch" />
+		</FieldEnum>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldTagReference Index="3" Name="Bitmap" GroupTag="1651078253" />
+		<FieldReal Index="4" Name="Const Value" />
+		<FieldRealRgbColor Index="5" Name="Const Color" />
+		<FieldBlock Index="6" Name="Animation Properties" BlockName="shader_animation_property_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_section_block" DisplayName="render_model_section_block" MaximumElementCount="255">
+	<FieldSet Alignment="4" Count="8">
+		<FieldEnum Index="0" Name="global_geometry_classification_enum_definition">
+			<Option Name="Worldspace" />
+			<Option Name="Rigid" />
+			<Option Name="Rigid Boned" />
+			<Option Name="Skinned" />
+			<Option Name="Unsupported (Reimport)" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldStruct Index="2" Name="section info*" StructName="global_geometry_section_info_struct_block" />
+		<FieldShortBlockIndex1 Index="3" Name="rigid node*" />
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="geometry postprocessed" />
+		</FieldWordFlags>
+		<FieldBlock Index="5" Name="section data*" BlockName="render_model_section_data_block" />
+		<FieldStruct Index="6" Name="geometry block info*" StructName="global_geometry_block_info_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

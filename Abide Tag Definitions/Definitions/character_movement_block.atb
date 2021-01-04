@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_movement_block" DisplayName="character_movement_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="15">
+		<FieldLongFlags Index="0" Name="movement flags">
+			<Option Name="danger crouch allow movement" />
+			<Option Name="no side-step" />
+			<Option Name="prefer to combar near friends" />
+			<Option Name="hop (to cover path segements)" />
+			<Option Name="perch" />
+			<Option Name="has flying mode" />
+			<Option Name="disallow crouch" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="pathfinding radius" />
+		<FieldReal Index="2" Name="destination radius" />
+		<FieldUselessPad Index="3" Name="" />
+		<FieldReal Index="4" Name="dive grenade chance" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldEnum Index="6" Name="obstacle leap min size">
+			<Option Name="none" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldEnum Index="7" Name="obstacle leap max size">
+			<Option Name="none" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="obstacle ignore size">
+			<Option Name="none" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldEnum Index="9" Name="obstacle smashable size">
+			<Option Name="none" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldPad Index="10" Name="" Length="2" />
+		<FieldEnum Index="11" Name="jump height">
+			<Option Name="NONE" />
+			<Option Name="down" />
+			<Option Name="step" />
+			<Option Name="crouch" />
+			<Option Name="stand" />
+			<Option Name="storey" />
+			<Option Name="tower" />
+			<Option Name="infinite" />
+		</FieldEnum>
+		<FieldLongFlags Index="12" Name="movement hints">
+			<Option Name="vault step" />
+			<Option Name="vault crouch" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="mount step" />
+			<Option Name="mount crouch" />
+			<Option Name="mount stand" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="hoist crouch" />
+			<Option Name="hoist stand" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+		</FieldLongFlags>
+		<FieldReal Index="13" Name="throttle scale" />
+		<FieldTerminator Index="14" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,73 +1,42 @@
 ﻿using Abide.Guerilla.Library;
 using Abide.HaloLibrary;
-using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.Halo2;
+using Abide.HaloLibrary.Halo2.Retail;
 using Abide.HaloLibrary.IO;
 using Abide.Tag;
 using Abide.Tag.Cache.Generated;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Convert = Abide.Guerilla.Library.Convert;
 
 namespace Abide.Decompiler
 {
-    /// <summary>
-    /// Represents a Halo 2 cache map file decompiler.
-    /// </summary>
     public sealed class MapDecompiler : IDisposable
     {
-        /// <summary>
-        /// Gets and returns the map used by the decompiler.
-        /// </summary>
-        public MapFile Map { get; }
-        /// <summary>
-        /// Gets and returns the output directory.
-        /// </summary>
-        public string OutputDirectory { get; }
-        /// <summary>
-        /// Gets and returns the decompiler host.
-        /// </summary>
-        public IDecompileHost Host { get; set; }
-        
-        private volatile bool m_IsDecompiling = false;
+        private volatile bool isDecompiling = false;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MapDecompiler"/> class using the specified map file and output directory.
-        /// </summary>
-        /// <param name="map">The map file.</param>
-        /// <param name="outputDirectory">The output directory.</param>
-        public MapDecompiler(MapFile map, string outputDirectory)
+        public HaloMap Map { get; }
+        public string OutputDirectory { get; }
+        public IDecompileReporter Host { get; set; }
+        
+        public MapDecompiler(HaloMap map, string outputDirectory)
         {
             //Setup
             Map = map ?? throw new ArgumentNullException(nameof(map));
             OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MapDecompiler"/> class using the specified host, map file name and output directory.
-        /// </summary>
-        /// <param name="mapFileName">The map file name.</param>
-        /// <param name="outputDirectory">The output directory.</param>
         public MapDecompiler(string mapFileName, string outputDirectory)
         {
             //Setup
             OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
-
-            //Load
-            using (FileStream fs = new FileStream(mapFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                //Load
-                Map = new MapFile();
-                Map.Load(fs);
-            }
+            Map = new HaloMap(mapFileName);
         }
-
         public void Start()
         {
             //Check
-            if (m_IsDecompiling) return;
+            if (isDecompiling) return;
             DirectoryInfo targetDirectory = null;
 
             //Create folder
@@ -75,236 +44,562 @@ namespace Abide.Decompiler
             catch(Exception ex) { throw new InvalidOperationException("Unable to create directory for output files.", ex); }
 
             //Start
-            m_IsDecompiling = true;
+            isDecompiling = true;
             ThreadPool.QueueUserWorkItem(Map_Decompile, null);
         }
-
+        public void Dispose()
+        {
+            //Dispose
+            if (Map != null) Map.Dispose();
+        }
         private void Map_Decompile(object state)
         {
-            //Prepare
-            ITagGroup tagGroup = null, guerillaTagGroup = null;
-            IndexEntry soundGestalt = null;
-            SoundCacheFileGestalt soundCacheFileGestalt = null;
-            string tagGroupFileName = string.Empty;
-            string localFileName = string.Empty;
-
-            //Begin
             Console.WriteLine($"Beginning decompilation of {Map.Name}.");
+            bool success = true;
 
-            //Get sound gestalt
+            // put all of this into a try group (leave out for debugging perposes)
+            ITagGroup guerillaTagGroup, tagGroup, globalsGroup;
+            ITagGroup soundGestaltGroup = null;
+            IndexEntry soundGestalt = null;
             IndexEntry globals = Map.Globals;
-            if (globals.Root == HaloTags.matg)
-                using (BinaryReader tagReader = globals.TagData.CreateReader())
+            using (var tagReader = globals.Data.GetVirtualStream().CreateReader())
+            {
+                tagReader.BaseStream.Seek(globals.Address, SeekOrigin.Begin);
+                globalsGroup = TagLookup.CreateTagGroup(globals.Root);
+                globalsGroup.Read(tagReader);
+
+                BlockField soundGlobalsTagBlock = (BlockField)globalsGroup[0][4];
+                if (soundGlobalsTagBlock.BlockList.Count > 0)
                 {
-                    //Goto
-                    globals.TagData.Seek((uint)globals.PostProcessedOffset, SeekOrigin.Begin);
-
-                    //Read
-                    ITagGroup globalsTagBlock = TagLookup.CreateTagGroup(globals.Root);
-                    globalsTagBlock.Read(tagReader);
-
-                    //Get sound globals
-                    BlockField soundGlobalsTagBlock = (BlockField)globalsTagBlock[0].Fields[4];
-                    if (soundGlobalsTagBlock.BlockList.Count > 0)
-                    {
-                        //Get sound gestalt index
-                        TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
-
-                        //Get index entry
-                        soundGestalt = Map.IndexEntries[soundGestaltId];
-
-                        //Null sound gestalt
-                        soundGlobalsTagBlock.BlockList[0].Fields[4].Value = (int)TagId.Null;
-                    }
+                    TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
+                    soundGestalt = Map.IndexEntries[soundGestaltId];
+                    soundGlobalsTagBlock.BlockList[0].Fields[4].Value = (int)TagId.Null;
                 }
+            }
 
-            //Check
             if (soundGestalt != null)
-                using (BinaryReader reader = soundGestalt.TagData.CreateReader())
+                using (BinaryReader reader = soundGestalt.Data.GetVirtualStream().CreateReader())
                 {
-                    //Prepare
-                    soundCacheFileGestalt = new SoundCacheFileGestalt();
+                    soundGestaltGroup = TagLookup.CreateTagGroup(soundGestalt.Root);
+                    reader.BaseStream.Seek(soundGestalt.Address, SeekOrigin.Begin);
+                    soundGestaltGroup.Read(reader);
 
-                    //Goto
-                    soundGestalt.TagData.Seek((uint)soundGestalt.PostProcessedOffset, SeekOrigin.Begin);
-                    soundCacheFileGestalt.Read(reader);
-
-                    //Found
-                    Console.WriteLine($"Found {soundCacheFileGestalt.Name} ({soundGestalt.Filename}.{soundGestalt.Root}).");
+                    Console.WriteLine($"Found {soundGestaltGroup.GroupName} ({soundGestalt.Filename}.{soundGestalt.Root}).");
                 }
 
-            //Loop
             for (int i = 0; i < Map.IndexEntries.Count; i++)
-                if ((tagGroup = TagLookup.CreateTagGroup(Map.IndexEntries[i].Root)) != null)    //Lookup cache definition
+                if ((tagGroup = TagLookup.CreateTagGroup(Map.IndexEntries[i].Root)) != null)
                 {
-                    //Read tag
-                    using (BinaryReader reader = Map.IndexEntries[i].TagData.CreateReader())
+                    using (BinaryReader reader = Map.IndexEntries[i].Data.GetVirtualStream().CreateReader())
                     {
-                        //Decompile
                         Console.WriteLine($"Reading cache tag {Map.IndexEntries[i].Filename}.{Map.IndexEntries[i].Root}...");
-
-                        //Goto
-                        reader.BaseStream.Seek((uint)Map.IndexEntries[i].PostProcessedOffset, SeekOrigin.Begin);
-                        tagGroup.Read(reader);
-
-                        //Convert
-                        guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundCacheFileGestalt, Map.IndexEntries[i], Map);
+                        reader.BaseStream.Seek(Map.IndexEntries[i].Address, SeekOrigin.Begin);
+                        try { tagGroup.Read(reader); }
+                        finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, Map.IndexEntries[i], Map); }
                     }
-                    
-                    //Get file name
-                    localFileName = Path.Combine($"{Map.IndexEntries[i].Filename}.{guerillaTagGroup.Name}");
-                    tagGroupFileName = Path.Combine(OutputDirectory, localFileName);
 
-                    //Create Directory
+                    string localFileName = Path.Combine($"{Map.IndexEntries[i].Filename}.{guerillaTagGroup.GroupName}");
+                    string tagGroupFileName = Path.Combine(OutputDirectory, localFileName);
+
                     if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
                         Directory.CreateDirectory(Path.GetDirectoryName(tagGroupFileName));
 
-                    //Write
                     TagGroupHeader header = new TagGroupHeader();
                     using (FileStream fs = new FileStream(tagGroupFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                     using (BinaryWriter writer = new BinaryWriter(fs))
                     using (BinaryReader reader = new BinaryReader(fs))
                     {
-                        //Write
                         Console.WriteLine($"Writing guerilla tag {tagGroupFileName}.");
 
-                        //Write
                         fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
                         guerillaTagGroup.Write(writer);
 
-                        //Create raws
-                        if (guerillaTagGroup.GroupTag == HaloTags.snd_) TagGroup_CreateRaws(guerillaTagGroup, soundGestalt, writer, ref header);
-                        else TagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                        switch (guerillaTagGroup.GroupTag)
+                        {
+                            case "snd!":
+                                SoundTagGroup_CreateRaws(guerillaTagGroup, soundGestalt, writer, ref header);
+                                break;
+                            case "mode":
+                                RenderModelTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "sbsp":
+                                ScenarioStructureBspTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "ltmp":
+                                ScenarioStructureLightmapTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "weat":
+                                WeatherSystemTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "DECR":
+                                DecoratorSetTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "PRTM":
+                                ParticleModelTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "jmad":
+                                AnimationTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                            case "bitm":
+                                BitmapTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                break;
+                        }
 
-                        //Setup header
                         header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
                         header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
                         header.Id = Map.IndexEntries[i].Id.Dword;
                         header.AbideTag = "atag";
 
-                        //Write Header
                         fs.Seek(0, SeekOrigin.Begin);
                         writer.Write(header);
                     }
 
-                    //Report
                     if (Host != null) Host.Report(i / (float)Map.IndexEntries.Count);
                 }
 
-            //Set
-            m_IsDecompiling = false;
+            // to here
 
-            //Collect
-            GC.Collect();
+            try
+            {
+                
+            }
+            catch
+            {
+                success = false;
+#if DEBUG
+                throw;
+#endif
+            }
+            finally
+            {
+                GC.Collect();
+                isDecompiling = false;
+            }
 
-            //Complete
-            if (Host != null) Host.Complete();
+            if (Host != null)
+            {
+                if (success) Host.Complete();
+                else Host.Fail();
+            }
         }
-        
+        private void SoundTagGroup_CreateRaws(ITagGroup tagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock pitchRange in ((BlockField)tagGroup[0][13]).BlockList)
+            {
+                foreach (ITagBlock permutation in ((BlockField)pitchRange[7]).BlockList)
+                {
+                    foreach (ITagBlock chunk in ((BlockField)permutation[6]).BlockList)
+                    {
+                        int address = (int)chunk[0].Value;
+
+                        if (entry.Resources.TryGetResource(address, out var resource))
+                        {
+                            header.RawsCount++;
+                            addresses.Add(address);
+                            buffers.Add(resource.GetBuffer());
+                        }
+                        else if ((address & 0xC0000000) == 0) System.Diagnostics.Debugger.Break();
+                    }
+                }
+            }
+
+            foreach (ITagBlock extraInfo in ((BlockField)tagGroup[0][15]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)extraInfo[2].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void RenderModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock section in ((BlockField)guerillaTagGroup[0][7]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)section[6].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            foreach (ITagBlock prtInfo in ((BlockField)guerillaTagGroup[0][24]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)prtInfo[13].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void ScenarioStructureBspTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock structureBspCluster in ((BlockField)guerillaTagGroup[0][19]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)structureBspCluster[1].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            foreach (ITagBlock structureBspInstancedGeometryDefinition in ((BlockField)guerillaTagGroup[0][39]).BlockList)
+            {
+                ITagBlock renderInfo = (ITagBlock)structureBspInstancedGeometryDefinition[0].Value;
+                ITagBlock geometry = (ITagBlock)renderInfo[1].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            foreach (ITagBlock structureBspWaterDefinition in ((BlockField)guerillaTagGroup[0][50]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)structureBspWaterDefinition[2].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            foreach (ITagBlock decoratorPlacementDefinition in ((BlockField)guerillaTagGroup[0][54]).BlockList)
+            {
+                foreach (ITagBlock decoratorCacheBlock in ((BlockField)decoratorPlacementDefinition[2]).BlockList)
+                {
+                    ITagBlock geometry = (ITagBlock)decoratorCacheBlock[0].Value;
+                    int address = (int)geometry[1].Value;
+
+                    if (entry.Resources.TryGetResource(address, out var resource))
+                    {
+                        header.RawsCount++;
+                        addresses.Add(address);
+                        buffers.Add(resource.GetBuffer());
+                    }
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void ScenarioStructureLightmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock structureLightmapGroup in ((BlockField)guerillaTagGroup[0][16]).BlockList)
+            {
+                foreach (ITagBlock cluster in ((BlockField)structureLightmapGroup[6]).BlockList)
+                {
+                    ITagBlock geometry = (ITagBlock)cluster[1].Value;
+                    int address = (int)geometry[1].Value;
+
+                    if (entry.Resources.TryGetResource(address, out var resource))
+                    {
+                        header.RawsCount++;
+                        addresses.Add(address);
+                        buffers.Add(resource.GetBuffer());
+                    }
+                }
+
+                foreach (ITagBlock lightmapGeometrySectionBlock in ((BlockField)structureLightmapGroup[8]).BlockList)
+                {
+                    ITagBlock geometry = (ITagBlock)lightmapGeometrySectionBlock[1].Value;
+                    int address = (int)geometry[1].Value;
+
+                    if (entry.Resources.TryGetResource(address, out var resource))
+                    {
+                        header.RawsCount++;
+                        addresses.Add(address);
+                        buffers.Add(resource.GetBuffer());
+                    }
+                }
+
+                foreach (ITagBlock lightmapVertexBufferBucket in ((BlockField)structureLightmapGroup[10]).BlockList)
+                {
+                    ITagBlock geometry = (ITagBlock)lightmapVertexBufferBucket[3].Value;
+                    int address = (int)geometry[1].Value;
+
+                    if (entry.Resources.TryGetResource(address, out var resource))
+                    {
+                        header.RawsCount++;
+                        addresses.Add(address);
+                        buffers.Add(resource.GetBuffer());
+                    }
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void WeatherSystemTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            // TODO: get weather system resources
+            foreach (ITagBlock lightmapGeometrySectionBlock in ((BlockField)guerillaTagGroup[0][0]).BlockList)
+            {
+                ITagBlock geometry = (ITagBlock)lightmapGeometrySectionBlock[1].Value;
+                int address = (int)geometry[1].Value;
+
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void DecoratorSetTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            ITagBlock geometry = (ITagBlock)guerillaTagGroup[0][8].Value;
+            int address = (int)geometry[1].Value;
+
+            if (entry.Resources.TryGetResource(address, out var resource))
+            {
+                header.RawsCount++;
+                addresses.Add(address);
+                buffers.Add(resource.GetBuffer());
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void ParticleModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            ITagBlock geometry = (ITagBlock)guerillaTagGroup[0][22].Value;
+            int address = (int)geometry[1].Value;
+
+            if (entry.Resources.TryGetResource(address, out var resource))
+            {
+                header.RawsCount++;
+                addresses.Add(address);
+                buffers.Add(resource.GetBuffer());
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void AnimationTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock animationData in ((BlockField)guerillaTagGroup[0][6]).BlockList)
+            {
+                int address = (int)animationData[2].Value;
+                if (entry.Resources.TryGetResource(address, out var resource))
+                {
+                    header.RawsCount++;
+                    addresses.Add(address);
+                    buffers.Add(resource.GetBuffer());
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
+        private void BitmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        {
+            List<long> addresses = new List<long>();
+            List<byte[]> buffers = new List<byte[]>();
+
+            foreach (ITagBlock bitmapData in ((BlockField)guerillaTagGroup[0][29]).BlockList)
+            {
+                using (MemoryStream ms = new MemoryStream((byte[])bitmapData[12].Value))
+                using (BinaryReader reader = new BinaryReader(ms))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int address = reader.ReadInt32();
+                        if (entry.Resources.TryGetResource(address, out var resource))
+                        {
+                            header.RawsCount++;
+                            addresses.Add(address);
+                            buffers.Add(resource.GetBuffer());
+                        }
+                    }
+                }
+            }
+
+            if (header.RawsCount > 0)
+            {
+                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write((int)addresses[i]);
+
+                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i].Length);
+
+                header.RawDataOffset = (uint)writer.BaseStream.Position;
+                for (int i = 0; i < header.RawsCount; i++)
+                    writer.Write(buffers[i]);
+            }
+        }
         private int TagGroup_CalculateChecksum(ITagGroup tagGroup)
         {
-            //Prepare
             int checksum = 0;
 
-            //Create virtual stream
             using (VirtualStream tagStream = new VirtualStream(TagGroupHeader.Size))
             using (BinaryWriter writer = new BinaryWriter(tagStream))
             {
-                //Write
                 tagGroup.Write(writer);
                 tagStream.Align(4);
 
-                //Check
                 if (tagStream.Length == 0) return 0;
 
-                //Get buffer
                 byte[] tagGroupBuffer = tagStream.ToArray();
                 checksum = BitConverter.ToInt32(tagGroupBuffer, 0);
                 for (int i = 1; i < tagGroupBuffer.Length / 4; i++)
                     checksum ^= BitConverter.ToInt32(tagGroupBuffer, i * 4);
             }
 
-            //Return
             return checksum;
-        }
-        
-        private void TagGroup_CreateRaws(ITagGroup tagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
-        {
-            //Prepare
-            List<int> rawOffsets = new List<int>();
-            List<byte[]> rawDatas = new List<byte[]>();
-
-            //Check
-            if (tagGroup.GroupTag == HaloTags.snd_)
-            {
-                //Loop through pitch ranges
-                foreach (ITagBlock pitchRange in ((BlockField)tagGroup[0].Fields[13]).BlockList)
-                {
-                    //Loop through permutations
-                    foreach (ITagBlock permutation in ((BlockField)pitchRange.Fields[7]).BlockList)
-                    {
-                        //Loop through chunks
-                        foreach (ITagBlock chunk in ((BlockField)permutation.Fields[6]).BlockList)
-                        {
-                            int address = (int)chunk.Fields[0].Value;
-                            if(entry.Raws[RawSection.Sound].ContainsRawOffset(address))
-                            {
-                                header.RawsCount++;
-                                rawOffsets.Add(address);
-                                rawDatas.Add(entry.Raws[RawSection.Sound][address].ToArray());
-                            }
-                        }
-                    }
-                }
-
-                //Loop through extra infos
-                foreach (ITagBlock extraInfo in ((BlockField)tagGroup[0].Fields[15]).BlockList)
-                {
-                    ITagBlock geometryInfo = (ITagBlock)extraInfo.Fields[2].Value;
-                    int address = (int)geometryInfo.Fields[1].Value;
-                    if (entry.Raws[RawSection.LipSync].ContainsRawOffset(address))
-                    {
-                        header.RawsCount++;
-                        rawOffsets.Add(address);
-                        rawDatas.Add(entry.Raws[RawSection.LipSync][address].ToArray());
-                    }
-                }
-            }
-            else
-            {
-                //Compile raws
-                foreach (RawSection section in Enum.GetValues(typeof(RawSection)))
-                {
-                    header.RawsCount += (uint)entry.Raws[section].Count();
-                    rawOffsets.AddRange(entry.Raws[section].Select(s => s.RawOffset));
-                    rawDatas.AddRange(entry.Raws[section].Select(s => s.ToArray()));
-                }
-            }
-
-            //Check
-            if (header.RawsCount > 0)
-            {
-                //Write Offsets
-                header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
-                    writer.Write(rawOffsets[i]);
-
-                //Write Lengths
-                header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
-                    writer.Write(rawDatas[i].Length);
-
-                //Write Data
-                header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
-                    writer.Write(rawDatas[i]);
-            }
-        }
-
-        public void Dispose()
-        {
-            //Dispose
-            if (Map != null) Map.Dispose();
         }
     }
 }

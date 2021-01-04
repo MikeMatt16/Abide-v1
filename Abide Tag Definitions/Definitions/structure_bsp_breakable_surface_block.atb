@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_breakable_surface_block" DisplayName="structure_bsp_breakable_surface_block" MaximumElementCount="8448">
+	<FieldSet Alignment="4" Count="6">
+		<FieldShortBlockIndex1 Index="0" Name="Instanced Geometry Instance*" />
+		<FieldShortInteger Index="1" Name="Breakable Surface Index*" />
+		<FieldRealPoint3D Index="2" Name="Centroid*" />
+		<FieldReal Index="3" Name="Radius*" />
+		<FieldLongInteger Index="4" Name="Collision Surface Index*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

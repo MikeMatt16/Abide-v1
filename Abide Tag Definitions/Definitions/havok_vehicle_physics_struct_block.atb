@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="havok_vehicle_physics_struct_block" DisplayName="havok_vehicle_physics_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldLongFlags Index="0" Name="flags*">
+			<Option Name="invalid" />
+		</FieldLongFlags>
+		<FieldReal Index="1" Name="ground friction# for friction based vehicles only" />
+		<FieldReal Index="2" Name="ground depth# for friction based vehicles only" />
+		<FieldReal Index="3" Name="ground damp factor# for friction based vehicles only" />
+		<FieldReal Index="4" Name="ground moving friction# for friction based vehicles only" />
+		<FieldReal Index="5" Name="ground maximum slope 0#degrees 0-90" />
+		<FieldReal Index="6" Name="ground maximum slope 1#degrees 0-90.  and greater than slope 0" />
+		<FieldPad Index="7" Name="" Length="16" />
+		<FieldReal Index="8" Name="anti_gravity_bank_lift#lift per WU." />
+		<FieldReal Index="9" Name="steering_bank_reaction_scale#how quickly we bank when we steer " />
+		<FieldReal Index="10" Name="gravity scale#value of 0 defaults to 1.  .5 is half gravity" />
+		<FieldReal Index="11" Name="radius*#generated from the radius of the hkConvexShape for this vehicle" />
+		<FieldBlock Index="12" Name="anti gravity points" BlockName="anti_gravity_point_definition_block" />
+		<FieldBlock Index="13" Name="friction points" BlockName="friction_point_definition_block" />
+		<FieldBlock Index="14" Name="*shape phantom shape*" BlockName="vehicle_phantom_shape_block" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

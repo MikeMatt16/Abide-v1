@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sector_link_block" DisplayName="sector_link_block" MaximumElementCount="262144">
+	<FieldSet Alignment="4" Count="9">
+		<FieldShortInteger Index="0" Name="vertex 1" />
+		<FieldShortInteger Index="1" Name="vertex 2" />
+		<FieldWordFlags Index="2" Name="link flags">
+			<Option Name="sector link from collision edge" />
+			<Option Name="sector intersection link" />
+			<Option Name="sector link bsp2d creation error" />
+			<Option Name="sector link topology error" />
+			<Option Name="sector link chain error" />
+			<Option Name="sector link both sectors walkable" />
+			<Option Name="sector link magic hanging link" />
+			<Option Name="sector link threshold" />
+			<Option Name="sector link crouchable" />
+			<Option Name="sector link wall base" />
+			<Option Name="sector link ledge" />
+			<Option Name="sector link leanable" />
+			<Option Name="sector link start corner" />
+			<Option Name="sector link end corner" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="3" Name="hint index" />
+		<FieldShortInteger Index="4" Name="forward link" />
+		<FieldShortInteger Index="5" Name="reverse link" />
+		<FieldShortInteger Index="6" Name="left sector" />
+		<FieldShortInteger Index="7" Name="right sector" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

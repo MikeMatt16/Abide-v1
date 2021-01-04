@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_trigger_charging_struct_block" DisplayName="weapon_trigger_charging_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="CHARGING" Explanation="" />
+		<FieldReal Index="1" Name="charging time:seconds#the amount of time it takes for this trigger to become fully charged" />
+		<FieldReal Index="2" Name="charged time:seconds#the amount of time this trigger can be charged before becoming overcharged" />
+		<FieldEnum Index="3" Name="overcharged action">
+			<Option Name="none" />
+			<Option Name="explode" />
+			<Option Name="discharge" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldReal Index="5" Name="charged illumination:[0,1]#the amount of illumination given off when the weapon is fully charged" />
+		<FieldReal Index="6" Name="spew time:seconds#length of time the weapon will spew (fire continuously) while discharging" />
+		<FieldTagReference Index="7" Name="charging effect#the charging effect is created once when the trigger begins to charge" GroupTag="-3" />
+		<FieldTagReference Index="8" Name="charging damage effect#the charging effect is created once when the trigger begins to charge" GroupTag="1785754657" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

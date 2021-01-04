@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_seat_acceleration_struct_block" DisplayName="unit_seat_acceleration_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldRealVector3D Index="0" Name="acceleration range:world units per second squared" />
+		<FieldReal Index="1" Name="accel action scale:actions fail [0,1+]" />
+		<FieldReal Index="2" Name="accel attach scale:detach unit [0,1+]" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

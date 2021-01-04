@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_variants_block" DisplayName="character_variants_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="5">
+		<FieldStringId Index="0" Name="variant name^" />
+		<FieldShortInteger Index="1" Name="variant index*" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldStringId Index="3" Name="variant designator*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

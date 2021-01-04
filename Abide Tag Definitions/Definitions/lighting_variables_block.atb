@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lighting_variables_block" DisplayName="lighting_variables_block" MaximumElementCount="13">
+	<FieldSet Alignment="4" Count="8">
+		<FieldLongFlags Index="0" Name="object affected">
+			<Option Name="all" />
+			<Option Name="biped" />
+			<Option Name="vehicle" />
+			<Option Name="weapon" />
+			<Option Name="equipment" />
+			<Option Name="garbage" />
+			<Option Name="projectile" />
+			<Option Name="scenery" />
+			<Option Name="machine" />
+			<Option Name="control" />
+			<Option Name="light fixture" />
+			<Option Name="sound scenery" />
+			<Option Name="crate" />
+			<Option Name="creature" />
+		</FieldLongFlags>
+		<FieldExplanation Index="1" Name="Global lightmap sample" Explanation="" />
+		<FieldReal Index="2" Name="Lightmap brightness offset" />
+		<FieldStruct Index="3" Name="primary light" StructName="primary_light_struct_block" />
+		<FieldStruct Index="4" Name="secondary light" StructName="secondary_light_struct_block" />
+		<FieldStruct Index="5" Name="ambient light" StructName="ambient_light_struct_block" />
+		<FieldStruct Index="6" Name="lightmap shadows" StructName="lightmap_shadows_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

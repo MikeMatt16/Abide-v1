@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="order_completion_block" DisplayName="order_completion_block" MaximumElementCount="5">
+	<FieldSet Alignment="4" Count="5">
+		<FieldEnum Index="0" Name="combination rule">
+			<Option Name="OR" />
+			<Option Name="AND" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="1" Name="next order^" />
+		<FieldPad Index="2" Name="" Length="48" />
+		<FieldBlock Index="3" Name="conditions" BlockName="order_completion_condition" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

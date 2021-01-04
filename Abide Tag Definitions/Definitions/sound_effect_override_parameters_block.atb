@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_override_parameters_block" DisplayName="sound_effect_override_parameters_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="9">
+		<FieldStringId Index="0" Name="name" />
+		<FieldStringId Index="1" Name="input" />
+		<FieldStringId Index="2" Name="range" />
+		<FieldReal Index="3" Name="time period: seconds" />
+		<FieldLongInteger Index="4" Name="integer value" />
+		<FieldReal Index="5" Name="real value" />
+		<FieldCustom Index="6" Name="sound effect value" />
+		<FieldStruct Index="7" Name="function value" StructName="mapping_function_block" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

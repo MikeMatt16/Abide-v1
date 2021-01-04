@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="object_change_colors" DisplayName="object_change_colors" MaximumElementCount="4">
+	<FieldSet Alignment="4" Count="4">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldBlock Index="1" Name="initial permutations" BlockName="object_change_color_initial_permutation" />
+		<FieldBlock Index="2" Name="functions" BlockName="object_change_color_function" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

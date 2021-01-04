@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_constant_info_new_block" DisplayName="shader_pass_postprocess_constant_info_new_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStringId Index="0" Name="parameter name" />
+		<FieldPad Index="1" Name="" Length="3" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

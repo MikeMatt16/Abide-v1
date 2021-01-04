@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="colony_block" DisplayName="colony" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldRealBounds Index="3" Name="radius" />
+		<FieldPad Index="4" Name="" Length="12" />
+		<FieldRealArgbColor Index="5" Name="debug color" />
+		<FieldTagReference Index="6" Name="base map" GroupTag="1651078253" />
+		<FieldTagReference Index="7" Name="detail map" GroupTag="1651078253" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

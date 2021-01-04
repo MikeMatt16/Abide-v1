@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_sound_scenery_block" DisplayName="scenario_sound_scenery_block" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="7">
+		<FieldCustom Index="0" Name="" />
+		<FieldShortBlockIndex1 Index="1" Name="Type" />
+		<FieldCustom Index="2" Name="" />
+		<FieldShortBlockIndex1 Index="3" Name="Name^" />
+		<FieldStruct Index="4" Name="Object Data" StructName="scenario_object_datum_struct_block" />
+		<FieldStruct Index="5" Name="sound_scenery" StructName="sound_scenery_datum_struct_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

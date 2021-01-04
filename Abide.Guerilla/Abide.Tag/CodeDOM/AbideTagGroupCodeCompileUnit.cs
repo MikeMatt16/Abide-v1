@@ -1,8 +1,8 @@
-﻿using Abide.Tag.Definition;
+﻿using Abide.HaloLibrary;
+using Abide.Tag.Definition;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
-using HaloTag = Abide.HaloLibrary.TagFourCc;
 
 namespace Abide.Tag.CodeDom
 {
@@ -11,9 +11,6 @@ namespace Abide.Tag.CodeDom
     /// </summary>
     public sealed class AbideTagGroupCodeCompileUnit : CodeCompileUnit
     {
-        private const string c_HaloTagsNamespace = "HaloTag = Abide.HaloLibrary.TagFourCc";
-        private const string c_TagNamespace = "Abide.Tag";
-
         private readonly CodeTypeDeclaration tagGroupCodeTypeDeclaration;
 
         /// <summary>
@@ -21,19 +18,21 @@ namespace Abide.Tag.CodeDom
         /// </summary>
         /// <param name="tagGroup">The tag group definition.</param>
         /// <param name="namespaceString">The optional namespace string. This defaults to "Cache".</param>
-        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup, string namespaceString = "Cache")
+        /// <param name="tagNamespace"></param>
+        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup, string namespaceString = "Cache", string tagNamespace = "Abide.Tag")
         {
             //Prepare
             string blockTypeName = AbideCodeDomGlobals.GetMemberName(AbideCodeDomGlobals.GetTagBlock(tagGroup.BlockName));
             string groupTypeName = AbideCodeDomGlobals.GetMemberName(tagGroup);
 
             //Create namespace
-            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{c_TagNamespace}.{namespaceString}.Generated");
+            CodeNamespace generatedCodeNamespace = new CodeNamespace($"{namespaceString}.Generated");
 
             //Add imports
-            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_TagNamespace));
-            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(c_HaloTagsNamespace));
-
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.SystemNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(AbideCodeDomGlobals.HaloLibraryNamespace));
+            generatedCodeNamespace.Imports.Add(new CodeNamespaceImport(tagNamespace));
+            
             //Create type
             tagGroupCodeTypeDeclaration = new CodeTypeDeclaration(groupTypeName)
             {
@@ -50,7 +49,7 @@ namespace Abide.Tag.CodeDom
             CodeMemberProperty nameMemberProperty = new CodeMemberProperty()
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                Name = nameof(Group.Name),
+                Name = nameof(Group.GroupName),
                 Type = new CodeTypeReference(typeof(string))
             };
             nameMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagGroup.Name)));
@@ -64,7 +63,7 @@ namespace Abide.Tag.CodeDom
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
                 Name = nameof(Group.GroupTag),
-                Type = new CodeTypeReference(nameof(HaloTag))
+                Type = new CodeTypeReference(nameof(TagFourCc))
             };
             groupTagMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagGroup.GroupTag.FourCc)));
             groupTagMemberProperty.Comments.Add(new CodeCommentStatement("<summary>", true));
@@ -83,7 +82,7 @@ namespace Abide.Tag.CodeDom
             tagGroupCodeTypeDeclaration.Members.Add(constructor);
 
             //Initialize Blocks
-            HaloTag parent = tagGroup.ParentGroupTag;
+            TagFourCc parent = tagGroup.ParentGroupTag;
             while (parent.Dword != 0)
             {
                 //Get Parent

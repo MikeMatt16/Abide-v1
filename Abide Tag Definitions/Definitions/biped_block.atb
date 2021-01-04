@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="biped_block" DisplayName="biped" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="40">
+		<FieldExplanation Index="0" Name="$$$ BIPED $$$" Explanation="" />
+		<FieldAngle Index="1" Name="moving turning speed:degrees per second" />
+		<FieldLongFlags Index="2" Name="flags">
+			<Option Name="turns without animating" />
+			<Option Name="passes through other bipeds" />
+			<Option Name="immune to falling damage" />
+			<Option Name="rotate while airborne" />
+			<Option Name="uses limp body physics" />
+			<Option Name="unused" />
+			<Option Name="random speed increase" />
+			<Option Name="unused" />
+			<Option Name="spawn death children on destroy" />
+			<Option Name="stunned by emp damage" />
+			<Option Name="dead physics when stunned" />
+			<Option Name="always ragdoll when dead" />
+		</FieldLongFlags>
+		<FieldAngle Index="3" Name="stationary turning threshold" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldExplanation Index="6" Name="jumping and landing" Explanation="" />
+		<FieldReal Index="7" Name="jump velocity:world units per second" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldReal Index="9" Name="maximum soft landing time:seconds#the longest amount of time the biped can take to recover from a soft landing" />
+		<FieldReal Index="10" Name="maximum hard landing time:seconds#the longest amount of time the biped can take to recover from a hard landing" />
+		<FieldReal Index="11" Name="minimum soft landing velocity:world units per second#below this velocity the biped does not react when landing" />
+		<FieldReal Index="12" Name="minimum hard landing velocity:world units per second#below this velocity the biped will not do a soft landing when returning to the ground" />
+		<FieldReal Index="13" Name="maximum hard landing velocity:world units per second#the velocity corresponding to the maximum landing time" />
+		<FieldReal Index="14" Name="death hard landing velocity:world units per second#the maximum velocity with which a character can strike the ground and live" />
+		<FieldUselessPad Index="15" Name="" />
+		<FieldReal Index="16" Name="stun duration#0 is the default.  Bipeds are stuned when damaged by vehicle collisions, also some are when they take emp damage" />
+		<FieldExplanation Index="17" Name="camera, collision, and autoaim" Explanation="" />
+		<FieldReal Index="18" Name="standing camera height:world units" />
+		<FieldReal Index="19" Name="crouching camera height:world units" />
+		<FieldReal Index="20" Name="crouch transition time:seconds" />
+		<FieldAngle Index="21" Name="camera interpolation start:degrees#looking-downward angle that starts camera interpolation to fp position" />
+		<FieldAngle Index="22" Name="camera interpolation end:degrees#looking-downward angle at which camera interpolation to fp position is complete" />
+		<FieldReal Index="23" Name="camera forward movement scale#amount of fp camera movement forward and back (1.0 is full)" />
+		<FieldReal Index="24" Name="camera side movement scale#amount of fp camera movement side-to-side (1.0 is full)" />
+		<FieldReal Index="25" Name="camera vertical movement scale#amount of fp camera movement vertically (1.0 is full)" />
+		<FieldReal Index="26" Name="camera exclusion distance:world units#fp camera must always be at least this far out from root node" />
+		<FieldReal Index="27" Name="autoaim width:world units" />
+		<FieldStruct Index="28" Name="lock-on data" StructName="biped_lock_on_data_struct_block" />
+		<FieldPad Index="29" Name="" Length="16" />
+		<FieldUselessPad Index="30" Name="" />
+		<FieldReal Index="31" Name="head shot acc scale#when the biped ragdolls from a head shot it acceleartes based on this value.  0 defaults to the standard acceleration scale" />
+		<FieldTagReference Index="32" Name="area damage effect" GroupTag="1701209701" />
+		<FieldStruct Index="33" Name="physics" StructName="character_physics_struct_block" />
+		<FieldBlock Index="34" Name="contact points#these are the points where the biped touches the ground" BlockName="contact_point_block" />
+		<FieldTagReference Index="35" Name="reanimation character#when the flood reanimate this guy, he turns into a ..." GroupTag="1667785074" />
+		<FieldTagReference Index="36" Name="death spawn character#when I die, out of the ashes of my death crawls a ..." GroupTag="1667785074" />
+		<FieldShortInteger Index="37" Name="death spawn count" />
+		<FieldPad Index="38" Name="" Length="2" />
+		<FieldTerminator Index="39" Name="" />
+	</FieldSet>
+</AbideTagBlock>

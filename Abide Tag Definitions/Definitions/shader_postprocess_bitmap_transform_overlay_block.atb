@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_postprocess_bitmap_transform_overlay_block" DisplayName="shader_postprocess_bitmap_transform_overlay_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="8">
+		<FieldCharInteger Index="0" Name="parameter index" />
+		<FieldCharInteger Index="1" Name="transform index" />
+		<FieldCharInteger Index="2" Name="animation property type" />
+		<FieldStringId Index="3" Name="input name" />
+		<FieldStringId Index="4" Name="range name" />
+		<FieldReal Index="5" Name="time period in seconds" />
+		<FieldStruct Index="6" Name="function" StructName="scalar_function_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -21,7 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Abide.Tag.Cache.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -228,7 +229,6 @@
     <Compile Include="Generated\ColorTableBlock.Generated.cs" />
     <Compile Include="Generated\ConstraintBodiesStructBlock.Generated.cs" />
     <Compile Include="Generated\ContactPointBlock.Generated.cs" />
-    <Compile Include="Generated\ContactPointBlockV1.Generated.cs" />
     <Compile Include="Generated\Contrail.Generated.cs" />
     <Compile Include="Generated\ContrailBlock.Generated.cs" />
     <Compile Include="Generated\ContrailPointStatesBlock.Generated.cs" />
@@ -350,17 +350,12 @@
     <Compile Include="Generated\GlobalGeometryBlockInfoStructBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryBlockResourceBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryCompressionInfoBlock.Generated.cs" />
-    <Compile Include="Generated\GlobalGeometryExplicitEdgeBlock.Generated.cs" />
-    <Compile Include="Generated\GlobalGeometryIsqInfoStructBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryMaterialBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryMaterialPropertyBlock.Generated.cs" />
-    <Compile Include="Generated\GlobalGeometryPartBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryPartBlockNew.Generated.cs" />
-    <Compile Include="Generated\GlobalGeometryPlaneBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryPointDataIndexBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryPointDataStructBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryRawPointBlock.Generated.cs" />
-    <Compile Include="Generated\GlobalGeometryRigidPlaneGroupBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometryRigidPointGroupBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometrySectionInfoStructBlock.Generated.cs" />
     <Compile Include="Generated\GlobalGeometrySectionRawVertexBlock.Generated.cs" />
@@ -445,13 +440,6 @@
     <Compile Include="Generated\ItemCollection.Generated.cs" />
     <Compile Include="Generated\ItemCollectionBlock.Generated.cs" />
     <Compile Include="Generated\ItemPermutation.Generated.cs" />
-    <Compile Include="Generated\LargeBsp2dNodesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeBsp2dReferencesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeBsp3dNodesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeEdgesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeLeavesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeSurfacesBlock.Generated.cs" />
-    <Compile Include="Generated\LargeVerticesBlock.Generated.cs" />
     <Compile Include="Generated\LeafConnectionVertexBlock.Generated.cs" />
     <Compile Include="Generated\LeavesBlock.Generated.cs" />
     <Compile Include="Generated\LensFlare.Generated.cs" />
@@ -492,7 +480,6 @@
     <Compile Include="Generated\LocalBitmapReferenceBlock.Generated.cs" />
     <Compile Include="Generated\LocalStringIdListSectionReferenceBlock.Generated.cs" />
     <Compile Include="Generated\LocalStringIdListStringReferenceBlock.Generated.cs" />
-    <Compile Include="Generated\LongBlock.Generated.cs" />
     <Compile Include="Generated\LookFunctionBlock.Generated.cs" />
     <Compile Include="Generated\LoopingSoundDetailBlock.Generated.cs" />
     <Compile Include="Generated\LoopingSoundTrackBlock.Generated.cs" />
@@ -575,7 +562,6 @@
     <Compile Include="Generated\ObjectSpaceNodeDataBlock.Generated.cs" />
     <Compile Include="Generated\ObjectWidgetBlock.Generated.cs" />
     <Compile Include="Generated\OccluderToMachineDoorMapping.Generated.cs" />
-    <Compile Include="Generated\OLDGlobalDamageResistanceStructBlock.Generated.cs" />
     <Compile Include="Generated\OldMaterialEffectMaterialBlock.Generated.cs" />
     <Compile Include="Generated\OldMaterialsBlock.Generated.cs" />
     <Compile Include="Generated\OldObjectFunctionBlock.Generated.cs" />
@@ -625,9 +611,7 @@
     <Compile Include="Generated\PixelShaderBlock.Generated.cs" />
     <Compile Include="Generated\PixelShaderCombinerBlock.Generated.cs" />
     <Compile Include="Generated\PixelShaderConstantBlock.Generated.cs" />
-    <Compile Include="Generated\PixelShaderExternMapBlock.Generated.cs" />
     <Compile Include="Generated\PixelShaderFragmentBlock.Generated.cs" />
-    <Compile Include="Generated\PixelShaderIndexBlock.Generated.cs" />
     <Compile Include="Generated\PixelShaderPermutationBlock.Generated.cs" />
     <Compile Include="Generated\PixelShaderPermutationNewBlock.Generated.cs" />
     <Compile Include="Generated\PlanarFog.Generated.cs" />
@@ -684,20 +668,14 @@
     <Compile Include="Generated\RasterizerScreenEffectConvolutionBlock.Generated.cs" />
     <Compile Include="Generated\RasterizerScreenEffectPassReferenceBlock.Generated.cs" />
     <Compile Include="Generated\RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock.Generated.cs" />
-    <Compile Include="Generated\RealBlock.Generated.cs" />
     <Compile Include="Generated\RealVector4dBlock.Generated.cs" />
     <Compile Include="Generated\RecordedAnimationBlock.Generated.cs" />
     <Compile Include="Generated\RefBlock.Generated.cs" />
     <Compile Include="Generated\RegionsBlock.Generated.cs" />
     <Compile Include="Generated\RenderLightingStructBlock.Generated.cs" />
     <Compile Include="Generated\RenderModel.Generated.cs" />
-    <Compile Include="Generated\RenderModelBackwardSharedEdgeBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelCompoundNodeBlock.Generated.cs" />
-    <Compile Include="Generated\RenderModelDsqRawVertexBlock.Generated.cs" />
-    <Compile Include="Generated\RenderModelDsqSilhouetteQuadBlock.Generated.cs" />
-    <Compile Include="Generated\RenderModelDsqStripIndexBlock.Generated.cs" />
-    <Compile Include="Generated\RenderModelForwardSharedEdgeBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelInvalidSectionPairsBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelMarkerBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelMarkerGroupBlock.Generated.cs" />
@@ -709,7 +687,6 @@
     <Compile Include="Generated\RenderModelSectionBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelSectionDataBlock.Generated.cs" />
     <Compile Include="Generated\RenderModelSectionGroupBlock.Generated.cs" />
-    <Compile Include="Generated\RenderModelSharedEdgeGroupBlock.Generated.cs" />
     <Compile Include="Generated\RenderStateBlock.Generated.cs" />
     <Compile Include="Generated\RenderStateParameterBlock.Generated.cs" />
     <Compile Include="Generated\ResponseBlock.Generated.cs" />
@@ -895,8 +872,6 @@
     <Compile Include="Generated\ShaderPostprocessOverlayNewBlock.Generated.cs" />
     <Compile Include="Generated\ShaderPostprocessOverlayReferenceNewBlock.Generated.cs" />
     <Compile Include="Generated\ShaderPostprocessPassBlock.Generated.cs" />
-    <Compile Include="Generated\ShaderPostprocessPixelShader.Generated.cs" />
-    <Compile Include="Generated\ShaderPostprocessPixelShaderConstantDefaults.Generated.cs" />
     <Compile Include="Generated\ShaderPostprocessValueBlock.Generated.cs" />
     <Compile Include="Generated\ShaderPostprocessValueOverlayBlock.Generated.cs" />
     <Compile Include="Generated\ShaderPostprocessValuePropertyBlock.Generated.cs" />
@@ -945,13 +920,11 @@
     <Compile Include="Generated\SkyRadiosityLightBlock.Generated.cs" />
     <Compile Include="Generated\SkyShaderFunctionBlock.Generated.cs" />
     <Compile Include="Generated\Sound.Generated.cs" />
-    <Compile Include="Generated\SoundBlock.Generated.cs" />
     <Compile Include="Generated\SoundCacheFileGestalt.Generated.cs" />
     <Compile Include="Generated\SoundCacheFileGestaltBlock.Generated.cs" />
     <Compile Include="Generated\SoundClassBlock.Generated.cs" />
     <Compile Include="Generated\SoundClasses.Generated.cs" />
     <Compile Include="Generated\SoundClassesBlock.Generated.cs" />
-    <Compile Include="Generated\SoundDefinitionLanguagePermutationInfoBlock.Generated.cs" />
     <Compile Include="Generated\SoundDialogueConstants.Generated.cs" />
     <Compile Include="Generated\SoundDialogueConstantsBlock.Generated.cs" />
     <Compile Include="Generated\SoundEffectCollection.Generated.cs" />
@@ -969,7 +942,6 @@
     <Compile Include="Generated\SoundEncodedDialogueSectionBlock.Generated.cs" />
     <Compile Include="Generated\SoundEnvironment.Generated.cs" />
     <Compile Include="Generated\SoundEnvironmentBlock.Generated.cs" />
-    <Compile Include="Generated\SoundExtraInfoBlock.Generated.cs" />
     <Compile Include="Generated\SoundGestaltCustomPlaybackBlock.Generated.cs" />
     <Compile Include="Generated\SoundGestaltExtraInfoBlock.Generated.cs" />
     <Compile Include="Generated\SoundGestaltImportNamesBlock.Generated.cs" />
@@ -988,11 +960,6 @@
     <Compile Include="Generated\SoundMixBlock.Generated.cs" />
     <Compile Include="Generated\SoundPermutationChunkBlock.Generated.cs" />
     <Compile Include="Generated\SoundPermutationDialogueInfoBlock.Generated.cs" />
-    <Compile Include="Generated\SoundPermutationMarkerBlock.Generated.cs" />
-    <Compile Include="Generated\SoundPermutationRawInfoBlock.Generated.cs" />
-    <Compile Include="Generated\SoundPermutationsBlock.Generated.cs" />
-    <Compile Include="Generated\SoundPitchRangeBlock.Generated.cs" />
-    <Compile Include="Generated\SoundPlatformSoundPlaybackBlock.Generated.cs" />
     <Compile Include="Generated\SoundPlaybackParameterDefinitionBlock.Generated.cs" />
     <Compile Include="Generated\SoundPlaybackParametersStructBlock.Generated.cs" />
     <Compile Include="Generated\SoundPromotionParametersStructBlock.Generated.cs" />
@@ -1156,12 +1123,12 @@
     <Compile Include="Generated\VibrationDefinitionStructBlock.Generated.cs" />
     <Compile Include="Generated\VibrationFrequencyDefinitionStructBlock.Generated.cs" />
     <Compile Include="Generated\VisibilityStructBlock.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock0.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock1.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock2.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock3.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock4.Generated.cs" />
-    <Compile Include="Generated\VocalizationDefinitionsBlock5.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_0.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_1.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_2.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_3.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_4.Generated.cs" />
+    <Compile Include="Generated\VocalizationDefinitionsBlock_5.Generated.cs" />
     <Compile Include="Generated\VocalizationPatternsBlock.Generated.cs" />
     <Compile Include="Generated\WaterGeometrySectionBlock.Generated.cs" />
     <Compile Include="Generated\Weapon.Generated.cs" />

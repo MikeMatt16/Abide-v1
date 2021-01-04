@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="camera_track_block" DisplayName="camera_track" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldLongFlags Index="0" Name="flags" />
+		<FieldBlock Index="1" Name="control points" BlockName="camera_track_control_point_block" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

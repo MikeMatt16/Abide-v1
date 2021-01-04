@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_playback_parameters_struct_block" DisplayName="sound_playback_parameters_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="22">
+		<FieldCustom Index="0" Name="Clear distances" />
+		<FieldCustom Index="1" Name="Reset distances" />
+		<FieldReal Index="2" Name="minimum distance:world units#the distance below which this sound no longer gets louder" />
+		<FieldReal Index="3" Name="maximum distance:world units#the distance beyond which this sound is no longer audible" />
+		<FieldRealFraction Index="4" Name="skip fraction#fraction of requests to play this sound that will be ignored (0 means always play.)" />
+		<FieldReal Index="5" Name="maximum bend per second:cents" />
+		<FieldExplanation Index="6" Name="randomization" Explanation="these settings control random variation of volume and pitch.|n the second parameter gets clipped to the first." />
+		<FieldCustom Index="7" Name="Update gain bounds" />
+		<FieldReal Index="8" Name="gain base:dB#sound's random gain will start here" />
+		<FieldReal Index="9" Name="gain variance:dB#sound's gain will be randomly modulated within this range" />
+		<FieldShortBounds Index="10" Name="random pitch bounds:cents#the sound's pitch will be modulated randomly within this range." />
+		<FieldExplanation Index="11" Name="directional sounds" Explanation="these settings allow sounds to be directional, fading as they turn away from the listener" />
+		<FieldAngle Index="12" Name="inner cone angle:degrees#within the cone defined by this angle and the sound's direction, the sound plays with a gain of 1.0." />
+		<FieldAngle Index="13" Name="outer cone angle:degrees#outside the cone defined by this angle and the sound's direction, the sound plays with a gain of OUTER CONE GAIN. (0 means the sound does not attenuate with direction.)" />
+		<FieldReal Index="14" Name="outer cone gain:dB#the gain to use when the sound is directed away from the listener" />
+		<FieldExplanation Index="15" Name="SCRIPTED LOCATION OVERRIDE" Explanation="NOTE: this will only apply when the sound is started via script|nazimuth:|n    0 =&gt; front|n    90 =&gt; left|n    180 =&gt; back|n    270 =&gt; right|n" />
+		<FieldCustom Index="16" Name="Update location" />
+		<FieldLongFlags Index="17" Name="flags">
+			<Option Name="override azimuth" />
+			<Option Name="override 3d gain" />
+			<Option Name="override speaker gain" />
+		</FieldLongFlags>
+		<FieldAngle Index="18" Name="azimuth" />
+		<FieldReal Index="19" Name="positional gain:dB" />
+		<FieldReal Index="20" Name="first person gain:dB" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

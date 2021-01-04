@@ -45,5 +45,20 @@ namespace Abide.Guerilla.Wpf
             if (e.NewValue is MainViewModel model)
                 model.Owner = this;
         }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

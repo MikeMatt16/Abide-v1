@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="texture_block" DisplayName="texture_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="5">
+		<FieldCharInteger Index="0" Name="stage index" />
+		<FieldCharInteger Index="1" Name="parameter index" />
+		<FieldCharInteger Index="2" Name="global texture index" />
+		<FieldCharInteger Index="3" Name="flags" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

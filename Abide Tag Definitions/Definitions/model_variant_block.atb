@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_variant_block" DisplayName="variant" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="name^" />
+		<FieldPad Index="1" Name="" Length="16" />
+		<FieldBlock Index="2" Name="regions" BlockName="model_variant_region_block" />
+		<FieldBlock Index="3" Name="objects" BlockName="model_variant_object_block" />
+		<FieldPad Index="4" Name="" Length="8" />
+		<FieldStringId Index="5" Name="dialogue sound effect" />
+		<FieldTagReference Index="6" Name="dialogue" GroupTag="1969515623" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

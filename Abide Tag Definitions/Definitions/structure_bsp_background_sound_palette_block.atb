@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_background_sound_palette_block" DisplayName="structure_bsp_background_sound_palette_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="12">
+		<FieldString Index="0" Name="Name^" />
+		<FieldTagReference Index="1" Name="Background Sound" GroupTag="1819504228" />
+		<FieldTagReference Index="2" Name="Inside Cluster Sound#Play only when player is inside cluster." GroupTag="1819504228" />
+		<FieldPad Index="3" Name="" Length="20" />
+		<FieldReal Index="4" Name="Cutoff Distance" />
+		<FieldLongFlags Index="5" Name="Scale Flags">
+			<Option Name="Override Default Scale" />
+			<Option Name="Use Adjacent Cluster as Portal Scale" />
+			<Option Name="Use Adjacent Cluster as Exterior Scale" />
+			<Option Name="Scale with Weather Intensity" />
+		</FieldLongFlags>
+		<FieldRealFraction Index="6" Name="Interior Scale" />
+		<FieldRealFraction Index="7" Name="Portal Scale" />
+		<FieldRealFraction Index="8" Name="Exterior Scale" />
+		<FieldReal Index="9" Name="Interpolation Speed:1/sec" />
+		<FieldPad Index="10" Name="" Length="8" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

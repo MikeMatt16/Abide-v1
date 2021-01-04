@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_state_fill_state_block" DisplayName="fill state" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="flat shading" />
+			<Option Name="edge antialiasing" />
+		</FieldWordFlags>
+		<FieldEnum Index="1" Name="fill mode">
+			<Option Name="solid" />
+			<Option Name="wireframe" />
+			<Option Name="points" />
+		</FieldEnum>
+		<FieldEnum Index="2" Name="back fill mode">
+			<Option Name="solid" />
+			<Option Name="wireframe" />
+			<Option Name="points" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldReal Index="4" Name="line width" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

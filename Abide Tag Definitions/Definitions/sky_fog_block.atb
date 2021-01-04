@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sky_fog_block" DisplayName="sky_fog_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldRealRgbColor Index="0" Name="Color" />
+		<FieldRealFraction Index="1" Name="Density:[0,1]#Fog density is clamped to this value." />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

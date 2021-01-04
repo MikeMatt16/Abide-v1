@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_implementation_block" DisplayName="implementation" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="25">
+		<FieldWordFlags Index="0" Name="Flags">
+			<Option Name="Delete from Cache File" />
+			<Option Name="Critical" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="Textures" BlockName="shader_pass_texture_block" />
+		<FieldExplanation Index="3" Name="VERTEX SHADER" Explanation="" />
+		<FieldTagReference Index="4" Name="Vertex Shader" GroupTag="1987212408" />
+		<FieldBlock Index="5" Name="vs Constants" BlockName="shader_pass_vertex_shader_constant_block" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldData Index="7" Name="Pixel Shader Code [NO LONGER USED]" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldExplanation Index="9" Name="STATE" Explanation="" />
+		<FieldEnum Index="10" Name="channels">
+			<Option Name="all" />
+			<Option Name="color only" />
+			<Option Name="alpha only" />
+			<Option Name="custom" />
+		</FieldEnum>
+		<FieldEnum Index="11" Name="alpha-blend">
+			<Option Name="disabled" />
+			<Option Name="add" />
+			<Option Name="multiply" />
+			<Option Name="add src times dstalpha" />
+			<Option Name="add src times srcalpha" />
+			<Option Name="add dst times srcalpha inverse" />
+			<Option Name="alpha blend" />
+			<Option Name="custom" />
+		</FieldEnum>
+		<FieldEnum Index="12" Name="depth">
+			<Option Name="disabled" />
+			<Option Name="default opaque" />
+			<Option Name="default opaque write" />
+			<Option Name="default transparent" />
+			<Option Name="custom" />
+		</FieldEnum>
+		<FieldPad Index="13" Name="" Length="2" />
+		<FieldBlock Index="14" Name="channel state" BlockName="shader_state_channels_state_block" />
+		<FieldBlock Index="15" Name="alpha-blend state" BlockName="shader_state_alpha_blend_state_block" />
+		<FieldBlock Index="16" Name="alpha-test state" BlockName="shader_state_alpha_test_state_block" />
+		<FieldBlock Index="17" Name="depth state" BlockName="shader_state_depth_state_block" />
+		<FieldBlock Index="18" Name="cull state" BlockName="shader_state_cull_state_block" />
+		<FieldBlock Index="19" Name="fill state" BlockName="shader_state_fill_state_block" />
+		<FieldBlock Index="20" Name="misc state" BlockName="shader_state_misc_state_block" />
+		<FieldBlock Index="21" Name="constants" BlockName="shader_state_constant_block" />
+		<FieldTagReference Index="22" Name="Pixel Shader" GroupTag="1885960300" />
+		<FieldUselessPad Index="23" Name="" />
+		<FieldTerminator Index="24" Name="" />
+	</FieldSet>
+</AbideTagBlock>

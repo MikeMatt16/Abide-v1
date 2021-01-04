@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="dialogue_variant_block" DisplayName="dialogue_variant_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortInteger Index="0" Name="variant number#variant number to use this dialogue with (must match the suffix in the permutations on the unit's model)" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldTagReference Index="3" Name="dialogue" GroupTag="1969515623" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

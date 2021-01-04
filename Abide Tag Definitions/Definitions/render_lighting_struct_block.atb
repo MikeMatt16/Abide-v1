@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_lighting_struct_block" DisplayName="render_lighting_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="11">
+		<FieldRealRgbColor Index="0" Name="Ambient" />
+		<FieldRealVector3D Index="1" Name="Shadow Direction" />
+		<FieldReal Index="2" Name="lighting_accuracy" />
+		<FieldReal Index="3" Name="Shadow Opacity" />
+		<FieldRealRgbColor Index="4" Name="Primary Direction Color" />
+		<FieldRealVector3D Index="5" Name="Primary Direction" />
+		<FieldRealRgbColor Index="6" Name="Secondary Direction Color" />
+		<FieldRealVector3D Index="7" Name="Secondary Direction" />
+		<FieldShortInteger Index="8" Name="sh Index" />
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

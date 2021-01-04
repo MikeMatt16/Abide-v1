@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_effect_block" DisplayName="platform_sound_effect_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="5">
+		<FieldBlock Index="0" Name="function inputs" BlockName="platform_sound_effect_function_block" />
+		<FieldBlock Index="1" Name="constant inputs" BlockName="platform_sound_effect_constant_block" />
+		<FieldBlock Index="2" Name="template override descriptors" BlockName="platform_sound_effect_override_descriptor_block" />
+		<FieldLongInteger Index="3" Name="input overrides" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

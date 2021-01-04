@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="light_volume_block" DisplayName="light_volume" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="LIGHT VOLUME" Explanation="Light volumes are rendered as a sequence of glowy sprites, just like in Metal Gear Solid 2. Each instance of the light volume is rendered separately; this allows, for example, a narrow bright white volume to be overlaid on top of a fuzzy wide colored volume, or anything else you want!" />
+		<FieldUselessPad Index="1" Name="" />
+		<FieldReal Index="2" Name="falloff distance from camera:world units" />
+		<FieldReal Index="3" Name="cutoff distance from camera:world units" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldBlock Index="5" Name="volumes" BlockName="light_volume_volume_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="contrail_block" DisplayName="contrail" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="50">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="first point unfaded" />
+			<Option Name="last point unfaded" />
+			<Option Name="points start pinned to media" />
+			<Option Name="points start pinned to ground" />
+			<Option Name="points always pinned to media" />
+			<Option Name="points always pinned to ground" />
+			<Option Name="edge effect fades slowly" />
+			<Option Name="dont't inherit object change color" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="1" Name="scale flags#these flags determine which fields are scaled by the contrail density">
+			<Option Name="point generation rate" />
+			<Option Name="point velocity" />
+			<Option Name="point velocity delta" />
+			<Option Name="point velocity cone angle" />
+			<Option Name="inherited velocity fraction" />
+			<Option Name="sequence animation rate" />
+			<Option Name="texture scale u" />
+			<Option Name="texture scale v" />
+			<Option Name="texture animation u" />
+			<Option Name="texture animation v" />
+		</FieldWordFlags>
+		<FieldExplanation Index="2" Name="point creation" Explanation="" />
+		<FieldReal Index="3" Name="point generation rate:points per second#this many points are generated per second" />
+		<FieldRealBounds Index="4" Name="point velocity:world units per second#velocity added to each point's initial velocity" />
+		<FieldAngle Index="5" Name="point velocity cone angle:degrees#initial velocity is inside the cone defined by the marker's forward vector and this angle" />
+		<FieldRealFraction Index="6" Name="inherited velocity fraction#fraction of parent object's velocity that is inherited by contrail points." />
+		<FieldExplanation Index="7" Name="rendering" Explanation="" />
+		<FieldEnum Index="8" Name="render type#this specifies how the contrail is oriented in space">
+			<Option Name="vertical orientation" />
+			<Option Name="horizontal orientation" />
+			<Option Name="media mapped" />
+			<Option Name="ground mapped" />
+			<Option Name="viewer facing" />
+			<Option Name="double-marker linked" />
+		</FieldEnum>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldReal Index="10" Name="texture repeats u#texture repeats per contrail segment" />
+		<FieldReal Index="11" Name="texture repeats v#texture repeats across contrail width" />
+		<FieldReal Index="12" Name="texture animation u:repeats per second#the texture along the contrail is animated by this value" />
+		<FieldReal Index="13" Name="texture animation v:repeats per second#the texture across the contrail is animated by this value" />
+		<FieldReal Index="14" Name="animation rate:frames per second" />
+		<FieldTagReference Index="15" Name="bitmap" GroupTag="1651078253" />
+		<FieldShortInteger Index="16" Name="first sequence index" />
+		<FieldShortInteger Index="17" Name="sequence count" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldPad Index="19" Name="" Length="40" />
+		<FieldWordFlags Index="20" Name="shader flags">
+			<Option Name="sort bias" />
+			<Option Name="nonlinear tint" />
+			<Option Name="don't overdraw fp weapon" />
+		</FieldWordFlags>
+		<FieldEnum Index="21" Name="framebuffer blend function">
+			<Option Name="alpha blend" />
+			<Option Name="multiply" />
+			<Option Name="double multiply" />
+			<Option Name="add" />
+			<Option Name="subtract" />
+			<Option Name="component min" />
+			<Option Name="component max" />
+			<Option Name="alpha-multiply add" />
+			<Option Name="constant color blend" />
+			<Option Name="inverse constant color blend" />
+			<Option Name="none" />
+		</FieldEnum>
+		<FieldEnum Index="22" Name="framebuffer fade mode">
+			<Option Name="none" />
+			<Option Name="fade when perpendicular" />
+			<Option Name="fade when parallel" />
+		</FieldEnum>
+		<FieldWordFlags Index="23" Name="map flags">
+			<Option Name="unfiltered" />
+		</FieldWordFlags>
+		<FieldPad Index="24" Name="" Length="28" />
+		<FieldExplanation Index="25" Name="Secondary Map" Explanation="Optional multitextured second map" />
+		<FieldTagReference Index="26" Name="bitmap" GroupTag="1651078253" />
+		<FieldEnum Index="27" Name="anchor">
+			<Option Name="with primary" />
+			<Option Name="with screen space" />
+			<Option Name="zsprite" />
+		</FieldEnum>
+		<FieldWordFlags Index="28" Name="flags">
+			<Option Name="unfiltered" />
+		</FieldWordFlags>
+		<FieldPad Index="29" Name="" Length="2" />
+		<FieldEnum Index="30" Name="u-animation function">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldReal Index="31" Name="u-animation period:seconds#0 defaults to 1" />
+		<FieldReal Index="32" Name="u-animation phase" />
+		<FieldReal Index="33" Name="u-animation scale:repeats#0 defaults to 1" />
+		<FieldPad Index="34" Name="" Length="2" />
+		<FieldEnum Index="35" Name="v-animation function">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldReal Index="36" Name="v-animation period:seconds#0 defaults to 1" />
+		<FieldReal Index="37" Name="v-animation phase" />
+		<FieldReal Index="38" Name="v-animation scale:repeats#0 defaults to 1" />
+		<FieldPad Index="39" Name="" Length="2" />
+		<FieldEnum Index="40" Name="rotation-animation function">
+			<Option Name="one" />
+			<Option Name="zero" />
+			<Option Name="cosine" />
+			<Option Name="cosine (variable period)" />
+			<Option Name="diagonal wave" />
+			<Option Name="diagonal wave (variable period)" />
+			<Option Name="slide" />
+			<Option Name="slide (variable period)" />
+			<Option Name="noise" />
+			<Option Name="jitter" />
+			<Option Name="wander" />
+			<Option Name="spark" />
+		</FieldEnum>
+		<FieldReal Index="41" Name="rotation-animation period:seconds#0 defaults to 1" />
+		<FieldReal Index="42" Name="rotation-animation phase" />
+		<FieldReal Index="43" Name="rotation-animation scale:degrees#0 defaults to 360" />
+		<FieldRealPoint2D Index="44" Name="rotation-animation center" />
+		<FieldPad Index="45" Name="" Length="4" />
+		<FieldReal Index="46" Name="zsprite radius scale" />
+		<FieldPad Index="47" Name="" Length="20" />
+		<FieldBlock Index="48" Name="point states" BlockName="contrail_point_states_block" />
+		<FieldTerminator Index="49" Name="" />
+	</FieldSet>
+</AbideTagBlock>

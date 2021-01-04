@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Abide.Guerilla.Library
 {
@@ -20,7 +21,7 @@ namespace Abide.Guerilla.Library
         /// <summary>
         /// Gets or sets the tag group.
         /// </summary>
-        public ITagGroup TagGroup { get; set; }
+        public Group TagGroup { get; set; }
         /// <summary>
         /// Gets or sets the tag ID.
         /// </summary>
@@ -201,7 +202,7 @@ namespace Abide.Guerilla.Library
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            if (TagGroup != null) return $"0x{Id.Dword:X8} {TagGroup.Name}";
+            if (TagGroup != null) return $"0x{Id.Dword:X8} {TagGroup.GroupName}";
             else return base.ToString();
         }
     }

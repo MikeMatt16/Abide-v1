@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_block" DisplayName="character" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="40">
+		<FieldLongFlags Index="0" Name="Character flags">
+			<Option Name="Flag1" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="1" Name="" />
+		<FieldTagReference Index="2" Name="parent character" GroupTag="1667785074" />
+		<FieldTagReference Index="3" Name="unit" GroupTag="1970170228" />
+		<FieldTagReference Index="4" Name="creature#Creature reference for swarm characters ONLY" GroupTag="1668441441" />
+		<FieldTagReference Index="5" Name="style" GroupTag="1937013100" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTagReference Index="7" Name="major character" GroupTag="1667785074" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldBlock Index="9" Name="variants" BlockName="character_variants_block" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldBlock Index="11" Name="general properties" BlockName="character_general_block" />
+		<FieldBlock Index="12" Name="vitality properties" BlockName="character_vitality_block" />
+		<FieldBlock Index="13" Name="placement properties" BlockName="character_placement_block" />
+		<FieldBlock Index="14" Name="perception properties" BlockName="character_perception_block" />
+		<FieldBlock Index="15" Name="look properties" BlockName="character_look_block" />
+		<FieldBlock Index="16" Name="movement properties" BlockName="character_movement_block" />
+		<FieldBlock Index="17" Name="swarm properties" BlockName="character_swarm_block" />
+		<FieldUselessPad Index="18" Name="" />
+		<FieldBlock Index="19" Name="ready properties" BlockName="character_ready_block" />
+		<FieldBlock Index="20" Name="engage properties" BlockName="character_engage_block" />
+		<FieldBlock Index="21" Name="charge properties" BlockName="character_charge_block" />
+		<FieldExplanation Index="22" Name="Danger Values" Explanation="Danger values can be found in the ai-globals section of the globals tag." />
+		<FieldBlock Index="23" Name="evasion properties" BlockName="character_evasion_block" />
+		<FieldBlock Index="24" Name="cover properties" BlockName="character_cover_block" />
+		<FieldBlock Index="25" Name="retreat properties" BlockName="character_retreat_block" />
+		<FieldBlock Index="26" Name="search properties" BlockName="character_search_block" />
+		<FieldBlock Index="27" Name="pre-search properties" BlockName="character_presearch_block" />
+		<FieldBlock Index="28" Name="idle properties" BlockName="character_idle_block" />
+		<FieldBlock Index="29" Name="vocalization properties" BlockName="character_vocalization_block" />
+		<FieldBlock Index="30" Name="boarding properties" BlockName="character_boarding_block" />
+		<FieldUselessPad Index="31" Name="" />
+		<FieldBlock Index="32" Name="boss properties" BlockName="character_boss_block" />
+		<FieldBlock Index="33" Name="weapons properties" BlockName="character_weapons_block" />
+		<FieldBlock Index="34" Name="firing pattern properties" BlockName="character_firing_pattern_properties_block" />
+		<FieldUselessPad Index="35" Name="" />
+		<FieldBlock Index="36" Name="grenades properties" BlockName="character_grenades_block" />
+		<FieldUselessPad Index="37" Name="" />
+		<FieldBlock Index="38" Name="vehicle properties" BlockName="character_vehicle_block" />
+		<FieldTerminator Index="39" Name="" />
+	</FieldSet>
+</AbideTagBlock>

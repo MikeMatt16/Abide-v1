@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_object_permutation_struct_block" DisplayName="scenario_object_permutation_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="Variant Name" />
+		<FieldLongFlags Index="1" Name="Active Change Colors">
+			<Option Name="Primary" />
+			<Option Name="Secondary" />
+			<Option Name="Tertiary" />
+			<Option Name="Quaternary" />
+		</FieldLongFlags>
+		<FieldRgbColor Index="2" Name="Primary Color" />
+		<FieldRgbColor Index="3" Name="Secondary Color" />
+		<FieldRgbColor Index="4" Name="Tertiary Color" />
+		<FieldRgbColor Index="5" Name="Quaternary Color" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

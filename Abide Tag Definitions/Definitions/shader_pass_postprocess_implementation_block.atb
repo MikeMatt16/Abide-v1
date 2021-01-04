@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_postprocess_implementation_block" DisplayName="shader_pass_postprocess_implementation_block" MaximumElementCount="1024">
+	<FieldSet Alignment="4" Count="22">
+		<FieldStruct Index="0" Name="GPU State" StructName="shader_gpu_state_struct_block" />
+		<FieldStruct Index="1" Name="GPU Constant State" StructName="shader_gpu_state_reference_struct_block" />
+		<FieldStruct Index="2" Name="GPU Volatile State" StructName="shader_gpu_state_reference_struct_block" />
+		<FieldStruct Index="3" Name="GPU default state" StructName="shader_gpu_state_reference_struct_block" />
+		<FieldTagReference Index="4" Name="vertex shader" GroupTag="1987212408" />
+		<FieldSkip Index="5" Name="" Length="8" />
+		<FieldSkip Index="6" Name="" Length="8" />
+		<FieldSkip Index="7" Name="" Length="4" />
+		<FieldSkip Index="8" Name="" Length="4" />
+		<FieldBlock Index="9" Name="value externs" BlockName="extern_reference_block" />
+		<FieldBlock Index="10" Name="color externs" BlockName="extern_reference_block" />
+		<FieldBlock Index="11" Name="switch externs" BlockName="extern_reference_block" />
+		<FieldShortInteger Index="12" Name="bitmap parameter count" />
+		<FieldPad Index="13" Name="" Length="2" />
+		<FieldSkip Index="14" Name="" Length="240" />
+		<FieldBlock Index="15" Name="pixel shader fragments" BlockName="pixel_shader_fragment_block" />
+		<FieldBlock Index="16" Name="pixel shader permutations" BlockName="pixel_shader_permutation_block" />
+		<FieldBlock Index="17" Name="pixel shader combiners" BlockName="pixel_shader_combiner_block" />
+		<FieldBlock Index="18" Name="pixel shader constants" BlockName="pixel_shader_constant_block" />
+		<FieldSkip Index="19" Name="" Length="4" />
+		<FieldSkip Index="20" Name="" Length="4" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

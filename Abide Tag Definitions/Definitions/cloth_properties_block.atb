@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cloth_properties_block" DisplayName="cloth_properties" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldEnum Index="0" Name="Integration type*">
+			<Option Name="verlet" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="Number iterations#[1-8] sug 1" />
+		<FieldReal Index="2" Name="weight#[-10.0 - 10.0] sug 1.0" />
+		<FieldReal Index="3" Name="drag#[0.0 - 0.5] sug 0.07" />
+		<FieldReal Index="4" Name="wind_scale#[0.0 - 3.0] sug 1.0" />
+		<FieldReal Index="5" Name="wind_flappiness_scale#[0.0 - 1.0] sug 0.75" />
+		<FieldReal Index="6" Name="longest_rod#[1.0 - 10.0] sug 3.5" />
+		<FieldPad Index="7" Name="" Length="24" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

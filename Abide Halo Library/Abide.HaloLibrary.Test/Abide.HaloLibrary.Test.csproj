@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F6405127-4600-42C8-8DEB-B7849426CB58}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Abide.HaloLibrary.Test</RootNamespace>
     <AssemblyName>Abide.HaloLibrary.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,29 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BetaMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BetaMain.Designer.cs">
-      <DependentUpon>BetaMain.cs</DependentUpon>
-    </Compile>
+    <Compile Include="JSON\IJsonConvertible.cs" />
+    <Compile Include="JSON\JsonArray.cs" />
+    <Compile Include="JSON\JsonBoolean.cs" />
+    <Compile Include="JSON\JsonCollections.cs" />
+    <Compile Include="JSON\JsonElement.cs" />
+    <Compile Include="JSON\JsonFormatter.cs" />
+    <Compile Include="JSON\JsonNull.cs" />
+    <Compile Include="JSON\JsonNumber.cs" />
+    <Compile Include="JSON\JsonObject.cs" />
+    <Compile Include="JSON\JsonSerializeAttribute.cs" />
+    <Compile Include="JSON\JsonSerializer.cs" />
+    <Compile Include="JSON\JsonString.cs" />
+    <Compile Include="JSON\JsonStringReader.cs" />
+    <Compile Include="JSON\JsonValueContainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RetailMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RetailMain.Designer.cs">
-      <DependentUpon>RetailMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VistaMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VistaMain.Designer.cs">
-      <DependentUpon>VistaMain.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="BetaMain.resx">
-      <DependentUpon>BetaMain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -77,12 +73,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RetailMain.resx">
-      <DependentUpon>RetailMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VistaMain.resx">
-      <DependentUpon>VistaMain.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_compression_info_block" DisplayName="compression info" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="8">
+		<FieldRealBounds Index="0" Name="Position Bounds x*" />
+		<FieldRealBounds Index="1" Name="Position Bounds y*" />
+		<FieldRealBounds Index="2" Name="Position Bounds z*" />
+		<FieldRealBounds Index="3" Name="Texcoord Bounds x*" />
+		<FieldRealBounds Index="4" Name="Texcoord Bounds y*" />
+		<FieldRealBounds Index="5" Name="Secondary Texcoord Bounds x*" />
+		<FieldRealBounds Index="6" Name="Secondary Texcoord Bounds y*" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

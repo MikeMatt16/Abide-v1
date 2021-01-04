@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_cluster_data_block" DisplayName="scenario_cluster_data_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="8">
+		<FieldTagReference Index="0" Name="BSP*" GroupTag="1935831920" />
+		<FieldBlock Index="1" Name="Background Sounds*" BlockName="scenario_cluster_background_sounds_block" />
+		<FieldBlock Index="2" Name="Sound Environments*" BlockName="scenario_cluster_sound_environments_block" />
+		<FieldLongInteger Index="3" Name="BSP Checksum*" />
+		<FieldBlock Index="4" Name="Cluster Centroids*" BlockName="scenario_cluster_points_block" />
+		<FieldBlock Index="5" Name="Weather Properties*" BlockName="scenario_cluster_weather_properties_block" />
+		<FieldBlock Index="6" Name="Atmospheric Fog Properties*" BlockName="scenario_cluster_atmospheric_fog_properties_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

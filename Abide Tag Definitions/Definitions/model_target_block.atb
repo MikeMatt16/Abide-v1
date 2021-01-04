@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_target_block" DisplayName="model_target_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="marker name^#multiple markers become multiple spheres of the same radius" />
+		<FieldReal Index="1" Name="size#sphere radius" />
+		<FieldAngle Index="2" Name="cone angle#the target is only visible when viewed within this angle of the marker's x axis" />
+		<FieldShortBlockIndex2 Index="3" Name="damage section#the target is associated with this damage section" />
+		<FieldShortBlockIndex1 Index="4" Name="variant#the target will only appear with this variant" />
+		<FieldRealFraction Index="5" Name="targeting relevance#higher relevances turn into stronger magnetisms" />
+		<FieldStruct Index="6" Name="lock-on data" StructName="model_target_lock_on_data_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

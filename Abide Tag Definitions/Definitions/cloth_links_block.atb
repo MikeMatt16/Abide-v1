@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cloth_links_block" DisplayName="cloth_links_block" MaximumElementCount="640">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="attachment bits*" />
+		<FieldShortInteger Index="1" Name="index1*" />
+		<FieldShortInteger Index="2" Name="index2*" />
+		<FieldReal Index="3" Name="default_distance*" />
+		<FieldReal Index="4" Name="damping_multiplier*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

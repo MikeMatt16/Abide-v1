@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="syntax_datum_block" DisplayName="syntax_datum_block" MaximumElementCount="36864">
+	<FieldSet Alignment="4" Count="8">
+		<FieldShortInteger Index="0" Name="Datum Header" />
+		<FieldShortInteger Index="1" Name="Script Index/Function Index/Constant Type Union" />
+		<FieldShortInteger Index="2" Name="Type" />
+		<FieldShortInteger Index="3" Name="Flags" />
+		<FieldLongInteger Index="4" Name="Next Node Index" />
+		<FieldLongInteger Index="5" Name="Data" />
+		<FieldLongInteger Index="6" Name="source_offset" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

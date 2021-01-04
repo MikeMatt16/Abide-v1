@@ -114,10 +114,17 @@ namespace Abide.HaloLibrary.Halo2VistaMap
             }
             catch { }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void Save(string fileName)
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             return;

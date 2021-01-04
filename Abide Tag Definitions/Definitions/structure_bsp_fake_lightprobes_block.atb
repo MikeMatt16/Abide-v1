@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_fake_lightprobes_block" DisplayName="structure_bsp_fake_lightprobes_block" MaximumElementCount="2048">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStruct Index="0" Name="Object Identifier*" StructName="scenario_object_id_struct_block" />
+		<FieldStruct Index="1" Name="Render Lighting*" StructName="render_lighting_struct_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

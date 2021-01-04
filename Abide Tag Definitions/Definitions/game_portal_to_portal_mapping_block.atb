@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="game_portal_to_portal_mapping_block" DisplayName="game_portal_to_portal_mapping_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="2">
+		<FieldShortInteger Index="0" Name="portal index" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

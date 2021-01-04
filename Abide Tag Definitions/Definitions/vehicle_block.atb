@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vehicle_block" DisplayName="vehicle" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="54">
+		<FieldExplanation Index="0" Name="$$$ VEHICLE $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="speed wakes physics" />
+			<Option Name="turn wakes physics" />
+			<Option Name="driver power wakes physics" />
+			<Option Name="gunner power wakes physics" />
+			<Option Name="control opposite speed sets brake" />
+			<Option Name="slide wakes physics" />
+			<Option Name="kills riders at terminal velocity" />
+			<Option Name="causes collision damage" />
+			<Option Name="ai weapon cannot rotate" />
+			<Option Name="ai does not require driver" />
+			<Option Name="ai unused" />
+			<Option Name="ai driver enable" />
+			<Option Name="ai driver flying" />
+			<Option Name="ai driver can-sidestep" />
+			<Option Name="ai driver hovering" />
+			<Option Name="vehicle steers directly" />
+			<Option Name="unused" />
+			<Option Name="has e-brake" />
+			<Option Name="noncombat vehicle" />
+			<Option Name="no friction w/driver" />
+			<Option Name="can trigger automatic opening doors" />
+			<Option Name="autoaim when teamless" />
+		</FieldLongFlags>
+		<FieldEnum Index="2" Name="type">
+			<Option Name="human tank" />
+			<Option Name="human jeep" />
+			<Option Name="human boat" />
+			<Option Name="human plane" />
+			<Option Name="alien scout" />
+			<Option Name="alien fighter" />
+			<Option Name="turret" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="control">
+			<Option Name="vehicle control normal" />
+			<Option Name="vehicle control unused" />
+			<Option Name="vehicle control tank" />
+		</FieldEnum>
+		<FieldReal Index="4" Name="maximum forward speed" />
+		<FieldReal Index="5" Name="maximum reverse speed" />
+		<FieldReal Index="6" Name="speed acceleration" />
+		<FieldReal Index="7" Name="speed deceleration" />
+		<FieldReal Index="8" Name="maximum left turn" />
+		<FieldReal Index="9" Name="maximum right turn (negative)" />
+		<FieldReal Index="10" Name="wheel circumference" />
+		<FieldReal Index="11" Name="turn rate" />
+		<FieldReal Index="12" Name="blur speed" />
+		<FieldEnum Index="13" Name="specific type#if your type corresponds to something in this list choose it">
+			<Option Name="none" />
+			<Option Name="ghost" />
+			<Option Name="wraith" />
+			<Option Name="spectre" />
+			<Option Name="sentinel enforcer" />
+		</FieldEnum>
+		<FieldEnum Index="14" Name="player training vehicle type">
+			<Option Name="none" />
+			<Option Name="warthog" />
+			<Option Name="warthog turret" />
+			<Option Name="ghost" />
+			<Option Name="banshee" />
+			<Option Name="tank" />
+			<Option Name="wraith" />
+		</FieldEnum>
+		<FieldStringId Index="15" Name="flip message" />
+		<FieldReal Index="16" Name="turn scale" />
+		<FieldReal Index="17" Name="speed turn penalty power (0.5 .. 2)" />
+		<FieldReal Index="18" Name="speed turn penalty (0 = none, 1 = can't turn at top speed)" />
+		<FieldReal Index="19" Name="maximum left slide" />
+		<FieldReal Index="20" Name="maximum right slide" />
+		<FieldReal Index="21" Name="slide acceleration" />
+		<FieldReal Index="22" Name="slide deceleration" />
+		<FieldReal Index="23" Name="minimum flipping angular velocity" />
+		<FieldReal Index="24" Name="maximum flipping angular velocity" />
+		<FieldEnum Index="25" Name="vehicle size#The size determine what kind of seats in larger vehicles it may occupy (i.e. small or large cargo seats)">
+			<Option Name="small" />
+			<Option Name="large" />
+		</FieldEnum>
+		<FieldPad Index="26" Name="" Length="2" />
+		<FieldUselessPad Index="27" Name="" />
+		<FieldReal Index="28" Name="fixed gun yaw" />
+		<FieldReal Index="29" Name="fixed gun pitch" />
+		<FieldExplanation Index="30" Name="steering overdampening" Explanation="when the steering is off by more than the cusp angle|nthe steering will overcompensate more and more.  when it|nis less, it overcompensates less and less.  the exponent|nshould be something in the neighborhood of 2.0|n" />
+		<FieldReal Index="31" Name="overdampen cusp angle:degrees" />
+		<FieldReal Index="32" Name="overdampen exponent" />
+		<FieldReal Index="33" Name="crouch transition time:seconds" />
+		<FieldPad Index="34" Name="" Length="4" />
+		<FieldExplanation Index="35" Name="engine" Explanation="" />
+		<FieldReal Index="36" Name="engine moment#higher moments make engine spin up slower" />
+		<FieldReal Index="37" Name="engine max angular velocity#higher moments make engine spin up slower" />
+		<FieldBlock Index="38" Name="gears" BlockName="gear_block" />
+		<FieldReal Index="39" Name="flying torque scale#big vehicles need to scale this down.  0 defaults to 1, which is generally a good value.  This is used with alien fighter physics" />
+		<FieldReal Index="40" Name="seat enterance acceleration scale#how much do we scale the force the biped the applies down on the seat when he enters. 0 == no acceleration" />
+		<FieldReal Index="41" Name="seat exit accelersation scale#how much do we scale the force the biped the applies down on the seat when he exits. 0 == no acceleration" />
+		<FieldUselessPad Index="42" Name="" />
+		<FieldReal Index="43" Name="air friction deceleration#human plane physics only. 0 is nothing.  1 is like thowing the engine to full reverse" />
+		<FieldReal Index="44" Name="thrust scale#human plane physics only. 0 is default (1)" />
+		<FieldExplanation Index="45" Name="sounds and effects" Explanation="" />
+		<FieldTagReference Index="46" Name="suspension sound" GroupTag="1936614433" />
+		<FieldTagReference Index="47" Name="crash sound" GroupTag="1936614433" />
+		<FieldTagReference Index="48" Name="UNUSED*" GroupTag="1718579060" />
+		<FieldTagReference Index="49" Name="special effect" GroupTag="1701209701" />
+		<FieldTagReference Index="50" Name="unused effect" GroupTag="1701209701" />
+		<FieldExplanation Index="51" Name="physics" Explanation="" />
+		<FieldStruct Index="52" Name="havok vehicle physics" StructName="havok_vehicle_physics_struct_block" />
+		<FieldTerminator Index="53" Name="" />
+	</FieldSet>
+</AbideTagBlock>

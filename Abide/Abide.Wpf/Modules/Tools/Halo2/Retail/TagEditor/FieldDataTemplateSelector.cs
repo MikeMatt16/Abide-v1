@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Abide.HaloLibrary.Halo2.Retail.Tag;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         public DataTemplate EnumTemplate { get; set; } = null;
         public DataTemplate FlagsTemplate { get; set; } = null;
         public DataTemplate BlockTemplate { get; set; } = null;
+        public DataTemplate Point2dTemplate { get; set; } = null;
+        public DataTemplate UnknownTemplate { get; set; } = null;
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -25,105 +28,77 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             {
                 switch (field.Type)
                 {
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldBlock:
+                    case FieldType.FieldBlock:
                         return BlockTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldString:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongString:
+                    case FieldType.FieldString:
+                    case FieldType.FieldLongString:
                         return StringTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldStringId:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldOldStringId:
+                    case FieldType.FieldStringId:
+                    case FieldType.FieldOldStringId:
                         return StringIdTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldStruct:
-                        return TagBlockTemplate;
-
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldShortInteger:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldCharInteger:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongInteger:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldAngle:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldReal:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldTag:
+                    case FieldType.FieldShortInteger:
+                    case FieldType.FieldCharInteger:
+                    case FieldType.FieldLongInteger:
+                    case FieldType.FieldAngle:
+                    case FieldType.FieldReal:
+                    case FieldType.FieldTag:
+                    case FieldType.FieldRealFraction:
                         return ValueTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldCharEnum:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldEnum:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongEnum:
+                    case FieldType.FieldCharBlockIndex1:
+                    case FieldType.FieldCharBlockIndex2:
+                    case FieldType.FieldShortBlockIndex1:
+                    case FieldType.FieldShortBlockIndex2:
+                    case FieldType.FieldLongBlockIndex1:
+                    case FieldType.FieldLongBlockIndex2:
+                        return ValueTemplate;
+
+                    case FieldType.FieldCharEnum:
+                    case FieldType.FieldEnum:
+                    case FieldType.FieldLongEnum:
                         return EnumTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongFlags:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldWordFlags:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldByteFlags:
+                    case FieldType.FieldLongFlags:
+                    case FieldType.FieldWordFlags:
+                    case FieldType.FieldByteFlags:
                         return FlagsTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldTagReference:
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldTagIndex:
+                    case FieldType.FieldLongBlockFlags:
+                    case FieldType.FieldWordBlockFlags:
+                    case FieldType.FieldByteBlockFlags:
+                        return FlagsTemplate;
+
+                    case FieldType.FieldTagReference:
+                    case FieldType.FieldTagIndex:
                         return TagRefTemplate;
 
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldPoint2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRectangle2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRgbColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldArgbColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealFraction:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealPoint2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealPoint3D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealVector2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealVector3D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldQuaternion:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldEulerAngles2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldEulerAngles3D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealPlane2D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealPlane3D:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealRgbColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealArgbColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealHsvColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealAhsvColor:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldShortBounds:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldAngleBounds:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealBounds:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldRealFractionBounds:
-                        break;
-                    
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongBlockFlags:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldWordBlockFlags:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldByteBlockFlags:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldCharBlockIndex1:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldCharBlockIndex2:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldShortBlockIndex1:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldShortBlockIndex2:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongBlockIndex1:
-                        break;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldLongBlockIndex2:
-                        break;
+                    case FieldType.FieldPoint2D:
+                        return Point2dTemplate;
+
+                    case FieldType.FieldRectangle2D:
+                    case FieldType.FieldRgbColor:
+                    case FieldType.FieldArgbColor:
+                    case FieldType.FieldRealPoint2D:
+                    case FieldType.FieldRealPoint3D:
+                    case FieldType.FieldRealVector2D:
+                    case FieldType.FieldRealVector3D:
+                    case FieldType.FieldQuaternion:
+                    case FieldType.FieldEulerAngles2D:
+                    case FieldType.FieldEulerAngles3D:
+                    case FieldType.FieldRealPlane2D:
+                    case FieldType.FieldRealPlane3D:
+                    case FieldType.FieldRealRgbColor:
+                    case FieldType.FieldRealArgbColor:
+                    case FieldType.FieldRealHsvColor:
+                    case FieldType.FieldRealAhsvColor:
+                    case FieldType.FieldShortBounds:
+                    case FieldType.FieldAngleBounds:
+                    case FieldType.FieldRealBounds:
+                    case FieldType.FieldRealFractionBounds:
+                        return UnknownTemplate;
                 }
             }
 

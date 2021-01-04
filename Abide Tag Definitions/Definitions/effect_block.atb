@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="effect_block" DisplayName="effect" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="14">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="deleted when attachment deactivates" />
+		</FieldLongFlags>
+		<FieldShortBlockIndex1 Index="1" Name="loop start event" />
+		<FieldSkip Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="4" />
+		<FieldBlock Index="4" Name="locations" BlockName="effect_locations_block" />
+		<FieldBlock Index="5" Name="events" BlockName="effect_event_block" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldExplanation Index="7" Name="Looping Sound" Explanation="" />
+		<FieldTagReference Index="8" Name="looping sound" GroupTag="1819504228" />
+		<FieldShortBlockIndex1 Index="9" Name="location" />
+		<FieldSkip Index="10" Name="" Length="2" />
+		<FieldReal Index="11" Name="always play distance" />
+		<FieldReal Index="12" Name="never play distance" />
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

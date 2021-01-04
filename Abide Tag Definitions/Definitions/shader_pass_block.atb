@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_pass_block" DisplayName="shader_pass" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldData Index="0" Name="Documentation" Alignment="4" MaximumSize="65535" ElementSize="1" />
+		<FieldBlock Index="1" Name="Parameters" BlockName="shader_pass_parameter_block" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldBlock Index="4" Name="Implementations" BlockName="shader_pass_implementation_block" />
+		<FieldBlock Index="5" Name="Postprocess Definition*" BlockName="shader_pass_postprocess_definition_new_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

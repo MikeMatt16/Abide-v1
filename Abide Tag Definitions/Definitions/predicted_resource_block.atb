@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="predicted_resource_block" DisplayName="predicted_resource_block" MaximumElementCount="2048">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="bitmap" />
+			<Option Name="sound" />
+			<Option Name="render model geometry" />
+			<Option Name="cluster geometry" />
+			<Option Name="cluster instanced geometry" />
+			<Option Name="lightmap geometry object buckets" />
+			<Option Name="lightmap geometry instance buckets" />
+			<Option Name="lightmap cluster bitmaps" />
+			<Option Name="lightmap instance bitmaps" />
+		</FieldEnum>
+		<FieldShortInteger Index="1" Name="resource index" />
+		<FieldLongInteger Index="2" Name="tag index" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

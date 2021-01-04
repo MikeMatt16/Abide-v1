@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_biped_block" DisplayName="scenario_biped_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="8">
+		<FieldCustom Index="0" Name="" />
+		<FieldShortBlockIndex1 Index="1" Name="Type" />
+		<FieldCustom Index="2" Name="" />
+		<FieldShortBlockIndex1 Index="3" Name="Name^" />
+		<FieldStruct Index="4" Name="Object Data" StructName="scenario_object_datum_struct_block" />
+		<FieldStruct Index="5" Name="Permutation Data" StructName="scenario_object_permutation_struct_block" />
+		<FieldStruct Index="6" Name="Unit Data" StructName="scenario_unit_struct_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

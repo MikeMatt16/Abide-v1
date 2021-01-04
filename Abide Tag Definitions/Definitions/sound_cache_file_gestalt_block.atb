@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_cache_file_gestalt_block" DisplayName="sound_cache_file_gestalt" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldBlock Index="0" Name="playbacks" BlockName="sound_gestalt_playback_block" />
+		<FieldBlock Index="1" Name="scales" BlockName="sound_gestalt_scale_block" />
+		<FieldBlock Index="2" Name="import names" BlockName="sound_gestalt_import_names_block" />
+		<FieldBlock Index="3" Name="pitch range parameters" BlockName="sound_gestalt_pitch_range_parameters_block" />
+		<FieldBlock Index="4" Name="pitch ranges" BlockName="sound_gestalt_pitch_ranges_block" />
+		<FieldBlock Index="5" Name="permutations" BlockName="sound_gestalt_permutations_block" />
+		<FieldBlock Index="6" Name="custom playbacks" BlockName="sound_gestalt_custom_playback_block" />
+		<FieldBlock Index="7" Name="runtime permutation flags" BlockName="sound_gestalt_runtime_permutation_bit_vector_block" />
+		<FieldBlock Index="8" Name="chunks" BlockName="sound_permutation_chunk_block" />
+		<FieldBlock Index="9" Name="promotions" BlockName="sound_gestalt_promotions_block" />
+		<FieldBlock Index="10" Name="extra infos" BlockName="sound_gestalt_extra_info_block" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="bitmap_group_sprite_block" DisplayName="bitmap_group_sprite_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="9">
+		<FieldShortInteger Index="0" Name="Bitmap Index*" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldPad Index="2" Name="" Length="4" />
+		<FieldReal Index="3" Name="Left*" />
+		<FieldReal Index="4" Name="Right*" />
+		<FieldReal Index="5" Name="Top*" />
+		<FieldReal Index="6" Name="Bottom*" />
+		<FieldRealPoint2D Index="7" Name="Registration Point*" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

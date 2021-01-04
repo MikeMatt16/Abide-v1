@@ -15,11 +15,48 @@
         <KeyBinding Command="{Binding OpenCommand}" Key="O" Modifiers="Ctrl"/>
     </ui:GlowWindowHost.InputBindings>
     <ui:GlowWindowHost.DataContext>
-        <vm:AbideViewModel/>
+        <vm:AbideViewModel MainWindow="{Binding ElementName=glowWindowHost, Mode=OneWay}"/>
     </ui:GlowWindowHost.DataContext>
     <ui:GlowWindowHost.Resources>
+        <vm:OperationsStatusConverter x:Key="opStatusConverter"/>
+        
         <DataTemplate x:Key="FileTabItemTemplate" DataType="{x:Type vm:FileItem}">
-            <TextBlock Text="{Binding FileName}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="{Binding FileName}"/>
+                <Button Grid.Column="2" Command="{Binding CloseFileCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="OverridesDefaultStyle" Value="True"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Bd" BorderThickness="0" Background="Transparent">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ActiveAccentHighlight}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ActiveAccentPressed}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <Path Fill="{StaticResource Foreground}" Data="M 0 0 L 15 15 M 15 0 L 0 15 Z"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Key="FileTabContentTemplate" DataType="{x:Type vm:FileItem}">
             <ContentPresenter Content="{Binding EditorElement}"/>
@@ -57,17 +94,32 @@
                 <Menu Grid.Column="0" VerticalAlignment="Center" ui:GlowWindowHost.NonClientAction="Caption">
                     <MenuItem Header="_File">
                         <MenuItem Header="_New">
-                            <MenuItem Header="_Project" InputGestureText="Ctrl+Shift+N"/>
-                            <MenuItem Header="_File" InputGestureText="Ctrl+N" Command="{Binding NewCommand}"/>
+                            <MenuItem Header="_Project..." InputGestureText="Ctrl+Shift+N" Command="{Binding NewProjectCommand}"/>
+                            <MenuItem Header="_File..." InputGestureText="Ctrl+N" Command="{Binding NewCommand}"/>
                         </MenuItem>
                         <MenuItem Header="_Open">
-                            <MenuItem Header="_Project" InputGestureText="Ctrl+Shift+O"/>
-                            <MenuItem Header="_File" InputGestureText="Ctrl+O" Command="{Binding OpenCommand}"/>
+                            <MenuItem Header="_Project/Solution..." InputGestureText="Ctrl+Shift+O" Command="{Binding OpenProjectCommand}"/>
+                            <MenuItem Header="_File..." InputGestureText="Ctrl+O" Command="{Binding OpenCommand}"/>
                         </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="_Save" InputGestureText="Ctrl+S"/>
+                        <MenuItem Header="Save _All" InputGestureText="Ctrl+Shift+S"/>
                         <Separator/>
                         <MenuItem Header="_Exit" Command="{Binding}" InputGestureText="Alt+F4"/>
                     </MenuItem>
                     <MenuItem Header="_Edit"/>
+                    <MenuItem Header="_Tools">
+                        <MenuItem Header="Decompile Map" Command="{Binding DecompileMapCommand}">
+                            <MenuItem.Icon>
+                                <Image Width="16" Height="16" Source="Resources/Map-Decompile.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Compile...">
+                            <MenuItem.Icon>
+                                <Image Width="16" Height="16" Source="Resources/Map-Compile.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
                     <MenuItem Header="_View"/>
                 </Menu>
 
@@ -94,15 +146,15 @@
                 </Button.Content>
             </Button>
         </Grid>
-        
+
         <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource ActiveGlowBrush}">
             <StatusBar.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="White"/>
                 </Style>
             </StatusBar.Resources>
-            
-            <TextBlock Text="Ready"/>
+
+            <TextBlock Text="{Binding PrimaryOperation, Mode=OneWay, Converter={StaticResource opStatusConverter}}"/>
         </StatusBar>
 
         <TabControl ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"

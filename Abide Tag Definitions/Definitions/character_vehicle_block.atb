@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="character_vehicle_block" DisplayName="character_vehicle_block" MaximumElementCount="100">
+	<FieldSet Alignment="4" Count="60">
+		<FieldTagReference Index="0" Name="unit^" GroupTag="1970170228" />
+		<FieldTagReference Index="1" Name="style^" GroupTag="1937013100" />
+		<FieldUselessPad Index="2" Name="" />
+		<FieldLongFlags Index="3" Name="vehicle flags">
+			<Option Name="passengers adopt original squad" />
+		</FieldLongFlags>
+		<FieldUselessPad Index="4" Name="" />
+		<FieldExplanation Index="5" Name="Pathfinding" Explanation="" />
+		<FieldReal Index="6" Name="ai pathfinding radius:world units#(Ground vehicles)" />
+		<FieldReal Index="7" Name="ai destination radius:world units#(All vehicles) Distance within which goal is considered reached" />
+		<FieldReal Index="8" Name="ai deceleration distanceworld units#(All vehicles)Distance from goal at which AI starts to decelerate" />
+		<FieldUselessPad Index="9" Name="" />
+		<FieldExplanation Index="10" Name="Turning" Explanation="" />
+		<FieldReal Index="11" Name="ai turning radius#(Warthog, Pelican, Ghost) Idealized average turning radius (should reflect actual vehicle physics)" />
+		<FieldReal Index="12" Name="ai inner turning radius (&lt; tr)#(Warthog-type) Idealized minimum turning radius (should reflect actual vehicle physics)" />
+		<FieldReal Index="13" Name="ai ideal turning radius (&gt; tr)#(Warthogs, ghosts) Ideal turning radius for rounding turns (barring obstacles, etc.)" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldExplanation Index="15" Name="Steering" Explanation="" />
+		<FieldAngle Index="16" Name="ai banshee steering maximum#(Banshee)" />
+		<FieldReal Index="17" Name="ai max steering angle:degrees#(Warthog, ghosts, wraiths)Maximum steering angle from forward (ultimately controls turning speed)" />
+		<FieldReal Index="18" Name="ai max steering delta: degrees#(pelicans, dropships, ghosts, wraiths)Maximum delta in steering angle from one tick to the next (ultimately controls turn acceleration)" />
+		<FieldReal Index="19" Name="ai oversteering scale#(Warthog, ghosts, wraiths)" />
+		<FieldAngleBounds Index="20" Name="ai oversteering bounds#(Banshee) Angle to goal at which AI will oversteer" />
+		<FieldReal Index="21" Name="ai sideslip distance#(Ghosts, Dropships) Distance within which Ai will strafe to target (as opposed to turning)" />
+		<FieldReal Index="22" Name="ai avoidance distance:world units#(Banshee-style) Look-ahead distance for obstacle avoidance" />
+		<FieldReal Index="23" Name="ai min urgency:[0-1]#(Banshees)The minimum urgency with which a turn can be made (urgency = percent of maximum steering delta)" />
+		<FieldUselessPad Index="24" Name="" />
+		<FieldExplanation Index="25" Name="Throttle" Explanation="" />
+		<FieldReal Index="26" Name="ai throttle maximum:(0 - 1)#(All vehicles)" />
+		<FieldReal Index="27" Name="ai goal min throttle scale#(Warthogs, Dropships, ghosts)scale on throttle when within 'ai deceleration distance' of goal (0...1)" />
+		<FieldReal Index="28" Name="ai turn min throttle scale#(Warthogs, ghosts) Scale on throttle due to nearness to a turn (0...1)" />
+		<FieldReal Index="29" Name="ai direction min throttle scale#(Warthogs, ghosts) Scale on throttle due to facing away from intended direction (0...1)" />
+		<FieldReal Index="30" Name="ai acceleration scale:(0-1)#(warthogs, ghosts) The maximum allowable change in throttle between ticks" />
+		<FieldReal Index="31" Name="ai throttle blend:(0-1)#(dropships, sentinels) The degree of throttle blending between one tick and the next (0 = no blending)" />
+		<FieldReal Index="32" Name="theoretical max speed:wu/s#(dropships, warthogs, ghosts) About how fast I can go." />
+		<FieldReal Index="33" Name="error scale#(dropships, warthogs) scale on the difference between desired and actual speed, applied to throttle" />
+		<FieldUselessPad Index="34" Name="" />
+		<FieldExplanation Index="35" Name="Combat" Explanation="" />
+		<FieldAngle Index="36" Name="ai allowable aim deviation angle" />
+		<FieldUselessPad Index="37" Name="" />
+		<FieldExplanation Index="38" Name="Behavior" Explanation="" />
+		<FieldReal Index="39" Name="ai charge tight angle distance#(All vehicles) The distance at which the tight angle criterion is used for deciding to vehicle charge" />
+		<FieldReal Index="40" Name="ai charge tight angle:[0-1]#(All vehicles) Angle cosine within which the target must be when target is closer than tight angle distance in order to charge" />
+		<FieldReal Index="41" Name="ai charge repeat timeout#(All vehicles) Time delay between vehicle charges" />
+		<FieldReal Index="42" Name="ai charge look-ahead time#(All vehicles) In deciding when to abort vehicle charge, look ahead these many seconds to predict time of contact" />
+		<FieldReal Index="43" Name="ai charge consider distance#Consider charging the target when it is within this range (0 = infinite distance)" />
+		<FieldReal Index="44" Name="ai charge abort distance#Abort the charge when the target get more than this far away (0 = never abort)" />
+		<FieldUselessPad Index="45" Name="" />
+		<FieldReal Index="46" Name="vehicle ram timeout#The ram behavior stops after a maximum of the given number of seconds" />
+		<FieldReal Index="47" Name="ram paralysis time#The ram behavior freezes the vehicle for a given number of seconds after performing the ram" />
+		<FieldUselessPad Index="48" Name="" />
+		<FieldReal Index="49" Name="ai cover damage threshold#(All vehicles) Trigger a cover when recent damage is above given threshold (damage_vehicle_cover impulse)" />
+		<FieldReal Index="50" Name="ai cover min distance#(All vehicles) When executing vehicle-cover, minimum distance from the target to flee to" />
+		<FieldReal Index="51" Name="ai cover time#(All vehicles) How long to stay away from the target" />
+		<FieldReal Index="52" Name="ai cover min boost distance#(All vehicles) Boosting allowed when distance to cover destination is greater then this." />
+		<FieldReal Index="53" Name="turtling recent damage threshold:%#If vehicle turtling behavior is enabled, turtling is initiated if 'recent damage' surpasses the given threshold" />
+		<FieldReal Index="54" Name="turtling min time:seconds#If the vehicle turtling behavior is enabled, turtling occurs for at least the given time" />
+		<FieldReal Index="55" Name="turtling timeout:seconds#The turtled state times out after the given number of seconds" />
+		<FieldUselessPad Index="56" Name="" />
+		<FieldEnum Index="57" Name="obstacle ignore size">
+			<Option Name="none" />
+			<Option Name="tiny" />
+			<Option Name="small" />
+			<Option Name="medium" />
+			<Option Name="large" />
+			<Option Name="huge" />
+			<Option Name="immobile" />
+		</FieldEnum>
+		<FieldPad Index="58" Name="" Length="2" />
+		<FieldTerminator Index="59" Name="" />
+	</FieldSet>
+</AbideTagBlock>

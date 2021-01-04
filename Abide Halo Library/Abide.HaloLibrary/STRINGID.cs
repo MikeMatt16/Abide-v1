@@ -142,19 +142,34 @@ namespace Abide.HaloLibrary
         {
             return string.Format("string[{0}] Length: {1}", Index, Length);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tagId"></param>
         public static implicit operator uint(StringId tagId)
         {
             return tagId.sid;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tagId"></param>
         public static implicit operator int(StringId tagId)
         {
             return (int)(tagId.sid);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sid"></param>
         public static implicit operator StringId(uint sid)
         {
             return new StringId() { sid = sid };
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sid"></param>
         public static implicit operator StringId(int sid)
         {
             return new StringId() { sid = (uint)(sid) };

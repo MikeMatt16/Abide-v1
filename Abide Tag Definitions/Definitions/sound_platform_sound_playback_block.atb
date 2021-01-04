@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_platform_sound_playback_block" DisplayName="sound_platform_sound_playback_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldStruct Index="0" Name="playback definition" StructName="simple_platform_sound_playback_struct_block" />
+		<FieldBlock Index="1" Name="" BlockName="g_null_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

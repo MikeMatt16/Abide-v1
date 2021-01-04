@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Abide.Wpf.Modules.Win32
 {
-    public static class User32
+    internal static class User32
     {
         [DllImport("user32.dll")]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);

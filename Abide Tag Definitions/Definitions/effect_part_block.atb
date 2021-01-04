@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="effect_part_block" DisplayName="effect_part_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="14">
+		<FieldEnum Index="0" Name="create in">
+			<Option Name="any environment" />
+			<Option Name="air only" />
+			<Option Name="water only" />
+			<Option Name="space only" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="create in">
+			<Option Name="either mode" />
+			<Option Name="violent mode only" />
+			<Option Name="nonviolent mode only" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="2" Name="location" />
+		<FieldWordFlags Index="3" Name="flags">
+			<Option Name="face down regardless of location (decals)" />
+			<Option Name="offset origin away from geometry (lights)" />
+			<Option Name="never attached to object" />
+			<Option Name="disabled for debugging" />
+			<Option Name="draw regardless of distance" />
+		</FieldWordFlags>
+		<FieldPad Index="4" Name="" Length="4" />
+		<FieldTagReference Index="5" Name="type^" GroupTag="-3" />
+		<FieldRealBounds Index="6" Name="velocity bounds:world units per second#initial velocity along the location's forward, for decals the distance at which decal is created (defaults to 0.5)" />
+		<FieldAngle Index="7" Name="velocity cone angle:degrees#initial velocity will be inside the cone defined by this angle." />
+		<FieldAngleBounds Index="8" Name="angular velocity bounds:degrees per second" />
+		<FieldRealBounds Index="9" Name="radius modifier bounds" />
+		<FieldExplanation Index="10" Name="SCALE MODIFIERS" Explanation="" />
+		<FieldLongFlags Index="11" Name="A scales values:">
+			<Option Name="velocity" />
+			<Option Name="velocity delta" />
+			<Option Name="velocity cone angle" />
+			<Option Name="angular velocity" />
+			<Option Name="angular velocity delta" />
+			<Option Name="type-specific scale" />
+		</FieldLongFlags>
+		<FieldLongFlags Index="12" Name="B scales values:">
+			<Option Name="velocity" />
+			<Option Name="velocity delta" />
+			<Option Name="velocity cone angle" />
+			<Option Name="angular velocity" />
+			<Option Name="angular velocity delta" />
+			<Option Name="type-specific scale" />
+		</FieldLongFlags>
+		<FieldTerminator Index="13" Name="" />
+	</FieldSet>
+</AbideTagBlock>

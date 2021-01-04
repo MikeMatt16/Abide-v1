@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_explicit_edge_block" DisplayName="explicit edge" MaximumElementCount="65535">
+	<FieldSet Alignment="4" Count="7">
+		<FieldArrayStart Index="0" Name="Vertex Indices*" Length="2">
+			<FieldShortInteger Index="0" Name="Vertex Index*" />
+		</FieldArrayStart>
+		<FieldShortInteger Index="1" Name="Vertex Index*" />
+		<FieldArrayEnd Index="2" Name="" />
+		<FieldArrayStart Index="3" Name="Triangle Indices*" Length="2">
+			<FieldShortInteger Index="0" Name="Triangle Index*" />
+		</FieldArrayStart>
+		<FieldShortInteger Index="4" Name="Triangle Index*" />
+		<FieldArrayEnd Index="5" Name="" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

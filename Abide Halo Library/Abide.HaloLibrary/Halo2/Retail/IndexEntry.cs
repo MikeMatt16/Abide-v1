@@ -16,7 +16,10 @@ namespace Abide.HaloLibrary.Halo2.Retail
         /// <summary>
         /// Creates a new instance of the <see cref="IndexEntry"/> class.
         /// </summary>
-        public IndexEntry() { }
+        public IndexEntry()
+        {
+            Data = new HaloMapDataContainer();
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -39,23 +42,23 @@ namespace Abide.HaloLibrary.Halo2.Retail
         /// <summary>
         /// Gets and returns the tag ID of the entry.
         /// </summary>
-        public TagId Id { get; internal set; }
+        public TagId Id { get; set; }
         /// <summary>
         /// Gets and returns the tag hierarchy of the entry.
         /// </summary>
-        public TagHierarchy Tag { get; internal set; }
+        public TagHierarchy Tag { get; set; }
         /// <summary>
         /// Gets and returns the file name of the entry.
         /// </summary>
-        public string Filename { get; internal set; }
+        public string Filename { get; set; }
         /// <summary>
         /// Gets and returns the address of the data referenced by the entry.
         /// </summary>
-        public long Address { get; internal set; }
+        public long Address { get; set; }
         /// <summary>
         /// Gets and returns the length of the data referenced by the entry.
         /// </summary>
-        public long Length { get; internal set; }
+        public long Length { get; set; }
         /// <summary>
         /// Gets and returns a stream that contains the data referenced by the entry.
         /// </summary>

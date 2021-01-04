@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_bsp_fog_plane_debug_info_block" DisplayName="structure_bsp_fog_plane_debug_info_block" MaximumElementCount="127">
+	<FieldSet Alignment="4" Count="7">
+		<FieldLongInteger Index="0" Name="Fog Zone Index*" />
+		<FieldPad Index="1" Name="" Length="24" />
+		<FieldLongInteger Index="2" Name="Connected Plane Designator*" />
+		<FieldBlock Index="3" Name="Lines*" BlockName="structure_bsp_debug_info_render_line_block" />
+		<FieldBlock Index="4" Name="Intersected Cluster Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldBlock Index="5" Name="Inf. Extent Cluster Indices*" BlockName="structure_bsp_debug_info_indices_block" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

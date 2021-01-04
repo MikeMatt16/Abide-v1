@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="large_surfaces_block" DisplayName="surface" MaximumElementCount="131072">
+	<FieldSet Alignment="4" Count="6">
+		<FieldLongInteger Index="0" Name="Plane*" />
+		<FieldLongInteger Index="1" Name="First Edge*" />
+		<FieldByteFlags Index="2" Name="Flags*">
+			<Option Name="Two-Sided" />
+			<Option Name="Invisible" />
+			<Option Name="Climbable" />
+			<Option Name="Breakable" />
+			<Option Name="Invalid" />
+			<Option Name="Conveyor" />
+		</FieldByteFlags>
+		<FieldCharInteger Index="3" Name="Breakable Surface*" />
+		<FieldShortInteger Index="4" Name="Material*" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

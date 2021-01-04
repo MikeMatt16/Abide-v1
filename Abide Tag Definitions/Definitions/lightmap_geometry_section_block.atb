@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="lightmap_geometry_section_block" DisplayName="lightmap_geometry_section_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStruct Index="0" Name="geometry info" StructName="global_geometry_section_info_struct_block" />
+		<FieldStruct Index="1" Name="geometry block info" StructName="global_geometry_block_info_struct_block" />
+		<FieldBlock Index="2" Name="cache data" BlockName="lightmap_geometry_section_cache_data_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

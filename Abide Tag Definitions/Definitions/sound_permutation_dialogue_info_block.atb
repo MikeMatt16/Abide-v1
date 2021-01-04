@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_permutation_dialogue_info_block" DisplayName="sound_permutation_dialogue_info_block" MaximumElementCount="288">
+	<FieldSet Alignment="4" Count="5">
+		<FieldLongInteger Index="0" Name="mouth data offset" />
+		<FieldLongInteger Index="1" Name="mouth data length" />
+		<FieldLongInteger Index="2" Name="lipsync data offset" />
+		<FieldLongInteger Index="3" Name="lipsync data length" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

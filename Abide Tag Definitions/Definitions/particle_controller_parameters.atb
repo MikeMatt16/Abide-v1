@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="particle_controller_parameters" DisplayName="particle_controller_parameters" MaximumElementCount="9">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongInteger Index="0" Name="parameter id" />
+		<FieldStruct Index="1" Name="property" StructName="particle_property_scalar_struct_new_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

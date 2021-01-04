@@ -24,7 +24,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.ugh_:
                     tagData.Seek(tagData.MemoryAddress + 64, SeekOrigin.Begin);
                     int soundsCount = reader.ReadInt32();
-                    int soundsOffset = reader.ReadInt32();
+                    uint soundsOffset = reader.ReadUInt32();
                     for (int i = 0; i < soundsCount; i++)
                     {
                         //Goto
@@ -45,7 +45,7 @@ namespace Abide.TagBuilder.Halo2
 
                     tagData.Seek(tagData.MemoryAddress + 80, SeekOrigin.Begin);
                     int extraInfosCount = reader.ReadInt32();
-                    int extraInfosOffset = reader.ReadInt32();
+                    uint extraInfosOffset = reader.ReadUInt32();
                     for (int i = 0; i < extraInfosCount; i++)
                     {
                         //Goto
@@ -69,7 +69,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.mode:
                     tagData.Seek(tagData.MemoryAddress + 36, SeekOrigin.Begin);
                     int sectionCount = reader.ReadInt32();
-                    int sectionOffset = reader.ReadInt32();
+                    uint sectionOffset = reader.ReadUInt32();
                     for (int i = 0; i < sectionCount; i++)
                     {
                         tagData.Seek(sectionOffset + (i * 92) + 56, SeekOrigin.Begin);
@@ -89,7 +89,7 @@ namespace Abide.TagBuilder.Halo2
 
                     tagData.Seek(tagData.MemoryAddress + 116, SeekOrigin.Begin);
                     int prtCount = reader.ReadInt32();
-                    int prtOffset = reader.ReadInt32();
+                    uint prtOffset = reader.ReadUInt32();
                     for (int i = 0; i < prtCount; i++)
                     {
                         tagData.Seek(prtOffset + (i * 88) + 52, SeekOrigin.Begin);
@@ -112,7 +112,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.weat:
                     tagData.Seek(tagData.MemoryAddress, SeekOrigin.Begin);
                     int particleSystemCount = reader.ReadInt32();
-                    int particleSystemOffset = reader.ReadInt32();
+                    uint particleSystemOffset = reader.ReadUInt32();
                     for (int i = 0; i < particleSystemCount; i++)
                     {
                         tagData.Seek(particleSystemOffset + (i * 140) + 64, SeekOrigin.Begin);
@@ -169,7 +169,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.jmad:
                     tagData.Seek(tagData.MemoryAddress + 172, SeekOrigin.Begin);
                     int animationCount = reader.ReadInt32();
-                    int animationOffset = reader.ReadInt32();
+                    uint animationOffset = reader.ReadUInt32();
                     for (int i = 0; i < animationCount; i++)
                     {
                         tagData.Seek(animationOffset + (i * 20) + 4, SeekOrigin.Begin);
@@ -193,7 +193,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.bitm:
                     tagData.Seek(tagData.MemoryAddress + 68, SeekOrigin.Begin);
                     int bitmapCount = reader.ReadInt32();
-                    int bitmapOffset = reader.ReadInt32();
+                    uint bitmapOffset = reader.ReadUInt32();
                     for (int i = 0; i < bitmapCount; i++)
                     {
                         //LOD0
@@ -298,7 +298,7 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.sbsp:
                     //Goto Clusters
                     tagData.Seek(tagData.MemoryAddress + 156, SeekOrigin.Begin);
-                    uint clusterCount = reader.ReadUInt32();
+                    int clusterCount = reader.ReadInt32();
                     uint clusterOffset = reader.ReadUInt32();
                     for (int i = 0; i < clusterCount; i++)
                     {
@@ -319,7 +319,7 @@ namespace Abide.TagBuilder.Halo2
 
                     //Goto Geometries definitions
                     tagData.Seek(tagData.MemoryAddress + 312, SeekOrigin.Begin);
-                    uint geometriesCount = reader.ReadUInt32();
+                    int geometriesCount = reader.ReadInt32();
                     uint geometriesOffset = reader.ReadUInt32();
                     for (int i = 0; i < geometriesCount; i++)
                     {
@@ -340,7 +340,7 @@ namespace Abide.TagBuilder.Halo2
 
                     //Goto Water definitions
                     tagData.Seek(tagData.MemoryAddress + 532, SeekOrigin.Begin);
-                    uint watersCount = reader.ReadUInt32();
+                    int watersCount = reader.ReadInt32();
                     uint watersOffset = reader.ReadUInt32();
                     for (int i = 0; i < watersCount; i++)
                     {
@@ -361,12 +361,12 @@ namespace Abide.TagBuilder.Halo2
 
                     //Goto Decorators Definitions
                     tagData.Seek(tagData.MemoryAddress + 564, SeekOrigin.Begin);
-                    uint decoratorsCount = reader.ReadUInt32();
+                    int decoratorsCount = reader.ReadInt32();
                     uint decoratorsOffset = reader.ReadUInt32();
                     for (int i = 0; i < decoratorsCount; i++)
                     {
                         tagData.Seek(decoratorsOffset + (i * 48) + 16, SeekOrigin.Begin);
-                        uint cachesCount = reader.ReadUInt32();
+                        int cachesCount = reader.ReadInt32();
                         uint cachesOffset = reader.ReadUInt32();
                         for (int j = 0; j < cachesCount; j++)
                         {
@@ -391,13 +391,13 @@ namespace Abide.TagBuilder.Halo2
                 case HaloTags.ltmp:
                     //Goto Lightmap Groups
                     tagData.Seek(tagData.MemoryAddress + 128);
-                    uint groupsCount = reader.ReadUInt32();
+                    int groupsCount = reader.ReadInt32();
                     uint groupsPointer = reader.ReadUInt32();
                     for (int i = 0; i < groupsCount; i++)
                     {
                         //Goto Cluster Definitions
                         tagData.Seek(groupsPointer + (i * 104) + 32, SeekOrigin.Begin);
-                        uint clustersCount = reader.ReadUInt32();
+                        int clustersCount = reader.ReadInt32();
                         uint clustersOffset = reader.ReadUInt32();
                         for (int j = 0; j < clustersCount; j++)
                         {
@@ -418,7 +418,7 @@ namespace Abide.TagBuilder.Halo2
 
                         //Goto Poop Definitions
                         tagData.Seek(groupsPointer + (i * 104) + 48, SeekOrigin.Begin);
-                        uint poopsCount = reader.ReadUInt32();
+                        int poopsCount = reader.ReadInt32();
                         uint poopsOffset = reader.ReadUInt32();
                         for (int j = 0; j < poopsCount; j++)
                         {
@@ -439,7 +439,7 @@ namespace Abide.TagBuilder.Halo2
 
                         //Goto Geometry Buckets
                         tagData.Seek(groupsPointer + (i * 104) + 64, SeekOrigin.Begin);
-                        uint bucketsCount = reader.ReadUInt32();
+                        int bucketsCount = reader.ReadInt32();
                         uint bucketsOffset = reader.ReadUInt32();
                         for (int j = 0; j < bucketsCount; j++)
                         {
@@ -832,7 +832,7 @@ namespace Abide.TagBuilder.Halo2
                 newTagId = map.IndexEntries.Last.Id; newTagId++;
                 soundGestalt.SetObjectEntry(new ObjectEntry()
                 {
-                    Id = newTagId.Id,
+                    Id = newTagId,
                     Tag = HaloTags.ugh_,
                     Offset = (uint)tagDataStream.Position,
                     Size = (uint)tagBuffer.Length
@@ -1253,7 +1253,7 @@ namespace Abide.TagBuilder.Halo2
                 {
                     //Write
                     map.TagDataStream.Seek(soundGlobalsBlock.Offset + 32);
-                    soundGestaltId = reader.ReadInt32();
+                    soundGestaltId = reader.ReadUInt32();
                 }
             }
 

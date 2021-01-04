@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="platform_sound_override_mixbins_block" DisplayName="platform_sound_override_mixbins_block" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="3">
+		<FieldLongEnum Index="0" Name="mixbin">
+			<Option Name="front left" />
+			<Option Name="front right" />
+			<Option Name="back left" />
+			<Option Name="back right" />
+			<Option Name="center" />
+			<Option Name="low frequency" />
+			<Option Name="reverb" />
+			<Option Name="3d front left" />
+			<Option Name="3d front right" />
+			<Option Name="3d back left" />
+			<Option Name="3d back right" />
+			<Option Name="default left speakers" />
+			<Option Name="default right speakers" />
+		</FieldLongEnum>
+		<FieldReal Index="1" Name="gain:dB" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

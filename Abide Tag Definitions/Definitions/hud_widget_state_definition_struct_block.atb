@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_widget_state_definition_struct_block" DisplayName="hud_widget_state_definition_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="16">
+		<FieldExplanation Index="0" Name="widget state" Explanation="this section is split up into YES and NO flags.|na widget will draw if any of it's YES flags are true,|nbut it will NOT draw if any of it's NO flags are true.|n" />
+		<FieldWordFlags Index="1" Name="[Y] unit flags">
+			<Option Name="default" />
+			<Option Name="grenade type is NONE" />
+			<Option Name="grenade type is frag" />
+			<Option Name="grenade type is plasma" />
+			<Option Name="unit is single wielding" />
+			<Option Name="unit is dual wielding" />
+			<Option Name="unit is unzoomed" />
+			<Option Name="unit is zoomed (level 1)" />
+			<Option Name="unit is zoomed (level 2)" />
+			<Option Name="grenades disabled" />
+			<Option Name="binoculars enabled" />
+			<Option Name="motion sensor enabled" />
+			<Option Name="shield enabled" />
+			<Option Name="dervish" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="2" Name="[Y] extra flags">
+			<Option Name="autoaim-friendly" />
+			<Option Name="autoaim-plasma" />
+			<Option Name="autoaim-headshot" />
+			<Option Name="autoaim-vulnerable" />
+			<Option Name="autoaim-invincible" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="3" Name="[Y] weapon flags">
+			<Option Name="primary weapon" />
+			<Option Name="secondary weapon" />
+			<Option Name="backpack weapon" />
+			<Option Name="age below cutoff" />
+			<Option Name="clip below cutoff" />
+			<Option Name="total below cutoff" />
+			<Option Name="overheated" />
+			<Option Name="out of ammo" />
+			<Option Name="lock target available" />
+			<Option Name="locking" />
+			<Option Name="locked" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="4" Name="[Y] game engine state flags">
+			<Option Name="campaign solo" />
+			<Option Name="campaign coop" />
+			<Option Name="free-for-all" />
+			<Option Name="team game" />
+			<Option Name="user leading" />
+			<Option Name="user not leading" />
+			<Option Name="timed game" />
+			<Option Name="untimed game" />
+			<Option Name="other score valid" />
+			<Option Name="other score invalid" />
+			<Option Name="player is arming bomb" />
+			<Option Name="player talking" />
+		</FieldWordFlags>
+		<FieldUselessPad Index="5" Name="" />
+		<FieldWordFlags Index="6" Name="[N] unit flags">
+			<Option Name="default" />
+			<Option Name="grenade type is NONE" />
+			<Option Name="grenade type is frag" />
+			<Option Name="grenade type is plasma" />
+			<Option Name="unit is single wielding" />
+			<Option Name="unit is dual wielding" />
+			<Option Name="unit is unzoomed" />
+			<Option Name="unit is zoomed (level 1)" />
+			<Option Name="unit is zoomed (level 2)" />
+			<Option Name="grenades disabled" />
+			<Option Name="binoculars enabled" />
+			<Option Name="motion sensor enabled" />
+			<Option Name="shield enabled" />
+			<Option Name="dervish" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="7" Name="[N] extra flags">
+			<Option Name="autoaim-friendly" />
+			<Option Name="autoaim-plasma" />
+			<Option Name="autoaim-headshot" />
+			<Option Name="autoaim-vulnerable" />
+			<Option Name="autoaim-invincible" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="8" Name="[N] weapon flags">
+			<Option Name="primary weapon" />
+			<Option Name="secondary weapon" />
+			<Option Name="backpack weapon" />
+			<Option Name="age below cutoff" />
+			<Option Name="clip below cutoff" />
+			<Option Name="total below cutoff" />
+			<Option Name="overheated" />
+			<Option Name="out of ammo" />
+			<Option Name="lock target available" />
+			<Option Name="locking" />
+			<Option Name="locked" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="9" Name="[N] game engine state flags">
+			<Option Name="campaign solo" />
+			<Option Name="campaign coop" />
+			<Option Name="free-for-all" />
+			<Option Name="team game" />
+			<Option Name="user leading" />
+			<Option Name="user not leading" />
+			<Option Name="timed game" />
+			<Option Name="untimed game" />
+			<Option Name="other score valid" />
+			<Option Name="other score invalid" />
+			<Option Name="player is arming bomb" />
+			<Option Name="player talking" />
+		</FieldWordFlags>
+		<FieldUselessPad Index="10" Name="" />
+		<FieldCharInteger Index="11" Name="age cutoff" />
+		<FieldCharInteger Index="12" Name="clip cutoff" />
+		<FieldCharInteger Index="13" Name="total cutoff" />
+		<FieldPad Index="14" Name="" Length="1" />
+		<FieldTerminator Index="15" Name="" />
+	</FieldSet>
+</AbideTagBlock>

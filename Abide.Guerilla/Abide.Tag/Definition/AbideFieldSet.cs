@@ -10,29 +10,8 @@ namespace Abide.Tag.Definition
     /// </summary>
     public sealed class AbideFieldSet : IList<AbideTagField>, IEnumerable<AbideTagField>, ICloneable
     {
-        /// <summary>
-        /// Gets and returns the tag block that owns this <see cref="AbideFieldSet"/>.
-        /// </summary>
-        public AbideTagBlock Owner
-        {
-            get { return owner; }
-            set { owner = value; }
-        }
-        /// <summary>
-        /// Gets or sets the alignment of the field set.
-        /// </summary>
-        public int Alignment
-        {
-            get { return alignment; }
-            set { alignment = value; }
-        }
-        /// <summary>
-        /// Gets and returns the number of fields in the field set.
-        /// </summary>
-        public int Count
-        {
-            get { return fieldList.Count; }
-        }
+        private readonly List<AbideTagField> fieldList;
+
         /// <summary>
         /// Gets or sets the field in the field set at a given index.
         /// </summary>
@@ -43,10 +22,18 @@ namespace Abide.Tag.Definition
             get { return fieldList[index]; }
             set { fieldList[index] = value; }
         }
-
-        private int alignment;
-        private readonly List<AbideTagField> fieldList;
-        private AbideTagBlock owner;
+        /// <summary>
+        /// Gets and returns the number of fields in the field set.
+        /// </summary>
+        public int Count => fieldList.Count;
+        /// <summary>
+        /// Gets and returns the tag block that owns this <see cref="AbideFieldSet"/>.
+        /// </summary>
+        public AbideTagBlock Owner { get; set; }
+        /// <summary>
+        /// Gets or sets the alignment of the field set.
+        /// </summary>
+        public int Alignment { get; set; }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideFieldSet"/> class.
@@ -55,9 +42,9 @@ namespace Abide.Tag.Definition
         public AbideFieldSet(AbideTagBlock owner)
         {
             //Setup
-            alignment = 4;
+            Alignment = 4;
             fieldList = new List<AbideTagField>();
-            this.owner = owner;
+            this.Owner = owner;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideFieldSet"/> class using the specified alignment.
@@ -67,7 +54,7 @@ namespace Abide.Tag.Definition
         public AbideFieldSet(AbideTagBlock owner, int alignment) : this(owner)
         {
             //Setup
-            this.alignment = alignment;
+            this.Alignment = alignment;
         }
         /// <summary>
         /// Returns a copy of the <see cref="AbideFieldSet"/>.
@@ -76,9 +63,9 @@ namespace Abide.Tag.Definition
         public object Clone()
         {
             //Create
-            AbideFieldSet fieldSet = new AbideFieldSet(owner)
+            AbideFieldSet fieldSet = new AbideFieldSet(Owner)
             {
-                alignment = alignment,
+                Alignment = Alignment,
             };
 
             //Copy fields
@@ -152,11 +139,11 @@ namespace Abide.Tag.Definition
         /// Returns an enumerator that iterates through the <see cref="AbideFieldSet"/>.
         /// </summary>
         /// <returns>An enumerator.</returns>
+        
         public IEnumerator<AbideTagField> GetEnumerator()
         {
             return fieldList.GetEnumerator();
         }
-
         bool ICollection<AbideTagField>.IsReadOnly => false;
         int IList<AbideTagField>.IndexOf(AbideTagField item)
         {

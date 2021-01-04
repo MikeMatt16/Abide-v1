@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_effect_template_parameter_block" DisplayName="sound_effect_template_parameter_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="11">
+		<FieldStringId Index="0" Name="name" />
+		<FieldEnum Index="1" Name="type">
+			<Option Name="integer" />
+			<Option Name="real" />
+			<Option Name="filter type" />
+		</FieldEnum>
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="expose as function" />
+		</FieldWordFlags>
+		<FieldLongInteger Index="3" Name="hardware offset" />
+		<FieldLongInteger Index="4" Name="default enum integer value" />
+		<FieldReal Index="5" Name="default scalar value" />
+		<FieldCustom Index="6" Name="default function" />
+		<FieldStruct Index="7" Name="default function" StructName="mapping_function_block" />
+		<FieldReal Index="8" Name="minimum scalar value" />
+		<FieldReal Index="9" Name="maximum scalar value" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

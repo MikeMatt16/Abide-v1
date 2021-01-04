@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="list_reference_block" DisplayName="list_reference_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="9">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="list wraps" />
+			<Option Name="interactive" />
+		</FieldLongFlags>
+		<FieldEnum Index="1" Name="skin index">
+			<Option Name="default" />
+			<Option Name="squad lobby player list" />
+			<Option Name="settings list" />
+			<Option Name="playlist entry list" />
+			<Option Name="variants" />
+			<Option Name="game browser" />
+			<Option Name="online player menu" />
+			<Option Name="game setup menu" />
+			<Option Name="playlist contents display" />
+			<Option Name="player profile picker" />
+			<Option Name="mp map selection" />
+			<Option Name="main menu list" />
+			<Option Name="color picker" />
+			<Option Name="profile picker" />
+			<Option Name="y menu recent list" />
+			<Option Name="pcr team stats" />
+			<Option Name="pcr player stats" />
+			<Option Name="pcr kill stats" />
+			<Option Name="pcr pvp stats" />
+			<Option Name="pcr medal stats" />
+			<Option Name="matchmaking progress" />
+			<Option Name="default 5" />
+			<Option Name="default 6" />
+			<Option Name="advanced settings list" />
+			<Option Name="live game browser" />
+			<Option Name="default wide" />
+			<Option Name="unused26" />
+			<Option Name="unused27" />
+			<Option Name="unused28" />
+			<Option Name="unused29" />
+			<Option Name="unused30" />
+			<Option Name="unused31" />
+		</FieldEnum>
+		<FieldShortInteger Index="2" Name="num. visible items" />
+		<FieldPoint2D Index="3" Name="bottom left" />
+		<FieldEnum Index="4" Name="animation index">
+			<Option Name="NONE" />
+			<Option Name="00" />
+			<Option Name="01" />
+			<Option Name="02" />
+			<Option Name="03" />
+			<Option Name="04" />
+			<Option Name="05" />
+			<Option Name="06" />
+			<Option Name="07" />
+			<Option Name="08" />
+			<Option Name="09" />
+			<Option Name="10" />
+			<Option Name="11" />
+			<Option Name="12" />
+			<Option Name="13" />
+			<Option Name="14" />
+			<Option Name="15" />
+			<Option Name="16" />
+			<Option Name="17" />
+			<Option Name="18" />
+			<Option Name="19" />
+			<Option Name="20" />
+			<Option Name="21" />
+			<Option Name="22" />
+			<Option Name="23" />
+			<Option Name="24" />
+			<Option Name="25" />
+			<Option Name="26" />
+			<Option Name="27" />
+			<Option Name="28" />
+			<Option Name="29" />
+			<Option Name="30" />
+			<Option Name="31" />
+			<Option Name="32" />
+			<Option Name="33" />
+			<Option Name="34" />
+			<Option Name="35" />
+			<Option Name="36" />
+			<Option Name="37" />
+			<Option Name="38" />
+			<Option Name="39" />
+			<Option Name="40" />
+			<Option Name="41" />
+			<Option Name="42" />
+			<Option Name="43" />
+			<Option Name="44" />
+			<Option Name="45" />
+			<Option Name="46" />
+			<Option Name="47" />
+			<Option Name="48" />
+			<Option Name="49" />
+			<Option Name="50" />
+			<Option Name="51" />
+			<Option Name="52" />
+			<Option Name="53" />
+			<Option Name="54" />
+			<Option Name="55" />
+			<Option Name="56" />
+			<Option Name="57" />
+			<Option Name="58" />
+			<Option Name="59" />
+			<Option Name="60" />
+			<Option Name="61" />
+			<Option Name="62" />
+			<Option Name="63" />
+		</FieldEnum>
+		<FieldShortInteger Index="5" Name="intro animation delay milliseconds" />
+		<FieldExplanation Index="6" Name="UNUSED" Explanation="This is unused" />
+		<FieldBlock Index="7" Name="UNUSED" BlockName="s_text_value_pair_reference_block_UNUSED" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

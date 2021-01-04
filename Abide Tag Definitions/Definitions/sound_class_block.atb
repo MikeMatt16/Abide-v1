@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_class_block" DisplayName="sound_class_block" MaximumElementCount="54">
+	<FieldSet Alignment="4" Count="27">
+		<FieldShortInteger Index="0" Name="max sounds per tag [1,16]#maximum number of sounds playing per individual sound tag" />
+		<FieldShortInteger Index="1" Name="max sounds per object [1,16]#maximum number of sounds of this type playing on an object" />
+		<FieldLongInteger Index="2" Name="preemption time:ms#replaces other instances after this many milliseconds" />
+		<FieldWordFlags Index="3" Name="internal flags*">
+			<Option Name="valid" />
+			<Option Name="is speech" />
+			<Option Name="scripted" />
+			<Option Name="stops with object" />
+			<Option Name="unused" />
+			<Option Name="valid doppler factor" />
+			<Option Name="valid obstruction factor" />
+			<Option Name="multilingual" />
+		</FieldWordFlags>
+		<FieldWordFlags Index="4" Name="flags">
+			<Option Name="plays during pause" />
+			<Option Name="dry stereo mix" />
+			<Option Name="no object obstruction" />
+			<Option Name="use center speaker unspatialized" />
+			<Option Name="send (mono) to lfe" />
+			<Option Name="deterministic" />
+			<Option Name="use huge transmission" />
+			<Option Name="always use speakers" />
+			<Option Name="don't strip from main menu" />
+			<Option Name="ignore stereo headroom" />
+			<Option Name="loop fade out is linear" />
+			<Option Name="stop when object dies" />
+			<Option Name="allow cache file editing" />
+		</FieldWordFlags>
+		<FieldShortInteger Index="5" Name="priority*" />
+		<FieldEnum Index="6" Name="cache miss mode*">
+			<Option Name="discard" />
+			<Option Name="postpone" />
+		</FieldEnum>
+		<FieldReal Index="7" Name="reverb gain:dB#how much reverb applies to this sound class" />
+		<FieldReal Index="8" Name="override speaker gain:dB" />
+		<FieldRealBounds Index="9" Name="distance bounds" />
+		<FieldCustom Index="10" Name="Update gain bounds" />
+		<FieldRealBounds Index="11" Name="gain bounds:dB" />
+		<FieldReal Index="12" Name="cutscene ducking:dB" />
+		<FieldReal Index="13" Name="cutscene ducking fade in time:seconds" />
+		<FieldReal Index="14" Name="cutscene ducking sustain time:seconds#how long this lasts after the cutscene ends" />
+		<FieldReal Index="15" Name="cutscene ducking fade out time:seconds" />
+		<FieldReal Index="16" Name="scripted dialog ducking:dB" />
+		<FieldReal Index="17" Name="scripted dialog ducking fade in time:seconds" />
+		<FieldReal Index="18" Name="scripted dialog ducking sustain time:seconds#how long this lasts after the scripted dialog ends" />
+		<FieldReal Index="19" Name="scripted dialog ducking fade out time:seconds" />
+		<FieldReal Index="20" Name="doppler factor" />
+		<FieldCharEnum Index="21" Name="stereo playback type">
+			<Option Name="first person" />
+			<Option Name="ambient" />
+		</FieldCharEnum>
+		<FieldPad Index="22" Name="" Length="3" />
+		<FieldReal Index="23" Name="transmission multiplier" />
+		<FieldReal Index="24" Name="obstruction max bend" />
+		<FieldReal Index="25" Name="occlusion max bend" />
+		<FieldTerminator Index="26" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="render_model_section_group_block" DisplayName="section group" MaximumElementCount="6">
+	<FieldSet Alignment="4" Count="4">
+		<FieldWordFlags Index="0" Name="detail levels*">
+			<Option Name="L1 (super low)" />
+			<Option Name="L2 (low)" />
+			<Option Name="L3 (medium)" />
+			<Option Name="L4 (high)" />
+			<Option Name="L5 (super high)" />
+			<Option Name="L6 (hollywood)" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldBlock Index="2" Name="compound nodes*" BlockName="render_model_compound_node_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

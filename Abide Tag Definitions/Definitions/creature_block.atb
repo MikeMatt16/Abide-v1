@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="creature_block" DisplayName="creature" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="17">
+		<FieldExplanation Index="0" Name="$$$ CREATURE $$$" Explanation="" />
+		<FieldLongFlags Index="1" Name="flags">
+			<Option Name="unused" />
+			<Option Name="infection form" />
+			<Option Name="immune to falling damage" />
+			<Option Name="rotate while airborne" />
+			<Option Name="zapped by shields" />
+			<Option Name="attach upon impact" />
+			<Option Name="not on motion sensor" />
+		</FieldLongFlags>
+		<FieldEnum Index="2" Name="default team">
+			<Option Name="default" />
+			<Option Name="player" />
+			<Option Name="human" />
+			<Option Name="covenant" />
+			<Option Name="flood" />
+			<Option Name="sentinel" />
+			<Option Name="heretic" />
+			<Option Name="prophet" />
+			<Option Name="unused8" />
+			<Option Name="unused9" />
+			<Option Name="unused10" />
+			<Option Name="unused11" />
+			<Option Name="unused12" />
+			<Option Name="unused13" />
+			<Option Name="unused14" />
+			<Option Name="unused15" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="motion sensor blip size">
+			<Option Name="medium" />
+			<Option Name="small" />
+			<Option Name="large" />
+		</FieldEnum>
+		<FieldAngle Index="4" Name="turning velocity maximum:degrees per second" />
+		<FieldAngle Index="5" Name="turning acceleration maximum:degrees per second squared" />
+		<FieldRealFraction Index="6" Name="casual turning modifier:[0,1]" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldReal Index="8" Name="autoaim width:world units" />
+		<FieldStruct Index="9" Name="physics" StructName="character_physics_struct_block" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldTagReference Index="11" Name="impact damage" GroupTag="1785754657" />
+		<FieldTagReference Index="12" Name="impact shield damage#if not specified, uses 'impact damage'" GroupTag="1785754657" />
+		<FieldUselessPad Index="13" Name="" />
+		<FieldExplanation Index="14" Name="death and destruction" Explanation="" />
+		<FieldRealBounds Index="15" Name="destroy after death time:seconds#if non-zero, the creature will destroy itself upon death after this much time" />
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

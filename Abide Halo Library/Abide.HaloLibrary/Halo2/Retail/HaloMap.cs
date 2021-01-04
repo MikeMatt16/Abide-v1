@@ -47,354 +47,6 @@ namespace Abide.HaloLibrary.Halo2.Retail
         public IndexEntry Globals { get; set; } = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HaloMap"/> class.
-        /// </summary>
-        public HaloMap() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HaloMap"/> class from the specified file.
-        /// </summary>
-        /// <param name="filename">Tha Halo map file name and path.</param>
-        /// <exception cref="ArgumentException"><paramref name="filename"/> is null.</exception>
-        /// <exception cref="FileNotFoundException">The Halo map file is not found.</exception>
-        /// <exception cref="InvalidOperationException">The Halo map file is invalid.</exception>
-        public HaloMap(string filename) : this()
-        {
-            //Check
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
-            if (!File.Exists(filename)) throw new FileNotFoundException("The specified file was not found.", filename);
-
-            //Prepare
-            StringEntry[] en = null, jp = null, nl = null, fr = null, es = null, it = null, kr = null, zh = null, pr = null;
-            Index mapIndex = new Index();
-            TagHierarchy[] tags = null;
-            ObjectEntry[] objects = null;
-
-            //Open file for reading
-            using (FileStream fs = File.OpenRead(filename))
-            {
-                //Sanity check
-                if (fs.Length < Header.Length) throw new InvalidOperationException("Invalid file.");
-
-                //Create binary reader
-                using (BinaryReader reader = new BinaryReader(fs, Encoding.UTF8))
-                {
-                    //Read header
-                    Header mapHeader = reader.Read<Header>();
-
-                    //Check header
-                    if (mapHeader.Head != "head" || mapHeader.Foot != "foot" || mapHeader.Version != 8 || mapHeader.FileLength != fs.Length)
-                        throw new InvalidOperationException("Invalid map header.");
-
-                    //Read crazy
-                    fs.Seek(mapHeader.CrazyOffset, SeekOrigin.Begin);
-                    Crazy.SetBuffer(reader.ReadBytes((int)mapHeader.CrazyLength));
-
-                    //Read file names
-                    string[] filenames = reader.ReadUTF8StringTable(mapHeader.FileNamesOffset, mapHeader.FileNamesIndexOffset,
-                        (int)mapHeader.FileNameCount);
-
-                    //Read string names
-                    string[] strings = reader.ReadUTF8StringTable(mapHeader.StringsOffset, mapHeader.StringsIndexOffset,
-                        (int)mapHeader.StringCount);
-
-                    //Read index
-                    fs.Seek(mapHeader.IndexOffset, SeekOrigin.Begin);
-                    using (VirtualStream indexStream = new VirtualStream(Index.IndexVirtualAddress, reader.ReadBytes((int)mapHeader.IndexLength)))
-                    using (BinaryReader indexReader = new BinaryReader(indexStream, Encoding.UTF8))
-                    {
-                        //Read index header
-                        mapIndex = indexReader.Read<Index>();
-
-                        //Read tags
-                        indexStream.Seek(mapIndex.TagsAddress, SeekOrigin.Begin);
-                        tags = new TagHierarchy[mapIndex.TagCount];
-                        for (int i = 0; i < mapIndex.TagCount; i++)
-                            tags[i] = indexReader.Read<TagHierarchy>();
-
-                        //Read entries
-                        indexStream.Seek(mapIndex.ObjectsOffset, SeekOrigin.Begin);
-                        objects = new ObjectEntry[mapIndex.ObjectCount];
-                        for (int i = 0; i < mapIndex.ObjectCount; i++)
-                            objects[i] = indexReader.Read<ObjectEntry>();
-                    }
-
-                    //Create index entries
-                    IndexEntry[] indexEntries = new IndexEntry[mapIndex.ObjectCount];
-                    for (int i = 0; i < mapIndex.ObjectCount; i++)
-                    {
-                        //Get tag filename
-                        string tagFilename = $"0x{objects[i].Id}";
-                        if (filenames.Length > i) tagFilename = filenames[i];
-
-                        //Get tag heirarchy
-                        TagHierarchy tag = tags.First(t => t.Root == objects[i].Tag);
-
-                        //Setup entry
-                        indexEntries[i] = new IndexEntry()
-                        {
-                            Tag = tag,
-                            Filename = tagFilename,
-                            Address = objects[i].Offset,
-                            Length = objects[i].Size,
-                            Id = objects[i].Id,
-                        };
-                    }
-
-                    //Get virtual offset of tag data start
-                    long bspLength = mapHeader.MapDataLength - (mapHeader.IndexLength + Index.Length + mapHeader.TagDataLength);
-                    long tagDataAddress = mapIndex.TagsAddress + bspLength + mapHeader.IndexLength;
-
-                    //Read tag data
-                    HaloMapDataContainer tagData = new HaloMapDataContainer();
-                    fs.Seek(mapHeader.IndexOffset + mapHeader.IndexLength, SeekOrigin.Begin);
-                    tagData.SetBuffer(tagDataAddress, reader.ReadBytes((int)mapHeader.TagDataLength));
-
-                    //Set map name
-                    Name = mapHeader.Name;
-
-                    //Set entry data
-                    using (BinaryReader tagReader = tagData.GetVirtualStream().CreateReader())
-                        foreach (var entry in indexEntries)
-                        {
-                            //Check
-                            if (entry.Address > 0 && entry.Length > 0)
-                            {
-                                //Goto tag group
-                                tagReader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
-
-                                //Read tag group
-                                var tagGroup = Tag.Generated.TagLookup.CreateTagGroup(entry.Root);
-                                tagGroup.Read(tagReader);
-
-                                //Write to new virtual stream
-                                using (VirtualStream tagStream = new VirtualStream(entry.Address))
-                                using (BinaryWriter tagWriter = new BinaryWriter(tagStream))
-                                {
-                                    //Write tag group
-                                    tagGroup.Write(tagWriter);
-
-                                    //Set data
-                                    entry.Data = new HaloMapDataContainer();
-                                    entry.Data.SetBuffer(entry.Address, tagStream.ToArray());
-                                    entry.Length = entry.Data.Length;
-                                }
-                            }
-                            else if (entry.Address > 0 && entry.Length == 0)
-                            {
-                                //Set data
-                                entry.Data = new HaloMapDataContainer();
-                                entry.Data.SetBuffer(entry.Address, new byte[0]);
-                            }
-                        }
-
-                    //Find resources
-                    Scenario = indexEntries.First(e => e.Id == mapIndex.ScenarioId);
-                    Globals = indexEntries.First(e => e.Id == mapIndex.GlobalsId);
-                    IndexEntry soundGestalt = null;
-
-                    //Create tag data reader
-                    using (BinaryReader tagReader = tagData.GetVirtualStream().CreateReader())
-                    {
-                        //Read unicode string tables
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 400, strings, out en);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 428, strings, out jp);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 456, strings, out nl);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 484, strings, out fr);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 512, strings, out es);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 540, strings, out it);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 568, strings, out kr);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 596, strings, out zh);
-                        ReadUnicodeStringTable(Globals, fs, reader, tagReader, 624, strings, out pr);
-
-                        //Goto sound globals block in globals tag
-                        tagReader.BaseStream.Seek(Globals.Address + 192, SeekOrigin.Begin);
-                        TagBlock soundGlobals = (TagBlock)tagReader.ReadUInt64();
-                        if (soundGlobals.Count > 0) //Check tag block count
-                        {
-                            //Goto sound resources ID
-                            tagReader.BaseStream.Seek(soundGlobals.Offset + 32, SeekOrigin.Begin);
-                            TagId resourcesId = tagReader.ReadUInt32();
-
-                            //Get sound gestalt
-                            soundGestalt = indexEntries.First(e => e.Id == resourcesId);
-                        }
-
-                        //Goto structure BSPs in scenario tag
-                        tagReader.BaseStream.Seek(Scenario.Address + 528, SeekOrigin.Begin);
-                        TagBlock structureBsps = (TagBlock)tagReader.ReadUInt64();
-
-                        //Loop through each tag block
-                        for (int i = 0; i < structureBsps.Count; i++)
-                        {
-                            //Prepare
-                            HaloMapDataContainer bspData = new HaloMapDataContainer();
-
-                            //Goto structure BSP block
-                            tagReader.BaseStream.Seek(structureBsps.Offset + (i * 68), SeekOrigin.Begin);
-
-                            //Read scenario structure bsp tag block data
-                            long structureBspOffset = tagReader.ReadUInt32();
-                            long structureBspLength = tagReader.ReadUInt32();
-                            long bspMemoryAddress = tagReader.ReadUInt32();
-                            tagReader.ReadBytes(4);
-                            TagFourCc sbspTag = tagReader.Read<TagFourCc>();
-                            TagId sbspId = tagReader.ReadUInt32();
-                            TagFourCc ltmpTag = tagReader.Read<TagFourCc>();
-                            TagId ltmpId = tagReader.ReadUInt32();
-
-                            //Check
-                            bool hasSbsp = indexEntries.Any(e => e.Id == sbspId && e.Root == sbspTag);
-                            bool hasltmp = indexEntries.Any(e => e.Id == ltmpId && e.Root == ltmpTag);
-
-                            //Get scenario structure tags
-                            IndexEntry structureBsp = hasSbsp ? indexEntries.First(e => e.Id == sbspId && e.Root == sbspTag) : null;
-                            IndexEntry structureLightmap = hasltmp ? indexEntries.First(e => e.Id == ltmpId && e.Root == ltmpTag) : null;
-
-                            //Goto BSP data start
-                            fs.Seek(structureBspOffset, SeekOrigin.Begin);
-                            int sbspLength = reader.ReadInt32();
-                            long sbspAddress = reader.ReadUInt32();
-                            long ltmpAddress = reader.ReadUInt32();
-                            TagFourCc bspTag = reader.Read<TagFourCc>();
-
-                            //Check
-                            if (ltmpAddress == 0) ltmpAddress = sbspAddress + sbspLength;
-
-                            //Check tag
-                            if (bspTag == "sbsp")
-                            {
-                                //Read data
-                                fs.Seek(structureBspOffset, SeekOrigin.Begin);
-                                bspData.SetBuffer(bspMemoryAddress, reader.ReadBytes(sbspLength));
-
-                                //Open 
-                                using (BinaryReader bspReader = bspData.GetVirtualStream().CreateReader())
-                                {
-                                    //Check sbsp
-                                    if (hasSbsp)
-                                    {
-                                        //Setup tag entry
-                                        structureBsp.Address = sbspAddress;
-                                        structureBsp.Length = ltmpAddress - sbspAddress;
-
-                                        //Goto tag group
-                                        bspReader.BaseStream.Seek(sbspAddress, SeekOrigin.Begin);
-
-                                        //Read tag group
-                                        var tagGroup = new Tag.Generated.ScenarioStructureBsp();
-                                        tagGroup.Read(bspReader);
-
-                                        //Write to new virtual stream
-                                        using (VirtualStream tagStream = new VirtualStream(sbspAddress))
-                                        using (BinaryWriter tagWriter = new BinaryWriter(tagStream))
-                                        {
-                                            //Write tag group
-                                            tagGroup.Write(tagWriter);
-
-                                            //Set data
-                                            structureBsp.Data = new HaloMapDataContainer();
-                                            structureBsp.Data.SetBuffer(sbspAddress, tagStream.ToArray());
-                                            structureBsp.Length = structureBsp.Data.Length;
-                                        }
-                                    }
-
-                                    //Check ltmp
-                                    if (hasltmp)
-                                    {
-                                        //Setup tag entry
-                                        structureLightmap.Address = ltmpAddress;
-                                        structureLightmap.Length = (sbspAddress + sbspLength) - ltmpAddress;
-
-                                        //Goto tag group
-                                        bspReader.BaseStream.Seek(ltmpAddress, SeekOrigin.Begin);
-
-                                        //Read tag group
-                                        var tagGroup = new Tag.Generated.ScenarioStructureLightmap();
-                                        tagGroup.Read(bspReader);
-
-                                        //Write to new virtual stream
-                                        using (VirtualStream tagStream = new VirtualStream(ltmpAddress))
-                                        using (BinaryWriter tagWriter = new BinaryWriter(tagStream))
-                                        {
-                                            //Write tag group
-                                            tagGroup.Write(tagWriter);
-
-                                            //Set data
-                                            structureLightmap.Data = new HaloMapDataContainer();
-                                            structureLightmap.Data.SetBuffer(ltmpAddress, tagStream.ToArray());
-                                            structureLightmap.Length = structureLightmap.Data.Length;
-                                        }
-                                    }
-                                }
-                            }
-                            else bspData.Dispose();
-                        }
-                    }
-
-                    //Read tag resources
-                    foreach (IndexEntry entry in indexEntries)
-                    {
-                        //Check
-                        switch (entry.Root)
-                        {
-                            case "ugh!": ReadSoundData(entry, fs, reader); break;
-                            case "mode": ReadRenderModelData(entry, fs, reader); break;
-                            case "sbsp": ReadScenarioStructureBspData(entry, fs, reader); break;
-                            case "ltmp": ReadScenarioStructureLightmapData(entry, fs, reader); break;
-                            case "weat": ReadWeatherSystemData(entry, fs, reader); break;
-                            case "DECR": ReadDecoratorSetData(entry, fs, reader); break;
-                            case "PRTM": ReadParticleModelData(entry, fs, reader); break;
-                            case "jmad": ReadModelAnimationData(entry, fs, reader); break;
-                            case "bitm": ReadBitmapData(entry, fs, reader); break;
-                            case "unic":
-                                int offset, count;
-                                using (BinaryReader tagReader = entry.Data.GetVirtualStream().CreateReader())
-                                {
-                                    tagReader.BaseStream.Seek(entry.Address + 16, SeekOrigin.Begin);
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.English.AddRange(en.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Japanese.AddRange(jp.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.German.AddRange(nl.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.French.AddRange(fr.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Spanish.AddRange(es.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Italian.AddRange(it.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Korean.AddRange(kr.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Chinese.AddRange(zh.Where((s, i) => i >= offset && i < offset + count));
-                                    offset = tagReader.ReadUInt16();
-                                    count = tagReader.ReadUInt16();
-                                    entry.Strings.Portuguese.AddRange(pr.Where((s, i) => i >= offset && i < offset + count));
-                                }
-                                break;
-                        }
-                    }
-
-                    //Setup entry list
-                    IndexEntries = new IndexEntryList(indexEntries);
-
-                    //Setup strings list
-                    Strings = new StringList(strings);
-
-                    //Setup tags list
-                    Tags = new TagList(tags);
-                }
-            }
-        }
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="inStream"></param>
@@ -497,29 +149,33 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     foreach (var entry in indexEntries)
                     {
                         //Check
-                        if (entry.Address > 0 && entry.Length > 0)
+                        if (entry.Address > 0)
                         {
                             //Goto tag group
                             tagReader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
 
                             //Read tag group
-                            var tagGroup = Tag.Generated.TagLookup.CreateTagGroup(entry.Root);
-                            tagGroup.Read(tagReader);
-
-                            //Write to new virtual stream
-                            using (VirtualStream tagStream = new VirtualStream(entry.Address))
-                            using (BinaryWriter tagWriter = new BinaryWriter(tagStream))
+                            using (var tagGroup = Tag.Generated.TagLookup.CreateTagGroup(entry.Root))
                             {
-                                //Write tag group
-                                tagGroup.Write(tagWriter);
+                                tagGroup.Read(tagReader);
 
-                                //Set data
-                                entry.Data = new HaloMapDataContainer();
-                                entry.Data.SetBuffer(entry.Address, tagStream.ToArray());
-                                entry.Length = entry.Data.Length;
+                                //Write to new virtual stream
+                                using (VirtualStream tagStream = new VirtualStream(entry.Address))
+                                using (BinaryWriter tagWriter = new BinaryWriter(tagStream))
+                                {
+                                    //Write tag group
+                                    tagGroup.Write(tagWriter);
+
+                                    //Set data
+                                    entry.Data = new HaloMapDataContainer();
+                                    entry.Data.SetBuffer(entry.Address, tagStream.ToArray());
+                                    entry.Length = entry.Data.Length;
+                                }
                             }
+
+                            if (entry.Data.Length == 0) System.Diagnostics.Debugger.Break();
                         }
-                        else if (entry.Address > 0 && entry.Length == 0)
+                        else
                         {
                             //Set data
                             entry.Data = new HaloMapDataContainer();
@@ -734,6 +390,14 @@ namespace Abide.HaloLibrary.Halo2.Retail
             }
         }
         /// <summary>
+        /// Initializes a new instance of the <see cref="HaloMap"/> class from the specified file.
+        /// </summary>
+        /// <param name="filename">Tha Halo map file name and path.</param>
+        /// <exception cref="ArgumentException"><paramref name="filename"/> is null.</exception>
+        /// <exception cref="FileNotFoundException">The Halo map file is not found.</exception>
+        /// <exception cref="InvalidOperationException">The Halo map file is invalid.</exception>
+        public HaloMap(string filename) : this(File.OpenRead(filename)) { }
+        /// <summary>
         /// Saves this <see cref="HaloMap"/> to the specified stream.
         /// </summary>
         /// <param name="outStream"></param>
@@ -745,6 +409,64 @@ namespace Abide.HaloLibrary.Halo2.Retail
             if (!outStream.CanSeek) throw new ArgumentException("Stream not seekable.", nameof(outStream));
             if (!outStream.CanRead) throw new ArgumentException("Stream not readable.", nameof(outStream));
             if (!outStream.CanWrite) throw new ArgumentException("Stream not writable.", nameof(outStream));
+
+            //Setup scenario simulation definition table
+            using (BinaryReader tagReader = Scenario.Data.GetVirtualStream().CreateReader())
+            {
+                var scenario = Tag.Generated.TagLookup.CreateTagGroup(Scenario.Root);
+                scenario.Read(tagReader);
+
+                Tag.Block tableBlock = null;
+                var simulationDefintionTable = scenario.TagBlocks[0].Fields[143] as Tag.BlockField;
+                simulationDefintionTable.BlockList.Clear();
+
+                foreach (var entry in IndexEntries)
+                {
+                    switch (entry.Root)
+                    {
+                        case "bipd":
+                        case "bloc":
+                        case "ctrl":
+                        case "jpt!":
+                        case "mach":
+                        case "scen":
+                        case "ssce":
+                        case "vehi":
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            break;
+                        case "eqip":
+                        case "garb":
+                        case "proj":
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            break;
+                        case "weap":
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            tableBlock = new Tag.Generated.ScenarioSimulationDefinitionTableBlock();
+                            tableBlock.Fields[0].Value = entry.Id;
+                            simulationDefintionTable.BlockList.Add(tableBlock);
+                            break;
+                    }
+                }
+
+                using (var stream = new VirtualStream(Scenario.Address))
+                using (var writer = stream.CreateWriter())
+                {
+                    scenario.Write(writer);
+                    Scenario.Data.SetBuffer(Scenario.Address, stream.ToArray());
+                }
+            }
 
             //Prepare
             Header mapHeader = Header.CreateDefault();
@@ -774,10 +496,10 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     WriteWeatherSystemData(entry, outStream, writer);
                 foreach (IndexEntry entry in IndexEntries.Where(e => e.Root == "DECR"))
                     WriteDecoratorSetData(entry, outStream, writer);
-                foreach (IndexEntry entry in IndexEntries.Where(e => e.Root == "ugh!"))
-                    WriteSoundGestaltExtraInfosData(entry, outStream, writer);
                 foreach (IndexEntry entry in IndexEntries.Where(e => e.Root == "PRTM"))
                     WriteParticleModelData(entry, outStream, writer);
+                foreach (IndexEntry entry in IndexEntries.Where(e => e.Root == "ugh!"))
+                    WriteSoundGestaltExtraInfosData(entry, outStream, writer);
                 foreach (IndexEntry entry in IndexEntries.Where(e => e.Root == "jmad"))
                     WriteModelAnimationData(entry, outStream, writer);
 
@@ -818,7 +540,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 {
                     //Goto structure BSPs in scenario tag
                     tagReader.BaseStream.Seek(Scenario.Address + 528, SeekOrigin.Begin);
-                    TagBlock structureBsps = (TagBlock)tagReader.ReadUInt64();
+                    TagBlock structureBsps = tagReader.ReadTagBlock();
 
                     //Loop through each tag block
                     for (int i = 0; i < structureBsps.Count; i++)
@@ -833,7 +555,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                         tagReader.ReadUInt32();
                         tagReader.ReadUInt32();
                         tagReader.ReadUInt32();
-                        tagReader.ReadBytes(4);
+                        tagReader.ReadUInt32();
                         TagFourCc sbspTag = tagReader.Read<TagFourCc>();
                         TagId sbspId = tagReader.ReadUInt32();
                         TagFourCc ltmpTag = tagReader.Read<TagFourCc>();
@@ -1225,7 +947,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                             byte[] data = tagData.ToArray();
 
                             //Setup entry
-                            entry.Address = tagData.MemoryAddress;
+                            entry.Address = tagData.BaseAddress;
                             entry.Length = data.LongLength;
                             entry.Data.SetBuffer(data);
 
@@ -2251,6 +1973,33 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 }
             }
         }
+        private void WriteParticleModelData(IndexEntry entry, Stream fs, BinaryWriter writer)
+        {
+            //Create reader
+            using (BinaryReader tagReader = entry.Data.GetVirtualStream().CreateReader())
+            using (BinaryWriter tagWriter = entry.Data.GetVirtualStream().CreateWriter())
+            {
+                //Goto resource description
+                tagReader.BaseStream.Seek(entry.Address + 160, SeekOrigin.Begin);
+                int rawOffset = tagReader.ReadInt32();
+
+                //Check
+                if (entry.Resources.TryGetResource(rawOffset, out HaloMapDataContainer resource))
+                {
+                    //Set raw offset
+                    int rawSize = resource.Length;
+                    rawOffset = (int)fs.Align(512);
+
+                    //Write resource to file
+                    writer.Write(resource.GetBuffer());
+
+                    //Goto resource description
+                    tagReader.BaseStream.Seek(entry.Address + 160, SeekOrigin.Begin);
+                    tagWriter.Write(rawOffset);
+                    tagWriter.Write(rawSize);
+                }
+            }
+        }
         private void WriteSoundGestaltExtraInfosData(IndexEntry entry, Stream fs, BinaryWriter writer)
         {
             //Create reader
@@ -2281,33 +2030,6 @@ namespace Abide.HaloLibrary.Halo2.Retail
                         tagWriter.Write(rawOffset);
                         tagWriter.Write(rawSize);
                     }
-                }
-            }
-        }
-        private void WriteParticleModelData(IndexEntry entry, Stream fs, BinaryWriter writer)
-        {
-            //Create reader
-            using (BinaryReader tagReader = entry.Data.GetVirtualStream().CreateReader())
-            using (BinaryWriter tagWriter = entry.Data.GetVirtualStream().CreateWriter())
-            {
-                //Goto resource description
-                tagReader.BaseStream.Seek(entry.Address + 160, SeekOrigin.Begin);
-                int rawOffset = tagReader.ReadInt32();
-
-                //Check
-                if (entry.Resources.TryGetResource(rawOffset, out HaloMapDataContainer resource))
-                {
-                    //Set raw offset
-                    int rawSize = resource.Length;
-                    rawOffset = (int)fs.Align(512);
-
-                    //Write resource to file
-                    writer.Write(resource.GetBuffer());
-
-                    //Goto resource description
-                    tagReader.BaseStream.Seek(entry.Address + 160, SeekOrigin.Begin);
-                    tagWriter.Write(rawOffset);
-                    tagWriter.Write(rawSize);
                 }
             }
         }

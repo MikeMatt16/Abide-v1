@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="structure_shared_edge_group_block" DisplayName="structure_shared_edge_group_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortInteger Index="0" Name="First Shared Edge Index*" />
+		<FieldShortInteger Index="1" Name="Shared Edge Count*" />
+		<FieldShortInteger Index="2" Name="Adjacent Cluster Index*" />
+		<FieldShortInteger Index="3" Name="Subcluster Index*" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

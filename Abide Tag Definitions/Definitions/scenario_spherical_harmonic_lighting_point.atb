@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_spherical_harmonic_lighting_point" DisplayName="scenario_spherical_harmonic_lighting_point" MaximumElementCount="32768">
+	<FieldSet Alignment="4" Count="2">
+		<FieldRealPoint3D Index="0" Name="Position" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

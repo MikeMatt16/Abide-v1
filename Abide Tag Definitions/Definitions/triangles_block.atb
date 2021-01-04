@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="triangles_block" DisplayName="triangles_block" MaximumElementCount="1024">
+	<FieldSet Alignment="16" Count="22">
+		<FieldStringId Index="0" Name="name^*" />
+		<FieldShortBlockIndex1 Index="1" Name="material*" />
+		<FieldWordFlags Index="2" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldReal Index="3" Name="relative mass scale" />
+		<FieldRealFraction Index="4" Name="friction" />
+		<FieldRealFraction Index="5" Name="restitution" />
+		<FieldReal Index="6" Name="volume *" />
+		<FieldReal Index="7" Name="mass*" />
+		<FieldSkip Index="8" Name="" Length="2" />
+		<FieldShortBlockIndex1 Index="9" Name="phantom*" />
+		<FieldSkip Index="10" Name="" Length="4" />
+		<FieldShortInteger Index="11" Name="size*" />
+		<FieldShortInteger Index="12" Name="count*" />
+		<FieldSkip Index="13" Name="" Length="4" />
+		<FieldReal Index="14" Name="radius*" />
+		<FieldRealVector3D Index="15" Name="point a*" />
+		<FieldSkip Index="16" Name="" Length="4" />
+		<FieldRealVector3D Index="17" Name="point b*" />
+		<FieldSkip Index="18" Name="" Length="4" />
+		<FieldRealVector3D Index="19" Name="point c*" />
+		<FieldSkip Index="20" Name="" Length="4" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

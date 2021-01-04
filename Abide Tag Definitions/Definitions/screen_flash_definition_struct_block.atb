@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="screen_flash_definition_struct_block" DisplayName="screen_flash_definition_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="11">
+		<FieldEnum Index="0" Name="type">
+			<Option Name="none" />
+			<Option Name="lighten" />
+			<Option Name="darken" />
+			<Option Name="max" />
+			<Option Name="min" />
+			<Option Name="invert" />
+			<Option Name="tint" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="priority">
+			<Option Name="low" />
+			<Option Name="medium" />
+			<Option Name="high" />
+		</FieldEnum>
+		<FieldUselessPad Index="2" Name="" />
+		<FieldReal Index="3" Name="duration:seconds" />
+		<FieldEnum Index="4" Name="fade function">
+			<Option Name="linear" />
+			<Option Name="late" />
+			<Option Name="very late" />
+			<Option Name="early" />
+			<Option Name="very early" />
+			<Option Name="cosine" />
+			<Option Name="zero" />
+			<Option Name="one" />
+		</FieldEnum>
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldUselessPad Index="6" Name="" />
+		<FieldRealFraction Index="7" Name="maximum intensity:[0,1]" />
+		<FieldUselessPad Index="8" Name="" />
+		<FieldRealArgbColor Index="9" Name="color" />
+		<FieldTerminator Index="10" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_promotion_rule_block" DisplayName="sound_promotion_rule_block" MaximumElementCount="9">
+	<FieldSet Alignment="4" Count="5">
+		<FieldShortBlockIndex1 Index="0" Name="pitch range^" />
+		<FieldShortInteger Index="1" Name="maximum playing count" />
+		<FieldReal Index="2" Name="suppression time:seconds#time from when first permutation plays to when another sound from an equal or lower promotion can play" />
+		<FieldPad Index="3" Name="" Length="8" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

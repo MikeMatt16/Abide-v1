@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_encoded_dialogue_section_block" DisplayName="sound_encoded_dialogue_section_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="3">
+		<FieldData Index="0" Name="encoded data" Alignment="4" MaximumSize="301989888" ElementSize="1" />
+		<FieldBlock Index="1" Name="sound dialogue info" BlockName="sound_permutation_dialogue_info_block" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

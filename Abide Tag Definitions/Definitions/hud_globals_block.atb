@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_globals_block" DisplayName="hud_globals" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="106">
+		<FieldExplanation Index="0" Name="Messaging parameters" Explanation="" />
+		<FieldEnum Index="1" Name="anchor">
+			<Option Name="top left" />
+			<Option Name="top right" />
+			<Option Name="bottom left" />
+			<Option Name="bottom right" />
+			<Option Name="center" />
+			<Option Name="crosshair" />
+		</FieldEnum>
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldPad Index="3" Name="" Length="32" />
+		<FieldPoint2D Index="4" Name="anchor offset" />
+		<FieldReal Index="5" Name="width scale" />
+		<FieldReal Index="6" Name="height scale" />
+		<FieldWordFlags Index="7" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="8" Name="" Length="2" />
+		<FieldPad Index="9" Name="" Length="20" />
+		<FieldTagReference Index="10" Name="obsolete1" GroupTag="1651078253" />
+		<FieldTagReference Index="11" Name="obsolete2" GroupTag="1651078253" />
+		<FieldReal Index="12" Name="up time" />
+		<FieldReal Index="13" Name="fade time" />
+		<FieldRealArgbColor Index="14" Name="icon color" />
+		<FieldRealArgbColor Index="15" Name="text color" />
+		<FieldReal Index="16" Name="text spacing" />
+		<FieldTagReference Index="17" Name="item message text" GroupTag="1970170211" />
+		<FieldTagReference Index="18" Name="icon bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="19" Name="alternate icon text" GroupTag="1970170211" />
+		<FieldBlock Index="20" Name="button icons" BlockName="hud_button_icon_block" />
+		<FieldExplanation Index="21" Name="HUD HELP TEXT COLOR" Explanation="" />
+		<FieldArgbColor Index="22" Name="default color" />
+		<FieldArgbColor Index="23" Name="flashing color" />
+		<FieldReal Index="24" Name="flash period" />
+		<FieldReal Index="25" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="26" Name="number of flashes" />
+		<FieldWordFlags Index="27" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="28" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="29" Name="disabled color" />
+		<FieldPad Index="30" Name="" Length="4" />
+		<FieldExplanation Index="31" Name="Other hud messaging data" Explanation="" />
+		<FieldTagReference Index="32" Name="hud messages" GroupTag="1752003616" />
+		<FieldExplanation Index="33" Name="Objective colors" Explanation="" />
+		<FieldArgbColor Index="34" Name="default color" />
+		<FieldArgbColor Index="35" Name="flashing color" />
+		<FieldReal Index="36" Name="flash period" />
+		<FieldReal Index="37" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="38" Name="number of flashes" />
+		<FieldWordFlags Index="39" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="40" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="41" Name="disabled color" />
+		<FieldShortInteger Index="42" Name="uptime ticks" />
+		<FieldShortInteger Index="43" Name="fade ticks" />
+		<FieldExplanation Index="44" Name="Waypoint parameters" Explanation="The offset values are how much the waypoint rectangle border is offset from the safe camera bounds" />
+		<FieldReal Index="45" Name="top offset" />
+		<FieldReal Index="46" Name="bottom offset" />
+		<FieldReal Index="47" Name="left offset" />
+		<FieldReal Index="48" Name="right offset" />
+		<FieldPad Index="49" Name="" Length="32" />
+		<FieldTagReference Index="50" Name="arrow bitmap" GroupTag="1651078253" />
+		<FieldBlock Index="51" Name="waypoint arrows" BlockName="hud_globals_waypoint_arrow_block" />
+		<FieldPad Index="52" Name="" Length="80" />
+		<FieldExplanation Index="53" Name="Multiplayer parameters" Explanation="" />
+		<FieldReal Index="54" Name="hud scale in multiplayer" />
+		<FieldPad Index="55" Name="" Length="256" />
+		<FieldExplanation Index="56" Name="Hud globals" Explanation="" />
+		<FieldPad Index="57" Name="" Length="16" />
+		<FieldReal Index="58" Name="motion sensor range" />
+		<FieldReal Index="59" Name="motion sensor velocity sensitivity#how fast something moves to show up on the motion sensor" />
+		<FieldReal Index="60" Name="motion sensor scale [DON'T TOUCH EVER]*" />
+		<FieldRectangle2D Index="61" Name="default chapter title bounds" />
+		<FieldPad Index="62" Name="" Length="44" />
+		<FieldExplanation Index="63" Name="Hud damage indicators" Explanation="" />
+		<FieldShortInteger Index="64" Name="top offset" />
+		<FieldShortInteger Index="65" Name="bottom offset" />
+		<FieldShortInteger Index="66" Name="left offset" />
+		<FieldShortInteger Index="67" Name="right offset" />
+		<FieldPad Index="68" Name="" Length="32" />
+		<FieldTagReference Index="69" Name="indicator bitmap" GroupTag="1651078253" />
+		<FieldShortInteger Index="70" Name="sequence index" />
+		<FieldShortInteger Index="71" Name="multiplayer sequence index" />
+		<FieldArgbColor Index="72" Name="color" />
+		<FieldPad Index="73" Name="" Length="16" />
+		<FieldExplanation Index="74" Name="Hud timer definitions" Explanation="" />
+		<FieldExplanation Index="75" Name="Not much time left flash color" Explanation="" />
+		<FieldArgbColor Index="76" Name="default color" />
+		<FieldArgbColor Index="77" Name="flashing color" />
+		<FieldReal Index="78" Name="flash period" />
+		<FieldReal Index="79" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="80" Name="number of flashes" />
+		<FieldWordFlags Index="81" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="82" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="83" Name="disabled color" />
+		<FieldPad Index="84" Name="" Length="4" />
+		<FieldExplanation Index="85" Name="Time out flash color" Explanation="" />
+		<FieldArgbColor Index="86" Name="default color" />
+		<FieldArgbColor Index="87" Name="flashing color" />
+		<FieldReal Index="88" Name="flash period" />
+		<FieldReal Index="89" Name="flash delay#time between flashes" />
+		<FieldShortInteger Index="90" Name="number of flashes" />
+		<FieldWordFlags Index="91" Name="flash flags">
+			<Option Name="reverse default/flashing colors" />
+		</FieldWordFlags>
+		<FieldReal Index="92" Name="flash length#time of each flash" />
+		<FieldArgbColor Index="93" Name="disabled color" />
+		<FieldPad Index="94" Name="" Length="4" />
+		<FieldPad Index="95" Name="" Length="40" />
+		<FieldTagReference Index="96" Name="carnage report bitmap" GroupTag="1651078253" />
+		<FieldExplanation Index="97" Name="Hud crap that wouldn't fit anywhere else" Explanation="" />
+		<FieldShortInteger Index="98" Name="loading begin text" />
+		<FieldShortInteger Index="99" Name="loading end text" />
+		<FieldShortInteger Index="100" Name="checkpoint begin text" />
+		<FieldShortInteger Index="101" Name="checkpoint end text" />
+		<FieldTagReference Index="102" Name="checkpoint sound" GroupTag="1936614433" />
+		<FieldPad Index="103" Name="" Length="96" />
+		<FieldStruct Index="104" Name="new globals" StructName="global_new_hud_globals_struct_block" />
+		<FieldTerminator Index="105" Name="" />
+	</FieldSet>
+</AbideTagBlock>

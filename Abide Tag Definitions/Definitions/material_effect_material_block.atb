@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="material_effect_material_block" DisplayName="material_effect_material_block" MaximumElementCount="500">
+	<FieldSet Alignment="4" Count="7">
+		<FieldTagReference Index="0" Name="tag (effect or sound)" GroupTag="-3" />
+		<FieldTagReference Index="1" Name="secondary tag (effect or sound)" GroupTag="-3" />
+		<FieldStringId Index="2" Name="material name^" />
+		<FieldSkip Index="3" Name="" Length="2" />
+		<FieldCharEnum Index="4" Name="sweetener mode">
+			<Option Name="sweetener default" />
+			<Option Name="sweetener enabled" />
+			<Option Name="sweetener disabled" />
+		</FieldCharEnum>
+		<FieldPad Index="5" Name="" Length="1" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

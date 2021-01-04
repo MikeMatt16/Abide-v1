@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="shader_texture_state_constant_block" DisplayName="texture constant" MaximumElementCount="10">
+	<FieldSet Alignment="4" Count="4">
+		<FieldStringId Index="0" Name="source parameter" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="constant^">
+			<Option Name="mipmap bias (value)" />
+			<Option Name="colorkey color" />
+			<Option Name="border color" />
+			<Option Name="border alpha (value)" />
+			<Option Name="bumpenv mat[0][0]" />
+			<Option Name="bumpenv mat[0][1]" />
+			<Option Name="bumpenv mat[1][0]" />
+			<Option Name="bumpenv mat[1][1]" />
+			<Option Name="bumpenv lum scale (value)" />
+			<Option Name="bumpenv lum offset (value)" />
+		</FieldEnum>
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

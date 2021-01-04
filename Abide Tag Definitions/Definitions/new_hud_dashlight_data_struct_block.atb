@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="new_hud_dashlight_data_struct_block" DisplayName="new_hud_dashlight_data_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="5">
+		<FieldExplanation Index="0" Name="dashlight data" Explanation="only relevant to new hud tags for weapons" />
+		<FieldShortInteger Index="1" Name="low clip cutoff#the cutoff for showing the reload dashlight" />
+		<FieldShortInteger Index="2" Name="low ammo cutoff#the cutoff for showing the low ammo dashlight" />
+		<FieldReal Index="3" Name="age cutoff#the age cutoff for showing the low battery dashlight" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_creature_block" DisplayName="scenario_creature_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="6">
+		<FieldCustom Index="0" Name="" />
+		<FieldShortBlockIndex1 Index="1" Name="Type" />
+		<FieldCustom Index="2" Name="" />
+		<FieldShortBlockIndex1 Index="3" Name="Name^" />
+		<FieldStruct Index="4" Name="Object Data" StructName="scenario_object_datum_struct_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

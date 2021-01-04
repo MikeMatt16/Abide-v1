@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="damage_seat_info_block" DisplayName="damage_seat_info_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="6">
+		<FieldStringId Index="0" Name="seat label^" />
+		<FieldRealFraction Index="1" Name="direct damage scale#0==no damage, 1==full damage" />
+		<FieldReal Index="2" Name="damage transfer fall-off radius" />
+		<FieldReal Index="3" Name="maximum transfer damage scale" />
+		<FieldReal Index="4" Name="minimum transfer damage scale" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

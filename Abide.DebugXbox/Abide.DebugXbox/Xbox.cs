@@ -54,6 +54,7 @@ namespace Abide.DebugXbox
         private readonly EndPoint m_LocalEndPoint;
         private Socket m_Socket = null;
 
+        public event EventHandler ConnectionStateChanged;
         /// <summary>
         /// Gets or sets a value that specifies the size of the send buffer of the underlying <see cref="Socket"/>.
         /// </summary>
@@ -62,7 +63,7 @@ namespace Abide.DebugXbox
         /// <exception cref="ArgumentOutOfRangeException">The value specified for a set operation is less than 0.</exception>
         public int SendBufferSize
         {
-            get { return m_Socket?.SendBufferSize ?? m_SendBufferSize; }
+            get => m_Socket?.SendBufferSize ?? m_SendBufferSize;
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
@@ -78,7 +79,7 @@ namespace Abide.DebugXbox
         /// <exception cref="ArgumentOutOfRangeException">The value specified for a set operation is less than 0.</exception>
         public int ReceiveBufferSize
         {
-            get { return m_Socket?.ReceiveBufferSize ?? m_ReceiveBufferSize; }
+            get => m_Socket?.ReceiveBufferSize ?? m_ReceiveBufferSize;
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
@@ -142,11 +143,14 @@ namespace Abide.DebugXbox
                     Connected = true;
 
                     //Get version
-                    Version dmVersion = new Version();
                     SendCommand("dmversion");
                     GetResponse(out statusCode, out string version);
                     if ((statusCode & Status.OK) == Status.OK)
-                        dmVersion = new Version(version);
+                        DebugMonitorVersion = new Version(version);
+                    else DebugMonitorVersion = new Version();
+
+                    //Raise the ConnectionStateChanged event
+                    ConnectionStateChanged?.Invoke(this, new EventArgs());
                 }
             }
             catch { }
@@ -177,6 +181,9 @@ namespace Abide.DebugXbox
 
             //Disconnect
             Connected = false;
+
+            //Raise ConnectionStateChanged event
+            ConnectionStateChanged?.Invoke(this, new EventArgs());
         }
         /// <summary>
         /// Closes the underlying <see cref="Socket"/> used by the current instance of the <see cref="Xbox"/> class.
@@ -1246,8 +1253,8 @@ namespace Abide.DebugXbox
             if (size == 0) return;
 
             //Prepare
-            int iterations = buffer.Length / m_Socket.ReceiveBufferSize;
-            int remainder = buffer.Length % m_Socket.ReceiveBufferSize;
+            int iterations = size / m_Socket.ReceiveBufferSize;
+            int remainder = size % m_Socket.ReceiveBufferSize;
             
             //Download data in blocks, iterating over the max receive size
             for (int i = 0; i < iterations; i++)

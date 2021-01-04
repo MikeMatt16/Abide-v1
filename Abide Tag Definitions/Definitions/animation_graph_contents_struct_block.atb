@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="animation_graph_contents_struct_block" DisplayName="animation_graph_contents_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldExplanation Index="0" Name="MODE-n-STATE GRAPH" Explanation="" />
+		<FieldBlock Index="1" Name="modes|AABBCC" BlockName="animation_mode_block" />
+		<FieldExplanation Index="2" Name="SPECIAL CASE ANIMS" Explanation="" />
+		<FieldBlock Index="3" Name="vehicle suspension|CCAABB" BlockName="vehicle_suspension_block" />
+		<FieldBlock Index="4" Name="object overlays|CCAABB" BlockName="object_animation_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

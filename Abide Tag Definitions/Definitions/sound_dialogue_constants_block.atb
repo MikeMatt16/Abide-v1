@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="sound_dialogue_constants_block" DisplayName="sound_dialogue_constants" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="named playing fractions" Explanation="these values correspond to the named play fractions in the dialogue editor (It's really skip fractions, but who cares?)" />
+		<FieldReal Index="1" Name="almost never" />
+		<FieldReal Index="2" Name="rarely" />
+		<FieldReal Index="3" Name="somewhat" />
+		<FieldReal Index="4" Name="often" />
+		<FieldPad Index="5" Name="" Length="24" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

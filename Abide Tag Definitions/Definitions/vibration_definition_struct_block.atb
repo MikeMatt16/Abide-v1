@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="vibration_definition_struct_block" DisplayName="vibration_definition_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldExplanation Index="0" Name="low frequency vibration" Explanation="" />
+		<FieldStruct Index="1" Name="low frequency vibration" StructName="vibration_frequency_definition_struct_block" />
+		<FieldExplanation Index="2" Name="high frequency vibration" Explanation="" />
+		<FieldStruct Index="3" Name="high frequency vibration" StructName="vibration_frequency_definition_struct_block" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

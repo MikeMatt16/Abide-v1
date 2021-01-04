@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ui_levels_definition_block" DisplayName="ui_levels_definition_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldBlock Index="0" Name="Campaigns" BlockName="ui_campaign_block" />
+		<FieldBlock Index="1" Name="Campaign Levels" BlockName="global_ui_campaign_level_block" />
+		<FieldBlock Index="2" Name="Multiplayer Levels" BlockName="global_ui_multiplayer_level_block" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

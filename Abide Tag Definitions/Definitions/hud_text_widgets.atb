@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hud_text_widgets" DisplayName="hud_text_widgets" MaximumElementCount="256">
+	<FieldSet Alignment="4" Count="23">
+		<FieldStringId Index="0" Name="name" />
+		<FieldStruct Index="1" Name="" StructName="hud_widget_inputs_struct_block" />
+		<FieldStruct Index="2" Name="" StructName="hud_widget_state_definition_struct_block" />
+		<FieldEnum Index="3" Name="anchor">
+			<Option Name="health and shield" />
+			<Option Name="weapon hud" />
+			<Option Name="motion sensor" />
+			<Option Name="scoreboard" />
+			<Option Name="crosshair" />
+			<Option Name="lock-on target" />
+		</FieldEnum>
+		<FieldExplanation Index="4" Name="FLAGS" Explanation="string is a number: treats the inputted string id as a function name, not a string name|n|nforce 2-digit number: when used in combination with above, forces output to be a 2-digit numberwith leading zeros if necessary|n|nforce 3-digit number: same as above, but with 3 digits instead of 2|n|n" />
+		<FieldWordFlags Index="5" Name="flags">
+			<Option Name="string is a number" />
+			<Option Name="force 2-digit number" />
+			<Option Name="force 3-digit number" />
+			<Option Name="talking player hack" />
+		</FieldWordFlags>
+		<FieldTagReference Index="6" Name="shader" GroupTag="1936220516" />
+		<FieldStringId Index="7" Name="string" />
+		<FieldEnum Index="8" Name="justification">
+			<Option Name="left" />
+			<Option Name="center" />
+			<Option Name="right" />
+		</FieldEnum>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldCharEnum Index="11" Name="fullscreen font index">
+			<Option Name="defualt" />
+			<Option Name="number font" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="12" Name="halfscreen font index">
+			<Option Name="defualt" />
+			<Option Name="number font" />
+		</FieldCharEnum>
+		<FieldCharEnum Index="13" Name="quarterscreen font index">
+			<Option Name="defualt" />
+			<Option Name="number font" />
+		</FieldCharEnum>
+		<FieldPad Index="14" Name="" Length="1" />
+		<FieldReal Index="15" Name="fullscreen scale" />
+		<FieldReal Index="16" Name="halfscreen scale" />
+		<FieldReal Index="17" Name="quarterscreen scale" />
+		<FieldPoint2D Index="18" Name="fullscreen offset" />
+		<FieldPoint2D Index="19" Name="halfscreen offset" />
+		<FieldPoint2D Index="20" Name="quarterscreen offset" />
+		<FieldBlock Index="21" Name="effect" BlockName="hud_widget_effect_block" />
+		<FieldTerminator Index="22" Name="" />
+	</FieldSet>
+</AbideTagBlock>

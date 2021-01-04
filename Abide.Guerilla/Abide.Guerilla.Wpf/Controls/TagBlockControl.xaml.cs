@@ -4,6 +4,7 @@ using Abide.Tag.Definition;
 using Abide.Tag.Guerilla;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -76,7 +77,7 @@ namespace Abide.Guerilla.Wpf.Controls
         {
             //Prepare
             FrameworkElement control = null;
-            List<Field> fields = tagBlock.Fields;
+            List<ITagField> fields = tagBlock.ToList();
             UIElementCollection children = mainStackPanel.Children;
             TagBlockModel structTagBlockModel = null;
             FieldModel fieldModel = null;

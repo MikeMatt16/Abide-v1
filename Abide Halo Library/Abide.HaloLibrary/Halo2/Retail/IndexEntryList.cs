@@ -25,6 +25,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         {
             get { return entries.Count; }
         }
+
         /// <summary>
         /// Gets and returns the first object entry in the list.
         /// </summary>

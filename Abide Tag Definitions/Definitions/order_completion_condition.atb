@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="order_completion_condition" DisplayName="order_completion_condition" MaximumElementCount="5">
+	<FieldSet Alignment="4" Count="17">
+		<FieldEnum Index="0" Name="rule type^">
+			<Option Name="A or greater alive" />
+			<Option Name="A or fewer alive" />
+			<Option Name="X or greater strength" />
+			<Option Name="X or less strength" />
+			<Option Name="If enemy sighted" />
+			<Option Name="After A ticks" />
+			<Option Name="If alerted by squad A" />
+			<Option Name="Script ref TRUE" />
+			<Option Name="Script ref FALSE" />
+			<Option Name="If player in trigger volume" />
+			<Option Name="If ALL players in trigger volume" />
+			<Option Name="Combat status A or more" />
+			<Option Name="Combat status A or less" />
+			<Option Name="Arrived" />
+			<Option Name="In vehicle" />
+			<Option Name="Sighted player" />
+			<Option Name="A or greater fighting" />
+			<Option Name="A or fewer fighting" />
+			<Option Name="Player within X world units" />
+			<Option Name="Player shot more than X seconds ago" />
+			<Option Name="Game safe to save" />
+		</FieldEnum>
+		<FieldShortBlockIndex1 Index="1" Name="squad" />
+		<FieldShortBlockIndex1 Index="2" Name="squad group" />
+		<FieldShortInteger Index="3" Name="a" />
+		<FieldUselessPad Index="4" Name="" />
+		<FieldUselessPad Index="5" Name="" />
+		<FieldReal Index="6" Name="x" />
+		<FieldUselessPad Index="7" Name="" />
+		<FieldShortBlockIndex1 Index="8" Name="trigger volume" />
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldUselessPad Index="10" Name="" />
+		<FieldString Index="11" Name="Exit condition script" />
+		<FieldShortInteger Index="12" Name="" />
+		<FieldPad Index="13" Name="" Length="2" />
+		<FieldUselessPad Index="14" Name="" />
+		<FieldLongFlags Index="15" Name="flags">
+			<Option Name="NOT!" />
+		</FieldLongFlags>
+		<FieldTerminator Index="16" Name="" />
+	</FieldSet>
+</AbideTagBlock>

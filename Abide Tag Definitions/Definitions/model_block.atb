@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="model_block" DisplayName="model" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="44">
+		<FieldExplanation Index="0" Name="MODEL" Explanation="" />
+		<FieldCustom Index="1" Name="" />
+		<FieldTagReference Index="2" Name="render model" GroupTag="1836016741" />
+		<FieldTagReference Index="3" Name="collision model" GroupTag="1668246636" />
+		<FieldTagReference Index="4" Name="animation" GroupTag="1785553252" />
+		<FieldTagReference Index="5" Name="physics" GroupTag="1885895027" />
+		<FieldTagReference Index="6" Name="physics_model" GroupTag="1885891951" />
+		<FieldExplanation Index="7" Name="level of detail" Explanation="If a model is further away than the LOD reduction distance, it will be reduced to that LOD.|nSo the L1 reduction distance should be really long and the L5 reduction distance should be really short.|nThis means distances should be in descending order, e.g. 5 4 3 2 1.|n|nNote that if we run out of memory or too many models are on screen at once, the engine may reduce|nmodels to a lower LOD BEFORE they reach the reduction distance for that LOD.|n|nIf a model has a begin fade distance and disappear distance, it will begin fading out at that distance,|nreaching zero alpha and disappearing at the disappear distance. These distances should be greater than all|nof the LOD reduction distances.|n" />
+		<FieldReal Index="8" Name="disappear distance:world units" />
+		<FieldReal Index="9" Name="begin fade distance:world units" />
+		<FieldPad Index="10" Name="" Length="4" />
+		<FieldReal Index="11" Name="reduce to L1:world units (super low)" />
+		<FieldReal Index="12" Name="reduce to L2:world units (low)" />
+		<FieldReal Index="13" Name="reduce to L3:world units (medium)" />
+		<FieldReal Index="14" Name="reduce to L4:world units (high)" />
+		<FieldReal Index="15" Name="reduce to L5:world units (super high)" />
+		<FieldSkip Index="16" Name="" Length="4" />
+		<FieldEnum Index="17" Name="shadow fade distance">
+			<Option Name="fade at super high detail level" />
+			<Option Name="fade at high detail level" />
+			<Option Name="fade at medium detail level" />
+			<Option Name="fade at low detail level" />
+			<Option Name="fade at super low detail level" />
+			<Option Name="fade never" />
+		</FieldEnum>
+		<FieldPad Index="18" Name="" Length="2" />
+		<FieldBlock Index="19" Name="variants" BlockName="model_variant_block" />
+		<FieldBlock Index="20" Name="materials" BlockName="model_material_block" />
+		<FieldBlock Index="21" Name="new damage info" BlockName="global_damage_info_block" />
+		<FieldBlock Index="22" Name="targets" BlockName="model_target_block" />
+		<FieldBlock Index="23" Name="" BlockName="model_region_block" />
+		<FieldBlock Index="24" Name="" BlockName="model_node_block" />
+		<FieldPad Index="25" Name="" Length="4" />
+		<FieldBlock Index="26" Name="model object data" BlockName="model_object_data_block" />
+		<FieldExplanation Index="27" Name="more stuff" Explanation="" />
+		<FieldTagReference Index="28" Name="default dialogue#The default dialogue tag for this model (overriden by variants)" GroupTag="1969515623" />
+		<FieldTagReference Index="29" Name="UNUSED*" GroupTag="1936220516" />
+		<FieldLongFlags Index="30" Name="flags">
+			<Option Name="active camo always on" />
+			<Option Name="active camo always merge" />
+			<Option Name="active camo never merge" />
+		</FieldLongFlags>
+		<FieldStringId Index="31" Name="default dialogue effect#The default dialogue tag for this model (overriden by variants)" />
+		<FieldArrayStart Index="32" Name="render-only node flags*" Length="32">
+			<FieldCharInteger Index="0" Name="" />
+		</FieldArrayStart>
+		<FieldCharInteger Index="33" Name="" />
+		<FieldArrayEnd Index="34" Name="" />
+		<FieldArrayStart Index="35" Name="render-only section flags*" Length="32">
+			<FieldCharInteger Index="0" Name="" />
+		</FieldArrayStart>
+		<FieldCharInteger Index="36" Name="" />
+		<FieldArrayEnd Index="37" Name="" />
+		<FieldLongFlags Index="38" Name="runtime flags*">
+			<Option Name="contains run-time nodes" />
+		</FieldLongFlags>
+		<FieldBlock Index="39" Name="scenario load parameters" BlockName="global_scenario_load_parameters_block" />
+		<FieldExplanation Index="40" Name="HOLOGRAM" Explanation="hologram shader is applied whenever the control function from it's object is non-zero" />
+		<FieldTagReference Index="41" Name="hologram shader" GroupTag="1936220516" />
+		<FieldStringId Index="42" Name="hologram control function" />
+		<FieldTerminator Index="43" Name="" />
+	</FieldSet>
+</AbideTagBlock>

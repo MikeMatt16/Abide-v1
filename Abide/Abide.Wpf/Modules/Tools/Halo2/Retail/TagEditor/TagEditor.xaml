@@ -8,7 +8,7 @@
                 xmlns:local="clr-namespace:Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
-                AddOnName="Tag Editor" AddOnDescription="Provides an editor for tag data."
+                AddOnName="Tag Editor" AddOnDescription="Modify tag data."
                 AddOnAuthor="Click16"
                 MapLoad="ToolControl_MapLoad"
                 SelectedEntryChanged="ToolControl_SelectedEntryChanged"
@@ -22,11 +22,25 @@
         <local:MapValueConverter x:Key="mapValueConverter" ViewModel="{StaticResource viewModel}"/>
         <local:BasicValueConverter x:Key="baseValueConverter"/>
         <local:EnumValueConverter x:Key="enumValueConverter"/>
-        <local:FlagsValueConverter x:Key="flagsValueConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
+        
+        <!-- Structure template -->
+        <DataTemplate x:Key="structureTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <ItemsControl ItemsSource="{Binding Structure.Fields}" ItemTemplateSelector="{DynamicResource typeSelector}"/>
+        </DataTemplate>
 
         <!-- Tag block template -->
         <DataTemplate x:Key="tagBlockTemplate" DataType="{x:Type tag:TagBlockViewModel}">
             <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{DynamicResource typeSelector}"/>
+        </DataTemplate>
+        
+        <!-- Unknown field template -->
+        <DataTemplate x:Key="unknownTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="True" Margin="0,0,4,0"/>
+                <TextBlock Text="NYI, Type:" Margin="0,0,4,0" Foreground="Red" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Type}" Margin="0,0,4,0" Foreground="Red" VerticalAlignment="Center"/>
+            </StackPanel>
         </DataTemplate>
 
         <!-- Base field template -->
@@ -34,11 +48,32 @@
             <Grid Margin="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MinWidth="300" Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="{Binding Name}"/>
                 <ContentControl Grid.Column="1" Content="{Binding}"
                                 ContentTemplateSelector="{DynamicResource templateSelector}"/>
+            </Grid>
+        </DataTemplate>
+        
+        <!-- Explanation field template -->
+        <DataTemplate x:Key="explanationTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Grid Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2" BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"/>
+                <TextBlock Grid.Row="0" Text="{Binding Name, Mode=OneWay}" Margin="4"/>
+                <TextBox Grid.Row="1" Text="{Binding Explanation, Mode=OneWay}" IsReadOnly="True" Height="Auto" Margin="2">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </Grid>
         </DataTemplate>
 
@@ -75,18 +110,8 @@
         <DataTemplate x:Key="flagsTemplate" DataType="{x:Type tag:TagFieldViewModel}">
             <ItemsControl ItemsSource="{Binding OptionList}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type tag:TagOptionViewModel}">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox>
-                                <CheckBox.IsChecked>
-                                    <MultiBinding Converter="{StaticResource enumValueConverter}">
-                                        <Binding Path="Value" Mode="TwoWay"/>
-                                        <Binding Path="OptionList" Mode="OneWay"/>
-                                    </MultiBinding>
-                                </CheckBox.IsChecked>
-                            </CheckBox>
-                            <TextBlock Text="{Binding Name}"/>
-                        </StackPanel>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding HasFlag, Mode=TwoWay}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -115,6 +140,23 @@
             </Button>
         </DataTemplate>
 
+        <DataTemplate x:Key="point2dTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="x:" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <TextBox Text="{Binding Point2dX, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="y:" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <TextBox Text="{Binding Point2dY, Mode=TwoWay}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
         <!-- Block field template -->
         <DataTemplate x:Key="blockTemplate" DataType="{x:Type tag:TagFieldViewModel}">
             <Border BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"
@@ -126,11 +168,42 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="160"/>
                             <ColumnDefinition Width="350"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Name}"/>
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding BlockList}" SelectedItem="{Binding Structure, Mode=TwoWay}">
+                        <ToggleButton Grid.Column="0" IsChecked="{Binding IsExpanded, Mode=TwoWay}" Width="30" Height="30" Margin="2">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"
+                                                        Background="{StaticResource Background}">
+                                                    <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                          Data="M 0 0 L 4 4 L 8 0 Z" Fill="{StaticResource Foreground}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Data" TargetName="Arrow" Value="M 0 4 L 4 0 L 8 4 Z"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ActiveAccent}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ActiveAccentPressed}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="2" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="2" ItemsSource="{Binding BlockList}" SelectedItem="{Binding Structure, Mode=TwoWay}" VerticalAlignment="Center">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type tag:TagBlockViewModel}">
                                     <TextBlock Text="{Binding DisplayName}"/>
@@ -141,7 +214,8 @@
                     <Border Grid.Row="1" Margin="30,8,8,8" BorderThickness="1"
                             BorderBrush="{StaticResource BackgroundLight}"
                             Background="{StaticResource BackgroundDark}">
-                        <ContentControl Content="{Binding Structure}" ContentTemplate="{DynamicResource tagBlockTemplate}"/>
+                        <ContentControl Content="{Binding Structure}" ContentTemplate="{DynamicResource tagBlockTemplate}"
+                                        Visibility="{Binding IsExpanded, Converter={StaticResource boolToVisibility}}"/>
                     </Border>
                 </Grid>
             </Border>
@@ -150,6 +224,8 @@
         <!-- Field type template selector -->
         <local:FieldTypeDataSelector x:Key="typeSelector"
                                      BlockFieldTemplate="{StaticResource blockTemplate}"
+                                     StructFieldTemplate="{StaticResource structureTemplate}"
+                                     ExplanationTemplate="{StaticResource explanationTemplate}"
                                      FieldTemplate="{StaticResource fieldTemplate}"/>
 
         <!-- Field data template selector -->
@@ -161,14 +237,13 @@
                                          FlagsTemplate="{StaticResource flagsTemplate}"
                                          StringIdTemplate="{StaticResource stringIdTemplate}"
                                          TagRefTemplate="{StaticResource tagRefTemplate}"
-                                         BlockTemplate="{StaticResource blockTemplate}"/>
+                                         BlockTemplate="{StaticResource blockTemplate}"
+                                         Point2dTemplate="{StaticResource point2dTemplate}"
+                                         UnknownTemplate="{StaticResource unknownTemplate}"/>
     </h2:ToolControl.Resources>
-    <ScrollViewer Margin="8">
+    <ScrollViewer>
         <ItemsControl ItemsSource="{Binding TagGroup.Blocks}" ItemTemplate="{StaticResource tagBlockTemplate}">
             <ItemsControl.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
-                </Style>
                 <Style TargetType="ItemsControl">
                     <Setter Property="Background" Value="{StaticResource BackgroundDark}"/>
                 </Style>

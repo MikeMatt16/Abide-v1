@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_object_datum_struct_block" DisplayName="scenario_object_datum_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="12">
+		<FieldCustom Index="0" Name="" />
+		<FieldLongFlags Index="1" Name="Placement Flags">
+			<Option Name="Not Automatically" />
+			<Option Name="Unused" />
+			<Option Name="Unused" />
+			<Option Name="Unused" />
+			<Option Name="Lock Type to Env. Object" />
+			<Option Name="Lock Transform to Env. Object" />
+			<Option Name="Never Placed" />
+			<Option Name="Lock Name to Env. Object" />
+			<Option Name="Create at Rest" />
+		</FieldLongFlags>
+		<FieldRealPoint3D Index="2" Name="Position" />
+		<FieldEulerAngles3D Index="3" Name="Rotation" />
+		<FieldReal Index="4" Name="Scale" />
+		<FieldWordFlags Index="5" Name=")Transform Flags">
+			<Option Name="Mirrored" />
+		</FieldWordFlags>
+		<FieldWordBlockFlags Index="6" Name="Manual BSP Flags*" />
+		<FieldStruct Index="7" Name="Object ID" StructName="scenario_object_id_struct_block" />
+		<FieldCharEnum Index="8" Name="BSP Policy">
+			<Option Name="Default" />
+			<Option Name="Always Placed" />
+			<Option Name="Manual BSP Placement" />
+		</FieldCharEnum>
+		<FieldPad Index="9" Name="" Length="1" />
+		<FieldShortBlockIndex1 Index="10" Name="Editor Folder" />
+		<FieldTerminator Index="11" Name="" />
+	</FieldSet>
+</AbideTagBlock>

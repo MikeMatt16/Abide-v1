@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="unit_camera_struct_block" DisplayName="unit_camera_struct" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="6">
+		<FieldOldStringId Index="0" Name="camera marker name" />
+		<FieldOldStringId Index="1" Name="camera submerged marker name" />
+		<FieldAngle Index="2" Name="pitch auto-level" />
+		<FieldAngleBounds Index="3" Name="pitch range" />
+		<FieldBlock Index="4" Name="camera tracks" BlockName="unit_camera_track_block" />
+		<FieldTerminator Index="5" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="table_view_list_row_reference_block" DisplayName="table_view_list_row_reference_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="5">
+		<FieldLongFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldLongFlags>
+		<FieldShortInteger Index="1" Name="row height" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldBlock Index="3" Name="row cells" BlockName="table_view_list_item_reference_block" />
+		<FieldTerminator Index="4" Name="" />
+	</FieldSet>
+</AbideTagBlock>

@@ -20,6 +20,9 @@ namespace Abide.Guerilla.Wpf.Ui.Win32
         public static extern IntPtr GetDC(IntPtr hWnd);
 
         [DllImport("user32.dll")]
+        public static extern IntPtr GetParent(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         [DllImport("user32.dll")]

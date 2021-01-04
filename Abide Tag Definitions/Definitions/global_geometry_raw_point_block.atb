@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="global_geometry_raw_point_block" DisplayName="point" MaximumElementCount="32767">
+	<FieldSet Alignment="4" Count="13">
+		<FieldRealPoint3D Index="0" Name="Position*" />
+		<FieldArrayStart Index="1" Name="Node Indices (OLD)*" Length="4">
+			<FieldLongInteger Index="0" Name="Node Index (OLD)*" />
+		</FieldArrayStart>
+		<FieldLongInteger Index="2" Name="Node Index (OLD)*" />
+		<FieldArrayEnd Index="3" Name="" />
+		<FieldArrayStart Index="4" Name="Node Weights*" Length="4">
+			<FieldReal Index="0" Name="node_weight*" />
+		</FieldArrayStart>
+		<FieldReal Index="5" Name="node_weight*" />
+		<FieldArrayEnd Index="6" Name="" />
+		<FieldArrayStart Index="7" Name="Node Indices (NEW)*" Length="4">
+			<FieldLongInteger Index="0" Name="Node Index (NEW)*" />
+		</FieldArrayStart>
+		<FieldLongInteger Index="8" Name="Node Index (NEW)*" />
+		<FieldArrayEnd Index="9" Name="" />
+		<FieldLongInteger Index="10" Name="Use New Node Indices*" />
+		<FieldLongInteger Index="11" Name="Adjusted Compound Node Index*" />
+		<FieldTerminator Index="12" Name="" />
+	</FieldSet>
+</AbideTagBlock>

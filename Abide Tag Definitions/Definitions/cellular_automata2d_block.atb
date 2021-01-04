@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="cellular_automata2d_block" DisplayName="cellular_automata2d" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="32">
+		<FieldExplanation Index="0" Name="properties" Explanation="" />
+		<FieldShortInteger Index="1" Name="updates per second:Hz" />
+		<FieldPad Index="2" Name="" Length="2" />
+		<FieldReal Index="3" Name="dead cell penalty" />
+		<FieldReal Index="4" Name="live cell bonus" />
+		<FieldPad Index="5" Name="" Length="80" />
+		<FieldExplanation Index="6" Name="height map" Explanation="" />
+		<FieldShortInteger Index="7" Name="width:cells" />
+		<FieldShortInteger Index="8" Name="height:cells" />
+		<FieldReal Index="9" Name="cell width:world units" />
+		<FieldReal Index="10" Name="height:world units" />
+		<FieldRealVector2D Index="11" Name="velocity:cells/update" />
+		<FieldPad Index="12" Name="" Length="28" />
+		<FieldOldStringId Index="13" Name="marker" />
+		<FieldLongFlags Index="14" Name="interpolation flags">
+			<Option Name="blend in hsv#blends colors in hsv rather than rgb space" />
+			<Option Name="...more colors#blends colors through more hues (goes the long way around the color wheel)" />
+		</FieldLongFlags>
+		<FieldRealRgbColor Index="15" Name="base color" />
+		<FieldRealRgbColor Index="16" Name="peak color" />
+		<FieldPad Index="17" Name="" Length="76" />
+		<FieldExplanation Index="18" Name="detail map" Explanation="" />
+		<FieldShortInteger Index="19" Name="width:cells" />
+		<FieldShortInteger Index="20" Name="height:cells" />
+		<FieldReal Index="21" Name="cell width:world units" />
+		<FieldRealVector2D Index="22" Name="velocity:cells/update" />
+		<FieldPad Index="23" Name="" Length="48" />
+		<FieldOldStringId Index="24" Name="marker" />
+		<FieldShortInteger Index="25" Name="texture width:cells" />
+		<FieldPad Index="26" Name="" Length="2" />
+		<FieldPad Index="27" Name="" Length="48" />
+		<FieldTagReference Index="28" Name="texture" GroupTag="1651078253" />
+		<FieldPad Index="29" Name="" Length="160" />
+		<FieldBlock Index="30" Name="rules" BlockName="rules_block" />
+		<FieldTerminator Index="31" Name="" />
+	</FieldSet>
+</AbideTagBlock>

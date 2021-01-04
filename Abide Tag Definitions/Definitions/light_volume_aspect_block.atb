@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="light_volume_aspect_block" DisplayName="aspect" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="10">
+		<FieldExplanation Index="0" Name="SCALE FACTORS" Explanation="These function control the screenspace aspect ratio of each sprite relative to the projected forward axis. Note that there is no range-input to these functions, because it would not make sense to stretch sprites when the light volume is facing directly towards or away from the camera (which way would we stretch them?)" />
+		<FieldExplanation Index="1" Name="ALONG-AXIS SCALE" Explanation="Values higher than 1 along the axis will cause sprites to elongate and overlap more regardless of the orientation of the light volume, whereas values lower than 1 will cause sprite separation." />
+		<FieldStruct Index="2" Name="along axis" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="3" Name="AWAY-FROM-AXIS SCALE" Explanation="Values higher than 1 away from the axis will cause the light volume to appear thicker." />
+		<FieldStruct Index="4" Name="away from axis" StructName="scalar_function_struct_block" />
+		<FieldExplanation Index="5" Name="PARALLEL SCALE" Explanation="When the light volume is viewed directly towards (parallel) or away from the camera, the scale factors above are interpolated towards this constant value. The threshold angle controls when the light volume is considered to be 100% parallel for these computations. The exponent controls how quickly the transition from using the perpendicular scale factors to using the parallel scale factor happens, e.g.:|n|n* exponent=0.0 -&gt; perpendicular scale factors will always be used unless below threshold angle|n* exponent=0.1 -&gt; transition quickly as viewing angle becomes perpendicular|n* exponent=1.0 -&gt; transition smoothly between perpendicular and parallel|n* exponent=9.0 -&gt; transition quickly as viewing angle becomes parallel" />
+		<FieldReal Index="6" Name="parallel scale" />
+		<FieldAngle Index="7" Name="parallel threshold angle:degrees" />
+		<FieldReal Index="8" Name="parallel exponent" />
+		<FieldTerminator Index="9" Name="" />
+	</FieldSet>
+</AbideTagBlock>

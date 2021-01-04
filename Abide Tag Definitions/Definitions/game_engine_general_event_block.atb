@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="game_engine_general_event_block" DisplayName="game_engine_general_event_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="22">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="quantity message" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="event^">
+			<Option Name="kill" />
+			<Option Name="suicide" />
+			<Option Name="kill teammate" />
+			<Option Name="victory" />
+			<Option Name="team victory" />
+			<Option Name="unused1" />
+			<Option Name="unused2" />
+			<Option Name="1 min to win" />
+			<Option Name="team 1 min to win" />
+			<Option Name="30 secs to win" />
+			<Option Name="team 30 secs to win" />
+			<Option Name="player quit" />
+			<Option Name="player joined" />
+			<Option Name="killed by unknown" />
+			<Option Name="30 minutes left" />
+			<Option Name="15 minutes left" />
+			<Option Name="5 minutes left" />
+			<Option Name="1 minute left" />
+			<Option Name="time expired" />
+			<Option Name="game over" />
+			<Option Name="respawn tick" />
+			<Option Name="last respawn tick" />
+			<Option Name="teleporter used" />
+			<Option Name="player changed team" />
+			<Option Name="player rejoined" />
+			<Option Name="gained lead" />
+			<Option Name="gained team lead" />
+			<Option Name="lost lead" />
+			<Option Name="lost team lead" />
+			<Option Name="tied leader" />
+			<Option Name="tied team leader" />
+			<Option Name="round over" />
+			<Option Name="30 seconds left" />
+			<Option Name="10 seconds left" />
+			<Option Name="kill (falling)" />
+			<Option Name="kill (collision)" />
+			<Option Name="kill (melee)" />
+			<Option Name="sudden death" />
+			<Option Name="player booted player" />
+			<Option Name="kill (flag carrier)" />
+			<Option Name="kill (bomb carrier)" />
+			<Option Name="kill (sticky grenade)" />
+			<Option Name="kill (sniper)" />
+			<Option Name="kill (st. melee)" />
+			<Option Name="boarded vehicle" />
+			<Option Name="start team noti." />
+			<Option Name="telefrag" />
+			<Option Name="10 secs to win" />
+			<Option Name="team 10 secs to win" />
+		</FieldEnum>
+		<FieldEnum Index="3" Name="audience^">
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+			<Option Name="all" />
+		</FieldEnum>
+		<FieldPad Index="4" Name="" Length="2" />
+		<FieldPad Index="5" Name="" Length="2" />
+		<FieldStringId Index="6" Name="display string" />
+		<FieldEnum Index="7" Name="required field">
+			<Option Name="NONE" />
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+		</FieldEnum>
+		<FieldEnum Index="8" Name="excluded audience">
+			<Option Name="NONE" />
+			<Option Name="cause player" />
+			<Option Name="cause team" />
+			<Option Name="effect player" />
+			<Option Name="effect team" />
+		</FieldEnum>
+		<FieldStringId Index="9" Name="primary string" />
+		<FieldLongInteger Index="10" Name="primary string duration:seconds" />
+		<FieldStringId Index="11" Name="plural display string" />
+		<FieldPad Index="12" Name="" Length="28" />
+		<FieldReal Index="13" Name="sound delay (announcer only)" />
+		<FieldWordFlags Index="14" Name="sound flags">
+			<Option Name="announcer sound" />
+		</FieldWordFlags>
+		<FieldPad Index="15" Name="" Length="2" />
+		<FieldTagReference Index="16" Name="sound^" GroupTag="1936614433" />
+		<FieldStruct Index="17" Name="extra sounds" StructName="sound_response_extra_sounds_struct_block" />
+		<FieldPad Index="18" Name="" Length="4" />
+		<FieldPad Index="19" Name="" Length="16" />
+		<FieldBlock Index="20" Name="sound permutations" BlockName="sound_response_definition_block" />
+		<FieldTerminator Index="21" Name="" />
+	</FieldSet>
+</AbideTagBlock>

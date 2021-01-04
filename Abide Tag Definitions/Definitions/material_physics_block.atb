@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="material_physics_block" DisplayName="material_physics" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="7">
+		<FieldExplanation Index="0" Name="vehicle terrain parameters" Explanation="the following fields modify the way a vehicle drives over terrain of this material type." />
+		<FieldReal Index="1" Name="ground friction scale#fraction of original velocity parallel to the ground after one tick" />
+		<FieldReal Index="2" Name="ground friction normal k1 scale#cosine of angle at which friction falls off" />
+		<FieldReal Index="3" Name="ground friction normal k0 scale#cosine of angle at which friction is zero" />
+		<FieldReal Index="4" Name="ground depth scale#depth a point mass rests in the ground" />
+		<FieldReal Index="5" Name="ground damp fraction scale#fraction of original velocity perpendicular to the ground after one tick" />
+		<FieldTerminator Index="6" Name="" />
+	</FieldSet>
+</AbideTagBlock>

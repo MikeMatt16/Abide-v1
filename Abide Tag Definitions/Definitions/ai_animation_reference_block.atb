@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="ai_animation_reference_block" DisplayName="ai_animation_reference_block" MaximumElementCount="128">
+	<FieldSet Alignment="4" Count="4">
+		<FieldString Index="0" Name="animation name^" />
+		<FieldTagReference Index="1" Name="animation graph#leave this blank to use the unit's normal animation graph" GroupTag="1785553252" />
+		<FieldPad Index="2" Name="" Length="12" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

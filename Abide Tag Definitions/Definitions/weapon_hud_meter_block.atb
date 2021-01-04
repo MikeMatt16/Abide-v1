@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_hud_meter_block" DisplayName="weapon_hud_meter_block" MaximumElementCount="16">
+	<FieldSet Alignment="4" Count="29">
+		<FieldEnum Index="0" Name="state attached to">
+			<Option Name="inventory ammo" />
+			<Option Name="loaded ammo" />
+			<Option Name="heat" />
+			<Option Name="age" />
+			<Option Name="secondary weapon inventory ammo" />
+			<Option Name="secondary weapon loaded ammo" />
+			<Option Name="distance to target" />
+			<Option Name="elevation to target" />
+		</FieldEnum>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="can use on map type">
+			<Option Name="any" />
+			<Option Name="solo" />
+			<Option Name="multiplayer" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldPad Index="4" Name="" Length="28" />
+		<FieldPoint2D Index="5" Name="anchor offset" />
+		<FieldReal Index="6" Name="width scale" />
+		<FieldReal Index="7" Name="height scale" />
+		<FieldWordFlags Index="8" Name="scaling flags">
+			<Option Name="don't scale offset" />
+			<Option Name="don't scale size" />
+		</FieldWordFlags>
+		<FieldPad Index="9" Name="" Length="2" />
+		<FieldPad Index="10" Name="" Length="20" />
+		<FieldTagReference Index="11" Name="meter bitmap" GroupTag="1651078253" />
+		<FieldRgbColor Index="12" Name="color at meter minimum" />
+		<FieldRgbColor Index="13" Name="color at meter maximum" />
+		<FieldRgbColor Index="14" Name="flash color" />
+		<FieldArgbColor Index="15" Name="empty color" />
+		<FieldByteFlags Index="16" Name="flags">
+			<Option Name="use min/max for state changes" />
+			<Option Name="interpolate between min/max flash colors as state changes" />
+			<Option Name="interpolate color along hsv space" />
+			<Option Name="...more colors for hsv interpolation" />
+			<Option Name="invert interpolation" />
+		</FieldByteFlags>
+		<FieldCharInteger Index="17" Name="minumum meter value" />
+		<FieldShortInteger Index="18" Name="sequence index" />
+		<FieldCharInteger Index="19" Name="alpha multiplier" />
+		<FieldCharInteger Index="20" Name="alpha bias" />
+		<FieldShortInteger Index="21" Name="value scale#used for non-integral values, i.e. health and shields" />
+		<FieldReal Index="22" Name="opacity" />
+		<FieldReal Index="23" Name="translucency" />
+		<FieldArgbColor Index="24" Name="disabled color" />
+		<FieldBlock Index="25" Name="" BlockName="g_null_block" />
+		<FieldPad Index="26" Name="" Length="4" />
+		<FieldPad Index="27" Name="" Length="40" />
+		<FieldTerminator Index="28" Name="" />
+	</FieldSet>
+</AbideTagBlock>

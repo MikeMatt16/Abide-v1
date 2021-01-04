@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="magazine_objects" DisplayName="magazine_objects" MaximumElementCount="8">
+	<FieldSet Alignment="4" Count="4">
+		<FieldShortInteger Index="0" Name="rounds" />
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldTagReference Index="2" Name="equipment^" GroupTag="1701931376" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

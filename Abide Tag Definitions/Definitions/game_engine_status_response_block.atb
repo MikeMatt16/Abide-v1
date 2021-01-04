@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="game_engine_status_response_block" DisplayName="game_engine_status_response_block" MaximumElementCount="32">
+	<FieldSet Alignment="4" Count="9">
+		<FieldWordFlags Index="0" Name="flags">
+			<Option Name="unused" />
+		</FieldWordFlags>
+		<FieldPad Index="1" Name="" Length="2" />
+		<FieldEnum Index="2" Name="state^">
+			<Option Name="waiting for space to clear" />
+			<Option Name="observing" />
+			<Option Name="respawning soon" />
+			<Option Name="sitting out" />
+			<Option Name="out of lives" />
+			<Option Name="playing (winning)" />
+			<Option Name="playing (tied)" />
+			<Option Name="playing (losing)" />
+			<Option Name="game over (won)" />
+			<Option Name="game over (tied)" />
+			<Option Name="game over (lost)" />
+			<Option Name="you have flag" />
+			<Option Name="enemy has flag" />
+			<Option Name="flag not home" />
+			<Option Name="carrying oddball" />
+			<Option Name="you are juggy" />
+			<Option Name="you control hill" />
+			<Option Name="switching sides soon" />
+			<Option Name="player recently started" />
+			<Option Name="you have bomb" />
+			<Option Name="flag contested" />
+			<Option Name="bomb contested" />
+			<Option Name="limited lives left (multiple)" />
+			<Option Name="limited lives left (single)" />
+			<Option Name="limited lives left (final)" />
+			<Option Name="playing (winning, unlimited)" />
+			<Option Name="playing (tied, unlimited)" />
+			<Option Name="playing (losing, unlimited)" />
+		</FieldEnum>
+		<FieldPad Index="3" Name="" Length="2" />
+		<FieldStringId Index="4" Name="ffa message" />
+		<FieldStringId Index="5" Name="team message" />
+		<FieldTagReference Index="6" Name="" GroupTag="-3" />
+		<FieldPad Index="7" Name="" Length="4" />
+		<FieldTerminator Index="8" Name="" />
+	</FieldSet>
+</AbideTagBlock>

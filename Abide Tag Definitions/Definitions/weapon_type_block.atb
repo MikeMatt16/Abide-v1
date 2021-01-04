@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="weapon_type_block" DisplayName="weapon_type_block" MaximumElementCount="64">
+	<FieldSet Alignment="4" Count="8">
+		<FieldStringId Index="0" Name="label^" />
+		<FieldBlock Index="1" Name="actions|AABBCC" BlockName="animation_entry_block" />
+		<FieldBlock Index="2" Name="overlays|AABBCC" BlockName="animation_entry_block" />
+		<FieldBlock Index="3" Name="death and damage|AABBCC" BlockName="damage_animation_block" />
+		<FieldBlock Index="4" Name="transitions|AABBCC" BlockName="animation_transition_block" />
+		<FieldBlock Index="5" Name="high precache|CCCCC" BlockName="precache_list_block" />
+		<FieldBlock Index="6" Name="low precache|CCCCC" BlockName="precache_list_block" />
+		<FieldTerminator Index="7" Name="" />
+	</FieldSet>
+</AbideTagBlock>

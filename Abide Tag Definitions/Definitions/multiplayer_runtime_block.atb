@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="multiplayer_runtime_block" DisplayName="multiplayer_runtime_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="112">
+		<FieldTagReference Index="0" Name="flag" GroupTag="1769235821" />
+		<FieldTagReference Index="1" Name="ball" GroupTag="1769235821" />
+		<FieldTagReference Index="2" Name="unit" GroupTag="1970170228" />
+		<FieldTagReference Index="3" Name="flag shader" GroupTag="1936220516" />
+		<FieldTagReference Index="4" Name="hill shader" GroupTag="1936220516" />
+		<FieldTagReference Index="5" Name="head" GroupTag="1769235821" />
+		<FieldTagReference Index="6" Name="juggernaut powerup" GroupTag="1769235821" />
+		<FieldTagReference Index="7" Name="da bomb" GroupTag="1769235821" />
+		<FieldTagReference Index="8" Name="" GroupTag="-3" />
+		<FieldTagReference Index="9" Name="" GroupTag="-3" />
+		<FieldTagReference Index="10" Name="" GroupTag="-3" />
+		<FieldTagReference Index="11" Name="" GroupTag="-3" />
+		<FieldTagReference Index="12" Name="" GroupTag="-3" />
+		<FieldBlock Index="13" Name="weapons" BlockName="weapons_block" />
+		<FieldBlock Index="14" Name="vehicles" BlockName="vehicles_block" />
+		<FieldStruct Index="15" Name="arr!" StructName="grenade_and_powerup_struct_block" />
+		<FieldTagReference Index="16" Name="in game text" GroupTag="1970170211" />
+		<FieldBlock Index="17" Name="sounds" BlockName="sounds_block" />
+		<FieldBlock Index="18" Name="general events" BlockName="game_engine_general_event_block" />
+		<FieldBlock Index="19" Name="flavor events" BlockName="game_engine_flavor_event_block" />
+		<FieldBlock Index="20" Name="slayer events" BlockName="game_engine_slayer_event_block" />
+		<FieldBlock Index="21" Name="ctf events" BlockName="game_engine_ctf_event_block" />
+		<FieldBlock Index="22" Name="oddball events" BlockName="game_engine_oddball_event_block" />
+		<FieldBlock Index="23" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="24" Name="king events" BlockName="game_engine_king_event_block" />
+		<FieldBlock Index="25" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="26" Name="juggernaut events" BlockName="game_engine_juggernaut_event_block" />
+		<FieldBlock Index="27" Name="territories events" BlockName="game_engine_territories_event_block" />
+		<FieldBlock Index="28" Name="invasion events" BlockName="game_engine_assault_event_block" />
+		<FieldBlock Index="29" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="30" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="31" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="32" Name="" BlockName="g_null_block" />
+		<FieldTagReference Index="33" Name="default item collection 1" GroupTag="1769237859" />
+		<FieldTagReference Index="34" Name="default item collection 2" GroupTag="1769237859" />
+		<FieldLongInteger Index="35" Name="default frag grenade count" />
+		<FieldLongInteger Index="36" Name="default plasma grenade count" />
+		<FieldPad Index="37" Name="" Length="40" />
+		<FieldExplanation Index="38" Name="dynamic spawn zones" Explanation="" />
+		<FieldReal Index="39" Name="dynamic zone upper height" />
+		<FieldReal Index="40" Name="dynamic zone lower height" />
+		<FieldPad Index="41" Name="" Length="40" />
+		<FieldExplanation Index="42" Name="enemy" Explanation="" />
+		<FieldReal Index="43" Name="enemy inner radius" />
+		<FieldReal Index="44" Name="enemy outer radius" />
+		<FieldReal Index="45" Name="enemy weight" />
+		<FieldPad Index="46" Name="" Length="16" />
+		<FieldExplanation Index="47" Name="friend" Explanation="" />
+		<FieldReal Index="48" Name="friend inner radius" />
+		<FieldReal Index="49" Name="friend outer radius" />
+		<FieldReal Index="50" Name="friend weight" />
+		<FieldPad Index="51" Name="" Length="16" />
+		<FieldExplanation Index="52" Name="enemy vehicle" Explanation="" />
+		<FieldReal Index="53" Name="enemy vehicle inner radius" />
+		<FieldReal Index="54" Name="enemy vehicle outer radius" />
+		<FieldReal Index="55" Name="enemy vehicle weight" />
+		<FieldPad Index="56" Name="" Length="16" />
+		<FieldExplanation Index="57" Name="friendly vehicle" Explanation="" />
+		<FieldReal Index="58" Name="friendly vehicle inner radius" />
+		<FieldReal Index="59" Name="friendly vehicle outer radius" />
+		<FieldReal Index="60" Name="friendly vehicle weight" />
+		<FieldPad Index="61" Name="" Length="16" />
+		<FieldExplanation Index="62" Name="empty vehicle" Explanation="" />
+		<FieldReal Index="63" Name="empty vehicle inner radius" />
+		<FieldReal Index="64" Name="empty vehicle outer radius" />
+		<FieldReal Index="65" Name="empty vehicle weight" />
+		<FieldPad Index="66" Name="" Length="16" />
+		<FieldExplanation Index="67" Name="oddball inclusion" Explanation="" />
+		<FieldReal Index="68" Name="oddball inclusion inner radius" />
+		<FieldReal Index="69" Name="oddball inclusion outer radius" />
+		<FieldReal Index="70" Name="oddball inclusion weight" />
+		<FieldPad Index="71" Name="" Length="16" />
+		<FieldExplanation Index="72" Name="oddball exclusion" Explanation="" />
+		<FieldReal Index="73" Name="oddball exclusion inner radius" />
+		<FieldReal Index="74" Name="oddball exclusion outer radius" />
+		<FieldReal Index="75" Name="oddball exclusion weight" />
+		<FieldPad Index="76" Name="" Length="16" />
+		<FieldExplanation Index="77" Name="hill inclusion" Explanation="" />
+		<FieldReal Index="78" Name="hill inclusion inner radius" />
+		<FieldReal Index="79" Name="hill inclusion outer radius" />
+		<FieldReal Index="80" Name="hill inclusion weight" />
+		<FieldPad Index="81" Name="" Length="16" />
+		<FieldExplanation Index="82" Name="hill exclusion" Explanation="" />
+		<FieldReal Index="83" Name="hill exclusion inner radius" />
+		<FieldReal Index="84" Name="hill exclusion outer radius" />
+		<FieldReal Index="85" Name="hill exclusion weight" />
+		<FieldPad Index="86" Name="" Length="16" />
+		<FieldExplanation Index="87" Name="last race flag" Explanation="" />
+		<FieldReal Index="88" Name="last race flag inner radius" />
+		<FieldReal Index="89" Name="last race flag outer radius" />
+		<FieldReal Index="90" Name="last race flag weight" />
+		<FieldPad Index="91" Name="" Length="16" />
+		<FieldExplanation Index="92" Name="dead ally" Explanation="" />
+		<FieldReal Index="93" Name="dead ally inner radius" />
+		<FieldReal Index="94" Name="dead ally outer radius" />
+		<FieldReal Index="95" Name="dead ally weight" />
+		<FieldPad Index="96" Name="" Length="16" />
+		<FieldExplanation Index="97" Name="controlled territory" Explanation="" />
+		<FieldReal Index="98" Name="controlled territory inner radius" />
+		<FieldReal Index="99" Name="controlled territory outer radius" />
+		<FieldReal Index="100" Name="controlled territory weight" />
+		<FieldPad Index="101" Name="" Length="16" />
+		<FieldPad Index="102" Name="" Length="560" />
+		<FieldPad Index="103" Name="" Length="48" />
+		<FieldBlock Index="104" Name="multiplayer constants" BlockName="multiplayer_constants_block" />
+		<FieldBlock Index="105" Name="state responses" BlockName="game_engine_status_response_block" />
+		<FieldTagReference Index="106" Name="scoreboard hud definition" GroupTag="1852335220" />
+		<FieldTagReference Index="107" Name="scoreboard emblem shader" GroupTag="1936220516" />
+		<FieldTagReference Index="108" Name="scoreboard emblem bitmap" GroupTag="1651078253" />
+		<FieldTagReference Index="109" Name="scoreboard dead emblem shader" GroupTag="1936220516" />
+		<FieldTagReference Index="110" Name="scoreboard dead emblem bitmap" GroupTag="1651078253" />
+		<FieldTerminator Index="111" Name="" />
+	</FieldSet>
+</AbideTagBlock>

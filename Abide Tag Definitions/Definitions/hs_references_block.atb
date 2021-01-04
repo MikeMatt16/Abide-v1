@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="hs_references_block" DisplayName="hs_references_block" MaximumElementCount="512">
+	<FieldSet Alignment="4" Count="3">
+		<FieldUselessPad Index="0" Name="" />
+		<FieldTagReference Index="1" Name="reference*^" GroupTag="-3" />
+		<FieldTerminator Index="2" Name="" />
+	</FieldSet>
+</AbideTagBlock>

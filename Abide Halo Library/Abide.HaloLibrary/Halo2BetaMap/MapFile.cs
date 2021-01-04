@@ -270,10 +270,10 @@ namespace Abide.HaloLibrary.Halo2BetaMap
 
                                 //Get structure bsp length
                                 if (ltmpId.IsNull) sbspLength = (structureBspMemoryAddress + structureBspBlockSize) - bspHeader.StructureBspOffset;
-                                else sbspLength = bspHeader.LightmapOffset - bspHeader.StructureBspOffset;
+                                else sbspLength = bspHeader.StructureLightmapOffset - bspHeader.StructureBspOffset;
 
                                 //Get lightmap length
-                                if (!ltmpId.IsNull) ltmpLength = (structureBspMemoryAddress + structureBspBlockSize) - bspHeader.LightmapOffset;
+                                if (!ltmpId.IsNull) ltmpLength = (structureBspMemoryAddress + structureBspBlockSize) - bspHeader.StructureLightmapOffset;
                             }
 
                             //Setup SBSP and Lightmap
@@ -286,7 +286,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                             if (indexList.ContainsID(ltmpId))
                             {
                                 indexList[ltmpId].TagData = bspTagData[i];
-                                indexList[ltmpId].PostProcessedOffset = (int)bspHeader.LightmapOffset;
+                                indexList[ltmpId].PostProcessedOffset = (int)bspHeader.StructureLightmapOffset;
                                 indexList[ltmpId].PostProcessedSize = (int)ltmpLength;
                             }
 
@@ -1173,7 +1173,7 @@ namespace Abide.HaloLibrary.Halo2BetaMap
                 bool removed = false;
 
                 //Remove?
-                if (indexLookup.ContainsKey(id))
+                if (indexLookup.ContainsKey((int)id))
                     removed = entries.Remove(id);
 
                 //Check

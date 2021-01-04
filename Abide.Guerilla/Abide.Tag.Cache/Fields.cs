@@ -2,279 +2,100 @@
 using Abide.Tag.Definition;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Abide.Tag.Cache
 {
-    /// <summary>
-    /// Represents a tag block tag field.
-    /// </summary>
-    /// <typeparam name="T">The tag block type.</typeparam>
-    public sealed class BlockField<T> : BlockField where T : ITagBlock, new()
+    public class BaseStringIdField : Field
     {
-        internal static int identIndex = 0;
-        /// <summary>
-        /// Gets and returns the size of the block field.
-        /// </summary>
-        public override int Size => 8;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BlockField{T}"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        /// <param name="maximumElementCount">The maximum number of blocks allowed.</param>
-        public BlockField(string name, int maximumElementCount) : base(name, maximumElementCount)
+        public sealed override int Size => 4;
+        public new StringId Value
         {
-            //Prepare
-            Value = TagBlock.Zero;
+            get => (StringId)base.Value;
+            set => base.Value = value;
         }
-        /// <summary>
-        /// Reads the value of the block from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public override void Read(BinaryReader reader)
+        public BaseStringIdField(FieldType type, string name) : base(type, name)
         {
-            //Read
-            base.Read(reader);
-
-            //Read
-            TagBlock block = ((TagBlock)Value);
-
-            //Check
-            if (block.Count > 0)
-            {
-                //Store position
-                long position = reader.BaseStream.Position;
-
-                //Loop
-                reader.BaseStream.Seek(block.Offset, SeekOrigin.Begin);
-                for (int i = 0; i < block.Count; i++)
-                {
-                    //Initialize
-                    T tagBlock = new T();
-                    tagBlock.Initialize();
-
-                    //Read
-                    tagBlock.Read(reader);
-
-                    //Add
-                    BlockList.Add(tagBlock);
-                }
-
-                //Goto
-                reader.BaseStream.Position = position;
-            }
+            Value = StringId.Zero;
         }
-        /// <summary>
-        /// Writes the value of the block to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public override void Write(BinaryWriter writer)
+        protected sealed override void OnRead(BinaryReader reader)
         {
-            //Zero-out
-            Value = TagBlock.Zero;
-
-            //Write
-            base.Write(writer);
+            Value = reader.Read<StringId>();
         }
-        /// <summary>
-        /// Attemtps to add a new tag block of type <typeparamref name="T"/> to the block list.
-        /// </summary>
-        /// <param name="success">If successful, the value of <paramref name="success"/> will be <see langword="true"/>; otherwise, the value of <paramref name="success"/> will be <see langword="false"/>.</param>
-        /// <returns>A new <see cref="ITagBlock"/> instance of type <typeparamref name="T"/>.</returns>
-        public override ITagBlock Add(out bool success)
+        protected sealed override void OnWrite(BinaryWriter writer)
         {
-            //Create block
-            T tagBlock = new T();
-            tagBlock.Initialize();
-
-            //Attempt to add
-            BlockList.Add(tagBlock, out success);
-
-            //Return
-            return tagBlock;
-        }
-        /// <summary>
-        /// Returns a new <see cref="ITagBlock"/> of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <returns>A new instance of the <typeparamref name="T"/> class.</returns>
-        public override ITagBlock Create()
-        {
-            //Create
-            T tagBlock = new T();
-            tagBlock.Initialize();
-
-            //Return
-            return tagBlock;
+            writer.Write(Value);
         }
     }
-    /// <summary>
-    /// Represents a tag reference field.
-    /// </summary>
+
+    public sealed class StringIdField : BaseStringIdField
+    {
+        public StringIdField(string name) : base(FieldType.FieldStringId, name)
+        {
+            Value = StringId.Zero;
+        }
+    }
+
+    public sealed class OldStringIdField : BaseStringIdField
+    {
+        public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name)
+        {
+            Value = StringId.Zero;
+        }
+    }
+
     public sealed class TagReferenceField : Field
     {
-        /// <summary>
-        /// Gets and returns a null tag reference for this field.
-        /// </summary>
+        public override int Size => 8;
+        public string GroupTag { get; }
         public TagReference Null
         {
             get { return new TagReference() { Id = TagId.Null, Tag = GroupTag }; }
         }
-        /// <summary>
-        /// Gets and returns the reference group tag type.
-        /// </summary>
-        public string GroupTag { get; }
-        /// <summary>
-        /// Gets and returns the size of the tag reference field.
-        /// </summary>
-        public override int Size => 8;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagReferenceField"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        /// <param name="groupTag">The group tag of the tag group as a string.</param>
+        public new TagReference Value
+        {
+            get => (TagReference)base.Value;
+            set => base.Value = value;
+        }
         public TagReferenceField(string name, string groupTag = "") : base(FieldType.FieldTagReference, name)
         {
-            //Prepare
             GroupTag = groupTag;
             Value = new TagReference() { Tag = groupTag, Id = TagId.Null };
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagReferenceField"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        /// <param name="groupTag">The group tag of the tag group as a 32-bit signed integer.</param>
         public TagReferenceField(string name, int groupTag = 0) : base(FieldType.FieldTagReference, name)
         {
-            GroupTag = Encoding.UTF8.GetString(BitConverter.GetBytes(groupTag)).Trim('\0');
+            GroupTag = Encoding.UTF8.GetString(BitConverter.GetBytes(groupTag).Reverse().ToArray()).Trim('\0');
             Value = new TagReference() { Tag = (TagFourCc)(uint)groupTag, Id = TagId.Null };
         }
-        /// <summary>
-        /// Reads the value of the tag reference from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public override void Read(BinaryReader reader)
+        protected override void OnRead(BinaryReader reader)
         {
-            //Read
             Value = reader.Read<TagReference>();
         }
-        /// <summary>
-        /// Writes the value of the tag reference to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public override void Write(BinaryWriter writer)
+        protected override void OnWrite(BinaryWriter writer)
         {
-            //Write
             writer.Write<TagReference>(Value);
         }
     }
-    /// <summary>
-    /// Represents a string id field.
-    /// </summary>
-    public sealed class StringIdField : Field
-    {
-        /// <summary>
-        /// Gets and returns the size of the string field.
-        /// </summary>
-        public override int Size => 4;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StringIdField"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        public StringIdField(string name) : base(FieldType.FieldStringId, name)
-        {
-            //Prepare
-            Value = StringId.Zero;
-        }
-        /// <summary>
-        /// Reads the value of the string ID from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public override void Read(BinaryReader reader)
-        {
-            //Read
-            Value = reader.Read<StringId>();
-        }
-        /// <summary>
-        /// Writes the value of the string ID to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public override void Write(BinaryWriter writer)
-        {
-            //Write
-            writer.Write((StringId)Value);
-        }
-    }
-    /// <summary>
-    /// Represents an old string id field.
-    /// </summary>
-    public sealed class OldStringIdField : Field
-    {
-        /// <summary>
-        /// Gets and returns the size of the string field.
-        /// </summary>
-        public override int Size => 4;  //?
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OldStringIdField"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
-        public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name)
-        {
-            //Prepare
-            Value = StringId.Zero;
-        }
-        /// <summary>
-        /// Reads the value of the string ID from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public override void Read(BinaryReader reader)
-        {
-            //Read
-            Value = reader.Read<StringId>();
-        }
-        /// <summary>
-        /// Writes the value of the string ID to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public override void Write(BinaryWriter writer)
-        {
-            //Write
-            writer.Write((StringId)Value);
-        }
-    }
-    /// <summary>
-    /// Represents a tag index tag field.
-    /// </summary>
+
     public sealed class TagIndexField : Field
     {
-        /// <summary>
-        /// Gets and returns the size of the tag index field.
-        /// </summary>
         public override int Size => 4;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagIndexField"/> class.
-        /// </summary>
-        /// <param name="name">The name of the field.</param>
+        public new TagId Value
+        {
+            get => (TagId)base.Value;
+            set => base.Value = value;
+        }
         public TagIndexField(string name) : base(FieldType.FieldTagIndex, name)
         {
             Value = TagId.Null;
         }
-        /// <summary>
-        /// Reads the value of the tag index from the underlying stream using the specified binary reader.
-        /// </summary>
-        /// <param name="reader">The binary reader used to read the tag index value.</param>
-        public override void Read(BinaryReader reader)
+        protected override void OnRead(BinaryReader reader)
         {
-            //Read
             Value = new TagId(reader.ReadUInt32());
         }
-        /// <summary>
-        /// Writes the value of the tag index to the underlying stream using the specified binary writer.
-        /// </summary>
-        /// <param name="writer">The binary writer used to write the tag index value.</param>
-        public override void Write(BinaryWriter writer)
+        protected override void OnWrite(BinaryWriter writer)
         {
-            //Write
             writer.Write(((TagId)Value).Dword);
         }
     }

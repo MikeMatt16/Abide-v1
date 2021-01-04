@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Abide.HaloLibrary.Halo2.Beta
 {
     /// <summary>
-    /// Represents a Halo 2 beta map file.
+    /// Represents a Halo 2 beta map instance.
     /// </summary>
     [Serializable]
     public sealed class HaloMap : IDisposable

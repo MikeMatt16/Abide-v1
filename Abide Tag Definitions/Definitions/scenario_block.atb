@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="scenario_block" DisplayName="scenario" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="116">
+		<FieldTagReference Index="0" Name="Do not use." GroupTag="1935831920" />
+		<FieldBlock Index="1" Name="Skies" BlockName="scenario_sky_reference_block" />
+		<FieldEnum Index="2" Name="Type">
+			<Option Name="" />
+			<Option Name="Multiplayer" />
+			<Option Name="" />
+			<Option Name="" />
+			<Option Name="" />
+		</FieldEnum>
+		<FieldWordFlags Index="3" Name="Flags">
+			<Option Name="Cortana Hack#Sorts Cortana in front of other transparent geometry." />
+			<Option Name="Always Draw Sky#Always draws sky 0, even if no +sky polygons are visible." />
+			<Option Name="Don't Strip Pathfinding#Always leaves pathfinding in, even for multiplayer scenario." />
+			<Option Name="Symmetric Multiplayer Map" />
+			<Option Name="Quick-Loading (Cinematic-Only) Scenario" />
+			<Option Name="Characters Use Previous Mission Weapons" />
+			<Option Name="Lightmaps Smooth Palettes with Neighbors" />
+			<Option Name="Snap to White at Start" />
+		</FieldWordFlags>
+		<FieldBlock Index="4" Name="@child scenarios" BlockName="scenario_child_scenario_block" />
+		<FieldAngle Index="5" Name="Local North" />
+		<FieldBlock Index="6" Name="Predicted Resources*" BlockName="predicted_resource_block" />
+		<FieldBlock Index="7" Name="Functions" BlockName="scenario_function_block" />
+		<FieldData Index="8" Name="Editor Scenario Data" Alignment="4" MaximumSize="65536" ElementSize="1" />
+		<FieldBlock Index="9" Name="Comments" BlockName="editor_comment_block" />
+		<FieldBlock Index="10" Name="*" BlockName="dont_use_me_scenario_environment_object_block" />
+		<FieldBlock Index="11" Name="Object Names*" BlockName="scenario_object_names_block" />
+		<FieldBlock Index="12" Name="Scenery" BlockName="scenario_scenery_block" />
+		<FieldBlock Index="13" Name="Scenery Palette" BlockName="scenario_scenery_palette_block" />
+		<FieldBlock Index="14" Name="Bipeds" BlockName="scenario_biped_block" />
+		<FieldBlock Index="15" Name="Biped Palette" BlockName="scenario_biped_palette_block" />
+		<FieldBlock Index="16" Name="Vehicles" BlockName="scenario_vehicle_block" />
+		<FieldBlock Index="17" Name="Vehicle Palette" BlockName="scenario_vehicle_palette_block" />
+		<FieldBlock Index="18" Name="Equipment" BlockName="scenario_equipment_block" />
+		<FieldBlock Index="19" Name="Equipment Palette" BlockName="scenario_equipment_palette_block" />
+		<FieldBlock Index="20" Name="Weapons" BlockName="scenario_weapon_block" />
+		<FieldBlock Index="21" Name="Weapon Palette" BlockName="scenario_weapon_palette_block" />
+		<FieldBlock Index="22" Name="Device Groups" BlockName="device_group_block" />
+		<FieldBlock Index="23" Name="Machines" BlockName="scenario_machine_block" />
+		<FieldBlock Index="24" Name="Machine Palette" BlockName="scenario_machine_palette_block" />
+		<FieldBlock Index="25" Name="Controls" BlockName="scenario_control_block" />
+		<FieldBlock Index="26" Name="Control Palette" BlockName="scenario_control_palette_block" />
+		<FieldBlock Index="27" Name="Light Fixtures" BlockName="scenario_light_fixture_block" />
+		<FieldBlock Index="28" Name="Light Fixtures Palette" BlockName="scenario_light_fixture_palette_block" />
+		<FieldBlock Index="29" Name="Sound Scenery" BlockName="scenario_sound_scenery_block" />
+		<FieldBlock Index="30" Name="Sound Scenery Palette" BlockName="scenario_sound_scenery_palette_block" />
+		<FieldBlock Index="31" Name="Light Volumes" BlockName="scenario_light_block" />
+		<FieldBlock Index="32" Name="Light Volumes Palette" BlockName="scenario_light_palette_block" />
+		<FieldBlock Index="33" Name="Player Starting Profile" BlockName="scenario_profiles_block" />
+		<FieldBlock Index="34" Name="Player Starting Locations" BlockName="scenario_players_block" />
+		<FieldBlock Index="35" Name="Kill Trigger Volumes" BlockName="scenario_trigger_volume_block" />
+		<FieldBlock Index="36" Name="Recorded Animations" BlockName="recorded_animation_block" />
+		<FieldBlock Index="37" Name="Netgame Flags" BlockName="scenario_netpoints_block" />
+		<FieldBlock Index="38" Name="Netgame Equipment" BlockName="scenario_netgame_equipment_block" />
+		<FieldBlock Index="39" Name="Starting Equipment" BlockName="scenario_starting_equipment_block" />
+		<FieldBlock Index="40" Name="BSP Switch Trigger Volumes" BlockName="scenario_bsp_switch_trigger_volume_block" />
+		<FieldBlock Index="41" Name="Decals" BlockName="scenario_decals_block" />
+		<FieldBlock Index="42" Name="Decals Palette" BlockName="scenario_decal_palette_block" />
+		<FieldBlock Index="43" Name="Detail Object Collection Palette" BlockName="scenario_detail_object_collection_palette_block" />
+		<FieldBlock Index="44" Name="Style Palette" BlockName="style_palette_block" />
+		<FieldBlock Index="45" Name="Squad Groups" BlockName="squad_groups_block" />
+		<FieldBlock Index="46" Name="Squads" BlockName="squads_block" />
+		<FieldBlock Index="47" Name="Zones" BlockName="zone_block" />
+		<FieldBlock Index="48" Name="Mission Scenes" BlockName="ai_scene_block" />
+		<FieldBlock Index="49" Name="Character Palette" BlockName="character_palette_block" />
+		<FieldBlock Index="50" Name="AI Pathfinding Data" BlockName="pathfinding_data_block" />
+		<FieldBlock Index="51" Name="AI Animation References" BlockName="ai_animation_reference_block" />
+		<FieldBlock Index="52" Name="AI Script References" BlockName="ai_script_reference_block" />
+		<FieldBlock Index="53" Name="AI Recording References" BlockName="ai_recording_reference_block" />
+		<FieldBlock Index="54" Name="AI Conversations" BlockName="ai_conversation_block" />
+		<FieldData Index="55" Name="Script Syntax Data" Alignment="4" MaximumSize="737356" ElementSize="1" />
+		<FieldData Index="56" Name="Script String Data" Alignment="4" MaximumSize="614400" ElementSize="1" />
+		<FieldBlock Index="57" Name="Scripts*" BlockName="hs_scripts_block" />
+		<FieldBlock Index="58" Name="Globals*" BlockName="hs_globals_block" />
+		<FieldBlock Index="59" Name="References*" BlockName="hs_references_block" />
+		<FieldBlock Index="60" Name="Source Files*" BlockName="hs_source_files_block" />
+		<FieldBlock Index="61" Name="Scripting Data" BlockName="cs_script_data_block" />
+		<FieldBlock Index="62" Name="Cutscene Flags" BlockName="scenario_cutscene_flag_block" />
+		<FieldBlock Index="63" Name="Cutscene Camera Points" BlockName="scenario_cutscene_camera_point_block" />
+		<FieldBlock Index="64" Name="Cutscene Titles" BlockName="scenario_cutscene_title_block" />
+		<FieldTagReference Index="65" Name="Custom Object Names" GroupTag="1970170211" />
+		<FieldTagReference Index="66" Name="Chapter Title Text" GroupTag="1970170211" />
+		<FieldTagReference Index="67" Name="HUD Messages" GroupTag="1752003616" />
+		<FieldBlock Index="68" Name="Structure BSPs" BlockName="scenario_structure_bsp_reference_block" />
+		<FieldBlock Index="69" Name="Scenario Resources" BlockName="scenario_resources_block" />
+		<FieldBlock Index="70" Name="Scenario Resources" BlockName="old_unused_strucure_physics_block" />
+		<FieldBlock Index="71" Name=")hs Unit Seats" BlockName="hs_unit_seat_block" />
+		<FieldBlock Index="72" Name="Scenario Kill Triggers" BlockName="scenario_kill_trigger_volumes_block" />
+		<FieldBlock Index="73" Name="hs Syntax Datums*" BlockName="syntax_datum_block" />
+		<FieldBlock Index="74" Name="Orders" BlockName="orders_block" />
+		<FieldBlock Index="75" Name="Triggers" BlockName="triggers_block" />
+		<FieldBlock Index="76" Name="Background Sound Palette" BlockName="structure_bsp_background_sound_palette_block" />
+		<FieldBlock Index="77" Name="Sound Environment Palette" BlockName="structure_bsp_sound_environment_palette_block" />
+		<FieldBlock Index="78" Name="Weather Palette" BlockName="structure_bsp_weather_palette_block" />
+		<FieldBlock Index="79" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="80" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="81" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="82" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="83" Name="" BlockName="g_null_block" />
+		<FieldBlock Index="84" Name="Scenario Cluster Data" BlockName="scenario_cluster_data_block" />
+		<FieldArrayStart Index="85" Name="object_salts*" Length="32">
+			<FieldLongInteger Index="0" Name="" />
+		</FieldArrayStart>
+		<FieldLongInteger Index="86" Name="" />
+		<FieldArrayEnd Index="87" Name="" />
+		<FieldBlock Index="88" Name="Spawn Data" BlockName="scenario_spawn_data_block" />
+		<FieldTagReference Index="89" Name="Sound Effect Collection" GroupTag="1936095275" />
+		<FieldBlock Index="90" Name="Crates" BlockName="scenario_crate_block" />
+		<FieldBlock Index="91" Name="Crates Palette" BlockName="scenario_crate_palette_block" />
+		<FieldExplanation Index="92" Name="Global Lighting Override" Explanation="" />
+		<FieldTagReference Index="93" Name="Global Lighting" GroupTag="1735156838" />
+		<FieldExplanation Index="94" Name="WARNING" Explanation="Editing Fog palette data will not behave as expected with split scenarios." />
+		<FieldBlock Index="95" Name="Atmospheric Fog Palette" BlockName="scenario_atmospheric_fog_palette" />
+		<FieldBlock Index="96" Name="Planar Fog Palette" BlockName="scenario_planar_fog_palette" />
+		<FieldBlock Index="97" Name="Flocks" BlockName="flock_definition_block" />
+		<FieldTagReference Index="98" Name="Subtitles" GroupTag="1970170211" />
+		<FieldBlock Index="99" Name="Decorators" BlockName="decorator_placement_definition_block" />
+		<FieldBlock Index="100" Name="Creatures" BlockName="scenario_creature_block" />
+		<FieldBlock Index="101" Name="Creatures Palette" BlockName="scenario_creature_palette_block" />
+		<FieldBlock Index="102" Name="Decorators Palette" BlockName="scenario_decorator_set_palette_entry_block" />
+		<FieldBlock Index="103" Name=")BSP Transition Volumes" BlockName="scenario_bsp_switch_transition_volume_block" />
+		<FieldBlock Index="104" Name="Structure BSP Lighting" BlockName="scenario_structure_bsp_spherical_harmonic_lighting_block" />
+		<FieldBlock Index="105" Name=")Editor Folders" BlockName="g_scenario_editor_folder_block" />
+		<FieldBlock Index="106" Name="Level Data" BlockName="scenario_level_data_block" />
+		<FieldTagReference Index="107" Name="Territory Location Names" GroupTag="1970170211" />
+		<FieldPad Index="108" Name="" Length="8" />
+		<FieldBlock Index="109" Name="Mission Dialogue" BlockName="ai_scenario_mission_dialogue_block" />
+		<FieldTagReference Index="110" Name="Objectives" GroupTag="1970170211" />
+		<FieldBlock Index="111" Name="Interpolators" BlockName="scenario_interpolator_block" />
+		<FieldBlock Index="112" Name="Shared References" BlockName="hs_references_block" />
+		<FieldBlock Index="113" Name="Screen Effect References" BlockName="scenario_screen_effect_reference_block" />
+		<FieldBlock Index="114" Name="Simulation Definition Table" BlockName="scenario_simulation_definition_table_block" />
+		<FieldTerminator Index="115" Name="" />
+	</FieldSet>
+</AbideTagBlock>

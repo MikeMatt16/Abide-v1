@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="old_unused_object_identifiers_block" DisplayName="old_unused_object_identifiers_block" MaximumElementCount="2048">
+	<FieldSet Alignment="4" Count="2">
+		<FieldStruct Index="0" Name="Object ID" StructName="scenario_object_id_struct_block" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>

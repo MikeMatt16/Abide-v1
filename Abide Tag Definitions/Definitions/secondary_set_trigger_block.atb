@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="secondary_set_trigger_block" DisplayName="secondary_set_trigger_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="4">
+		<FieldEnum Index="0" Name="combination rule">
+			<Option Name="OR" />
+			<Option Name="AND" />
+		</FieldEnum>
+		<FieldEnum Index="1" Name="dialogue type#when this ending is triggered, launch a dialogue event of the given type">
+			<Option Name="none" />
+			<Option Name="advance" />
+			<Option Name="charge" />
+			<Option Name="fall_back" />
+			<Option Name="retreat" />
+			<Option Name="moveone" />
+			<Option Name="arrival" />
+			<Option Name="enter_vehicle" />
+			<Option Name="exit_vehicle" />
+			<Option Name="follow_player" />
+			<Option Name="leave_player" />
+			<Option Name="support" />
+		</FieldEnum>
+		<FieldBlock Index="2" Name="triggers" BlockName="trigger_references" />
+		<FieldTerminator Index="3" Name="" />
+	</FieldSet>
+</AbideTagBlock>

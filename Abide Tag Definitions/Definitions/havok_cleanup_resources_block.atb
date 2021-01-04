@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AbideTagBlock Version="1.0" Name="havok_cleanup_resources_block" DisplayName="havok_cleanup_resources_block" MaximumElementCount="1">
+	<FieldSet Alignment="4" Count="2">
+		<FieldTagReference Index="0" Name="object cleanup effect" GroupTag="1701209701" />
+		<FieldTerminator Index="1" Name="" />
+	</FieldSet>
+</AbideTagBlock>
