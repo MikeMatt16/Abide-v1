@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Startup="ApplicationStartup">
     <Application.Resources>
-        <Color x:Key="ActiveGlow" A="255" R="74" G="105" B="241"/>
+        <Color x:Key="ActiveGlow" A="255" R="14" G="148" B="206"/>
         <SolidColorBrush x:Key="ActiveGlowBrush" Color="{StaticResource ActiveGlow}"/>
         <SolidColorBrush x:Key="ActiveAccent" Color="{StaticResource ActiveGlow}"/>
         <SolidColorBrush x:Key="ActiveAccentHighlight" Color="#6D88FF"/>

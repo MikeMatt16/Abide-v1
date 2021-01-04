@@ -56,7 +56,14 @@
 
                 <Menu Grid.Column="0" VerticalAlignment="Center" ui:GlowWindowHost.NonClientAction="Caption">
                     <MenuItem Header="_File">
-                        <MenuItem Header="_Open" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"/>
+                        <MenuItem Header="_New">
+                            <MenuItem Header="_Project" InputGestureText="Ctrl+Shift+N"/>
+                            <MenuItem Header="_File" InputGestureText="Ctrl+N" Command="{Binding NewCommand}"/>
+                        </MenuItem>
+                        <MenuItem Header="_Open">
+                            <MenuItem Header="_Project" InputGestureText="Ctrl+Shift+O"/>
+                            <MenuItem Header="_File" InputGestureText="Ctrl+O" Command="{Binding OpenCommand}"/>
+                        </MenuItem>
                         <Separator/>
                         <MenuItem Header="_Exit" Command="{Binding}" InputGestureText="Alt+F4"/>
                     </MenuItem>

@@ -152,7 +152,8 @@ namespace Abide.Wpf.Modules.AddOns
         /// <summary>
         /// Occurs when the state of the collection is changed.
         /// </summary>
-        public event NotifyCollectionChangedEventHandler CollctionChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         /// <summary>
         /// Gets and returns the number of AddOns in this collection.
         /// </summary>
@@ -198,8 +199,7 @@ namespace Abide.Wpf.Modules.AddOns
         public bool Remove(T item)
         {
             bool removed = addOns.Remove(item); //Remove
-            if (removed) OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
-
+            if (removed) OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
             return removed;
         }
         /// <summary>
@@ -225,14 +225,9 @@ namespace Abide.Wpf.Modules.AddOns
         protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             //Raise event
-            CollctionChanged?.Invoke(this, e);
+            CollectionChanged?.Invoke(this, e);
         }
 
-        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
-        {
-            add { CollctionChanged += value; }
-            remove { CollctionChanged -= value; }
-        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

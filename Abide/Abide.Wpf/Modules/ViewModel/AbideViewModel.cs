@@ -1,6 +1,6 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
-using Abide.Wpf.Modules.AddOns;
+using Abide.Wpf.Modules.Tools;
 using Abide.Wpf.Modules.Dialogs;
 using Microsoft.Win32;
 using System;
@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using Abide.Wpf.Modules.AddOns;
+using System.Windows.Markup;
 
 namespace Abide.Wpf.Modules.ViewModel
 {
@@ -24,6 +26,8 @@ namespace Abide.Wpf.Modules.ViewModel
             DependencyProperty.RegisterReadOnly("Files", typeof(FileCollection), typeof(AbideViewModel), new PropertyMetadata(new FileCollection()));
         private static readonly DependencyPropertyKey FactoryPropertyKey =
             DependencyProperty.RegisterReadOnly("Factory", typeof(EditorAddOnFactory), typeof(AbideViewModel), new PropertyMetadata(null));
+        private static readonly DependencyPropertyKey NewCommandPropertyKey =
+            DependencyProperty.RegisterReadOnly("NewCommand", typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
         private static readonly DependencyPropertyKey OpenCommandPropertyKey =
             DependencyProperty.RegisterAttachedReadOnly("OpenCommand", typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
         /// <summary>
@@ -47,11 +51,16 @@ namespace Abide.Wpf.Modules.ViewModel
         public static readonly DependencyProperty FactoryProperty =
             FactoryPropertyKey.DependencyProperty;
         /// <summary>
+        /// Identifies the <see cref="NewCommand"/> property.
+        /// </summary>
+        public static readonly DependencyProperty NewCommandProperty =
+            NewCommandPropertyKey.DependencyProperty;
+        /// <summary>
         /// Identifies the <see cref="OpenCommand"/> property.
         /// </summary>
         public static readonly DependencyProperty OpenCommandProperty =
             OpenCommandPropertyKey.DependencyProperty;
-        
+
         /// <summary>
         /// Gets or sets the title of the window.
         /// </summary>
@@ -84,6 +93,14 @@ namespace Abide.Wpf.Modules.ViewModel
             private set { SetValue(FactoryPropertyKey, value); }
         }
         /// <summary>
+        /// Gets and returns the new file command.
+        /// </summary>
+        public ICommand NewCommand
+        {
+            get { return (ICommand)GetValue(NewCommandProperty); }
+            private set { SetValue(NewCommandPropertyKey, value); }
+        }
+        /// <summary>
         /// Gets and returns the open file command.
         /// </summary>
         public ICommand OpenCommand
@@ -101,10 +118,15 @@ namespace Abide.Wpf.Modules.ViewModel
             Factory.InitializeAddOns();
 
             //Setup
+            NewCommand = new ActionCommand(NewFile);
             OpenCommand = new ActionCommand(OpenFile);
 
             //Load files from ApplicationSettings
             ApplicationSettings.FilePaths.ForEach(p => OpenFile(p));
+        }
+        private void NewFile()
+        {
+
         }
         private void OpenFile()
         {
@@ -209,7 +231,7 @@ namespace Abide.Wpf.Modules.ViewModel
 
         private static void SelectedFilePropretyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d is AbideViewModel viewModel)
+            if (d is AbideViewModel viewModel)
             {
                 if (e.NewValue is FileItem file) viewModel.WindowTitle = $"{file.FileName} - {DefaultWindowTitle}";
                 else viewModel.WindowTitle = DefaultWindowTitle;
@@ -223,6 +245,11 @@ namespace Abide.Wpf.Modules.ViewModel
     public sealed class ActionCommand : ICommand
     {
         /// <summary>
+        /// Occurs when the can execute state of the action changes.
+        /// This will never occur because an <see cref="ActionCommand"/> can always execute.
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+        /// <summary>
         /// Gets and returns the action associated with this command.
         /// </summary>
         public Action Action { get; } = null;
@@ -233,7 +260,10 @@ namespace Abide.Wpf.Modules.ViewModel
         public ActionCommand(Action action)
         {
             Action = action;    //Set action
+            CanExecuteChanged?.Invoke(this, new EventArgs());
         }
+
+
         /// <summary>
         /// Invokes the <see cref="Action"/> property.
         /// </summary>
@@ -243,14 +273,12 @@ namespace Abide.Wpf.Modules.ViewModel
             //Raise action
             Action?.Invoke();
         }
-
-        private event EventHandler canExecuteChanged;
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add { canExecuteChanged += value; }
-            remove { canExecuteChanged -= value; }
-        }
-        bool ICommand.CanExecute(object parameter)
+        /// <summary>
+        /// Returns <see langword="true"/>.
+        /// </summary>
+        /// <param name="parameter">The optional parameter.</param>
+        /// <returns><see langword=""="true"/>.</returns>
+        public bool CanExecute(object parameter = null)
         {
             return true;
         }

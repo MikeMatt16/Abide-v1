@@ -1,8 +1,10 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
 using Abide.HaloLibrary;
-using Abide.HaloLibrary.Halo2Map;
+using Abide.HaloLibrary.Halo2;
+using Abide.HaloLibrary.Halo2.Retail;
 using System.IO;
+using System.Windows;
 
 namespace Abide.Wpf.Modules.Editors.Halo2.Retail
 {
@@ -12,30 +14,23 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
     [AddOn]
     public partial class Halo2MapEditor : FileEditorControl
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Halo2MapEditor"/> class.
-        /// </summary>
         public Halo2MapEditor()
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// Determines if this <see cref="IFileEditor"/> is valid for a specified file.
-        /// </summary>
-        /// <param name="path">The path of the file name.</param>
-        /// <returns>your mum lul</returns>
         public override bool IsValidEditor(string path)
         {
             //Prepare
-            bool succeeded = true;
+            bool succeeded;
 
+            //Try to load file and perform checks
             try
             {
                 //Open file
                 using (FileStream fs = File.OpenRead(path))
                 {
                     //Check length
-                    if (fs.Length < 6144) succeeded = false;
+                    if (fs.Length < 6144) return false;
 
                     //Create reader
                     using (BinaryReader reader = new BinaryReader(fs))
@@ -52,13 +47,16 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
 
                         //Check header...
                         if (head != HaloTags.head || foot != HaloTags.foot)
-                            succeeded = false;
+                            return false;
                         else if (version != 8)
-                            succeeded = false;
+                            return false;
                         else if (fileLength != fs.Length)
-                            succeeded = false;
+                            return false;
                         else if (checksum == 0)
-                            succeeded = false;
+                            return false;
+
+                        //Return
+                        return true;
                     }
                 }
             }
@@ -67,32 +65,27 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             //Return
             return succeeded;
         }
-        /// <summary>
-        /// Loads the specified file into the editor.
-        /// </summary>
-        /// <param name="path">The path of the file name.</param>
         public override void Load(string path)
         {
             //Prepare
-            HaloMapViewModel model = new HaloMapViewModel();
+            HaloMapViewModel model = null;
 
             //Base procedures
             base.Load(path);
 
             //Check
             if (File.Exists(path))
-                using (FileStream fs = File.OpenRead(path))
-                {
-                    //Load map
-                    MapFile mapFile = new MapFile();
-                    mapFile.Load(fs);
-
-                    //Set
-                    model = new HaloMapViewModel(mapFile);
-                }
+                model = new HaloMapViewModel(new HaloMap(path));
 
             //Set DataContext
-            DataContext = model;
+            DataContext = model ?? new HaloMapViewModel();
+        }
+
+        private void ToolMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            //Check
+            if (sender is FrameworkElement element && element.DataContext is ToolAddOn tool)
+                ToolContent.Content = tool.Tool.Element;
         }
     }
 }

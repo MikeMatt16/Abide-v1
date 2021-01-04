@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Wpf.Ui", "Abide.Wpf.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.Wpf.AddOnDemo", "Abide.Wpf.AddOnDemo\Abide.Wpf.AddOnDemo.csproj", "{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abide.AddOnApi.Wpf.Test", "Abide.AddOnApi.Wpf.Test\Abide.AddOnApi.Wpf.Test.csproj", "{A3502856-B987-4957-84C1-4E8341BB31A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8389DD2-5FA7-40E2-9D22-92EBFCC1CE80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3502856-B987-4957-84C1-4E8341BB31A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3502856-B987-4957-84C1-4E8341BB31A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3502856-B987-4957-84C1-4E8341BB31A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3502856-B987-4957-84C1-4E8341BB31A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

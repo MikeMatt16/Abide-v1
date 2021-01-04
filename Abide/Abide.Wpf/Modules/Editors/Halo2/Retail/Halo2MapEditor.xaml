@@ -21,26 +21,32 @@
             <ColumnDefinition Width="6"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TreeView ItemsSource="{Binding TagPathNodes}" vm:ExtendedTreeView.SelectedItem="{Binding SelectedNode, Mode=TwoWay}">
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:TagPathNode}" ItemsSource="{Binding Children}">
-                    <TextBlock Text="{Binding Name}"/>
-                </HierarchicalDataTemplate>
-            </TreeView.Resources>
-        </TreeView>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TreeView Grid.Row="1" ItemsSource="{Binding TagPathNodes}" vm:ExtendedTreeView.SelectedItem="{Binding SelectedNode, Mode=TwoWay}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type local:TagPathNode}" ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </Grid>
         <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="{StaticResource Background}"/>
         <DockPanel Grid.Column="2" Background="{StaticResource BackgroundDark}">
             <ToolBar DockPanel.Dock="Top">
-                <Menu DataContext="{Binding Factory}">
-                    <MenuItem Header="_Tools" ItemsSource="{Binding ToolAddOns}">
-                        <MenuItem.Resources>
+                <Menu>
+                    <MenuItem Header="_Tools" ItemsSource="{Binding ToolList}">
+                        <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
-                                <Setter Property="IsCheckable" Value="True"/>
-                                <Setter Property="IsChecked" Value="False"/>
+                                <EventSetter Event="Click" Handler="ToolMenuItem_Click"/>
                             </Style>
-                        </MenuItem.Resources>
+                        </MenuItem.ItemContainerStyle>
                         <MenuItem.ItemTemplate>
-                            <DataTemplate DataType="{x:Type h2:ITool}">
+                            <DataTemplate DataType="{x:Type local:ToolAddOn}">
                                 <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}"/>
                             </DataTemplate>
                         </MenuItem.ItemTemplate>

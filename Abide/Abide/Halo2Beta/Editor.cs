@@ -775,7 +775,7 @@ namespace Abide.Halo2Beta
         /// <param name="pszSubIdList">A string that contains a semicolon-separated list of CLSID names to use in place of the actual list passed by the window's class. If this parameter is null, the ID list from the calling class is used.</param>
         /// <returns>If this function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
         [DllImport("Uxtheme.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
+        private static extern IntPtr SetWindowTheme(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszSubAppName, [MarshalAs(UnmanagedType.LPWStr)] string pszSubIdList);
 
         /// <summary>
         /// Represents a Tag ID Sorter.

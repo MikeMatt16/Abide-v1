@@ -23,6 +23,11 @@ namespace Abide.AddOnApi.Wpf
             DependencyProperty.Register("IsDirty", typeof(bool), typeof(FileEditorControl));
 
         /// <summary>
+        /// Gets and returns the file history.
+        /// </summary>
+        [Browsable(false)]
+        public FileHistoryCollection History { get; } = new FileHistoryCollection();
+        /// <summary>
         /// Gets or sets a value that determines the state of the file.
         /// </summary>
         [Browsable(false)]
@@ -75,6 +80,13 @@ namespace Abide.AddOnApi.Wpf
         /// </summary>
         public FileEditorControl() { }
         /// <summary>
+        /// Finalizes the <see cref="FileEditorControl"/> class instance.
+        /// </summary>
+        ~FileEditorControl()
+        {
+            Dispose(false);
+        }
+        /// <summary>
         /// Determines if this <see cref="FileEditorControl"/> instance is an editor of the specified file.
         /// </summary>
         /// <param name="path">The path of the file to validate.</param>
@@ -102,9 +114,18 @@ namespace Abide.AddOnApi.Wpf
         /// </summary>
         public virtual void Initialize() { }
         /// <summary>
-        /// Destroys the <see cref="FileEditorControl"/> instance.
+        /// Releases all resources used by this instance.
         /// </summary>
-        public virtual void Destroy() { }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        /// <summary>
+        /// Releases all managed resources used by this instance and optionally releases all unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing) { }
 
         FrameworkElement IElementSupport.Element => this;
         string IFileEditor.Extension => Extension;
@@ -112,7 +133,7 @@ namespace Abide.AddOnApi.Wpf
         string IAddOn.Name => AddOnName;
         string IAddOn.Description => AddOnDescription;
         string IAddOn.Author => AddOnAuthor;
-        void IDisposable.Dispose() => Destroy();
+        
         bool IFileEditor.IsValidEditor(string path) => IsValidEditor(path);
         void IFileEditor.Initialize(string path)
         {

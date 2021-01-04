@@ -26,6 +26,7 @@ namespace Abide.Wpf
                     case "-c":  //Clean mode
                         ApplicationSettings.CleanMode = true;
                         break;
+
                     case "-d":  //Debug mode
                         ApplicationSettings.DebugMode = true;
                         break;
@@ -69,7 +70,7 @@ namespace Abide.Wpf
                     string manifestFileName = Path.Combine(directory, "Manifest.xml");
                     if (File.Exists(manifestFileName))
                         AssemblyManager.AddOnEnvironments.Add(
-                            new AddOnEnvironment(directory));
+                            AddOnEnvironment.Create(directory));
                 }
             }
 
@@ -86,7 +87,7 @@ namespace Abide.Wpf
             }
 
             //Load AddOn types
-            AssemblyManager.GetLoadedAddOnTypes();
+            AssemblyManager.InitializeAddOnTypes();
 
             //Set window
             MainWindow = new MainWindow();

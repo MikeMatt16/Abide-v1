@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Abide.AddOnApi.Wpf
@@ -47,5 +48,16 @@ namespace Abide.AddOnApi.Wpf
             get { return GetValue(FileStateProperty); }
             set { SetValue(FileStateProperty, value); }
         }
+    }
+
+    /// <summary>
+    /// Represents a collection of <see cref="FileHistory"/> objects.
+    /// </summary>
+    public sealed class FileHistoryCollection : ObservableCollection<FileHistory>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileHistoryCollection"/> class.
+        /// </summary>
+        public FileHistoryCollection() { }
     }
 }

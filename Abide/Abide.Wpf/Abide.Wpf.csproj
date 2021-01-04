@@ -65,16 +65,29 @@
     <Compile Include="Modules\AddOns\AddOnEnvironment.cs" />
     <Compile Include="Modules\AddOns\AddOnManifest.cs" />
     <Compile Include="Modules\AddOns\AssemblyManager.cs" />
-    <Compile Include="Modules\AddOns\Halo2\Retail\HaloAddOnFactory.cs" />
-    <Compile Include="Modules\AddOns\Halo2\Retail\MetaEditor.xaml.cs">
-      <DependentUpon>MetaEditor.xaml</DependentUpon>
+    <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimationTest.cs" />
+    <Compile Include="Modules\AddOns\HaloAddOnFactory.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimatorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\BaseAddOnViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditor.xaml.cs">
+      <DependentUpon>ModelEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\Converters.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\FieldDataTemplateSelector.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\FieldTypeDataSelector.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\TagEditor.xaml.cs">
+      <DependentUpon>TagEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tools\Halo2\Retail\TagEditor\TagEditorViewModel.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\TagViewModel.cs" />
     <Compile Include="Modules\ApplicationSettings.cs" />
     <Compile Include="Modules\Dialogs\ChooseEditorDialog.xaml.cs">
       <DependentUpon>ChooseEditorDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\AddOns\AddOnFactory.cs" />
     <Compile Include="Modules\AddOns\EditorAddOnFactory.cs" />
+    <Compile Include="Modules\ViewModel\BaseViewModel.cs" />
     <Compile Include="Modules\ViewModel\ExtendedTreeView.cs" />
     <Compile Include="Modules\ViewModel\FileItem.cs" />
     <Compile Include="Modules\UI\GlowWindowHost.cs" />
@@ -94,10 +107,6 @@
     <Compile Include="Modules\Win32\User32.cs" />
     <Compile Include="Modules\Win32\Win32Window.cs" />
     <Compile Include="Modules\Win32\WinUser.cs" />
-    <Page Include="Modules\AddOns\Halo2\Retail\MetaEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Modules\Dialogs\ChooseEditorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +116,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Editors\Halo2\Retail\Halo2MapEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Tools\Halo2\Retail\TagEditor\TagEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,10 +184,6 @@
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">
       <Project>{f447c5ab-04d5-4771-8cbe-06daf3b51bdf}</Project>
       <Name>Abide.HaloLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Abide Halo Library\YeloDebug\YeloDebug.csproj">
-      <Project>{f5db1c08-e8a7-4618-9e0e-0cc225597c75}</Project>
-      <Name>YeloDebug</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Abide.DebugXbox\Abide.DebugXbox\Abide.DebugXbox.csproj">
       <Project>{c7b4df9c-d74c-4f1b-9083-5531bea84b6d}</Project>

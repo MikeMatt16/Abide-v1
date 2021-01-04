@@ -31,21 +31,15 @@ namespace Abide.Wpf.Modules.AddOns
         /// <returns><see langword="true"/> if the assembly was successfully loaded; otherwise, <see langword="false"/>.</returns>
         public static bool LoadAssembly(string path)
         {
-            //Check safe mode
             if (SafeMode) return false;
+            if (string.IsNullOrEmpty(path)) return false;
 
-            //Prepare
             Assembly asm;
 
-            //Try to load assembly
             try { asm = Assembly.LoadFile(path); }
-            catch { asm = null; }
+            catch(FileLoadException) { asm = null; }
 
-            //Check
-            if (asm != null) return true;
-
-            //Return
-            return false;
+            return asm != null;
         }
         /// <summary>
         /// Attempts to load an assembly into memory.
@@ -82,10 +76,9 @@ namespace Abide.Wpf.Modules.AddOns
             return false;
         }
         /// <summary>
-        /// Returns an enumerator that iterates through all of the loaded types that are valid AddOns.
+        /// Updates the contents of the <see cref="AddOnTypes"/> list property.
         /// </summary>
-        /// <returns>An enumerator.</returns>
-        public static void GetLoadedAddOnTypes()
+        public static void InitializeAddOnTypes()
         {
             //Clear
             AddOnTypes.Clear();
@@ -96,8 +89,9 @@ namespace Abide.Wpf.Modules.AddOns
                 types.AddRange(assembly.GetExportedTypes());
 
             //Filter
-            AddOnTypes.AddRange(types.Where(t => t.GetCustomAttribute<AddOnAttribute>() != null && t.IsClass && !t.IsAbstract).
-                Where(t => t.GetInterface(typeof(IAddOn).FullName) != null));
+            AddOnTypes.AddRange(
+                types.Where(t => t.GetCustomAttribute<AddOnAttribute>() != null && t.IsClass && !t.IsAbstract)
+                .Where(t => t.GetInterface(typeof(IAddOn).FullName) != null));
         }
     }
 }

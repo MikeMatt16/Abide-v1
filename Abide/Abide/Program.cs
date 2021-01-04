@@ -67,7 +67,7 @@ namespace Abide
         {
             get { return files.ToArray(); }
         }
-        
+
         private const string manifestUrl = @"http://zaidware.com/michael.mattera/PotentialSoftware/Abide2/Update.xml";
         private readonly static List<string> addOnAssemblies = new List<string>();
         private readonly static List<string> files = new List<string>();
@@ -202,16 +202,22 @@ namespace Abide
         private static bool Main_HandleArguments(string[] args)
         {
             //Prepare
+            ArgumentStack argStack = new ArgumentStack();
+            string currentArgument;
             bool cont = true;
 
-            //Loop
+            //Push arguments to stack
             for (int i = 0; i < args.Length; i++)
+                argStack.Add(args[i]);
+
+            //Loop
+            do
             {
-                //Get Argument
-                string arg = args[i];
+                //Get current argument
+                currentArgument = argStack.Next();
 
                 //Check
-                switch (arg)
+                switch (currentArgument)
                 {
                     case "-d":  //Debug Mode
                         Debugger.Launch(); debugMode = true; break;
@@ -223,17 +229,65 @@ namespace Abide
                         forceUpdate = true; break;
 
                     case "-da": //Debug AddOn Assembly
-                        if (args.Length >= 2 && File.Exists(args[i + 1])) addOnAssemblies.Add(args[i + 1]); i += 1;
+                        string assemblyFileName = argStack.Next();
+                        if (File.Exists(assemblyFileName ?? string.Empty))
+                            addOnAssemblies.Add(assemblyFileName);
                         break;
 
                     default:
-                        if (File.Exists(arg)) files.Add(arg);
+                        if (File.Exists(currentArgument))
+                            files.Add(currentArgument);
                         break;
                 }
             }
+            while (currentArgument != null);
 
             //Return
             return cont;
+        }
+
+        private class ArgumentStack
+        {
+            private string[] buffer = new string[32];
+            private int lastIndex = -1;
+
+            public int Position { get; set; } = 0;
+
+            public int Add(string argument)
+            {
+                if (argument == null) throw new ArgumentNullException(nameof(argument));
+                if (buffer.Length <= lastIndex)
+                {
+                    int newLength = buffer.Length * 2;
+                    string[] newBuffer = new string[newLength];
+                    for (int i = 0; i < buffer.Length; i++)
+                        newBuffer[i] = buffer[i];
+                    buffer = newBuffer;
+                }
+
+                buffer[++lastIndex] = argument;
+                return lastIndex;
+            }
+            public string Next()
+            {
+                if (Position < 0 || Position >= buffer.Length)
+                    return null;
+
+                return buffer[Position++];
+            }
+            public string Previous()
+            {
+                if (Position < 0 || Position > buffer.Length)
+                    return null;
+                return buffer[Position--];
+            }
+            public void Reset()
+            {
+                for (int i = 0; i < buffer.Length; i++)
+                    buffer[i] = null;
+                Position = -1;
+                lastIndex = -1;
+            }
         }
     }
 }

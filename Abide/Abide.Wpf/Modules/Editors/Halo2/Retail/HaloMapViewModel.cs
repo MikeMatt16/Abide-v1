@@ -1,28 +1,40 @@
 ﻿using Abide.AddOnApi;
-using Abide.HaloLibrary.Halo2Map;
-using Abide.Wpf.Modules.AddOns.Halo2.Retail;
+using Abide.HaloLibrary.Halo2.Retail;
+using Abide.Wpf.Modules.AddOns;
+using Abide.Wpf.Modules.Tools.Halo2.Retail;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 
 namespace Abide.Wpf.Modules.Editors.Halo2.Retail
 {
     /// <summary>
-    /// Represents a model wrapping a <see cref="HaloLibrary.Halo2Map.MapFile"/> object.
+    /// Represents a model wrapping a <see cref="HaloMap"/> object.
     /// </summary>
-    public class HaloMapViewModel : DependencyObject, IHost
+    public sealed class HaloMapViewModel : DependencyObject, IHost
     {
         private static readonly DependencyPropertyKey SelectedIndexEntryPropertyKey =
             DependencyProperty.RegisterReadOnly("SelectedIndexEntry", typeof(IndexEntry), typeof(HaloMapViewModel), new PropertyMetadata(SelectedIndexEntryPropertyChanged));
         private static readonly DependencyPropertyKey FactoryPropertyKey =
             DependencyProperty.RegisterReadOnly("Factory", typeof(HaloAddOnFactory), typeof(HaloMapViewModel), new PropertyMetadata(null));
         private static readonly DependencyPropertyKey MapFilePropertyKey =
-            DependencyProperty.RegisterReadOnly("MapFile", typeof(MapFile), typeof(HaloMapViewModel), new PropertyMetadata(MapFilePropertyChanged));
+            DependencyProperty.RegisterReadOnly("Map", typeof(HaloMap), typeof(HaloMapViewModel), new PropertyMetadata(MapFilePropertyChanged));
         private static readonly DependencyPropertyKey TagPathNodesPropertyKey =
             DependencyProperty.RegisterReadOnly("TagPathNodes", typeof(TagPathNode.TagPathNodeCollection), typeof(HaloMapViewModel), new PropertyMetadata());
+        private static readonly DependencyPropertyKey ToolListPropertyKey =
+            DependencyProperty.RegisterReadOnly("ToolList", typeof(ObservableCollection<ToolAddOn>), typeof(HaloMapViewModel), new PropertyMetadata());
+        private static readonly DependencyPropertyKey IsCollapsedPropertyKey =
+            DependencyProperty.RegisterReadOnly("IsCollapsed", typeof(bool), typeof(HaloMapViewModel), new PropertyMetadata(true));
+        /// <summary>
+        /// Identifies the <see cref="IsCollapsed"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IsCollapsedProperty =
+            IsCollapsedPropertyKey.DependencyProperty;
         /// <summary>
         /// Identifies the <see cref="Factory"/> property.
         /// </summary>
@@ -39,12 +51,31 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         public static readonly DependencyProperty SelectedIndexEntryProperty =
             SelectedIndexEntryPropertyKey.DependencyProperty;
         /// <summary>
+        /// Identifies the <see cref="TagFilter"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TagFilterProperty =
+            DependencyProperty.Register("TagFilter", typeof(string), typeof(HaloMapViewModel), new PropertyMetadata(string.Empty, TagFilterPropertyChanged));
+        /// <summary>
         /// Identifies the <see cref="TagPathNodes"/> property.
         /// </summary>
         public static readonly DependencyProperty TagPathNodesProperty =
             TagPathNodesPropertyKey.DependencyProperty;
+        /// <summary>
+        /// Identifies the <see cref="ToolList"/> property.
+        /// </summary>
+        public static readonly DependencyProperty ToolListProperty =
+            ToolListPropertyKey.DependencyProperty;
         public static readonly DependencyProperty SelectedNodeProperty =
             DependencyProperty.Register("SelectedNode", typeof(TagPathNode), typeof(HaloMapViewModel), new PropertyMetadata(SelectedNodePropertyChanged));
+        /// <summary>
+        /// Gets and returns whether or not the tag node tree should be expanded.
+        /// This property is currently unused.
+        /// </summary>
+        public bool IsCollapsed
+        {
+            get { return (bool)GetValue(IsCollapsedProperty); }
+            private set { SetValue(IsCollapsedPropertyKey, value); }
+        }
         /// <summary>
         /// Gets and returns the Halo AddOn factory.
         /// </summary>
@@ -56,9 +87,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         /// <summary>
         /// Gets and returns the map file that this model represents.
         /// </summary>
-        public MapFile MapFile
+        public HaloMap Map
         {
-            get { return (MapFile)GetValue(MapFileProperty); }
+            get { return (HaloMap)GetValue(MapFileProperty); }
             private set { SetValue(MapFilePropertyKey, value); }
         }
         /// <summary>
@@ -78,12 +109,28 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             set { SetValue(SelectedNodeProperty, value); }
         }
         /// <summary>
+        /// Gets or sets the current tag filter.
+        /// </summary>
+        public string TagFilter
+        {
+            get { return (string)GetValue(TagFilterProperty); }
+            set { SetValue(TagFilterProperty, value); }
+        }
+        /// <summary>
         /// Gets and returns the tag path node collection.
         /// </summary>
         public TagPathNode.TagPathNodeCollection TagPathNodes
         {
             get { return (TagPathNode.TagPathNodeCollection)GetValue(TagPathNodesProperty); }
             private set { SetValue(TagPathNodesPropertyKey, value); }
+        }
+        /// <summary>
+        /// Gets and returns the tool AddOn list.
+        /// </summary>
+        public ObservableCollection<ToolAddOn> ToolList
+        {
+            get { return (ObservableCollection<ToolAddOn>)GetValue(ToolListProperty); }
+            private set { SetValue(ToolListPropertyKey, value); }
         }
 
         /// <summary>
@@ -94,37 +141,56 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             //Initialize Halo AddOn factory
             Factory = new HaloAddOnFactory(this);
             Factory.InitializeAddOns();
+
+            //Loop through tools
+            ToolList = new ObservableCollection<ToolAddOn>();
+            foreach (var tool in Factory.ToolAddOns)
+            {
+                ToolList.Add(new ToolAddOn(tool)
+                {
+                    Name = tool.Name,
+                    Description = tool.Description,
+                });
+            }
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="HaloMapViewModel"/> class using the specified <see cref="MapFile"/> object.
+        /// Initializes a new instance of the <see cref="HaloMapViewModel"/> class using the specified <see cref="HaloMap"/> object.
         /// </summary>
-        /// <param name="mapFile">The Halo 2 map file.</param>
-        public HaloMapViewModel(MapFile mapFile) : this()
+        /// <param name="haloMap">The Halo 2 map file.</param>
+        public HaloMapViewModel(HaloMap haloMap) : this()
         {
             //Set
-            MapFile = mapFile;
+            Map = haloMap;
         }
 
+        private static IEnumerable<IndexEntry> GetIndexEntries(HaloMap haloMap, string filter)
+        {
+            //Check
+            if (string.IsNullOrEmpty(filter))
+                return haloMap.IndexEntries;
+
+            return haloMap.IndexEntries.Where(e => $"{e.Filename}.{e.Root}".Contains(filter));
+        }
         private static void MapFilePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //Prepare
             TagPathNode rootNode = new TagPathNode();
-            
+
             //Check object
             if (d is HaloMapViewModel model)
             {
                 //Loop
-                foreach (var addOn in model.Factory.HaloMapAddOns)
+                foreach (var addOn in model.Factory.HaloAddOns)
                     addOn.OnMapLoad(); //Call OnMapLoad
 
                 //Check new value
-                if (e.NewValue is MapFile mapFile)
+                if (e.NewValue is HaloMap haloMap)
                 {
                     //Prepare
-                    rootNode.Name = mapFile.Name;
+                    rootNode.Name = haloMap.Name;
 
                     //Loop
-                    foreach (var entry in mapFile.IndexEntries)
+                    foreach (var entry in GetIndexEntries(haloMap, model.TagFilter))
                     {
                         //Get tag path
                         string path = $"{entry.Filename}.{entry.Root}";
@@ -171,7 +237,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 if (e.NewValue is TagPathNode node)
                 {
                     //Check
-                    if (node.IndexEntry != null) 
+                    if (node.IndexEntry != null)
                         model.SelectedIndexEntry = node.IndexEntry;
                 }
             }
@@ -179,16 +245,87 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         private static void SelectedIndexEntryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //Check
-            if(d is HaloMapViewModel model)
+            if (d is HaloMapViewModel model)
             {
                 //Loop
-                foreach (var addOn in model.Factory.HaloMapAddOns)
+                foreach (var addOn in model.Factory.HaloAddOns)
                     addOn.OnSelectedEntryChanged(); //Call OnSelectedEntryChanged
+            }
+        }
+        private static void TagFilterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //Prepare
+            TagPathNode rootNode = new TagPathNode();
+
+            //Check object
+            if (d is HaloMapViewModel model)
+            {
+                //Check new value
+                if (e.NewValue is string filter)
+                {
+                    //Set
+                    model.IsCollapsed = !string.IsNullOrEmpty(filter);
+
+                    //Prepare
+                    rootNode.Name = model.Map.Name;
+
+                    //Loop
+                    foreach (var entry in GetIndexEntries(model.Map, filter))
+                    {
+                        //Get tag path
+                        string path = $"{entry.Filename}.{entry.Root}";
+                        string[] parts = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        //Prepare
+                        TagPathNode currentNode = rootNode;
+
+                        //Loop through each part of tag path
+                        for (int i = 0; i < parts.Length - 1; i++)
+                        {
+                            if (currentNode.Children.ContainsName(parts[i]))
+                                currentNode = currentNode.Children[parts[i]];
+                            else currentNode = currentNode.Children.Add(parts[i]);
+                        }
+
+                        //Create
+                        TagPathNode tagNode = new TagPathNode()
+                        {
+                            Name = parts[parts.Length - 1],
+                            IndexEntry = entry
+                        };
+
+                        //Add
+                        currentNode.Children.Add(tagNode);
+                    }
+                }
+
+                //Sort
+                rootNode.Children.Sort();
+
+                //Set
+                model.TagPathNodes = rootNode.Children;
+                if (rootNode.Children.Count > 0)
+                    model.SelectedNode = rootNode.Children[0];
             }
         }
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
-            throw new NotImplementedException();
+            switch (request)
+            {
+                case "GetMap":
+                    return GetValue(MapFileProperty);
+
+                case "SelectedEntry":
+                case "GetSelectedEntry":
+                    return GetValue(SelectedIndexEntryProperty);
+
+                default:
+                    Console.WriteLine("Unknown AddOn request: {0}", request);
+                    System.Diagnostics.Debugger.Break();
+                    break;
+            }
+
+            return null;
         }
 
         bool ISynchronizeInvoke.InvokeRequired => throw new NotImplementedException();
@@ -207,6 +344,52 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         object ISynchronizeInvoke.Invoke(Delegate method, object[] args)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Represents a wrapper for a <see cref="AddOnApi.Wpf.Halo2.ITool"/> AddOn.
+    /// </summary>
+    public sealed class ToolAddOn : DependencyObject
+    {
+        /// <summary>
+        /// Identifies the <see cref="Name"/> property.
+        /// </summary>
+        public static readonly DependencyProperty NameProperty =
+            DependencyProperty.Register("Name", typeof(string), typeof(ToolAddOn), new PropertyMetadata(string.Empty));
+        /// <summary>
+        /// Identifies the <see cref="Description"/> property.
+        /// </summary>
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof(string), typeof(ToolAddOn), new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// Gets and returns the <see cref="AddOnApi.Wpf.Halo2.ITool"/> object assicated with this object.
+        /// </summary>
+        public AddOnApi.Wpf.Halo2.ITool Tool { get; }
+        /// <summary>
+        /// Gets or sets the name of the AddOn.
+        /// </summary>
+        public string Name
+        {
+            get { return (string)GetValue(NameProperty); }
+            set { SetValue(NameProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets the description of the AddOn.
+        /// </summary>
+        public string Description
+        {
+            get { return (string)GetValue(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolAddOn"/> class using the specified tool AddOn.
+        /// </summary>
+        /// <param name="tool">The tool AddOn.</param>
+        public ToolAddOn(AddOnApi.Wpf.Halo2.ITool tool)
+        {
+            Tool = tool ?? throw new ArgumentNullException(nameof(tool));
         }
     }
 
@@ -240,7 +423,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         /// </summary>
         public static readonly DependencyProperty NameProperty =
             DependencyProperty.Register("Name", typeof(string), typeof(TagPathNode));
-        
+
         /// <summary>
         /// Gets or sets the index entry that this tag path node represents.
         /// </summary>
@@ -273,7 +456,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             get { return (string)GetValue(NameProperty); }
             set { SetValue(NameProperty, value); }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TagPathNode"/> class.
         /// </summary>
@@ -349,7 +532,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 {
                     //Check
                     if (name == null) throw new ArgumentNullException(nameof(name));
-                    if (!nodeNameMap.ContainsKey(name)) 
+                    if (!nodeNameMap.ContainsKey(name))
                         throw new ArgumentException("A node with the specified name does not exist.", nameof(name));
 
                     //Return
@@ -396,7 +579,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             {
                 //Check
                 if (name == null) throw new ArgumentNullException(nameof(name));
-                if(nodeNameMap.ContainsKey(name))
+                if (nodeNameMap.ContainsKey(name))
                     throw new InvalidOperationException("A node with the specified name already exists.");
 
                 //Create node

@@ -1,0 +1,178 @@
+﻿<h2:ToolControl x:Class="Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor.TagEditor"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:h2="clr-namespace:Abide.AddOnApi.Wpf.Halo2;assembly=Abide.AddOnApi.Wpf"
+                xmlns:tag="clr-namespace:Abide.Wpf.Modules.Tools.Halo2.Retail"
+                xmlns:local="clr-namespace:Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor"
+                mc:Ignorable="d" 
+                d:DesignHeight="450" d:DesignWidth="800"
+                AddOnName="Tag Editor" AddOnDescription="Provides an editor for tag data."
+                AddOnAuthor="Click16"
+                MapLoad="ToolControl_MapLoad"
+                SelectedEntryChanged="ToolControl_SelectedEntryChanged"
+                XboxConnectionStateChanged="ToolControl_XboxConnectionStateChanged"
+                DataContext="{DynamicResource viewModel}">
+    <h2:ToolControl.Resources>
+        <!-- View model -->
+        <local:TagEditorViewModel x:Key="viewModel"/>
+
+        <!-- Converters -->
+        <local:MapValueConverter x:Key="mapValueConverter" ViewModel="{StaticResource viewModel}"/>
+        <local:BasicValueConverter x:Key="baseValueConverter"/>
+        <local:EnumValueConverter x:Key="enumValueConverter"/>
+        <local:FlagsValueConverter x:Key="flagsValueConverter"/>
+
+        <!-- Tag block template -->
+        <DataTemplate x:Key="tagBlockTemplate" DataType="{x:Type tag:TagBlockViewModel}">
+            <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{DynamicResource typeSelector}"/>
+        </DataTemplate>
+
+        <!-- Base field template -->
+        <DataTemplate x:Key="fieldTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Name}"/>
+                <ContentControl Grid.Column="1" Content="{Binding}"
+                                ContentTemplateSelector="{DynamicResource templateSelector}"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- Value field template -->
+        <DataTemplate x:Key="valueTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <TextBox>
+                <TextBox.Text>
+                    <MultiBinding Converter="{StaticResource baseValueConverter}">
+                        <Binding Path="Value" Mode="TwoWay"/>
+                        <Binding Path="Type" Mode="OneWay"/>
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+        </DataTemplate>
+
+        <!-- Enum field template -->
+        <DataTemplate x:Key="enumTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <ComboBox ItemsSource="{Binding OptionList}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.SelectedItem>
+                    <MultiBinding Converter="{StaticResource enumValueConverter}">
+                        <Binding Path="Value" Mode="TwoWay"/>
+                        <Binding Path="OptionList" Mode="OneWay"/>
+                    </MultiBinding>
+                </ComboBox.SelectedItem>
+            </ComboBox>
+        </DataTemplate>
+
+        <!-- Flags field template -->
+        <DataTemplate x:Key="flagsTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <ItemsControl ItemsSource="{Binding OptionList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type tag:TagOptionViewModel}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox>
+                                <CheckBox.IsChecked>
+                                    <MultiBinding Converter="{StaticResource enumValueConverter}">
+                                        <Binding Path="Value" Mode="TwoWay"/>
+                                        <Binding Path="OptionList" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </CheckBox.IsChecked>
+                            </CheckBox>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <!-- String ID template -->
+        <DataTemplate x:Key="stringIdTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Grid>
+                <ToggleButton x:Name="stringPopoutButton" HorizontalContentAlignment="Left">
+                    <TextBlock Text="{Binding Value, Converter={StaticResource mapValueConverter}}"/>
+                </ToggleButton>
+                <Popup Focusable="False" StaysOpen="False" IsOpen="{Binding IsChecked,Mode=TwoWay,ElementName=stringPopoutButton}"
+                       Width="{Binding ActualWidth,ElementName=stringPopoutButton}">
+                    <Border Padding="8" BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"
+                            Background="{StaticResource BackgroundDark}">
+                        <TextBlock Text="Placeholder"/>
+                    </Border>
+                </Popup>
+            </Grid>
+        </DataTemplate>
+
+        <!-- Tag Reference template -->
+        <DataTemplate x:Key="tagRefTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Button HorizontalContentAlignment="Left">
+                <TextBlock Text="{Binding Value, Converter={StaticResource mapValueConverter}}"/>
+            </Button>
+        </DataTemplate>
+
+        <!-- Block field template -->
+        <DataTemplate x:Key="blockTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <Border BorderThickness="1" BorderBrush="{StaticResource BackgroundLight}"
+                    Background="{StaticResource Background}" Margin="4">
+                <Grid Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="350"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}"/>
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding BlockList}" SelectedItem="{Binding Structure, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type tag:TagBlockViewModel}">
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <Border Grid.Row="1" Margin="30,8,8,8" BorderThickness="1"
+                            BorderBrush="{StaticResource BackgroundLight}"
+                            Background="{StaticResource BackgroundDark}">
+                        <ContentControl Content="{Binding Structure}" ContentTemplate="{DynamicResource tagBlockTemplate}"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- Field type template selector -->
+        <local:FieldTypeDataSelector x:Key="typeSelector"
+                                     BlockFieldTemplate="{StaticResource blockTemplate}"
+                                     FieldTemplate="{StaticResource fieldTemplate}"/>
+
+        <!-- Field data template selector -->
+        <local:FieldDataTemplateSelector x:Key="templateSelector"
+                                         TagBlockTemplate="{StaticResource tagBlockTemplate}"
+                                         StringTemplate="{StaticResource valueTemplate}"
+                                         ValueTemplate="{StaticResource valueTemplate}"
+                                         EnumTemplate="{StaticResource enumTemplate}"
+                                         FlagsTemplate="{StaticResource flagsTemplate}"
+                                         StringIdTemplate="{StaticResource stringIdTemplate}"
+                                         TagRefTemplate="{StaticResource tagRefTemplate}"
+                                         BlockTemplate="{StaticResource blockTemplate}"/>
+    </h2:ToolControl.Resources>
+    <ScrollViewer Margin="8">
+        <ItemsControl ItemsSource="{Binding TagGroup.Blocks}" ItemTemplate="{StaticResource tagBlockTemplate}">
+            <ItemsControl.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+                </Style>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="Background" Value="{StaticResource BackgroundDark}"/>
+                </Style>
+            </ItemsControl.Resources>
+        </ItemsControl>
+    </ScrollViewer>
+</h2:ToolControl>

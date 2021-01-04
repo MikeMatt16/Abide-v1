@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Abide.AddOnApi.Wpf.Halo2
 {
     /// <summary>
-    /// Defines a generalized Halo 2 retail tool.
+    /// Defines a generalized Halo 2 retail tool AddOn.
     /// </summary>
     public interface ITool : IHaloAddOn, IElementSupport
     {
