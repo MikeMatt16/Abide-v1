@@ -48,13 +48,17 @@ namespace Abide.Wpf.Modules.Operations
                 }
 
                 if (soundGestalt != null)
+                {
                     using (BinaryReader reader = soundGestalt.Data.GetVirtualStream().CreateReader())
                     {
                         soundGestaltGroup = TagLookup.CreateTagGroup(soundGestalt.Root);
                         reader.BaseStream.Seek(soundGestalt.Address, SeekOrigin.Begin);
                         soundGestaltGroup.Read(reader);
                     }
+                }
+
                 for (int i = 0; i < map.IndexEntries.Count; i++)
+                {
                     if ((tagGroup = TagLookup.CreateTagGroup(map.IndexEntries[i].Root)) != null)
                     {
                         using (BinaryReader reader = map.IndexEntries[i].Data.GetVirtualStream().CreateReader())
@@ -68,7 +72,9 @@ namespace Abide.Wpf.Modules.Operations
                         string tagGroupFileName = Path.Combine(tagsDirectory, localFileName);
 
                         if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
+                        {
                             Directory.CreateDirectory(Path.GetDirectoryName(tagGroupFileName));
+                        }
 
                         TagGroupHeader header = new TagGroupHeader();
                         using (FileStream fs = new FileStream(tagGroupFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
@@ -119,8 +125,12 @@ namespace Abide.Wpf.Modules.Operations
                         }
 
                         int progress = (int)Math.Ceiling(i * 100d / map.IndexEntries.Count);
-                        if (ProgressReporter != null) ProgressReporter.Report(progress);
+                        if (ProgressReporter != null)
+                        {
+                            ProgressReporter.Report(progress);
+                        }
                     }
+                }
             }
             catch
             {
@@ -166,7 +176,10 @@ namespace Abide.Wpf.Modules.Operations
                             addresses.Add(address);
                             buffers.Add(resource.GetBuffer());
                         }
-                        else if ((address & 0xC0000000) == 0) System.Diagnostics.Debugger.Break();
+                        else if ((address & 0xC0000000) == 0)
+                        {
+                            System.Diagnostics.Debugger.Break();
+                        }
                     }
                 }
             }
@@ -188,15 +201,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void RenderModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -234,15 +253,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void ScenarioStructureBspTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -310,15 +335,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void ScenarioStructureLightmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -372,15 +403,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void WeatherSystemTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -406,15 +443,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void DecoratorSetTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -436,15 +479,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void ParticleModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -466,15 +515,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void AnimationTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -497,15 +552,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private void BitmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
@@ -535,15 +596,21 @@ namespace Abide.Wpf.Modules.Operations
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write((int)addresses[i]);
+                }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i].Length);
+                }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
                 for (int i = 0; i < header.RawsCount; i++)
+                {
                     writer.Write(buffers[i]);
+                }
             }
         }
         private int TagGroup_CalculateChecksum(ITagGroup tagGroup)
@@ -554,14 +621,19 @@ namespace Abide.Wpf.Modules.Operations
             using (BinaryWriter writer = new BinaryWriter(tagStream))
             {
                 tagGroup.Write(writer);
-                tagStream.Align(4);
+                _ = tagStream.Align(4);
 
-                if (tagStream.Length == 0) return 0;
+                if (tagStream.Length == 0)
+                {
+                    return 0;
+                }
 
                 byte[] tagGroupBuffer = tagStream.ToArray();
                 checksum = BitConverter.ToInt32(tagGroupBuffer, 0);
                 for (int i = 1; i < tagGroupBuffer.Length / 4; i++)
+                {
                     checksum ^= BitConverter.ToInt32(tagGroupBuffer, i * 4);
+                }
             }
 
             return checksum;

@@ -36,30 +36,41 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
                 using (FileStream fs = File.OpenRead(path))
                 {
                     //Check length
-                    if (fs.Length < 6144) succeeded = false;
+                    if (fs.Length < 6144)
+                    {
+                        succeeded = false;
+                    }
 
                     //Create reader
                     using (BinaryReader reader = new BinaryReader(fs))
                     {
                         //Read parts of header
-                        fs.Seek(0, SeekOrigin.Begin);
+                        _ = fs.Seek(0, SeekOrigin.Begin);
                         TagFourCc head = reader.Read<TagFourCc>();
                         uint version = reader.ReadUInt32();
                         uint fileLength = reader.ReadUInt32();
-                        fs.Seek(720, SeekOrigin.Begin);
+                        _ = fs.Seek(720, SeekOrigin.Begin);
                         uint checksum = reader.ReadUInt32();
-                        fs.Seek(2044, SeekOrigin.Begin);
+                        _ = fs.Seek(2044, SeekOrigin.Begin);
                         TagFourCc foot = reader.Read<TagFourCc>();
 
                         //Check header...
                         if (head != HaloTags.head || foot != HaloTags.foot)
+                        {
                             succeeded = false;
+                        }
                         else if (version != 8)
+                        {
                             succeeded = false;
+                        }
                         else if (fileLength != fs.Length)
+                        {
                             succeeded = false;
+                        }
                         else if (checksum != 0)
+                        {
                             succeeded = false;
+                        }
                     }
                 }
             }
@@ -83,7 +94,10 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Beta
                 HaloMapViewModel model = new HaloMapViewModel(mapFile);
                 DataContext = model;
             }
-            else DataContext = new HaloMapViewModel();
+            else
+            {
+                DataContext = new HaloMapViewModel();
+            }
         }
     }
 }

@@ -25,12 +25,16 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
         private void ToolControl_MapLoad(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.Map = Map;
+            }
         }
         private void ToolControl_SelectedEntryChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.SelectedTag = SelectedEntry;
+            }
         }
         private void viewport_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -42,8 +46,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
                 double positionMagnitude = position.Length;
                 position.Normalize();
 
-                if (e.Delta > 0) positionMagnitude *= 1.1d * zoomAmount;
-                else positionMagnitude /= 1.1d * zoomAmount;
+                if (e.Delta > 0)
+                {
+                    positionMagnitude *= 1.1d * zoomAmount;
+                }
+                else
+                {
+                    positionMagnitude /= 1.1d * zoomAmount;
+                }
 
                 camera.Position = new Point3D(position.X * positionMagnitude,
                     position.Y * positionMagnitude, position.Z * positionMagnitude);
@@ -52,7 +62,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
         private void viewport_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Pressed)
+            {
                 isMouseCaptured = viewport.CaptureMouse();
+            }
         }
         private void viewport_MouseMove(object sender, MouseEventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using Abide.AddOnApi;
+using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,11 +12,19 @@ namespace Abide.Wpf.Modules.AddOns
     {
         public static List<AddOnEnvironment> AddOnEnvironments { get; } = new List<AddOnEnvironment>();
         public static List<Type> AddOnTypes { get; } = new List<Type>();
+        public static List<Type> ProjectTypes { get; } = new List<Type>();
         public static bool SafeMode { get; set; } = false;
         public static bool LoadAssembly(string path)
         {
-            if (SafeMode) return false;
-            if (string.IsNullOrEmpty(path)) return false;
+            if (SafeMode)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
 
             Assembly asm;
 
@@ -26,47 +35,50 @@ namespace Abide.Wpf.Modules.AddOns
         }
         public static bool LoadAssemblyIntoMemory(string path)
         {
-            //Check safe mode
-            if (SafeMode) return false;
+            if (SafeMode)
+            {
+                return false;
+            }
 
-            //Prepare
             Assembly asm;
 
             try
             {
-                //Open file
                 using (FileStream fs = File.OpenRead(path))
                 {
-                    //Read assembly
                     byte[] rawData = new byte[fs.Length];
-                    fs.Read(rawData, 0, rawData.Length);
-
-                    //Load assembly
+                    _ = fs.Read(rawData, 0, rawData.Length);
                     asm = AppDomain.CurrentDomain.Load(rawData);
                 }
             }
             catch { asm = null; }
 
-            //Check
-            if (asm != null) return true;
+            if (asm != null)
+            {
+                return true;
+            }
 
-            //Return
             return false;
         }
         public static void InitializeAddOnTypes()
         {
-            //Clear
-            AddOnTypes.Clear();
-
-            //Get all types
             List<Type> types = new List<Type>();
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-                types.AddRange(assembly.GetExportedTypes());
+            {
+                Type[] exportedTypes = new Type[0];
+                try { exportedTypes = assembly.GetExportedTypes(); }
+                catch { }
+                finally { types.AddRange(exportedTypes); }
+            }
 
-            //Filter
-            AddOnTypes.AddRange(
-                types.Where(t => t.GetCustomAttribute<AddOnAttribute>() != null && t.IsClass && !t.IsAbstract)
+            AddOnTypes.Clear();
+            AddOnTypes.AddRange(types
+                .Where(t => t.GetCustomAttribute<AddOnAttribute>() != null && t.IsClass && !t.IsAbstract)
                 .Where(t => t.GetInterface(typeof(IAddOn).FullName) != null));
+
+            ProjectTypes.Clear();
+            ProjectTypes.AddRange(types
+                .Where(t => t.GetCustomAttribute<ProjectTypeAttribute>() != null && t.IsClass && !t.IsAbstract));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Abide.Wpf.Modules.ViewModel
         /// </summary>
         public static readonly DependencyProperty EditorElementProperty =
             EditorElementPropertyKey.DependencyProperty;
-        
+
         /// <summary>
         /// Gets and returns the file collection that owns this item.
         /// </summary>
@@ -91,7 +91,7 @@ namespace Abide.Wpf.Modules.ViewModel
         internal FileItem(FileCollection owner)
         {
             Owner = owner ?? throw new ArgumentNullException(nameof(owner));
-            CloseFileCommand = new ActionCommand(o => { owner.Remove(this); });
+            CloseFileCommand = new ActionCommand(o => { _ = owner.Remove(this); });
         }
         /// <summary>
         /// Returns the value of the <see cref="Path"/> property.
@@ -139,7 +139,10 @@ namespace Abide.Wpf.Modules.ViewModel
         /// <returns></returns>
         public FileItem New(string path, IFileEditor editor)
         {
-            if (editor == null) throw new ArgumentNullException(nameof(editor));
+            if (editor == null)
+            {
+                throw new ArgumentNullException(nameof(editor));
+            }
 
             return new FileItem(this)
             {

@@ -15,85 +15,71 @@ namespace Abide.Wpf
     {
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
-            using (HaloMap map = new HaloMap(@"F:\XBox\Original\Games\Halo 2\Clean Maps\ascension.map"))
-                map.Save($@"F:\{map.Name}.map");
-
-            //Handle arguments
             for (int i = 0; i < e.Args.Length; i++)
             {
-                //Get argument
                 string argument = e.Args[i];
-
-                //Check
                 switch (argument)
                 {
-                    case "-c":  //Clean mode
+                    case "-c":
                         ApplicationSettings.CleanMode = true;
                         break;
 
-                    case "-d":  //Debug mode
+                    case "-d":
                         ApplicationSettings.DebugMode = true;
                         break;
 
-                    case "-s":  //Safe Mode
+                    case "-s":
                         ApplicationSettings.SafeMode = true;
                         break;
 
-                    case "-u":  //Force Update
+                    case "-u":
                         ApplicationSettings.ForceUpdate = true;
                         break;
 
-                    case "-da": //Debug AddOn
+                    case "-da":
                         if (e.Args.Length > i + 1)
                         {
                             string path = e.Args[i + 1]; i++;
-                            if (File.Exists(path)) ApplicationSettings.DebugAddOnPaths.Add(path);
+                            if (File.Exists(path))
+                            {
+                                ApplicationSettings.DebugAddOnPaths.Add(path);
+                            }
                         }
                         break;
 
                     default:
                         if (File.Exists(argument))
+                        {
                             ApplicationSettings.FilePaths.Add(argument);
+                        }
+
                         break;
                 }
             }
 
-            //Apply settings
             ApplicationSettings.Apply();
-
-            //Load AddOns
             if (Directory.Exists(AbideRegistry.AddOnsDirectory) && !ApplicationSettings.CleanMode)
             {
-                //Get nested directories
-                string[] directories = Directory.GetDirectories(AbideRegistry.AddOnsDirectory);
-
-                //Loop
-                foreach (string directory in directories)
+                foreach (string directory in Directory.GetDirectories(AbideRegistry.AddOnsDirectory))
                 {
-                    //Get manifest file name
-                    string manifestFileName = Path.Combine(directory, "Manifest.xml");
-                    if (File.Exists(manifestFileName))
+                    if (File.Exists(Path.Combine(directory, "Manifest.xml")))
+                    {
                         AssemblyManager.AddOnEnvironments.Add(
                             AddOnEnvironment.Create(directory));
+                    }
                 }
             }
 
-            //Load debug assemblies
             foreach (string path in ApplicationSettings.DebugAddOnPaths)
             {
-                //Attempt to load
                 if (AssemblyManager.LoadAssembly(path))
                 {
-                    //Create environment
                     AssemblyManager.AddOnEnvironments.Add(
                         AddOnEnvironment.CreateDebugEnvironment(path));
                 }
             }
 
-            //Load AddOn types
             AssemblyManager.InitializeAddOnTypes();
-
-            //Set window
             MainWindow = new MainWindow();
             MainWindow.Show();
         }

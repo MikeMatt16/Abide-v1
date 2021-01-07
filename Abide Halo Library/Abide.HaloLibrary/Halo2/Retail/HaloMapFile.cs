@@ -5,14 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Abide.HaloLibrary.Halo2.Retail
 {
-    /// <summary>
-    /// Represents a container for a Halo 2 map file.
-    /// </summary>
     public sealed class HaloMapFile
     {
         private Dictionary<uint, HaloTag> tagDictionary = new Dictionary<uint, HaloTag>();
@@ -22,136 +17,66 @@ namespace Abide.HaloLibrary.Halo2.Retail
         private uint tagDataMemoryAddressTranslator;
         private uint[] bspTagDataMemoryAddressTranslators;
 
-        /// <summary>
-        /// Gets or sets the name of the map.
-        /// </summary>
+        public string FileName { get; set; } = string.Empty;
         public string Name
         {
             get => header.Name;
             set => header.Name = value;
         }
-        /// <summary>
-        /// Gets or sets the map scenario tag name.
-        /// </summary>
         public string ScenarioTagName
         {
             get => header.ScenarioPath;
             set => header.ScenarioPath = value;
         }
-        /// <summary>
-        /// Gets or sets the map scenario tag ID.
-        /// </summary>
         public TagId ScenarioTagId
         {
             get => index.ScenarioId;
             set => index.ScenarioId = value;
         }
-        /// <summary>
-        /// Gets or sets the map globals tag ID.
-        /// </summary>
         public TagId GlobalsTagId
         {
             get => index.GlobalsId;
             set => index.GlobalsId = value;
         }
-        /// <summary>
-        /// Gets or sets the map's checksum.
-        /// </summary>
         public uint Checksum
         {
             get => header.Checksum;
             set => header.Checksum = value;
         }
-        /// <summary>
-        /// Gets and returns the map's index table offset.
-        /// </summary>
         public int IndexOffset
         {
             get => (int)header.IndexOffset;
         }
-        /// <summary>
-        /// Gets and returns the map's index table length.
-        /// </summary>
         public int IndexLength
         {
             get => (int)header.IndexLength;
         }
-        /// <summary>
-        /// Gets and returns the map's tag data length.
-        /// </summary>
         public int TagDataLength
         {
             get => (int)header.TagDataLength;
         }
-        /// <summary>
-        /// Gets and returns the map's total data length.
-        /// </summary>
         public int TotalDataLength
         {
             get => (int)header.MapDataLength;
         }
-        /// <summary>
-        /// Gets and returns the number of tags in the map.
-        /// </summary>
         public int TagCount
         {
             get => tagDictionary.Count;
         }
 
-        /// <summary>
-        /// Gets or sets the fully qualified name of the Halo map file, or the relative file name.
-        /// </summary>
-        public string FileName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="HaloMapFile"/> class.
-        /// </summary>
         public HaloMapFile() { }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            if (string.IsNullOrEmpty(Name))
-                return base.ToString();
-            
-            return Name;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="BinaryReader"/> using the file specified by <see cref="FileName"/>.
-        /// </summary>
-        /// <returns></returns>
         public BinaryReader OpenRead()
         {
             if (File.Exists(FileName))
                 return new BinaryReader(File.OpenRead(FileName), Encoding.UTF8, false);
             else throw new FileNotFoundException("Unable to open specified map file for reading.", FileName ?? "null");
         }
-        /// <summary>
-        /// Creates a new <see cref="BinaryWriter"/> using the file specified by <see cref="FileName"/>.
-        /// </summary>
-        /// <returns></returns>
         public BinaryWriter OpenWrite()
         {
             if (File.Exists(FileName))
                 return new BinaryWriter(File.OpenWrite(FileName), Encoding.UTF8, false);
             else throw new FileNotFoundException("Unable to open specified map file for writing.", FileName ?? "null");
         }
-        /// <summary>
-        /// Creates a new <see cref="BinaryWriter"/> using the file specified by <see cref="FileName"/>.
-        /// </summary>
-        /// <returns></returns>
-        private BinaryWriter CreateNew()
-        {
-            return new BinaryWriter(File.Create(FileName), Encoding.UTF8, false);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
         public TagData ReadTagData(HaloTag tag)
         {
             if (tag == null) return null;
@@ -207,17 +132,13 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
         public void OverwriteTagData(TagData data)
         {
             if (data == null || data.Stream == null || data.Tag == null || data.MemoryAddress < Index.IndexVirtualAddress) return;
 
             if (data.Tag.BaseAddress == tagDataMemoryAddressTranslator)
             {
-                using(var writer = OpenWrite())
+                using (var writer = OpenWrite())
                 {
                     writer.BaseStream.Seek(header.IndexOffset + header.IndexLength, SeekOrigin.Begin);
                     writer.Write(data.Stream.ToArray());
@@ -246,7 +167,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
                         if (sbspId == data.Tag.Id || ltmpId == data.Tag.Id)
                         {
-                            using(var writer = OpenWrite())
+                            using (var writer = OpenWrite())
                             {
                                 writer.BaseStream.Seek(structureBspOffset, SeekOrigin.Begin);
                                 writer.Write(data.Stream.ToArray());
@@ -256,10 +177,6 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 }
             }
         }
-
-        /// <summary>
-        /// Processes the Halo map file.
-        /// </summary>
         public void Load()
         {
             using (BinaryReader reader = OpenRead())
@@ -346,60 +263,47 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 }
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        public void RecalculateChecksum()
+        {
+            using (var reader = OpenRead())
+            {
+                header = reader.Read<Header>();
+                header.Checksum = 0;
+                for (int i = 0; i < (header.FileLength - Header.Length) / 4; i++)
+                {
+                    header.Checksum ^= reader.ReadUInt32();
+                }
+            }
+
+            using (var writer = OpenWrite())
+            {
+                writer.Write(header);
+            }
+        }
         public HaloTag GetTagById(TagId id)
         {
             if (tagDictionary.ContainsKey(id.Dword))
                 return tagDictionary[id.Dword];
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public HaloTag GetTagById(int id)
         {
             return GetTagById(new TagId(id));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public HaloTag GetTagById(uint id)
         {
             return GetTagById(new TagId(id));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public string GetStringById(StringId id)
         {
             if (id.Index < strings.Length)
                 return strings[id.Index];
             return null;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public string GetStringById(uint id)
         {
             return GetStringById(new StringId(id));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
         public bool HasString(string str)
         {
             if (str != null)
@@ -409,28 +313,14 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
             return false;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<HaloTag> GetTagsEnumerator()
         {
             return tagDictionary.Values;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public Dictionary<long, byte[]> GetResourcesForTag(TagId id)
         {
             return GetResourcesForTag(GetTagById(id));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
         public Dictionary<long, byte[]> GetResourcesForTag(HaloTag tag)
         {
             Dictionary<long, byte[]> resources = new Dictionary<long, byte[]>();
@@ -779,35 +669,26 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
             return resources;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public StringContainer GetStringsForTag(TagId id)
         {
             return GetStringsForTag(GetTagById(id));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
         public StringContainer GetStringsForTag(HaloTag tag)
         {
             throw new NotImplementedException();
         }
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(Name))
+                return base.ToString();
 
+            return Name;
+        }
         private bool CheckRawOffset(long offset)
         {
             return (offset & 0xC0000000) == 0 && offset >= 0 && offset < header.FileLength;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         public static HaloMapFile Load(string fileName)
         {
             HaloMapFile map = new HaloMapFile() { FileName = fileName };
@@ -817,109 +698,44 @@ namespace Abide.HaloLibrary.Halo2.Retail
         }
     }
 
-    /// <summary>
-    /// Represents a virtual tag data container.
-    /// </summary>
     public sealed class TagData : IDisposable
     {
-        /// <summary>
-        /// Gets and returns the tag.
-        /// </summary>
         public HaloTag Tag { get; }
-        /// <summary>
-        /// Gets and returns the memory address for the start of the tag data.
-        /// </summary>
         public long MemoryAddress { get; internal set; }
-        /// <summary>
-        /// Gets and returns a vitual memory stream containing the tag data.
-        /// </summary>
         public VirtualStream Stream { get; internal set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagData"/> class using the specified Halo tag.
-        /// </summary>
-        /// <param name="tag"></param>
         public TagData(HaloTag tag)
         {
             Tag = tag;
         }
-        /// <summary>
-        /// Releases all resources used by this instance.
-        /// </summary>
         public void Dispose()
         {
             Stream.Dispose();
         }
     }
 
-    /// <summary>
-    /// Represents a Halo 2 map tag.
-    /// </summary>
     public sealed class HaloTag
     {
         private ObjectEntry objectEntry = new ObjectEntry();
 
-        /// <summary>
-        /// Gets and returns the map that this tag belongs to.
-        /// </summary>
         public HaloMapFile Map { get; }
-        /// <summary>
-        /// Gets and returns the base address of the tag data.
-        /// </summary>
-        public uint BaseAddress { get; internal set; }
-        /// <summary>
-        /// Gets and returns the tag name.
-        /// </summary>
         public string TagName { get; internal set; } = string.Empty;
-        /// <summary>
-        /// Gets and returns the tag ID.
-        /// </summary>
-        public TagId Id
-        {
-            get => objectEntry.Id;
-        }
-        /// <summary>
-        /// Gets and returns the group tag.
-        /// </summary>
-        public TagFourCc GroupTag
-        {
-            get => objectEntry.Tag;
-        }
-        /// <summary>
-        /// Gets and returns the length of the tag data.
-        /// </summary>
+        public uint BaseAddress { get; internal set; }
+        public TagId Id => objectEntry.Id;
+        public TagFourCc GroupTag => objectEntry.Tag;
+        public long LongLength => objectEntry.Size;
+        public long FileAddress => objectEntry.Offset - BaseAddress;
         public int Length
         {
             get => (int)objectEntry.Size;
             internal set => objectEntry.Size = (uint)value;
         }
-        /// <summary>
-        /// Gets and returns the length of the tag data as a signed 64-bit integer.
-        /// </summary>
-        public long LongLength
-        {
-            get => objectEntry.Size;
-        }
-        /// <summary>
-        /// Gets and returns the address of the tag.
-        /// </summary>
-        public long FileAddress
-        {
-            get => objectEntry.Offset - BaseAddress;
-        }
-        /// <summary>
-        /// Gets and returns the memory address of the tag.
-        /// </summary>
         public long MemoryAddress
         {
             get => objectEntry.Offset;
             internal set => objectEntry.Offset = (uint)value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             if (!string.IsNullOrEmpty(TagName))

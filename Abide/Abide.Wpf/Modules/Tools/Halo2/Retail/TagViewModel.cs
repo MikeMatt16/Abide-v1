@@ -1,12 +1,12 @@
 ﻿using Abide.HaloLibrary;
+using Abide.Tag;
+using Abide.Tag.Cache;
 using Abide.HaloLibrary.Halo2.Retail;
-using Abide.HaloLibrary.Halo2.Retail.Tag;
 using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 {
@@ -90,7 +90,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                     {
                         foreach (var tagBlock in tagGroup.TagBlocks)
                         {
-                            var model = new TagBlockViewModel() { Map = map };
+                            var model = new TagBlockViewModel(null) { Map = map };
                             model.TagBlock = tagBlock;
                             Blocks.Add(model);
                         }
@@ -109,7 +109,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 
                 case nameof(Map):
                     foreach (var block in Blocks)
+                    {
                         block.Map = map;
+                    }
+
                     break;
             }
 
@@ -124,6 +127,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         private string name, displayName = string.Empty;
         private int count = 0;
 
+        public TagBlockViewModel Owner { get; }
         public ObservableCollection<TagFieldViewModel> Fields { get; } = new ObservableCollection<TagFieldViewModel>();
         public HaloMapFile Map
         {
@@ -186,7 +190,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             }
         }
 
-        public TagBlockViewModel() { }
+        public TagBlockViewModel(TagBlockViewModel owner)
+        {
+            Owner = owner;
+        }
         protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -196,7 +203,17 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                     if (tagBlock != null)
                     {
                         foreach (var tagField in tagBlock)
-                            Fields.Add(new TagFieldViewModel() { Map = map, TagField = tagField });
+                        {
+                            Fields.Add(new TagFieldViewModel(Owner) { Map = map, TagField = tagField });
+                        }
+
+                        foreach (var tagField in tagBlock)
+                        {
+                            if (tagField is CharBlockIndexField)
+                            {
+
+                            }
+                        }
 
                         Count = tagBlock.FieldCount;
                         Name = tagBlock.BlockName;
@@ -212,7 +229,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 
                 case nameof(Map):
                     foreach (var field in Fields)
+                    {
                         field.Map = map;
+                    }
 
                     if (Fields.Any(f => f.IsBlockName))
                     {
@@ -248,12 +267,20 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 
                 case FieldType.FieldTagReference:
                     tag = Map?.GetTagById(((TagReference)field.Value).Id);
-                    if (tag == null) return "null";
+                    if (tag == null)
+                    {
+                        return "null";
+                    }
+
                     return $"{tag.TagName}.{tag.GroupTag}";
 
                 case FieldType.FieldTagIndex:
                     tag = Map?.GetTagById((TagId)field.Value);
-                    if (tag == null) return "null";
+                    if (tag == null)
+                    {
+                        return "null";
+                    }
+
                     return $"{tag.TagName}.{tag.GroupTag}";
 
                 default:
@@ -278,6 +305,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         private object value = null;
         private ITagField tagField = null;
 
+        public TagBlockViewModel Owner { get; }
         public ObservableCollection<TagBlockViewModel> BlockList { get; } = new ObservableCollection<TagBlockViewModel>();
         public ObservableCollection<TagOptionViewModel> OptionList { get; } = new ObservableCollection<TagOptionViewModel>();
         public TagBlockViewModel Structure
@@ -440,12 +468,20 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         {
             get
             {
-                if (Type != FieldType.FieldPoint2D) throw new InvalidOperationException();
+                if (Type != FieldType.FieldPoint2D)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 return ((Point2)Value).X;
             }
             set
             {
-                if (Type != FieldType.FieldPoint2D) throw new InvalidOperationException();
+                if (Type != FieldType.FieldPoint2D)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 Point2 point = (Point2)Value;
 
                 if (point.X != value)
@@ -461,25 +497,36 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         {
             get
             {
-                if (Type != FieldType.FieldPoint2D) throw new InvalidOperationException();
+                if (Type != FieldType.FieldPoint2D)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 return ((Point2)Value).Y;
             }
             set
             {
-                if (Type != FieldType.FieldPoint2D) throw new InvalidOperationException();
+                if (Type != FieldType.FieldPoint2D)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 Point2 point = (Point2)Value;
 
                 if (point.Y != value)
                 {
                     point.Y = value;
                     NotifyPropertyChanged();
-                    
+
                     Value = point;
                 }
             }
         }
 
-        public TagFieldViewModel() { }
+        public TagFieldViewModel(TagBlockViewModel owner)
+        {
+            Owner = owner;
+        }
         protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -505,7 +552,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                             case BlockField blockField:
                                 foreach (var tagBlock in blockField.BlockList)
                                 {
-                                    TagBlockViewModel viewModel = new TagBlockViewModel() { Map = map, TagBlock = tagBlock };
+                                    TagBlockViewModel viewModel = new TagBlockViewModel(Owner) { Map = map, TagBlock = tagBlock };
                                     BlockList.Add(viewModel);
                                 }
                                 IsExpanded = BlockList.Count > 0;
@@ -516,7 +563,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                                 break;
 
                             case StructField structField:
-                                TagBlockViewModel structure = new TagBlockViewModel() { Map = map, TagBlock = (Block)structField.Value };
+                                TagBlockViewModel structure = new TagBlockViewModel(Owner) { Map = map, TagBlock = (Block)structField.Value };
                                 Structure = structure;
                                 IsExpanded = true;
                                 break;
@@ -600,7 +647,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 {
                     hasFlag = ToggleFlags(1 << index, !hasFlag);
                     if (hasFlag == value)
+                    {
                         NotifyPropertyChanged();
+                    }
                 }
             }
         }

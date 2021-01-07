@@ -1,5 +1,4 @@
-﻿using Abide.Tag.Definition;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -97,11 +96,6 @@ namespace Abide.Tag
             {
                 field.PostWrite(writer);
             }
-        }
-        public virtual void PostOverwrite(BinaryWriter writer)
-        {
-            foreach (Field field in Fields)
-                field.PostOverwrite(writer);
         }
         private int GetBlockSize()
         {

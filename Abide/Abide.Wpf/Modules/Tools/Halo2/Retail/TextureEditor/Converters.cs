@@ -16,11 +16,17 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         {
             int mipmapCount = 0;
             if (parameter is string s)
-                int.TryParse(s, out mipmapCount);
+            {
+                _ = int.TryParse(s, out mipmapCount);
+            }
 
             if (value is IEnumerable<BitmapSource> mipmaps && targetType == typeof(ImageSource))
             {
-                if (mipmapCount == 0) mipmapCount = mipmaps.Count();
+                if (mipmapCount == 0)
+                {
+                    mipmapCount = mipmaps.Count();
+                }
+
                 var format = mipmaps.First().Format;
                 var palette = mipmaps.First().Palette;
                 int width = mipmaps.First().PixelWidth;
@@ -47,7 +53,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                             WriteableBitmap mipmap = mipmaps.ElementAt(m) as WriteableBitmap;
 
                             if (mipmap == null)
+                            {
                                 continue;
+                            }
 
                             try
                             {

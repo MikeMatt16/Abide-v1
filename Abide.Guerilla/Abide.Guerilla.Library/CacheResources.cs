@@ -54,8 +54,8 @@ namespace Abide.Guerilla.Library
             {
                 //Add to lookup
                 tagPathLookup.Add($"{resourceMap.IndexEntries[i].Filename}.{resourceMap.IndexEntries[i].Root}", i);
-                using (ITagGroup tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(resourceMap.IndexEntries[i].Root))
-                    fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.GroupName}";
+                ITagGroup tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(resourceMap.IndexEntries[i].Root);
+                fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.GroupName}";
                 fileNameLookup.Add(fileName, i);
 
                 //Add resource

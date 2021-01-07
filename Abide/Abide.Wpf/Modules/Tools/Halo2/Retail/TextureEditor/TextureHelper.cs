@@ -17,12 +17,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             //Gather Data
             int hChunks = width / 4;
             if (hChunks < 1)
+            {
                 hChunks = 1;
+            }
 
             unsafe
             {
                 int blockSize = Marshal.SizeOf(block);
                 for (int i = 0; i < width * height / 16; i++)
+                {
                     fixed (byte* memBlock = &srcData[i * blockSize])
                     {
                         //Get Texel
@@ -40,11 +43,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                             y = j / 4;
                             bgra = block.c[block.ColorTable[j]].ToBGRA();
                             if (block.Color3Alpha && block.ColorTable[j] == 3)
+                            {
                                 bgra[3] = 0;
+                            }
+
                             dIndex = (cx * 16) + (cy * hChunks * 64) + (x * 4) + (y * lw);
                             Array.Copy(bgra, 0, dest, dIndex, 4);
                         }
                     }
+                }
             }
         }
 
@@ -58,12 +65,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             //Gather Data
             int hChunks = width / 4;
             if (hChunks < 1)
+            {
                 hChunks = 1;
+            }
 
             unsafe
             {
                 int blockSize = Marshal.SizeOf(block);
                 for (int i = 0; i < width * height / 16; i++)
+                {
                     fixed (byte* memBlock = &srcData[i * blockSize])
                     {
                         //Get Texel
@@ -84,6 +94,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                             Array.Copy(bgra, 0, dest, dIndex, 4);
                         }
                     }
+                }
             }
         }
 
@@ -97,12 +108,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             //Gather Data
             int hChunks = width / 4;
             if (hChunks < 1)
+            {
                 hChunks = 1;
+            }
 
             unsafe
             {
                 int blockSize = Marshal.SizeOf(block);
                 for (int i = 0; i < width * height / 16; i++)
+                {
                     fixed (byte* memBlock = &srcData[i * blockSize])
                     {
                         //Get Texel
@@ -123,6 +137,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                             Array.Copy(bgra, 0, dest, dIndex, 4);
                         }
                     }
+                }
             }
         }
 
@@ -136,12 +151,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             //Gather Data
             int hChunks = width / 4;
             if (hChunks < 1)
+            {
                 hChunks = 1;
+            }
 
             unsafe
             {
                 int blockSize = Marshal.SizeOf(block);
                 for (int i = 0; i < width * height / 16; i++)
+                {
                     fixed (byte* memBlock = &srcData[i * blockSize])
                     {
                         //Get Texel
@@ -162,6 +180,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                             Array.Copy(bgra, 0, dest, dIndex, 4);
                         }
                     }
+                }
             }
         }
 
@@ -199,9 +218,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 if (a < newData.Length && b < data.Length)
                 {
                     for (int j = 0; j < bitCount; j++)
+                    {
                         newData[a + j] = data[b + j];
+                    }
                 }
-                else return null;
+                else
+                {
+                    return null;
+                }
             }
             return newData;
         }
@@ -220,8 +244,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             {
                 int tmp = mask & bit;
 
-                if (tmp != 0) result |= val & bit;
-                else val <<= 1;
+                if (tmp != 0)
+                {
+                    result |= val & bit;
+                }
+                else
+                {
+                    val <<= 1;
+                }
 
                 bit <<= 1;
             }
@@ -299,7 +329,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 }
 
                 for (int i = 0; i < 4; i++)
+                {
                     c[i] = c32[i].To16BitColor();
+                }
 
                 return c;
             }
@@ -391,7 +423,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 c32[2] = c32[0].GradientTwoOne(c32[1]);
                 c32[3] = c32[1].GradientTwoOne(c32[0]);
                 for (int i = 0; i < 4; i++)
+                {
                     c[i] = c32[i].To16BitColor();
+                }
+
                 return c;
             }
         }
@@ -482,9 +517,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         public static implicit operator Dxt3Texel(byte[] value)
         {
             if (value.Length >= 16)
+            {
                 return new Dxt3Texel(value);
+            }
             else
+            {
                 throw new ArgumentException("value is not long enough.");
+            }
         }
         public static implicit operator byte[](Dxt3Texel value)
         {
@@ -516,7 +555,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 c32[2] = c32[0].GradientTwoOne(c32[1]);
                 c32[3] = c32[1].GradientTwoOne(c32[0]);
                 for (int i = 0; i < 4; i++)
+                {
                     c[i] = c32[i].To16BitColor();
+                }
+
                 return c;
             }
         }
@@ -626,9 +668,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         public static implicit operator Dxt5Texel(byte[] value)
         {
             if (value.Length >= 16)
+            {
                 return new Dxt5Texel(value);
+            }
             else
+            {
                 throw new ArgumentException("value is not long enough.");
+            }
         }
         public static implicit operator byte[](Dxt5Texel value)
         {
@@ -661,7 +707,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 c32[4] = c32[0].Interpolate(c32[1], 6, 3);
                 c32[5] = c32[0].Interpolate(c32[1], 6, 4);
                 for (int i = 0; i < 4; i++)
+                {
                     c[i] = c32[i].To16BitColor();
+                }
+
                 return c;
             }
         }
@@ -729,9 +778,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         public static implicit operator Ati2Texel(byte[] value)
         {
             if (value.Length >= 16)
+            {
                 return new Ati2Texel(value);
+            }
             else
+            {
                 throw new ArgumentException("value is not long enough.");
+            }
         }
         public static implicit operator byte[](Ati2Texel value)
         {

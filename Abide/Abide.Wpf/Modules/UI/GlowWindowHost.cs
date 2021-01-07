@@ -226,53 +226,69 @@ namespace Abide.Wpf.Modules.UI
         private void LeftGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
-            if (hwnd == IntPtr.Zero) return;
+            if (hwnd == IntPtr.Zero)
+            {
+                return;
+            }
+
             int x = wndRect.X - 9;
             int y = wndRect.Y - 9;
             int cx = 9;
             int cy = wndRect.Height + 18;
 
             //Setup
-            User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
+            _ = User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
             GlowWindow_DrawLayeredWindow(hwnd);
         }
         private void TopGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
-            if (hwnd == IntPtr.Zero) return;
+            if (hwnd == IntPtr.Zero)
+            {
+                return;
+            }
+
             int x = wndRect.X;
             int y = wndRect.Y - 9;
             int cx = wndRect.Width;
             int cy = 9;
 
             //Setup
-            User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
+            _ = User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
             GlowWindow_DrawLayeredWindow(hwnd);
         }
         private void RightGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
-            if (hwnd == IntPtr.Zero) return;
+            if (hwnd == IntPtr.Zero)
+            {
+                return;
+            }
+
             int x = wndRect.Right;
             int y = wndRect.Y - 9;
             int cx = 9;
             int cy = wndRect.Height + 18;
 
             //Setup
-            User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
+            _ = User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
             GlowWindow_DrawLayeredWindow(hwnd);
         }
         private void BottomGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
-            if (hwnd == IntPtr.Zero) return;
+            if (hwnd == IntPtr.Zero)
+            {
+                return;
+            }
+
             int x = wndRect.X;
             int y = wndRect.Bottom;
             int cx = wndRect.Width;
             int cy = 9;
 
             //Setup
-            User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
+            _ = User32.SetWindowPos(hwnd, windowHandle.Handle, x, y, cx, cy, 0);
             GlowWindow_DrawLayeredWindow(hwnd);
         }
         private RECT GlowWindowHost_RequestClientRectangle(RECT clientRect)
@@ -441,14 +457,22 @@ namespace Abide.Wpf.Modules.UI
                     bool isActive = true;
                     bool isGlowWindowActive = (lParam == leftHandle.Handle || lParam == topHandle.Handle || lParam == rightHandle.Handle || lParam == bottomHandle.Handle);
                     if (wParam == IntPtr.Zero && !isGlowWindowActive)
+                    {
                         isActive = false;
+                    }
 
                     //Check
                     if (isActive != this.isActive)
                     {
                         WpfColor color = new WpfColor();
-                        if (isActive) color = ActiveGlowColor;
-                        else color = InactiveGlowColor;
+                        if (isActive)
+                        {
+                            color = ActiveGlowColor;
+                        }
+                        else
+                        {
+                            color = InactiveGlowColor;
+                        }
 
                         //Set icon
                         CurrentIcon = isActive ? ActiveIcon : InactiveIcon;
@@ -469,7 +493,7 @@ namespace Abide.Wpf.Modules.UI
                     break;
 
                 case WindowMessages.WM_DESTROY:
-                    hostDictionary.Remove(hwnd);    //Unregister
+                    _ = hostDictionary.Remove(hwnd);    //Unregister
                     break;
             }
 
@@ -504,30 +528,53 @@ namespace Abide.Wpf.Modules.UI
 
                         //Check corners
                         if (Rectangle.FromLTRB(wndRect.Left - 8, wndRect.Top - 8, wndRect.Left + 8, wndRect.Top + 8).Contains(hitPt))
+                        {
                             return (IntPtr)13;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Right - 8, wndRect.Top - 8, wndRect.Right + 8, wndRect.Top + 8).Contains(hitPt))
+                        {
                             return (IntPtr)14;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Left - 8, wndRect.Bottom - 8, wndRect.Left + 8, wndRect.Bottom + 8).Contains(hitPt))
+                        {
                             return (IntPtr)16;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Right - 8, wndRect.Bottom - 8, wndRect.Right + 8, wndRect.Bottom + 8).Contains(hitPt))
+                        {
                             return (IntPtr)17;
+                        }
 
                         //Check edges
                         if (Rectangle.FromLTRB(wndRect.Left + 8, wndRect.Bottom, wndRect.Right - 8, wndRect.Bottom + 8).Contains(hitPt))
+                        {
                             return (IntPtr)15;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Left + 8, wndRect.Top - 8, wndRect.Right - 8, wndRect.Top).Contains(hitPt))
+                        {
                             return (IntPtr)12;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Right, wndRect.Top + 8, wndRect.Right + 8, wndRect.Bottom - 8).Contains(hitPt))
+                        {
                             return (IntPtr)11;
+                        }
+
                         if (Rectangle.FromLTRB(wndRect.Left - 8, wndRect.Top + 8, wndRect.Left, wndRect.Bottom - 8).Contains(hitPt))
+                        {
                             return (IntPtr)10;
+                        }
+
                         return IntPtr.Zero;
                     }
                     break;
 
                 case WindowMessages.WM_NCLBUTTONDOWN:
                 case WindowMessages.WM_NCLBUTTONUP:
-                    User32.SendNotifyMessage(parentHWnd, msg, wParam, lParam);
+                    _ = User32.SendNotifyMessage(parentHWnd, msg, wParam, lParam);
                     return IntPtr.Zero;
             }
 
@@ -563,10 +610,25 @@ namespace Abide.Wpf.Modules.UI
                             GlowWindowHost host = hostDictionary[parentHWnd];
 
                             //Draw
-                            if (hwnd == host.leftHandle.Handle) LeftGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
-                            if (hwnd == host.topHandle.Handle) TopGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
-                            if (hwnd == host.rightHandle.Handle) RightGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
-                            if (hwnd == host.bottomHandle.Handle) BottomGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            if (hwnd == host.leftHandle.Handle)
+                            {
+                                LeftGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            }
+
+                            if (hwnd == host.topHandle.Handle)
+                            {
+                                TopGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            }
+
+                            if (hwnd == host.rightHandle.Handle)
+                            {
+                                RightGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            }
+
+                            if (hwnd == host.bottomHandle.Handle)
+                            {
+                                BottomGlow_DrawLayeredWindow(host.glowTextures, g, wndRect.Width, wndRect.Height);
+                            }
                         }
                     }
                 }
@@ -595,17 +657,17 @@ namespace Abide.Wpf.Modules.UI
                     };
 
                     //Update layered window
-                    User32.UpdateLayeredWindow(hwnd, screenDc, ref topPos, ref sz, memDc, ref ptSrc, 0, ref blend, 0x00000002);
+                    _ = User32.UpdateLayeredWindow(hwnd, screenDc, ref topPos, ref sz, memDc, ref ptSrc, 0, ref blend, 0x00000002);
                 }
                 finally
                 {
-                    User32.ReleaseDC(IntPtr.Zero, screenDc);
+                    _ = User32.ReleaseDC(IntPtr.Zero, screenDc);
                     if (hBitmap != IntPtr.Zero)
                     {
-                        Gdi32.SelectObject(memDc, oldBitmap);
-                        Gdi32.DeleteDC(hBitmap);
+                        _ = Gdi32.SelectObject(memDc, oldBitmap);
+                        _ = Gdi32.DeleteDC(hBitmap);
                     }
-                    Gdi32.DeleteDC(memDc);
+                    _ = Gdi32.DeleteDC(memDc);
 
                     //Dispose of bitmap
                     bitmap.Dispose();
@@ -649,10 +711,10 @@ namespace Abide.Wpf.Modules.UI
                 int cmdShow = visible ? 5 : 0;
 
                 //Show or hide
-                User32.ShowWindow(host.leftHandle.Handle, cmdShow);
-                User32.ShowWindow(host.topHandle.Handle, cmdShow);
-                User32.ShowWindow(host.rightHandle.Handle, cmdShow);
-                User32.ShowWindow(host.bottomHandle.Handle, cmdShow);
+                _ = User32.ShowWindow(host.leftHandle.Handle, cmdShow);
+                _ = User32.ShowWindow(host.topHandle.Handle, cmdShow);
+                _ = User32.ShowWindow(host.rightHandle.Handle, cmdShow);
+                _ = User32.ShowWindow(host.bottomHandle.Handle, cmdShow);
 
                 //Redraw
                 host.InvalidateVisual();
@@ -672,7 +734,9 @@ namespace Abide.Wpf.Modules.UI
                     //Create visual
                     visual = new DrawingVisual();
                     using (DrawingContext ctx = visual.RenderOpen())
+                    {
                         ctx.DrawImage(src, new Rect(0, 0, 26, 26));
+                    }
 
                     //Set
                     host.opacityMaskBrush = new VisualBrush(visual);
@@ -737,7 +801,11 @@ namespace Abide.Wpf.Modules.UI
 
             //Register window class
             ushort classAtom = User32.RegisterClassEx(ref wcex);
-            if (classAtom == 0) throw new InvalidOperationException($"Unable to create \"{GlowWindowClassName}\" class atom.");
+            if (classAtom == 0)
+            {
+                throw new InvalidOperationException($"Unable to create \"{GlowWindowClassName}\" class atom.");
+            }
+
             GlowWindowClassAtom.ClassAtom = classAtom;
             GlowWindowClassAtom.Lock();
         }
@@ -942,8 +1010,14 @@ namespace Abide.Wpf.Modules.UI
             get => obj;
             set
             {
-                if (!IsLocked) obj = value;
-                else throw new InvalidOperationException("Object is locked and cannot be modified.");
+                if (!IsLocked)
+                {
+                    obj = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Object is locked and cannot be modified.");
+                }
             }
         }
         /// <summary>
@@ -951,7 +1025,10 @@ namespace Abide.Wpf.Modules.UI
         /// </summary>
         public void Lock()
         {
-            if (!IsLocked) IsLocked = true;
+            if (!IsLocked)
+            {
+                IsLocked = true;
+            }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Lockable{T}"/> class.
@@ -1006,7 +1083,10 @@ namespace Abide.Wpf.Modules.UI
         }
         public void Render(Color glowColor)
         {
-            if (isDisposed) throw new ObjectDisposedException(nameof(GlowTextures));
+            if (isDisposed)
+            {
+                throw new ObjectDisposedException(nameof(GlowTextures));
+            }
 
             LeftWindowTop?.Dispose();
             LeftWindow?.Dispose();
@@ -1051,54 +1131,78 @@ namespace Abide.Wpf.Modules.UI
                 //Prepare left textures
                 bitm = LeftWindowTop = new Bitmap(9, 18);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 18), 0, 0, 9, 18, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = LeftWindow = new Bitmap(9, 1);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 1), 0, 18, 9, 1, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = LeftWindowBottom = new Bitmap(9, 18);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 18), 0, 19, 9, 18, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 //Prepare top textures
                 bitm = TopWindowLeft = new Bitmap(9, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 9), 9, 0, 9, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = TopWindow = new Bitmap(1, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 1, 9), 18, 0, 1, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = TopWindowRight = new Bitmap(9, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 9), 19, 0, 9, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 //Prepare right textures
                 bitm = RightWindowTop = new Bitmap(9, 18);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 18), 28, 0, 9, 18, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = RightWindow = new Bitmap(9, 1);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 1), 28, 18, 9, 1, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = RightWindowBottom = new Bitmap(9, 18);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 18), 28, 19, 9, 18, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 //Prepare bottom textures
                 bitm = BottomWindowLeft = new Bitmap(9, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 9), 9, 28, 9, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = BottomWindow = new Bitmap(1, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 1, 9), 18, 28, 1, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 bitm = BottomWindowRight = new Bitmap(9, 9);
                 using (Graphics g = Graphics.FromImage(bitm))
+                {
                     g.DrawImage(glowWindow, new Rectangle(0, 0, 9, 9), 19, 28, 9, 9, GraphicsUnit.Pixel, imgAttr);
+                }
 
                 //Prepare edge brushes
                 LeftBrush = new TextureBrush(LeftWindow, WrapMode.Tile);
@@ -1109,7 +1213,11 @@ namespace Abide.Wpf.Modules.UI
         }
         public void Dispose()
         {
-            if (isDisposed) return;
+            if (isDisposed)
+            {
+                return;
+            }
+
             isDisposed = true;
 
             LeftWindowTop?.Dispose();

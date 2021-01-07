@@ -45,8 +45,15 @@ namespace Abide.Wpf.Modules.ViewModel
 
         public static SolutionViewModel LoadFromFile(string path)
         {
-            if (string.IsNullOrEmpty(path)) throw new ArgumentException("Invalid solution file path.", nameof(path));
-            if (!File.Exists(path)) throw new FileNotFoundException("Unable to open specified solution file.", path);
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Invalid solution file path.", nameof(path));
+            }
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("Unable to open specified solution file.", path);
+            }
 
             SolutionViewModel model = new SolutionViewModel(Path.GetFileNameWithoutExtension(path));
 
@@ -67,8 +74,15 @@ namespace Abide.Wpf.Modules.ViewModel
 
             public SolutionReader(string path)
             {
-                if (string.IsNullOrEmpty(path)) throw new ArgumentException("Invalid path.", nameof(path));
-                if (!File.Exists(path)) throw new FileNotFoundException("Specified file does not exist.", path);
+                if (string.IsNullOrEmpty(path))
+                {
+                    throw new ArgumentException("Invalid path.", nameof(path));
+                }
+
+                if (!File.Exists(path))
+                {
+                    throw new FileNotFoundException("Specified file does not exist.", path);
+                }
 
                 Reader = File.OpenText(path);
             }
@@ -78,7 +92,10 @@ namespace Abide.Wpf.Modules.ViewModel
             }
             public void ReadSolution()
             {
-                if (IsDisposed) return;
+                if (IsDisposed)
+                {
+                    return;
+                }
 
                 SkipWhitespace();
                 string line = Reader.ReadLine();
@@ -107,26 +124,38 @@ namespace Abide.Wpf.Modules.ViewModel
             }
             private string ReadToken()
             {
-                if (IsDisposed) return null;
-                if (Reader.Peek() == -1) return null;
-                if (char.IsWhiteSpace((char)Reader.Peek())) return null;
+                if (IsDisposed)
+                {
+                    return null;
+                }
+
+                if (Reader.Peek() == -1)
+                {
+                    return null;
+                }
+
+                if (char.IsWhiteSpace((char)Reader.Peek()))
+                {
+                    return null;
+                }
+
                 char peekChar = (char)Reader.Peek();
 
                 StringBuilder tokenBuilder = new StringBuilder();
 
                 if (peekChar == '#')
                 {
-                    tokenBuilder.Append(Reader.ReadLine().Trim());
+                    _ = tokenBuilder.Append(Reader.ReadLine().Trim());
                 }
                 else if (peekChar == '=')
                 {
-                    tokenBuilder.Append((char)Reader.Read());
+                    _ = tokenBuilder.Append((char)Reader.Read());
                 }
                 else
                 {
                     while (Reader.Peek() != -1 && !char.IsWhiteSpace((char)Reader.Peek()))
                     {
-                        tokenBuilder.Append((char)Reader.Read());
+                        _ = tokenBuilder.Append((char)Reader.Read());
                     }
                 }
 
@@ -140,22 +169,31 @@ namespace Abide.Wpf.Modules.ViewModel
             }
             private string ReadNameToken()
             {
-                if (Reader.Peek() == -1) return null;
+                if (Reader.Peek() == -1)
+                {
+                    return null;
+                }
 
                 return string.Empty;
             }
             private void SkipWhitespace()
             {
-                if (IsDisposed) return;
-
-                while(Reader.Peek() != -1 && char.IsWhiteSpace((char)Reader.Peek()))
+                if (IsDisposed)
                 {
-                    Reader.Read();
+                    return;
+                }
+
+                while (Reader.Peek() != -1 && char.IsWhiteSpace((char)Reader.Peek()))
+                {
+                    _ = Reader.Read();
                 }
             }
             private void SkipToNextToken()
             {
-                if (IsDisposed) return;
+                if (IsDisposed)
+                {
+                    return;
+                }
 
                 if (Reader.Peek() != -1)
                 {
@@ -163,13 +201,17 @@ namespace Abide.Wpf.Modules.ViewModel
 
                     if (Reader.Peek() == '#')
                     {
-                        Reader.ReadLine();
+                        _ = Reader.ReadLine();
                     }
                 }
             }
             public void Dispose()
             {
-                if (IsDisposed) return;
+                if (IsDisposed)
+                {
+                    return;
+                }
+
                 IsDisposed = true;
 
                 Reader.Dispose();

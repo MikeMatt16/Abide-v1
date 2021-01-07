@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -19,10 +20,30 @@ namespace Abide.DebugXbox.Test
         {
             //Welcome
             WriteHeader();
-            xboxes = NameAnsweringProtocol.Discover();
+            xboxes = NameAnsweringProtocol.Discover(10);
 
             //Application loop
             Application();
+            // Test();
+        }
+
+        private static void Test()
+        {
+            Xbox xbox = xboxes.First();
+            xbox.Connect();
+
+            var fieldValueAddr = 0x8021FFBA;
+            byte[] buffer = new byte[2];
+            xbox.GetMemory(buffer, fieldValueAddr, 0, buffer.Length);
+            var value = BitConverter.ToInt16(buffer, 0);
+            buffer = BitConverter.GetBytes((short)1);
+            xbox.SetMemory(fieldValueAddr, buffer, buffer.Length);
+            xbox.GetMemory(buffer, fieldValueAddr, 0, buffer.Length);
+            var value1 = BitConverter.ToInt16(buffer, 0);
+
+            xbox.Disconnect();
+
+            Console.ReadKey();
         }
 
         private static string[] GetCommand(string input)

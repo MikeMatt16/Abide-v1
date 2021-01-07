@@ -77,7 +77,10 @@ namespace Abide.Wpf.Modules.Win32
         public override bool Equals(object obj)
         {
             if (obj is SIZE sz)
+            {
                 return Equals(this, sz);
+            }
+
             return false;
         }
         public bool Equals(SIZE other)
@@ -150,7 +153,10 @@ namespace Abide.Wpf.Modules.Win32
         public override bool Equals(object obj)
         {
             if (obj is POINT pt)
+            {
                 return Equals(this, pt);
+            }
+
             return false;
         }
         public bool Equals(POINT other)

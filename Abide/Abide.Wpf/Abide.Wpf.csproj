@@ -78,13 +78,14 @@
     </Compile>
     <Compile Include="Modules\Editors\Halo2\TagGroupViewModel.cs" />
     <Compile Include="Modules\Guerilla\Tag\Fields.cs" />
-    <Compile Include="Modules\Guerilla\Tag\Tag.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
+    <Compile Include="Modules\ProjectTypes\Halo2\Retail\HaloProject.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimationTest.cs" />
     <Compile Include="Modules\AddOns\HaloAddOnFactory.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimatorViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagExtractor.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagImporter.cs" />
+    <Compile Include="Modules\ViewModel\ActionCommand.cs" />
     <Compile Include="Modules\ViewModel\BaseAddOnViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\HaloModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditorViewModel.cs" />

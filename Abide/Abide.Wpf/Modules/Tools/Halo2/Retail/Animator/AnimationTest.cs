@@ -49,7 +49,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.Animator
         public void Initialize(IHost host)
         {
             if (host != null)
+            {
                 Host = host;
+            }
         }
 
         public void OnMapLoad()

@@ -21,8 +21,14 @@ namespace Abide.Wpf.Modules.Windows
         private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             //Restore
-            if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
-            else WindowState = WindowState.Maximized;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+            }
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {

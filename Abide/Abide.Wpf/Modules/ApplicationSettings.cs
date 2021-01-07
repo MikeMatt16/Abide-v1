@@ -45,15 +45,22 @@ namespace Abide.Wpf.Modules
 
             //Check debug mode
             if (DebugMode && !Debugger.IsAttached)
-                Debugger.Launch();    //Launch debugger
+            {
+                _ = Debugger.Launch();    //Launch debugger
+            }
 
             //Loop through debug AddOn paths
             foreach (string path in DebugAddOnPaths)
             {
                 //Attempt to load the assembly
                 if (AssemblyManager.LoadAssembly(path))
+                {
                     Console.WriteLine("Loaded \"{0}\".", path);
-                else Console.WriteLine("Unable to load assembly \"{0}\".", path);
+                }
+                else
+                {
+                    Console.WriteLine("Unable to load assembly \"{0}\".", path);
+                }
             }
         }
     }

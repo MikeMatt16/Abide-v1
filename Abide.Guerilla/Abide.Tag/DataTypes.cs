@@ -1272,11 +1272,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets or sets the the x-component of this point.
         /// </summary>
-        public short X { get; }
+        public short X { get; set; }
         /// <summary>
         /// Gets or sets the the y-component of this point.
         /// </summary>
-        public short Y { get; }
+        public short Y { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point2"/> structure using the supplied x, and y component values.

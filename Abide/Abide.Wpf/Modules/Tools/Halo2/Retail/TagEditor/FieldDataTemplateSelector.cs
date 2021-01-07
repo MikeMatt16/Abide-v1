@@ -1,4 +1,4 @@
-﻿using Abide.HaloLibrary.Halo2.Retail.Tag;
+﻿using Abide.Tag;
 using System;
 using System.Collections.Generic;
 using System.Linq;

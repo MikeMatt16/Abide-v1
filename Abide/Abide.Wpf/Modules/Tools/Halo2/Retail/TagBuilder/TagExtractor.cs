@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Xml;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
@@ -27,7 +26,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
 
         private void Click(object obj)
         {
-            List<string> stringList = new List<string>();
             Dictionary<HaloTag, ITagGroup> tagDictionary = new Dictionary<HaloTag, ITagGroup>();
             ITagGroup soundCacheFileGestaltTagGroup = null;
 
@@ -36,7 +34,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 var globals = Map.GetTagById(Map.GlobalsTagId);
                 using (var tagData = Map.ReadTagData(globals))
                 {
-                    tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
+                    _ = tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
                     var globalsTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(globals.GroupTag);
                     globalsTagGroup.Read(tagData.Stream.CreateReader());
 
@@ -46,7 +44,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         var soundGlobalsBlock = soundGlobals.BlockList[0];
                         var soundCacheFileGestaltId = (TagId)soundGlobalsBlock.Fields[4].Value;
                         var soundCacheFileGestalt = Map.GetTagById(soundCacheFileGestaltId);
-                        tagData.Stream.Seek(soundCacheFileGestalt.MemoryAddress, SeekOrigin.Begin);
+                        _ = tagData.Stream.Seek(soundCacheFileGestalt.MemoryAddress, SeekOrigin.Begin);
                         soundCacheFileGestaltTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(soundCacheFileGestalt.GroupTag);
                         soundCacheFileGestaltTagGroup.Read(tagData.Stream.CreateReader());
                     }
@@ -54,13 +52,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
 
                 using (var map = new HaloMap(Map.FileName))
                 {
-                    FindAllReferences(SelectedEntry, tagDictionary, stringList);
+                    FindAllReferences(SelectedEntry, tagDictionary);
 
                     var selectedEntry = map.IndexEntries[SelectedEntry.Id];
-                    var strings = stringList.OrderBy(s => s);
                     var tags = tagDictionary.Reverse();
 
-                    var tagName = $"{Path.GetFileName(SelectedEntry.TagName)}.manifest.xml";
+                    var tagName = $"{Path.GetFileName(SelectedEntry.TagName)}.xml";
                     var saveDlg = new SaveFileDialog()
                     {
                         Filter = "XML Files (*.xml)|*.xml",
@@ -78,17 +75,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
 
                             writer.WriteStartDocument();
                             writer.WriteStartElement("AbideTagManifest");
-                            writer.WriteStartElement("Strings");
-                            foreach (var str in strings)
-                            {
-                                writer.WriteStartElement("String");
-                                writer.WriteStartAttribute("Value");
-                                writer.WriteValue(str);
-                                writer.WriteEndAttribute();
-                                writer.WriteEndElement();
-                            }
-                            writer.WriteEndElement();
-
                             writer.WriteStartElement("TagNames");
                             foreach (var tag in tags)
                             {
@@ -128,76 +114,61 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 }
             }
         }
-        private void FindAllReferences(HaloTag tag, Dictionary<HaloTag, ITagGroup> tags, List<string> strings)
+        private void FindAllReferences(HaloTag tag, Dictionary<HaloTag, ITagGroup> tags)
         {
             if (!tags.ContainsKey(tag))
             {
                 var tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(tag.GroupTag);
                 using (var data = Map.ReadTagData(tag))
                 {
-                    data.Stream.Seek(tag.MemoryAddress, SeekOrigin.Begin);
+                    _ = data.Stream.Seek(tag.MemoryAddress, SeekOrigin.Begin);
                     tagGroup.Read(data.Stream.CreateReader());
                     tags.Add(tag, tagGroup);
 
-                    FindAllReferences(tagGroup, tags, strings);
+                    FindAllReferences(tagGroup, tags);
                 }
             }
         }
-        private void FindAllReferences(ITagGroup tagGroup, Dictionary<HaloTag, ITagGroup> tags, List<string> strings)
+        private void FindAllReferences(ITagGroup tagGroup, Dictionary<HaloTag, ITagGroup> tags)
         {
             foreach (var tagBlock in tagGroup)
             {
-                FindAllReferences(tagBlock, tags, strings);
+                FindAllReferences(tagBlock, tags);
             }
         }
-        private void FindAllReferences(ITagBlock tagBlock, Dictionary<HaloTag, ITagGroup> tags, List<string> strings)
+        private void FindAllReferences(ITagBlock tagBlock, Dictionary<HaloTag, ITagGroup> tags)
         {
             HaloTag tag;
             foreach (var field in tagBlock)
             {
                 switch (field)
                 {
-                    case Abide.Tag.BlockField blockField:
-                        foreach (var childBlock in blockField.BlockList)
+                    case BlockField blockField:
+                        foreach (var block in blockField.BlockList)
                         {
-                            FindAllReferences(childBlock, tags, strings);
+                            FindAllReferences(block, tags);
                         }
                         break;
 
-                    case Abide.Tag.StructField structField:
-                        if (structField.Value is ITagBlock structBlock)
-                        {
-                            FindAllReferences(structBlock, tags, strings);
-                        }
+                    case StructField structField:
+                        FindAllReferences(structField.Value, tags);
                         break;
 
-                    case Abide.Tag.Cache.StringIdField stringIdField:
-                    case Abide.Tag.Cache.OldStringIdField oldStringIdField:
-                        if (field.Value is StringId sid && sid != StringId.Zero)
-                        {
-                            var str = Map.GetStringById(sid);
-                            if (!strings.Contains(str))
-                            {
-                                strings.Add(str);
-                            }
-                        }
-                        break;
-
-                    case Abide.Tag.Cache.TagReferenceField tagReferenceField:
-                        TagReference tagReference = (TagReference)tagReferenceField.Value;
+                    case Tag.Cache.TagReferenceField tagReferenceField:
+                        TagReference tagReference = tagReferenceField.Value;
                         tag = Map.GetTagById(tagReference.Id);
                         if (tag != null)
                         {
-                            FindAllReferences(tag, tags, strings);
+                            FindAllReferences(tag, tags);
                         }
                         break;
 
-                    case Abide.Tag.Cache.TagIndexField tagIdField:
-                        TagId tagId = (TagId)tagIdField.Value;
+                    case Tag.Cache.TagIndexField tagIdField:
+                        TagId tagId = tagIdField.Value;
                         tag = Map.GetTagById(tagId);
                         if (tag != null)
                         {
-                            FindAllReferences(tag, tags, strings);
+                            FindAllReferences(tag, tags);
                         }
                         break;
                 }

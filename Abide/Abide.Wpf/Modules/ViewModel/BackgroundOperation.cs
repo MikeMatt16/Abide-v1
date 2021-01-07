@@ -61,8 +61,15 @@ namespace Abide.Wpf.Modules.ViewModel
 
         public void Start(WaitCallback completedCallback)
         {
-            if (completedCallback == null) throw new ArgumentNullException(nameof(completedCallback));
-            if (isRunning) return;
+            if (completedCallback == null)
+            {
+                throw new ArgumentNullException(nameof(completedCallback));
+            }
+
+            if (isRunning)
+            {
+                return;
+            }
 
             this.completedCallback = completedCallback;
             isRunning = true;
@@ -75,9 +82,20 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         public void Start(WaitCallback completedCallback, IProgress<int> progressReporter)
         {
-            if (completedCallback == null) throw new ArgumentNullException(nameof(completedCallback));
-            if (progressReporter == null) throw new ArgumentNullException(nameof(progressReporter));
-            if (isRunning) return;
+            if (completedCallback == null)
+            {
+                throw new ArgumentNullException(nameof(completedCallback));
+            }
+
+            if (progressReporter == null)
+            {
+                throw new ArgumentNullException(nameof(progressReporter));
+            }
+
+            if (isRunning)
+            {
+                return;
+            }
 
             this.completedCallback = completedCallback;
             ProgressReporter = progressReporter;
@@ -91,7 +109,11 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         public void Cancel()
         {
-            if (IsCancelPending) return;
+            if (IsCancelPending)
+            {
+                return;
+            }
+
             IsCancelPending = true;
         }
 

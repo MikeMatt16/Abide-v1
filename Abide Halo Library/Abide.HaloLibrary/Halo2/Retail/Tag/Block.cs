@@ -97,11 +97,6 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
                 field.PostWrite(writer);
             }
         }
-        public virtual void PostOverwrite(BinaryWriter writer)
-        {
-            foreach (Field field in Fields)
-                field.PostOverwrite(writer);
-        }
         private int GetBlockSize()
         {
             int size = 0;

@@ -1,6 +1,4 @@
 ﻿using Abide.HaloLibrary;
-using Abide.Tag.Definition;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,7 +7,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a tag group object.
     /// </summary>
-    public interface ITagGroup : IReadWrite, IDisposable, IEnumerable<ITagBlock>
+    public interface ITagGroup : IReadWrite, IEnumerable<ITagBlock>
     {
         /// <summary>
         /// Gets and returns the number of <see cref="ITagBlock"/> elements within the <see cref="ITagGroup"/>.
@@ -34,7 +32,7 @@ namespace Abide.Tag
     /// <summary>
     /// Represents a tag block object.
     /// </summary>
-    public interface ITagBlock : IReadWrite, IDisposable, IEnumerable<ITagField>
+    public interface ITagBlock : IReadWrite, IEnumerable<ITagField>
     {
         /// <summary>
         /// Gets and returns the tag field at the specified index.
@@ -80,7 +78,7 @@ namespace Abide.Tag
     /// <summary>
     /// 
     /// </summary>
-    public interface ITagField : IReadWrite, IDisposable
+    public interface ITagField : IReadWrite
     {
         /// <summary>
         /// 

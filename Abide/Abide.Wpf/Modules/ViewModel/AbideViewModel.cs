@@ -1,6 +1,5 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
-using Abide.HaloLibrary.Halo2.Retail;
 using Abide.Wpf.Modules.AddOns;
 using Abide.Wpf.Modules.Dialogs;
 using Abide.Wpf.Modules.Operations;
@@ -12,6 +11,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -233,7 +233,7 @@ namespace Abide.Wpf.Modules.ViewModel
             Factory.InitializeAddOns();
 
             //Setup
-            NewProjectCommand = new ActionCommand(o=> { NewProject(); });
+            NewProjectCommand = new ActionCommand(o => { NewProject(); });
             OpenProjectCommand = new ActionCommand(OpenProject);
             NewCommand = new ActionCommand(NewFile);
             OpenCommand = new ActionCommand(OpenFile);
@@ -255,36 +255,30 @@ namespace Abide.Wpf.Modules.ViewModel
             }
 
             if (dialog.ShowDialog() ?? false)
+            {
                 CreateProject(dialog);
+            }
         }
         private void CreateProject(NewProjectDialog dialog)
         {
-            DirectoryInfo solutionDirectoryInfo = null;
-
-            try
+            if (!Directory.Exists(dialog.Location))
             {
-                if (!Directory.Exists(dialog.Location))
-                    Directory.CreateDirectory(dialog.Location);
-
-                string solutionDirectory = Path.Combine(dialog.Location, dialog.SolutionName);
-                if (Directory.Exists(solutionDirectory))
-                {
-                    MessageBox.Show("Solution folder already exists!", "Cannot Create Solution", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    NewProject(dialog);
-                    return;
-                }
-                else
-                {
-                    solutionDirectoryInfo = Directory.CreateDirectory(solutionDirectory);
-                }
+                _ = Directory.CreateDirectory(dialog.Location);
             }
-            catch { throw; }
 
-            if (solutionDirectoryInfo != null)
+            string solutionDirectory = Path.Combine(dialog.Location, dialog.SolutionName);
+            if (Directory.Exists(solutionDirectory))
             {
-                string solutionFileName = Path.Combine(solutionDirectoryInfo.FullName, $"{dialog.SolutionName}.sln");
+                _ = MessageBox.Show("Solution folder already exists.", "Cannot Create Solution", MessageBoxButton.OK, MessageBoxImage.Error);
+                NewProject(dialog);
+                return;
+            }
+            else
+            {
+                _ = Directory.CreateDirectory(solutionDirectory);
+                string solutionFileName = Path.Combine(solutionDirectory, $"{dialog.SolutionName}.sln");
 
-                using(StreamWriter writer = File.CreateText(solutionFileName))
+                using (StreamWriter writer = File.CreateText(solutionFileName))
                 {
                     var assembly = typeof(AbideViewModel).Assembly;
                     var asmName = assembly.GetName();
@@ -292,6 +286,15 @@ namespace Abide.Wpf.Modules.ViewModel
                     writer.WriteLine("Abide Solution File, Format Version 1.0");
                     writer.WriteLine($"# {asmName.Name} 1");
                     writer.WriteLine($"AbideVersion = {asmName.Version}");
+
+#if DEBUG
+                    if (AssemblyManager.ProjectTypes.Count > 0)
+                    {
+                        var projectTypeAttribute = AssemblyManager.ProjectTypes[0].GetCustomAttribute<ProjectTypeAttribute>();
+                        writer.WriteLine($"Project(\"{{{projectTypeAttribute.Guid}}}\") = \"{dialog.SolutionName}\", \"{dialog.SolutionName}\\{dialog.SolutionName}.{projectTypeAttribute.ProjectExtension}\", \"{Guid.NewGuid().ToString()}\"");
+                        writer.WriteLine("EndProject");
+                    }
+#endif
                 }
             }
         }
@@ -302,11 +305,11 @@ namespace Abide.Wpf.Modules.ViewModel
 
             //Get file filter
             StringBuilder filterBuilder = new StringBuilder();
-            filterBuilder.Append($"All Project Types ({extensions})|{extensions}");
+            _ = filterBuilder.Append($"All Project Types ({extensions})|{extensions}");
             if (Factory.ProjectEditors.Count > 0)
             {
-                filterBuilder.Append(string.Join(";", Factory.ProjectEditors.Select(e => e.Extension).ToArray()) + "|");
-                filterBuilder.Append(string.Join("|", Factory.ProjectEditors.Select(e => $"{e.TypeName} ({e.Extension})|{e.Extension}").ToArray()) + "|");
+                _ = filterBuilder.Append(string.Join(";", Factory.ProjectEditors.Select(e => e.Extension).ToArray()) + "|");
+                _ = filterBuilder.Append(string.Join("|", Factory.ProjectEditors.Select(e => $"{e.TypeName} ({e.Extension})|{e.Extension}").ToArray()) + "|");
             }
 
             //Show OpenFileDialog
@@ -314,8 +317,13 @@ namespace Abide.Wpf.Modules.ViewModel
             if (openDlg.ShowDialog() ?? false)
             {
                 if (Path.GetExtension(openDlg.FileName) == ".sln")
+                {
                     OpenSolution(openDlg.FileName);
-                else OpenProject(openDlg.FileName);
+                }
+                else
+                {
+                    OpenProject(openDlg.FileName);
+                }
             }
         }
         private void NewFile(object arg)
@@ -331,17 +339,19 @@ namespace Abide.Wpf.Modules.ViewModel
             StringBuilder filterBuilder = new StringBuilder();
             if (Factory.FileEditors.Count > 0)
             {
-                filterBuilder.Append($"All Supported Files ({extensions})|{extensions}");
-                filterBuilder.Append(string.Join(";", Factory.FileEditors.Select(e => e.Extension).ToArray()) + "|");
-                filterBuilder.Append(string.Join("|", Factory.FileEditors.Select(e => $"{e.TypeName} ({e.Extension})|{e.Extension}").ToArray()) + "|");
+                _ = filterBuilder.Append($"All Supported Files ({extensions})|{extensions}");
+                _ = filterBuilder.Append(string.Join(";", Factory.FileEditors.Select(e => e.Extension).ToArray()) + "|");
+                _ = filterBuilder.Append(string.Join("|", Factory.FileEditors.Select(e => $"{e.TypeName} ({e.Extension})|{e.Extension}").ToArray()) + "|");
             }
-            filterBuilder.Append("All Files (*.*)|*.*");
+            _ = filterBuilder.Append("All Files (*.*)|*.*");
 
             //Show OpenFileDialog
             OpenFileDialog openDlg = new OpenFileDialog() { Filter = filterBuilder.ToString() };
             openDlg.CustomPlaces.Add(new FileDialogCustomPlace(Abide.Guerilla.Library.RegistrySettings.WorkspaceDirectory));
             if (openDlg.ShowDialog() ?? false)
+            {
                 OpenFile(openDlg.FileName);
+            }
         }
         private void DecompileMap(object arg)
         {
@@ -350,7 +360,9 @@ namespace Abide.Wpf.Modules.ViewModel
 #endif
             OpenFileDialog openDlg = new OpenFileDialog() { Filter = "Halo 2 Map Files (*.map)|*.map" };
             if (openDlg.ShowDialog() ?? false)
+            {
                 DecompileMapFile(openDlg.FileName);
+            }
         }
         private void CompileMap(object arg)
         {
@@ -359,7 +371,10 @@ namespace Abide.Wpf.Modules.ViewModel
         private void OpenProject(string path)
         {
             //Check
-            if (!File.Exists(path)) return;
+            if (!File.Exists(path))
+            {
+                return;
+            }
 
             //Get extension
             string ext = Path.GetExtension(path);
@@ -379,7 +394,9 @@ namespace Abide.Wpf.Modules.ViewModel
                 selectedEditor = editors[0];
             }
             else if (editors.Length == 1)
+            {
                 selectedEditor = editors[0];
+            }
 
             //Check
             if (selectedEditor != null)
@@ -390,7 +407,10 @@ namespace Abide.Wpf.Modules.ViewModel
         private void OpenSolution(string path)
         {
             // Check
-            if (!File.Exists(path)) return;
+            if (!File.Exists(path))
+            {
+                return;
+            }
 
             SolutionViewModel solution = SolutionViewModel.LoadFromFile(path);
 
@@ -401,7 +421,10 @@ namespace Abide.Wpf.Modules.ViewModel
         private void OpenFile(string path)
         {
             //Check
-            if (!File.Exists(path)) return;
+            if (!File.Exists(path))
+            {
+                return;
+            }
 
             //Get valid types
             IFileEditor selectedEditor = null;
@@ -417,17 +440,23 @@ namespace Abide.Wpf.Modules.ViewModel
 
                 //Load editors
                 for (int i = 0; i < types.Length; i++)
+                {
                     editorDialog.Editors.Add(editors[i]);
+                }
 
                 //Set selected editor
                 editorDialog.SelectedEditor = editors[0];
 
                 //Show
                 if (editorDialog.ShowDialog() ?? false)
+                {
                     selectedEditor = editorDialog.SelectedEditor;
+                }
             }
             else if (editors.Length == 1)
+            {
                 selectedEditor = editors[0];
+            }
 
             //Check
             if (selectedEditor != null)
@@ -446,8 +475,15 @@ namespace Abide.Wpf.Modules.ViewModel
         private void DecompileMapFile(string path)
         {
             //Check
-            if (!File.Exists(path)) return;
-            if (PrimaryOperation != null && PrimaryOperation.IsRunning) return;
+            if (!File.Exists(path))
+            {
+                return;
+            }
+
+            if (PrimaryOperation != null && PrimaryOperation.IsRunning)
+            {
+                return;
+            }
 
             var operation = new HaloMapDecompileOperation(path);
             operation.Start(DecompileOperationCompleted, ProgressBar);
@@ -457,7 +493,7 @@ namespace Abide.Wpf.Modules.ViewModel
         {
             PrimaryOperation = null;
             ProgressBar.Report(0);
-            MessageBox.Show("Decompile Complete!");
+            _ = MessageBox.Show("Decompile Complete!");
         }
 
         bool ISynchronizeInvoke.InvokeRequired => false;
@@ -469,8 +505,15 @@ namespace Abide.Wpf.Modules.ViewModel
         object IHost.Request(IAddOn sender, string request, params object[] args)
         {
             //Check
-            if (sender == null) return null;
-            if (request == null) return null;
+            if (sender == null)
+            {
+                return null;
+            }
+
+            if (request == null)
+            {
+                return null;
+            }
 
             //Check request
             switch (request)
@@ -498,8 +541,14 @@ namespace Abide.Wpf.Modules.ViewModel
         {
             if (d is AbideViewModel viewModel)
             {
-                if (e.NewValue is FileItem file) viewModel.WindowTitle = $"{file.FileName} - {DefaultWindowTitle}";
-                else viewModel.WindowTitle = DefaultWindowTitle;
+                if (e.NewValue is FileItem file)
+                {
+                    viewModel.WindowTitle = $"{file.FileName} - {DefaultWindowTitle}";
+                }
+                else
+                {
+                    viewModel.WindowTitle = DefaultWindowTitle;
+                }
             }
         }
         private static void CurrentSolutionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -512,17 +561,32 @@ namespace Abide.Wpf.Modules.ViewModel
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "Ready";
+            if (value == null)
+            {
+                return "Ready";
+            }
 
             if (value is IList<BackgroundOperation> operations && targetType == typeof(string))
             {
-                if (operations.Count == 0) return "Ready";
-                else if (operations.Count == 1) return operations[0].Status;
-                else return "Multiple operations...";
+                if (operations.Count == 0)
+                {
+                    return "Ready";
+                }
+                else if (operations.Count == 1)
+                {
+                    return operations[0].Status;
+                }
+                else
+                {
+                    return "Multiple operations...";
+                }
             }
             else if (value is BackgroundOperation operation)
             {
-                if (string.IsNullOrEmpty(operation.Status)) return "Ready";
+                if (string.IsNullOrEmpty(operation.Status))
+                {
+                    return "Ready";
+                }
 
                 return operation.Status;
             }
@@ -533,49 +597,6 @@ namespace Abide.Wpf.Modules.ViewModel
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    /// <summary>
-    /// Represents a simple action command.
-    /// </summary>
-    public sealed class ActionCommand : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-
-        public Action<object> ExecuteAction { get; set; } = null;
-        public Func<object, bool> CanExecuteFunction { get; set; } = null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActionCommand"/> class.
-        /// </summary>
-        public ActionCommand() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActionCommand"/> class using the specified execute action.
-        /// </summary>
-        /// <param name="executeAction">The action to be performed when the command is exectued.</param>
-        public ActionCommand(Action<object> executeAction)
-        {
-            ExecuteAction = executeAction;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActionCommand"/> class using the specified execute action and can execute function.
-        /// </summary>
-        /// <param name="executeAction">The action to be performed when the command is executed.</param>
-        /// <param name="canExecuteFunction">The function to be used to determine whether or not this command can execute.</param>
-        public ActionCommand(Action<object> executeAction, Func<object, bool> canExecuteFunction)
-        {
-            ExecuteAction = executeAction;
-            CanExecuteFunction = canExecuteFunction;
-        }
-
-        public void Execute(object parameter = null)
-        {
-            ExecuteAction?.Invoke(parameter);
-        }
-        public bool CanExecute(object parameter = null)
-        {
-            return CanExecuteFunction?.Invoke(parameter) ?? ExecuteAction != null;
         }
     }
 

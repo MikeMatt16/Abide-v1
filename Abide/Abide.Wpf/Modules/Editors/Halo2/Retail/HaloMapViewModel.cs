@@ -32,7 +32,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             DependencyProperty.RegisterReadOnly(nameof(ToolButtonList), typeof(ObservableCollection<ToolButtonAddOn>), typeof(HaloMapViewModel), new PropertyMetadata());
         private static readonly DependencyPropertyKey IsCollapsedPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(IsCollapsed), typeof(bool), typeof(HaloMapViewModel), new PropertyMetadata(true));
-        
+
         public static readonly DependencyProperty IsCollapsedProperty =
             IsCollapsedPropertyKey.DependencyProperty;
         public static readonly DependencyProperty FactoryProperty =
@@ -145,11 +145,16 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                     for (int i = 0; i < parts.Length - 1; i++)
                     {
                         if (currentNode.Children.ContainsName(parts[i]))
+                        {
                             currentNode = currentNode.Children[parts[i]];
-                        else currentNode = currentNode.Children.Add(parts[i], !IsCollapsed);
+                        }
+                        else
+                        {
+                            currentNode = currentNode.Children.Add(parts[i], !IsCollapsed);
+                        }
                     }
 
-                    currentNode.Children.Add(parts[parts.Length - 1], false, tag);
+                    _ = currentNode.Children.Add(parts[parts.Length - 1], false, tag);
                 }
             }
             else
@@ -159,9 +164,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                     TagPathNode currentNode = rootNode;
                     string path = $"{tag.TagName}.{tag.GroupTag}";
                     if (!rootNode.Children.ContainsName(tag.GroupTag))
+                    {
                         currentNode = rootNode.Children.Add(tag.GroupTag);
-                    else currentNode = rootNode.Children[tag.GroupTag];
-                    currentNode.Children.Add(path, false, tag);
+                    }
+                    else
+                    {
+                        currentNode = rootNode.Children[tag.GroupTag];
+                    }
+
+                    _ = currentNode.Children.Add(path, false, tag);
                 }
             }
 
@@ -170,7 +181,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         private static IEnumerable<HaloTag> GetTags(HaloMapFile haloMap, string filter)
         {
             if (string.IsNullOrEmpty(filter))
+            {
                 return haloMap.GetTagsEnumerator();
+            }
 
             return haloMap.GetTagsEnumerator().Where(e =>
             {
@@ -178,7 +191,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 foreach (var part in tagName.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (part.StartsWith(filter, StringComparison.OrdinalIgnoreCase))
+                    {
                         return true;
+                    }
                 }
 
                 return false;
@@ -189,14 +204,18 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             if (d is HaloMapViewModel model)
             {
                 foreach (var addOn in model.Factory.HaloAddOns)
+                {
                     addOn.OnMapLoad();
+                }
 
                 TagPathNode.TagPathNodeCollection nodes = model.CreateTagTree();
                 nodes.Sort();
 
                 model.TagPathNodes = nodes;
                 if (nodes.Count > 0)
+                {
                     model.SelectedNode = nodes[0];
+                }
             }
         }
         private static void SelectedNodePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -209,7 +228,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 {
                     //Check
                     if (node.Tag != null)
+                    {
                         model.SelectedTag = node.Tag;
+                    }
                 }
             }
         }
@@ -220,7 +241,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             {
                 //Loop
                 foreach (var addOn in model.Factory.HaloAddOns)
+                {
                     addOn.OnSelectedEntryChanged(); //Call OnSelectedEntryChanged
+                }
             }
         }
         private static void TagFilterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -236,7 +259,9 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                     model.TagPathNodes = nodes;
 
                     if (nodes.Count > 0)
+                    {
                         model.SelectedNode = nodes[0];
+                    }
                 }
             }
         }
@@ -403,7 +428,10 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             base.OnPropertyChanged(e);
 
             //Update collection
-            if (Owner != null) Owner.OnPropertyChanged(new PropertyChangedEventArgs(e.Property.Name));
+            if (Owner != null)
+            {
+                Owner.OnPropertyChanged(new PropertyChangedEventArgs(e.Property.Name));
+            }
         }
         public override string ToString()
         {
@@ -423,7 +451,11 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             {
                 get
                 {
-                    if (index < 0 || index >= nodes.Count) throw new ArgumentOutOfRangeException(nameof(index));
+                    if (index < 0 || index >= nodes.Count)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(index));
+                    }
+
                     return nodes[index];
                 }
             }
@@ -432,9 +464,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 get
                 {
                     //Check
-                    if (name == null) throw new ArgumentNullException(nameof(name));
+                    if (name == null)
+                    {
+                        throw new ArgumentNullException(nameof(name));
+                    }
+
                     if (!nodeNameMap.ContainsKey(name))
+                    {
                         throw new ArgumentException("A node with the specified name does not exist.", nameof(name));
+                    }
 
                     //Return
                     return nodes[nodeNameMap[name]];
@@ -457,9 +495,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             }
             public TagPathNode Add(string name)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (name == null)
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
+
                 if (nodeNameMap.ContainsKey(name))
+                {
                     throw new InvalidOperationException("A node with the specified name already exists.");
+                }
 
                 TagPathNode node = new TagPathNode() { Name = name };
                 Add(node);  //Add node
@@ -468,9 +512,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             }
             public TagPathNode Add(string name, bool isExpanded)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (name == null)
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
+
                 if (nodeNameMap.ContainsKey(name))
+                {
                     throw new InvalidOperationException("A node with the specified name already exists.");
+                }
 
                 TagPathNode node = new TagPathNode()
                 {
@@ -483,9 +533,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             }
             public TagPathNode Add(string name, bool isExpanded, HaloTag tag)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
+                if (name == null)
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
+
                 if (nodeNameMap.ContainsKey(name))
+                {
                     throw new InvalidOperationException("A node with the specified name already exists.");
+                }
 
                 TagPathNode node = new TagPathNode()
                 {
@@ -500,9 +556,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             public void Add(TagPathNode node)
             {
                 //Check
-                if (node == null) throw new ArgumentNullException(nameof(node));
+                if (node == null)
+                {
+                    throw new ArgumentNullException(nameof(node));
+                }
+
                 if (nodeNameMap.ContainsKey(node.Name))
+                {
                     throw new InvalidOperationException("A node with the specified name already exists.");
+                }
 
                 //Add
                 node.Owner = this;
@@ -515,13 +577,24 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             public bool Remove(TagPathNode node)
             {
                 //Check
-                if (node == null) throw new ArgumentNullException(nameof(node));
-                if (!nodeNameMap.ContainsKey(node.Name)) return false;
-                if (nodes[nodeNameMap[node.Name]] != node) return false;
+                if (node == null)
+                {
+                    throw new ArgumentNullException(nameof(node));
+                }
+
+                if (!nodeNameMap.ContainsKey(node.Name))
+                {
+                    return false;
+                }
+
+                if (nodes[nodeNameMap[node.Name]] != node)
+                {
+                    return false;
+                }
 
                 //Remove
                 nodes.RemoveAt(nodeNameMap[node.Name]);
-                nodeNameMap.Remove(node.Name);
+                _ = nodeNameMap.Remove(node.Name);
                 node.Owner = null;
 
                 //Call OnCollectionChanged
@@ -558,9 +631,18 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             private int TagPathNodeComparitor(TagPathNode x, TagPathNode y)
             {
                 int xc = x.Children.Count, yc = y.Children.Count;
-                if (xc > 0 && yc == 0) return -1;
-                else if (xc == 0 && yc > 0) return 1;
-                else return string.Compare(x.Name, y.Name);
+                if (xc > 0 && yc == 0)
+                {
+                    return -1;
+                }
+                else if (xc == 0 && yc > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return string.Compare(x.Name, y.Name);
+                }
             }
             IEnumerator IEnumerable.GetEnumerator()
             {

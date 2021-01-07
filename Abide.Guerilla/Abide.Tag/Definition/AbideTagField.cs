@@ -336,6 +336,7 @@ namespace Abide.Tag.Definition
     public sealed class ObjectName
     {
         private static readonly char[] breakChars = { ':', '#', '^', '*' };
+        private string name, details, information;
 
         /// <summary>
         /// Gets or sets the field name.
@@ -369,28 +370,19 @@ namespace Abide.Tag.Definition
         /// Gets or sets a boolean that determines whether this value is read-only.
         /// </summary>
         public bool IsReadOnly { get; set; }
-
-        private string name, details, information;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectName"/> class.
         /// </summary>
-        public ObjectName() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectName"/> class.
-        /// </summary>
-        /// <param name="string">The field name string.</param>
-        public ObjectName(string @string)
+        /// <param name="name">The field name string.</param>
+        public ObjectName(string name)
         {
-            //Setup
-            string fieldName = @string ?? string.Empty;
-
-            //Set fields
-            name = GetName(fieldName);
-            details = GetDetails(fieldName);
-            information = GetInformation(fieldName);
-            IsBlockName = GetIsBlockName(fieldName);
-            IsReadOnly = GetIsReadonly(fieldName);
+            name = name ?? string.Empty;
+            this.name = GetName(name);
+            details = GetDetails(name);
+            information = GetInformation(name);
+            IsBlockName = GetIsBlockName(name);
+            IsReadOnly = GetIsReadonly(name);
         }
         /// <summary>
         /// Gets and returns a the field name as a string.
@@ -398,138 +390,60 @@ namespace Abide.Tag.Definition
         /// <returns>A field name string.</returns>
         public override string ToString()
         {
-            return $"{name ?? string.Empty}{(IsReadOnly ? "*" : string.Empty)}{(IsBlockName ? "^" : string.Empty)}{details ?? string.Empty}{information ?? string.Empty}";
+            var name = $"{Name}{(IsReadOnly ? "*" : string.Empty)}{(IsBlockName ? "^" : string.Empty)}";
+            if (!string.IsNullOrEmpty(Details))
+            {
+                name += $":{Details}";
+            }
+            if (!string.IsNullOrEmpty(Information))
+            {
+                name += $"#{Information}";
+            }
+            return name;
         }
-        private string GetName(string fieldName)
+        private string GetName(string name)
         {
-            //Prepare
             int startIndex = 0, endIndex = 0;
             int length = 0;
 
-            //Check
             if (startIndex < 0) return null;
-            else if (startIndex >= fieldName.Length) return null;
+            else if (startIndex >= name.Length) return null;
 
-            //Determine end
-            endIndex = fieldName.IndexOfAny(breakChars, startIndex);
-            if (endIndex < 0) length = fieldName.Length - startIndex; else length = endIndex - startIndex;
-
-            //Return
-            return fieldName.Substring(startIndex, length);
+            endIndex = name.IndexOfAny(breakChars, startIndex);
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
         }
-        private string GetDetails(string fieldName)
+        private string GetDetails(string name)
         {
-            //Prepare
-            int startIndex = fieldName.IndexOf(':'), endIndex = 0;
+            int startIndex = name.IndexOf(':'), endIndex = 0;
             int length = 0;
 
-            //Check
             if (startIndex < 0) return null;
-            else if (startIndex >= fieldName.Length) return null;
+            else if (startIndex >= name.Length) return null;
 
-            //Determine end
-            endIndex = fieldName.IndexOfAny(breakChars, startIndex + 1);
-            if (endIndex < 0) length = fieldName.Length - startIndex; else length = endIndex - startIndex;
-
-            //Return
-            return fieldName.Substring(startIndex, length);
+            endIndex = name.IndexOfAny(breakChars, startIndex + 1);
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
         }
-        private string GetInformation(string fieldName)
+        private string GetInformation(string name)
         {
-            //Prepare
-            int startIndex = fieldName.IndexOf('#'), endIndex = 0;
+            int startIndex = name.IndexOf('#'), endIndex = 0;
             int length = 0;
 
-            //Check
             if (startIndex < 0) return null;
-            else if (startIndex >= fieldName.Length) return null;
+            else if (startIndex >= name.Length) return null;
 
-            //Determine end
-            endIndex = fieldName.IndexOfAny(breakChars, startIndex + 1);
-            if (endIndex < 0) length = fieldName.Length - startIndex; else length = endIndex - startIndex;
-
-            //Return
-            return fieldName.Substring(startIndex, length);
+            endIndex = name.IndexOfAny(breakChars, startIndex + 1);
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
         }
-        private bool GetIsBlockName(string fieldName)
+        private bool GetIsBlockName(string name)
         {
-            return fieldName.Contains("^");
+            return name.Contains("^");
         }
-        private bool GetIsReadonly(string fieldName)
+        private bool GetIsReadonly(string name)
         {
-            return fieldName.Contains("*");
+            return name.Contains("*");
         }
-    }
-
-    /// <summary>
-    /// Represents an enumeration containing every Guerilla field type.
-    /// </summary>
-    public enum FieldType : short
-    {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        FieldString,
-        FieldLongString,
-        FieldStringId,
-        FieldOldStringId,
-        FieldCharInteger,
-        FieldShortInteger,
-        FieldLongInteger,
-        FieldAngle,
-        FieldTag,
-        FieldCharEnum,
-        FieldEnum,
-        FieldLongEnum,
-        FieldLongFlags,
-        FieldWordFlags,
-        FieldByteFlags,
-        FieldPoint2D,
-        FieldRectangle2D,
-        FieldRgbColor,
-        FieldArgbColor,
-        FieldReal,
-        FieldRealFraction,
-        FieldRealPoint2D,
-        FieldRealPoint3D,
-        FieldRealVector2D,
-        FieldRealVector3D,
-        FieldQuaternion,
-        FieldEulerAngles2D,
-        FieldEulerAngles3D,
-        FieldRealPlane2D,
-        FieldRealPlane3D,
-        FieldRealRgbColor,
-        FieldRealArgbColor,
-        FieldRealHsvColor,
-        FieldRealAhsvColor,
-        FieldShortBounds,
-        FieldAngleBounds,
-        FieldRealBounds,
-        FieldRealFractionBounds,
-        FieldTagReference,
-        FieldBlock,
-        FieldLongBlockFlags,
-        FieldWordBlockFlags,
-        FieldByteBlockFlags,
-        FieldCharBlockIndex1,
-        FieldCharBlockIndex2,
-        FieldShortBlockIndex1,
-        FieldShortBlockIndex2,
-        FieldLongBlockIndex1,
-        FieldLongBlockIndex2,
-        FieldData,
-        FieldVertexBuffer,
-        FieldArrayStart,
-        FieldArrayEnd,
-        FieldPad,
-        FieldSkip,
-        FieldExplanation,
-        FieldStruct,
-        FieldCustom,
-        FieldUselessPad,
-        FieldTerminator,
-
-        // isn't an official field type- adding this to make keeping track of IDs easier
-        FieldTagIndex
-#pragma warning restore CS1591
     }
 }

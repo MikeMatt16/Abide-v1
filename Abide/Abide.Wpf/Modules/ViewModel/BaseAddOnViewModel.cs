@@ -27,12 +27,16 @@ namespace Abide.Wpf.Modules.ViewModel
         private static void MapPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is BaseAddOnViewModel vm)
+            {
                 vm.OnMapChange();
+            }
         }
         private static void SelectedTagPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is BaseAddOnViewModel vm)
+            {
                 vm.OnSelectedTagChanged();
+            }
         }
     }
 }

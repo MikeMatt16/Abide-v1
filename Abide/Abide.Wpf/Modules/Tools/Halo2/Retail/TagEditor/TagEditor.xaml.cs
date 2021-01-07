@@ -20,13 +20,17 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         private void ToolControl_MapLoad(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.Map = Map;
+            }
         }
 
         private void ToolControl_SelectedEntryChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.SelectedTag = SelectedEntry;
+            }
         }
 
         private void ToolControl_XboxConnectionStateChanged(object sender, RoutedEventArgs e)

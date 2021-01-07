@@ -24,27 +24,38 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
             {
                 using (FileStream fs = File.OpenRead(path))
                 {
-                    if (fs.Length < 6144) return false;
+                    if (fs.Length < 6144)
+                    {
+                        return false;
+                    }
 
                     using (BinaryReader reader = new BinaryReader(fs))
                     {
-                        fs.Seek(0, SeekOrigin.Begin);
+                        _ = fs.Seek(0, SeekOrigin.Begin);
                         TagFourCc head = reader.Read<TagFourCc>();
                         uint version = reader.ReadUInt32();
                         uint fileLength = reader.ReadUInt32();
-                        fs.Seek(720, SeekOrigin.Begin);
+                        _ = fs.Seek(720, SeekOrigin.Begin);
                         uint checksum = reader.ReadUInt32();
-                        fs.Seek(2044, SeekOrigin.Begin);
+                        _ = fs.Seek(2044, SeekOrigin.Begin);
                         TagFourCc foot = reader.Read<TagFourCc>();
 
                         if (head != HaloTags.head || foot != HaloTags.foot)
+                        {
                             return false;
+                        }
                         else if (version != 8)
+                        {
                             return false;
+                        }
                         else if (fileLength != fs.Length)
+                        {
                             return false;
+                        }
                         else if (checksum == 0)
+                        {
                             return false;
+                        }
 
                         return true;
                     }
@@ -65,14 +76,19 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 HaloMapViewModel model = new HaloMapViewModel(mapFile);
                 DataContext = model;
             }
-            else DataContext = new HaloMapViewModel();
+            else
+            {
+                DataContext = new HaloMapViewModel();
+            }
         }
 
         private void ToolMenuItem_Click(object sender, RoutedEventArgs e)
         {
             //Check
             if (sender is FrameworkElement element && element.DataContext is ToolAddOn tool)
+            {
                 ToolContent.Content = tool.Tool.Element;
+            }
         }
     }
 }

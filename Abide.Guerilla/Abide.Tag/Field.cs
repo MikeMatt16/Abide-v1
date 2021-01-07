@@ -78,16 +78,13 @@ namespace Abide.Tag
         }
         public void Overwrite(BinaryWriter writer)
         {
+            OnOverwrite(writer);
             writer.BaseStream.Seek(FieldAddress, SeekOrigin.Begin);
             OnWrite(writer);
         }
         public void PostWrite(BinaryWriter writer)
         {
             OnPostWrite(writer);
-        }
-        public void PostOverwrite(BinaryWriter writer)
-        {
-            OnPostOverwrite(writer);
         }
         public string GetName()
         {
@@ -100,7 +97,7 @@ namespace Abide.Tag
         protected virtual void OnRead(BinaryReader reader) { }
         protected virtual void OnWrite(BinaryWriter writer) { }
         protected virtual void OnPostWrite(BinaryWriter writer) { }
-        protected virtual void OnPostOverwrite(BinaryWriter writer) { }
+        protected virtual void OnOverwrite(BinaryWriter writer) { }
         protected virtual void Dispose(bool disposing)
         {
             if (Value is IDisposable disposable) disposable.Dispose();
@@ -239,7 +236,6 @@ namespace Abide.Tag
         }
         protected sealed override void OnWrite(BinaryWriter writer)
         {
-            Value = TagBlock.Zero;
             writer.Write(Value);
         }
         protected sealed override void OnPostWrite(BinaryWriter writer)
@@ -277,16 +273,11 @@ namespace Abide.Tag
             writer.Write(tagBlock);
             writer.BaseStream.Position = pos;
         }
-        protected sealed override void OnPostOverwrite(BinaryWriter writer)
+        protected override void OnOverwrite(BinaryWriter writer)
         {
             foreach (var block in BlockList)
             {
                 block.Overwrite(writer);
-            }
-
-            foreach (var block in BlockList)
-            {
-                block.PostOverwrite(writer);
             }
         }
         public abstract Block Add(out bool success);
@@ -1346,24 +1337,13 @@ namespace Abide.Tag
 
             writer.BaseStream.Position = pos;
         }
-        protected override void OnPostOverwrite(BinaryWriter writer)
+        protected override void OnOverwrite(BinaryWriter writer)
         {
-            TagBlock tagBlock = TagBlock.Zero;
-
-            if (buffer.Length > 0)
+            if (BufferLength > 0)
             {
                 writer.BaseStream.Seek(Value.Offset, SeekOrigin.Begin);
-                tagBlock.Count = (uint)(buffer.Length / ElementSize);
-                tagBlock.Offset = (uint)writer.BaseStream.Position;
-
                 writer.Write(buffer);
             }
-
-            long pos = writer.BaseStream.Position;
-            writer.BaseStream.Position = FieldAddress;
-            writer.Write(tagBlock);
-
-            writer.BaseStream.Position = pos;
         }
         public byte[] GetBuffer()
         {

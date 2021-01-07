@@ -50,7 +50,10 @@ namespace Abide.Wpf.Modules.Editors.Halo2
                 TagGroupViewModel model = new TagGroupViewModel();
                 DataContext = model;
             }
-            else DataContext = new TagGroupViewModel();
+            else
+            {
+                DataContext = new TagGroupViewModel();
+            }
         }
     }
 }

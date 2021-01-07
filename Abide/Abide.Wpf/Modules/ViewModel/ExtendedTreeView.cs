@@ -44,7 +44,9 @@ namespace Abide.Wpf.Modules.ViewModel
             {
                 //Create behavior?
                 if (!behaviors.ContainsKey(d))
+                {
                     behaviors.Add(d, new TreeViewBehavior(treeView));
+                }
 
                 //Get behavior
                 TreeViewBehavior behavior = behaviors[d];
@@ -69,7 +71,10 @@ namespace Abide.Wpf.Modules.ViewModel
             public void ChangeSelectedItem(object i)
             {
                 TreeViewItem item = TreeView.ItemContainerGenerator.ContainerFromItem(i) as TreeViewItem;
-                if (item != null) item.IsSelected = true;
+                if (item != null)
+                {
+                    item.IsSelected = true;
+                }
             }
         }
     }

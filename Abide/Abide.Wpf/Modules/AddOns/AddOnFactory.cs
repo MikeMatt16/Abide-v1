@@ -22,8 +22,11 @@ namespace Abide.Wpf.Modules.AddOns
             set
             {
                 //Check
-                if (AddOnsInitialized) throw new InvalidOperationException("Unable to set the value of Host " +
+                if (AddOnsInitialized)
+                {
+                    throw new InvalidOperationException("Unable to set the value of Host " +
                     "once AddOns have been initialized.");
+                }
 
                 //Check
                 if (host != value)
@@ -76,7 +79,7 @@ namespace Abide.Wpf.Modules.AddOns
             var addOn = (T)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(
                 type.Assembly.FullName, type.FullName);
             addOn.Initialize(host);
-            
+
             return addOn;
         }
         public T Instantiate<T>(string typeName) where T : class, IAddOn

@@ -105,6 +105,23 @@
                 </ComboBox.SelectedItem>
             </ComboBox>
         </DataTemplate>
+        
+        <!-- Block Index field template -->
+        <DataTemplate x:Key="blockIndexTemplate" DataType="{x:Type tag:TagFieldViewModel}">
+            <ComboBox ItemsSource="{Binding OptionList}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.SelectedItem>
+                    <MultiBinding Converter="{StaticResource enumValueConverter}">
+                        <Binding Path="Value" Mode="TwoWay"/>
+                        <Binding Path="OptionList" Mode="OneWay"/>
+                    </MultiBinding>
+                </ComboBox.SelectedItem>
+            </ComboBox>
+        </DataTemplate>
 
         <!-- Flags field template -->
         <DataTemplate x:Key="flagsTemplate" DataType="{x:Type tag:TagFieldViewModel}">
@@ -241,13 +258,21 @@
                                          Point2dTemplate="{StaticResource point2dTemplate}"
                                          UnknownTemplate="{StaticResource unknownTemplate}"/>
     </h2:ToolControl.Resources>
-    <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding TagGroup.Blocks}" ItemTemplate="{StaticResource tagBlockTemplate}">
-            <ItemsControl.Resources>
-                <Style TargetType="ItemsControl">
-                    <Setter Property="Background" Value="{StaticResource BackgroundDark}"/>
-                </Style>
-            </ItemsControl.Resources>
-        </ItemsControl>
-    </ScrollViewer>
+    <DockPanel>
+        <ToolBarPanel DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Save" Command="{Binding SaveCommand}"/>
+                <Button Content="Poke" Command="{Binding PokeCommand}"/>
+            </ToolBar>
+        </ToolBarPanel>
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding TagGroup.Blocks}" ItemTemplate="{StaticResource tagBlockTemplate}">
+                <ItemsControl.Resources>
+                    <Style TargetType="ItemsControl">
+                        <Setter Property="Background" Value="{StaticResource BackgroundDark}"/>
+                    </Style>
+                </ItemsControl.Resources>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
 </h2:ToolControl>

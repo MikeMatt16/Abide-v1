@@ -47,7 +47,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                 RenderModel.Process();
 
                 if (RenderModel.ModelContainers.Count > 0)
+                {
                     SelectedContainer = RenderModel.ModelContainers.First();
+                }
             }
         }
     }

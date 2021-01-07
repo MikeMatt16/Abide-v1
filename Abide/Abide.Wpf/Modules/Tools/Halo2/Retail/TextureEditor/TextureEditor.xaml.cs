@@ -35,13 +35,17 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         private void ToolControl_MapLoad(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.Map = Map;
+            }
         }
 
         private void ToolControl_SelectedEntryChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is BaseAddOnViewModel vm)
+            {
                 vm.SelectedTag = SelectedEntry;
+            }
         }
 
         private void ToolControl_XboxConnectionStateChanged(object sender, RoutedEventArgs e)
@@ -51,7 +55,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         private void ImageCanvas_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
                 e.Effects = DragDropEffects.Move;
+            }
         }
 
         private void ImageCanvas_Drop(object sender, DragEventArgs e)

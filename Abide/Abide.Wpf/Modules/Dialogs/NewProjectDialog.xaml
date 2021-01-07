@@ -36,13 +36,14 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Margin="2">
-                <TextBlock Text="TODO: Add Project/Solution list. For now this will create a blank solution with the specified name at the specified location"/>
+                <TextBlock Text="TODO: Add Project/Solution list. For now this will create a blank solution with the specified name at the specified location"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
 
             <Grid Grid.Row="1">
@@ -51,7 +52,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Location" Margin="2"/>
+                <TextBlock Grid.Column="0" Text="Location:" Margin="4"/>
                 <TextBox Grid.Column="1" Text="{Binding Path=Location, Mode=TwoWay, ElementName=newProjectDialog}" Margin="2"/>
             </Grid>
 
@@ -61,7 +62,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
-                <TextBlock Grid.Column="0" Text="Solution Name:" Margin="1"/>
+                <TextBlock Grid.Column="0" Text="Solution Name:" Margin="4"/>
                 <TextBox Grid.Column="1" Text="{Binding Path=SolutionName, Mode=TwoWay, ElementName=newProjectDialog}" Margin="2"/>
             </Grid>
             

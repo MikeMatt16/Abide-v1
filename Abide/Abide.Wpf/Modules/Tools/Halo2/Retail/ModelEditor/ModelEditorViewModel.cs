@@ -17,7 +17,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
             get => model;
             set
             {
-                if(model != value)
+                if (model != value)
                 {
                     model = value;
                     NotifyPropertyChanged();

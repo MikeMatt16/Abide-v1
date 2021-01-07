@@ -22,6 +22,15 @@ namespace Abide.DebugXbox
         /// </summary>
         private const string MultilineTerminator = ".";
         /// <summary>
+        /// Represents the maximum length that can be used when using the setmem command.
+        /// </summary>
+        private const int MaxSetMemLength = 120;
+
+        private readonly EndPoint localEndPoint;
+        private int sendBufferSize = 20 * 0x100000, receiveBufferSize = 20 * 0x100000;
+        private Socket socket = null;
+
+        /// <summary>
         /// Occurs when the Xbox sends a response.
         /// </summary>
         public event EventHandler<ResponseEventArgs> Response;
@@ -49,11 +58,9 @@ namespace Abide.DebugXbox
         /// Occurs when an asynchronous data upload operation completes.
         /// </summary>
         public event UploadEventHandler UploadDataCompleted;
-
-        private int m_SendBufferSize = 20 * 0x100000, m_ReceiveBufferSize = 20 * 0x100000;
-        private readonly EndPoint m_LocalEndPoint;
-        private Socket m_Socket = null;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public event EventHandler ConnectionStateChanged;
         /// <summary>
         /// Gets or sets a value that specifies the size of the send buffer of the underlying <see cref="Socket"/>.
@@ -63,12 +70,12 @@ namespace Abide.DebugXbox
         /// <exception cref="ArgumentOutOfRangeException">The value specified for a set operation is less than 0.</exception>
         public int SendBufferSize
         {
-            get => m_Socket?.SendBufferSize ?? m_SendBufferSize;
+            get => socket?.SendBufferSize ?? sendBufferSize;
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
-                m_SendBufferSize = value;
-                if (m_Socket != null) m_Socket.SendBufferSize = m_SendBufferSize;
+                sendBufferSize = value;
+                if (socket != null) socket.SendBufferSize = sendBufferSize;
             }
         }
         /// <summary>
@@ -79,12 +86,12 @@ namespace Abide.DebugXbox
         /// <exception cref="ArgumentOutOfRangeException">The value specified for a set operation is less than 0.</exception>
         public int ReceiveBufferSize
         {
-            get => m_Socket?.ReceiveBufferSize ?? m_ReceiveBufferSize;
+            get => socket?.ReceiveBufferSize ?? receiveBufferSize;
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
-                m_ReceiveBufferSize = value;
-                if (m_Socket != null) m_Socket.ReceiveBufferSize = m_ReceiveBufferSize;
+                receiveBufferSize = value;
+                if (socket != null) socket.ReceiveBufferSize = receiveBufferSize;
             }
         }
         /// <summary>
@@ -99,6 +106,10 @@ namespace Abide.DebugXbox
         /// </summary>
         public Version DebugMonitorVersion { get; private set; }
         /// <summary>
+        /// 
+        /// </summary>
+        public Stream Stream { get; private set; }
+        /// <summary>
         /// Gets and returns the name of the debug Xbox console.
         /// </summary>
         public string Name { get; internal set; }
@@ -112,44 +123,35 @@ namespace Abide.DebugXbox
         /// </summary>
         public Xbox()
         {
-            //Prepare End Point
-            m_LocalEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            localEndPoint = new IPEndPoint(IPAddress.Any, 0);
         }
         /// <summary>
         /// Attempts to open a Remote Debugging and Control Protocol connection with the debug Xbox.
         /// </summary>
         public void Connect()
         {
-            //Check
             if (Connected) return;
 
             try
             {
-                //Initialize Socket
-                m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                m_Socket.Bind(m_LocalEndPoint);
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Bind(localEndPoint);
 
-                //Attempt to connect
-                m_Socket.Connect(RemoteEndPoint);
-                m_Socket.ReceiveBufferSize = m_SendBufferSize;
-                m_Socket.SendBufferSize = m_ReceiveBufferSize;
-                m_Socket.NoDelay = true;
+                socket.Connect(RemoteEndPoint);
+                socket.ReceiveBufferSize = sendBufferSize;
+                socket.SendBufferSize = receiveBufferSize;
+                socket.NoDelay = true;
 
-                //Get response
-                GetResponse(out Status statusCode, out string message);
-                if ((statusCode & Status.OK) == Status.OK)
+                if (GetResponse().HasFlag(Status.OK))
                 {
-                    //Setup
                     Connected = true;
+                    Stream = new XboxMemoryStream(this);
 
-                    //Get version
                     SendCommand("dmversion");
-                    GetResponse(out statusCode, out string version);
-                    if ((statusCode & Status.OK) == Status.OK)
+                    if (GetResponse(out string version) == Status.OK)
                         DebugMonitorVersion = new Version(version);
                     else DebugMonitorVersion = new Version();
 
-                    //Raise the ConnectionStateChanged event
                     ConnectionStateChanged?.Invoke(this, new EventArgs());
                 }
             }
@@ -161,7 +163,6 @@ namespace Abide.DebugXbox
         /// <param name="sayBye">If <see langword="true"/>, sends the "bye" command to the debug Xbox, otherwise if <see langword=""="false"/>, closes the socket.</param>
         public void Disconnect(bool sayBye = true)
         {
-            //Check if connected
             if (Connected)
             {
                 //Check
@@ -169,10 +170,9 @@ namespace Abide.DebugXbox
                 {
                     //Send disconnect command
                     SendCommand("bye");
-                    GetResponse(out Status statusCode, out string message);
 
                     //Check response
-                    if ((statusCode & Status.OK) == Status.OK)
+                    if (GetResponse() == Status.OK)
                     { Close(); Dispose(); } //Close and cleanup
                 }
                 else
@@ -181,6 +181,8 @@ namespace Abide.DebugXbox
 
             //Disconnect
             Connected = false;
+            Stream.Dispose();
+            Stream = null;
 
             //Raise ConnectionStateChanged event
             ConnectionStateChanged?.Invoke(this, new EventArgs());
@@ -191,7 +193,7 @@ namespace Abide.DebugXbox
         public void Close()
         {
             //Close
-            m_Socket.Close();
+            socket.Close();
         }
         /// <summary>
         /// Releases all resources used by the current instance of the <see cref="Xbox"/> class.
@@ -199,7 +201,7 @@ namespace Abide.DebugXbox
         public void Dispose()
         {
             //Dispose
-            m_Socket.Dispose();
+            socket.Dispose();
         }
         /// <summary>
         /// Returns a string that represents the current <see cref="Xbox"/>.
@@ -224,12 +226,12 @@ namespace Abide.DebugXbox
             string line = string.Empty;
 
             //Receive line
-            int available = m_Socket.Available;
-            if (available < data.Length) m_Socket.Receive(data, available, SocketFlags.Peek);
-            else m_Socket.Receive(data, data.Length, SocketFlags.Peek);
+            int available = socket.Available;
+            if (available < data.Length) socket.Receive(data, available, SocketFlags.Peek);
+            else socket.Receive(data, data.Length, SocketFlags.Peek);
             line = Encoding.ASCII.GetString(data);
             line = line.Substring(0, line.IndexOf("\r\n") + 2);
-            m_Socket.Receive(data, line.Length, SocketFlags.None);
+            socket.Receive(data, line.Length, SocketFlags.None);
 
             //Return
             return line.Substring(0, line.Length - 2);
@@ -279,8 +281,8 @@ namespace Abide.DebugXbox
                     WaitForData(timeout);
 
                     //Receive
-                    buffer = new byte[m_Socket.Available];
-                    m_Socket.Receive(buffer);
+                    buffer = new byte[socket.Available];
+                    socket.Receive(buffer);
 
                     //Change start time
                     start = DateTime.Now;
@@ -304,28 +306,27 @@ namespace Abide.DebugXbox
             byte[] commandData = Encoding.ASCII.GetBytes(commandLine);
 
             //Write
-            m_Socket.Send(commandData, SocketFlags.None);
+            socket.Send(commandData, SocketFlags.None);
         }
         /// <summary>
         /// Attempts to receive a response from the debug Xbox.
         /// </summary>
-        public void GetResponse()
+        public Status GetResponse()
         {
-            GetResponse(out Status status, out string message);
+            Interpret(ReceiveLine(), out int status, out string message);
+            Response?.Invoke(this, new ResponseEventArgs((Status)status, message));
+            return (Status)status;
         }
         /// <summary>
         /// Attempts to receive a response from the debug Xbox.
         /// </summary>
         /// <param name="statusCode">The status code of the response.</param>
         /// <param name="message">The response message.</param>
-        public void GetResponse(out Status statusCode, out string message)
+        public Status GetResponse(out string message)
         {
-            //Interpret
             Interpret(ReceiveLine(), out int status, out message);
-            statusCode = (Status)status;
-
-            //Invoke response event
-            Response?.Invoke(this, new ResponseEventArgs(statusCode, message));
+            Response?.Invoke(this, new ResponseEventArgs((Status)status, message));
+            return (Status)status;
         }
         /// <summary>
         /// Attempts to get the Direct3D state of the debug Xbox.
@@ -342,8 +343,7 @@ namespace Abide.DebugXbox
 
                 //Send rename command
                 SendCommand("getd3dstate"); Thread.Sleep(10);
-                GetResponse(out Status status, out string msg);
-                if (status == Status.BinaryResponseFollows)
+                if (GetResponse() == Status.BinaryResponseFollows)
                 {
                     //Prepare
                     data = new byte[0];
@@ -385,8 +385,7 @@ namespace Abide.DebugXbox
                 }
 
                 //Get response
-                GetResponse(out Status status, out string msg);
-                return status == Status.OK;
+                return GetResponse() == Status.OK;
             }
 
             return false;
@@ -401,8 +400,7 @@ namespace Abide.DebugXbox
         {
             //Send reboot command with optional warm argument
             SendCommand("reboot", $"{(warm ? "warm" : string.Empty)}"); Thread.Sleep(10);
-            GetResponse(out Status status, out string msg);
-            return status == Status.OK;
+            return GetResponse() == Status.OK;
         }
         /// <summary>
         /// Attempts to get the debug Xbox's drive paths.
@@ -419,9 +417,9 @@ namespace Abide.DebugXbox
             if (Connected)
             {
                 //Send drivelist command
-                SendCommand("drivelist"); Thread.Sleep(10);
-                GetResponse(out Status status, out string drivesString);
-                if (status == Status.OK)
+                SendCommand("drivelist");
+                Thread.Sleep(50);
+                if (GetResponse(out string drivesString) == Status.OK)
                 {
                     driveList = drivesString.Select(c => c.ToString()).ToList();
                     successful = true;
@@ -446,8 +444,7 @@ namespace Abide.DebugXbox
             {
                 //Send getutildrvinfo command
                 SendCommand("getutildrvinfo");
-                GetResponse(out Status status, out string line);
-                if (status == Status.OK)
+                if (GetResponse(out string line) == Status.OK)
                 {
                     //Loop through parts
                     foreach (string info in line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
@@ -480,8 +477,7 @@ namespace Abide.DebugXbox
             {
                 //Send drivelist command
                 SendCommand("drivefreespace", new CommandArgument("name", drivePath));
-                GetResponse(out Status status, out string line);
-                if (status == Status.MultilineResponseFollows)
+                if (GetResponse(out string line) == Status.MultilineResponseFollows)
                 {
                     //Read line(s) (even though it seems like it's just one)
                     do
@@ -515,8 +511,7 @@ namespace Abide.DebugXbox
             {
                 //Send fmtfat command
                 SendCommand("fmtfat"); Thread.Sleep(10);
-                GetResponse(out Status status, out string line);
-                if (status == Status.MultilineResponseFollows)
+                if (GetResponse(out string line) == Status.MultilineResponseFollows)
                     while ((line = ReceiveLine()) != MultilineTerminator)
                         Thread.Sleep(1);
             }
@@ -538,9 +533,13 @@ namespace Abide.DebugXbox
             {
                 //Send magicboot command with optional debug argument
                 SendCommand("magicboot", $"title=\"{fileName}\" {(debug ? "debug" : string.Empty)}");
-                GetResponse(out Status status, out string msg);
-                if (status == Status.OK) Disconnect(false);
-                return status == Status.OK;
+                bool success = GetResponse(out string msg) == Status.OK;
+                if (success)
+                {
+                    Disconnect(false);
+                }
+
+                return success;
             }
 
             //Return
@@ -558,8 +557,7 @@ namespace Abide.DebugXbox
             {
                 //Send rename command
                 SendCommand("mkdir", new CommandArgument("name", path)); Thread.Sleep(10);
-                GetResponse(out Status status, out string msg);
-                return status == Status.OK;
+                return GetResponse(out string msg) == Status.OK;
             }
 
             //Return
@@ -581,8 +579,7 @@ namespace Abide.DebugXbox
                 if (!directory) SendCommand("delete", new CommandArgument("name", path));
                 else SendCommand("delete", new CommandArgument("name", path), new CommandArgument("dir"));
                 Thread.Sleep(10);
-                GetResponse(out Status status, out string msg);
-                return status == Status.OK;
+                return GetResponse(out string msg) == Status.OK;
             }
 
             //Return
@@ -601,8 +598,7 @@ namespace Abide.DebugXbox
             {
                 //Send rename command
                 SendCommand("rename", new CommandArgument("name", sourceFileName), new CommandArgument("newname", destFileName)); Thread.Sleep(10);
-                GetResponse(out Status status, out string msg);
-                return status == Status.OK;
+                return GetResponse(out string msg) == Status.OK;
             }
 
             //Return
@@ -624,7 +620,7 @@ namespace Abide.DebugXbox
             {
                 //Send rename command
                 SendCommand("screenshot"); Thread.Sleep(10);
-                GetResponse(out Status status, out string msg);
+                var status = GetResponse(out string msg);
                 if (status == Status.BinaryResponseFollows)
                 {
                     //Wait for header
@@ -632,6 +628,8 @@ namespace Abide.DebugXbox
                     DownloadData(headerData, 97);
                     string headerString = Encoding.ASCII.GetString(headerData);
                 }
+
+                Synchronize();
 
                 //Return
                 return status.HasFlag(Status.OK);
@@ -664,7 +662,7 @@ namespace Abide.DebugXbox
                 {
                     //Send getfile command
                     SendCommand("getfile", new CommandArgument("name", remoteFileName));
-                    GetResponse(out Status status, out string msg);
+                    var status = GetResponse(out string msg);
 
                     //Check status
                     if (status == Status.BinaryResponseFollows)
@@ -674,24 +672,24 @@ namespace Abide.DebugXbox
                         {
                             //Lock
                             using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read))
-                                lock (m_Socket)
+                                lock (socket)
                                 {
                                     //Get data length
                                     length = GetLengthPrefix(timeout);
-                                    iterations = length / m_Socket.ReceiveBufferSize;
-                                    remainder = length % m_Socket.ReceiveBufferSize;
+                                    iterations = length / socket.ReceiveBufferSize;
+                                    remainder = length % socket.ReceiveBufferSize;
 
                                     //Download data in blocks, iterating over the max receive size
-                                    buffer = new byte[m_Socket.ReceiveBufferSize];
+                                    buffer = new byte[socket.ReceiveBufferSize];
                                     for (int i = 0; i < iterations; i++)
                                     {
                                         //Wait
-                                        WaitForData(m_Socket.ReceiveBufferSize, timeout);
-                                        m_Socket.Receive(buffer, 0, buffer.Length, SocketFlags.None);   //Download
+                                        WaitForData(socket.ReceiveBufferSize, timeout);
+                                        socket.Receive(buffer, 0, buffer.Length, SocketFlags.None);   //Download
                                         fs.Write(buffer, 0, buffer.Length);
 
                                         //Update progress
-                                        progress += m_Socket.ReceiveBufferSize;
+                                        progress += socket.ReceiveBufferSize;
                                         progressPercentage = (int)(((float)progress / length) * 100f);
                                         DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                                     }
@@ -699,7 +697,7 @@ namespace Abide.DebugXbox
                                     //Wait for any remaining data
                                     WaitForData(remainder, timeout);
                                     buffer = new byte[remainder];
-                                    m_Socket.Receive(buffer, 0, remainder, SocketFlags.None); //Download
+                                    socket.Receive(buffer, 0, remainder, SocketFlags.None); //Download
                                     fs.Write(buffer, 0, buffer.Length);
 
                                     //Update progress
@@ -740,43 +738,42 @@ namespace Abide.DebugXbox
                 {
                     //Send getfile command
                     SendCommand("getfile", new CommandArgument("name", remoteFileName));
-                    GetResponse(out Status status, out string msg);
 
                     //Check status
-                    if (status == Status.BinaryResponseFollows)
+                    if (GetResponse(out string msg) == Status.BinaryResponseFollows)
                     {
                         //Try
                         try
                         {
                             //Lock
-                            lock (m_Socket)
+                            lock (socket)
                             {
                                 //Get data length
                                 length = GetLengthPrefix(timeout);
-                                iterations = length / m_Socket.ReceiveBufferSize;
-                                remainder = length % m_Socket.ReceiveBufferSize;
+                                iterations = length / socket.ReceiveBufferSize;
+                                remainder = length % socket.ReceiveBufferSize;
                                 buffer = new byte[length];
 
                                 //Download data in blocks, iterating over the max receive size
                                 for (int i = 0; i < iterations; i++)
                                 {
                                     //Wait
-                                    WaitForData(m_Socket.ReceiveBufferSize, timeout);
-                                    m_Socket.Receive(buffer, i * m_Socket.ReceiveBufferSize, m_Socket.ReceiveBufferSize, SocketFlags.None);   //Download
+                                    WaitForData(socket.ReceiveBufferSize, timeout);
+                                    socket.Receive(buffer, i * socket.ReceiveBufferSize, socket.ReceiveBufferSize, SocketFlags.None);   //Download
 
                                     //Update progress
-                                    progress += m_Socket.ReceiveBufferSize;
+                                    progress += socket.ReceiveBufferSize;
                                     progressPercentage = (int)(((float)progress / length) * 100f);
                                     DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                                 }
 
                                 //Wait for any remaining data
                                 WaitForData(remainder, timeout);
-                                m_Socket.Receive(buffer, length - remainder, remainder, SocketFlags.None); //Download
+                                socket.Receive(buffer, length - remainder, remainder, SocketFlags.None); //Download
 
                                 //Update progress
                                 progress += remainder;
-                                progressPercentage = (int)(((float)progress / length) * 100f);
+                                progressPercentage = (int)(progress * 100d / length);
                                 DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                             }
                         }
@@ -816,35 +813,33 @@ namespace Abide.DebugXbox
                     {
                         //Setup
                         length = (int)fs.Length;
-                        iterations = length / m_Socket.SendBufferSize;
-                        remainder = length % m_Socket.SendBufferSize;
+                        iterations = length / socket.SendBufferSize;
+                        remainder = length % socket.SendBufferSize;
 
                         //Send sendfile command
                         SendCommand("sendfile", new CommandArgument("name", remoteFileName), new CommandArgument("length", fs.Length));
-                        GetResponse(out Status status, out string msg);
-
-                        if (status == Status.SendBinaryData)
+                        if (GetResponse(out string msg) == Status.SendBinaryData)
                         {
                             try
                             {
                                 //Upload in blocks
-                                buffer = new byte[m_Socket.SendBufferSize];
+                                buffer = new byte[socket.SendBufferSize];
                                 for (int i = 0; i < iterations; i++)
                                 {
                                     //Upload
                                     fs.Read(buffer, 0, buffer.Length);
-                                    m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
+                                    socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                     //Update progress
-                                    progress += m_Socket.SendBufferSize;
+                                    progress += socket.SendBufferSize;
                                     progressPercentage = (int)(((float)progress / length) * 100f);
-                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, m_Socket.SendBufferSize, length, progressPercentage, null));
+                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, socket.SendBufferSize, length, progressPercentage, null));
                                 }
 
                                 //Upload remainder
                                 buffer = new byte[remainder];
                                 fs.Read(buffer, 0, buffer.Length);
-                                m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
+                                socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                 //Update progress
                                 progress += remainder;
@@ -888,35 +883,33 @@ namespace Abide.DebugXbox
                     {
                         //Setup
                         length = (int)ms.Length;
-                        iterations = length / m_Socket.SendBufferSize;
-                        remainder = length % m_Socket.SendBufferSize;
+                        iterations = length / socket.SendBufferSize;
+                        remainder = length % socket.SendBufferSize;
 
                         //Send sendfile command
                         SendCommand("sendfile", new CommandArgument("name", remoteFileName), new CommandArgument("length", ms.Length));
-                        GetResponse(out Status status, out string msg);
-
-                        if (status == Status.SendBinaryData)
+                        if (GetResponse(out string msg) == Status.SendBinaryData)
                         {
                             try
                             {
                                 //Upload in blocks
-                                buffer = new byte[m_Socket.SendBufferSize];
+                                buffer = new byte[socket.SendBufferSize];
                                 for (int i = 0; i < iterations; i++)
                                 {
                                     //Upload
                                     ms.Read(buffer, 0, buffer.Length);
-                                    m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
+                                    socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                     //Update progress
-                                    progress += m_Socket.SendBufferSize;
+                                    progress += socket.SendBufferSize;
                                     progressPercentage = (int)((float)progress / length * 100f);
-                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, m_Socket.SendBufferSize, length, progressPercentage, null));
+                                    UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, socket.SendBufferSize, length, progressPercentage, null));
                                 }
 
                                 //Upload remainder
                                 buffer = new byte[remainder];
                                 ms.Read(buffer, 0, buffer.Length);
-                                m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
+                                socket.Send(buffer, buffer.Length, SocketFlags.None);
 
                                 //Update progress
                                 progress += remainder;
@@ -950,10 +943,7 @@ namespace Abide.DebugXbox
             {
                 //Send rename command
                 SendCommand("getfile", new CommandArgument("name", remoteFileName));
-                GetResponse(out Status status, out string msg);
-
-                //Check status
-                if (status == Status.BinaryResponseFollows)
+                if (GetResponse(out string msg) == Status.BinaryResponseFollows)
                 {
                     //Prepare
                     int length = GetLengthPrefix();
@@ -987,10 +977,7 @@ namespace Abide.DebugXbox
             {
                 //Send rename command
                 SendCommand("getfile", new CommandArgument("name", remoteFileName));
-                GetResponse(out Status status, out string msg);
-
-                //Check status
-                if (status == Status.BinaryResponseFollows)
+                if (GetResponse() == Status.BinaryResponseFollows)
                 {
                     //Download
                     int length = GetLengthPrefix();
@@ -1020,18 +1007,19 @@ namespace Abide.DebugXbox
                 {
                     //Send sendfile command
                     SendCommand("sendfile", new CommandArgument("name", remoteFileName), new CommandArgument("length", fs.Length));
-                    GetResponse(out Status status, out string msg);
-
-                    //Send
-                    byte[] buffer = new byte[m_Socket.SendBufferSize];
-                    for (int i = 0; i < fs.Length / m_Socket.SendBufferSize; i++)
+                    if (GetResponse() == Status.SendBinaryData)
                     {
+                        //Send
+                        byte[] buffer = new byte[socket.SendBufferSize];
+                        for (int i = 0; i < fs.Length / socket.SendBufferSize; i++)
+                        {
+                            fs.Read(buffer, 0, buffer.Length);
+                            socket.Send(buffer, buffer.Length, SocketFlags.None);
+                        }
+                        buffer = new byte[fs.Length % socket.SendBufferSize];
                         fs.Read(buffer, 0, buffer.Length);
-                        m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
+                        socket.Send(buffer, buffer.Length, SocketFlags.None);
                     }
-                    buffer = new byte[fs.Length % m_Socket.SendBufferSize];
-                    fs.Read(buffer, 0, buffer.Length);
-                    m_Socket.Send(buffer, buffer.Length, SocketFlags.None);
                 }
 
                 //Return
@@ -1049,10 +1037,8 @@ namespace Abide.DebugXbox
         /// <returns><see langword="true"/> if <paramref name="fileName"/> had it's attributes successfully set; otherwise, <see langword="false"/>.</returns>
         public bool SetAttributes(string fileName, DateTime created, DateTime modified, FileAttributes attributes)
         {
-            //Check
             if (Connected)
             {
-                //Send setfileattributes command
                 SendCommand("setfileattributes", new CommandArgument("name", fileName),
                     new CommandArgument("createhi", $"0x{created.ToFileTime() >> 32:X8}"),
                     new CommandArgument("createlo", $"0x{created.ToFileTime() & 0xffffffff:X8}"),
@@ -1060,13 +1046,10 @@ namespace Abide.DebugXbox
                     new CommandArgument("changelo", $"0x{modified.ToFileTime() & 0xffffffff:X8}"),
                     new CommandArgument("readonly", attributes.HasFlag(FileAttributes.Hidden) ? 1 : 0),
                     new CommandArgument("hidden", attributes.HasFlag(FileAttributes.Hidden) ? 1 : 0));
-                GetResponse(out Status status, out string msg);
 
-                //Return
-                return status.HasFlag(Status.OK);
+                return GetResponse().HasFlag(Status.OK);
             }
 
-            //Return
             return false;
         }
         /// <summary>
@@ -1086,10 +1069,7 @@ namespace Abide.DebugXbox
             {
                 //Send dirlist command
                 SendCommand("dirlist", new CommandArgument("name", directory));
-                GetResponse(out Status status, out string msg);
-
-                //Check status
-                if (status == Status.MultilineResponseFollows)
+                if (GetResponse() == Status.MultilineResponseFollows)
                 {
                     //Prepare
                     string line = string.Empty;
@@ -1123,8 +1103,7 @@ namespace Abide.DebugXbox
             {
                 //Send drivelist command
                 SendCommand("xbeinfo running"); Thread.Sleep(10);
-                GetResponse(out Status status, out string xbeInfoString);
-                if (status.HasFlag(Status.OK))
+                if (GetResponse().HasFlag(Status.OK))
                 {
                     //Receive data
                     string timeAndChecksum = ReceiveLine();
@@ -1143,26 +1122,29 @@ namespace Abide.DebugXbox
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="address"></param>
-        /// <param name="length"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public bool GetMemory(byte[] buffer, long address, int length, int timeout = 10000)
+        public int GetMemory(byte[] buffer, long address, int offset, int count, int timeout = 10000)
         {
-            //Prepare
-            bool successful = false;
-
-            //Check
+            int bytesRead = 0;
             if (Connected)
             {
-                //Send getmem2 command
-                SendCommand("getmem2", new CommandArgument("addr", address), new CommandArgument("length", length));
-                GetResponse(out Status status, out string message);
-                if (status == Status.BinaryResponseFollows)
-                    DownloadData(buffer, length, timeout);
-                return status == Status.BinaryResponseFollows;
+                if (!CheckAddress(address, count))
+                {
+                    throw new IOException("Invalid address.");
+                }
+
+                SendCommand("getmem2", new CommandArgument("addr", $"0x{address:X8}"), new CommandArgument("length", count));
+                if (GetResponse() == Status.BinaryResponseFollows)
+                {
+                    byte[] data = new byte[count];
+                    DownloadData(data, count, timeout);
+                    data.CopyTo(buffer, offset);
+                    bytesRead += count;
+                }
             }
 
-            //Return
-            return successful;
+            return bytesRead;
         }
         /// <summary>
         /// 
@@ -1172,48 +1154,113 @@ namespace Abide.DebugXbox
         /// <returns></returns>
         public bool SetMemory(long address, byte[] buffer, int length)
         {
-            //Prepare
-            bool successful = false;
-
-            //Check
             if (Connected)
             {
-                //Prepare
-                List<object> commands = new List<object>() { new CommandArgument("addr", address) };
-                foreach (byte b in buffer)
-                    commands.Add(b.ToString("X2"));
+                if (!CheckAddress(address, length))
+                {
+                    throw new IOException("Invalid address.");
+                }
 
-                //Send getmem2 command
-                SendCommand("setmem", commands.ToArray());
-                GetResponse(out Status status, out string message);
-                return status.HasFlag(Status.OK);
+                int offset = 0;
+                int iterations = length / MaxSetMemLength;
+                int remainder = length % MaxSetMemLength;
+                string data;
+
+                for (int i = 0; i < iterations; i++)
+                {
+                    data = string.Concat(buffer.Skip(offset).Select(b => b.ToString("X2")));
+                    SendCommand("setmem", new CommandArgument("addr", $"0x{(address + offset):X8}"), new CommandArgument("data", data));
+                    if (GetResponse() != Status.OK)
+                    {
+                        return false;
+                    }
+                }
+
+                if (remainder > 0)
+                {
+                    data = string.Concat(buffer.Skip(offset).Select(b => b.ToString("X2")));
+                    SendCommand("setmem", new CommandArgument("addr", $"0x{(address + offset):X8}"), new CommandArgument("data", data));
+                    if (GetResponse() != Status.OK)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
-            //Return
-            return successful;
+            return false;
         }
         /// <summary>
-        /// Waits for any amount of data to be avaliable.
+        /// 
         /// </summary>
-        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
+        /// <param name="memoryRegions"></param>
+        /// <returns></returns>
+        public bool WalkMemory(out XboxMemoryRegion[] memoryRegions)
+        {
+            List<XboxMemoryRegion> regions = new List<XboxMemoryRegion>();
+            bool success = false;
+            string line = string.Empty;
+
+            if (Connected)
+            {
+                SendCommand("walkmem");
+                if (GetResponse() == Status.MultilineResponseFollows)
+                {
+                    line = ReceiveLine();
+
+                    do
+                    {
+                        regions.Add(XboxMemoryRegion.FromResponse(line));
+                        line = ReceiveLine();
+                    }
+                    while (line != MultilineTerminator);
+
+                    success = true;
+                }
+            }
+
+            memoryRegions = regions.ToArray();
+            return success;
+        }
+        private bool CheckAddress(long address, int count, int timeout = 10000)
+        {
+            if (Connected)
+            {
+                SendCommand("getmem", new CommandArgument("addr", $"0x{address:X8}"), new CommandArgument("length", count));
+                if (GetResponse() == Status.MultilineResponseFollows)
+                {
+                    bool valid = true;
+                    var line = ReceiveLine(timeout);
+                    do
+                    {
+                        if (line.Contains("?"))
+                        {
+                            valid = false;
+                        }
+
+                        line = ReceiveLine(timeout);
+                    }
+                    while (line != MultilineTerminator && valid);
+                    return valid;
+                }
+            }
+
+            return false;
+        }
         private void WaitForData(int timeout = 10000)
         {
             //Wait
             WaitForData(1, timeout);
         }
-        /// <summary>
-        /// Waits for a specified amount of data to be available.
-        /// </summary>
-        /// <param name="target">The amount of data needing to be available.</param>
-        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
         private void WaitForData(int target, int timeout = 10000)
         {
-            if (!m_Socket.Connected) return;
-            if (m_Socket.Available >= target) return;
+            if (!socket.Connected) return;
+            if (socket.Available >= target) return;
 
             DateTime start = DateTime.Now;
             TimeSpan elapsed = new TimeSpan();
-            while (m_Socket.Available < target)
+            while (socket.Available < target)
             {
                 Thread.Sleep(0);
                 elapsed = DateTime.Now - start;
@@ -1224,11 +1271,6 @@ namespace Abide.DebugXbox
                 }
             }
         }
-        /// <summary>
-        /// Attempts to download a 32-bit signed integer containing the length of an incomming amount of data.
-        /// </summary>
-        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        /// <returns>A 32-bit signed integer.</returns>
         private int GetLengthPrefix(int timeout = 10000)
         {
             //Wait
@@ -1236,15 +1278,9 @@ namespace Abide.DebugXbox
 
             //Prepare
             byte[] data = new byte[4];
-            m_Socket.Receive(data, 4, SocketFlags.None);
+            socket.Receive(data, 4, SocketFlags.None);
             return BitConverter.ToInt32(data, 0);
         }
-        /// <summary>
-        /// Attempts to download the specified number of bytes into a download buffer.
-        /// </summary>
-        /// <param name="buffer">The array of type <see cref="byte"/> that is the storage location of the downloaded data.</param>
-        /// <param name="size">The number of bytes to receive.</param>
-        /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
         private void DownloadData(byte[] buffer, int size, int timeout = 10000)
         {
             //Check
@@ -1253,27 +1289,24 @@ namespace Abide.DebugXbox
             if (size == 0) return;
 
             //Prepare
-            int iterations = size / m_Socket.ReceiveBufferSize;
-            int remainder = size % m_Socket.ReceiveBufferSize;
+            int iterations = size / socket.ReceiveBufferSize;
+            int remainder = size % socket.ReceiveBufferSize;
             
             //Download data in blocks, iterating over the max receive size
             for (int i = 0; i < iterations; i++)
             {
                 //Wait
-                WaitForData(m_Socket.ReceiveBufferSize, timeout);
-                m_Socket.Receive(buffer, i * m_Socket.ReceiveBufferSize, m_Socket.ReceiveBufferSize, SocketFlags.None);   //Download
+                WaitForData(socket.ReceiveBufferSize, timeout);
+                socket.Receive(buffer, i * socket.ReceiveBufferSize, socket.ReceiveBufferSize, SocketFlags.None);   //Download
             }
 
             //Wait for any remaining data
-            WaitForData(remainder, timeout);
-            m_Socket.Receive(buffer, buffer.Length - remainder, remainder, SocketFlags.None); //Download
+            if (remainder > 0)
+            {
+                WaitForData(remainder, timeout);
+                socket.Receive(buffer, buffer.Length - remainder, remainder, SocketFlags.None); //Download
+            }
         }
-        /// <summary>
-        /// Interprets a response line.
-        /// </summary>
-        /// <param name="line">The response line.</param>
-        /// <param name="statusCode">When this function returns, contains the status code of the response.</param>
-        /// <param name="message">When this function returns, contains the message of the response.</param>
         private void Interpret(string line, out int statusCode, out string message)
         {
             //Check

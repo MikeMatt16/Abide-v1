@@ -80,7 +80,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             if (Source != null)
             {
                 VisualBitmapScalingMode = Zoom > 0 ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.Fant;
-                drawingContext.DrawImage(Source, new Rect(Pan.X, Pan.Y, 
+                drawingContext.DrawImage(Source, new Rect(Pan.X, Pan.Y,
                     Source.Width * Zoom, Source.Height * Zoom));
             }
 
@@ -142,8 +142,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 dy = (y / ZoomFactor) - y;
             }
 
-            if (zoomLevel < double.Epsilon) zoomLevel = double.Epsilon;
-            
+            if (zoomLevel < double.Epsilon)
+            {
+                zoomLevel = double.Epsilon;
+            }
+
             Zoom = zoomLevel;
             Pan = new Point(Pan.X - dx, Pan.Y - dy);
         }
@@ -153,15 +156,22 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             Vector delta = currentMousePos - previousMousePos;
 
             if (moveMode)
+            {
                 Pan += delta;
+            }
 
             previousMousePos = currentMousePos;
         }
         private void ImageCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Pressed && CaptureMouse())
+            {
                 moveMode = true;
-            else moveMode = false;
+            }
+            else
+            {
+                moveMode = false;
+            }
         }
         private void ImageCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {

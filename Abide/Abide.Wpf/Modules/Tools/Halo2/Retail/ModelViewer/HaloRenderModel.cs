@@ -42,7 +42,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         {
             Tag = tag ?? throw new ArgumentNullException(nameof(tag));
 
-            if (tag.GroupTag != HaloTags.mode) throw new ArgumentException("Specified tag is not a render model.", nameof(tag));
+            if (tag.GroupTag != HaloTags.mode)
+            {
+                throw new ArgumentException("Specified tag is not a render model.", nameof(tag));
+            }
         }
         public void Load()
         {
@@ -50,7 +53,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             using (TagData data = Tag.Map.ReadTagData(Tag))
             using (BinaryReader reader = data.Stream.CreateReader())
             {
-                data.Stream.Seek(tag.MemoryAddress, SeekOrigin.Begin);
+                _ = data.Stream.Seek(tag.MemoryAddress, SeekOrigin.Begin);
                 renderModelTagGroup = new RenderModel();
                 renderModelTagGroup.Read(reader);
 
@@ -58,7 +61,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                 if (compressionInfoBlock.BlockList.Count > 0)
                 {
                     TagBlock compressionInfoTagBlock = (TagBlock)compressionInfoBlock.Value;
-                    data.Stream.Seek(compressionInfoTagBlock.Offset, SeekOrigin.Begin);
+                    _ = data.Stream.Seek(compressionInfoTagBlock.Offset, SeekOrigin.Begin);
                     compressionInfo = reader.Read<CompressionInfo>();
                 }
 
@@ -109,7 +112,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                     int size = (int)geometryBlockInfo.Fields[2].Value;
 
                     if (!resources.ContainsKey(offset) && offset != -1)
+                    {
                         resources.Add(offset, ReadExternalData(offset, size));
+                    }
 
                     entityModels[i] = new EntityModel(data, sectionsTagBlock.Offset + (i * section.Size), compressionInfo, resources[offset]);
                 }
@@ -160,17 +165,34 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
 
 
                     if (permutation.Lod1SectionIndex >= 0)
+                    {
                         container1.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod1SectionIndex]);
+                    }
+
                     if (permutation.Lod2SectionIndex >= 0)
+                    {
                         container2.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod2SectionIndex]);
+                    }
+
                     if (permutation.Lod3SectionIndex >= 0)
+                    {
                         container3.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod3SectionIndex]);
+                    }
+
                     if (permutation.Lod4SectionIndex >= 0)
+                    {
                         container4.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod4SectionIndex]);
+                    }
+
                     if (permutation.Lod5SectionIndex >= 0)
+                    {
                         container5.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod5SectionIndex]);
+                    }
+
                     if (permutation.Lod6SectionIndex >= 0)
+                    {
                         container6.Mesh = ConvertFromEntityModel(entityModels[permutation.Lod6SectionIndex]);
+                    }
 
                     ModelContainers.Add(container1);
                     ModelContainers.Add(container2);
@@ -192,30 +214,39 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             {
                 case 1:
                     if (File.Exists(AbideRegistry.Halo2Mainmenu))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Mainmenu))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
                 case 2:
                     if (File.Exists(AbideRegistry.Halo2Shared))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Shared))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
                 case 3:
                     if (File.Exists(AbideRegistry.Halo2SpShared))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2SpShared))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
             }
 
@@ -281,7 +312,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         {
             MeshGeometry3D meshGeometry = new MeshGeometry3D();
             List<short> indices = new List<short>(entityModel.Indices);
-            
+
             // start of shitty entity code
 
             int subMeshCount = entityModel.SubMeshInfo.Length;
@@ -318,16 +349,24 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             //end of shitty entity code
 
             foreach (Vector3 vertex in entityModel.Vertices)
+            {
                 meshGeometry.Positions.Add(new Point3D(vertex.I, vertex.J, vertex.K));
+            }
 
             foreach (Vector3 normal in entityModel.Normals)
+            {
                 meshGeometry.Normals.Add(new Vector3D(normal.I, normal.J, normal.K));
+            }
 
             foreach (Vector2 texcoord in entityModel.UVs)
+            {
                 meshGeometry.TextureCoordinates.Add(new Point(texcoord.I, texcoord.J));
+            }
 
             foreach (short index in indices)
+            {
                 meshGeometry.TriangleIndices.Add(index);
+            }
 
             return meshGeometry;
         }
@@ -743,7 +782,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             return bounds.Min + (value / (bounds.Max - bounds.Min));
         }
     }
-    
+
     public struct Normal16 : IComparable<Normal16>, IEquatable<Normal16>
     {
         public const float MinValue = -1f;
@@ -757,8 +796,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         }
         private Normal16(float value)
         {
-            if (value < -1f) value = -1f;
-            if (value > 1f) value = 1f;
+            if (value < -1f)
+            {
+                value = -1f;
+            }
+
+            if (value > 1f)
+            {
+                value = 1f;
+            }
 
             this.value = (short)Math.Floor(value * (short.MaxValue / 2f));
         }
@@ -819,9 +865,20 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         public NormalVector3(float x, float y, float z)
         {
             //Check
-            if (x < -1f || x > 1) throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(x));
-            if (y < -1f || y > 1) throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(y));
-            if (z < -1f || z > 1) throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(z));
+            if (x < -1f || x > 1)
+            {
+                throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(x));
+            }
+
+            if (y < -1f || y > 1)
+            {
+                throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(y));
+            }
+
+            if (z < -1f || z > 1)
+            {
+                throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(z));
+            }
 
             //Set
             this.x = x;
@@ -862,8 +919,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         public NormalVector2(float x, float y)
         {
             //Check
-            if (x < -1f || x > 1) throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(x));
-            if (y < -1f || y > 1) throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(y));
+            if (x < -1f || x > 1)
+            {
+                throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(x));
+            }
+
+            if (y < -1f || y > 1)
+            {
+                throw new ArgumentException("Value is less than negative one or is greater than one.", nameof(y));
+            }
 
             //Set
             this.x = x;

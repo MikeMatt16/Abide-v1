@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Abide.Tag;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
@@ -17,13 +18,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             {
                 switch (field.Type)
                 {
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldBlock:
+                    case FieldType.FieldBlock:
                         return BlockFieldTemplate;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldData:
+                    case FieldType.FieldData:
                         return DataFieldTemplate;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldStruct:
+                    case FieldType.FieldStruct:
                         return StructFieldTemplate;
-                    case HaloLibrary.Halo2.Retail.Tag.FieldType.FieldExplanation:
+                    case FieldType.FieldExplanation:
                         return ExplanationTemplate;
                     default:
                         return FieldTemplate;

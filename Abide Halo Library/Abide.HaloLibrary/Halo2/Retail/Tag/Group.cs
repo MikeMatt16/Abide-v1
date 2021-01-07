@@ -51,11 +51,6 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
             {
                 block.Overwrite(writer);
             }
-
-            foreach (var block in TagBlocks)
-            {
-                block.PostOverwrite(writer);
-            }
         }
         public override string ToString()
         {

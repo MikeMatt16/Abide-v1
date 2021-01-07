@@ -96,11 +96,21 @@ namespace Abide.Wpf.Modules.Dialogs
             List<char> invalidChars = Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars()).Distinct().ToList();
 
             // First checks
-            if (string.IsNullOrEmpty(SolutionName)) canCreate = false;
-            if (string.IsNullOrEmpty(Location)) canCreate = false;
+            if (string.IsNullOrEmpty(SolutionName))
+            {
+                canCreate = false;
+            }
+
+            if (string.IsNullOrEmpty(Location))
+            {
+                canCreate = false;
+            }
 
             // Check every character against the invalid chars list
-            if (!string.IsNullOrEmpty(SolutionName)) canCreate &= !SolutionName.Any(c => invalidChars.Contains(c));
+            if (!string.IsNullOrEmpty(SolutionName))
+            {
+                canCreate &= !SolutionName.Any(c => invalidChars.Contains(c));
+            }
 
             // Set property
             CanCreate = canCreate;

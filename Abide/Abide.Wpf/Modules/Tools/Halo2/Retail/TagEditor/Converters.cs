@@ -20,11 +20,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             get => (BaseAddOnViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (ViewModel?.Map == null)
+            {
                 return null;
+            }
 
             if (value is StringId stringId)
             {
@@ -57,7 +58,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
             return null;
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
@@ -72,21 +72,28 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         {
             string str = string.Empty;
             if (values.Length >= 1 && values[0] != null)
+            {
                 str = values[0].ToString();
+            }
 
             if (values.Length >= 2 && values[1] is FieldType type)
+            {
                 this.type = type;
+            }
 
             return str;
         }
-
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             object[] objects = new object[2];
             objects[1] = type;
 
             string valueStr = string.Empty;
-            if (value != null) valueStr = value.ToString();
+            if (value != null)
+            {
+                valueStr = value.ToString();
+            }
+
             switch (type)
             {
                 case FieldType.FieldString:
@@ -119,16 +126,20 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             if (values.Length >= 2 && int.TryParse(values[0].ToString(), out int index) && values[1] is IList<TagOptionViewModel> options)
             {
                 if (options.Count > index)
+                {
                     return options[index];
+                }
             }
 
             return null;
         }
-
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             if (value is TagOptionViewModel option)
+            {
                 return new object[] { option.Index };
+            }
+
             return null;
         }
     }
@@ -137,7 +148,5 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
     {
         Point2dX,
         Point2dY,
-
-
     }
 }

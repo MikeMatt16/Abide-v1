@@ -96,6 +96,7 @@
     <Compile Include="Definition\AbideTagField.cs" />
     <Compile Include="Definition\AbideTagGroup.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FieldType.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Padding.cs" />

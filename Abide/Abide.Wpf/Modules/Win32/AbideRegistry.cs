@@ -20,7 +20,7 @@ namespace Abide.Wpf.Modules.Win32
         {
             get
             {
-                SetDefault(abide, "TagViewType", Enum.GetName(typeof(TagView), TagView.TagType));
+                SetDefault(abide, "TagViewType", Enum.GetName(typeof(TagView), TagView.TagPath));
                 return (TagView)Enum.Parse(typeof(TagView), GetValue<string>(abide, "TagViewType"));
             }
             set => SetValue(abide, "TagViewType", Enum.GetName(typeof(TagView), value));
@@ -48,11 +48,19 @@ namespace Abide.Wpf.Modules.Win32
             get
             {
                 //Default
-                for (int i = 0; i < 10; i++) SetDefault(halo2, "Recent Files", i.ToString(), string.Empty);
+                for (int i = 0; i < 10; i++)
+                {
+                    SetDefault(halo2, "Recent Files", i.ToString(), string.Empty);
+                }
+
                 List<string> files = new List<string>();
                 for (int i = 0; i < 10; i++)
+                {
                     if (!string.IsNullOrEmpty(GetValue<string>(halo2, "Recent Files", i.ToString())))
+                    {
                         files.Add(GetValue<string>(halo2, "Recent Files", i.ToString()));
+                    }
+                }
 
                 //Return
                 return files.ToArray();
@@ -61,11 +69,15 @@ namespace Abide.Wpf.Modules.Win32
             {
                 string[] files = new string[10];
                 for (int i = 0; i < Math.Min(files.Length, value.Length); i++)
+                {
                     files[i] = value[i];
+                }
 
                 int index = 0;
                 foreach (string file in files)
+                {
                     if (file != null) { SetValue(halo2, "Recent Files", index.ToString(), file); index++; }
+                }
             }
         }
         public static string Halo2PluginsDirectory
@@ -109,11 +121,19 @@ namespace Abide.Wpf.Modules.Win32
             get
             {
                 //Default
-                for (int i = 0; i < 10; i++) SetDefault(halo2b, "Recent Files", i.ToString(), string.Empty);
+                for (int i = 0; i < 10; i++)
+                {
+                    SetDefault(halo2b, "Recent Files", i.ToString(), string.Empty);
+                }
+
                 List<string> files = new List<string>();
                 for (int i = 0; i < 10; i++)
+                {
                     if (!string.IsNullOrEmpty(GetValue<string>(halo2b, "Recent Files", i.ToString())))
+                    {
                         files.Add(GetValue<string>(halo2b, "Recent Files", i.ToString()));
+                    }
+                }
 
                 //Return
                 return files.ToArray();
@@ -122,11 +142,15 @@ namespace Abide.Wpf.Modules.Win32
             {
                 string[] files = new string[10];
                 for (int i = 0; i < Math.Min(files.Length, value.Length); i++)
+                {
                     files[i] = value[i];
+                }
 
                 int index = 0;
                 foreach (string file in files)
+                {
                     if (file != null) { SetValue(halo2b, "Recent Files", index.ToString(), file); index++; }
+                }
             }
         }
         public static string Halo2bPluginsDirectory
@@ -177,24 +201,35 @@ namespace Abide.Wpf.Modules.Win32
         {
             T value = default(T);
             using (RegistryKey sub = key.CreateSubKey(subkey))
+            {
                 value = (T)sub.GetValue(name);
+            }
+
             return value;
         }
         private static void SetValue(RegistryKey key, string subkey, string name, object value)
         {
             using (RegistryKey sub = key.CreateSubKey(subkey))
+            {
                 sub.SetValue(name, value);
+            }
         }
         private static void SetDefault(RegistryKey key, string name, object value)
         {
             if (key.GetValue(name) == null)
+            {
                 key.SetValue(name, value);
+            }
         }
         private static void SetDefault(RegistryKey key, string subkey, string name, object value)
         {
             using (RegistryKey sub = key.CreateSubKey(subkey))
+            {
                 if (sub.GetValue(name) == null)
+                {
                     sub.SetValue(name, value);
+                }
+            }
         }
 
         public enum TagView

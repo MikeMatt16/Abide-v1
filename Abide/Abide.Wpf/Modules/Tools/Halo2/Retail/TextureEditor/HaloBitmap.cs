@@ -58,7 +58,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         {
             Tag = tag ?? throw new ArgumentNullException(nameof(tag));
 
-            if (tag.GroupTag != HaloTags.bitm) throw new ArgumentException("Specified tag is not a bitmap.", nameof(tag));
+            if (tag.GroupTag != HaloTags.bitm)
+            {
+                throw new ArgumentException("Specified tag is not a bitmap.", nameof(tag));
+            }
         }
         public void Load()
         {
@@ -82,13 +85,19 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                     LodInformation sizes = reader.Read<LodInformation>();
 
                     if (!resources.ContainsKey(offsets.Lod1) && offsets.Lod1 != -1)
+                    {
                         resources.Add(offsets.Lod1, ReadExternalData(offsets.Lod1, sizes.Lod1));
+                    }
 
                     if (!resources.ContainsKey(offsets.Lod2) && offsets.Lod2 != -1)
+                    {
                         resources.Add(offsets.Lod2, ReadExternalData(offsets.Lod2, sizes.Lod2));
+                    }
 
                     if (!resources.ContainsKey(offsets.Lod3) && offsets.Lod3 != -1)
+                    {
                         resources.Add(offsets.Lod3, ReadExternalData(offsets.Lod3, sizes.Lod3));
+                    }
 
                     bitmapInfo[i] = new BitmapInformation()
                     {
@@ -118,17 +127,29 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 BitmapFlags flags = (BitmapFlags)bitmap.Flags;
                 int lodCount = 0;
                 if (resources.ContainsKey(bitmap.Offsets.Lod1))
+                {
                     lodCount++;
+                }
+
                 if (resources.ContainsKey(bitmap.Offsets.Lod2))
+                {
                     lodCount++;
+                }
+
                 if (resources.ContainsKey(bitmap.Offsets.Lod3))
+                {
                     lodCount++;
+                }
 
                 if (lodCount == 0)
+                {
                     continue;
+                }
 
                 if (flags.HasFlag(BitmapFlags.Linear))
+                {
                     width = (int)Math.Ceiling(width / 16f) * 16;
+                }
 
                 for (int j = 0; j < lodCount; j++)
                 {
@@ -139,7 +160,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                         BitmapSource source = LoadMipmap(bitmap, j, k, width, height);
 
                         if (source != null)
+                        {
                             container.Mipmaps.Add(source);
+                        }
                     }
 
                     BitmapContainers.Add(container);
@@ -220,7 +243,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 bitmapHeight /= 2;
             }
 
-            if (bitmapWidth == 0 || bitmapHeight == 0) return null;
+            if (bitmapWidth == 0 || bitmapHeight == 0)
+            {
+                return null;
+            }
+
             int bitmapStride = bitmapWidth * sourceBits / 8;
             int bitmapSize = bitmapStride * bitmapHeight;
 
@@ -268,16 +295,24 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             byte[] bitmapData = new byte[bitmapSize];
             byte[] resource = resources[resourceOffset];
             if (dataOffset + bitmapSize <= resource.Length)
+            {
                 Array.Copy(resource, dataOffset, bitmapData, 0, bitmapSize);
+            }
 
             if (flags.HasFlag(BitmapFlags.Swizzled))
+            {
                 bitmapData = TextureHelper.Swizzle(bitmapData, bitmapWidth, bitmapHeight, depth, sourceBits, true);
+            }
 
             if (bitmapData == null)
+            {
                 bitmapData = new byte[bitmapSize];
+            }
 
             if (format == HaloBitmapFormat.P8Bump)
+            {
                 palette = new BitmapPalette(bumpmapPalette);
+            }
 
             WriteableBitmap lod = new WriteableBitmap(bitmapWidth, bitmapHeight, dpi.PixelsPerInchX, dpi.PixelsPerInchY, pixelFormat, palette);
 
@@ -310,7 +345,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         {
             int length = sourceData.Length;
             if (sourceData.Length > destination.Length)
+            {
                 length = destination.Length;
+            }
 
             switch (format)
             {
@@ -376,17 +413,26 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
 
                 case HaloBitmapFormat.DXT1:
                     if (width >= 4 && height >= 4)
+                    {
                         TextureHelper.DecompressDxt1(destination, sourceData, width, height);
+                    }
+
                     break;
 
                 case HaloBitmapFormat.DXT3:
                     if (width >= 4 && height >= 4)
+                    {
                         TextureHelper.DecompressDxt3(destination, sourceData, width, height);
+                    }
+
                     break;
 
                 case HaloBitmapFormat.DXT5:
                     if (width >= 4 && height >= 4)
+                    {
                         TextureHelper.DecompressDxt5(destination, sourceData, width, height);
+                    }
+
                     break;
 
                 case HaloBitmapFormat.P8:
@@ -398,7 +444,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                     Array.Copy(sourceData, 0, destination, 0, length);
                     break;
 
-                default: 
+                default:
                     throw new NotImplementedException();
             }
         }
@@ -412,30 +458,39 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             {
                 case 1:
                     if (File.Exists(AbideRegistry.Halo2Mainmenu))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Mainmenu))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
                 case 2:
                     if (File.Exists(AbideRegistry.Halo2Shared))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Shared))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
                 case 3:
                     if (File.Exists(AbideRegistry.Halo2SpShared))
+                    {
                         using (FileStream fs = File.OpenRead(AbideRegistry.Halo2SpShared))
                         {
                             _ = fs.Seek(address, SeekOrigin.Begin);
                             data = new byte[length];
                             _ = fs.Read(data, 0, length);
                         }
+                    }
+
                     break;
             }
 
@@ -725,7 +780,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
             Color.FromArgb(255, 44, 172, 214),
             Color.FromArgb(0, 0, 0, 0)
         };
-#endregion
+        #endregion
     }
 
     public enum HaloBitmapFormat : short
@@ -778,8 +833,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         }
         public void ImportFile(string filename)
         {
-            if (!File.Exists(filename)) 
+            if (!File.Exists(filename))
+            {
                 throw new FileNotFoundException("File not found.", filename);
+            }
 
             throw new NotImplementedException();
         }

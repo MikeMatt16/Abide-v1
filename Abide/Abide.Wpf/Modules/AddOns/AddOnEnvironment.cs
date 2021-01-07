@@ -35,21 +35,36 @@ namespace Abide.Wpf.Modules.AddOns
                 string primaryAssemblyFile = Path.Combine(directory, manifest.PrimaryAssemblyFile);
 
                 if (AssemblyManager.LoadAssembly(primaryAssemblyFile))
+                {
                     PrimaryAssembly = Assembly.LoadFile(primaryAssemblyFile);
+                }
 
                 foreach (string file in manifest)
                 {
                     string assemblyFile = Path.Combine(directory, file);
                     if (AssemblyManager.LoadAssembly(assemblyFile))
+                    {
                         loadedAssemblies.Add(Assembly.LoadFile(assemblyFile));
+                    }
                 }
             }
         }
         private AddOnEnvironment(string directory, Assembly primaryAssembly, IEnumerable<Assembly> assemblies, string name)
         {
-            if (directory == null) throw new ArgumentNullException(nameof(directory));
-            if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
-            if (!Directory.Exists(directory)) throw new ArgumentException("Directory does not exist.", nameof(directory));
+            if (directory == null)
+            {
+                throw new ArgumentNullException(nameof(directory));
+            }
+
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException(nameof(assemblies));
+            }
+
+            if (!Directory.Exists(directory))
+            {
+                throw new ArgumentException("Directory does not exist.", nameof(directory));
+            }
 
             PrimaryAssembly = primaryAssembly ?? throw new ArgumentNullException(nameof(primaryAssembly));
             Location = directory;
@@ -64,10 +79,19 @@ namespace Abide.Wpf.Modules.AddOns
             string possibleLibrary = $"{Path.Combine(Location, assemblyName.Name)}.dll";
             string possibleExecutable = $"{Path.Combine(Location, assemblyName.Name)}.exe";
 
-            if (File.Exists(possibleLibrary)) asm = Assembly.LoadFile(possibleLibrary);
-            else if (File.Exists(possibleExecutable)) asm = Assembly.LoadFile(possibleExecutable);
+            if (File.Exists(possibleLibrary))
+            {
+                asm = Assembly.LoadFile(possibleLibrary);
+            }
+            else if (File.Exists(possibleExecutable))
+            {
+                asm = Assembly.LoadFile(possibleExecutable);
+            }
 
-            if (asm != null) loadedAssemblies.Add(asm);
+            if (asm != null)
+            {
+                loadedAssemblies.Add(asm);
+            }
 
             return asm;
         }
@@ -78,22 +102,37 @@ namespace Abide.Wpf.Modules.AddOns
 
         public static AddOnEnvironment CreateDebugEnvironment(string assemblyPath)
         {
-            if (assemblyPath == null) throw new ArgumentNullException(nameof(assemblyPath));
-            if (!File.Exists(assemblyPath)) throw new FileNotFoundException("File does not exist.", nameof(assemblyPath));
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException("File does not exist.", nameof(assemblyPath));
+            }
 
             string directory = Path.GetDirectoryName(assemblyPath);
             List<Assembly> loadedAssemblies = new List<Assembly>();
             Assembly primaryAssembly = null;
-            
+
             if (AssemblyManager.LoadAssembly(assemblyPath))
+            {
                 primaryAssembly = Assembly.LoadFile(assemblyPath);
+            }
 
             foreach (string file in Directory.GetFiles(directory))
             {
                 Assembly asm = null;
                 if (AssemblyManager.LoadAssembly(file))
+                {
                     asm = Assembly.LoadFile(file);
-                if (asm != null) loadedAssemblies.Add(asm);
+                }
+
+                if (asm != null)
+                {
+                    loadedAssemblies.Add(asm);
+                }
             }
 
             return new AddOnEnvironment(directory, primaryAssembly, loadedAssemblies,
@@ -101,8 +140,15 @@ namespace Abide.Wpf.Modules.AddOns
         }
         public static AddOnEnvironment Create(string directory)
         {
-            if (directory == null) throw new ArgumentNullException(nameof(directory));
-            if (!Directory.Exists(directory)) throw new ArgumentException("Directory does not exist.", nameof(directory));
+            if (directory == null)
+            {
+                throw new ArgumentNullException(nameof(directory));
+            }
+
+            if (!Directory.Exists(directory))
+            {
+                throw new ArgumentException("Directory does not exist.", nameof(directory));
+            }
 
             return new AddOnEnvironment(directory);
         }

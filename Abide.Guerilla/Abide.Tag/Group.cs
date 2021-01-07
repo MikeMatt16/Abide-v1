@@ -14,10 +14,9 @@ namespace Abide.Tag
         public List<Block> TagBlocks { get; } = new List<Block>();
         public long GroupAddress { get; private set; } = 0;
         protected Group() { }
-        protected virtual void Dispose(bool disposing)
+        public IEnumerator<Block> GetEnumerator()
         {
-            TagBlocks.ForEach(b => b.Dispose());
-            TagBlocks.Clear();
+            return TagBlocks.GetEnumerator();
         }
         public virtual void Read(BinaryReader reader)
         {
@@ -52,23 +51,10 @@ namespace Abide.Tag
             {
                 block.Overwrite(writer);
             }
-
-            foreach (var block in TagBlocks)
-            {
-                block.PostOverwrite(writer);
-            }
         }
         public override string ToString()
         {
             return GroupName ?? base.ToString();
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        public IEnumerator<Block> GetEnumerator()
-        {
-            return TagBlocks.GetEnumerator();
         }
 
         ITagBlock ITagGroup.this[int index]

@@ -45,14 +45,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
 
                 var tagsRoot = Path.GetDirectoryName(openDlg.FileName);
                 var manifest = document["AbideTagManifest"];
-                var stringManifest = manifest["Strings"];
                 var tagNameManifest = manifest["TagNames"];
-
-                foreach (XmlNode node in stringManifest.ChildNodes)
-                {
-                    var str = node.Attributes["Value"].InnerText;
-                    strings.Add(str);
-                }
 
                 foreach (XmlNode node in tagNameManifest)
                 {
@@ -68,7 +61,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 var globals = Map.GetTagById(Map.GlobalsTagId);
                 using (var tagData = Map.ReadTagData(globals))
                 {
-                    tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
+                    _ = tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
                     var globalsTagGroup = TagLookup.CreateTagGroup(globals.GroupTag);
                     globalsTagGroup.Read(tagData.Stream.CreateReader());
 
@@ -94,7 +87,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         {
                             var tagGroup = TagLookup.CreateTagGroup(tag.GroupTag);
                             tag.FileName = Path.Combine(tagsRoot, $"{tag.TagName}.{tagGroup.GroupName}");
-                            
+
                             var tagGroupFile = new AbideTagGroupFile();
                             tagGroupFile.Load(tag.FileName);
 
@@ -112,7 +105,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                             foreach (var offset in tagGroupFile.GetRawOffsets())
                             {
                                 var resource = tagGroupFile.GetRaw(offset);
-                                entry.Resources.AddResource(offset, resource);
+                                _ = entry.Resources.AddResource(offset, resource);
                             }
                         }
                     }
@@ -177,7 +170,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                             }
                             else
                             {
-                                map.Strings.Add(strValue, out id);
+                                _ = map.Strings.Add(strValue, out id);
                             }
 
                             var stringIndex = map.Strings.IndexOf(strValue);

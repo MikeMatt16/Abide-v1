@@ -17,10 +17,12 @@ namespace Abide.Wpf.Modules.ViewModel
             {
                 //Check
                 if (item is FileItem fileTabItem)    //Check for file tab item
+                {
                     return FileTabItemTemplate;
-                
+                }
+
                 //Return
-                base.SelectTemplate(item, container);
+                _ = base.SelectTemplate(item, container);
             }
 
             //Return
@@ -42,9 +44,11 @@ namespace Abide.Wpf.Modules.ViewModel
             {
                 //Check
                 if (item is FileItem fileTabItem)    //Check for file tab item
+                {
                     return FileTabContentTemplate;
-                
-                base.SelectTemplate(item, container);
+                }
+
+                _ = base.SelectTemplate(item, container);
             }
 
             //Return

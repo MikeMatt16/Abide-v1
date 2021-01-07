@@ -2,9 +2,6 @@
 
 namespace Abide.Tag
 {
-    /// <summary>
-    /// Returns detailed information about the last exception.
-    /// </summary>
     public sealed class TagException : Exception
     {
         /// <summary>

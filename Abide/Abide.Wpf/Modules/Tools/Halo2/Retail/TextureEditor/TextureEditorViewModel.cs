@@ -33,7 +33,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 }
             }
         }
-        
+
         protected override void OnSelectedTagChanged()
         {
             if (SelectedTag.GroupTag == HaloTags.bitm)
@@ -43,7 +43,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
                 CurrentBitmap.Process();
 
                 if (CurrentBitmap.BitmapContainers.Count > 0)
+                {
                     SelectedBitmap = CurrentBitmap.BitmapContainers[0];
+                }
             }
         }
     }

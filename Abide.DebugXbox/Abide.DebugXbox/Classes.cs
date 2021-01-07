@@ -62,6 +62,23 @@ namespace Abide.DebugXbox
         public XboxException(string message) : base(message) { }
     }
 
+    public sealed class XboxMemoryRegion
+    {
+        public uint BaseAddress { get; private set; }
+        public int Size { get; private set; }
+        public int Protect { get; private set; }
+        internal static XboxMemoryRegion FromResponse(string region)
+        {
+            var parts = Helper.GetParts(region);
+            return new XboxMemoryRegion()
+            {
+                BaseAddress = uint.Parse(parts["base"].Substring(2), NumberStyles.HexNumber),
+                Size = int.Parse(parts["size"].Substring(2), NumberStyles.HexNumber),
+                Protect = int.Parse(parts["protect"].Substring(2), NumberStyles.HexNumber),
+            };
+        }
+    }
+
     public sealed class XboxExecutableInfo
     {
         /// <summary>
