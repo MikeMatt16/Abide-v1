@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated biped_lock_on_data_struct_block tag block.
     /// </summary>
-    public sealed class BipedLockOnDataStructBlock : Block
+    internal sealed class BipedLockOnDataStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BipedLockOnDataStructBlock"/> class.

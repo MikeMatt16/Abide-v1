@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated skill_to_rank_mapping_block tag block.
     /// </summary>
-    public sealed class SkillToRankMappingBlock : Block
+    internal sealed class SkillToRankMappingBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillToRankMappingBlock"/> class.

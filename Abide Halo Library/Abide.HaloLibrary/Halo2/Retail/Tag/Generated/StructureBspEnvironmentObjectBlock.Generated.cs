@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_environment_object_block tag block.
     /// </summary>
-    public sealed class StructureBspEnvironmentObjectBlock : Block
+    internal sealed class StructureBspEnvironmentObjectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspEnvironmentObjectBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated powerup_block tag block.
     /// </summary>
-    public sealed class PowerupBlock : Block
+    internal sealed class PowerupBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerupBlock"/> class.

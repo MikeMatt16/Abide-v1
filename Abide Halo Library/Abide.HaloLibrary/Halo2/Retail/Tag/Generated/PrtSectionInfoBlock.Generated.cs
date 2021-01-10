@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated prt_section_info_block tag block.
     /// </summary>
-    public sealed class PrtSectionInfoBlock : Block
+    internal sealed class PrtSectionInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrtSectionInfoBlock"/> class.

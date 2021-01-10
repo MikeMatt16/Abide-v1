@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated table_view_list_reference_block tag block.
     /// </summary>
-    public sealed class TableViewListReferenceBlock : Block
+    internal sealed class TableViewListReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TableViewListReferenceBlock"/> class.

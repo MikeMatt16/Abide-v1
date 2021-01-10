@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_retreat_block tag block.
     /// </summary>
-    public sealed class CharacterRetreatBlock : Block
+    internal sealed class CharacterRetreatBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterRetreatBlock"/> class.

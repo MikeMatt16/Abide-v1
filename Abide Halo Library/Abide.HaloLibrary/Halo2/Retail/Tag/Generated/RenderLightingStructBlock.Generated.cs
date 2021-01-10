@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_lighting_struct_block tag block.
     /// </summary>
-    public sealed class RenderLightingStructBlock : Block
+    internal sealed class RenderLightingStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderLightingStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_effect_sound_effect_definition_block tag block.
     /// </summary>
-    public sealed class DamageEffectSoundEffectDefinitionBlock : Block
+    internal sealed class DamageEffectSoundEffectDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageEffectSoundEffectDefinitionBlock"/> class.

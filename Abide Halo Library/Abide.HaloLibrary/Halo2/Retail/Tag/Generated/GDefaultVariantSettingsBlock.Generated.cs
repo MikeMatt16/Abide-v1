@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated g_default_variant_settings_block tag block.
     /// </summary>
-    public sealed class GDefaultVariantSettingsBlock : Block
+    internal sealed class GDefaultVariantSettingsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GDefaultVariantSettingsBlock"/> class.

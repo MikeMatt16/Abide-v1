@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_trigger_volumes_resource (trg*) tag group.
     /// </summary>
-    public class ScenarioTriggerVolumesResource : Group
+    internal class ScenarioTriggerVolumesResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioTriggerVolumesResource"/> class.

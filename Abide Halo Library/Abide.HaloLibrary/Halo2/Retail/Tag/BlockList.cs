@@ -10,7 +10,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// <summary>
     /// Represents a tag block list.
     /// </summary>
-    public sealed class BlockList : IList<Block>, ICollection<Block>, IEnumerable<Block>, INotifyCollectionChanged, INotifyPropertyChanged
+    internal sealed class BlockList : IList<Block>, ICollection<Block>, IEnumerable<Block>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         public event PropertyChangedEventHandler PropertyChanged;

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rigid_body_indices_block tag block.
     /// </summary>
-    public sealed class RigidBodyIndicesBlock : Block
+    internal sealed class RigidBodyIndicesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RigidBodyIndicesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound (snd!) tag group.
     /// </summary>
-    public class Sound : Group
+    internal class Sound : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Sound"/> class.

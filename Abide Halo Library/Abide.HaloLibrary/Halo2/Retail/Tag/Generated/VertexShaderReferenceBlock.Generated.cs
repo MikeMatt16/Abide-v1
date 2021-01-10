@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated vertex_shader_reference_block tag block.
     /// </summary>
-    public sealed class VertexShaderReferenceBlock : Block
+    internal sealed class VertexShaderReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VertexShaderReferenceBlock"/> class.

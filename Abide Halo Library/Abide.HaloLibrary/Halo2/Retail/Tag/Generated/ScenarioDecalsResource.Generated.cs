@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_decals_resource (dec*) tag group.
     /// </summary>
-    public class ScenarioDecalsResource : Group
+    internal class ScenarioDecalsResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioDecalsResource"/> class.

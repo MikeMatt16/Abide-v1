@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_outer_cone_angle_struct_block tag block.
     /// </summary>
-    public sealed class DamageOuterConeAngleStructBlock : Block
+    internal sealed class DamageOuterConeAngleStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageOuterConeAngleStructBlock"/> class.

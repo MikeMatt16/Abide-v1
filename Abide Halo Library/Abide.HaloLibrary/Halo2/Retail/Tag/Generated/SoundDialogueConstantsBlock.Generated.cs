@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_dialogue_constants_block tag block.
     /// </summary>
-    public sealed class SoundDialogueConstantsBlock : Block
+    internal sealed class SoundDialogueConstantsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundDialogueConstantsBlock"/> class.

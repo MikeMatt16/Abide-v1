@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_template_property_block tag block.
     /// </summary>
-    public sealed class ShaderTemplatePropertyBlock : Block
+    internal sealed class ShaderTemplatePropertyBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderTemplatePropertyBlock"/> class.

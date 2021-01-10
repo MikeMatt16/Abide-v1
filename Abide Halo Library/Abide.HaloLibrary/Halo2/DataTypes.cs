@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Abide.HaloLibrary.Halo2.Retail.Tag
+namespace Abide.HaloLibrary.Halo2
 {
     #region Vertex Buffer
     /// <summary>
     /// Represents a vertex buffer.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct VertexBuffer
+    internal struct VertexBuffer
     {
         /// <summary>
         /// Gets or sets the vertex attribute type.
@@ -113,7 +113,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a tag reference.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct TagReference : IEquatable<TagReference>
+    internal struct TagReference : IEquatable<TagReference>
     {
         /// <summary>
         /// Represents a null tag reference.
@@ -153,7 +153,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a short boundaries value.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ShortBounds : IEquatable<ShortBounds>
+    internal struct ShortBounds : IEquatable<ShortBounds>
     {
         /// <summary>
         /// Represents a zero-value bounds.
@@ -202,7 +202,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point boundaries value.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct FloatBounds : IEquatable<FloatBounds>
+    internal struct FloatBounds : IEquatable<FloatBounds>
     {
         /// <summary>
         /// Represents a zero-value bounds.
@@ -253,7 +253,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a RGB color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorRgb : IEquatable<ColorRgb>
+    internal struct ColorRgb : IEquatable<ColorRgb>
     {
         /// <summary>
         /// Represents a zero-value (or black) color.
@@ -308,7 +308,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents an ARGB color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorArgb : IEquatable<ColorArgb>
+    internal struct ColorArgb : IEquatable<ColorArgb>
     {
         /// <summary>
         /// Represents a zero-value color.
@@ -369,7 +369,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point RGB color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorRgbF : IEquatable<ColorRgbF>
+    internal struct ColorRgbF : IEquatable<ColorRgbF>
     {
         /// <summary>
         /// Represents a zero-value (or black) color.
@@ -424,7 +424,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point ARGB color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorArgbF : IEquatable<ColorArgbF>
+    internal struct ColorArgbF : IEquatable<ColorArgbF>
     {
         /// <summary>
         /// Represents a zero-value (or black) color.
@@ -485,7 +485,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point HSV color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorHsv : IEquatable<ColorHsv>
+    internal struct ColorHsv : IEquatable<ColorHsv>
     {
         /// <summary>
         /// Represents a zero-value color.
@@ -531,7 +531,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point AHSV color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct ColorAhsv : IEquatable<ColorAhsv>
+    internal struct ColorAhsv : IEquatable<ColorAhsv>
     {
         /// <summary>
         /// Represents a zero-value color.
@@ -585,7 +585,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a quaternion.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Quaternion : IEquatable<Quaternion>
+    internal struct Quaternion : IEquatable<Quaternion>
     {
         /// <summary>
         /// Represents a zero value quaternion.
@@ -646,7 +646,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a vector with four components.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Vector4 : IEquatable<Vector4>
+    internal struct Vector4 : IEquatable<Vector4>
     {
         /// <summary>
         /// Represents a zero vector.
@@ -846,7 +846,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a vector with three components.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Vector3 : IEquatable<Vector3>
+    internal struct Vector3 : IEquatable<Vector3>
     {
         /// <summary>
         /// Represents a zero vector.
@@ -1034,7 +1034,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a vector with two components.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Vector2 : IEquatable<Vector2>
+    internal struct Vector2 : IEquatable<Vector2>
     {
         /// <summary>
         /// Represents a zero vector.
@@ -1207,7 +1207,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a 2 dimensional rectangle.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Rectangle2 : IEquatable<Rectangle2>
+    internal struct Rectangle2 : IEquatable<Rectangle2>
     {
         /// <summary>
         /// Represents a zero-value <see cref="Rectangle2"/> value.
@@ -1260,7 +1260,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a 2 dimensional point.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Point2 : IEquatable<Point2>
+    internal struct Point2 : IEquatable<Point2>
     {
         /// <summary>
         /// Represents a zero point.
@@ -1309,7 +1309,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point 2 dimensional point.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Point2F : IEquatable<Point2F>
+    internal struct Point2F : IEquatable<Point2F>
     {
         /// <summary>
         /// Represents a zero point.
@@ -1366,7 +1366,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a floating point 3 dimensional point.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct Point3F : IEquatable<Point3F>
+    internal struct Point3F : IEquatable<Point3F>
     {
         /// <summary>
         /// Represents a zero point.
@@ -1431,7 +1431,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a 32-byte length string.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct String32
+    internal struct String32
     {
         /// <summary>
         /// Gets or sets the string value.
@@ -1557,7 +1557,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
     /// Represents a 256-byte length string.
     /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct String256
+    internal struct String256
     {
         /// <summary>
         /// Gets or sets the string value.

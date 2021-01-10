@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_hs_source_file (hsc*) tag group.
     /// </summary>
-    public class ScenarioHsSourceFile : Group
+    internal class ScenarioHsSourceFile : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioHsSourceFile"/> class.

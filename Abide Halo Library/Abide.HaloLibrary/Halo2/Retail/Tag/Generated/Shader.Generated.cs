@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader (shad) tag group.
     /// </summary>
-    public class Shader : Group
+    internal class Shader : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shader"/> class.

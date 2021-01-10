@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated creature (crea) tag group.
     /// </summary>
-    public class Creature : Group
+    internal class Creature : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Creature"/> class.

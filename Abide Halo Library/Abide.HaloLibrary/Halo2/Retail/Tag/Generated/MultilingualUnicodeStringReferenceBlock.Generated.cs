@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multilingual_unicode_string_reference_block tag block.
     /// </summary>
-    public sealed class MultilingualUnicodeStringReferenceBlock : Block
+    internal sealed class MultilingualUnicodeStringReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultilingualUnicodeStringReferenceBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_debug_info_indices_block tag block.
     /// </summary>
-    public sealed class StructureBspDebugInfoIndicesBlock : Block
+    internal sealed class StructureBspDebugInfoIndicesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspDebugInfoIndicesBlock"/> class.

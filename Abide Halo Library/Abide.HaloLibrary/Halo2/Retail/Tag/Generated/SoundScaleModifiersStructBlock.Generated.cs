@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_scale_modifiers_struct_block tag block.
     /// </summary>
-    public sealed class SoundScaleModifiersStructBlock : Block
+    internal sealed class SoundScaleModifiersStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundScaleModifiersStructBlock"/> class.

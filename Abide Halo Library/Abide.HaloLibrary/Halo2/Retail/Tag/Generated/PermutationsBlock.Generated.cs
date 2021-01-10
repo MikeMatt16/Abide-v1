@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated permutations_block tag block.
     /// </summary>
-    public sealed class PermutationsBlock : Block
+    internal sealed class PermutationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PermutationsBlock"/> class.

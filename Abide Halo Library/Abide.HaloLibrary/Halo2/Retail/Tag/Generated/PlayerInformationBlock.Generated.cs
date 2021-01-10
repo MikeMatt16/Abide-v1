@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated player_information_block tag block.
     /// </summary>
-    public sealed class PlayerInformationBlock : Block
+    internal sealed class PlayerInformationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerInformationBlock"/> class.

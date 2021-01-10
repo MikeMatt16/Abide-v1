@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenery_block tag block.
     /// </summary>
-    public sealed class SceneryBlock : Block
+    internal sealed class SceneryBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SceneryBlock"/> class.

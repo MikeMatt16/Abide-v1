@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_region_block tag block.
     /// </summary>
-    public sealed class ModelRegionBlock : Block
+    internal sealed class ModelRegionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelRegionBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_idle_block tag block.
     /// </summary>
-    public sealed class CharacterIdleBlock : Block
+    internal sealed class CharacterIdleBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterIdleBlock"/> class.

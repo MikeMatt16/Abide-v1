@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model_section_group_block tag block.
     /// </summary>
-    public sealed class RenderModelSectionGroupBlock : Block
+    internal sealed class RenderModelSectionGroupBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModelSectionGroupBlock"/> class.

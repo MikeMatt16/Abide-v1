@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_state_block tag block.
     /// </summary>
-    public sealed class RenderStateBlock : Block
+    internal sealed class RenderStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderStateBlock"/> class.

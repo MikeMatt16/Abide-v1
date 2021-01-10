@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_interface_widget_reference_block tag block.
     /// </summary>
-    public sealed class UserInterfaceWidgetReferenceBlock : Block
+    internal sealed class UserInterfaceWidgetReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInterfaceWidgetReferenceBlock"/> class.

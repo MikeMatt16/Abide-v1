@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_points_block tag block.
     /// </summary>
-    public sealed class ScenarioClusterPointsBlock : Block
+    internal sealed class ScenarioClusterPointsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterPointsBlock"/> class.

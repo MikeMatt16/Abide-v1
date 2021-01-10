@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated text_value_pair_definition_block tag block.
     /// </summary>
-    public sealed class TextValuePairDefinitionBlock : Block
+    internal sealed class TextValuePairDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextValuePairDefinitionBlock"/> class.

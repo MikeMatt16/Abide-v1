@@ -103,15 +103,15 @@ namespace Abide.Tag.Ui
             {
                 switch (field.Type)
                 {
-                    case Definition.FieldType.FieldStruct:
+                    case FieldType.FieldStruct:
                         StructField structField = (StructField)field;
                         TagBlock_CreateChildBlocks((ITagBlock)structField.Value, baseOffset, ref offset);
                         break;
-                    case Definition.FieldType.FieldBlock:
+                    case FieldType.FieldBlock:
                         BlockField blockField = (BlockField)field;
                         BlockField_CreateDataBlock(blockField, baseOffset, ref offset);
                         break;
-                    case Definition.FieldType.FieldData:
+                    case FieldType.FieldData:
                         DataField dataField = (DataField)field;
                         int localOffset = (int)(dataField.DataAddress - baseOffset);
                         tagBlockView.Blocks.Add(localOffset, dataField.BufferLength, block.BlockName);

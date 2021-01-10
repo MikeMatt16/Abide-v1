@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated editor_comment_block tag block.
     /// </summary>
-    public sealed class EditorCommentBlock : Block
+    internal sealed class EditorCommentBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EditorCommentBlock"/> class.

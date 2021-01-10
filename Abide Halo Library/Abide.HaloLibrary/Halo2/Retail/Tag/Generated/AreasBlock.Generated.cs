@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated areas_block tag block.
     /// </summary>
-    public sealed class AreasBlock : Block
+    internal sealed class AreasBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AreasBlock"/> class.

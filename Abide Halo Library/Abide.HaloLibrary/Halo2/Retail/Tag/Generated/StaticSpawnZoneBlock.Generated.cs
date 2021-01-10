@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated static_spawn_zone_block tag block.
     /// </summary>
-    public sealed class StaticSpawnZoneBlock : Block
+    internal sealed class StaticSpawnZoneBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StaticSpawnZoneBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_transition_state_struct_block tag block.
     /// </summary>
-    public sealed class AnimationTransitionStateStructBlock : Block
+    internal sealed class AnimationTransitionStateStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationTransitionStateStructBlock"/> class.

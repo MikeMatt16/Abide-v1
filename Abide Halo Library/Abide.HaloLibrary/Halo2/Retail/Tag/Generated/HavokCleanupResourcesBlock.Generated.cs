@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated havok_cleanup_resources_block tag block.
     /// </summary>
-    public sealed class HavokCleanupResourcesBlock : Block
+    internal sealed class HavokCleanupResourcesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HavokCleanupResourcesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated grenade_hud_sound_block tag block.
     /// </summary>
-    public sealed class GrenadeHudSoundBlock : Block
+    internal sealed class GrenadeHudSoundBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GrenadeHudSoundBlock"/> class.

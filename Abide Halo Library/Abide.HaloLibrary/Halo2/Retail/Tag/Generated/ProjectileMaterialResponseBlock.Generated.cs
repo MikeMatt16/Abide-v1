@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated projectile_material_response_block tag block.
     /// </summary>
-    public sealed class ProjectileMaterialResponseBlock : Block
+    internal sealed class ProjectileMaterialResponseBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectileMaterialResponseBlock"/> class.

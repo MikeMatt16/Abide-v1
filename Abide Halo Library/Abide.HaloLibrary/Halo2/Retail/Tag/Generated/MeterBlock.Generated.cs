@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated meter_block tag block.
     /// </summary>
-    public sealed class MeterBlock : Block
+    internal sealed class MeterBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MeterBlock"/> class.

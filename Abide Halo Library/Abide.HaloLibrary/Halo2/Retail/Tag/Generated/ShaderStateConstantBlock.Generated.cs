@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_state_constant_block tag block.
     /// </summary>
-    public sealed class ShaderStateConstantBlock : Block
+    internal sealed class ShaderStateConstantBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderStateConstantBlock"/> class.

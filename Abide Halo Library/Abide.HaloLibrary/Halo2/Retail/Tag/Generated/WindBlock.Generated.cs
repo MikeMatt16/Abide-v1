@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated wind_block tag block.
     /// </summary>
-    public sealed class WindBlock : Block
+    internal sealed class WindBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WindBlock"/> class.

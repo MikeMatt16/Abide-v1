@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated collision_model_pathfinding_sphere_block tag block.
     /// </summary>
-    public sealed class CollisionModelPathfindingSphereBlock : Block
+    internal sealed class CollisionModelPathfindingSphereBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CollisionModelPathfindingSphereBlock"/> class.

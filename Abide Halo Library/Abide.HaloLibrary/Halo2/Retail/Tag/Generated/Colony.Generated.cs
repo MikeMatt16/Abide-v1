@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated colony (coln) tag group.
     /// </summary>
-    public class Colony : Group
+    internal class Colony : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Colony"/> class.

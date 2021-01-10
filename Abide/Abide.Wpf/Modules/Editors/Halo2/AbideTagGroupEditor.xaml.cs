@@ -2,6 +2,7 @@
 using Abide.AddOnApi.Wpf;
 using Abide.HaloLibrary.Halo2.Retail.Tag;
 using Abide.HaloLibrary.Halo2.Retail.Tag.Generated;
+using Abide.Tag.Cache.Generated;
 using System.IO;
 
 namespace Abide.Wpf.Modules.Editors.Halo2

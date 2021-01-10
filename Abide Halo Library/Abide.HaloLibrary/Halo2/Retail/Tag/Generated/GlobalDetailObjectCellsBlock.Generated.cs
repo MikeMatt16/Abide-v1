@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_detail_object_cells_block tag block.
     /// </summary>
-    public sealed class GlobalDetailObjectCellsBlock : Block
+    internal sealed class GlobalDetailObjectCellsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalDetailObjectCellsBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sky_radiosity_light_block tag block.
     /// </summary>
-    public sealed class SkyRadiosityLightBlock : Block
+    internal sealed class SkyRadiosityLightBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SkyRadiosityLightBlock"/> class.
@@ -25,7 +25,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
         public SkyRadiosityLightBlock()
         {
             this.Fields.Add(new LongFlagsField("Flags", "Affects Exteriors", "Affects Interiors", "Direct Illumination in Lightmaps", "Indirect Illumination in Lightmaps"));
-            this.Fields.Add(new RealRgbColorField("Color:#Light color."));
+            this.Fields.Add(new RealRgbColorField("Color#Light color."));
             this.Fields.Add(new RealField("Power:[0,+inf]#Light power from 0 to infinity."));
             this.Fields.Add(new RealField("Test Distance:world units#Length of the ray for shadow testing."));
             this.Fields.Add(new PadField("", 12));

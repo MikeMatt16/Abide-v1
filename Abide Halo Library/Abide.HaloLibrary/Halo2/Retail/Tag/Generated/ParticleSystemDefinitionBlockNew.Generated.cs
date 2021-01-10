@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_system_definition_block_new tag block.
     /// </summary>
-    public sealed class ParticleSystemDefinitionBlockNew : Block
+    internal sealed class ParticleSystemDefinitionBlockNew : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticleSystemDefinitionBlockNew"/> class.

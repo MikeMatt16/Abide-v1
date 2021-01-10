@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_bsp (sbsp) tag group.
     /// </summary>
-    public class ScenarioStructureBsp : Group
+    internal class ScenarioStructureBsp : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureBsp"/> class.

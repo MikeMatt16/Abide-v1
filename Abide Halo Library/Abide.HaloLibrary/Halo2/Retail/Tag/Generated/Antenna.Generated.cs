@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated antenna (ant!) tag group.
     /// </summary>
-    public class Antenna : Group
+    internal class Antenna : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Antenna"/> class.

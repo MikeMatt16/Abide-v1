@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated effect (effe) tag group.
     /// </summary>
-    public class Effect : Group
+    internal class Effect : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Effect"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_scene_role_variants_block tag block.
     /// </summary>
-    public sealed class AiSceneRoleVariantsBlock : Block
+    internal sealed class AiSceneRoleVariantsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiSceneRoleVariantsBlock"/> class.

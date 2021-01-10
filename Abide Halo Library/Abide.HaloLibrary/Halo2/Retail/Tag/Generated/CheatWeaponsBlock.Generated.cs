@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cheat_weapons_block tag block.
     /// </summary>
-    public sealed class CheatWeaponsBlock : Block
+    internal sealed class CheatWeaponsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CheatWeaponsBlock"/> class.

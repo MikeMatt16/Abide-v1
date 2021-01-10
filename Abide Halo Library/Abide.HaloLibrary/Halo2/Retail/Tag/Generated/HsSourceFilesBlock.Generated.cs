@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hs_source_files_block tag block.
     /// </summary>
-    public sealed class HsSourceFilesBlock : Block
+    internal sealed class HsSourceFilesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HsSourceFilesBlock"/> class.

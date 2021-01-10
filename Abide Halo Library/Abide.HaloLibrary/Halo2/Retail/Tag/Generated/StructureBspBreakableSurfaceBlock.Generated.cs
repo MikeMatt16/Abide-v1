@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_breakable_surface_block tag block.
     /// </summary>
-    public sealed class StructureBspBreakableSurfaceBlock : Block
+    internal sealed class StructureBspBreakableSurfaceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspBreakableSurfaceBlock"/> class.

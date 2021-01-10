@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_bitmap_widgets tag block.
     /// </summary>
-    public sealed class HudBitmapWidgets : Block
+    internal sealed class HudBitmapWidgets : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudBitmapWidgets"/> class.

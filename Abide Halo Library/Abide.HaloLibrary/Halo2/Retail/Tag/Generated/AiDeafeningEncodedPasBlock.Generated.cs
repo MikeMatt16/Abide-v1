@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_deafening_encoded_pas_block tag block.
     /// </summary>
-    public sealed class AiDeafeningEncodedPasBlock : Block
+    internal sealed class AiDeafeningEncodedPasBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiDeafeningEncodedPasBlock"/> class.

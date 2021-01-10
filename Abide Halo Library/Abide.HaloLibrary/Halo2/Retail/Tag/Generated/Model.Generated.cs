@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model (hlmt) tag group.
     /// </summary>
-    public class Model : Group
+    internal class Model : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Model"/> class.

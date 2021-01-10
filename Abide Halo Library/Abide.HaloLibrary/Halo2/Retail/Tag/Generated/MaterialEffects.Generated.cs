@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated material_effects (foot) tag group.
     /// </summary>
-    public class MaterialEffects : Group
+    internal class MaterialEffects : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MaterialEffects"/> class.

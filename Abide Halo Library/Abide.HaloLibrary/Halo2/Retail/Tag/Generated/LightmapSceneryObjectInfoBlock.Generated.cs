@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_scenery_object_info_block tag block.
     /// </summary>
-    public sealed class LightmapSceneryObjectInfoBlock : Block
+    internal sealed class LightmapSceneryObjectInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapSceneryObjectInfoBlock"/> class.

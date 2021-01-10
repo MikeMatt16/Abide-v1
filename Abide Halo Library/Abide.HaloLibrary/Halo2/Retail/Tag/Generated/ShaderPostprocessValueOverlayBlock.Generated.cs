@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_postprocess_value_overlay_block tag block.
     /// </summary>
-    public sealed class ShaderPostprocessValueOverlayBlock : Block
+    internal sealed class ShaderPostprocessValueOverlayBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPostprocessValueOverlayBlock"/> class.

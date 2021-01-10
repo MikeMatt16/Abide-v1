@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_looping (lsnd) tag group.
     /// </summary>
-    public class SoundLooping : Group
+    internal class SoundLooping : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundLooping"/> class.

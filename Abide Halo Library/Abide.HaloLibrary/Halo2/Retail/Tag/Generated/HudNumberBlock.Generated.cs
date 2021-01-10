@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_number_block tag block.
     /// </summary>
-    public sealed class HudNumberBlock : Block
+    internal sealed class HudNumberBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudNumberBlock"/> class.

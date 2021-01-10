@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated prt_vertex_buffers_block tag block.
     /// </summary>
-    public sealed class PrtVertexBuffersBlock : Block
+    internal sealed class PrtVertexBuffersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrtVertexBuffersBlock"/> class.

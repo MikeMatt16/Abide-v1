@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated planar_fog (fog ) tag group.
     /// </summary>
-    public class PlanarFog : Group
+    internal class PlanarFog : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanarFog"/> class.

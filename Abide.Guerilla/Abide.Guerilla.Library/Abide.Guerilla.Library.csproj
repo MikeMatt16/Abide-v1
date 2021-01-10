@@ -81,6 +81,7 @@
     <Compile Include="Conversion.cs" />
     <Compile Include="CommonStrings.cs" />
     <Compile Include="CommonTagNames.cs" />
+    <Compile Include="ConversionContext.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GuerillaException.cs" />
     <Compile Include="GuerillaTagFile.cs" />

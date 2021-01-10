@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_widget_state_definition_struct_block tag block.
     /// </summary>
-    public sealed class HudWidgetStateDefinitionStructBlock : Block
+    internal sealed class HudWidgetStateDefinitionStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudWidgetStateDefinitionStructBlock"/> class.

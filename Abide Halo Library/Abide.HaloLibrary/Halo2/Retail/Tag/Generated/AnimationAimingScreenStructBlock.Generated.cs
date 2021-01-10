@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_aiming_screen_struct_block tag block.
     /// </summary>
-    public sealed class AnimationAimingScreenStructBlock : Block
+    internal sealed class AnimationAimingScreenStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationAimingScreenStructBlock"/> class.

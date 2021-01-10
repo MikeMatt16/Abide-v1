@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_classes (sncl) tag group.
     /// </summary>
-    public class SoundClasses : Group
+    internal class SoundClasses : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundClasses"/> class.

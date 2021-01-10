@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated dialogue (udlg) tag group.
     /// </summary>
-    public class Dialogue : Group
+    internal class Dialogue : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dialogue"/> class.

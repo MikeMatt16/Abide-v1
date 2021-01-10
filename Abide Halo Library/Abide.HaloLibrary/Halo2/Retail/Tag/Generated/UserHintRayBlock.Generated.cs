@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_hint_ray_block tag block.
     /// </summary>
-    public sealed class UserHintRayBlock : Block
+    internal sealed class UserHintRayBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserHintRayBlock"/> class.

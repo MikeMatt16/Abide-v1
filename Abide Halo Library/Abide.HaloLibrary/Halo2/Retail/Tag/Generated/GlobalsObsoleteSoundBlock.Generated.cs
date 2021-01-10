@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated globals_obsolete_sound_block tag block.
     /// </summary>
-    public sealed class GlobalsObsoleteSoundBlock : Block
+    internal sealed class GlobalsObsoleteSoundBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalsObsoleteSoundBlock"/> class.

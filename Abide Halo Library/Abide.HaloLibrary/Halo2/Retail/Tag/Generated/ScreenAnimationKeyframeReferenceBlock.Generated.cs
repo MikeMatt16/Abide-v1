@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated screen_animation_keyframe_reference_block tag block.
     /// </summary>
-    public sealed class ScreenAnimationKeyframeReferenceBlock : Block
+    internal sealed class ScreenAnimationKeyframeReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenAnimationKeyframeReferenceBlock"/> class.

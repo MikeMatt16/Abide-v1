@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_encoded_dialogue_section_block tag block.
     /// </summary>
-    public sealed class SoundEncodedDialogueSectionBlock : Block
+    internal sealed class SoundEncodedDialogueSectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundEncodedDialogueSectionBlock"/> class.

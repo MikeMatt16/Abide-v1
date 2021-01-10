@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated color_table_block tag block.
     /// </summary>
-    public sealed class ColorTableBlock : Block
+    internal sealed class ColorTableBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorTableBlock"/> class.

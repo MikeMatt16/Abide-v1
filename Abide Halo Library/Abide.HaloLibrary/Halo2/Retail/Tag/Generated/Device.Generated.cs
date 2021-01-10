@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated device (devi) tag group.
     /// </summary>
-    public class Device : Group
+    internal class Device : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Device"/> class.

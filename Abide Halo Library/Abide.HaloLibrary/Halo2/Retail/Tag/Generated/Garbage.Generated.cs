@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated garbage (garb) tag group.
     /// </summary>
-    public class Garbage : Group
+    internal class Garbage : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Garbage"/> class.

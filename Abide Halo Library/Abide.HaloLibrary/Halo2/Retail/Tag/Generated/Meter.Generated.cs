@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated meter (metr) tag group.
     /// </summary>
-    public class Meter : Group
+    internal class Meter : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Meter"/> class.

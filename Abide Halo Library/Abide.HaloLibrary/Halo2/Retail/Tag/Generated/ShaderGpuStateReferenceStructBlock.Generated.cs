@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_gpu_state_reference_struct_block tag block.
     /// </summary>
-    public sealed class ShaderGpuStateReferenceStructBlock : Block
+    internal sealed class ShaderGpuStateReferenceStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderGpuStateReferenceStructBlock"/> class.

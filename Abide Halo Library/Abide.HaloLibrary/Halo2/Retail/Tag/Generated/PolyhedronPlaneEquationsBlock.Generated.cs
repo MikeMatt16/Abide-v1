@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated polyhedron_plane_equations_block tag block.
     /// </summary>
-    public sealed class PolyhedronPlaneEquationsBlock : Block
+    internal sealed class PolyhedronPlaneEquationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolyhedronPlaneEquationsBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_charge_block tag block.
     /// </summary>
-    public sealed class CharacterChargeBlock : Block
+    internal sealed class CharacterChargeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterChargeBlock"/> class.

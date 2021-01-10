@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle (prt3) tag group.
     /// </summary>
-    public class Particle : Group
+    internal class Particle : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Particle"/> class.

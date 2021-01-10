@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_sound_cluster_portal_designators tag block.
     /// </summary>
-    public sealed class StructureSoundClusterPortalDesignators : Block
+    internal sealed class StructureSoundClusterPortalDesignators : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureSoundClusterPortalDesignators"/> class.

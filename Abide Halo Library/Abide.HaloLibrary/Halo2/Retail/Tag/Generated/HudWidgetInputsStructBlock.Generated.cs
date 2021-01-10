@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_widget_inputs_struct_block tag block.
     /// </summary>
-    public sealed class HudWidgetInputsStructBlock : Block
+    internal sealed class HudWidgetInputsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudWidgetInputsStructBlock"/> class.

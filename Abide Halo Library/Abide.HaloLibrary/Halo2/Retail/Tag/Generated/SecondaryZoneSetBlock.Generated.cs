@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated secondary_zone_set_block tag block.
     /// </summary>
-    public sealed class SecondaryZoneSetBlock : Block
+    internal sealed class SecondaryZoneSetBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SecondaryZoneSetBlock"/> class.

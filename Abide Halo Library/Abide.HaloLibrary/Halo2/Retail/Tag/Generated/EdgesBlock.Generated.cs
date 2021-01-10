@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated edges_block tag block.
     /// </summary>
-    public sealed class EdgesBlock : Block
+    internal sealed class EdgesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EdgesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_model_indices_block tag block.
     /// </summary>
-    public sealed class ParticleModelIndicesBlock : Block
+    internal sealed class ParticleModelIndicesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticleModelIndicesBlock"/> class.

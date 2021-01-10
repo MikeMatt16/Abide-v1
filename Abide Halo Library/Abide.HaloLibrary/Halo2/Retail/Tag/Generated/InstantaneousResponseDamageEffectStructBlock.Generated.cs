@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated instantaneous_response_damage_effect_struct_block tag block.
     /// </summary>
-    public sealed class InstantaneousResponseDamageEffectStructBlock : Block
+    internal sealed class InstantaneousResponseDamageEffectStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InstantaneousResponseDamageEffectStructBlock"/> class.

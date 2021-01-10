@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_hud_interface (unhi) tag group.
     /// </summary>
-    public class UnitHudInterface : Group
+    internal class UnitHudInterface : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitHudInterface"/> class.

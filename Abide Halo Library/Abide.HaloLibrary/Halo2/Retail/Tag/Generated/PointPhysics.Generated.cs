@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated point_physics (pphy) tag group.
     /// </summary>
-    public class PointPhysics : Group
+    internal class PointPhysics : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PointPhysics"/> class.

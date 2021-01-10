@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated new_hud_definition (nhdt) tag group.
     /// </summary>
-    public class NewHudDefinition : Group
+    internal class NewHudDefinition : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NewHudDefinition"/> class.

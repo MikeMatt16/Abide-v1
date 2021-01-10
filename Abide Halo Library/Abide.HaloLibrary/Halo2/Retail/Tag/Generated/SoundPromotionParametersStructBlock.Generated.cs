@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_promotion_parameters_struct_block tag block.
     /// </summary>
-    public sealed class SoundPromotionParametersStructBlock : Block
+    internal sealed class SoundPromotionParametersStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPromotionParametersStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_globals (hudg) tag group.
     /// </summary>
-    public class HudGlobals : Group
+    internal class HudGlobals : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudGlobals"/> class.

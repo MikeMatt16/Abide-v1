@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_block tag block.
     /// </summary>
-    public sealed class UnitBlock : Block
+    internal sealed class UnitBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitBlock"/> class.

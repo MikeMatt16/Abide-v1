@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated patchy_fog (fpch) tag group.
     /// </summary>
-    public class PatchyFog : Group
+    internal class PatchyFog : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PatchyFog"/> class.

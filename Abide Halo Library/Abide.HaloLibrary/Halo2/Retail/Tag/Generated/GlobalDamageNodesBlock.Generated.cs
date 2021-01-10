@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_damage_nodes_block tag block.
     /// </summary>
-    public sealed class GlobalDamageNodesBlock : Block
+    internal sealed class GlobalDamageNodesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalDamageNodesBlock"/> class.

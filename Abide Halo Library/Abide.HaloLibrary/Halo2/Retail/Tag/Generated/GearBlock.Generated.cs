@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated gear_block tag block.
     /// </summary>
-    public sealed class GearBlock : Block
+    internal sealed class GearBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GearBlock"/> class.

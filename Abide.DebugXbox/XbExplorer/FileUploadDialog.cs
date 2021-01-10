@@ -220,18 +220,18 @@ namespace XbExplorer
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern int GetShortPathName(
-            [MarshalAs(UnmanagedType.LPTStr)] string path,
-            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder shortPath,
+            [MarshalAs(UnmanagedType.LPWStr)] string path,
+            [MarshalAs(UnmanagedType.LPWStr)] StringBuilder shortPath,
             int shortPathLength);
         [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
         public static extern long StrFormatByteSize(
             long fileSize,
-            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer,
+            [MarshalAs(UnmanagedType.LPWStr)] StringBuilder buffer,
             int bufferSize);
         [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
         private static extern bool PathCompactPathEx(
-            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder pszOut,
-            [MarshalAs(UnmanagedType.LPTStr)] string pszSrc,
+            [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszOut,
+            [MarshalAs(UnmanagedType.LPWStr)] string pszSrc,
             uint cchMax,
             uint dwFlags);
 

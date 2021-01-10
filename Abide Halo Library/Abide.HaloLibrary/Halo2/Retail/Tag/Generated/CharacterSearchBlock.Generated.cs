@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_search_block tag block.
     /// </summary>
-    public sealed class CharacterSearchBlock : Block
+    internal sealed class CharacterSearchBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterSearchBlock"/> class.

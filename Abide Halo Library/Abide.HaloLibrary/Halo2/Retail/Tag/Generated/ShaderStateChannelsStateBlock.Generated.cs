@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_state_channels_state_block tag block.
     /// </summary>
-    public sealed class ShaderStateChannelsStateBlock : Block
+    internal sealed class ShaderStateChannelsStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderStateChannelsStateBlock"/> class.

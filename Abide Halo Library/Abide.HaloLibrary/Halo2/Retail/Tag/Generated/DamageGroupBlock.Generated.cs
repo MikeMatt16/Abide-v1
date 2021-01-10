@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_group_block tag block.
     /// </summary>
-    public sealed class DamageGroupBlock : Block
+    internal sealed class DamageGroupBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageGroupBlock"/> class.

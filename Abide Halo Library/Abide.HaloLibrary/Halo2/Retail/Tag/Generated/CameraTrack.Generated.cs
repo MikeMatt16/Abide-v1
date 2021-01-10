@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated camera_track (trak) tag group.
     /// </summary>
-    public class CameraTrack : Group
+    internal class CameraTrack : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraTrack"/> class.

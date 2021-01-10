@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_barrel_damage_effect_struct_block tag block.
     /// </summary>
-    public sealed class WeaponBarrelDamageEffectStructBlock : Block
+    internal sealed class WeaponBarrelDamageEffectStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponBarrelDamageEffectStructBlock"/> class.

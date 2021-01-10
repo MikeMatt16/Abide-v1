@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_mix (snmx) tag group.
     /// </summary>
-    public class SoundMix : Group
+    internal class SoundMix : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundMix"/> class.

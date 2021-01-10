@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_sound_event_block tag block.
     /// </summary>
-    public sealed class AnimationSoundEventBlock : Block
+    internal sealed class AnimationSoundEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationSoundEventBlock"/> class.

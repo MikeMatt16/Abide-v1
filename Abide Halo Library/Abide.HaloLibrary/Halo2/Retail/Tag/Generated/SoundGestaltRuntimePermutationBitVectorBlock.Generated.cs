@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_gestalt_runtime_permutation_bit_vector_block tag block.
     /// </summary>
-    public sealed class SoundGestaltRuntimePermutationBitVectorBlock : Block
+    internal sealed class SoundGestaltRuntimePermutationBitVectorBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundGestaltRuntimePermutationBitVectorBlock"/> class.

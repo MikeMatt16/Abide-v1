@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated squad_groups_block tag block.
     /// </summary>
-    public sealed class SquadGroupsBlock : Block
+    internal sealed class SquadGroupsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SquadGroupsBlock"/> class.

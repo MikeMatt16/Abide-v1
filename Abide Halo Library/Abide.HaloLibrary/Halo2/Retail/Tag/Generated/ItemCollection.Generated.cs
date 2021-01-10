@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated item_collection (itmc) tag group.
     /// </summary>
-    public class ItemCollection : Group
+    internal class ItemCollection : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemCollection"/> class.

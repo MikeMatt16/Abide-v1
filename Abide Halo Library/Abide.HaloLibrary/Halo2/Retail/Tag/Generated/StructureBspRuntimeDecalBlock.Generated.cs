@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_runtime_decal_block tag block.
     /// </summary>
-    public sealed class StructureBspRuntimeDecalBlock : Block
+    internal sealed class StructureBspRuntimeDecalBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspRuntimeDecalBlock"/> class.

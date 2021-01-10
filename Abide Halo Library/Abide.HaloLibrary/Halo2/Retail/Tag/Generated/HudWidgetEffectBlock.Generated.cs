@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_widget_effect_block tag block.
     /// </summary>
-    public sealed class HudWidgetEffectBlock : Block
+    internal sealed class HudWidgetEffectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudWidgetEffectBlock"/> class.

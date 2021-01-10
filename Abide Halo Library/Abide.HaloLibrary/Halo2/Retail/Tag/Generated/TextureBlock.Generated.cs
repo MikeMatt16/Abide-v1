@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated texture_block tag block.
     /// </summary>
-    public sealed class TextureBlock : Block
+    internal sealed class TextureBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextureBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_water_definitions_block tag block.
     /// </summary>
-    public sealed class GlobalWaterDefinitionsBlock : Block
+    internal sealed class GlobalWaterDefinitionsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalWaterDefinitionsBlock"/> class.

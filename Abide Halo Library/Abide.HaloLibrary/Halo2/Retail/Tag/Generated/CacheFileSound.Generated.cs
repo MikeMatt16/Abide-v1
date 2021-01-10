@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cache_file_sound ($#!+) tag group.
     /// </summary>
-    public class CacheFileSound : Group
+    internal class CacheFileSound : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheFileSound"/> class.

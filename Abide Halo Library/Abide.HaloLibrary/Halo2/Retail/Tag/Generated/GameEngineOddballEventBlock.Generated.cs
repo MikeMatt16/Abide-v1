@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated game_engine_oddball_event_block tag block.
     /// </summary>
-    public sealed class GameEngineOddballEventBlock : Block
+    internal sealed class GameEngineOddballEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEngineOddballEventBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_animation_graph_block tag block.
     /// </summary>
-    public sealed class ModelAnimationGraphBlock : Block
+    internal sealed class ModelAnimationGraphBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelAnimationGraphBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_scene_block tag block.
     /// </summary>
-    public sealed class AiSceneBlock : Block
+    internal sealed class AiSceneBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiSceneBlock"/> class.

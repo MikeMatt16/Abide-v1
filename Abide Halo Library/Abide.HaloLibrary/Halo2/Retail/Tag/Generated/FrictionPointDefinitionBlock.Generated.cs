@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated friction_point_definition_block tag block.
     /// </summary>
-    public sealed class FrictionPointDefinitionBlock : Block
+    internal sealed class FrictionPointDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FrictionPointDefinitionBlock"/> class.

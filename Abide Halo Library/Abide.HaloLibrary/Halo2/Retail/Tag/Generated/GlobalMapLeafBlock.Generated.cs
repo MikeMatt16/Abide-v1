@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_map_leaf_block tag block.
     /// </summary>
-    public sealed class GlobalMapLeafBlock : Block
+    internal sealed class GlobalMapLeafBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalMapLeafBlock"/> class.

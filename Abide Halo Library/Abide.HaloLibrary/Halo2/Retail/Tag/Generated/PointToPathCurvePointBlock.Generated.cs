@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated point_to_path_curve_point_block tag block.
     /// </summary>
-    public sealed class PointToPathCurvePointBlock : Block
+    internal sealed class PointToPathCurvePointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PointToPathCurvePointBlock"/> class.

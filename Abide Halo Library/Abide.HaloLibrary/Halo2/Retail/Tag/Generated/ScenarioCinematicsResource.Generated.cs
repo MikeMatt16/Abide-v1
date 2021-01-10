@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cinematics_resource (cin*) tag group.
     /// </summary>
-    public class ScenarioCinematicsResource : Group
+    internal class ScenarioCinematicsResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioCinematicsResource"/> class.

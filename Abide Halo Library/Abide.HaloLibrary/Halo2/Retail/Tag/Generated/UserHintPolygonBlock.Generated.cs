@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_hint_polygon_block tag block.
     /// </summary>
-    public sealed class UserHintPolygonBlock : Block
+    internal sealed class UserHintPolygonBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserHintPolygonBlock"/> class.

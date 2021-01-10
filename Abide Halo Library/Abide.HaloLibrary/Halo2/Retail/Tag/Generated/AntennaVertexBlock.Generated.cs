@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated antenna_vertex_block tag block.
     /// </summary>
-    public sealed class AntennaVertexBlock : Block
+    internal sealed class AntennaVertexBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AntennaVertexBlock"/> class.

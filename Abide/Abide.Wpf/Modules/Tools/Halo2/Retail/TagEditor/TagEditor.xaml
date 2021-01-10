@@ -263,6 +263,13 @@
             <ToolBar>
                 <Button Content="Save" Command="{Binding SaveCommand}"/>
                 <Button Content="Poke" Command="{Binding PokeCommand}"/>
+                <ComboBox SelectedItem="{Binding SelectedPluginSet}" ItemsSource="{Binding PluginSets}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" ToolTip="{Binding DirectoryPath}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </ToolBar>
         </ToolBarPanel>
         <ScrollViewer>

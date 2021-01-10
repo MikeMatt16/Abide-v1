@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_hud_static_block tag block.
     /// </summary>
-    public sealed class WeaponHudStaticBlock : Block
+    internal sealed class WeaponHudStaticBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponHudStaticBlock"/> class.

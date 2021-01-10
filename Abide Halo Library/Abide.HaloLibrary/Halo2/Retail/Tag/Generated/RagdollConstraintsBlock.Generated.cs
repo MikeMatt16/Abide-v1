@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ragdoll_constraints_block tag block.
     /// </summary>
-    public sealed class RagdollConstraintsBlock : Block
+    internal sealed class RagdollConstraintsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RagdollConstraintsBlock"/> class.

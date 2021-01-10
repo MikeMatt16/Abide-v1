@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_weather_background_plate_block tag block.
     /// </summary>
-    public sealed class GlobalWeatherBackgroundPlateBlock : Block
+    internal sealed class GlobalWeatherBackgroundPlateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalWeatherBackgroundPlateBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated packed_data_sizes_struct_block tag block.
     /// </summary>
-    public sealed class PackedDataSizesStructBlock : Block
+    internal sealed class PackedDataSizesStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PackedDataSizesStructBlock"/> class.

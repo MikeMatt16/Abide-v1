@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated physics_model_block tag block.
     /// </summary>
-    public sealed class PhysicsModelBlock : Block
+    internal sealed class PhysicsModelBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PhysicsModelBlock"/> class.

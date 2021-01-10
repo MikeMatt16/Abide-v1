@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_variant_object_block tag block.
     /// </summary>
-    public sealed class ModelVariantObjectBlock : Block
+    internal sealed class ModelVariantObjectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelVariantObjectBlock"/> class.

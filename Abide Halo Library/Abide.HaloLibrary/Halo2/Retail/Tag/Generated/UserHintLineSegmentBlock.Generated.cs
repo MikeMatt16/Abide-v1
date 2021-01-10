@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_hint_line_segment_block tag block.
     /// </summary>
-    public sealed class UserHintLineSegmentBlock : Block
+    internal sealed class UserHintLineSegmentBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserHintLineSegmentBlock"/> class.

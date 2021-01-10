@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated chocolate_mountain (gldf) tag group.
     /// </summary>
-    public class ChocolateMountain : Group
+    internal class ChocolateMountain : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocolateMountain"/> class.

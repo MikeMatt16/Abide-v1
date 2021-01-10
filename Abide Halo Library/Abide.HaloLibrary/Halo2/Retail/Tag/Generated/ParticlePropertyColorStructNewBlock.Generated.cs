@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_property_color_struct_new_block tag block.
     /// </summary>
-    public sealed class ParticlePropertyColorStructNewBlock : Block
+    internal sealed class ParticlePropertyColorStructNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticlePropertyColorStructNewBlock"/> class.

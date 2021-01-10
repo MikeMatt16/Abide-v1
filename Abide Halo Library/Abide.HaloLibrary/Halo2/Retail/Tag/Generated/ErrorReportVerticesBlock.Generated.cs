@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated error_report_vertices_block tag block.
     /// </summary>
-    public sealed class ErrorReportVerticesBlock : Block
+    internal sealed class ErrorReportVerticesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorReportVerticesBlock"/> class.

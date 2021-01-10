@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +27,10 @@ namespace Abide.DebugXbox
         /// Represents the maximum length that can be used when using the setmem command.
         /// </summary>
         private const int MaxSetMemLength = 120;
+        /// <summary>
+        /// Represents the default timeout duration.
+        /// </summary>
+        private const int DefaultTimeout = 5000;
 
         private readonly EndPoint localEndPoint;
         private int sendBufferSize = 20 * 0x100000, receiveBufferSize = 20 * 0x100000;
@@ -108,7 +114,7 @@ namespace Abide.DebugXbox
         /// <summary>
         /// 
         /// </summary>
-        public Stream Stream { get; private set; }
+        public Stream MemoryStream { get; private set; }
         /// <summary>
         /// Gets and returns the name of the debug Xbox console.
         /// </summary>
@@ -145,7 +151,7 @@ namespace Abide.DebugXbox
                 if (GetResponse().HasFlag(Status.OK))
                 {
                     Connected = true;
-                    Stream = new XboxMemoryStream(this);
+                    MemoryStream = new XboxMemoryStream(this);
 
                     SendCommand("dmversion");
                     if (GetResponse(out string version) == Status.OK)
@@ -155,7 +161,20 @@ namespace Abide.DebugXbox
                     ConnectionStateChanged?.Invoke(this, new EventArgs());
                 }
             }
-            catch { }
+            catch { socket.Close(); }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task ConnectAsync()
+        {
+            if (Connected) return;
+
+            await new Task(() =>
+            {
+                Connect();
+            });
         }
         /// <summary>
         /// Attempts to close the RDCP connection with the debug Xbox.
@@ -181,8 +200,8 @@ namespace Abide.DebugXbox
 
             //Disconnect
             Connected = false;
-            Stream.Dispose();
-            Stream = null;
+            MemoryStream.Dispose();
+            MemoryStream = null;
 
             //Raise ConnectionStateChanged event
             ConnectionStateChanged?.Invoke(this, new EventArgs());
@@ -192,7 +211,6 @@ namespace Abide.DebugXbox
         /// </summary>
         public void Close()
         {
-            //Close
             socket.Close();
         }
         /// <summary>
@@ -200,7 +218,6 @@ namespace Abide.DebugXbox
         /// </summary>
         public void Dispose()
         {
-            //Dispose
             socket.Dispose();
         }
         /// <summary>
@@ -216,7 +233,7 @@ namespace Abide.DebugXbox
         /// </summary>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
         /// <returns>A line of text from the debug Xbox.</returns>
-        public string ReceiveLine(int timeout = 10000)
+        public string ReceiveLine(int timeout = DefaultTimeout)
         {
             //Wait for any amount of data
             WaitForData(timeout);
@@ -240,7 +257,7 @@ namespace Abide.DebugXbox
         /// Attempts to ping the debug Xbox 
         /// </summary>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public bool Ping(int timeout = 10000)
+        public bool Ping(int timeout = DefaultTimeout)
         {
             //Prepare
             bool successful = false;
@@ -267,24 +284,21 @@ namespace Abide.DebugXbox
         /// In that case we may start sending requests but the debug Xbox is still waiting for us to accept the data that is being sent.
         /// </summary>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public void Synchronize(int timeout = 1000)
+        public void Synchronize(int timeout = DefaultTimeout)
         {
-            //Prepare
-            byte[] buffer = null;
             DateTime start = DateTime.Now;
-
             while ((start - DateTime.Now).TotalMilliseconds < timeout)
             {
                 try
                 {
-                    //Wait for data
                     WaitForData(timeout);
+                    if (socket.Available == 0)
+                    {
+                        break;
+                    }
 
-                    //Receive
-                    buffer = new byte[socket.Available];
+                    byte[] buffer = new byte[socket.Available];
                     socket.Receive(buffer);
-
-                    //Change start time
                     start = DateTime.Now;
                 }
                 catch { break; }
@@ -609,33 +623,62 @@ namespace Abide.DebugXbox
         /// </summary>
         /// <param name="screenshot">If this function succeeds, <paramref name="screenshot"/> will contain a screenshot.</param>
         /// <returns><see langword="true"/> if the screenshot was taken successfully; otherwise <see langword="false"/>.</returns>
-        public bool Screenshot(out Image screenshot)
+        public bool Screenshot(out Bitmap screenshot)
         {
-            //Prepare
             screenshot = null;
             byte[] headerData = new byte[97];
 
-            //Check
             if (Connected)
             {
-                //Send rename command
                 SendCommand("screenshot"); Thread.Sleep(10);
                 var status = GetResponse(out string msg);
                 if (status == Status.BinaryResponseFollows)
                 {
-                    //Wait for header
-                    WaitForData(97, 5000);
+                    WaitForData(97, 2000);
                     DownloadData(headerData, 97);
-                    string headerString = Encoding.ASCII.GetString(headerData);
+                    XboxScreenshotInformation info = XboxScreenshotInformation.FromResponse(Encoding.ASCII.GetString(headerData));
+                    int bpp = info.FrameBufferSize / (info.Width * info.Height);
+                    byte[] frameBuffer = new byte[info.FrameBufferSize];
+                    byte[] decoded = new byte[info.FrameBufferSize];
+                    WaitForData(info.FrameBufferSize, 2000);
+                    DownloadData(frameBuffer, info.FrameBufferSize);
+
+                    Bitmap bmp = new Bitmap(info.Width, info.Height, PixelFormat.Format32bppRgb);
+                    BitmapData data = null;
+                    switch (info.Format)
+                    {
+                        case 18:
+                        case 30:
+                            try
+                            {
+                                data = bmp.LockBits(new Rectangle(0, 0, info.Width, info.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+                                for (int i = 0; i < info.Width * info.Height; i++)
+                                {
+                                    int a = i * 4;
+                                    decoded[a + 0] = frameBuffer[a + 2];
+                                    decoded[a + 1] = frameBuffer[a + 3];
+                                    decoded[a + 2] = frameBuffer[a + 0];
+                                    decoded[a + 3] = frameBuffer[a + 1];
+                                }
+
+                                Marshal.Copy(decoded, 0, data.Scan0, data.Stride * data.Height);
+                            }
+                            finally
+                            {
+                                if (data != null)
+                                {
+                                    bmp.UnlockBits(data);
+                                }
+                            }
+                            break;
+                    }
+
+                    screenshot = bmp;
                 }
 
-                Synchronize();
-
-                //Return
                 return status.HasFlag(Status.OK);
             }
 
-            //Return
             return false;
         }
         /// <summary>
@@ -645,7 +688,7 @@ namespace Abide.DebugXbox
         /// <param name="remoteFileName">The name of the remote file from which to download.</param>
         /// <param name="fileName">The name of the local file that is to receive the data.</param>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public void GetFileAsync(string remoteFileName, string fileName, int timeout = 10000)
+        public void GetFileAsync(string remoteFileName, string fileName, int timeout = DefaultTimeout)
         {
             //Check
             if (Connected)
@@ -690,7 +733,7 @@ namespace Abide.DebugXbox
 
                                         //Update progress
                                         progress += socket.ReceiveBufferSize;
-                                        progressPercentage = (int)(((float)progress / length) * 100f);
+                                        progressPercentage = (int)((float)progress / length * 100f);
                                         DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                                     }
 
@@ -702,7 +745,7 @@ namespace Abide.DebugXbox
 
                                     //Update progress
                                     progress += remainder;
-                                    progressPercentage = (int)(((float)progress / length) * 100f);
+                                    progressPercentage = (int)((float)progress / length * 100f);
                                     DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                                 }
                         }
@@ -721,7 +764,7 @@ namespace Abide.DebugXbox
         /// </summary>
         /// <param name="remoteFileName">The name of the remote file from which to download.</param>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public void GetDataAsync(string remoteFileName, int timeout = 10000)
+        public void GetDataAsync(string remoteFileName, int timeout = DefaultTimeout)
         {
             //Check
             if (Connected)
@@ -763,7 +806,7 @@ namespace Abide.DebugXbox
 
                                     //Update progress
                                     progress += socket.ReceiveBufferSize;
-                                    progressPercentage = (int)(((float)progress / length) * 100f);
+                                    progressPercentage = (int)((float)progress / length * 100f);
                                     DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress, length, progressPercentage, null));
                                 }
 
@@ -793,7 +836,7 @@ namespace Abide.DebugXbox
         /// <param name="fileName">The file to send to the debug Xbox.</param>
         /// <param name="remoteFileName">The name of the remote file to receive the file data.</param>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public void SendFileAsync(string fileName, string remoteFileName, int timeout = 10000)
+        public void SendFileAsync(string fileName, string remoteFileName, int timeout = DefaultTimeout)
         {
             //Check
             if (Connected)
@@ -832,7 +875,7 @@ namespace Abide.DebugXbox
 
                                     //Update progress
                                     progress += socket.SendBufferSize;
-                                    progressPercentage = (int)(((float)progress / length) * 100f);
+                                    progressPercentage = (int)((float)progress / length * 100f);
                                     UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, socket.SendBufferSize, length, progressPercentage, null));
                                 }
 
@@ -843,7 +886,7 @@ namespace Abide.DebugXbox
 
                                 //Update progress
                                 progress += remainder;
-                                progressPercentage = (int)(((float)progress / length) * 100f);
+                                progressPercentage = (int)((float)progress / length * 100f);
                                 UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, remainder, length, progressPercentage, null));
                             }
                             catch (Exception ex) { error = ex; }
@@ -863,7 +906,7 @@ namespace Abide.DebugXbox
         /// <param name="data">The data buffer to send to the debug Xbox.</param>
         /// <param name="remoteFileName">The name of the remote file to receive the data.</param>
         /// <param name="timeout">The amount of time in milliseconds to wait until aborting the operation.</param>
-        public void SendDataAsync(byte[] data, string remoteFileName, int timeout = 10000)
+        public void SendDataAsync(byte[] data, string remoteFileName, int timeout = DefaultTimeout)
         {
             //Check
             if (Connected)
@@ -913,7 +956,7 @@ namespace Abide.DebugXbox
 
                                 //Update progress
                                 progress += remainder;
-                                progressPercentage = (int)(((float)progress / length) * 100f);
+                                progressPercentage = (int)((float)progress / length * 100f);
                                 UploadProgressChanged?.Invoke(this, new UploadProgressChangedEventArgs(progress, remainder, length, progressPercentage, null));
                             }
                             catch (Exception ex) { error = ex; }
@@ -1092,6 +1135,11 @@ namespace Abide.DebugXbox
             itemInfos = new ItemInformation[0];
             return false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xbeInfo"></param>
+        /// <returns></returns>
         public bool GetXbeInfo(out XboxExecutableInfo xbeInfo)
         {
             //Prepare
@@ -1124,12 +1172,12 @@ namespace Abide.DebugXbox
         /// <param name="address"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public int GetMemory(byte[] buffer, long address, int offset, int count, int timeout = 10000)
+        public int GetMemory(byte[] buffer, long address, int offset, int count, int timeout = DefaultTimeout)
         {
             int bytesRead = 0;
             if (Connected)
             {
-                if (!CheckAddress(address, count))
+                if (!CheckAddress(address, 1, timeout) || !CheckAddress(address + count - 1, 1, timeout))
                 {
                     throw new IOException("Invalid address.");
                 }
@@ -1152,34 +1200,43 @@ namespace Abide.DebugXbox
         /// <param name="address"></param>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public bool SetMemory(long address, byte[] buffer, int length)
+        public bool SetMemory(byte[] buffer, long address, int offset, int length, int timeout = DefaultTimeout)
         {
             if (Connected)
             {
-                if (!CheckAddress(address, length))
+                if (!CheckAddress(address, 1, timeout) || !CheckAddress(address + length - 1, 1, timeout))
                 {
                     throw new IOException("Invalid address.");
                 }
 
-                int offset = 0;
                 int iterations = length / MaxSetMemLength;
                 int remainder = length % MaxSetMemLength;
                 string data;
 
                 for (int i = 0; i < iterations; i++)
                 {
-                    data = string.Concat(buffer.Skip(offset).Select(b => b.ToString("X2")));
-                    SendCommand("setmem", new CommandArgument("addr", $"0x{(address + offset):X8}"), new CommandArgument("data", data));
+                    data = string.Concat(buffer
+                        .Skip(offset)
+                        .Take(MaxSetMemLength)
+                        .Select(b => b.ToString("X2")));
+
+                    SendCommand("setmem", new CommandArgument("addr", $"0x{address + offset:X8}"), new CommandArgument("data", data));
                     if (GetResponse() != Status.OK)
                     {
                         return false;
                     }
+
+                    offset += MaxSetMemLength;
                 }
 
                 if (remainder > 0)
                 {
-                    data = string.Concat(buffer.Skip(offset).Select(b => b.ToString("X2")));
-                    SendCommand("setmem", new CommandArgument("addr", $"0x{(address + offset):X8}"), new CommandArgument("data", data));
+                    data = string.Concat(buffer
+                        .Skip(offset)
+                        .Take(remainder)
+                        .Select(b => b.ToString("X2")));
+
+                    SendCommand("setmem", new CommandArgument("addr", $"0x{address + offset:X8}"), new CommandArgument("data", data));
                     if (GetResponse() != Status.OK)
                     {
                         return false;
@@ -1223,7 +1280,7 @@ namespace Abide.DebugXbox
             memoryRegions = regions.ToArray();
             return success;
         }
-        private bool CheckAddress(long address, int count, int timeout = 10000)
+        private bool CheckAddress(long address, int count, int timeout = DefaultTimeout)
         {
             if (Connected)
             {
@@ -1248,30 +1305,33 @@ namespace Abide.DebugXbox
 
             return false;
         }
-        private void WaitForData(int timeout = 10000)
+        private void WaitForData(int timeout = DefaultTimeout)
         {
             //Wait
             WaitForData(1, timeout);
         }
-        private void WaitForData(int target, int timeout = 10000)
+        private void WaitForData(int target, int timeout = DefaultTimeout)
         {
-            if (!socket.Connected) return;
-            if (socket.Available >= target) return;
-
-            DateTime start = DateTime.Now;
-            TimeSpan elapsed = new TimeSpan();
-            while (socket.Available < target)
+            if (target > 0)
             {
-                Thread.Sleep(0);
-                elapsed = DateTime.Now - start;
-                if (elapsed.TotalMilliseconds >= timeout)
+                if (!socket.Connected) return;
+                if (socket.Available >= target) return;
+
+                DateTime start = DateTime.Now;
+                TimeSpan elapsed = new TimeSpan();
+                while (socket.Available < target)
                 {
-                    Disconnect(false);
-                    throw new TimeoutException();
+                    Thread.Sleep(0);
+                    elapsed = DateTime.Now - start;
+                    if (elapsed.TotalMilliseconds >= timeout)
+                    {
+                        Disconnect(false);
+                        throw new TimeoutException();
+                    }
                 }
             }
         }
-        private int GetLengthPrefix(int timeout = 10000)
+        private int GetLengthPrefix(int timeout = DefaultTimeout)
         {
             //Wait
             WaitForData(4, timeout);
@@ -1281,7 +1341,7 @@ namespace Abide.DebugXbox
             socket.Receive(data, 4, SocketFlags.None);
             return BitConverter.ToInt32(data, 0);
         }
-        private void DownloadData(byte[] buffer, int size, int timeout = 10000)
+        private void DownloadData(byte[] buffer, int size, int timeout = DefaultTimeout)
         {
             //Check
             if (buffer == null) throw new ArgumentNullException(nameof(buffer));

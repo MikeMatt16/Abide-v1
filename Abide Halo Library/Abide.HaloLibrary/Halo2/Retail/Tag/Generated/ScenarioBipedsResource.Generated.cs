@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_bipeds_resource (*ipd) tag group.
     /// </summary>
-    public class ScenarioBipedsResource : Group
+    internal class ScenarioBipedsResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioBipedsResource"/> class.

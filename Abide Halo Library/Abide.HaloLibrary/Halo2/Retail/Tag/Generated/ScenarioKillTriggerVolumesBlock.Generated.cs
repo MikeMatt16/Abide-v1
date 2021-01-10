@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_kill_trigger_volumes_block tag block.
     /// </summary>
-    public sealed class ScenarioKillTriggerVolumesBlock : Block
+    internal sealed class ScenarioKillTriggerVolumesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioKillTriggerVolumesBlock"/> class.

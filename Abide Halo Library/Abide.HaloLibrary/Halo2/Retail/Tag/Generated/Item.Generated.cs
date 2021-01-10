@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated item (item) tag group.
     /// </summary>
-    public class Item : Group
+    internal class Item : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Item"/> class.

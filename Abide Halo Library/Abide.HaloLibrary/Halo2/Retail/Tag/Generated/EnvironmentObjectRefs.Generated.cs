@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated environment_object_refs tag block.
     /// </summary>
-    public sealed class EnvironmentObjectRefs : Block
+    internal sealed class EnvironmentObjectRefs : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EnvironmentObjectRefs"/> class.

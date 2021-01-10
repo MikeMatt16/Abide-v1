@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated behavior_names_block tag block.
     /// </summary>
-    public sealed class BehaviorNamesBlock : Block
+    internal sealed class BehaviorNamesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BehaviorNamesBlock"/> class.

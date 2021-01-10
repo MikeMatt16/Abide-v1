@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated local_string_id_list_string_reference_block tag block.
     /// </summary>
-    public sealed class LocalStringIdListStringReferenceBlock : Block
+    internal sealed class LocalStringIdListStringReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalStringIdListStringReferenceBlock"/> class.

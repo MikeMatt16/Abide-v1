@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated interface_tag_references tag block.
     /// </summary>
-    public sealed class InterfaceTagReferences : Block
+    internal sealed class InterfaceTagReferences : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InterfaceTagReferences"/> class.

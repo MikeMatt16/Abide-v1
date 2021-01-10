@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sky_cubemap_block tag block.
     /// </summary>
-    public sealed class SkyCubemapBlock : Block
+    internal sealed class SkyCubemapBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SkyCubemapBlock"/> class.

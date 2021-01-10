@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated mapping_function_block tag block.
     /// </summary>
-    public sealed class MappingFunctionBlock : Block
+    internal sealed class MappingFunctionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingFunctionBlock"/> class.

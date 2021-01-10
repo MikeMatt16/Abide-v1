@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_attachment_block tag block.
     /// </summary>
-    public sealed class ObjectAttachmentBlock : Block
+    internal sealed class ObjectAttachmentBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectAttachmentBlock"/> class.

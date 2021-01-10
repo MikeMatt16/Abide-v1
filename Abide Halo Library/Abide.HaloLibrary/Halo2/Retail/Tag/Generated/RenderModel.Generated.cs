@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model (mode) tag group.
     /// </summary>
-    public class RenderModel : Group
+    internal class RenderModel : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModel"/> class.

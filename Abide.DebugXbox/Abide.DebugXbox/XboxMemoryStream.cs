@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Abide.DebugXbox
 {
@@ -47,14 +49,49 @@ namespace Abide.DebugXbox
         }
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return xbox.GetMemory(buffer, Position, offset, count);
+            if (CanRead)
+            {
+                int read = xbox.GetMemory(buffer, Position, offset, count);
+                Position += read;
+                return read;
+            }
+
+            return 0;
         }
         public override void Write(byte[] buffer, int offset, int count)
         {
-            byte[] data = new byte[count];
-            Array.Copy(buffer, offset, data, 0, count);
-            xbox.SetMemory(position, data, count);
-            Position += count;
+            if (CanWrite)
+            {
+                xbox.SetMemory(buffer, position, offset, count);
+                Position += count;
+            }
+        }
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            if (CanRead)
+            {
+                var task = new Task<int>(() =>
+                {
+                    return xbox.GetMemory(buffer, position, offset, count);
+                }, cancellationToken);
+
+                task.Start();
+                return task;
+            }
+
+            return null;
+        }
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            if (CanWrite)
+            {
+                var task = new Task(() =>
+                {
+                    xbox.SetMemory(buffer, position, offset, count);
+                }, cancellationToken);
+            }
+
+            return null;
         }
     }
 }

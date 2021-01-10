@@ -110,7 +110,7 @@
     <Compile Include="Halo2\Beta\HaloMapFile.cs" />
     <Compile Include="Halo2\Retail\HaloMapFile.cs" />
     <Compile Include="Halo2\Retail\Tag\BlockList.cs" />
-    <Compile Include="Halo2\Retail\Tag\DataTypes.cs" />
+    <Compile Include="Halo2\DataTypes.cs" />
     <Compile Include="Halo2\Retail\HaloMap.cs" />
     <Compile Include="Halo2\Retail\IndexEntry.cs" />
     <Compile Include="Halo2\Retail\IndexEntryList.cs" />
@@ -1215,7 +1215,11 @@
     <Compile Include="TagId.cs" />
     <Compile Include="Versions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\..\Abide\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

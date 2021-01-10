@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated text_block_reference_block tag block.
     /// </summary>
-    public sealed class TextBlockReferenceBlock : Block
+    internal sealed class TextBlockReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBlockReferenceBlock"/> class.

@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Abide.HaloLibrary.Halo2.Retail.Tag
 {
-    public abstract class Group : ITagGroup, IEnumerable<Block>
+    internal abstract class Group : ITagGroup, IEnumerable<Block>
     {
         public int TagBlockCount => TagBlocks.Count;
         public abstract string GroupName { get; }

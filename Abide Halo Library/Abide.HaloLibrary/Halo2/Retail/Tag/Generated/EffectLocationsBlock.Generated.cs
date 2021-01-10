@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated effect_locations_block tag block.
     /// </summary>
-    public sealed class EffectLocationsBlock : Block
+    internal sealed class EffectLocationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EffectLocationsBlock"/> class.

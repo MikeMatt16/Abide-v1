@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated g_scenario_editor_folder_block tag block.
     /// </summary>
-    public sealed class GScenarioEditorFolderBlock : Block
+    internal sealed class GScenarioEditorFolderBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GScenarioEditorFolderBlock"/> class.

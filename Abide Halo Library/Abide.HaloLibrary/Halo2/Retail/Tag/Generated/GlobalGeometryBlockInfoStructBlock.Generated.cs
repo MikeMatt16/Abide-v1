@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_geometry_block_info_struct_block tag block.
     /// </summary>
-    public sealed class GlobalGeometryBlockInfoStructBlock : Block
+    internal sealed class GlobalGeometryBlockInfoStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalGeometryBlockInfoStructBlock"/> class.

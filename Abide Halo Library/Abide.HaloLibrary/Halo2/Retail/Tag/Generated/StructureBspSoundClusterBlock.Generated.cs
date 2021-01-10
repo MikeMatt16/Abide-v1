@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_sound_cluster_block tag block.
     /// </summary>
-    public sealed class StructureBspSoundClusterBlock : Block
+    internal sealed class StructureBspSoundClusterBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspSoundClusterBlock"/> class.

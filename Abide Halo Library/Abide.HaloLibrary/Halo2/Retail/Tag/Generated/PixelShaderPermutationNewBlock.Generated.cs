@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated pixel_shader_permutation_new_block tag block.
     /// </summary>
-    public sealed class PixelShaderPermutationNewBlock : Block
+    internal sealed class PixelShaderPermutationNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PixelShaderPermutationNewBlock"/> class.

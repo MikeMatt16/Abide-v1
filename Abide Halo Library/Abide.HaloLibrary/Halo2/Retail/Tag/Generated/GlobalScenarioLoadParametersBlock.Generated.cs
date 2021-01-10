@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_scenario_load_parameters_block tag block.
     /// </summary>
-    public sealed class GlobalScenarioLoadParametersBlock : Block
+    internal sealed class GlobalScenarioLoadParametersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalScenarioLoadParametersBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sky (sky ) tag group.
     /// </summary>
-    public class Sky : Group
+    internal class Sky : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Sky"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_boarding_melee_struct_block tag block.
     /// </summary>
-    public sealed class UnitBoardingMeleeStructBlock : Block
+    internal sealed class UnitBoardingMeleeStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitBoardingMeleeStructBlock"/> class.

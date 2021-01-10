@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_tracking_struct_block tag block.
     /// </summary>
-    public sealed class WeaponTrackingStructBlock : Block
+    internal sealed class WeaponTrackingStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponTrackingStructBlock"/> class.

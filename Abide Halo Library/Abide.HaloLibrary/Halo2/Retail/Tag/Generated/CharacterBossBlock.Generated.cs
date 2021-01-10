@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_boss_block tag block.
     /// </summary>
-    public sealed class CharacterBossBlock : Block
+    internal sealed class CharacterBossBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterBossBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_device_portal_association_block tag block.
     /// </summary>
-    public sealed class StructureDevicePortalAssociationBlock : Block
+    internal sealed class StructureDevicePortalAssociationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureDevicePortalAssociationBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_physics_ground_struct_block tag block.
     /// </summary>
-    public sealed class CharacterPhysicsGroundStructBlock : Block
+    internal sealed class CharacterPhysicsGroundStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterPhysicsGroundStructBlock"/> class.

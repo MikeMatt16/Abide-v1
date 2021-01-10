@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated syntax_datum_block tag block.
     /// </summary>
-    public sealed class SyntaxDatumBlock : Block
+    internal sealed class SyntaxDatumBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SyntaxDatumBlock"/> class.

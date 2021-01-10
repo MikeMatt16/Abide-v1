@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated game_engine_status_response_block tag block.
     /// </summary>
-    public sealed class GameEngineStatusResponseBlock : Block
+    internal sealed class GameEngineStatusResponseBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEngineStatusResponseBlock"/> class.

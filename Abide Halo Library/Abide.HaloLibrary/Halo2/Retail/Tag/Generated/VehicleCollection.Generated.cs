@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated vehicle_collection (vehc) tag group.
     /// </summary>
-    public class VehicleCollection : Group
+    internal class VehicleCollection : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleCollection"/> class.

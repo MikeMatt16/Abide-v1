@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_button_icon_block tag block.
     /// </summary>
-    public sealed class HudButtonIconBlock : Block
+    internal sealed class HudButtonIconBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudButtonIconBlock"/> class.

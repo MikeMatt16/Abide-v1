@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated g_null_block tag block.
     /// </summary>
-    public sealed class GNullBlock : Block
+    internal sealed class GNullBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GNullBlock"/> class.

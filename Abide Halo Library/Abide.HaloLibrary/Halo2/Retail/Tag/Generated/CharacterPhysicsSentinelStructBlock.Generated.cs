@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_physics_sentinel_struct_block tag block.
     /// </summary>
-    public sealed class CharacterPhysicsSentinelStructBlock : Block
+    internal sealed class CharacterPhysicsSentinelStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterPhysicsSentinelStructBlock"/> class.

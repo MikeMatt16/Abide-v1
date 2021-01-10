@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated projectile (proj) tag group.
     /// </summary>
-    public class Projectile : Group
+    internal class Projectile : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Projectile"/> class.

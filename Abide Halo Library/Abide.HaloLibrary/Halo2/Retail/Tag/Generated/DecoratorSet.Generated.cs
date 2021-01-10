@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decorator_set (DECR) tag group.
     /// </summary>
-    public class DecoratorSet : Group
+    internal class DecoratorSet : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratorSet"/> class.

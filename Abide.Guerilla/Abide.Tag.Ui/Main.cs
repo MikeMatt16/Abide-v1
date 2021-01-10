@@ -6,6 +6,7 @@ using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Abide.Tag.Ui
@@ -75,7 +76,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagBlock block in AbideCodeDomGlobals.GetTagBlocks())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+                            compileUnit = new AbideTagBlockCodeCompileUnit(block, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag", TypeAttributes.NotPublic);
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(block)}.Generated.{provider.FileExtension}")))
@@ -89,7 +90,7 @@ namespace Abide.Tag.Ui
                         foreach (AbideTagGroup group in AbideCodeDomGlobals.GetTagGroups())
                         {
                             //Create group code compile unit
-                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+                            compileUnit = new AbideTagGroupCodeCompileUnit(group, "Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag", TypeAttributes.NotPublic);
 
                             //Create writer
                             using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"{AbideCodeDomGlobals.GetMemberName(group)}.Generated.{provider.FileExtension}")))
@@ -103,7 +104,7 @@ namespace Abide.Tag.Ui
                         using (StreamWriter writer = new StreamWriter(Path.Combine(folderDlg.SelectedPath, $"TagLookup.Generated.{provider.FileExtension}")))
                         {
                             //Create tag lookup compile unit
-                            compileUnit = new AbideTagLookupCodeCompileUnit("Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag");
+                            compileUnit = new AbideTagLookupCodeCompileUnit("Abide.HaloLibrary.Halo2.Retail.Tag", "Abide.HaloLibrary.Halo2.Retail.Tag", TypeAttributes.NotPublic);
 
                             //Write
                             provider.GenerateCodeFromCompileUnit(compileUnit, writer, options);

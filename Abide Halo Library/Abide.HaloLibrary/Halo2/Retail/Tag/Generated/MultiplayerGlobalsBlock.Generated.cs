@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_globals_block tag block.
     /// </summary>
-    public sealed class MultiplayerGlobalsBlock : Block
+    internal sealed class MultiplayerGlobalsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerGlobalsBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_lighting_resource (sslt) tag group.
     /// </summary>
-    public class ScenarioStructureLightingResource : Group
+    internal class ScenarioStructureLightingResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureLightingResource"/> class.

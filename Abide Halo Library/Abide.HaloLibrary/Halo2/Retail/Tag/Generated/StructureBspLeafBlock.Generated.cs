@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_leaf_block tag block.
     /// </summary>
-    public sealed class StructureBspLeafBlock : Block
+    internal sealed class StructureBspLeafBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspLeafBlock"/> class.

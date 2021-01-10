@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_hud_overlays_block tag block.
     /// </summary>
-    public sealed class WeaponHudOverlaysBlock : Block
+    internal sealed class WeaponHudOverlaysBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponHudOverlaysBlock"/> class.

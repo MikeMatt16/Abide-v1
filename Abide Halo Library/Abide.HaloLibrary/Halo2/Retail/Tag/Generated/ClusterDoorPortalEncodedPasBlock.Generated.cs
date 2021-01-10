@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cluster_door_portal_encoded_pas_block tag block.
     /// </summary>
-    public sealed class ClusterDoorPortalEncodedPasBlock : Block
+    internal sealed class ClusterDoorPortalEncodedPasBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClusterDoorPortalEncodedPasBlock"/> class.

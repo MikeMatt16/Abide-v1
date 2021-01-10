@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated polyhedra_block tag block.
     /// </summary>
-    public sealed class PolyhedraBlock : Block
+    internal sealed class PolyhedraBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolyhedraBlock"/> class.

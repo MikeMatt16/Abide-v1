@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_dialogue_globals (adlg) tag group.
     /// </summary>
-    public class AiDialogueGlobals : Group
+    internal class AiDialogueGlobals : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiDialogueGlobals"/> class.

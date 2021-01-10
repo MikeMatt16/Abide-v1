@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_postprocess_vertex_shader_constant_block tag block.
     /// </summary>
-    public sealed class ShaderPostprocessVertexShaderConstantBlock : Block
+    internal sealed class ShaderPostprocessVertexShaderConstantBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPostprocessVertexShaderConstantBlock"/> class.

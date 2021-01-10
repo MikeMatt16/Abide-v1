@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cellular_automata_block tag block.
     /// </summary>
-    public sealed class CellularAutomataBlock : Block
+    internal sealed class CellularAutomataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CellularAutomataBlock"/> class.

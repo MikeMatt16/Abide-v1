@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cached_data_block tag block.
     /// </summary>
-    public sealed class CachedDataBlock : Block
+    internal sealed class CachedDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedDataBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_message_text_block tag block.
     /// </summary>
-    public sealed class HudMessageTextBlock : Block
+    internal sealed class HudMessageTextBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudMessageTextBlock"/> class.

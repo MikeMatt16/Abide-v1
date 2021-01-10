@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_hint_flight_point_block tag block.
     /// </summary>
-    public sealed class UserHintFlightPointBlock : Block
+    internal sealed class UserHintFlightPointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserHintFlightPointBlock"/> class.

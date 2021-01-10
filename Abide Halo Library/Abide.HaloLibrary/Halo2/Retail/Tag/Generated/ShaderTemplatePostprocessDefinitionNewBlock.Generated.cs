@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_template_postprocess_definition_new_block tag block.
     /// </summary>
-    public sealed class ShaderTemplatePostprocessDefinitionNewBlock : Block
+    internal sealed class ShaderTemplatePostprocessDefinitionNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderTemplatePostprocessDefinitionNewBlock"/> class.

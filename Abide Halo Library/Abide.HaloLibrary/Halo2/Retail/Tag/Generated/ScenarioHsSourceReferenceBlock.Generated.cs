@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_hs_source_reference_block tag block.
     /// </summary>
-    public sealed class ScenarioHsSourceReferenceBlock : Block
+    internal sealed class ScenarioHsSourceReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioHsSourceReferenceBlock"/> class.

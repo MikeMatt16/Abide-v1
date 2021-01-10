@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated special_movement_block tag block.
     /// </summary>
-    public sealed class SpecialMovementBlock : Block
+    internal sealed class SpecialMovementBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialMovementBlock"/> class.

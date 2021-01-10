@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Abide.HaloLibrary.Halo2.Retail.Tag
 {
-    public delegate Block BlockSearchProcedure<T>(Block tagBlock, int blockIndex) where T : IConvertible, IComparable, IComparable<T>, IEquatable<T>;
+    internal delegate Block BlockSearchProcedure<T>(Block tagBlock, int blockIndex) where T : IConvertible, IComparable, IComparable<T>, IEquatable<T>;
 
-    public sealed class Option
+    internal sealed class Option
     {
         public string Name { get; }
         public int Index { get; }
@@ -23,7 +23,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public abstract class Field : ITagField, INotifyPropertyChanged
+    internal abstract class Field : ITagField, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -109,7 +109,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ExplanationField : Field
+    internal sealed class ExplanationField : Field
     {
         public override int Size => 0;
         public string Explanation { get; } = string.Empty;
@@ -123,7 +123,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class StringField : Field
+    internal sealed class StringField : Field
     {
         public override int Size => 32;
         public StringField(string name) : base(FieldType.FieldString, name)
@@ -146,7 +146,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class LongStringField : Field
+    internal sealed class LongStringField : Field
     {
         public override int Size => 256;
         public new String256 Value
@@ -169,7 +169,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public abstract class StructField : Field
+    internal abstract class StructField : Field
     {
         public override int Size => Value.Size;
         public new Block Value
@@ -196,7 +196,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         public abstract Block Create();
     }
 
-    public abstract class BlockField : Field
+    internal abstract class BlockField : Field
     {
         public BlockList BlockList { get; }
         public long BlockAddress { get; private set; } = -1;
@@ -283,7 +283,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         public abstract Block Create();
     }
 
-    public sealed class BlockField<T> : BlockField, IEnumerable<T> where T : Block, new()
+    internal sealed class BlockField<T> : BlockField, IEnumerable<T> where T : Block, new()
     {
         internal static int identIndex = 0;
         public T this[int index]
@@ -337,14 +337,14 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public abstract class BaseFlagsField : OptionField
+    internal abstract class BaseFlagsField : OptionField
     {
         protected BaseFlagsField(FieldType type, string name, params string[] options) : base(type, name, options) { }
         public abstract bool HasFlag(Option option);
         public abstract object SetFlag(Option option, bool toggle);
     }
 
-    public abstract class OptionField : Field
+    internal abstract class OptionField : Field
     {
         public List<Option> Options { get; }
         protected OptionField(FieldType type, string name, params string[] options) : base(type, name)
@@ -360,7 +360,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class CharIntegerField : Field
+    internal sealed class CharIntegerField : Field
     {
         public override int Size => 1;
         public new byte Value
@@ -384,7 +384,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ShortIntegerField : Field
+    internal sealed class ShortIntegerField : Field
     {
         public override int Size => 2;
         public new short Value
@@ -406,7 +406,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class LongIntegerField : Field
+    internal sealed class LongIntegerField : Field
     {
         public override int Size => 4;
         public new int Value
@@ -428,7 +428,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class AngleField : Field
+    internal sealed class AngleField : Field
     {
         public override int Size => 4;
         public new float Value
@@ -450,7 +450,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class TagField : Field
+    internal sealed class TagField : Field
     {
         public override int Size => 4;
         public new TagFourCc Value
@@ -472,7 +472,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class CharEnumField : OptionField
+    internal sealed class CharEnumField : OptionField
     {
         public override int Size => 1;
         public Option Option
@@ -503,7 +503,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class EnumField : OptionField
+    internal sealed class EnumField : OptionField
     {
         public override int Size => 2;
         public Option Option
@@ -534,7 +534,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class LongEnumField : OptionField
+    internal sealed class LongEnumField : OptionField
     {
         public override int Size => 4;
         public Option Option
@@ -565,7 +565,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class LongFlagsField : BaseFlagsField
+    internal sealed class LongFlagsField : BaseFlagsField
     {
         public override int Size => 4;
         public new int Value
@@ -611,7 +611,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class WordFlagsField : BaseFlagsField
+    internal sealed class WordFlagsField : BaseFlagsField
     {
         public override int Size => 2;
         public new short Value
@@ -657,7 +657,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ByteFlagsField : BaseFlagsField
+    internal sealed class ByteFlagsField : BaseFlagsField
     {
         public override int Size => 1;
         public new byte Value
@@ -703,7 +703,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class Point2dField : Field
+    internal sealed class Point2dField : Field
     {
         public new Point2 Value
         {
@@ -725,7 +725,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class Rectangle2dField : Field
+    internal sealed class Rectangle2dField : Field
     {
         public override int Size => 8;
         public new Rectangle2 Value
@@ -747,7 +747,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RgbColorField : Field
+    internal sealed class RgbColorField : Field
     {
         public override int Size => 3;
         public new ColorRgb Value
@@ -769,7 +769,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ArgbColorField : Field
+    internal sealed class ArgbColorField : Field
     {
         public override int Size => 4;
         public new ColorArgb Value
@@ -791,7 +791,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealField : Field
+    internal sealed class RealField : Field
     {
         public override int Size => 4;
         public new float Value
@@ -813,7 +813,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealFractionField : Field
+    internal sealed class RealFractionField : Field
     {
         public override int Size => 4;
         public new float Value
@@ -835,7 +835,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealPoint2dField : Field
+    internal sealed class RealPoint2dField : Field
     {
         public override int Size => 8;
         public new Point2F Value
@@ -857,7 +857,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealPoint3dField : Field
+    internal sealed class RealPoint3dField : Field
     {
         public override int Size => 12;
         public new Point3F Value
@@ -879,7 +879,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealVector2dField : Field
+    internal sealed class RealVector2dField : Field
     {
         public override int Size => 8;
         public new Vector2 Value
@@ -901,7 +901,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealVector3dField : Field
+    internal sealed class RealVector3dField : Field
     {
         public override int Size => 12;
         public new Vector3 Value
@@ -923,7 +923,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class QuaternionField : Field
+    internal sealed class QuaternionField : Field
     {
         public override int Size => 16;
         public new Quaternion Value
@@ -945,7 +945,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class EulerAngles2dField : Field
+    internal sealed class EulerAngles2dField : Field
     {
         public override int Size => 8;
         public new Vector2 Value
@@ -967,7 +967,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class EulerAngles3dField : Field
+    internal sealed class EulerAngles3dField : Field
     {
         public override int Size => 12;
         public new Vector3 Value
@@ -989,7 +989,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealPlane2dField : Field
+    internal sealed class RealPlane2dField : Field
     {
         public override int Size => 12;
         public new Vector3 Value
@@ -1011,7 +1011,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealPlane3dField : Field
+    internal sealed class RealPlane3dField : Field
     {
         public override int Size => 16;
         public new Vector4 Value
@@ -1033,7 +1033,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealRgbColorField : Field
+    internal sealed class RealRgbColorField : Field
     {
         public override int Size => 12;
         public new ColorRgbF Value
@@ -1055,7 +1055,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealArgbColorField : Field
+    internal sealed class RealArgbColorField : Field
     {
         public override int Size => 16;
         public new ColorArgbF Value
@@ -1077,7 +1077,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealHsvColorField : Field
+    internal sealed class RealHsvColorField : Field
     {
         public override int Size => 12;
         public new ColorHsv Value
@@ -1099,7 +1099,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealAhsvColorField : Field
+    internal sealed class RealAhsvColorField : Field
     {
         public override int Size => 16;
         public new ColorAhsv Value
@@ -1121,7 +1121,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ShortBoundsField : Field
+    internal sealed class ShortBoundsField : Field
     {
         public override int Size => 4;
         public new ShortBounds Value
@@ -1143,7 +1143,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class AngleBoundsField : Field
+    internal sealed class AngleBoundsField : Field
     {
         public override int Size => 8;
         public new FloatBounds Value
@@ -1165,7 +1165,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealBoundsField : Field
+    internal sealed class RealBoundsField : Field
     {
         public override int Size => 8;
         public new FloatBounds Value
@@ -1187,7 +1187,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class RealFractionBoundsField : Field
+    internal sealed class RealFractionBoundsField : Field
     {
         public override int Size => 8;
         public new FloatBounds Value
@@ -1209,7 +1209,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class CharBlockIndexField : Field
+    internal sealed class CharBlockIndexField : Field
     {
         public override int Size => 1;
         public BlockSearchProcedure<byte> SearchProcedure { get; set; }
@@ -1232,7 +1232,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ShortBlockIndexField : Field
+    internal sealed class ShortBlockIndexField : Field
     {
         public override int Size => 2;
         public new short Value
@@ -1255,7 +1255,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class LongBlockIndexField : Field
+    internal sealed class LongBlockIndexField : Field
     {
         public override int Size => 4;
         public new int Value
@@ -1278,7 +1278,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class DataField : Field
+    internal sealed class DataField : Field
     {
         private byte[] buffer = new byte[0];
 
@@ -1354,7 +1354,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class VertexBufferField : Field
+    internal sealed class VertexBufferField : Field
     {
         public override int Size => 32;
         public VertexBufferField(string name) : base(FieldType.FieldVertexBuffer, name)
@@ -1371,7 +1371,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class PadField : Field
+    internal sealed class PadField : Field
     {
         public override int Size => Length;
         public int Length { get; }
@@ -1399,7 +1399,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class SkipField : Field
+    internal sealed class SkipField : Field
     {
         public override int Size => Length;
         public int Length { get; }
@@ -1427,7 +1427,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class StructField<T> : StructField where T : Block, new()
+    internal sealed class StructField<T> : StructField where T : Block, new()
     {
         public StructField(string name) : base(name, new T()) { }
         public override Block Create()
@@ -1436,7 +1436,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public class BaseStringIdField : Field
+    internal class BaseStringIdField : Field
     {
         public sealed override int Size => 4;
         public new StringId Value
@@ -1458,7 +1458,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class StringIdField : BaseStringIdField
+    internal sealed class StringIdField : BaseStringIdField
     {
         public StringIdField(string name) : base(FieldType.FieldStringId, name)
         {
@@ -1466,7 +1466,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class OldStringIdField : BaseStringIdField
+    internal sealed class OldStringIdField : BaseStringIdField
     {
         public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name)
         {
@@ -1474,7 +1474,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class TagReferenceField : Field
+    internal sealed class TagReferenceField : Field
     {
         public override int Size => 8;
         public string GroupTag { get; }
@@ -1507,7 +1507,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class TagIndexField : Field
+    internal sealed class TagIndexField : Field
     {
         public override int Size => 4;
         public new TagId Value
@@ -1529,7 +1529,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public sealed class ObjectName
+    internal sealed class ObjectName
     {
         private static readonly char[] breakChars = { ':', '#', '^', '*' };
         private string name, details, information;
@@ -1612,7 +1612,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag
         }
     }
 
-    public enum FieldType : short
+    internal enum FieldType : short
     {
         FieldString,
         FieldLongString,

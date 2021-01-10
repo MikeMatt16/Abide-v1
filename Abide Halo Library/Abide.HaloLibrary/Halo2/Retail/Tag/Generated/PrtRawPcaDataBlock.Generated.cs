@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated prt_raw_pca_data_block tag block.
     /// </summary>
-    public sealed class PrtRawPcaDataBlock : Block
+    internal sealed class PrtRawPcaDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrtRawPcaDataBlock"/> class.

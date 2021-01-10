@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_trigger_charging_struct_block tag block.
     /// </summary>
-    public sealed class WeaponTriggerChargingStructBlock : Block
+    internal sealed class WeaponTriggerChargingStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponTriggerChargingStructBlock"/> class.

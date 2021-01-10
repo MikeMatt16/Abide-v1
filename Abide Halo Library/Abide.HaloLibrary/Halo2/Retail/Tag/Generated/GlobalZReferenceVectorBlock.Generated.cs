@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_z_reference_vector_block tag block.
     /// </summary>
-    public sealed class GlobalZReferenceVectorBlock : Block
+    internal sealed class GlobalZReferenceVectorBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalZReferenceVectorBlock"/> class.

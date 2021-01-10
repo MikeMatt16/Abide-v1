@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_wind_model_struct_block tag block.
     /// </summary>
-    public sealed class GlobalWindModelStructBlock : Block
+    internal sealed class GlobalWindModelStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalWindModelStructBlock"/> class.

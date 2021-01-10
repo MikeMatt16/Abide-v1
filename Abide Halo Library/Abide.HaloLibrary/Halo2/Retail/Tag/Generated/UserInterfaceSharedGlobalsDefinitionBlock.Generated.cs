@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_interface_shared_globals_definition_block tag block.
     /// </summary>
-    public sealed class UserInterfaceSharedGlobalsDefinitionBlock : Block
+    internal sealed class UserInterfaceSharedGlobalsDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInterfaceSharedGlobalsDefinitionBlock"/> class.

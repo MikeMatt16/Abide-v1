@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lighting_variables_block tag block.
     /// </summary>
-    public sealed class LightingVariablesBlock : Block
+    internal sealed class LightingVariablesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightingVariablesBlock"/> class.

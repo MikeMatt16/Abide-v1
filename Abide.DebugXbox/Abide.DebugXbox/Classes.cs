@@ -62,6 +62,27 @@ namespace Abide.DebugXbox
         public XboxException(string message) : base(message) { }
     }
 
+    public sealed class XboxScreenshotInformation
+    {
+        public int Pitch { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public int Format { get; private set; }
+        public int FrameBufferSize { get; private set; }
+        internal static XboxScreenshotInformation FromResponse(string info)
+        {
+            var parts = Helper.GetParts(info);
+            return new XboxScreenshotInformation()
+            {
+                Pitch = int.Parse(parts["pitch"].Substring(2), NumberStyles.HexNumber),
+                Width = int.Parse(parts["width"].Substring(2), NumberStyles.HexNumber),
+                Height = int.Parse(parts["height"].Substring(2), NumberStyles.HexNumber),
+                Format = int.Parse(parts["format"].Substring(2,8), NumberStyles.HexNumber),
+                FrameBufferSize = int.Parse(parts["framebuffersize"].Substring(2), NumberStyles.HexNumber),
+            };
+        }
+    }
+
     public sealed class XboxMemoryRegion
     {
         public uint BaseAddress { get; private set; }

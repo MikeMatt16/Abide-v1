@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model_invalid_section_pairs_block tag block.
     /// </summary>
-    public sealed class RenderModelInvalidSectionPairsBlock : Block
+    internal sealed class RenderModelInvalidSectionPairsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModelInvalidSectionPairsBlock"/> class.

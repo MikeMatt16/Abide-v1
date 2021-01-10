@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sky_patchy_fog_block tag block.
     /// </summary>
-    public sealed class SkyPatchyFogBlock : Block
+    internal sealed class SkyPatchyFogBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SkyPatchyFogBlock"/> class.

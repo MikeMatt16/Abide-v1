@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hs_scripts_block tag block.
     /// </summary>
-    public sealed class HsScriptsBlock : Block
+    internal sealed class HsScriptsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HsScriptsBlock"/> class.

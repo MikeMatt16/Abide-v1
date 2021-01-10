@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_debug_info_render_line_block tag block.
     /// </summary>
-    public sealed class StructureBspDebugInfoRenderLineBlock : Block
+    internal sealed class StructureBspDebugInfoRenderLineBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspDebugInfoRenderLineBlock"/> class.

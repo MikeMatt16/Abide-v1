@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_grenades_block tag block.
     /// </summary>
-    public sealed class CharacterGrenadesBlock : Block
+    internal sealed class CharacterGrenadesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterGrenadesBlock"/> class.

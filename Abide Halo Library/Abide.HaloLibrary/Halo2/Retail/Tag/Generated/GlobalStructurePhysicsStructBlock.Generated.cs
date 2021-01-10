@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_structure_physics_struct_block tag block.
     /// </summary>
-    public sealed class GlobalStructurePhysicsStructBlock : Block
+    internal sealed class GlobalStructurePhysicsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalStructurePhysicsStructBlock"/> class.

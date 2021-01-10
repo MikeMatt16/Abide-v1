@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_variant_settings_interface_definition (goof) tag group.
     /// </summary>
-    public class MultiplayerVariantSettingsInterfaceDefinition : Group
+    internal class MultiplayerVariantSettingsInterfaceDefinition : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerVariantSettingsInterfaceDefinition"/> class.

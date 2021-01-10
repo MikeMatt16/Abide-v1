@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated game_engine_juggernaut_event_block tag block.
     /// </summary>
-    public sealed class GameEngineJuggernautEventBlock : Block
+    internal sealed class GameEngineJuggernautEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEngineJuggernautEventBlock"/> class.

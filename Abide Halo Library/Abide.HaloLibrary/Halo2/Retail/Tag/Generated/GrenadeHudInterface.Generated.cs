@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated grenade_hud_interface (grhi) tag group.
     /// </summary>
-    public class GrenadeHudInterface : Group
+    internal class GrenadeHudInterface : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GrenadeHudInterface"/> class.

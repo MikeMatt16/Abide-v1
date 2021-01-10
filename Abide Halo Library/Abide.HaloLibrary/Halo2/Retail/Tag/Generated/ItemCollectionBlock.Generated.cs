@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated item_collection_block tag block.
     /// </summary>
-    public sealed class ItemCollectionBlock : Block
+    internal sealed class ItemCollectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemCollectionBlock"/> class.

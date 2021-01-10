@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_cluster_data_block_new tag block.
     /// </summary>
-    public sealed class StructureBspClusterDataBlockNew : Block
+    internal sealed class StructureBspClusterDataBlockNew : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspClusterDataBlockNew"/> class.

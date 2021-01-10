@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_geometry_section_cache_data_block tag block.
     /// </summary>
-    public sealed class LightmapGeometrySectionCacheDataBlock : Block
+    internal sealed class LightmapGeometrySectionCacheDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapGeometrySectionCacheDataBlock"/> class.

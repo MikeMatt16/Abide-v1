@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_animation_graph (jmad) tag group.
     /// </summary>
-    public class ModelAnimationGraph : Group
+    internal class ModelAnimationGraph : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelAnimationGraph"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated platform_sound_effect_override_descriptor_block tag block.
     /// </summary>
-    public sealed class PlatformSoundEffectOverrideDescriptorBlock : Block
+    internal sealed class PlatformSoundEffectOverrideDescriptorBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlatformSoundEffectOverrideDescriptorBlock"/> class.

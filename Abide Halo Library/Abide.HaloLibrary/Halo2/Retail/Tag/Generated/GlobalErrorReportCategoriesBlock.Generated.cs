@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_error_report_categories_block tag block.
     /// </summary>
-    public sealed class GlobalErrorReportCategoriesBlock : Block
+    internal sealed class GlobalErrorReportCategoriesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalErrorReportCategoriesBlock"/> class.

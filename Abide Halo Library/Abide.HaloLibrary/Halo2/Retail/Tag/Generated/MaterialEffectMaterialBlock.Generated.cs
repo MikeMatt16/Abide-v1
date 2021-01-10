@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated material_effect_material_block tag block.
     /// </summary>
-    public sealed class MaterialEffectMaterialBlock : Block
+    internal sealed class MaterialEffectMaterialBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MaterialEffectMaterialBlock"/> class.

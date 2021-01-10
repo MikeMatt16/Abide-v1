@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_change_color_initial_permutation tag block.
     /// </summary>
-    public sealed class ObjectChangeColorInitialPermutation : Block
+    internal sealed class ObjectChangeColorInitialPermutation : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectChangeColorInitialPermutation"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated pathfinding_object_index_list_block tag block.
     /// </summary>
-    public sealed class PathfindingObjectIndexListBlock : Block
+    internal sealed class PathfindingObjectIndexListBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathfindingObjectIndexListBlock"/> class.

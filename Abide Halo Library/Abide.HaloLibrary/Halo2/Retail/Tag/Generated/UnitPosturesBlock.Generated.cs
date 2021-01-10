@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_postures_block tag block.
     /// </summary>
-    public sealed class UnitPosturesBlock : Block
+    internal sealed class UnitPosturesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitPosturesBlock"/> class.

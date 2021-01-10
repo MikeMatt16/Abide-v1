@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated game_engine_ctf_event_block tag block.
     /// </summary>
-    public sealed class GameEngineCtfEventBlock : Block
+    internal sealed class GameEngineCtfEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEngineCtfEventBlock"/> class.

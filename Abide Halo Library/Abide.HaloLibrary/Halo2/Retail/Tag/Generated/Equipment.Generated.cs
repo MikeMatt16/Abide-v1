@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated equipment (eqip) tag group.
     /// </summary>
-    public class Equipment : Group
+    internal class Equipment : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Equipment"/> class.

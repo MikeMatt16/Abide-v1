@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_environment (snde) tag group.
     /// </summary>
-    public class SoundEnvironment : Group
+    internal class SoundEnvironment : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundEnvironment"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_dashlights_block tag block.
     /// </summary>
-    public sealed class HudDashlightsBlock : Block
+    internal sealed class HudDashlightsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudDashlightsBlock"/> class.

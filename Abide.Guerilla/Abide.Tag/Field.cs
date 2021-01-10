@@ -15,11 +15,14 @@ namespace Abide.Tag
 
     public sealed class Option
     {
-        public string Name { get; }
+        private readonly ObjectName name;
+        public string Name => name.Name ?? string.Empty;
+        public string Information => name.Information ?? string.Empty;
+        public string Details => name.Details ?? string.Empty;
         public int Index { get; }
         public Option(string name, int index)
         {
-            Name = name ?? string.Empty;
+            this.name = new ObjectName(name ?? string.Empty);
             Index = index;
         }
     }
@@ -224,8 +227,7 @@ namespace Abide.Tag
 
                 for (int i = 0; i < Value.Count; i++)
                 {
-                    var block = Add(out bool success);
-                    if (success)
+                    if (Add(out Block block))
                     {
                         block.Read(reader);
                     }
@@ -281,6 +283,7 @@ namespace Abide.Tag
             }
         }
         public abstract Block Add(out bool success);
+        public abstract bool Add(out Block block);
         public abstract Block Create();
     }
 
@@ -314,6 +317,19 @@ namespace Abide.Tag
             }
 
             return null;
+        }
+        public override bool Add(out Block block)
+        {
+            block = new T();
+            block.Initialize();
+            BlockList.Add(block, out bool success);
+
+            if (!success)
+            {
+                block = null;
+            }
+
+            return success;
         }
         public override Block Create()
         {

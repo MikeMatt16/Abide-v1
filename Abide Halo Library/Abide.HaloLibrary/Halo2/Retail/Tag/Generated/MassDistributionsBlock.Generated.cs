@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated mass_distributions_block tag block.
     /// </summary>
-    public sealed class MassDistributionsBlock : Block
+    internal sealed class MassDistributionsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MassDistributionsBlock"/> class.

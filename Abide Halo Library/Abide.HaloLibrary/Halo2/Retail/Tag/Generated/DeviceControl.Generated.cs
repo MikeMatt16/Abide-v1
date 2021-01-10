@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated device_control (ctrl) tag group.
     /// </summary>
-    public class DeviceControl : Group
+    internal class DeviceControl : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceControl"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_atmospheric_fog_properties_block tag block.
     /// </summary>
-    public sealed class ScenarioClusterAtmosphericFogPropertiesBlock : Block
+    internal sealed class ScenarioClusterAtmosphericFogPropertiesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterAtmosphericFogPropertiesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated color_table (colo) tag group.
     /// </summary>
-    public class ColorTable : Group
+    internal class ColorTable : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorTable"/> class.

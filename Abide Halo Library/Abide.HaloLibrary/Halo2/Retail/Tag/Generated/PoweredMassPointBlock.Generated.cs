@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated powered_mass_point_block tag block.
     /// </summary>
-    public sealed class PoweredMassPointBlock : Block
+    internal sealed class PoweredMassPointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PoweredMassPointBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decorator_placement_block tag block.
     /// </summary>
-    public sealed class DecoratorPlacementBlock : Block
+    internal sealed class DecoratorPlacementBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratorPlacementBlock"/> class.

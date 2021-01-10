@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_scenario_description (mply) tag group.
     /// </summary>
-    public class MultiplayerScenarioDescription : Group
+    internal class MultiplayerScenarioDescription : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerScenarioDescription"/> class.

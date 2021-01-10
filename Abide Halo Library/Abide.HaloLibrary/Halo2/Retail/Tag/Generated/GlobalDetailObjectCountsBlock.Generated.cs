@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_detail_object_counts_block tag block.
     /// </summary>
-    public sealed class GlobalDetailObjectCountsBlock : Block
+    internal sealed class GlobalDetailObjectCountsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalDetailObjectCountsBlock"/> class.

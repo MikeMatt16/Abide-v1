@@ -1,6 +1,7 @@
 ﻿using Abide.HaloLibrary.Halo2;
 using Abide.HaloLibrary.Halo2.Retail.Tag;
 using Abide.HaloLibrary.Halo2.Retail.Tag.Generated;
+using Abide.Tag.Cache.Generated;
 using Abide.Wpf.Modules.ViewModel;
 using System.IO;
 

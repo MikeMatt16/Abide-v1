@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_animation_runtime_data_struct_block tag block.
     /// </summary>
-    public sealed class ModelAnimationRuntimeDataStructBlock : Block
+    internal sealed class ModelAnimationRuntimeDataStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelAnimationRuntimeDataStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated light_brightness_animation_block tag block.
     /// </summary>
-    public sealed class LightBrightnessAnimationBlock : Block
+    internal sealed class LightBrightnessAnimationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightBrightnessAnimationBlock"/> class.

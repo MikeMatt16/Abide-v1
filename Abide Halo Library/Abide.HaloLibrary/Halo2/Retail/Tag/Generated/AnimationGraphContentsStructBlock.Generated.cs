@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_graph_contents_struct_block tag block.
     /// </summary>
-    public sealed class AnimationGraphContentsStructBlock : Block
+    internal sealed class AnimationGraphContentsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationGraphContentsStructBlock"/> class.

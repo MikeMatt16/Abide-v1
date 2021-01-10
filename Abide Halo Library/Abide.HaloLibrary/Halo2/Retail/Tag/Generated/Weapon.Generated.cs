@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon (weap) tag group.
     /// </summary>
-    public class Weapon : Group
+    internal class Weapon : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Weapon"/> class.

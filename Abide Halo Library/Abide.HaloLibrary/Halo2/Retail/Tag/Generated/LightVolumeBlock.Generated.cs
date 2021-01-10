@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated light_volume_block tag block.
     /// </summary>
-    public sealed class LightVolumeBlock : Block
+    internal sealed class LightVolumeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightVolumeBlock"/> class.

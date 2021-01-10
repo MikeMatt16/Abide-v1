@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated magazines tag block.
     /// </summary>
-    public sealed class Magazines : Block
+    internal sealed class Magazines : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Magazines"/> class.

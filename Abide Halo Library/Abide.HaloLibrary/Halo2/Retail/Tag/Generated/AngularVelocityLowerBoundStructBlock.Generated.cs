@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated angular_velocity_lower_bound_struct_block tag block.
     /// </summary>
-    public sealed class AngularVelocityLowerBoundStructBlock : Block
+    internal sealed class AngularVelocityLowerBoundStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AngularVelocityLowerBoundStructBlock"/> class.

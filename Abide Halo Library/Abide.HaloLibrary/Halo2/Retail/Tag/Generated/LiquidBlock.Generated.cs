@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated liquid_block tag block.
     /// </summary>
-    public sealed class LiquidBlock : Block
+    internal sealed class LiquidBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LiquidBlock"/> class.

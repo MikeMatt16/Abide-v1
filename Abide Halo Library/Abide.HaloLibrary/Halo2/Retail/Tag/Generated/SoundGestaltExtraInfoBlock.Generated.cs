@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_gestalt_extra_info_block tag block.
     /// </summary>
-    public sealed class SoundGestaltExtraInfoBlock : Block
+    internal sealed class SoundGestaltExtraInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundGestaltExtraInfoBlock"/> class.

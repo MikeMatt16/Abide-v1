@@ -235,9 +235,8 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 {
                     reader.BaseStream.Seek(structureBsps.Offset + (i * 68), scenarioTag.BaseAddress, SeekOrigin.Begin);
                     uint structureBspOffset = reader.ReadUInt32();
-                    _ = reader.ReadUInt32();
-                    _ = reader.ReadUInt32();
-                    _ = reader.ReadInt32();
+                    uint size = reader.ReadUInt32();
+                    long address = reader.ReadInt64();
                     _ = reader.Read<TagFourCc>();
                     TagId sbspId = reader.ReadTagId();
                     _ = reader.Read<TagFourCc>();

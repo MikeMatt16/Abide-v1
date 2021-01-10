@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_placement_block tag block.
     /// </summary>
-    public sealed class CharacterPlacementBlock : Block
+    internal sealed class CharacterPlacementBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterPlacementBlock"/> class.

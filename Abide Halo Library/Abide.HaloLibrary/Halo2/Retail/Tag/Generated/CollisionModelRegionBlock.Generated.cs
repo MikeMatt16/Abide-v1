@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated collision_model_region_block tag block.
     /// </summary>
-    public sealed class CollisionModelRegionBlock : Block
+    internal sealed class CollisionModelRegionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CollisionModelRegionBlock"/> class.

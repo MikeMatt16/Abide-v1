@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated mission_dialogue_variants_block tag block.
     /// </summary>
-    public sealed class MissionDialogueVariantsBlock : Block
+    internal sealed class MissionDialogueVariantsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MissionDialogueVariantsBlock"/> class.

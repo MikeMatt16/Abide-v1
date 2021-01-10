@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated bitmap_group_sprite_block tag block.
     /// </summary>
-    public sealed class BitmapGroupSpriteBlock : Block
+    internal sealed class BitmapGroupSpriteBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BitmapGroupSpriteBlock"/> class.

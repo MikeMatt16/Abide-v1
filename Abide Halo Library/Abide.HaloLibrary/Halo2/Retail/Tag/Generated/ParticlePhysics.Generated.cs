@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_physics (pmov) tag group.
     /// </summary>
-    public class ParticlePhysics : Group
+    internal class ParticlePhysics : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticlePhysics"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated bitmap (bitm) tag group.
     /// </summary>
-    public class Bitmap : Group
+    internal class Bitmap : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Bitmap"/> class.

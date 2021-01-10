@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_frame_event_block tag block.
     /// </summary>
-    public sealed class AnimationFrameEventBlock : Block
+    internal sealed class AnimationFrameEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationFrameEventBlock"/> class.

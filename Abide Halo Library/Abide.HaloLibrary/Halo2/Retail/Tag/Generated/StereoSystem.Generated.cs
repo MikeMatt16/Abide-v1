@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated stereo_system (BooM) tag group.
     /// </summary>
-    public class StereoSystem : Group
+    internal class StereoSystem : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StereoSystem"/> class.

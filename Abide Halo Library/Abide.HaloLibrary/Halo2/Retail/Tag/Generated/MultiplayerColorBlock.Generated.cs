@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_color_block tag block.
     /// </summary>
-    public sealed class MultiplayerColorBlock : Block
+    internal sealed class MultiplayerColorBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerColorBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model_compound_node_block tag block.
     /// </summary>
-    public sealed class RenderModelCompoundNodeBlock : Block
+    internal sealed class RenderModelCompoundNodeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModelCompoundNodeBlock"/> class.

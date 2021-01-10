@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated havok_vehicle_physics_struct_block tag block.
     /// </summary>
-    public sealed class HavokVehiclePhysicsStructBlock : Block
+    internal sealed class HavokVehiclePhysicsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HavokVehiclePhysicsStructBlock"/> class.

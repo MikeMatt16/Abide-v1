@@ -1,5 +1,6 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
+using Abide.DebugXbox;
 using Abide.Wpf.Modules.AddOns;
 using Abide.Wpf.Modules.Dialogs;
 using Abide.Wpf.Modules.Operations;
@@ -14,136 +15,56 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Abide.Wpf.Modules.ViewModel
 {
-    /// <summary>
-    /// Represents a model that contains the state of Abide.
-    /// </summary>
     public sealed class AbideViewModel : DependencyObject, IHost
     {
         private const string DefaultWindowTitle = "Abide";
 
         private static readonly DependencyPropertyKey ProgressBarPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(ProgressBar), typeof(ProgressBarReporter), typeof(AbideViewModel), new PropertyMetadata(new ProgressBarReporter()));
-        private static readonly DependencyPropertyKey BackgroundOperationsPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(BackgroundOperations), typeof(ObservableCollection<BackgroundOperation>), typeof(AbideViewModel), new PropertyMetadata(new ObservableCollection<BackgroundOperation>()));
-        private static readonly DependencyPropertyKey FilesPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(Files), typeof(FileCollection), typeof(AbideViewModel), new PropertyMetadata(new FileCollection()));
         private static readonly DependencyPropertyKey FactoryPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(Factory), typeof(EditorAddOnFactory), typeof(AbideViewModel), new PropertyMetadata(null));
-        private static readonly DependencyPropertyKey NewProjectCommandPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(NewProjectCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
-        private static readonly DependencyPropertyKey NewCommandPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(NewCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
-        private static readonly DependencyPropertyKey OpenProjectCommandPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(OpenProjectCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
-        private static readonly DependencyPropertyKey OpenCommandPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly(nameof(OpenCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
-        private static readonly DependencyPropertyKey DecompileMapCommandPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly(nameof(DecompileMapCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
-        private static readonly DependencyPropertyKey CompileMapCommandPropertyKey =
-             DependencyProperty.RegisterAttachedReadOnly(nameof(CompileMapCommand), typeof(ICommand), typeof(AbideViewModel), new PropertyMetadata());
 
-        /// <summary>
-        /// Identifies the <see cref="MainWindow"/> property.
-        /// </summary>
         public static readonly DependencyProperty WindowProperty =
             DependencyProperty.Register(nameof(MainWindow), typeof(Window), typeof(AbideViewModel));
-        /// <summary>
-        /// Identifies the <see cref="WindowTitle"/> property.
-        /// </summary>
         public static readonly DependencyProperty WindowTitleProperty =
             DependencyProperty.Register(nameof(WindowTitle), typeof(string), typeof(AbideViewModel), new PropertyMetadata(DefaultWindowTitle));
-        /// <summary>
-        /// Identifies the <see cref="PrimaryOperation"/> property.
-        /// </summary>
         public static readonly DependencyProperty PrimaryOperationProperty =
             DependencyProperty.Register(nameof(PrimaryOperation), typeof(BackgroundOperation), typeof(AbideViewModel));
-        /// <summary>
-        /// Identifies the <see cref="Files"/> property.
-        /// </summary>
-        public static readonly DependencyProperty FilesProperty =
-            FilesPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="BackgroundOperations"/> property.
-        /// </summary>
-        public static readonly DependencyProperty BackgroundOperationsProperty =
-            BackgroundOperationsPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="SelectedFile"/> property.
-        /// </summary>
         public static readonly DependencyProperty SelectedFileProperty =
             DependencyProperty.Register(nameof(SelectedFile), typeof(FileItem), typeof(AbideViewModel), new PropertyMetadata(SelectedFilePropretyChanged));
-        /// <summary>
-        /// Identifies the <see cref="CurrentSolution"/> property.
-        /// </summary>
+        public static readonly DependencyProperty SelectedXboxProperty =
+            DependencyProperty.Register(nameof(SelectedXbox), typeof(XboxViewModel), typeof(AbideViewModel), new PropertyMetadata(SelectedXboxPropertyChanged));
+
         public static readonly DependencyProperty CurrentSolutionProperty =
-            DependencyProperty.Register(nameof(CurrentSolution), typeof(SolutionViewModel), typeof(AbideViewModel),
-                new PropertyMetadata(CurrentSolutionPropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="Factory"/> property.
-        /// </summary>
+            DependencyProperty.Register(nameof(CurrentSolution), typeof(SolutionViewModel), typeof(AbideViewModel), new PropertyMetadata(CurrentSolutionPropertyChanged));
         public static readonly DependencyProperty FactoryProperty =
             FactoryPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="NewProjectCommand"/> property.
-        /// </summary>
-        public static readonly DependencyProperty NewProjectCommandProperty =
-            NewProjectCommandPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="NewCommand"/> property.
-        /// </summary>
-        public static readonly DependencyProperty NewCommandProperty =
-            NewCommandPropertyKey.DependencyProperty;
-        public static readonly DependencyProperty OpenProjectCommandProperty =
-            OpenProjectCommandPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="OpenCommand"/> property.
-        /// </summary>
-        public static readonly DependencyProperty OpenCommandProperty =
-            OpenCommandPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="DecompileMapCommand"/> property.
-        /// </summary>
-        public static readonly DependencyProperty DecompileMapCommandProperty =
-            DecompileMapCommandPropertyKey.DependencyProperty;
-        /// <summary>
-        /// Identifies the <see cref="CompileMapCommand"/> property.
-        /// </summary>
-        public static readonly DependencyProperty CompileMapCommandProperty =
-             CompileMapCommandPropertyKey.DependencyProperty;
 
-        /// <summary>
-        /// Gets or sets the window.
-        /// </summary>
+        public ObservableCollection<BackgroundOperation> BackgroundOperations { get; } = new ObservableCollection<BackgroundOperation>();
+        public ObservableCollection<XboxViewModel> Xboxes { get; } = new ObservableCollection<XboxViewModel>();
+        public FileCollection Files { get; } = new FileCollection();
         public Window MainWindow
         {
             get => (Window)GetValue(WindowProperty);
             set => SetValue(WindowProperty, value);
         }
-        /// <summary>
-        /// Gets or sets the title of the window.
-        /// </summary>
         public string WindowTitle
         {
             get => (string)GetValue(WindowTitleProperty);
             set => SetValue(WindowTitleProperty, value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
         public ProgressBarReporter ProgressBar
         {
             get => (ProgressBarReporter)GetValue(ProgressBarPropertyKey.DependencyProperty);
             private set => SetValue(ProgressBarPropertyKey, value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
         public SolutionViewModel CurrentSolution
         {
             get => (SolutionViewModel)GetValue(CurrentSolutionProperty);
@@ -154,94 +75,54 @@ namespace Abide.Wpf.Modules.ViewModel
             get => (BackgroundOperation)GetValue(PrimaryOperationProperty);
             set => SetValue(PrimaryOperationProperty, value);
         }
-        public ObservableCollection<BackgroundOperation> BackgroundOperations => (ObservableCollection<BackgroundOperation>)GetValue(BackgroundOperationsProperty);
-        /// <summary>
-        /// Gets and returns a list of open files.
-        /// </summary>
-        public FileCollection Files => (FileCollection)GetValue(FilesProperty);
-        /// <summary>
-        /// Gets or sets the selected file.
-        /// </summary>
+        public XboxViewModel SelectedXbox
+        {
+            get => (XboxViewModel)GetValue(SelectedXboxProperty);
+            set => SetValue(SelectedXboxProperty, value);
+        }
         public FileItem SelectedFile
         {
             get => (FileItem)GetValue(SelectedFileProperty);
             set => SetValue(SelectedFileProperty, value);
         }
-        /// <summary>
-        /// Gets and returns the AddOn factory.
-        /// </summary>
         public EditorAddOnFactory Factory
         {
             get => (EditorAddOnFactory)GetValue(FactoryProperty);
             private set => SetValue(FactoryPropertyKey, value);
         }
-        /// <summary>
-        /// Gets and returns the new project command.
-        /// </summary>
-        public ICommand NewProjectCommand
-        {
-            get => (ICommand)GetValue(NewProjectCommandProperty);
-            private set => SetValue(NewProjectCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Gets and returns the new file command.
-        /// </summary>
-        public ICommand NewCommand
-        {
-            get => (ICommand)GetValue(NewCommandProperty);
-            private set => SetValue(NewCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Gets and returns the open project command.
-        /// </summary>
-        public ICommand OpenProjectCommand
-        {
-            get => (ICommand)GetValue(OpenProjectCommandProperty);
-            set => SetValue(OpenProjectCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Gets and returns the open file command.
-        /// </summary>
-        public ICommand OpenCommand
-        {
-            get => (ICommand)GetValue(OpenCommandProperty);
-            private set => SetValue(OpenCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Gets and returns the decompile map command.
-        /// </summary>
-        public ICommand DecompileMapCommand
-        {
-            get => (ICommand)GetValue(DecompileMapCommandProperty);
-            private set => SetValue(DecompileMapCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Gets and returns the compile map command.
-        /// </summary>
-        public ICommand CompileMapCommand
-        {
-            get => (ICommand)GetValue(CompileMapCommandProperty);
-            private set => SetValue(CompileMapCommandPropertyKey, value);
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AbideViewModel"/> class.
-        /// </summary>
+        public ICommand NewProjectCommand { get; }
+        public ICommand NewCommand { get; }
+        public ICommand OpenProjectCommand { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand DecompileMapCommand { get; }
+        public ICommand CompileMapCommand { get; }
+        public ICommand RefreshXboxesCommand { get; }
         public AbideViewModel()
         {
-            //Load AddOn Factory
             Factory = new EditorAddOnFactory(this);
             Factory.InitializeAddOns();
 
-            //Setup
             NewProjectCommand = new ActionCommand(o => { NewProject(); });
             OpenProjectCommand = new ActionCommand(OpenProject);
             NewCommand = new ActionCommand(NewFile);
             OpenCommand = new ActionCommand(OpenFile);
             DecompileMapCommand = new ActionCommand(DecompileMap);
             CompileMapCommand = new ActionCommand(CompileMap);
+            RefreshXboxesCommand = new ActionCommand(RefreshXboxes);
+            NameAnsweringProtocol.DiscoverAsync().ContinueWith(DiscoverContinue);
 
-            //Load files from ApplicationSettings
             ApplicationSettings.FilePaths.ForEach(p => OpenFile(p));
+#if DEBUG
+            Debug();
+#endif
+        }
+        private void Debug()
+        {
+            // DebugXbox.Xbox xbox = DebugXbox.NameAnsweringProtocol.Discover(15).First();
+            // xbox.Connect();
+            // _ = xbox.SetMemory(new byte[] { 0xff }, 0x0, 0, 1);
+            // 
+            OpenFile(@"F:\XBox\Original\Games\Halo 2\Modding\Maps\Retail\ascension.map");
         }
         private void NewProject(NewProjectDialog dialog = null)
         {
@@ -297,6 +178,13 @@ namespace Abide.Wpf.Modules.ViewModel
 #endif
                 }
             }
+        }
+        private void RefreshXboxes(object arg)
+        {
+            Xboxes.Clear();
+            Xboxes.Add(new XboxViewModel("Refreshing..."));
+            SelectedXbox = Xboxes[0];
+            NameAnsweringProtocol.DiscoverAsync().ContinueWith(DiscoverContinue);
         }
         private void OpenProject(object arg)
         {
@@ -431,23 +319,18 @@ namespace Abide.Wpf.Modules.ViewModel
             IFileEditor[] editors = Factory.FileEditors.Where(e => e.IsValidEditor(path)).ToArray();
             Type[] types = editors.Select(e => e.GetType()).ToArray();
 
-            //Ask
             if (editors.Length > 1)
             {
-                //Create dialog
                 ChooseEditorDialog editorDialog = new ChooseEditorDialog();
                 editorDialog.Editors.Clear();
 
-                //Load editors
                 for (int i = 0; i < types.Length; i++)
                 {
                     editorDialog.Editors.Add(editors[i]);
                 }
 
-                //Set selected editor
                 editorDialog.SelectedEditor = editors[0];
 
-                //Show
                 if (editorDialog.ShowDialog() ?? false)
                 {
                     selectedEditor = editorDialog.SelectedEditor;
@@ -458,16 +341,11 @@ namespace Abide.Wpf.Modules.ViewModel
                 selectedEditor = editors[0];
             }
 
-            //Check
             if (selectedEditor != null)
             {
-                //Create new instance
                 IFileEditor editor = Factory.Instantiate<IFileEditor>(selectedEditor.GetType());
-
-                //Create tab item
                 FileItem file = Files.New(path, editor);
 
-                //Add
                 Files.Add(file);
                 SelectedFile = file;
             }
@@ -491,9 +369,32 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         private void DecompileOperationCompleted(object state)
         {
+            var time = PrimaryOperation.ElapsedTime;
             PrimaryOperation = null;
             ProgressBar.Report(0);
-            _ = MessageBox.Show("Decompile Complete!");
+            _ = MessageBox.Show($"Decompile Complete! Elapsed time: {time}");
+        }
+        private void DiscoverContinue(Task<Xbox[]> discoverTask)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Xboxes.Clear();
+
+                if (discoverTask != null && discoverTask.Result != null)
+                {
+                    foreach (var xbox in discoverTask.Result)
+                    {
+                        Xboxes.Add(new XboxViewModel(xbox));
+                    }
+
+                    if (Xboxes.Count == 0)
+                    {
+                        Xboxes.Add(new XboxViewModel("No Debug Xboxes Found"));
+                    }
+                }
+
+                SelectedXbox = Xboxes.FirstOrDefault();
+            });
         }
 
         bool ISynchronizeInvoke.InvokeRequired => false;
@@ -555,6 +456,10 @@ namespace Abide.Wpf.Modules.ViewModel
         {
 
         }
+        private static void SelectedXboxPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
     }
 
     public sealed class OperationsStatusConverter : IValueConverter
@@ -565,30 +470,14 @@ namespace Abide.Wpf.Modules.ViewModel
             {
                 return "Ready";
             }
-
-            if (value is IList<BackgroundOperation> operations && targetType == typeof(string))
+            else if (value is string status)
             {
-                if (operations.Count == 0)
-                {
-                    return "Ready";
-                }
-                else if (operations.Count == 1)
-                {
-                    return operations[0].Status;
-                }
-                else
-                {
-                    return "Multiple operations...";
-                }
-            }
-            else if (value is BackgroundOperation operation)
-            {
-                if (string.IsNullOrEmpty(operation.Status))
+                if (string.IsNullOrEmpty(status))
                 {
                     return "Ready";
                 }
 
-                return operation.Status;
+                return status;
             }
 
             return null;
@@ -600,31 +489,23 @@ namespace Abide.Wpf.Modules.ViewModel
         }
     }
 
-    public sealed class ProgressBarReporter : INotifyPropertyChanged, IProgress<int>
+    public sealed class ProgressBarReporter : INotifyPropertyChanged, IProgressReporter
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int min = 0;
         private int max = 100;
         private int value = 0;
+        private bool visible = true;
+        private string status = string.Empty;
 
-        public int Minimum
-        {
-            get => min;
-            set
-            {
-                if (min != value)
-                {
-                    min = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
         public int Maximum
         {
             get => max;
             set
             {
+                if (value < 1) value = 1;
+                if (Value < value) Value = value;
+
                 if (max != value)
                 {
                     max = value;
@@ -637,6 +518,9 @@ namespace Abide.Wpf.Modules.ViewModel
             get => value;
             set
             {
+                if (value > max) value = max;
+                if (value < 0) value = 0;
+
                 if (this.value != value)
                 {
                     this.value = value;
@@ -644,10 +528,48 @@ namespace Abide.Wpf.Modules.ViewModel
                 }
             }
         }
+        public bool Visible
+        {
+            get => visible;
+            set
+            {
+                if (visible != value)
+                {
+                    visible = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public string Status
+        {
+            get => status;
+            set
+            {
+                if (status != value)
+                {
+                    status = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public void Report(int value)
         {
             Value = value;
         }
+        public void Reset(int max)
+        {
+            Maximum = max;
+        }
+        public void ReportStatus(string status)
+        {
+            Status = status;
+        }
+        public void SetVisibility(bool visible)
+        {
+            Visible = visible;
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

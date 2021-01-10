@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_direction_block tag block.
     /// </summary>
-    public sealed class DamageDirectionBlock : Block
+    internal sealed class DamageDirectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageDirectionBlock"/> class.

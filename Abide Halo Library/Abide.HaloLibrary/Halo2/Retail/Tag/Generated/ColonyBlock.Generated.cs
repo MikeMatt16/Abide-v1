@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated colony_block tag block.
     /// </summary>
-    public sealed class ColonyBlock : Block
+    internal sealed class ColonyBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColonyBlock"/> class.

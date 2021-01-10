@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_cache_file_gestalt_block tag block.
     /// </summary>
-    public sealed class SoundCacheFileGestaltBlock : Block
+    internal sealed class SoundCacheFileGestaltBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundCacheFileGestaltBlock"/> class.

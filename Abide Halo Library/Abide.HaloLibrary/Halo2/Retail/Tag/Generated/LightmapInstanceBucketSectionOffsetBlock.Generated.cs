@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_instance_bucket_section_offset_block tag block.
     /// </summary>
-    public sealed class LightmapInstanceBucketSectionOffsetBlock : Block
+    internal sealed class LightmapInstanceBucketSectionOffsetBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapInstanceBucketSectionOffsetBlock"/> class.

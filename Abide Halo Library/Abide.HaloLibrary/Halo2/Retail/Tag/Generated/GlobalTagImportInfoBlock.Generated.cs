@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_tag_import_info_block tag block.
     /// </summary>
-    public sealed class GlobalTagImportInfoBlock : Block
+    internal sealed class GlobalTagImportInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalTagImportInfoBlock"/> class.

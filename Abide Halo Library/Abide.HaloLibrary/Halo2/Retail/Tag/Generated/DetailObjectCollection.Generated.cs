@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated detail_object_collection (dobc) tag group.
     /// </summary>
-    public class DetailObjectCollection : Group
+    internal class DetailObjectCollection : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DetailObjectCollection"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decal (deca) tag group.
     /// </summary>
-    public class Decal : Group
+    internal class Decal : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Decal"/> class.

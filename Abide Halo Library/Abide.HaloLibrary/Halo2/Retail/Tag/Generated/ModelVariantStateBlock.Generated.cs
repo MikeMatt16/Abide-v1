@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_variant_state_block tag block.
     /// </summary>
-    public sealed class ModelVariantStateBlock : Block
+    internal sealed class ModelVariantStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelVariantStateBlock"/> class.

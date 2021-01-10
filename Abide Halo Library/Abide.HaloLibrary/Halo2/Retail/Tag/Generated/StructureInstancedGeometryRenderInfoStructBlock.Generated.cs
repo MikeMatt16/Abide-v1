@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_instanced_geometry_render_info_struct_block tag block.
     /// </summary>
-    public sealed class StructureInstancedGeometryRenderInfoStructBlock : Block
+    internal sealed class StructureInstancedGeometryRenderInfoStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureInstancedGeometryRenderInfoStructBlock"/> class.

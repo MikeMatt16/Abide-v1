@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated variant_setting_edit_reference_block tag block.
     /// </summary>
-    public sealed class VariantSettingEditReferenceBlock : Block
+    internal sealed class VariantSettingEditReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VariantSettingEditReferenceBlock"/> class.

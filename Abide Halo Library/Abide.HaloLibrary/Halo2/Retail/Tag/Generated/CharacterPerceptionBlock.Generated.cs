@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_perception_block tag block.
     /// </summary>
-    public sealed class CharacterPerceptionBlock : Block
+    internal sealed class CharacterPerceptionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterPerceptionBlock"/> class.

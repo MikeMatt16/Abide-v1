@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Abide.HaloLibrary.Halo2.Retail
 {
@@ -204,12 +205,12 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
                     //Goto sound globals block in globals tag
                     tagReader.BaseStream.Seek(Globals.Address + 192, SeekOrigin.Begin);
-                    TagBlock soundGlobals = (TagBlock)tagReader.ReadUInt64();
+                    TagBlock soundGlobals = tagReader.ReadTagBlock();
                     if (soundGlobals.Count > 0) //Check tag block count
                     {
                         //Goto sound resources ID
                         tagReader.BaseStream.Seek(soundGlobals.Offset + 32, SeekOrigin.Begin);
-                        TagId resourcesId = tagReader.ReadUInt32();
+                        TagId resourcesId = tagReader.ReadTagId();
 
                         //Get sound gestalt
                         soundGestalt = indexEntries.First(e => e.Id == resourcesId);
@@ -217,7 +218,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
                     //Goto structure BSPs in scenario tag
                     tagReader.BaseStream.Seek(Scenario.Address + 528, SeekOrigin.Begin);
-                    TagBlock structureBsps = (TagBlock)tagReader.ReadUInt64();
+                    TagBlock structureBsps = tagReader.ReadTagBlock();
 
                     //Loop through each tag block
                     for (int i = 0; i < structureBsps.Count; i++)
@@ -229,14 +230,13 @@ namespace Abide.HaloLibrary.Halo2.Retail
                         tagReader.BaseStream.Seek(structureBsps.Offset + (i * 68), SeekOrigin.Begin);
 
                         //Read scenario structure bsp tag block data
-                        long structureBspOffset = tagReader.ReadUInt32();
-                        long structureBspLength = tagReader.ReadUInt32();
-                        long bspMemoryAddress = tagReader.ReadUInt32();
-                        tagReader.ReadBytes(4);
-                        TagFourCc sbspTag = tagReader.Read<TagFourCc>();
-                        TagId sbspId = tagReader.ReadUInt32();
-                        TagFourCc ltmpTag = tagReader.Read<TagFourCc>();
-                        TagId ltmpId = tagReader.ReadUInt32();
+                        int structureBspOffset = tagReader.ReadInt32();
+                        int structureBspLength = tagReader.ReadInt32();
+                        long bspMemoryAddress = tagReader.ReadInt64();
+                        TagFourCc sbspTag = tagReader.ReadTag();
+                        TagId sbspId = tagReader.ReadTagId();
+                        TagFourCc ltmpTag = tagReader.ReadTag();
+                        TagId ltmpId = tagReader.ReadTagId();
 
                         //Check
                         bool hasSbsp = indexEntries.Any(e => e.Id == sbspId && e.Root == sbspTag);
@@ -251,7 +251,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                         int sbspLength = reader.ReadInt32();
                         long sbspAddress = reader.ReadUInt32();
                         long ltmpAddress = reader.ReadUInt32();
-                        TagFourCc bspTag = reader.Read<TagFourCc>();
+                        TagFourCc bspTag = reader.ReadTag();
 
                         //Check
                         if (ltmpAddress == 0) ltmpAddress = sbspAddress + sbspLength;
@@ -2154,6 +2154,22 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     tagWriter.Write(0);
                 }
             }
+        }
+
+        public static async Task<HaloMap> LoadAsync(string fileName)
+        {
+            return await LoadAsync(File.OpenRead(fileName));
+        }
+        public static async Task<HaloMap> LoadAsync(Stream inStream)
+        {
+            if (inStream == null) throw new ArgumentNullException(nameof(inStream));
+            if (!inStream.CanSeek) throw new ArgumentException("Stream not seekable.");
+            if (!inStream.CanRead) throw new ArgumentException("Stream not readable.");
+
+            return await Task.Run(() =>
+            {
+                return new HaloMap(inStream);
+            });
         }
     }
 }

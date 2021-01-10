@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated runtime_levels_definition_block tag block.
     /// </summary>
-    public sealed class RuntimeLevelsDefinitionBlock : Block
+    internal sealed class RuntimeLevelsDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RuntimeLevelsDefinitionBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_geometry_section_raw_vertex_block tag block.
     /// </summary>
-    public sealed class GlobalGeometrySectionRawVertexBlock : Block
+    internal sealed class GlobalGeometrySectionRawVertexBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalGeometrySectionRawVertexBlock"/> class.

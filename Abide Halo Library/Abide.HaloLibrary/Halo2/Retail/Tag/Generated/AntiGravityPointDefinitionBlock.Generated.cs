@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated anti_gravity_point_definition_block tag block.
     /// </summary>
-    public sealed class AntiGravityPointDefinitionBlock : Block
+    internal sealed class AntiGravityPointDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AntiGravityPointDefinitionBlock"/> class.

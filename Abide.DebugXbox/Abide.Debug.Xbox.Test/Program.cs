@@ -23,27 +23,26 @@ namespace Abide.DebugXbox.Test
             xboxes = NameAnsweringProtocol.Discover(10);
 
             //Application loop
+#if DEBUG
+            Test();
+#endif
             Application();
-            // Test();
         }
 
         private static void Test()
         {
-            Xbox xbox = xboxes.First();
-            xbox.Connect();
-
-            var fieldValueAddr = 0x8021FFBA;
-            byte[] buffer = new byte[2];
-            xbox.GetMemory(buffer, fieldValueAddr, 0, buffer.Length);
-            var value = BitConverter.ToInt16(buffer, 0);
-            buffer = BitConverter.GetBytes((short)1);
-            xbox.SetMemory(fieldValueAddr, buffer, buffer.Length);
-            xbox.GetMemory(buffer, fieldValueAddr, 0, buffer.Length);
-            var value1 = BitConverter.ToInt16(buffer, 0);
-
-            xbox.Disconnect();
-
-            Console.ReadKey();
+            Xbox xbox = NameAnsweringProtocol.Discover(15).FirstOrDefault();
+            if (xbox != null)
+            {
+                xbox.Connect();
+                if (xbox.Connected)
+                {
+                    if (xbox.Screenshot(out var screenshot))
+                    {
+                        screenshot.Save(@"F:\screenshot.png", System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                }
+            }
         }
 
         private static string[] GetCommand(string input)

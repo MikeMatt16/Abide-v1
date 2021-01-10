@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ui_levels_definition_block tag block.
     /// </summary>
-    public sealed class UiLevelsDefinitionBlock : Block
+    internal sealed class UiLevelsDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UiLevelsDefinitionBlock"/> class.

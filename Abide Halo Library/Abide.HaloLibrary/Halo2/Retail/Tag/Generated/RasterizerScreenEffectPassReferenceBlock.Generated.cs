@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rasterizer_screen_effect_pass_reference_block tag block.
     /// </summary>
-    public sealed class RasterizerScreenEffectPassReferenceBlock : Block
+    internal sealed class RasterizerScreenEffectPassReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RasterizerScreenEffectPassReferenceBlock"/> class.

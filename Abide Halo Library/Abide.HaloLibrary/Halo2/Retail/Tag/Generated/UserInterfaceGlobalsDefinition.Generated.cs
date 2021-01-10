@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_interface_globals_definition (wgtz) tag group.
     /// </summary>
-    public class UserInterfaceGlobalsDefinition : Group
+    internal class UserInterfaceGlobalsDefinition : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInterfaceGlobalsDefinition"/> class.

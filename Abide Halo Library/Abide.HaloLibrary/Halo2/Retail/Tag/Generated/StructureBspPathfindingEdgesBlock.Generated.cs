@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_pathfinding_edges_block tag block.
     /// </summary>
-    public sealed class StructureBspPathfindingEdgesBlock : Block
+    internal sealed class StructureBspPathfindingEdgesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspPathfindingEdgesBlock"/> class.

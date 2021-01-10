@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sky_animation_block tag block.
     /// </summary>
-    public sealed class SkyAnimationBlock : Block
+    internal sealed class SkyAnimationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SkyAnimationBlock"/> class.

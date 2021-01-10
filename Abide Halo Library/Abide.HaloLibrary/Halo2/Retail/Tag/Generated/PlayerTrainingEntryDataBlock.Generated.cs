@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated player_training_entry_data_block tag block.
     /// </summary>
-    public sealed class PlayerTrainingEntryDataBlock : Block
+    internal sealed class PlayerTrainingEntryDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerTrainingEntryDataBlock"/> class.

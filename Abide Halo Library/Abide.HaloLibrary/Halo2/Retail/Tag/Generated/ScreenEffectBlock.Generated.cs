@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated screen_effect_block tag block.
     /// </summary>
-    public sealed class ScreenEffectBlock : Block
+    internal sealed class ScreenEffectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenEffectBlock"/> class.

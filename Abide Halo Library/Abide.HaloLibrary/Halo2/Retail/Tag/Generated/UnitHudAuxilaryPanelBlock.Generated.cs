@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_hud_auxilary_panel_block tag block.
     /// </summary>
-    public sealed class UnitHudAuxilaryPanelBlock : Block
+    internal sealed class UnitHudAuxilaryPanelBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitHudAuxilaryPanelBlock"/> class.

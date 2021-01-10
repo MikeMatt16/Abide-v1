@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_shader_parameter_block tag block.
     /// </summary>
-    public sealed class GlobalShaderParameterBlock : Block
+    internal sealed class GlobalShaderParameterBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalShaderParameterBlock"/> class.

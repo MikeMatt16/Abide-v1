@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_constraint_info_block tag block.
     /// </summary>
-    public sealed class DamageConstraintInfoBlock : Block
+    internal sealed class DamageConstraintInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageConstraintInfoBlock"/> class.

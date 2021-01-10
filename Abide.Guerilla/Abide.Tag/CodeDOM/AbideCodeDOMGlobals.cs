@@ -41,15 +41,12 @@ namespace Abide.Tag.CodeDom
         /// </summary>
         public static void Clear()
         {
-            //Clear
             memberNames.Clear();
             tagGroupTagLookup.Clear();
             tagBlockMemberLookup.Clear();
             tagGroupMemberLookup.Clear();
             tagBlockNameLookup.Clear();
             tagGroupNameLookup.Clear();
-
-            //Collect
             GC.Collect();
         }
 

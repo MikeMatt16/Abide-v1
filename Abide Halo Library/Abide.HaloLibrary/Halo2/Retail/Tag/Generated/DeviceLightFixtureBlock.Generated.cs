@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated device_light_fixture_block tag block.
     /// </summary>
-    public sealed class DeviceLightFixtureBlock : Block
+    internal sealed class DeviceLightFixtureBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceLightFixtureBlock"/> class.

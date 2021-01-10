@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_lightmap_data_block tag block.
     /// </summary>
-    public sealed class StructureBspLightmapDataBlock : Block
+    internal sealed class StructureBspLightmapDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspLightmapDataBlock"/> class.

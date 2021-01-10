@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated old_unused_strucure_physics_block tag block.
     /// </summary>
-    public sealed class OldUnusedStrucurePhysicsBlock : Block
+    internal sealed class OldUnusedStrucurePhysicsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OldUnusedStrucurePhysicsBlock"/> class.

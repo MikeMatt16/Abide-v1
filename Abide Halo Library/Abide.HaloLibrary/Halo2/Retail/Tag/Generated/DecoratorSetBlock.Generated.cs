@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decorator_set_block tag block.
     /// </summary>
-    public sealed class DecoratorSetBlock : Block
+    internal sealed class DecoratorSetBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratorSetBlock"/> class.

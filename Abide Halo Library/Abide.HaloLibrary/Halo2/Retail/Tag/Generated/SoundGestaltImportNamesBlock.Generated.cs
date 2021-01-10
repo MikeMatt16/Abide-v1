@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_gestalt_import_names_block tag block.
     /// </summary>
-    public sealed class SoundGestaltImportNamesBlock : Block
+    internal sealed class SoundGestaltImportNamesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundGestaltImportNamesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_texture_state_address_state_block tag block.
     /// </summary>
-    public sealed class ShaderTextureStateAddressStateBlock : Block
+    internal sealed class ShaderTextureStateAddressStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderTextureStateAddressStateBlock"/> class.

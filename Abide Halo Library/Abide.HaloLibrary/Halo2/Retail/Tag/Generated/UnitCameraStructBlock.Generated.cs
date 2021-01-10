@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_camera_struct_block tag block.
     /// </summary>
-    public sealed class UnitCameraStructBlock : Block
+    internal sealed class UnitCameraStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitCameraStructBlock"/> class.

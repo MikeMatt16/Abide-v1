@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_bsp_info_struct_block tag block.
     /// </summary>
-    public sealed class ScenarioStructureBspInfoStructBlock : Block
+    internal sealed class ScenarioStructureBspInfoStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureBspInfoStructBlock"/> class.

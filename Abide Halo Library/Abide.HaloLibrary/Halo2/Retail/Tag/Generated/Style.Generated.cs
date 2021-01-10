@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated style (styl) tag group.
     /// </summary>
-    public class Style : Group
+    internal class Style : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Style"/> class.

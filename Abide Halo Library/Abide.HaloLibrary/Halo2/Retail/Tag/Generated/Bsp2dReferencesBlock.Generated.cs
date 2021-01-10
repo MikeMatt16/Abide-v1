@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated bsp2d_references_block tag block.
     /// </summary>
-    public sealed class Bsp2dReferencesBlock : Block
+    internal sealed class Bsp2dReferencesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Bsp2dReferencesBlock"/> class.

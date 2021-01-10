@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decorator_shader_reference_block tag block.
     /// </summary>
-    public sealed class DecoratorShaderReferenceBlock : Block
+    internal sealed class DecoratorShaderReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratorShaderReferenceBlock"/> class.

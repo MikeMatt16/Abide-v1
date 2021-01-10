@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cutscene_title_block tag block.
     /// </summary>
-    public sealed class ScenarioCutsceneTitleBlock : Block
+    internal sealed class ScenarioCutsceneTitleBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioCutsceneTitleBlock"/> class.

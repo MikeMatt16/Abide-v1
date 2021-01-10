@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_equipment_datum_struct_block tag block.
     /// </summary>
-    public sealed class ScenarioEquipmentDatumStructBlock : Block
+    internal sealed class ScenarioEquipmentDatumStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioEquipmentDatumStructBlock"/> class.

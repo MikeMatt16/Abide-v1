@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated crate (bloc) tag group.
     /// </summary>
-    public class Crate : Group
+    internal class Crate : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Crate"/> class.

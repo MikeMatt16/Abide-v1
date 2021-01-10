@@ -1,9 +1,13 @@
 ﻿using Abide.DebugXbox;
 using Abide.HaloLibrary.Halo2.Retail;
+using Abide.Ifp;
 using Abide.Tag;
 using Abide.Tag.Cache.Generated;
 using Abide.Wpf.Modules.ViewModel;
-using System;
+using Abide.Wpf.Modules.Win32;
+using Abide.Wpf.Properties;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -13,8 +17,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 {
     public sealed class TagEditorViewModel : BaseAddOnViewModel
     {
-        public static readonly DependencyPropertyKey TagGroupPropertyKey =
+        private static readonly DependencyPropertyKey TagGroupPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(TagGroup), typeof(TagGroupViewModel), typeof(TagEditorViewModel), new PropertyMetadata());
+
+        public static readonly DependencyProperty SelectedPluginSetProperty =
+            DependencyProperty.Register(nameof(SelectedPluginSet), typeof(PluginSet), typeof(TagEditorViewModel), new PropertyMetadata(SelectedPluginSetChanged));
 
         public static readonly DependencyProperty XboxProperty =
             DependencyProperty.Register(nameof(Xbox), typeof(Xbox), typeof(TagEditorViewModel));
@@ -23,6 +30,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
         private TagData tagData = null;
 
+        public ObservableCollection<PluginSet> PluginSets { get; } = new ObservableCollection<PluginSet>();
+        public PluginSet SelectedPluginSet
+        {
+            get => (PluginSet)GetValue(SelectedPluginSetProperty);
+            set => SetValue(SelectedPluginSetProperty, value);
+        }
         public TagGroupViewModel TagGroup
         {
             get => (TagGroupViewModel)GetValue(TagGroupProperty);
@@ -38,8 +51,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
         public TagEditorViewModel()
         {
-            TagGroup = new TagGroupViewModel();
-
             SaveCommand = new ActionCommand(SaveTag);
             PokeCommand = new ActionCommand(PokeTag, o =>
             {
@@ -55,11 +66,34 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
                 return Xbox?.Connected ?? false;
             });
+
+            if (Directory.Exists(AbideRegistry.Halo2PluginsDirectory))
+            {
+                PluginSets.Add(new PluginSet("Primary Plugins", AbideRegistry.Halo2PluginsDirectory));
+            }
+
+            foreach (var pluginSet in AbideRegistry.Halo2PluginSets)
+            {
+                if (Directory.Exists(pluginSet.Item2))
+                {
+                    PluginSets.Add(new PluginSet(pluginSet.Item1, pluginSet.Item2));
+                }
+            }
+
+            PluginSets.Add(new PluginSet("Built-in Tag Layouts", "<3"));
+
+
+            if (PluginSets.Count > 0)
+            {
+                SelectedPluginSet = PluginSets
+                    .FirstOrDefault(s => s.Name == Settings.Default.LastChosenHalo2PluginSet)
+                    ?? PluginSets[0];
+            }
         }
 
         private void PokeTag(object obj)
         {
-            using (var stream = Xbox.Stream)
+            using (var stream = Xbox.MemoryStream)
             using (BinaryWriter writer = new BinaryWriter(stream))
             {
                 TagGroup.TagGroup.Overwrite(writer);
@@ -82,13 +116,17 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
         protected override void OnMapChange()
         {
-            TagGroup.Map = Map;
+            TagGroup = new TagGroupViewModel(Map);
         }
         protected override void OnSelectedTagChanged()
         {
             if (SelectedTag != null)
             {
                 Group tagGroup = TagLookup.CreateTagGroup(SelectedTag.GroupTag);
+                if (SelectedPluginSet.ContainsTag(SelectedTag.GroupTag))
+                {
+                    tagGroup = new IfpTagGroup(SelectedPluginSet[SelectedTag.GroupTag], tagGroup.GroupName);
+                }
 
                 if (tagGroup != null)
                 {
@@ -98,15 +136,131 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
                     }
 
                     tagData = Map.ReadTagData(SelectedTag);
+                    BinaryReader reader = tagData.Stream.CreateReader();
+                    bool success = false;
 
-                    using (BinaryReader reader = tagData.Stream.CreateReader())
+                    try
                     {
                         _ = reader.BaseStream.Seek(SelectedTag.MemoryAddress, SeekOrigin.Begin);
                         tagGroup.Read(reader);
+                        success = true;
+                    }
+                    finally
+                    {
+                        if (!success)
+                        {
+                            tagGroup = null;
+                        }
                     }
                 }
 
-                TagGroup.TagGroup = tagGroup;
+                TagGroup.SetTagGroup(tagGroup);
+            }
+        }
+
+        private static void SelectedPluginSetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TagEditorViewModel tagEditor && e.NewValue is PluginSet pluginSet)
+            {
+                Settings.Default.LastChosenHalo2PluginSet = pluginSet.Name;
+                Settings.Default.Save();
+
+                if (tagEditor.TagGroup != null)
+                {
+                    Group tagGroup;
+                    var group = tagEditor.TagGroup;
+                    var document = pluginSet[group.GroupTag];
+                    if (document != null)
+                    {
+                        tagGroup = new IfpTagGroup(document);
+                    }
+                    else
+                    {
+                        tagGroup = TagLookup.CreateTagGroup(group.GroupTag);
+                    }
+
+                    if (tagGroup != null)
+                    {
+                        using (var data = tagEditor.Map.ReadTagData(tagEditor.SelectedTag))
+                        {
+                            BinaryReader reader = data.Stream.CreateReader();
+                            bool success = false;
+
+                            try
+                            {
+                                _ = reader.BaseStream.Seek(tagEditor.SelectedTag.MemoryAddress, SeekOrigin.Begin);
+                                tagGroup.Read(reader);
+                                success = true;
+                            }
+                            finally
+                            {
+                                if (!success)
+                                {
+                                    tagGroup = null;
+                                }
+                            }
+                        }
+
+                        group.SetTagGroup(tagGroup);
+                    }
+                }
+            }
+        }
+
+        public class PluginSet : BaseViewModel
+        {
+            private readonly Dictionary<string, IfpDocument> plugins = new Dictionary<string, IfpDocument>();
+
+            public IfpDocument this[string tag]
+            {
+                get
+                {
+                    tag = tag.Replace("<", "_").Replace(">", "_").PadRight(4, ' ');
+                    if (plugins.ContainsKey(tag))
+                    {
+                        return plugins[tag];
+                    }
+
+                    return null;
+                }
+            }
+            public string Name { get; }
+            public string DirectoryPath { get; }
+
+            public PluginSet(string name, string directoryPath)
+            {
+                Name = name;
+                DirectoryPath = directoryPath;
+
+                try
+                {
+                    if (Directory.Exists(directoryPath))
+                    {
+                        foreach (string file in Directory.GetFiles(directoryPath))
+                        {
+                            if (Path.GetExtension(file) == ".ifp" || Path.GetExtension(file) == ".ent")
+                            {
+                                string tag = Path.GetFileName(file).Substring(0, 4);
+                                IfpDocument document = new IfpDocument();
+                                document.Load(file);
+
+                                if (!plugins.ContainsKey(tag))
+                                {
+                                    plugins.Add(tag, document);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+            public bool ContainsTag(string tag)
+            {
+                return plugins.ContainsKey(tag);
+            }
+            public override string ToString()
+            {
+                return Name ?? base.ToString();
             }
         }
     }

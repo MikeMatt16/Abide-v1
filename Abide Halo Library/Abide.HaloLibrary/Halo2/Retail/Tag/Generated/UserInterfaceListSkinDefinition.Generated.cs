@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_interface_list_skin_definition (skin) tag group.
     /// </summary>
-    public class UserInterfaceListSkinDefinition : Group
+    internal class UserInterfaceListSkinDefinition : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInterfaceListSkinDefinition"/> class.

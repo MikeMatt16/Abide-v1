@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated limited_hinge_constraints_block tag block.
     /// </summary>
-    public sealed class LimitedHingeConstraintsBlock : Block
+    internal sealed class LimitedHingeConstraintsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LimitedHingeConstraintsBlock"/> class.

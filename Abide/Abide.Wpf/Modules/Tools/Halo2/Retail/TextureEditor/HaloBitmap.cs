@@ -1,8 +1,8 @@
 ﻿using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2;
 using Abide.HaloLibrary.Halo2.Retail;
-using Abide.HaloLibrary.Halo2.Retail.Tag;
-using Abide.HaloLibrary.Halo2.Retail.Tag.Generated;
+using Abide.Tag;
+using Abide.Tag.Cache.Generated;
 using Abide.Wpf.Modules.ViewModel;
 using Abide.Wpf.Modules.Win32;
 using System;
@@ -11,10 +11,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 

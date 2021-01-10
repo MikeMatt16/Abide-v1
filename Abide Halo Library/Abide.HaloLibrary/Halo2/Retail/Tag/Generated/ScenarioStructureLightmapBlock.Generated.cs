@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_lightmap_block tag block.
     /// </summary>
-    public sealed class ScenarioStructureLightmapBlock : Block
+    internal sealed class ScenarioStructureLightmapBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureLightmapBlock"/> class.

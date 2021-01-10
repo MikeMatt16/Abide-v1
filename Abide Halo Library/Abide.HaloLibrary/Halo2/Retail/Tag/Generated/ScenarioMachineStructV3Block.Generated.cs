@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_machine_struct_v3_block tag block.
     /// </summary>
-    public sealed class ScenarioMachineStructV3Block : Block
+    internal sealed class ScenarioMachineStructV3Block : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioMachineStructV3Block"/> class.

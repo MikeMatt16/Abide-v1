@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_postprocess_color_property_block tag block.
     /// </summary>
-    public sealed class ShaderPostprocessColorPropertyBlock : Block
+    internal sealed class ShaderPostprocessColorPropertyBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPostprocessColorPropertyBlock"/> class.

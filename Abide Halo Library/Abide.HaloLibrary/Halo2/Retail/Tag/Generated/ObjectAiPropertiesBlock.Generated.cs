@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_ai_properties_block tag block.
     /// </summary>
-    public sealed class ObjectAiPropertiesBlock : Block
+    internal sealed class ObjectAiPropertiesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectAiPropertiesBlock"/> class.

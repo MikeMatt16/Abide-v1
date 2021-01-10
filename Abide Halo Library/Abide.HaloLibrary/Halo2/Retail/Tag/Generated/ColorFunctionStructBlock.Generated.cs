@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated color_function_struct_block tag block.
     /// </summary>
-    public sealed class ColorFunctionStructBlock : Block
+    internal sealed class ColorFunctionStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorFunctionStructBlock"/> class.

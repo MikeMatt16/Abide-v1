@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_cluster_portal_index_block tag block.
     /// </summary>
-    public sealed class StructureBspClusterPortalIndexBlock : Block
+    internal sealed class StructureBspClusterPortalIndexBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspClusterPortalIndexBlock"/> class.

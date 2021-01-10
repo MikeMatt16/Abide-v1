@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_space_node_data_block tag block.
     /// </summary>
-    public sealed class ObjectSpaceNodeDataBlock : Block
+    internal sealed class ObjectSpaceNodeDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectSpaceNodeDataBlock"/> class.

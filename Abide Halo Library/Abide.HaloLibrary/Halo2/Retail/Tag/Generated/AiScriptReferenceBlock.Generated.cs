@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_script_reference_block tag block.
     /// </summary>
-    public sealed class AiScriptReferenceBlock : Block
+    internal sealed class AiScriptReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiScriptReferenceBlock"/> class.

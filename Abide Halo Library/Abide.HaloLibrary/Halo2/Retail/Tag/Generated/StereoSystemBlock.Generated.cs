@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated stereo_system_block tag block.
     /// </summary>
-    public sealed class StereoSystemBlock : Block
+    internal sealed class StereoSystemBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StereoSystemBlock"/> class.

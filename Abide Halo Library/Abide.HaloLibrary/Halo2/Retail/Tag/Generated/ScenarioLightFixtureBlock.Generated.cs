@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_light_fixture_block tag block.
     /// </summary>
-    public sealed class ScenarioLightFixtureBlock : Block
+    internal sealed class ScenarioLightFixtureBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioLightFixtureBlock"/> class.

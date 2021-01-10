@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated breakable_surface (bsdt) tag group.
     /// </summary>
-    public class BreakableSurface : Group
+    internal class BreakableSurface : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BreakableSurface"/> class.

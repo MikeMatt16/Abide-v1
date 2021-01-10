@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated aim_assist_struct_block tag block.
     /// </summary>
-    public sealed class AimAssistStructBlock : Block
+    internal sealed class AimAssistStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AimAssistStructBlock"/> class.

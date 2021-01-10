@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_instanced_geometry_instances_block tag block.
     /// </summary>
-    public sealed class StructureBspInstancedGeometryInstancesBlock : Block
+    internal sealed class StructureBspInstancedGeometryInstancesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspInstancedGeometryInstancesBlock"/> class.

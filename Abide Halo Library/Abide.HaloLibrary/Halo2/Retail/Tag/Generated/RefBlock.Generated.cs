@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ref_block tag block.
     /// </summary>
-    public sealed class RefBlock : Block
+    internal sealed class RefBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RefBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_weather_properties_block tag block.
     /// </summary>
-    public sealed class ScenarioClusterWeatherPropertiesBlock : Block
+    internal sealed class ScenarioClusterWeatherPropertiesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterWeatherPropertiesBlock"/> class.

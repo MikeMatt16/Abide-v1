@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_dialogue_globals_block tag block.
     /// </summary>
-    public sealed class AiDialogueGlobalsBlock : Block
+    internal sealed class AiDialogueGlobalsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiDialogueGlobalsBlock"/> class.

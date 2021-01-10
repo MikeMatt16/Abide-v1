@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_fog_plane_block tag block.
     /// </summary>
-    public sealed class StructureBspFogPlaneBlock : Block
+    internal sealed class StructureBspFogPlaneBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspFogPlaneBlock"/> class.

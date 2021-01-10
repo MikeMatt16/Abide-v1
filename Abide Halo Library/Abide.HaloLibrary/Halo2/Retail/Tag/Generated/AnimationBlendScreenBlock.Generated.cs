@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_blend_screen_block tag block.
     /// </summary>
-    public sealed class AnimationBlendScreenBlock : Block
+    internal sealed class AnimationBlendScreenBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationBlendScreenBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_postprocess_animated_parameter_reference_new_block tag block.
     /// </summary>
-    public sealed class ShaderPostprocessAnimatedParameterReferenceNewBlock : Block
+    internal sealed class ShaderPostprocessAnimatedParameterReferenceNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPostprocessAnimatedParameterReferenceNewBlock"/> class.

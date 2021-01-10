@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_mission_dialogue (mdlg) tag group.
     /// </summary>
-    public class AiMissionDialogue : Group
+    internal class AiMissionDialogue : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiMissionDialogue"/> class.

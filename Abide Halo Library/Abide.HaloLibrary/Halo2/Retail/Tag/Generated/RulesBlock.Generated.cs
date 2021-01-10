@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rules_block tag block.
     /// </summary>
-    public sealed class RulesBlock : Block
+    internal sealed class RulesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RulesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated platform_sound_pitch_lfo_block tag block.
     /// </summary>
-    public sealed class PlatformSoundPitchLfoBlock : Block
+    internal sealed class PlatformSoundPitchLfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlatformSoundPitchLfoBlock"/> class.

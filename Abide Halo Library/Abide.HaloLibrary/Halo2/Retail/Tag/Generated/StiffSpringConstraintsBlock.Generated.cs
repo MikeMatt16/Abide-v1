@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated stiff_spring_constraints_block tag block.
     /// </summary>
-    public sealed class StiffSpringConstraintsBlock : Block
+    internal sealed class StiffSpringConstraintsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StiffSpringConstraintsBlock"/> class.

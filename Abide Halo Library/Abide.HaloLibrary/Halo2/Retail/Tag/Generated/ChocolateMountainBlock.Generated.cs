@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated chocolate_mountain_block tag block.
     /// </summary>
-    public sealed class ChocolateMountainBlock : Block
+    internal sealed class ChocolateMountainBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocolateMountainBlock"/> class.

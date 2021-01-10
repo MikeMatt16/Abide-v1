@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated game_engine_general_event_block tag block.
     /// </summary>
-    public sealed class GameEngineGeneralEventBlock : Block
+    internal sealed class GameEngineGeneralEventBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEngineGeneralEventBlock"/> class.

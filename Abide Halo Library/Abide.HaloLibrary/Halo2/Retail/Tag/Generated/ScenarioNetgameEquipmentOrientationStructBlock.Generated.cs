@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_netgame_equipment_orientation_struct_block tag block.
     /// </summary>
-    public sealed class ScenarioNetgameEquipmentOrientationStructBlock : Block
+    internal sealed class ScenarioNetgameEquipmentOrientationStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioNetgameEquipmentOrientationStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ui_model_scene_reference_block tag block.
     /// </summary>
-    public sealed class UiModelSceneReferenceBlock : Block
+    internal sealed class UiModelSceneReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UiModelSceneReferenceBlock"/> class.

@@ -1,5 +1,6 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf.Halo2;
+using Abide.DebugXbox;
 using Abide.HaloLibrary.Halo2.Retail;
 using Abide.Wpf.Modules.AddOns;
 using Abide.Wpf.Modules.Win32;

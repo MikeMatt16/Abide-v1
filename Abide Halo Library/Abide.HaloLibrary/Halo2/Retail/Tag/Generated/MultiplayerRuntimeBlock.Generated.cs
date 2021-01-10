@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_runtime_block tag block.
     /// </summary>
-    public sealed class MultiplayerRuntimeBlock : Block
+    internal sealed class MultiplayerRuntimeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerRuntimeBlock"/> class.

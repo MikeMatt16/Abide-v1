@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_template_pass_reference_block tag block.
     /// </summary>
-    public sealed class ShaderTemplatePassReferenceBlock : Block
+    internal sealed class ShaderTemplatePassReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderTemplatePassReferenceBlock"/> class.

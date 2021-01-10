@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cs_script_data_block tag block.
     /// </summary>
-    public sealed class CsScriptDataBlock : Block
+    internal sealed class CsScriptDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CsScriptDataBlock"/> class.

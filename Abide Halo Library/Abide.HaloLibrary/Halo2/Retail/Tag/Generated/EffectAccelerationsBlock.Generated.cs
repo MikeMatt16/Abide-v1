@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated effect_accelerations_block tag block.
     /// </summary>
-    public sealed class EffectAccelerationsBlock : Block
+    internal sealed class EffectAccelerationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EffectAccelerationsBlock"/> class.

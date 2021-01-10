@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated dynamic_spawn_zone_overload_block tag block.
     /// </summary>
-    public sealed class DynamicSpawnZoneOverloadBlock : Block
+    internal sealed class DynamicSpawnZoneOverloadBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicSpawnZoneOverloadBlock"/> class.

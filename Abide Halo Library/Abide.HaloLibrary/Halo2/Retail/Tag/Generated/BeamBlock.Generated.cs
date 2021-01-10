@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated beam_block tag block.
     /// </summary>
-    public sealed class BeamBlock : Block
+    internal sealed class BeamBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BeamBlock"/> class.

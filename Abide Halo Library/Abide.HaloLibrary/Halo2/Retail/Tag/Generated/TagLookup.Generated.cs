@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the global tag lookup class.
     /// </summary>
-    public class TagLookup
+    internal class TagLookup
     {
         /// <summary>
         /// Returns a <see cref="Group"/> instance based on the supplied tag.
@@ -25,607 +25,1214 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
         /// <param name="groupTag">The group tag.</param>
         public static Group CreateTagGroup(TagFourCc groupTag)
         {
-            // Check for ai_dialogue_globals...
+            //  ai_dialogue_globals
             if ((groupTag == "adlg"))
             {
                 return new AiDialogueGlobals();
             }
-            // Check for ai_mission_dialogue...
+            //  ai_mission_dialogue
             if ((groupTag == "mdlg"))
             {
                 return new AiMissionDialogue();
             }
-            // Check for antenna...
+            //  antenna
             if ((groupTag == "ant!"))
             {
                 return new Antenna();
             }
-            // Check for biped...
+            //  biped
             if ((groupTag == "bipd"))
             {
                 return new Biped();
             }
-            // Check for bitmap...
+            //  bitmap
             if ((groupTag == "bitm"))
             {
                 return new Bitmap();
             }
-            // Check for breakable_surface...
+            //  breakable_surface
             if ((groupTag == "bsdt"))
             {
                 return new BreakableSurface();
             }
-            // Check for cache_file_sound...
+            //  cache_file_sound
             if ((groupTag == "$#!+"))
             {
                 return new CacheFileSound();
             }
-            // Check for camera_track...
+            //  camera_track
             if ((groupTag == "trak"))
             {
                 return new CameraTrack();
             }
-            // Check for cellular_automata...
+            //  cellular_automata
             if ((groupTag == "devo"))
             {
                 return new CellularAutomata();
             }
-            // Check for cellular_automata2d...
+            //  cellular_automata2d
             if ((groupTag == "whip"))
             {
                 return new CellularAutomata2d();
             }
-            // Check for character...
+            //  character
             if ((groupTag == "char"))
             {
                 return new Character();
             }
-            // Check for chocolate_mountain...
+            //  chocolate_mountain
             if ((groupTag == "gldf"))
             {
                 return new ChocolateMountain();
             }
-            // Check for cloth...
+            //  cloth
             if ((groupTag == "clwd"))
             {
                 return new Cloth();
             }
-            // Check for collision_model...
+            //  collision_model
             if ((groupTag == "coll"))
             {
                 return new CollisionModel();
             }
-            // Check for colony...
+            //  colony
             if ((groupTag == "coln"))
             {
                 return new Colony();
             }
-            // Check for color_table...
+            //  color_table
             if ((groupTag == "colo"))
             {
                 return new ColorTable();
             }
-            // Check for contrail...
+            //  contrail
             if ((groupTag == "cont"))
             {
                 return new Contrail();
             }
-            // Check for crate...
+            //  crate
             if ((groupTag == "bloc"))
             {
                 return new Crate();
             }
-            // Check for creature...
+            //  creature
             if ((groupTag == "crea"))
             {
                 return new Creature();
             }
-            // Check for damage_effect...
+            //  damage_effect
             if ((groupTag == "jpt!"))
             {
                 return new DamageEffect();
             }
-            // Check for decal...
+            //  decal
             if ((groupTag == "deca"))
             {
                 return new Decal();
             }
-            // Check for decorators...
+            //  decorators
             if ((groupTag == "DECP"))
             {
                 return new Decorators();
             }
-            // Check for decorator_set...
+            //  decorator_set
             if ((groupTag == "DECR"))
             {
                 return new DecoratorSet();
             }
-            // Check for detail_object_collection...
+            //  detail_object_collection
             if ((groupTag == "dobc"))
             {
                 return new DetailObjectCollection();
             }
-            // Check for device...
+            //  device
             if ((groupTag == "devi"))
             {
                 return new Device();
             }
-            // Check for device_control...
+            //  device_control
             if ((groupTag == "ctrl"))
             {
                 return new DeviceControl();
             }
-            // Check for device_light_fixture...
+            //  device_light_fixture
             if ((groupTag == "lifi"))
             {
                 return new DeviceLightFixture();
             }
-            // Check for device_machine...
+            //  device_machine
             if ((groupTag == "mach"))
             {
                 return new DeviceMachine();
             }
-            // Check for dialogue...
+            //  dialogue
             if ((groupTag == "udlg"))
             {
                 return new Dialogue();
             }
-            // Check for effect...
+            //  effect
             if ((groupTag == "effe"))
             {
                 return new Effect();
             }
-            // Check for equipment...
+            //  equipment
             if ((groupTag == "eqip"))
             {
                 return new Equipment();
             }
-            // Check for garbage...
+            //  garbage
             if ((groupTag == "garb"))
             {
                 return new Garbage();
             }
-            // Check for globals...
+            //  globals
             if ((groupTag == "matg"))
             {
                 return new Globals();
             }
-            // Check for grenade_hud_interface...
+            //  grenade_hud_interface
             if ((groupTag == "grhi"))
             {
                 return new GrenadeHudInterface();
             }
-            // Check for hud_globals...
+            //  hud_globals
             if ((groupTag == "hudg"))
             {
                 return new HudGlobals();
             }
-            // Check for hud_message_text...
+            //  hud_message_text
             if ((groupTag == "hmt "))
             {
                 return new HudMessageText();
             }
-            // Check for hud_number...
+            //  hud_number
             if ((groupTag == "hud#"))
             {
                 return new HudNumber();
             }
-            // Check for item...
+            //  item
             if ((groupTag == "item"))
             {
                 return new Item();
             }
-            // Check for item_collection...
+            //  item_collection
             if ((groupTag == "itmc"))
             {
                 return new ItemCollection();
             }
-            // Check for lens_flare...
+            //  lens_flare
             if ((groupTag == "lens"))
             {
                 return new LensFlare();
             }
-            // Check for light...
+            //  light
             if ((groupTag == "ligh"))
             {
                 return new Light();
             }
-            // Check for light_volume...
+            //  light_volume
             if ((groupTag == "MGS2"))
             {
                 return new LightVolume();
             }
-            // Check for liquid...
+            //  liquid
             if ((groupTag == "tdtl"))
             {
                 return new Liquid();
             }
-            // Check for material_effects...
+            //  material_effects
             if ((groupTag == "foot"))
             {
                 return new MaterialEffects();
             }
-            // Check for material_physics...
+            //  material_physics
             if ((groupTag == "mpdt"))
             {
                 return new MaterialPhysics();
             }
-            // Check for meter...
+            //  meter
             if ((groupTag == "metr"))
             {
                 return new Meter();
             }
-            // Check for model...
+            //  model
             if ((groupTag == "hlmt"))
             {
                 return new Model();
             }
-            // Check for model_animation_graph...
+            //  model_animation_graph
             if ((groupTag == "jmad"))
             {
                 return new ModelAnimationGraph();
             }
-            // Check for mouse_cursor_definition...
+            //  mouse_cursor_definition
             if ((groupTag == "mcsr"))
             {
                 return new MouseCursorDefinition();
             }
-            // Check for multilingual_unicode_string_list...
+            //  multilingual_unicode_string_list
             if ((groupTag == "unic"))
             {
                 return new MultilingualUnicodeStringList();
             }
-            // Check for multiplayer_globals...
+            //  multiplayer_globals
             if ((groupTag == "mulg"))
             {
                 return new MultiplayerGlobals();
             }
-            // Check for multiplayer_scenario_description...
+            //  multiplayer_scenario_description
             if ((groupTag == "mply"))
             {
                 return new MultiplayerScenarioDescription();
             }
-            // Check for multiplayer_variant_settings_interface_definition...
+            //  multiplayer_variant_settings_interface_definition
             if ((groupTag == "goof"))
             {
                 return new MultiplayerVariantSettingsInterfaceDefinition();
             }
-            // Check for new_hud_definition...
+            //  new_hud_definition
             if ((groupTag == "nhdt"))
             {
                 return new NewHudDefinition();
             }
-            // Check for object...
+            //  object
             if ((groupTag == "obje"))
             {
                 return new Object();
             }
-            // Check for particle...
+            //  particle
             if ((groupTag == "prt3"))
             {
                 return new Particle();
             }
-            // Check for particle_model...
+            //  particle_model
             if ((groupTag == "PRTM"))
             {
                 return new ParticleModel();
             }
-            // Check for particle_physics...
+            //  particle_physics
             if ((groupTag == "pmov"))
             {
                 return new ParticlePhysics();
             }
-            // Check for patchy_fog...
+            //  patchy_fog
             if ((groupTag == "fpch"))
             {
                 return new PatchyFog();
             }
-            // Check for physics...
+            //  physics
             if ((groupTag == "phys"))
             {
                 return new Physics();
             }
-            // Check for physics_model...
+            //  physics_model
             if ((groupTag == "phmo"))
             {
                 return new PhysicsModel();
             }
-            // Check for pixel_shader...
+            //  pixel_shader
             if ((groupTag == "pixl"))
             {
                 return new PixelShader();
             }
-            // Check for planar_fog...
+            //  planar_fog
             if ((groupTag == "fog "))
             {
                 return new PlanarFog();
             }
-            // Check for point_physics...
+            //  point_physics
             if ((groupTag == "pphy"))
             {
                 return new PointPhysics();
             }
-            // Check for projectile...
+            //  projectile
             if ((groupTag == "proj"))
             {
                 return new Projectile();
             }
-            // Check for render_model...
+            //  render_model
             if ((groupTag == "mode"))
             {
                 return new RenderModel();
             }
-            // Check for scenario...
+            //  scenario
             if ((groupTag == "scnr"))
             {
                 return new Scenario();
             }
-            // Check for scenario_ai_resource...
+            //  scenario_ai_resource
             if ((groupTag == "ai**"))
             {
                 return new ScenarioAiResource();
             }
-            // Check for scenario_bipeds_resource...
+            //  scenario_bipeds_resource
             if ((groupTag == "*ipd"))
             {
                 return new ScenarioBipedsResource();
             }
-            // Check for scenario_cinematics_resource...
+            //  scenario_cinematics_resource
             if ((groupTag == "cin*"))
             {
                 return new ScenarioCinematicsResource();
             }
-            // Check for scenario_cluster_data_resource...
+            //  scenario_cluster_data_resource
             if ((groupTag == "clu*"))
             {
                 return new ScenarioClusterDataResource();
             }
-            // Check for scenario_comments_resource...
+            //  scenario_comments_resource
             if ((groupTag == "/**/"))
             {
                 return new ScenarioCommentsResource();
             }
-            // Check for scenario_creature_resource...
+            //  scenario_creature_resource
             if ((groupTag == "*rea"))
             {
                 return new ScenarioCreatureResource();
             }
-            // Check for scenario_decals_resource...
+            //  scenario_decals_resource
             if ((groupTag == "dec*"))
             {
                 return new ScenarioDecalsResource();
             }
-            // Check for scenario_decorators_resource...
+            //  scenario_decorators_resource
             if ((groupTag == "dc*s"))
             {
                 return new ScenarioDecoratorsResource();
             }
-            // Check for scenario_devices_resource...
+            //  scenario_devices_resource
             if ((groupTag == "dgr*"))
             {
                 return new ScenarioDevicesResource();
             }
-            // Check for scenario_equipment_resource...
+            //  scenario_equipment_resource
             if ((groupTag == "*qip"))
             {
                 return new ScenarioEquipmentResource();
             }
-            // Check for scenario_hs_source_file...
+            //  scenario_hs_source_file
             if ((groupTag == "hsc*"))
             {
                 return new ScenarioHsSourceFile();
             }
-            // Check for scenario_lights_resource...
+            //  scenario_lights_resource
             if ((groupTag == "*igh"))
             {
                 return new ScenarioLightsResource();
             }
-            // Check for scenario_scenery_resource...
+            //  scenario_scenery_resource
             if ((groupTag == "*cen"))
             {
                 return new ScenarioSceneryResource();
             }
-            // Check for scenario_sound_scenery_resource...
+            //  scenario_sound_scenery_resource
             if ((groupTag == "*sce"))
             {
                 return new ScenarioSoundSceneryResource();
             }
-            // Check for scenario_structure_bsp...
+            //  scenario_structure_bsp
             if ((groupTag == "sbsp"))
             {
                 return new ScenarioStructureBsp();
             }
-            // Check for scenario_structure_lighting_resource...
+            //  scenario_structure_lighting_resource
             if ((groupTag == "sslt"))
             {
                 return new ScenarioStructureLightingResource();
             }
-            // Check for scenario_structure_lightmap...
+            //  scenario_structure_lightmap
             if ((groupTag == "ltmp"))
             {
                 return new ScenarioStructureLightmap();
             }
-            // Check for scenario_trigger_volumes_resource...
+            //  scenario_trigger_volumes_resource
             if ((groupTag == "trg*"))
             {
                 return new ScenarioTriggerVolumesResource();
             }
-            // Check for scenario_vehicles_resource...
+            //  scenario_vehicles_resource
             if ((groupTag == "*ehi"))
             {
                 return new ScenarioVehiclesResource();
             }
-            // Check for scenario_weapons_resource...
+            //  scenario_weapons_resource
             if ((groupTag == "*eap"))
             {
                 return new ScenarioWeaponsResource();
             }
-            // Check for scenery...
+            //  scenery
             if ((groupTag == "scen"))
             {
                 return new Scenery();
             }
-            // Check for screen_effect...
+            //  screen_effect
             if ((groupTag == "egor"))
             {
                 return new ScreenEffect();
             }
-            // Check for shader...
+            //  shader
             if ((groupTag == "shad"))
             {
                 return new Shader();
             }
-            // Check for shader_light_response...
+            //  shader_light_response
             if ((groupTag == "slit"))
             {
                 return new ShaderLightResponse();
             }
-            // Check for shader_pass...
+            //  shader_pass
             if ((groupTag == "spas"))
             {
                 return new ShaderPass();
             }
-            // Check for shader_template...
+            //  shader_template
             if ((groupTag == "stem"))
             {
                 return new ShaderTemplate();
             }
-            // Check for sky...
+            //  sky
             if ((groupTag == "sky "))
             {
                 return new Sky();
             }
-            // Check for sound...
+            //  sound
             if ((groupTag == "snd!"))
             {
                 return new Sound();
             }
-            // Check for sound_cache_file_gestalt...
+            //  sound_cache_file_gestalt
             if ((groupTag == "ugh!"))
             {
                 return new SoundCacheFileGestalt();
             }
-            // Check for sound_classes...
+            //  sound_classes
             if ((groupTag == "sncl"))
             {
                 return new SoundClasses();
             }
-            // Check for sound_dialogue_constants...
+            //  sound_dialogue_constants
             if ((groupTag == "spk!"))
             {
                 return new SoundDialogueConstants();
             }
-            // Check for sound_effect_collection...
+            //  sound_effect_collection
             if ((groupTag == "sfx+"))
             {
                 return new SoundEffectCollection();
             }
-            // Check for sound_effect_template...
+            //  sound_effect_template
             if ((groupTag == "<fx>"))
             {
                 return new SoundEffectTemplate();
             }
-            // Check for sound_environment...
+            //  sound_environment
             if ((groupTag == "snde"))
             {
                 return new SoundEnvironment();
             }
-            // Check for sound_looping...
+            //  sound_looping
             if ((groupTag == "lsnd"))
             {
                 return new SoundLooping();
             }
-            // Check for sound_mix...
+            //  sound_mix
             if ((groupTag == "snmx"))
             {
                 return new SoundMix();
             }
-            // Check for sound_scenery...
+            //  sound_scenery
             if ((groupTag == "ssce"))
             {
                 return new SoundScenery();
             }
-            // Check for stereo_system...
+            //  stereo_system
             if ((groupTag == "BooM"))
             {
                 return new StereoSystem();
             }
-            // Check for style...
+            //  style
             if ((groupTag == "styl"))
             {
                 return new Style();
             }
-            // Check for text_value_pair_definition...
+            //  text_value_pair_definition
             if ((groupTag == "sily"))
             {
                 return new TextValuePairDefinition();
             }
-            // Check for unit...
+            //  unit
             if ((groupTag == "unit"))
             {
                 return new Unit();
             }
-            // Check for unit_hud_interface...
+            //  unit_hud_interface
             if ((groupTag == "unhi"))
             {
                 return new UnitHudInterface();
             }
-            // Check for user_interface_globals_definition...
+            //  user_interface_globals_definition
             if ((groupTag == "wgtz"))
             {
                 return new UserInterfaceGlobalsDefinition();
             }
-            // Check for user_interface_list_skin_definition...
+            //  user_interface_list_skin_definition
             if ((groupTag == "skin"))
             {
                 return new UserInterfaceListSkinDefinition();
             }
-            // Check for user_interface_screen_widget_definition...
+            //  user_interface_screen_widget_definition
             if ((groupTag == "wgit"))
             {
                 return new UserInterfaceScreenWidgetDefinition();
             }
-            // Check for user_interface_shared_globals_definition...
+            //  user_interface_shared_globals_definition
             if ((groupTag == "wigl"))
             {
                 return new UserInterfaceSharedGlobalsDefinition();
             }
-            // Check for vehicle...
+            //  vehicle
             if ((groupTag == "vehi"))
             {
                 return new Vehicle();
             }
-            // Check for vehicle_collection...
+            //  vehicle_collection
             if ((groupTag == "vehc"))
             {
                 return new VehicleCollection();
             }
-            // Check for vertex_shader...
+            //  vertex_shader
             if ((groupTag == "vrtx"))
             {
                 return new VertexShader();
             }
-            // Check for weapon...
+            //  weapon
             if ((groupTag == "weap"))
             {
                 return new Weapon();
             }
-            // Check for weapon_hud_interface...
+            //  weapon_hud_interface
             if ((groupTag == "wphi"))
             {
                 return new WeaponHudInterface();
             }
-            // Check for weather_system...
+            //  weather_system
             if ((groupTag == "weat"))
             {
                 return new WeatherSystem();
             }
-            // Check for wind...
+            //  wind
             if ((groupTag == "wind"))
             {
                 return new Wind();
             }
-            // Return null...
+            return null;
+        }
+        /// <summary>
+        /// Returns a <see cref="Group"/> instance based on the supplied tag group name.
+        /// </summary>
+        /// <param name="tagGroupName">The name of the tag group.</param>
+        public static Group CreateTagGroup(string tagGroupName)
+        {
+            //  ai_dialogue_globals
+            if ((tagGroupName == "ai_dialogue_globals"))
+            {
+                return new AiDialogueGlobals();
+            }
+            //  ai_mission_dialogue
+            if ((tagGroupName == "ai_mission_dialogue"))
+            {
+                return new AiMissionDialogue();
+            }
+            //  antenna
+            if ((tagGroupName == "antenna"))
+            {
+                return new Antenna();
+            }
+            //  biped
+            if ((tagGroupName == "biped"))
+            {
+                return new Biped();
+            }
+            //  bitmap
+            if ((tagGroupName == "bitmap"))
+            {
+                return new Bitmap();
+            }
+            //  breakable_surface
+            if ((tagGroupName == "breakable_surface"))
+            {
+                return new BreakableSurface();
+            }
+            //  cache_file_sound
+            if ((tagGroupName == "cache_file_sound"))
+            {
+                return new CacheFileSound();
+            }
+            //  camera_track
+            if ((tagGroupName == "camera_track"))
+            {
+                return new CameraTrack();
+            }
+            //  cellular_automata
+            if ((tagGroupName == "cellular_automata"))
+            {
+                return new CellularAutomata();
+            }
+            //  cellular_automata2d
+            if ((tagGroupName == "cellular_automata2d"))
+            {
+                return new CellularAutomata2d();
+            }
+            //  character
+            if ((tagGroupName == "character"))
+            {
+                return new Character();
+            }
+            //  chocolate_mountain
+            if ((tagGroupName == "chocolate_mountain"))
+            {
+                return new ChocolateMountain();
+            }
+            //  cloth
+            if ((tagGroupName == "cloth"))
+            {
+                return new Cloth();
+            }
+            //  collision_model
+            if ((tagGroupName == "collision_model"))
+            {
+                return new CollisionModel();
+            }
+            //  colony
+            if ((tagGroupName == "colony"))
+            {
+                return new Colony();
+            }
+            //  color_table
+            if ((tagGroupName == "color_table"))
+            {
+                return new ColorTable();
+            }
+            //  contrail
+            if ((tagGroupName == "contrail"))
+            {
+                return new Contrail();
+            }
+            //  crate
+            if ((tagGroupName == "crate"))
+            {
+                return new Crate();
+            }
+            //  creature
+            if ((tagGroupName == "creature"))
+            {
+                return new Creature();
+            }
+            //  damage_effect
+            if ((tagGroupName == "damage_effect"))
+            {
+                return new DamageEffect();
+            }
+            //  decal
+            if ((tagGroupName == "decal"))
+            {
+                return new Decal();
+            }
+            //  decorators
+            if ((tagGroupName == "decorators"))
+            {
+                return new Decorators();
+            }
+            //  decorator_set
+            if ((tagGroupName == "decorator_set"))
+            {
+                return new DecoratorSet();
+            }
+            //  detail_object_collection
+            if ((tagGroupName == "detail_object_collection"))
+            {
+                return new DetailObjectCollection();
+            }
+            //  device
+            if ((tagGroupName == "device"))
+            {
+                return new Device();
+            }
+            //  device_control
+            if ((tagGroupName == "device_control"))
+            {
+                return new DeviceControl();
+            }
+            //  device_light_fixture
+            if ((tagGroupName == "device_light_fixture"))
+            {
+                return new DeviceLightFixture();
+            }
+            //  device_machine
+            if ((tagGroupName == "device_machine"))
+            {
+                return new DeviceMachine();
+            }
+            //  dialogue
+            if ((tagGroupName == "dialogue"))
+            {
+                return new Dialogue();
+            }
+            //  effect
+            if ((tagGroupName == "effect"))
+            {
+                return new Effect();
+            }
+            //  equipment
+            if ((tagGroupName == "equipment"))
+            {
+                return new Equipment();
+            }
+            //  garbage
+            if ((tagGroupName == "garbage"))
+            {
+                return new Garbage();
+            }
+            //  globals
+            if ((tagGroupName == "globals"))
+            {
+                return new Globals();
+            }
+            //  grenade_hud_interface
+            if ((tagGroupName == "grenade_hud_interface"))
+            {
+                return new GrenadeHudInterface();
+            }
+            //  hud_globals
+            if ((tagGroupName == "hud_globals"))
+            {
+                return new HudGlobals();
+            }
+            //  hud_message_text
+            if ((tagGroupName == "hud_message_text"))
+            {
+                return new HudMessageText();
+            }
+            //  hud_number
+            if ((tagGroupName == "hud_number"))
+            {
+                return new HudNumber();
+            }
+            //  item
+            if ((tagGroupName == "item"))
+            {
+                return new Item();
+            }
+            //  item_collection
+            if ((tagGroupName == "item_collection"))
+            {
+                return new ItemCollection();
+            }
+            //  lens_flare
+            if ((tagGroupName == "lens_flare"))
+            {
+                return new LensFlare();
+            }
+            //  light
+            if ((tagGroupName == "light"))
+            {
+                return new Light();
+            }
+            //  light_volume
+            if ((tagGroupName == "light_volume"))
+            {
+                return new LightVolume();
+            }
+            //  liquid
+            if ((tagGroupName == "liquid"))
+            {
+                return new Liquid();
+            }
+            //  material_effects
+            if ((tagGroupName == "material_effects"))
+            {
+                return new MaterialEffects();
+            }
+            //  material_physics
+            if ((tagGroupName == "material_physics"))
+            {
+                return new MaterialPhysics();
+            }
+            //  meter
+            if ((tagGroupName == "meter"))
+            {
+                return new Meter();
+            }
+            //  model
+            if ((tagGroupName == "model"))
+            {
+                return new Model();
+            }
+            //  model_animation_graph
+            if ((tagGroupName == "model_animation_graph"))
+            {
+                return new ModelAnimationGraph();
+            }
+            //  mouse_cursor_definition
+            if ((tagGroupName == "mouse_cursor_definition"))
+            {
+                return new MouseCursorDefinition();
+            }
+            //  multilingual_unicode_string_list
+            if ((tagGroupName == "multilingual_unicode_string_list"))
+            {
+                return new MultilingualUnicodeStringList();
+            }
+            //  multiplayer_globals
+            if ((tagGroupName == "multiplayer_globals"))
+            {
+                return new MultiplayerGlobals();
+            }
+            //  multiplayer_scenario_description
+            if ((tagGroupName == "multiplayer_scenario_description"))
+            {
+                return new MultiplayerScenarioDescription();
+            }
+            //  multiplayer_variant_settings_interface_definition
+            if ((tagGroupName == "multiplayer_variant_settings_interface_definition"))
+            {
+                return new MultiplayerVariantSettingsInterfaceDefinition();
+            }
+            //  new_hud_definition
+            if ((tagGroupName == "new_hud_definition"))
+            {
+                return new NewHudDefinition();
+            }
+            //  object
+            if ((tagGroupName == "object"))
+            {
+                return new Object();
+            }
+            //  particle
+            if ((tagGroupName == "particle"))
+            {
+                return new Particle();
+            }
+            //  particle_model
+            if ((tagGroupName == "particle_model"))
+            {
+                return new ParticleModel();
+            }
+            //  particle_physics
+            if ((tagGroupName == "particle_physics"))
+            {
+                return new ParticlePhysics();
+            }
+            //  patchy_fog
+            if ((tagGroupName == "patchy_fog"))
+            {
+                return new PatchyFog();
+            }
+            //  physics
+            if ((tagGroupName == "physics"))
+            {
+                return new Physics();
+            }
+            //  physics_model
+            if ((tagGroupName == "physics_model"))
+            {
+                return new PhysicsModel();
+            }
+            //  pixel_shader
+            if ((tagGroupName == "pixel_shader"))
+            {
+                return new PixelShader();
+            }
+            //  planar_fog
+            if ((tagGroupName == "planar_fog"))
+            {
+                return new PlanarFog();
+            }
+            //  point_physics
+            if ((tagGroupName == "point_physics"))
+            {
+                return new PointPhysics();
+            }
+            //  projectile
+            if ((tagGroupName == "projectile"))
+            {
+                return new Projectile();
+            }
+            //  render_model
+            if ((tagGroupName == "render_model"))
+            {
+                return new RenderModel();
+            }
+            //  scenario
+            if ((tagGroupName == "scenario"))
+            {
+                return new Scenario();
+            }
+            //  scenario_ai_resource
+            if ((tagGroupName == "scenario_ai_resource"))
+            {
+                return new ScenarioAiResource();
+            }
+            //  scenario_bipeds_resource
+            if ((tagGroupName == "scenario_bipeds_resource"))
+            {
+                return new ScenarioBipedsResource();
+            }
+            //  scenario_cinematics_resource
+            if ((tagGroupName == "scenario_cinematics_resource"))
+            {
+                return new ScenarioCinematicsResource();
+            }
+            //  scenario_cluster_data_resource
+            if ((tagGroupName == "scenario_cluster_data_resource"))
+            {
+                return new ScenarioClusterDataResource();
+            }
+            //  scenario_comments_resource
+            if ((tagGroupName == "scenario_comments_resource"))
+            {
+                return new ScenarioCommentsResource();
+            }
+            //  scenario_creature_resource
+            if ((tagGroupName == "scenario_creature_resource"))
+            {
+                return new ScenarioCreatureResource();
+            }
+            //  scenario_decals_resource
+            if ((tagGroupName == "scenario_decals_resource"))
+            {
+                return new ScenarioDecalsResource();
+            }
+            //  scenario_decorators_resource
+            if ((tagGroupName == "scenario_decorators_resource"))
+            {
+                return new ScenarioDecoratorsResource();
+            }
+            //  scenario_devices_resource
+            if ((tagGroupName == "scenario_devices_resource"))
+            {
+                return new ScenarioDevicesResource();
+            }
+            //  scenario_equipment_resource
+            if ((tagGroupName == "scenario_equipment_resource"))
+            {
+                return new ScenarioEquipmentResource();
+            }
+            //  scenario_hs_source_file
+            if ((tagGroupName == "scenario_hs_source_file"))
+            {
+                return new ScenarioHsSourceFile();
+            }
+            //  scenario_lights_resource
+            if ((tagGroupName == "scenario_lights_resource"))
+            {
+                return new ScenarioLightsResource();
+            }
+            //  scenario_scenery_resource
+            if ((tagGroupName == "scenario_scenery_resource"))
+            {
+                return new ScenarioSceneryResource();
+            }
+            //  scenario_sound_scenery_resource
+            if ((tagGroupName == "scenario_sound_scenery_resource"))
+            {
+                return new ScenarioSoundSceneryResource();
+            }
+            //  scenario_structure_bsp
+            if ((tagGroupName == "scenario_structure_bsp"))
+            {
+                return new ScenarioStructureBsp();
+            }
+            //  scenario_structure_lighting_resource
+            if ((tagGroupName == "scenario_structure_lighting_resource"))
+            {
+                return new ScenarioStructureLightingResource();
+            }
+            //  scenario_structure_lightmap
+            if ((tagGroupName == "scenario_structure_lightmap"))
+            {
+                return new ScenarioStructureLightmap();
+            }
+            //  scenario_trigger_volumes_resource
+            if ((tagGroupName == "scenario_trigger_volumes_resource"))
+            {
+                return new ScenarioTriggerVolumesResource();
+            }
+            //  scenario_vehicles_resource
+            if ((tagGroupName == "scenario_vehicles_resource"))
+            {
+                return new ScenarioVehiclesResource();
+            }
+            //  scenario_weapons_resource
+            if ((tagGroupName == "scenario_weapons_resource"))
+            {
+                return new ScenarioWeaponsResource();
+            }
+            //  scenery
+            if ((tagGroupName == "scenery"))
+            {
+                return new Scenery();
+            }
+            //  screen_effect
+            if ((tagGroupName == "screen_effect"))
+            {
+                return new ScreenEffect();
+            }
+            //  shader
+            if ((tagGroupName == "shader"))
+            {
+                return new Shader();
+            }
+            //  shader_light_response
+            if ((tagGroupName == "shader_light_response"))
+            {
+                return new ShaderLightResponse();
+            }
+            //  shader_pass
+            if ((tagGroupName == "shader_pass"))
+            {
+                return new ShaderPass();
+            }
+            //  shader_template
+            if ((tagGroupName == "shader_template"))
+            {
+                return new ShaderTemplate();
+            }
+            //  sky
+            if ((tagGroupName == "sky"))
+            {
+                return new Sky();
+            }
+            //  sound
+            if ((tagGroupName == "sound"))
+            {
+                return new Sound();
+            }
+            //  sound_cache_file_gestalt
+            if ((tagGroupName == "sound_cache_file_gestalt"))
+            {
+                return new SoundCacheFileGestalt();
+            }
+            //  sound_classes
+            if ((tagGroupName == "sound_classes"))
+            {
+                return new SoundClasses();
+            }
+            //  sound_dialogue_constants
+            if ((tagGroupName == "sound_dialogue_constants"))
+            {
+                return new SoundDialogueConstants();
+            }
+            //  sound_effect_collection
+            if ((tagGroupName == "sound_effect_collection"))
+            {
+                return new SoundEffectCollection();
+            }
+            //  sound_effect_template
+            if ((tagGroupName == "sound_effect_template"))
+            {
+                return new SoundEffectTemplate();
+            }
+            //  sound_environment
+            if ((tagGroupName == "sound_environment"))
+            {
+                return new SoundEnvironment();
+            }
+            //  sound_looping
+            if ((tagGroupName == "sound_looping"))
+            {
+                return new SoundLooping();
+            }
+            //  sound_mix
+            if ((tagGroupName == "sound_mix"))
+            {
+                return new SoundMix();
+            }
+            //  sound_scenery
+            if ((tagGroupName == "sound_scenery"))
+            {
+                return new SoundScenery();
+            }
+            //  stereo_system
+            if ((tagGroupName == "stereo_system"))
+            {
+                return new StereoSystem();
+            }
+            //  style
+            if ((tagGroupName == "style"))
+            {
+                return new Style();
+            }
+            //  text_value_pair_definition
+            if ((tagGroupName == "text_value_pair_definition"))
+            {
+                return new TextValuePairDefinition();
+            }
+            //  unit
+            if ((tagGroupName == "unit"))
+            {
+                return new Unit();
+            }
+            //  unit_hud_interface
+            if ((tagGroupName == "unit_hud_interface"))
+            {
+                return new UnitHudInterface();
+            }
+            //  user_interface_globals_definition
+            if ((tagGroupName == "user_interface_globals_definition"))
+            {
+                return new UserInterfaceGlobalsDefinition();
+            }
+            //  user_interface_list_skin_definition
+            if ((tagGroupName == "user_interface_list_skin_definition"))
+            {
+                return new UserInterfaceListSkinDefinition();
+            }
+            //  user_interface_screen_widget_definition
+            if ((tagGroupName == "user_interface_screen_widget_definition"))
+            {
+                return new UserInterfaceScreenWidgetDefinition();
+            }
+            //  user_interface_shared_globals_definition
+            if ((tagGroupName == "user_interface_shared_globals_definition"))
+            {
+                return new UserInterfaceSharedGlobalsDefinition();
+            }
+            //  vehicle
+            if ((tagGroupName == "vehicle"))
+            {
+                return new Vehicle();
+            }
+            //  vehicle_collection
+            if ((tagGroupName == "vehicle_collection"))
+            {
+                return new VehicleCollection();
+            }
+            //  vertex_shader
+            if ((tagGroupName == "vertex_shader"))
+            {
+                return new VertexShader();
+            }
+            //  weapon
+            if ((tagGroupName == "weapon"))
+            {
+                return new Weapon();
+            }
+            //  weapon_hud_interface
+            if ((tagGroupName == "weapon_hud_interface"))
+            {
+                return new WeaponHudInterface();
+            }
+            //  weather_system
+            if ((tagGroupName == "weather_system"))
+            {
+                return new WeatherSystem();
+            }
+            //  wind
+            if ((tagGroupName == "wind"))
+            {
+                return new Wind();
+            }
             return null;
         }
     }

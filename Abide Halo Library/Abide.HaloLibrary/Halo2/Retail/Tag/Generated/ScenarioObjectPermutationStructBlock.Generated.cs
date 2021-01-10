@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_object_permutation_struct_block tag block.
     /// </summary>
-    public sealed class ScenarioObjectPermutationStructBlock : Block
+    internal sealed class ScenarioObjectPermutationStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioObjectPermutationStructBlock"/> class.

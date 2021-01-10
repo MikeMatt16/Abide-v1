@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_playback_parameter_definition_block tag block.
     /// </summary>
-    public sealed class SoundPlaybackParameterDefinitionBlock : Block
+    internal sealed class SoundPlaybackParameterDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPlaybackParameterDefinitionBlock"/> class.

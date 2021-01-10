@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated response_block tag block.
     /// </summary>
-    public sealed class ResponseBlock : Block
+    internal sealed class ResponseBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ResponseBlock"/> class.

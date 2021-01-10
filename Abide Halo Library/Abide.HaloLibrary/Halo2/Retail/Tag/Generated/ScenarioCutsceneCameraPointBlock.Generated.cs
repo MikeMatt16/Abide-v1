@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cutscene_camera_point_block tag block.
     /// </summary>
-    public sealed class ScenarioCutsceneCameraPointBlock : Block
+    internal sealed class ScenarioCutsceneCameraPointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioCutsceneCameraPointBlock"/> class.

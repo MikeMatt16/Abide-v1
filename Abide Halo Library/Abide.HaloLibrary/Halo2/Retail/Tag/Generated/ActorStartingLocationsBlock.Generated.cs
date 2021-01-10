@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated actor_starting_locations_block tag block.
     /// </summary>
-    public sealed class ActorStartingLocationsBlock : Block
+    internal sealed class ActorStartingLocationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ActorStartingLocationsBlock"/> class.

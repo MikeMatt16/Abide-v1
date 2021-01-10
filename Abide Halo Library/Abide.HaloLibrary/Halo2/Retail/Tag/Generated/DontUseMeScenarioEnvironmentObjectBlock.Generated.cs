@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated dont_use_me_scenario_environment_object_block tag block.
     /// </summary>
-    public sealed class DontUseMeScenarioEnvironmentObjectBlock : Block
+    internal sealed class DontUseMeScenarioEnvironmentObjectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DontUseMeScenarioEnvironmentObjectBlock"/> class.

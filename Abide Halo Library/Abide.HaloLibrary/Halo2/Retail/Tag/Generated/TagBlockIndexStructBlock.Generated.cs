@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated tag_block_index_struct_block tag block.
     /// </summary>
-    public sealed class TagBlockIndexStructBlock : Block
+    internal sealed class TagBlockIndexStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagBlockIndexStructBlock"/> class.

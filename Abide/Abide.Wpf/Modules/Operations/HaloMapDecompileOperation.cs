@@ -8,6 +8,8 @@ using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Convert = Abide.Guerilla.Library.Convert;
 
 namespace Abide.Wpf.Modules.Operations
@@ -16,7 +18,7 @@ namespace Abide.Wpf.Modules.Operations
     {
         private readonly string mapPath = string.Empty;
         private readonly string tagsDirectory = string.Empty;
-        private HaloMap map;
+        private HaloMap map = null;
 
         public HaloMapDecompileOperation(string path)
         {
@@ -25,8 +27,10 @@ namespace Abide.Wpf.Modules.Operations
         }
         protected override void OnBackground(object state)
         {
-            ITagGroup guerillaTagGroup, tagGroup, globalsGroup;
-            ITagGroup soundGestaltGroup = null;
+            map = new HaloMap(mapPath);
+            ReportStatus($"Decompiling {map.Name}...");
+            Group globalsGroup;
+            Group soundGestaltGroup = null;
             IndexEntry soundGestalt = null;
             IndexEntry globals = map.Globals;
 
@@ -38,7 +42,7 @@ namespace Abide.Wpf.Modules.Operations
                     globalsGroup = TagLookup.CreateTagGroup(globals.Root);
                     globalsGroup.Read(tagReader);
 
-                    BlockField soundGlobalsTagBlock = (BlockField)globalsGroup[0][4];
+                    BlockField soundGlobalsTagBlock = (BlockField)globalsGroup.TagBlocks[0].Fields[4];
                     if (soundGlobalsTagBlock.BlockList.Count > 0)
                     {
                         TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
@@ -57,93 +61,91 @@ namespace Abide.Wpf.Modules.Operations
                     }
                 }
 
-                for (int i = 0; i < map.IndexEntries.Count; i++)
+                int num = 0;
+                SetProgressVisibility(true);
+                ResetProgress(map.IndexEntries.Count);
+                var result = Parallel.ForEach(map.IndexEntries, entry =>
                 {
-                    if ((tagGroup = TagLookup.CreateTagGroup(map.IndexEntries[i].Root)) != null)
+                    num++;
+                    Group guerillaTagGroup;
+                    var tagGroup = TagLookup.CreateTagGroup(entry.Root);
+                    var reader = entry.Data.GetVirtualStream().CreateReader();
+                    reader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
+                    try { tagGroup.Read(reader); }
+                    finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, entry, map); }
+
+                    string localFileName = Path.Combine($"{entry.Filename}.{guerillaTagGroup.GroupName}");
+                    string tagGroupFileName = Path.Combine(tagsDirectory, localFileName);
+
+                    if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
                     {
-                        using (BinaryReader reader = map.IndexEntries[i].Data.GetVirtualStream().CreateReader())
-                        {
-                            reader.BaseStream.Seek(map.IndexEntries[i].Address, SeekOrigin.Begin);
-                            try { tagGroup.Read(reader); }
-                            finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, map.IndexEntries[i], map); }
-                        }
-
-                        string localFileName = Path.Combine($"{map.IndexEntries[i].Filename}.{guerillaTagGroup.GroupName}");
-                        string tagGroupFileName = Path.Combine(tagsDirectory, localFileName);
-
-                        if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(tagGroupFileName));
-                        }
-
-                        TagGroupHeader header = new TagGroupHeader();
-                        using (FileStream fs = new FileStream(tagGroupFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
-                        using (BinaryWriter writer = new BinaryWriter(fs))
-                        using (BinaryReader reader = new BinaryReader(fs))
-                        {
-                            fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
-                            guerillaTagGroup.Write(writer);
-
-                            switch (guerillaTagGroup.GroupTag)
-                            {
-                                case "snd!":
-                                    SoundTagGroup_CreateRaws(guerillaTagGroup, soundGestalt, writer, ref header);
-                                    break;
-                                case "mode":
-                                    RenderModelTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "sbsp":
-                                    ScenarioStructureBspTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "ltmp":
-                                    ScenarioStructureLightmapTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "weat":
-                                    WeatherSystemTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "DECR":
-                                    DecoratorSetTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "PRTM":
-                                    ParticleModelTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "jmad":
-                                    AnimationTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                                case "bitm":
-                                    BitmapTagGroup_CreateRaws(guerillaTagGroup, map.IndexEntries[i], writer, ref header);
-                                    break;
-                            }
-
-                            header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
-                            header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
-                            header.Id = map.IndexEntries[i].Id.Dword;
-                            header.AbideTag = "atag";
-
-                            fs.Seek(0, SeekOrigin.Begin);
-                            writer.Write(header);
-                        }
-
-                        int progress = (int)Math.Ceiling(i * 100d / map.IndexEntries.Count);
-                        if (ProgressReporter != null)
-                        {
-                            ProgressReporter.Report(progress);
-                        }
+                        Directory.CreateDirectory(Path.GetDirectoryName(tagGroupFileName));
                     }
-                }
+
+                    TagGroupHeader header = new TagGroupHeader();
+                    using (FileStream fs = new FileStream(tagGroupFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+                    using (BinaryReader fileReader = new BinaryReader(fs))
+                    using (BinaryWriter fileWriter = new BinaryWriter(fs))
+                    {
+                        fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
+                        guerillaTagGroup.Write(fileWriter);
+
+                        switch (guerillaTagGroup.GroupTag)
+                        {
+                            case "snd!":
+                                SoundTagGroup_CreateRaws(guerillaTagGroup, soundGestalt, fileWriter, ref header);
+                                break;
+                            case "mode":
+                                RenderModelTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "sbsp":
+                                ScenarioStructureBspTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "ltmp":
+                                ScenarioStructureLightmapTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "weat":
+                                WeatherSystemTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "DECR":
+                                DecoratorSetTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "PRTM":
+                                ParticleModelTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "jmad":
+                                AnimationTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                            case "bitm":
+                                BitmapTagGroup_CreateRaws(guerillaTagGroup, entry, fileWriter, ref header);
+                                break;
+                        }
+
+                        header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
+                        header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
+                        header.Id = entry.Id.Dword;
+                        header.AbideTag = "atag";
+
+                        fs.Seek(0, SeekOrigin.Begin);
+                        fileWriter.Write(header);
+                        ReportProgress(num);
+                    }
+                });
             }
             catch
             {
 #if DEBUG
                 throw;
 #endif
-                Successful = false;
             }
             finally
             {
                 GC.Collect();
-                Complete();
             }
+
+            ReportProgress(map.IndexEntries.Count);
+            Thread.Sleep(2000);
+            SetProgressVisibility(false);
         }
         protected override void OnCancel()
         {
@@ -151,9 +153,8 @@ namespace Abide.Wpf.Modules.Operations
         }
         protected override object OnStart()
         {
-            map = new HaloMap(mapPath);
-            Status = $"Decompiling {map.Name}...";
-
+            ReportStatus("Starting decompile operation...");
+            SetProgressVisibility(true);
             return null;
         }
 
@@ -425,10 +426,9 @@ namespace Abide.Wpf.Modules.Operations
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
 
-            // TODO: get weather system resources
             foreach (ITagBlock lightmapGeometrySectionBlock in ((BlockField)guerillaTagGroup[0][0]).BlockList)
             {
-                ITagBlock geometry = (ITagBlock)lightmapGeometrySectionBlock[1].Value;
+                ITagBlock geometry = (ITagBlock)lightmapGeometrySectionBlock[13].Value;
                 int address = (int)geometry[1].Value;
 
                 if (entry.Resources.TryGetResource(address, out var resource))
@@ -638,6 +638,5 @@ namespace Abide.Wpf.Modules.Operations
 
             return checksum;
         }
-
     }
 }

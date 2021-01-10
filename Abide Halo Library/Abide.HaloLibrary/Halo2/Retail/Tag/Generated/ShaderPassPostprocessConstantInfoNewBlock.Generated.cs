@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_pass_postprocess_constant_info_new_block tag block.
     /// </summary>
-    public sealed class ShaderPassPostprocessConstantInfoNewBlock : Block
+    internal sealed class ShaderPassPostprocessConstantInfoNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPassPostprocessConstantInfoNewBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_promotion_runtime_timer_block tag block.
     /// </summary>
-    public sealed class SoundPromotionRuntimeTimerBlock : Block
+    internal sealed class SoundPromotionRuntimeTimerBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPromotionRuntimeTimerBlock"/> class.

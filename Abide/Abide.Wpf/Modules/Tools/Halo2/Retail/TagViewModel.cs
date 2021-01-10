@@ -1,7 +1,6 @@
 ﻿using Abide.HaloLibrary;
-using Abide.Tag;
-using Abide.Tag.Cache;
 using Abide.HaloLibrary.Halo2.Retail;
+using Abide.Tag;
 using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.ObjectModel;
@@ -10,39 +9,35 @@ using System.Linq;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 {
-    public sealed class TagGroupViewModel : BaseViewModel
+    public abstract class TagObjectViewModel : BaseViewModel
     {
-        private HaloMapFile map = null;
-        private Group tagGroup = null;
+        public TagObjectViewModel Up { get; }
+
+        protected TagObjectViewModel(TagObjectViewModel owner)
+        {
+            Up = owner;
+        }
+        protected TagObjectViewModel GetTopMostObject()
+        {
+            var obj = this;
+            while (obj.Up != null)
+            {
+                obj = obj.Up;
+            }
+
+            return obj;
+        }
+    }
+
+    public sealed class TagGroupViewModel : TagObjectViewModel
+    {
         private TagFourCc groupTag = new TagFourCc();
         private string name = string.Empty;
         private int count = 0;
 
         public ObservableCollection<TagBlockViewModel> Blocks { get; } = new ObservableCollection<TagBlockViewModel>();
-        public HaloMapFile Map
-        {
-            get => map;
-            set
-            {
-                if (map != value)
-                {
-                    map = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public Group TagGroup
-        {
-            get => tagGroup;
-            set
-            {
-                if (tagGroup != value)
-                {
-                    tagGroup = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        public Group TagGroup { get; private set; }
+        public HaloMapFile Map { get; }
         public int Count
         {
             get => count;
@@ -79,48 +74,43 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 }
             }
         }
-        public TagGroupViewModel() { }
-        protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
+        public TagGroupViewModel(HaloMapFile map) : base(null)
         {
-            switch (e.PropertyName)
+            Map = map ?? throw new ArgumentNullException(nameof(map));
+        }
+        public void SetTagGroup(Group group)
+        {
+            TagGroup = group;
+
+            if (group == null)
             {
-                case nameof(TagGroup):
-                    Blocks.Clear();
-                    if (tagGroup != null)
-                    {
-                        foreach (var tagBlock in tagGroup.TagBlocks)
-                        {
-                            var model = new TagBlockViewModel(null) { Map = map };
-                            model.TagBlock = tagBlock;
-                            Blocks.Add(model);
-                        }
-
-                        Count = tagGroup.TagBlockCount;
-                        Name = tagGroup.GroupName;
-                        GroupTag = tagGroup.GroupTag;
-                    }
-                    else
-                    {
-                        Count = 0;
-                        Name = string.Empty;
-                        GroupTag = new TagFourCc();
-                    }
-                    break;
-
-                case nameof(Map):
-                    foreach (var block in Blocks)
-                    {
-                        block.Map = map;
-                    }
-
-                    break;
+                return;
             }
 
-            base.OnNotifyPropertyChanged(e);
+            Blocks.Clear();
+            if (TagGroup != null)
+            {
+                foreach (var tagBlock in TagGroup.TagBlocks)
+                {
+                    var model = new TagBlockViewModel(this);
+                    model.TagBlock = tagBlock;
+                    Blocks.Add(model);
+                }
+
+                Count = TagGroup.TagBlockCount;
+                Name = TagGroup.GroupName;
+                GroupTag = TagGroup.GroupTag;
+            }
+            else
+            {
+                Count = 0;
+                Name = string.Empty;
+                GroupTag = new TagFourCc();
+            }
         }
     }
 
-    public sealed class TagBlockViewModel : BaseViewModel
+    public sealed class TagBlockViewModel : TagObjectViewModel
     {
         private HaloMapFile map = null;
         private Block tagBlock = null;
@@ -190,10 +180,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             }
         }
 
-        public TagBlockViewModel(TagBlockViewModel owner)
-        {
-            Owner = owner;
-        }
+        public TagBlockViewModel(TagObjectViewModel owner) : base(owner) { }
         protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -289,7 +276,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         }
     }
 
-    public sealed class TagFieldViewModel : BaseViewModel
+    public sealed class TagFieldViewModel : TagObjectViewModel
     {
         private HaloMapFile map = null;
         private TagBlockViewModel structure = null;
@@ -523,10 +510,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             }
         }
 
-        public TagFieldViewModel(TagBlockViewModel owner)
-        {
-            Owner = owner;
-        }
+        public TagFieldViewModel(TagObjectViewModel owner) : base(owner) { }
         protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rasterizer_screen_effect_texcoord_generation_advanced_control_block tag block.
     /// </summary>
-    public sealed class RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock : Block
+    internal sealed class RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_geometry_part_block_new tag block.
     /// </summary>
-    public sealed class GlobalGeometryPartBlockNew : Block
+    internal sealed class GlobalGeometryPartBlockNew : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalGeometryPartBlockNew"/> class.

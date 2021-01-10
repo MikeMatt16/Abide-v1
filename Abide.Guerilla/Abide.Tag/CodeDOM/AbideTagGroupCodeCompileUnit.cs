@@ -19,7 +19,7 @@ namespace Abide.Tag.CodeDom
         /// <param name="tagGroup">The tag group definition.</param>
         /// <param name="namespaceString">The optional namespace string. This defaults to "Cache".</param>
         /// <param name="tagNamespace"></param>
-        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup, string namespaceString = "Cache", string tagNamespace = "Abide.Tag")
+        public AbideTagGroupCodeCompileUnit(AbideTagGroup tagGroup, string namespaceString = "Cache", string tagNamespace = "Abide.Tag", TypeAttributes typeAttributes = TypeAttributes.Public)
         {
             //Prepare
             string blockTypeName = AbideCodeDomGlobals.GetMemberName(AbideCodeDomGlobals.GetTagBlock(tagGroup.BlockName));
@@ -36,7 +36,7 @@ namespace Abide.Tag.CodeDom
             //Create type
             tagGroupCodeTypeDeclaration = new CodeTypeDeclaration(groupTypeName)
             {
-                TypeAttributes = TypeAttributes.Public,
+                TypeAttributes = typeAttributes,
                 IsClass = true
             };
             tagGroupCodeTypeDeclaration.BaseTypes.Add(nameof(Group));

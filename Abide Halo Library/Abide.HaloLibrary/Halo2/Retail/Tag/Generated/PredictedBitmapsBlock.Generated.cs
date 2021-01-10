@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated predicted_bitmaps_block tag block.
     /// </summary>
-    public sealed class PredictedBitmapsBlock : Block
+    internal sealed class PredictedBitmapsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PredictedBitmapsBlock"/> class.

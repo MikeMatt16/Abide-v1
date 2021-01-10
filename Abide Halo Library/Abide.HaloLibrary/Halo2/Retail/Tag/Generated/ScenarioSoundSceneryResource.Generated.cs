@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_sound_scenery_resource (*sce) tag group.
     /// </summary>
-    public class ScenarioSoundSceneryResource : Group
+    internal class ScenarioSoundSceneryResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioSoundSceneryResource"/> class.

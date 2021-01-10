@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_comments_resource (/**/) tag group.
     /// </summary>
-    public class ScenarioCommentsResource : Group
+    internal class ScenarioCommentsResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioCommentsResource"/> class.

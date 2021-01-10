@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated flock_definition_block tag block.
     /// </summary>
-    public sealed class FlockDefinitionBlock : Block
+    internal sealed class FlockDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FlockDefinitionBlock"/> class.

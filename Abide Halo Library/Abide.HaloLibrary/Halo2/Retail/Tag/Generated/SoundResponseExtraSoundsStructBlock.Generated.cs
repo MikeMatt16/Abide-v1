@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_response_extra_sounds_struct_block tag block.
     /// </summary>
-    public sealed class SoundResponseExtraSoundsStructBlock : Block
+    internal sealed class SoundResponseExtraSoundsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundResponseExtraSoundsStructBlock"/> class.

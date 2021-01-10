@@ -5,17 +5,17 @@ namespace XbExplorer
 {
     internal static class Registry
     {
-        private static RegistryKey LocalMachine { get { return Microsoft.Win32.Registry.LocalMachine; } }
-        private static RegistryKey LocalMachineClasses { get { return Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes"); } }
+        private static RegistryKey Classes { get; } = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"Software\Classes");
 
         private static bool TryGetExtensionKey(string extension, out RegistryKey extKey)
         {
             //Check current user
-            extKey = LocalMachineClasses.OpenSubKey(extension);  //Use Local Machine as a backup
+            extKey = Classes.OpenSubKey(extension);  //Use Local Machine as a backup
 
             //Return
             return extKey != null;
         }
+
         private static bool TryGetProgIdKey(string extension, out RegistryKey progIdKey)
         {
             //Prepare
@@ -26,7 +26,7 @@ namespace XbExplorer
                 if (extKey.GetValue(string.Empty) is string progIdString)
                 {
                     //Return
-                    progIdKey = LocalMachineClasses.OpenSubKey(progIdString);
+                    progIdKey = Classes.OpenSubKey(progIdString);
                     return progIdKey != null;
                 }
                 else
@@ -38,7 +38,7 @@ namespace XbExplorer
                         if (progIds.Length > 0)
                         {
                             //Return
-                            LocalMachineClasses.OpenSubKey(progIds[0]);
+                            Classes.OpenSubKey(progIds[0]);
                             return progIdKey != null;
                         }
                     }

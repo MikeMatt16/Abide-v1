@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_scenery_resource (*cen) tag group.
     /// </summary>
-    public class ScenarioSceneryResource : Group
+    internal class ScenarioSceneryResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioSceneryResource"/> class.

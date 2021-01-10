@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_lightmap_group_block tag block.
     /// </summary>
-    public sealed class StructureLightmapGroupBlock : Block
+    internal sealed class StructureLightmapGroupBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureLightmapGroupBlock"/> class.

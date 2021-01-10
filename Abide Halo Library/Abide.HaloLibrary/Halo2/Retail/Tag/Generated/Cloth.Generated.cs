@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cloth (clwd) tag group.
     /// </summary>
-    public class Cloth : Group
+    internal class Cloth : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cloth"/> class.

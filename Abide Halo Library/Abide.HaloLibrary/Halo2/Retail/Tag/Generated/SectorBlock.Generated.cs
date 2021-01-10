@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sector_block tag block.
     /// </summary>
-    public sealed class SectorBlock : Block
+    internal sealed class SectorBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SectorBlock"/> class.

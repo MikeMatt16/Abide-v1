@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_detail_object_collection_palette_block tag block.
     /// </summary>
-    public sealed class ScenarioDetailObjectCollectionPaletteBlock : Block
+    internal sealed class ScenarioDetailObjectCollectionPaletteBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioDetailObjectCollectionPaletteBlock"/> class.

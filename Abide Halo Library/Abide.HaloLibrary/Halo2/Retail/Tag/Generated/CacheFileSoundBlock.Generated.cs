@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cache_file_sound_block tag block.
     /// </summary>
-    public sealed class CacheFileSoundBlock : Block
+    internal sealed class CacheFileSoundBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheFileSoundBlock"/> class.

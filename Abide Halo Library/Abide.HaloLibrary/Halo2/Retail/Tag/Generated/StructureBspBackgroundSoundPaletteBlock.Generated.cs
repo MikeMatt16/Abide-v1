@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_background_sound_palette_block tag block.
     /// </summary>
-    public sealed class StructureBspBackgroundSoundPaletteBlock : Block
+    internal sealed class StructureBspBackgroundSoundPaletteBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspBackgroundSoundPaletteBlock"/> class.

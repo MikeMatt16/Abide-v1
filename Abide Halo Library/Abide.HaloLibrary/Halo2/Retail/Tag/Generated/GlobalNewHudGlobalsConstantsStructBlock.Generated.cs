@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_new_hud_globals_constants_struct_block tag block.
     /// </summary>
-    public sealed class GlobalNewHudGlobalsConstantsStructBlock : Block
+    internal sealed class GlobalNewHudGlobalsConstantsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalNewHudGlobalsConstantsStructBlock"/> class.

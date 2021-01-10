@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated surface_flags_block tag block.
     /// </summary>
-    public sealed class SurfaceFlagsBlock : Block
+    internal sealed class SurfaceFlagsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceFlagsBlock"/> class.

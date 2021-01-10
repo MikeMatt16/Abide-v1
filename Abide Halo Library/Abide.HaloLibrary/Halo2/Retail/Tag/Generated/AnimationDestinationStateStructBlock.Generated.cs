@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_destination_state_struct_block tag block.
     /// </summary>
-    public sealed class AnimationDestinationStateStructBlock : Block
+    internal sealed class AnimationDestinationStateStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationDestinationStateStructBlock"/> class.

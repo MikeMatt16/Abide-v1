@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_lights_resource (*igh) tag group.
     /// </summary>
-    public class ScenarioLightsResource : Group
+    internal class ScenarioLightsResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioLightsResource"/> class.

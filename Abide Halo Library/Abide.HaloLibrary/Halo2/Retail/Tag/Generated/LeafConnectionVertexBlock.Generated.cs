@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated leaf_connection_vertex_block tag block.
     /// </summary>
-    public sealed class LeafConnectionVertexBlock : Block
+    internal sealed class LeafConnectionVertexBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LeafConnectionVertexBlock"/> class.

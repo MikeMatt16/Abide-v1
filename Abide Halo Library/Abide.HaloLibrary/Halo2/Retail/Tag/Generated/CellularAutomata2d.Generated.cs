@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cellular_automata2d (whip) tag group.
     /// </summary>
-    public class CellularAutomata2d : Group
+    internal class CellularAutomata2d : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CellularAutomata2d"/> class.

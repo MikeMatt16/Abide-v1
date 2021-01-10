@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated occluder_to_machine_door_mapping tag block.
     /// </summary>
-    public sealed class OccluderToMachineDoorMapping : Block
+    internal sealed class OccluderToMachineDoorMapping : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OccluderToMachineDoorMapping"/> class.

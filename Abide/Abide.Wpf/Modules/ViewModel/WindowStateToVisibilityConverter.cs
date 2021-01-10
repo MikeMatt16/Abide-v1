@@ -1,0 +1,30 @@
+﻿using System;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+
+namespace Abide.Wpf.Modules.ViewModel
+{
+    public sealed class WindowStateToVisibilityConverter : BaseViewModel, IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is WindowState windowState)
+            {
+                switch (windowState)
+                {
+                    case WindowState.Normal:
+                        return Visibility.Visible;
+                    default: return Visibility.Collapsed;
+                }
+            }
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

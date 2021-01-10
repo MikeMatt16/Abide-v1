@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated wind (wind) tag group.
     /// </summary>
-    public class Wind : Group
+    internal class Wind : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Wind"/> class.

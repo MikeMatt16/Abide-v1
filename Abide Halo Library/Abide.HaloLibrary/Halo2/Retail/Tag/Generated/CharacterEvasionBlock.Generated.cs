@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_evasion_block tag block.
     /// </summary>
-    public sealed class CharacterEvasionBlock : Block
+    internal sealed class CharacterEvasionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterEvasionBlock"/> class.

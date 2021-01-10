@@ -8,7 +8,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -21,6 +20,7 @@ namespace XbExplorer
             Small,
             Large
         };
+
         private enum ItemType
         {
             AddNewXbox,
@@ -29,6 +29,7 @@ namespace XbExplorer
             Directory,
             File,
         };
+
         private enum VirtualLocation
         {
             /// <summary>
@@ -44,7 +45,7 @@ namespace XbExplorer
             /// </summary>
             Xbox,
             /// <summary>
-            /// Inside a folder on the Xbox console, shows child files or folders.
+            /// Inside a folder on the Xbox console, shows child files and folders.
             /// </summary>
             Folder
         }
@@ -66,12 +67,6 @@ namespace XbExplorer
         
         public Main()
         {
-            ToolStrip test = new ToolStrip();
-            ToolStripItemCollection items = test.Items;
-            ToolStripButton testButton = new ToolStripButton("testButton");
-            ToolStripDropDownButton testDropButton = new ToolStripDropDownButton("testDropButton");
-            items.Add(testButton);
-
             InitializeComponent();
             breadcrumbImageList.Images.Add(new Icon(Properties.Resources.folder_icon, 16, 16));
             breadcrumbImageList.Images.Add(new Icon(Properties.Resources.drive_icon, 16, 16));
@@ -92,6 +87,10 @@ namespace XbExplorer
 
             //Register name answering protocol
             NameAnsweringProtocol.XboxDiscovered += NameAnsweringProtocol_XboxDiscovered;
+
+            //Create theme for menu bar
+            mainMenuStrip.Renderer = new XbExplorerMenuStripRenderer();
+            var renderMode = mainMenuStrip.RenderMode;
         }
 
         private string GetLocalPath(string fullname)
@@ -216,7 +215,8 @@ namespace XbExplorer
             else Text = "XbExplorer";
 
             //Enable
-            upToolStripMenuButton.Enabled = CurrentLocation.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries).Length > 1;
+            takeScreenshotToolStripButton.Enabled = upToolStripMenuButton.Enabled =
+                CurrentLocation.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries).Length > 1;
             
             //Set location
             locationTextBox.Text = CurrentLocation;
@@ -328,12 +328,13 @@ namespace XbExplorer
 
             //Get xbox
             Xbox xbox = null;
-            Xbox[] foundXboxes = null;
             if (IPAddress.TryParse(xboxName, out IPAddress xboxAddr))
-                xbox = NameAnsweringProtocol.Discover(xboxAddr, 50);
+            {
+                xbox = NameAnsweringProtocol.Discover(xboxAddr, 200);
+            }
             else
             {
-                foundXboxes = NameAnsweringProtocol.Discover(xboxName, 50);
+                Xbox[] foundXboxes = NameAnsweringProtocol.Discover(xboxName, 200);
                 if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
             }
 
@@ -534,7 +535,7 @@ namespace XbExplorer
             int index = commaIndex >= 0 ? int.Parse(defaultIcon.Substring(defaultIcon.LastIndexOf(',') + 1)) : 0;
 
             //Check
-            IntPtr hIcon = ExtractIcon(Handle, path.Trim('\"'), (uint)index);
+            IntPtr hIcon = Win32.ExtractIcon(Handle, path.Trim('\"'), (uint)index);
             if (index != -1)
                 icon = Icon.FromHandle(hIcon);  //Load
 
@@ -555,7 +556,7 @@ namespace XbExplorer
             int index = commaIndex >= 0 ? int.Parse(defaultIcon.Substring(defaultIcon.LastIndexOf(',') + 1)) : 0;
 
             //Load
-            uint iconCount = PrivateExtractIcons(path.Trim('\"'), index, width, height, out IntPtr hIcon, out IntPtr iconId, 1, 0);
+            uint iconCount = Win32.PrivateExtractIcons(path.Trim('\"'), index, width, height, out IntPtr hIcon, out IntPtr iconId, 1, 0);
             if (iconId != IntPtr.Zero && hIcon != IntPtr.Zero)
                 icon = Icon.FromHandle(hIcon);
 
@@ -576,18 +577,18 @@ namespace XbExplorer
             int index = commaIndex >= 0 ? int.Parse(defaultIcon.Substring(defaultIcon.LastIndexOf(',') + 1)) : 0;
             
             //Load
-            int iconCount = ExtractIconEx(path.Trim('\"'), index, out IntPtr hIconLarge, out IntPtr hIconSmall, 1);
+            int iconCount = Win32.ExtractIconEx(path.Trim('\"'), index, out IntPtr hIconLarge, out IntPtr hIconSmall, 1);
 
             //Check
             switch (size)
             {
                 case IconSize.Small:
                     icon = Icon.FromHandle(hIconSmall);
-                    DestroyIcon(hIconLarge);
+                    Win32.DestroyIcon(hIconLarge);
                     break;
                 case IconSize.Large:
                     icon = Icon.FromHandle(hIconLarge);
-                    DestroyIcon(hIconSmall);
+                    Win32.DestroyIcon(hIconSmall);
                     break;
             }
 
@@ -605,14 +606,14 @@ namespace XbExplorer
         private string GetSizeString(long size)
         {
             StringBuilder sb = new StringBuilder(128);
-            StrFormatByteSize(size, sb, sb.Capacity);
+            Win32.StrFormatByteSize(size, sb, sb.Capacity);
             return sb.ToString();
         }
 
         private string GetSizeStringKb(long size)
         {
             StringBuilder sb = new StringBuilder(128);
-            StrFormatKBSize(size, sb, sb.Capacity);
+            Win32.StrFormatKBSize(size, sb, sb.Capacity);
             return sb.ToString();
         }
 
@@ -904,51 +905,54 @@ namespace XbExplorer
                 selectedItem.Tag is ItemType type && type == ItemType.XboxItem)
             {
                 //Connect
-                Xbox xbox = null;
-                Xbox[] foundXboxes = null;
-                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
-                else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
-                if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
-                try
+                if (IPAddress.TryParse(selectedItem.Name, out IPAddress address))
                 {
-                    //Connect
-                    xbox.Connect();
-
-                    //Reboot
-                    xbox.Reboot(BootType.Cold);
-
-                    //Disconect
-                    xbox.Disconnect(false);
+                    var xbox = NameAnsweringProtocol.Discover(address, 10);
+                    if (xbox != null)
+                    {
+                        try
+                        {
+                            xbox.Connect();
+                            xbox.Reboot(BootType.Cold);
+                            xbox.Disconnect(false);
+                        }
+                        catch { }
+                    }
                 }
-                catch { }
             }
         }
 
         private void screenshotXboxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Get selected item
-            if (mainListView.SelectedItems.Count > 0 && mainListView.SelectedItems[0] is ListViewItem selectedItem &&
-                selectedItem.Tag is ItemType type && type == ItemType.XboxItem)
+            Xbox xbox = CurrentXbox;
+
+            if (CurrentXbox == null && mainListView.SelectedItems.Count > 0 && mainListView.SelectedItems[0] is ListViewItem selectedItem &&
+                    selectedItem.Tag is ItemType type && type == ItemType.XboxItem)
             {
-                //Connect
-                Xbox xbox = null;
                 Xbox[] foundXboxes = null;
                 if (IPAddress.TryParse(selectedItem.Name, out IPAddress address)) foundXboxes = new Xbox[] { NameAnsweringProtocol.Discover(address, 100) };
                 else foundXboxes = NameAnsweringProtocol.Discover(selectedItem.Name, 100);
-                if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
 
-                //Connect
+                if (foundXboxes.Length > 0) xbox = foundXboxes[0];  //Choose first xbox
+            }
+
+            if (xbox != null)
+            {
                 xbox.Connect();
 
-                //Screenshot
-                if (xbox.Screenshot(out Image screenshot) && screenshot != null)
+                if (xbox.Screenshot(out Bitmap screenshot) && screenshot != null)
                 {
-                    string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "image.bmp");
+                    if (!Directory.Exists(Properties.Settings.Default.ScreenshotDirectory))
+                        Directory.CreateDirectory(Properties.Settings.Default.ScreenshotDirectory);
+
+                    var now = DateTime.Now;
+                    string filepath = Path.Combine(Properties.Settings.Default.ScreenshotDirectory, $"Screenshot-{now.Month:d2}{now.Day:d2}{now.Year}{now.Hour}{now.Minute}{now.Second}.png");
                     screenshot.Save(filepath);
                     screenshot.Dispose();
+
+                    Process.Start(filepath);
                 }
 
-                //Disconect
                 xbox.Disconnect(false);
             }
         }
@@ -1070,10 +1074,21 @@ namespace XbExplorer
             remoteObj.SetData(RemoteItemObject.CFSTR_PERFORMEDDROPEFFECT, null);
             Clipboard.SetDataObject(remoteObj);
         }
-        
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Program.CreateAndShow();
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SettingsDialog())
+                dialog.ShowDialog();
         }
         
         private void homeToolStripButton_Click(object sender, EventArgs e)
@@ -1081,7 +1096,7 @@ namespace XbExplorer
             //Goto Root
             XbExplorerRoot();
         }
-        
+
         private void mainListView_ItemActivate(object sender, EventArgs e)
         {
             if (mainListView.SelectedItems.Count == 0) return;
@@ -1141,7 +1156,6 @@ namespace XbExplorer
         {
             //Disable all
             openXboxToolStripMenuItem.Enabled = false;
-            screenshotXboxToolStripMenuItem.Enabled = false;
             rebootXboxToolStripMenuItem.Enabled = false;
             deleteXboxToolStripMenuItem.Enabled = false;
             openDriveToolStripMenuItem.Enabled = false;
@@ -1150,6 +1164,7 @@ namespace XbExplorer
             copyItemToolStripMenuItem.Enabled = false;
             renameItemToolStripMenuItem.Enabled = false;
             deleteItemToolStripMenuItem.Enabled = false;
+            takeScreenshotToolStripButton.Enabled = false;
             bootToolStripMenuItem.Visible = false;
 
             //Check
@@ -1162,6 +1177,7 @@ namespace XbExplorer
                         screenshotXboxToolStripMenuItem.Enabled = e.Item.ImageIndex == 3;
                         rebootXboxToolStripMenuItem.Enabled = e.Item.ImageIndex == 3;
                         deleteXboxToolStripMenuItem.Enabled = true;
+                        takeScreenshotToolStripButton.Enabled = true;
                         break;
                     case ItemType.Drive:
                         openDriveToolStripMenuItem.Enabled = true;
@@ -1182,12 +1198,18 @@ namespace XbExplorer
                 }
             }
 
+            if (CurrentVirtualLocation == VirtualLocation.Xbox)
+            {
+                takeScreenshotToolStripButton.Enabled = true;
+            }
+
             //Check if we're in a folder
             if (CurrentVirtualLocation == VirtualLocation.Folder)
             {
                 //Enable Paste and New Folder buttons
                 pasteItemToolStripMenuItem.Enabled = true;
                 newFolderToolStripMenuItem.Enabled = true;
+                takeScreenshotToolStripButton.Enabled = true;
             }
         }
         
@@ -1380,16 +1402,6 @@ namespace XbExplorer
             }
         }
 
-        private void upToolStripMenuButton_Click(object sender, EventArgs e)
-        {
-            //Get parent
-            string parent = Path.GetDirectoryName(CurrentLocation);
-
-            //Check
-            if (!string.IsNullOrEmpty(parent))
-                Navigate(parent);
-        }
-
         private void backToolStripMenuButton_Click(object sender, EventArgs e)
         {
             //Get last location
@@ -1428,35 +1440,33 @@ namespace XbExplorer
             backToolStripMenuButton.Enabled = LocationHistory.Count > 0;
         }
 
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        private static extern int SHFileOperation(SHFILEOPSTRUCT lpFileOp);
-        [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
-        public static extern long StrFormatByteSize(long fileSize, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer, int bufferSize);
-        [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
-        public static extern long StrFormatKBSize(long fileSize, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer, int bufferSize);
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr ExtractIcon(IntPtr hwnd, string pszExeFileName, uint nIconIndex);
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        private static extern int ExtractIconEx(string lpszFile, int nIconIndex, out IntPtr phiconLarge, out IntPtr phiconSmall, uint nIcons);
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern uint PrivateExtractIcons(string szFileName, int nIconIndex, int cxIcon, int cyIcon, out IntPtr phicon, out IntPtr piconid, uint nIcons, uint flags);
-        [DllImport("user32.dll")]
-        private static extern bool DestroyIcon(IntPtr hIcon);
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public struct SHFILEOPSTRUCT
+        private void upToolStripMenuButton_Click(object sender, EventArgs e)
         {
-            public IntPtr hwnd;
-            public uint wFunc;
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string pFrom;
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string pTo;
-            public ushort fFlags;
-            public bool fAnyOperationsAborted;
-            public IntPtr hNameMappings;
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string lpszProgressTitle;
+            //Get parent
+            string parent = Path.GetDirectoryName(CurrentLocation);
+
+            //Check
+            if (!string.IsNullOrEmpty(parent))
+                Navigate(parent);
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                if (Program.MainWindow == this && Program.Windows.Count > 0)
+                {
+                    if (MessageBox.Show("Closing this window will also close all other XbExplorer windows. " +
+                        "Are you sure you want to exit?", "Exit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else if (Program.Windows.Contains(this))
+                {
+                    Program.Windows.Remove(this);
+                }
+            }
         }
 
         private enum Direction
@@ -1465,7 +1475,7 @@ namespace XbExplorer
             Descending
         }
 
-        private class ItemSorter
+        private abstract class ItemSorter
         {
             public Direction Direction { get; set; } = Direction.Ascending;
 
@@ -1496,7 +1506,7 @@ namespace XbExplorer
             }
         }
 
-        private class XboxSorter : ItemSorter, IComparer
+        private sealed class XboxSorter : ItemSorter, IComparer
         {
             public SortingType SortBy { get; set; } = SortingType.IPAddress;
 
@@ -1545,7 +1555,7 @@ namespace XbExplorer
             }
         }
 
-        private class DriveSorter : ItemSorter, IComparer
+        private sealed class DriveSorter : ItemSorter, IComparer
         {
             public SortingType SortBy { get; set; } = SortingType.DriveLetter;
 
@@ -1584,7 +1594,7 @@ namespace XbExplorer
             };
         }
 
-        private class FileSorter : ItemSorter, IComparer
+        private sealed class FileSorter : ItemSorter, IComparer
         {
             public SortingType SortBy { get; set; } = SortingType.Name;
             
@@ -1644,6 +1654,17 @@ namespace XbExplorer
                 DateModified = 2,
                 Size = 3
             };
+        }
+
+        private sealed class XbExplorerMenuStripRenderer : ToolStripProfessionalRenderer
+        {
+            protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+            {
+                base.OnRenderToolStripBackground(e);
+
+                using (var brush = new SolidBrush(ColorTable.ToolStripContentPanelGradientEnd))
+                    e.Graphics.FillRectangle(brush, e.AffectedBounds);
+            }
         }
     }
 }

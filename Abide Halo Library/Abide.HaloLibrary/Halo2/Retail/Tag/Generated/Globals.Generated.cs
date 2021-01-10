@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated globals (matg) tag group.
     /// </summary>
-    public class Globals : Group
+    internal class Globals : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Globals"/> class.

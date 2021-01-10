@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lens_flare_reflection_block tag block.
     /// </summary>
-    public sealed class LensFlareReflectionBlock : Block
+    internal sealed class LensFlareReflectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LensFlareReflectionBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_hud_multitexture_overlay_effector_definition tag block.
     /// </summary>
-    public sealed class GlobalHudMultitextureOverlayEffectorDefinition : Block
+    internal sealed class GlobalHudMultitextureOverlayEffectorDefinition : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalHudMultitextureOverlayEffectorDefinition"/> class.

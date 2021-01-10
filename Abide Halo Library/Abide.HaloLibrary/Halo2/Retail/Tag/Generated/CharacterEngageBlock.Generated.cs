@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_engage_block tag block.
     /// </summary>
-    public sealed class CharacterEngageBlock : Block
+    internal sealed class CharacterEngageBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterEngageBlock"/> class.

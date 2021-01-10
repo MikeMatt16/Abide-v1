@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_geometry_section_block tag block.
     /// </summary>
-    public sealed class LightmapGeometrySectionBlock : Block
+    internal sealed class LightmapGeometrySectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapGeometrySectionBlock"/> class.

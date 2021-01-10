@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated text_value_pair_definition (sily) tag group.
     /// </summary>
-    public class TextValuePairDefinition : Group
+    internal class TextValuePairDefinition : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextValuePairDefinition"/> class.

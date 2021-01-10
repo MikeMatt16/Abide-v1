@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ui_object_reference_block tag block.
     /// </summary>
-    public sealed class UiObjectReferenceBlock : Block
+    internal sealed class UiObjectReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UiObjectReferenceBlock"/> class.

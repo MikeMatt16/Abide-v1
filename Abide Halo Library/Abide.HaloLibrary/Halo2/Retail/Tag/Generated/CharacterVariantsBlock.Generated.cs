@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_variants_block tag block.
     /// </summary>
-    public sealed class CharacterVariantsBlock : Block
+    internal sealed class CharacterVariantsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterVariantsBlock"/> class.

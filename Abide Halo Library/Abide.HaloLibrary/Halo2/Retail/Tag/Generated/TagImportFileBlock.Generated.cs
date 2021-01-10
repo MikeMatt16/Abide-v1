@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated tag_import_file_block tag block.
     /// </summary>
-    public sealed class TagImportFileBlock : Block
+    internal sealed class TagImportFileBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagImportFileBlock"/> class.

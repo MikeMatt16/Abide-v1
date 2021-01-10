@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated UNUSED_structure_bsp_node_block tag block.
     /// </summary>
-    public sealed class UNUSEDStructureBspNodeBlock : Block
+    internal sealed class UNUSEDStructureBspNodeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UNUSEDStructureBspNodeBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated vibration_frequency_definition_struct_block tag block.
     /// </summary>
-    public sealed class VibrationFrequencyDefinitionStructBlock : Block
+    internal sealed class VibrationFrequencyDefinitionStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VibrationFrequencyDefinitionStructBlock"/> class.

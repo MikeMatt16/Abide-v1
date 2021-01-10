@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_variant_permutation_block tag block.
     /// </summary>
-    public sealed class ModelVariantPermutationBlock : Block
+    internal sealed class ModelVariantPermutationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelVariantPermutationBlock"/> class.

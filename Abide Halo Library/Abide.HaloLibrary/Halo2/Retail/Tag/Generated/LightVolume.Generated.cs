@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated light_volume (MGS2) tag group.
     /// </summary>
-    public class LightVolume : Group
+    internal class LightVolume : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightVolume"/> class.

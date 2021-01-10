@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario (scnr) tag group.
     /// </summary>
-    public class Scenario : Group
+    internal class Scenario : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Scenario"/> class.

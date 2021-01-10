@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated powered_seat_block tag block.
     /// </summary>
-    public sealed class PoweredSeatBlock : Block
+    internal sealed class PoweredSeatBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PoweredSeatBlock"/> class.

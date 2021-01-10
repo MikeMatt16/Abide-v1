@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_vehicle_block tag block.
     /// </summary>
-    public sealed class CharacterVehicleBlock : Block
+    internal sealed class CharacterVehicleBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterVehicleBlock"/> class.

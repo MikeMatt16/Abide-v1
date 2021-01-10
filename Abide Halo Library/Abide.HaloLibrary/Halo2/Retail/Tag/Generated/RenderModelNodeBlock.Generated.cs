@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model_node_block tag block.
     /// </summary>
-    public sealed class RenderModelNodeBlock : Block
+    internal sealed class RenderModelNodeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModelNodeBlock"/> class.

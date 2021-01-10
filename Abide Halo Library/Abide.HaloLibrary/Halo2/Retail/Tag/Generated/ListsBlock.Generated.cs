@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lists_block tag block.
     /// </summary>
-    public sealed class ListsBlock : Block
+    internal sealed class ListsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListsBlock"/> class.

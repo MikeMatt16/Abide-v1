@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_material_block tag block.
     /// </summary>
-    public sealed class ModelMaterialBlock : Block
+    internal sealed class ModelMaterialBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMaterialBlock"/> class.

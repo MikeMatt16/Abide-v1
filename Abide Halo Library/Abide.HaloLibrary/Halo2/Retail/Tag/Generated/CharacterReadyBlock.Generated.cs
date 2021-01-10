@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_ready_block tag block.
     /// </summary>
-    public sealed class CharacterReadyBlock : Block
+    internal sealed class CharacterReadyBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterReadyBlock"/> class.

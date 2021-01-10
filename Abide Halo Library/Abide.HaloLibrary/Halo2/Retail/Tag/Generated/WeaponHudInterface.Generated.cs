@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_hud_interface (wphi) tag group.
     /// </summary>
-    public class WeaponHudInterface : Group
+    internal class WeaponHudInterface : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponHudInterface"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_precomputed_lighting_block tag block.
     /// </summary>
-    public sealed class StructureBspPrecomputedLightingBlock : Block
+    internal sealed class StructureBspPrecomputedLightingBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspPrecomputedLightingBlock"/> class.

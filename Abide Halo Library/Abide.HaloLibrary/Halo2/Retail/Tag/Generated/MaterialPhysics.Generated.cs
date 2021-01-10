@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated material_physics (mpdt) tag group.
     /// </summary>
-    public class MaterialPhysics : Group
+    internal class MaterialPhysics : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MaterialPhysics"/> class.

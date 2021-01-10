@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rasterizer_screen_effect_convolution_block tag block.
     /// </summary>
-    public sealed class RasterizerScreenEffectConvolutionBlock : Block
+    internal sealed class RasterizerScreenEffectConvolutionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RasterizerScreenEffectConvolutionBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated decorator_model_indices_block tag block.
     /// </summary>
-    public sealed class DecoratorModelIndicesBlock : Block
+    internal sealed class DecoratorModelIndicesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratorModelIndicesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated inherited_animation_node_map_block tag block.
     /// </summary>
-    public sealed class InheritedAnimationNodeMapBlock : Block
+    internal sealed class InheritedAnimationNodeMapBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InheritedAnimationNodeMapBlock"/> class.

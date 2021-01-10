@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated physics_model (phmo) tag group.
     /// </summary>
-    public class PhysicsModel : Group
+    internal class PhysicsModel : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PhysicsModel"/> class.

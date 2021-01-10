@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_background_sounds_block tag block.
     /// </summary>
-    public sealed class ScenarioClusterBackgroundSoundsBlock : Block
+    internal sealed class ScenarioClusterBackgroundSoundsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterBackgroundSoundsBlock"/> class.

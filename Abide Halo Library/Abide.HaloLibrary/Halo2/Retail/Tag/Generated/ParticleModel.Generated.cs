@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_model (PRTM) tag group.
     /// </summary>
-    public class ParticleModel : Group
+    internal class ParticleModel : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticleModel"/> class.

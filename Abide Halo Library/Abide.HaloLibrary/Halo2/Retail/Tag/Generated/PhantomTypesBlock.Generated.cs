@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated phantom_types_block tag block.
     /// </summary>
-    public sealed class PhantomTypesBlock : Block
+    internal sealed class PhantomTypesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PhantomTypesBlock"/> class.

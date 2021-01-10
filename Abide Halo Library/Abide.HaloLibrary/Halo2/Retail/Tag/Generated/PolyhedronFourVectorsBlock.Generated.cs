@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated polyhedron_four_vectors_block tag block.
     /// </summary>
-    public sealed class PolyhedronFourVectorsBlock : Block
+    internal sealed class PolyhedronFourVectorsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolyhedronFourVectorsBlock"/> class.

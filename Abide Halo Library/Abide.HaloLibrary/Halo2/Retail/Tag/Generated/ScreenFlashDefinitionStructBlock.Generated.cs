@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated screen_flash_definition_struct_block tag block.
     /// </summary>
-    public sealed class ScreenFlashDefinitionStructBlock : Block
+    internal sealed class ScreenFlashDefinitionStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenFlashDefinitionStructBlock"/> class.

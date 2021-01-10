@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated water_geometry_section_block tag block.
     /// </summary>
-    public sealed class WaterGeometrySectionBlock : Block
+    internal sealed class WaterGeometrySectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WaterGeometrySectionBlock"/> class.

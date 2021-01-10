@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_data_block tag block.
     /// </summary>
-    public sealed class ScenarioClusterDataBlock : Block
+    internal sealed class ScenarioClusterDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterDataBlock"/> class.

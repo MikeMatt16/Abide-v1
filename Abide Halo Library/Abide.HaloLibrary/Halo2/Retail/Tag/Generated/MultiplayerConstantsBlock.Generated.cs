@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_constants_block tag block.
     /// </summary>
-    public sealed class MultiplayerConstantsBlock : Block
+    internal sealed class MultiplayerConstantsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerConstantsBlock"/> class.

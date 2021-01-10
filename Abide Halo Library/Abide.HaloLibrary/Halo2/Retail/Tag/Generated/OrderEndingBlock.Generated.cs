@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated order_ending_block tag block.
     /// </summary>
-    public sealed class OrderEndingBlock : Block
+    internal sealed class OrderEndingBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderEndingBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_detail_object_block tag block.
     /// </summary>
-    public sealed class GlobalDetailObjectBlock : Block
+    internal sealed class GlobalDetailObjectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalDetailObjectBlock"/> class.

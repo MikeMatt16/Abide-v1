@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_pass_implementation_block tag block.
     /// </summary>
-    public sealed class ShaderPassImplementationBlock : Block
+    internal sealed class ShaderPassImplementationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPassImplementationBlock"/> class.

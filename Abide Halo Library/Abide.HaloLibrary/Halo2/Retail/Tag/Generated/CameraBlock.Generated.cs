@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated camera_block tag block.
     /// </summary>
-    public sealed class CameraBlock : Block
+    internal sealed class CameraBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraBlock"/> class.

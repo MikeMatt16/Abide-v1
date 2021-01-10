@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated encoded_cluster_distances_block tag block.
     /// </summary>
-    public sealed class EncodedClusterDistancesBlock : Block
+    internal sealed class EncodedClusterDistancesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EncodedClusterDistancesBlock"/> class.

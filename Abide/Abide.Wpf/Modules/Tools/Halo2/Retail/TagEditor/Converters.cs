@@ -1,6 +1,7 @@
 ﻿using Abide.HaloLibrary;
 using Abide.HaloLibrary.Halo2.Retail;
 using Abide.HaloLibrary.Halo2.Retail.Tag;
+using Abide.Tag;
 using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -125,7 +126,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         {
             if (values.Length >= 2 && int.TryParse(values[0].ToString(), out int index) && values[1] is IList<TagOptionViewModel> options)
             {
-                if (options.Count > index)
+                if (index < 0)
+                {
+                    return null;
+                }
+                else if (options.Count > index)
                 {
                     return options[index];
                 }

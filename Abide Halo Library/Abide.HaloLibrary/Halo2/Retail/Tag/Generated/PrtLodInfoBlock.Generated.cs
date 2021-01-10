@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated prt_lod_info_block tag block.
     /// </summary>
-    public sealed class PrtLodInfoBlock : Block
+    internal sealed class PrtLodInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrtLodInfoBlock"/> class.

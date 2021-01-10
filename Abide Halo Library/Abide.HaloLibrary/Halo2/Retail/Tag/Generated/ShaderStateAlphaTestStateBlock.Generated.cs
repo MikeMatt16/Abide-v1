@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_state_alpha_test_state_block tag block.
     /// </summary>
-    public sealed class ShaderStateAlphaTestStateBlock : Block
+    internal sealed class ShaderStateAlphaTestStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderStateAlphaTestStateBlock"/> class.

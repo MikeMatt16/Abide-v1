@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_vocalization_block tag block.
     /// </summary>
-    public sealed class CharacterVocalizationBlock : Block
+    internal sealed class CharacterVocalizationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterVocalizationBlock"/> class.

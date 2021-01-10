@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated damage_effect_block tag block.
     /// </summary>
-    public sealed class DamageEffectBlock : Block
+    internal sealed class DamageEffectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DamageEffectBlock"/> class.

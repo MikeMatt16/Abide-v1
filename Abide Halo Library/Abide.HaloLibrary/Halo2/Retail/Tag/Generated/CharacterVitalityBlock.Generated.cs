@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_vitality_block tag block.
     /// </summary>
-    public sealed class CharacterVitalityBlock : Block
+    internal sealed class CharacterVitalityBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterVitalityBlock"/> class.

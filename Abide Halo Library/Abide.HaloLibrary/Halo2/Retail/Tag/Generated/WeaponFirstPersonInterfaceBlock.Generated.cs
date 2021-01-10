@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_first_person_interface_block tag block.
     /// </summary>
-    public sealed class WeaponFirstPersonInterfaceBlock : Block
+    internal sealed class WeaponFirstPersonInterfaceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponFirstPersonInterfaceBlock"/> class.

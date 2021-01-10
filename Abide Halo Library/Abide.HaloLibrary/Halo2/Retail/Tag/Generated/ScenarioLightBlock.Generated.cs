@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_light_block tag block.
     /// </summary>
-    public sealed class ScenarioLightBlock : Block
+    internal sealed class ScenarioLightBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioLightBlock"/> class.

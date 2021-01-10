@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated new_hud_dashlight_data_struct_block tag block.
     /// </summary>
-    public sealed class NewHudDashlightDataStructBlock : Block
+    internal sealed class NewHudDashlightDataStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NewHudDashlightDataStructBlock"/> class.

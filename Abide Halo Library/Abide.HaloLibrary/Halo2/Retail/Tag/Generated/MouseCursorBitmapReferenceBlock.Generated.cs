@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated mouse_cursor_bitmap_reference_block tag block.
     /// </summary>
-    public sealed class MouseCursorBitmapReferenceBlock : Block
+    internal sealed class MouseCursorBitmapReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseCursorBitmapReferenceBlock"/> class.

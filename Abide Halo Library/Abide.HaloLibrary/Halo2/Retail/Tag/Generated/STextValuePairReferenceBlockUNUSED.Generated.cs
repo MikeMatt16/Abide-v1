@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated s_text_value_pair_reference_block_UNUSED tag block.
     /// </summary>
-    public sealed class STextValuePairReferenceBlockUNUSED : Block
+    internal sealed class STextValuePairReferenceBlockUNUSED : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="STextValuePairReferenceBlockUNUSED"/> class.

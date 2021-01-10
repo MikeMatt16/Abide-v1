@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_effect_template (&lt;fx&gt;) tag group.
     /// </summary>
-    public class SoundEffectTemplate : Group
+    internal class SoundEffectTemplate : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundEffectTemplate"/> class.

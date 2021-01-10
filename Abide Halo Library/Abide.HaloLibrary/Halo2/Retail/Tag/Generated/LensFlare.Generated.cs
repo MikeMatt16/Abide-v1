@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lens_flare (lens) tag group.
     /// </summary>
-    public class LensFlare : Group
+    internal class LensFlare : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LensFlare"/> class.

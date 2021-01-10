@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_permutation_chunk_block tag block.
     /// </summary>
-    public sealed class SoundPermutationChunkBlock : Block
+    internal sealed class SoundPermutationChunkBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPermutationChunkBlock"/> class.

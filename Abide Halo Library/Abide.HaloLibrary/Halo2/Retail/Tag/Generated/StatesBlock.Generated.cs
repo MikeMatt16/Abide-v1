@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated states_block tag block.
     /// </summary>
-    public sealed class StatesBlock : Block
+    internal sealed class StatesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StatesBlock"/> class.

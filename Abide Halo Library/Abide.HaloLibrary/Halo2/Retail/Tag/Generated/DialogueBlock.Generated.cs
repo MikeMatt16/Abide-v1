@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated dialogue_block tag block.
     /// </summary>
-    public sealed class DialogueBlock : Block
+    internal sealed class DialogueBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogueBlock"/> class.

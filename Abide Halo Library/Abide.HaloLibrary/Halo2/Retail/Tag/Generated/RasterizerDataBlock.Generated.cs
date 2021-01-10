@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated rasterizer_data_block tag block.
     /// </summary>
-    public sealed class RasterizerDataBlock : Block
+    internal sealed class RasterizerDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RasterizerDataBlock"/> class.

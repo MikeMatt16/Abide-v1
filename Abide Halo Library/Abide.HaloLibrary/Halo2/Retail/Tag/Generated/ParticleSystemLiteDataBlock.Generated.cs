@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_system_lite_data_block tag block.
     /// </summary>
-    public sealed class ParticleSystemLiteDataBlock : Block
+    internal sealed class ParticleSystemLiteDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticleSystemLiteDataBlock"/> class.

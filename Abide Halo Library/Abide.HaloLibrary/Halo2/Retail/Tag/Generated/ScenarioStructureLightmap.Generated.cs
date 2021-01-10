@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_lightmap (ltmp) tag group.
     /// </summary>
-    public class ScenarioStructureLightmap : Group
+    internal class ScenarioStructureLightmap : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureLightmap"/> class.

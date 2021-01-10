@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_seat_acceleration_struct_block tag block.
     /// </summary>
-    public sealed class UnitSeatAccelerationStructBlock : Block
+    internal sealed class UnitSeatAccelerationStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitSeatAccelerationStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_ai_resource (ai**) tag group.
     /// </summary>
-    public class ScenarioAiResource : Group
+    internal class ScenarioAiResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioAiResource"/> class.

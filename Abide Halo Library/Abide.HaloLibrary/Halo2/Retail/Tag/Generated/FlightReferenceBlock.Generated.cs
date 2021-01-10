@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated flight_reference_block tag block.
     /// </summary>
-    public sealed class FlightReferenceBlock : Block
+    internal sealed class FlightReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FlightReferenceBlock"/> class.

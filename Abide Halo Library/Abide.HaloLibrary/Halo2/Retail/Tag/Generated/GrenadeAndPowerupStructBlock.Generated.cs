@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated grenade_and_powerup_struct_block tag block.
     /// </summary>
-    public sealed class GrenadeAndPowerupStructBlock : Block
+    internal sealed class GrenadeAndPowerupStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GrenadeAndPowerupStructBlock"/> class.

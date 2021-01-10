@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_cache_file_gestalt (ugh!) tag group.
     /// </summary>
-    public class SoundCacheFileGestalt : Group
+    internal class SoundCacheFileGestalt : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundCacheFileGestalt"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cloth_vertices_block tag block.
     /// </summary>
-    public sealed class ClothVerticesBlock : Block
+    internal sealed class ClothVerticesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClothVerticesBlock"/> class.

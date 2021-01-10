@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated model_target_block tag block.
     /// </summary>
-    public sealed class ModelTargetBlock : Block
+    internal sealed class ModelTargetBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelTargetBlock"/> class.

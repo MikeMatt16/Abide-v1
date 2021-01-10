@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated crate_block tag block.
     /// </summary>
-    public sealed class CrateBlock : Block
+    internal sealed class CrateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CrateBlock"/> class.

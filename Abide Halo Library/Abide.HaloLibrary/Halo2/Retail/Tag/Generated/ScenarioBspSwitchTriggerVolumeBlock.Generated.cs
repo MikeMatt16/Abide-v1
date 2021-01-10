@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_bsp_switch_trigger_volume_block tag block.
     /// </summary>
-    public sealed class ScenarioBspSwitchTriggerVolumeBlock : Block
+    internal sealed class ScenarioBspSwitchTriggerVolumeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioBspSwitchTriggerVolumeBlock"/> class.

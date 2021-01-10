@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shape_group_reference_block tag block.
     /// </summary>
-    public sealed class ShapeGroupReferenceBlock : Block
+    internal sealed class ShapeGroupReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeGroupReferenceBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated barrel_firing_effect_block tag block.
     /// </summary>
-    public sealed class BarrelFiringEffectBlock : Block
+    internal sealed class BarrelFiringEffectBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BarrelFiringEffectBlock"/> class.

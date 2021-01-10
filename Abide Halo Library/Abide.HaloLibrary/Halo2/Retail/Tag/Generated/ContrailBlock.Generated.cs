@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated contrail_block tag block.
     /// </summary>
-    public sealed class ContrailBlock : Block
+    internal sealed class ContrailBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ContrailBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated particle_property_scalar_struct_new_block tag block.
     /// </summary>
-    public sealed class ParticlePropertyScalarStructNewBlock : Block
+    internal sealed class ParticlePropertyScalarStructNewBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParticlePropertyScalarStructNewBlock"/> class.

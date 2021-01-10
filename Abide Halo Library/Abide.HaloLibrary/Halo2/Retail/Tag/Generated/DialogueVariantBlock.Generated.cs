@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated dialogue_variant_block tag block.
     /// </summary>
-    public sealed class DialogueVariantBlock : Block
+    internal sealed class DialogueVariantBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogueVariantBlock"/> class.

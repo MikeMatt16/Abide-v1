@@ -11,7 +11,7 @@ namespace Abide.Ifp
     /// Represents a single node in the IFP document.
     /// </summary>
     [Serializable]
-    public sealed class IfpNode
+    public class IfpNode
     {
         /// <summary>
         /// Gets or sets the name of the node.
@@ -296,6 +296,7 @@ namespace Abide.Ifp
     /// <summary>
     /// Represents a collection if <see cref="IfpNode"/> elements that can be accessed by an index.
     /// </summary>
+    [Serializable]
     public sealed class IfpNodeCollection : ICollection<IfpNode>, IList<IfpNode>, IEnumerable<IfpNode>
     {
         /// <summary>
@@ -548,9 +549,5 @@ namespace Abide.Ifp
         /// Represents a 32-bit String ID value.
         /// </summary>
         StringId,
-        /// <summary>
-        /// Represents an unused data section.
-        /// </summary>
-        Unused
     }
 }

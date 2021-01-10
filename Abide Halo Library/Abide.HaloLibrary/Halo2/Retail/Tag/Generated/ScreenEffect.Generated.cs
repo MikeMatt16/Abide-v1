@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated screen_effect (egor) tag group.
     /// </summary>
-    public class ScreenEffect : Group
+    internal class ScreenEffect : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenEffect"/> class.

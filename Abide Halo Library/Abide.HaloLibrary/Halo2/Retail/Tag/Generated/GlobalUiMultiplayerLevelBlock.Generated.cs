@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_ui_multiplayer_level_block tag block.
     /// </summary>
-    public sealed class GlobalUiMultiplayerLevelBlock : Block
+    internal sealed class GlobalUiMultiplayerLevelBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalUiMultiplayerLevelBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_sound_cluster_interior_cluster_indices tag block.
     /// </summary>
-    public sealed class StructureSoundClusterInteriorClusterIndices : Block
+    internal sealed class StructureSoundClusterInteriorClusterIndices : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureSoundClusterInteriorClusterIndices"/> class.

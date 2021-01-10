@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_fake_lightprobes_block tag block.
     /// </summary>
-    public sealed class StructureBspFakeLightprobesBlock : Block
+    internal sealed class StructureBspFakeLightprobesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspFakeLightprobesBlock"/> class.

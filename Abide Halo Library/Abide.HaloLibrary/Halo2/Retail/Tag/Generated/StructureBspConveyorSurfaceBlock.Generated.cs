@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_conveyor_surface_block tag block.
     /// </summary>
-    public sealed class StructureBspConveyorSurfaceBlock : Block
+    internal sealed class StructureBspConveyorSurfaceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspConveyorSurfaceBlock"/> class.

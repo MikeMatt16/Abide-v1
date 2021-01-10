@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_texture_state_misc_state_block tag block.
     /// </summary>
-    public sealed class ShaderTextureStateMiscStateBlock : Block
+    internal sealed class ShaderTextureStateMiscStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderTextureStateMiscStateBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_swarm_block tag block.
     /// </summary>
-    public sealed class CharacterSwarmBlock : Block
+    internal sealed class CharacterSwarmBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterSwarmBlock"/> class.

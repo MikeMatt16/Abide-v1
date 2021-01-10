@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_permutation_dialogue_info_block tag block.
     /// </summary>
-    public sealed class SoundPermutationDialogueInfoBlock : Block
+    internal sealed class SoundPermutationDialogueInfoBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPermutationDialogueInfoBlock"/> class.

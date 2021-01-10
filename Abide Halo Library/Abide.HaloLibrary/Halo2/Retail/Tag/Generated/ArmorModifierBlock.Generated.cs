@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated armor_modifier_block tag block.
     /// </summary>
-    public sealed class ArmorModifierBlock : Block
+    internal sealed class ArmorModifierBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmorModifierBlock"/> class.

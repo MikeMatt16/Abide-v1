@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_light_response_block tag block.
     /// </summary>
-    public sealed class ShaderLightResponseBlock : Block
+    internal sealed class ShaderLightResponseBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderLightResponseBlock"/> class.

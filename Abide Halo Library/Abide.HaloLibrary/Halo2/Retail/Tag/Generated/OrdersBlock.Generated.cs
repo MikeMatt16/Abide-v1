@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated orders_block tag block.
     /// </summary>
-    public sealed class OrdersBlock : Block
+    internal sealed class OrdersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdersBlock"/> class.

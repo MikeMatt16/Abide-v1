@@ -47,12 +47,6 @@ namespace Abide.Wpf.Modules.Win32
         {
             get
             {
-                //Default
-                for (int i = 0; i < 10; i++)
-                {
-                    SetDefault(halo2, "Recent Files", i.ToString(), string.Empty);
-                }
-
                 List<string> files = new List<string>();
                 for (int i = 0; i < 10; i++)
                 {
@@ -62,7 +56,6 @@ namespace Abide.Wpf.Modules.Win32
                     }
                 }
 
-                //Return
                 return files.ToArray();
             }
             set
@@ -88,6 +81,47 @@ namespace Abide.Wpf.Modules.Win32
                 return GetValue<string>(halo2, "Paths", "Plugins");
             }
             set => SetValue(halo2, "Paths", "Plugins", value);
+        }
+        public static Tuple<string, string>[] Halo2PluginSets
+        {
+            get
+            {
+                List<Tuple<string, string>> sets = new List<Tuple<string, string>>();
+                using (RegistryKey key = halo2.CreateSubKey("Plugin Sets"))
+                {
+                    foreach (string name in key.GetValueNames())
+                    {
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            continue;
+                        }
+
+                        sets.Add(new Tuple<string, string>(name, key.GetValue(name)?.ToString() ?? string.Empty));
+                    }
+                }
+
+                return sets.ToArray();
+            }
+            set
+            {
+                using (RegistryKey key = halo2.CreateSubKey("Plugin Sets"))
+                {
+                    foreach (string valueName in key.GetValueNames())
+                    {
+                        if (string.IsNullOrEmpty(valueName))
+                        {
+                            continue;
+                        }
+
+                        key.DeleteValue(valueName);
+                    }
+
+                    foreach (Tuple<string, string> set in value)
+                    {
+                        key.SetValue(set.Item1, set.Item2);
+                    }
+                }
+            }
         }
         public static string Halo2Shared
         {
@@ -161,6 +195,47 @@ namespace Abide.Wpf.Modules.Win32
                 return GetValue<string>(halo2b, "Paths", "Plugins");
             }
             set => SetValue(halo2b, "Paths", "Plugins", value);
+        }
+        public static Tuple<string, string>[] Halo2bPluginSets
+        {
+            get
+            {
+                List<Tuple<string, string>> sets = new List<Tuple<string, string>>();
+                using (RegistryKey key = halo2b.CreateSubKey("Plugin Sets"))
+                {
+                    foreach (string name in key.GetValueNames())
+                    {
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            continue;
+                        }
+
+                        sets.Add(new Tuple<string, string>(name, key.GetValue(name)?.ToString() ?? string.Empty));
+                    }
+                }
+
+                return sets.ToArray();
+            }
+            set
+            {
+                using (RegistryKey key = halo2b.CreateSubKey("Plugin Sets"))
+                {
+                    foreach (string valueName in key.GetValueNames())
+                    {
+                        if (string.IsNullOrEmpty(valueName))
+                        {
+                            continue;
+                        }
+
+                        key.DeleteValue(valueName);
+                    }
+
+                    foreach (Tuple<string, string> set in value)
+                    {
+                        key.SetValue(set.Item1, set.Item2);
+                    }
+                }
+            }
         }
         public static string Halo2bShared
         {

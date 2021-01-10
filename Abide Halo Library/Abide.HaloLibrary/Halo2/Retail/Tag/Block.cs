@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Abide.HaloLibrary.Halo2.Retail.Tag
 {
-    public class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>
+    internal class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>
     {
         public List<Field> Fields { get; } = new List<Field>();
         public int Size => GetBlockSize();

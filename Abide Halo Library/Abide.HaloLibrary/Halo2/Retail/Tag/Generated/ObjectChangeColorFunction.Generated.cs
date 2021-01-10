@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_change_color_function tag block.
     /// </summary>
-    public sealed class ObjectChangeColorFunction : Block
+    internal sealed class ObjectChangeColorFunction : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectChangeColorFunction"/> class.

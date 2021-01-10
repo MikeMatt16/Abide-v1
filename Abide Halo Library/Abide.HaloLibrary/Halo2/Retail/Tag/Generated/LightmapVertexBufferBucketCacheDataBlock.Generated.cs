@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_vertex_buffer_bucket_cache_data_block tag block.
     /// </summary>
-    public sealed class LightmapVertexBufferBucketCacheDataBlock : Block
+    internal sealed class LightmapVertexBufferBucketCacheDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapVertexBufferBucketCacheDataBlock"/> class.

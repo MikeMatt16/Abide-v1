@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cloth_properties_block tag block.
     /// </summary>
-    public sealed class ClothPropertiesBlock : Block
+    internal sealed class ClothPropertiesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClothPropertiesBlock"/> class.

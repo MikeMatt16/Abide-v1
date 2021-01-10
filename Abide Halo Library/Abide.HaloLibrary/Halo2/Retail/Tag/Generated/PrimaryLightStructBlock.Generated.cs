@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated primary_light_struct_block tag block.
     /// </summary>
-    public sealed class PrimaryLightStructBlock : Block
+    internal sealed class PrimaryLightStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrimaryLightStructBlock"/> class.

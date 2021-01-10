@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated light_volume_runtime_offset_block tag block.
     /// </summary>
-    public sealed class LightVolumeRuntimeOffsetBlock : Block
+    internal sealed class LightVolumeRuntimeOffsetBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightVolumeRuntimeOffsetBlock"/> class.

@@ -17,14 +17,14 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_interface_screen_widget_definition_block tag block.
     /// </summary>
-    public sealed class UserInterfaceScreenWidgetDefinitionBlock : Block
+    internal sealed class UserInterfaceScreenWidgetDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInterfaceScreenWidgetDefinitionBlock"/> class.
         /// </summary>
         public UserInterfaceScreenWidgetDefinitionBlock()
         {
-            this.Fields.Add(new ExplanationField("Notes on screen widgets:", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
+            this.Fields.Add(new ExplanationField("Notes on screen widgets", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
   with the origin centered in the display (regardless of display size)
 - for widget component placement, all coordinates you define in the tag specifiy the object's
   placement prior to the application of any animation

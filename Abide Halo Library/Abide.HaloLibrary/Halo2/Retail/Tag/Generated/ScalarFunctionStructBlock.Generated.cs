@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scalar_function_struct_block tag block.
     /// </summary>
-    public sealed class ScalarFunctionStructBlock : Block
+    internal sealed class ScalarFunctionStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScalarFunctionStructBlock"/> class.

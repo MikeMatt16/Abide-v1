@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated platform_sound_playback_struct_block tag block.
     /// </summary>
-    public sealed class PlatformSoundPlaybackStructBlock : Block
+    internal sealed class PlatformSoundPlaybackStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlatformSoundPlaybackStructBlock"/> class.

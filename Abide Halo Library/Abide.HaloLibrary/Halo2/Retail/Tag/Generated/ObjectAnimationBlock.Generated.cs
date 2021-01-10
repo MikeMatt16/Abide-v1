@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object_animation_block tag block.
     /// </summary>
-    public sealed class ObjectAnimationBlock : Block
+    internal sealed class ObjectAnimationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectAnimationBlock"/> class.

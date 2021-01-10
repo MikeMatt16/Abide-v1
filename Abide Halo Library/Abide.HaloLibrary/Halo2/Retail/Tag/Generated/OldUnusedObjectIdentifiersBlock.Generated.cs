@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated old_unused_object_identifiers_block tag block.
     /// </summary>
-    public sealed class OldUnusedObjectIdentifiersBlock : Block
+    internal sealed class OldUnusedObjectIdentifiersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OldUnusedObjectIdentifiersBlock"/> class.

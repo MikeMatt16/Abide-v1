@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated breakable_surface_key_table_block tag block.
     /// </summary>
-    public sealed class BreakableSurfaceKeyTableBlock : Block
+    internal sealed class BreakableSurfaceKeyTableBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BreakableSurfaceKeyTableBlock"/> class.

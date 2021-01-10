@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated local_bitmap_reference_block tag block.
     /// </summary>
-    public sealed class LocalBitmapReferenceBlock : Block
+    internal sealed class LocalBitmapReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalBitmapReferenceBlock"/> class.

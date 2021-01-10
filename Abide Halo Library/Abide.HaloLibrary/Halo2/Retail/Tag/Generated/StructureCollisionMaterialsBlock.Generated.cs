@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_collision_materials_block tag block.
     /// </summary>
-    public sealed class StructureCollisionMaterialsBlock : Block
+    internal sealed class StructureCollisionMaterialsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureCollisionMaterialsBlock"/> class.

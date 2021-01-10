@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated object (obje) tag group.
     /// </summary>
-    public class Object : Group
+    internal class Object : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Object"/> class.

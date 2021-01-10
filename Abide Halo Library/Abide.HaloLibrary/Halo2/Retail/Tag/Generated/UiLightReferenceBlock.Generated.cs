@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ui_light_reference_block tag block.
     /// </summary>
-    public sealed class UiLightReferenceBlock : Block
+    internal sealed class UiLightReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UiLightReferenceBlock"/> class.

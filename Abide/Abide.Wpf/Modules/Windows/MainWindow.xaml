@@ -19,6 +19,8 @@
     </ui:GlowWindowHost.DataContext>
     <ui:GlowWindowHost.Resources>
         <vm:OperationsStatusConverter x:Key="opStatusConverter"/>
+        <vm:WindowStateToVisibilityConverter x:Key="windowStateToVisibility"/>
+        <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
         
         <DataTemplate x:Key="FileTabItemTemplate" DataType="{x:Type vm:FileItem}">
             <Grid>
@@ -147,14 +149,82 @@
             </Button>
         </Grid>
 
-        <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource ActiveGlowBrush}">
+        <ToolBarPanel DockPanel.Dock="Top">
+            <ToolBar>
+                <ComboBox ItemsSource="{Binding Xboxes}" SelectedItem="{Binding SelectedXbox, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Content="Refresh" Command="{Binding RefreshXboxesCommand}"/>
+            </ToolBar>
+        </ToolBarPanel>
+        <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource ActiveGlowBrush}" Height="23">
             <StatusBar.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="White"/>
                 </Style>
             </StatusBar.Resources>
 
-            <TextBlock Text="{Binding PrimaryOperation, Mode=OneWay, Converter={StaticResource opStatusConverter}}"/>
+            <Grid>
+                <ToggleButton Width="23" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" Name="backgroundTasksToggleButton" Focusable="False">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter Property="OverridesDefaultStyle" Value="True"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="border" Background="Transparent">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger SourceName="border" Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource ActiveAccentHighlight}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource ActiveAccentPressed}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                    <Path Data="M 0 4 L 6 0 L 12 4" Fill="Transparent" Stroke="White"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </ToggleButton>
+                <Popup x:Name="Popup" Placement="Top" IsOpen="{Binding ElementName=backgroundTasksToggleButton, Path=IsChecked, Mode=TwoWay}"
+                       AllowsTransparency="True" Focusable="False" PopupAnimation="None">
+                    <ItemsControl ItemsSource="{Binding BackgroundOperations}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="10"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding Status}"/>
+                                    <ProgressBar Grid.Row="1" Maximum="{Binding Maximum}" Value="{Binding Progress}" Margin="3"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Popup>
+            </Grid>
+            <StatusBarItem>
+                <TextBlock Text="{Binding PrimaryOperation.Status, Mode=OneWay, Converter={StaticResource opStatusConverter}}"/>
+            </StatusBarItem>
+            <StatusBarItem/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <ProgressBar Maximum="{Binding ProgressBar.Maximum}" Visibility="{Binding ProgressBar.Visible, Converter={StaticResource boolToVisibility}}"
+                                 Value="{Binding ProgressBar.Value}" Width="100" Height="15"/>
+                    <ResizeGrip Visibility="{Binding ElementName=glowWindowHost, Path=WindowState, Converter={StaticResource windowStateToVisibility}}"/>
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
 
         <TabControl ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"

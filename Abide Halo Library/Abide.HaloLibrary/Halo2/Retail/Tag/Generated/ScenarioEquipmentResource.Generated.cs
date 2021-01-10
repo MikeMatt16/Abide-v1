@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_equipment_resource (*qip) tag group.
     /// </summary>
-    public class ScenarioEquipmentResource : Group
+    internal class ScenarioEquipmentResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioEquipmentResource"/> class.

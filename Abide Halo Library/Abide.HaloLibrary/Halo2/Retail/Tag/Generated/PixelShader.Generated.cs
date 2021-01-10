@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated pixel_shader (pixl) tag group.
     /// </summary>
-    public class PixelShader : Group
+    internal class PixelShader : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PixelShader"/> class.

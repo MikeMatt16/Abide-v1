@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_gestalt_permutations_block tag block.
     /// </summary>
-    public sealed class SoundGestaltPermutationsBlock : Block
+    internal sealed class SoundGestaltPermutationsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundGestaltPermutationsBlock"/> class.

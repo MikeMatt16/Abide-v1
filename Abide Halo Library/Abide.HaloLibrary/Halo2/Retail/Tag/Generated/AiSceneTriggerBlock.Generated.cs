@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_scene_trigger_block tag block.
     /// </summary>
-    public sealed class AiSceneTriggerBlock : Block
+    internal sealed class AiSceneTriggerBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiSceneTriggerBlock"/> class.

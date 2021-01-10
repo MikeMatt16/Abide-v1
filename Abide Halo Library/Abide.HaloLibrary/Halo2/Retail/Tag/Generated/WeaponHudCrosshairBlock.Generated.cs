@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_hud_crosshair_block tag block.
     /// </summary>
-    public sealed class WeaponHudCrosshairBlock : Block
+    internal sealed class WeaponHudCrosshairBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponHudCrosshairBlock"/> class.

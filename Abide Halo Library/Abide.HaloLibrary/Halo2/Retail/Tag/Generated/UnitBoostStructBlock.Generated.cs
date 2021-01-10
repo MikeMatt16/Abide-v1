@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_boost_struct_block tag block.
     /// </summary>
-    public sealed class UnitBoostStructBlock : Block
+    internal sealed class UnitBoostStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitBoostStructBlock"/> class.

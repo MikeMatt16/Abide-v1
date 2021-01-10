@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_mode_block tag block.
     /// </summary>
-    public sealed class AnimationModeBlock : Block
+    internal sealed class AnimationModeBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationModeBlock"/> class.

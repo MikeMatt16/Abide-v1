@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated device_block tag block.
     /// </summary>
-    public sealed class DeviceBlock : Block
+    internal sealed class DeviceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated instantaneous_damage_repsonse_block tag block.
     /// </summary>
-    public sealed class InstantaneousDamageRepsonseBlock : Block
+    internal sealed class InstantaneousDamageRepsonseBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InstantaneousDamageRepsonseBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated melee_damage_parameters_struct_block tag block.
     /// </summary>
-    public sealed class MeleeDamageParametersStructBlock : Block
+    internal sealed class MeleeDamageParametersStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MeleeDamageParametersStructBlock"/> class.

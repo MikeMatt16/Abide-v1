@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ui_error_category_block tag block.
     /// </summary>
-    public sealed class UiErrorCategoryBlock : Block
+    internal sealed class UiErrorCategoryBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UiErrorCategoryBlock"/> class.

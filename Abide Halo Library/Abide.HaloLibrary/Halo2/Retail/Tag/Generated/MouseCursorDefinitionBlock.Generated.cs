@@ -17,14 +17,14 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated mouse_cursor_definition_block tag block.
     /// </summary>
-    public sealed class MouseCursorDefinitionBlock : Block
+    internal sealed class MouseCursorDefinitionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseCursorDefinitionBlock"/> class.
         /// </summary>
         public MouseCursorDefinitionBlock()
         {
-            this.Fields.Add(new ExplanationField("Mouse Cursor Bitmaps:", "0 - Normal mouse cursor\n1 - Busy mouse cursor\n2 - Hover mouse cursor\n3 - Text sel" +
+            this.Fields.Add(new ExplanationField("Mouse Cursor Bitmaps", "0 - Normal mouse cursor\n1 - Busy mouse cursor\n2 - Hover mouse cursor\n3 - Text sel" +
                         "ect mouse cursor\n"));
             this.Fields.Add(new BlockField<MouseCursorBitmapReferenceBlock>("mouse cursor bitmaps", 4));
             this.Fields.Add(new RealField("animation speed (fps)"));

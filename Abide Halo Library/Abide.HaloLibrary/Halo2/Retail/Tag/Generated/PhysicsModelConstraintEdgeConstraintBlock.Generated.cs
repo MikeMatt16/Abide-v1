@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated physics_model_constraint_edge_constraint_block tag block.
     /// </summary>
-    public sealed class PhysicsModelConstraintEdgeConstraintBlock : Block
+    internal sealed class PhysicsModelConstraintEdgeConstraintBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PhysicsModelConstraintEdgeConstraintBlock"/> class.

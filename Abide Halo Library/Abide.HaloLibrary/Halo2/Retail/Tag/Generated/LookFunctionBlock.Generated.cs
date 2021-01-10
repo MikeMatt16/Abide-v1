@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated look_function_block tag block.
     /// </summary>
-    public sealed class LookFunctionBlock : Block
+    internal sealed class LookFunctionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LookFunctionBlock"/> class.

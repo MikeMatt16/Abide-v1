@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated device_machine (mach) tag group.
     /// </summary>
-    public class DeviceMachine : Group
+    internal class DeviceMachine : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceMachine"/> class.

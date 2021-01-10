@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_effect_override_parameters_block tag block.
     /// </summary>
-    public sealed class SoundEffectOverrideParametersBlock : Block
+    internal sealed class SoundEffectOverrideParametersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundEffectOverrideParametersBlock"/> class.

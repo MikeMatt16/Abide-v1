@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated structure_bsp_weather_palette_block tag block.
     /// </summary>
-    public sealed class StructureBspWeatherPaletteBlock : Block
+    internal sealed class StructureBspWeatherPaletteBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureBspWeatherPaletteBlock"/> class.

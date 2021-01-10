@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_promotion_rule_block tag block.
     /// </summary>
-    public sealed class SoundPromotionRuleBlock : Block
+    internal sealed class SoundPromotionRuleBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundPromotionRuleBlock"/> class.

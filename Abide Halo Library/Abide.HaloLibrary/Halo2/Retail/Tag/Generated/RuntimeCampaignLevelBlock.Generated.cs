@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated runtime_campaign_level_block tag block.
     /// </summary>
-    public sealed class RuntimeCampaignLevelBlock : Block
+    internal sealed class RuntimeCampaignLevelBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RuntimeCampaignLevelBlock"/> class.

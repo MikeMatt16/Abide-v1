@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_ui_campaign_level_block tag block.
     /// </summary>
-    public sealed class GlobalUiCampaignLevelBlock : Block
+    internal sealed class GlobalUiCampaignLevelBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalUiCampaignLevelBlock"/> class.

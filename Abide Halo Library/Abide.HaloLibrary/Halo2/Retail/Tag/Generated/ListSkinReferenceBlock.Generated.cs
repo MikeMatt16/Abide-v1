@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated list_skin_reference_block tag block.
     /// </summary>
-    public sealed class ListSkinReferenceBlock : Block
+    internal sealed class ListSkinReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListSkinReferenceBlock"/> class.

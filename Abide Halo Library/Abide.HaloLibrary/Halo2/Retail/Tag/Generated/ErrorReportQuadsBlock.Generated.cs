@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated error_report_quads_block tag block.
     /// </summary>
-    public sealed class ErrorReportQuadsBlock : Block
+    internal sealed class ErrorReportQuadsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorReportQuadsBlock"/> class.

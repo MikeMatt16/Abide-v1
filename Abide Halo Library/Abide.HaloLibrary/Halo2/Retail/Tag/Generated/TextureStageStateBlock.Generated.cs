@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated texture_stage_state_block tag block.
     /// </summary>
-    public sealed class TextureStageStateBlock : Block
+    internal sealed class TextureStageStateBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextureStageStateBlock"/> class.

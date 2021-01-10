@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated user_hint_parallelogram_block tag block.
     /// </summary>
-    public sealed class UserHintParallelogramBlock : Block
+    internal sealed class UserHintParallelogramBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserHintParallelogramBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_weapon_block tag block.
     /// </summary>
-    public sealed class UnitWeaponBlock : Block
+    internal sealed class UnitWeaponBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitWeaponBlock"/> class.

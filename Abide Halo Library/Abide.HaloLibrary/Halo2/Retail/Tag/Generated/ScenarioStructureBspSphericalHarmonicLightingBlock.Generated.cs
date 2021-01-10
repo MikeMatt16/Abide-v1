@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_bsp_spherical_harmonic_lighting_block tag block.
     /// </summary>
-    public sealed class ScenarioStructureBspSphericalHarmonicLightingBlock : Block
+    internal sealed class ScenarioStructureBspSphericalHarmonicLightingBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureBspSphericalHarmonicLightingBlock"/> class.

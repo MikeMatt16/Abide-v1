@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated torque_curve_struct_block tag block.
     /// </summary>
-    public sealed class TorqueCurveStructBlock : Block
+    internal sealed class TorqueCurveStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TorqueCurveStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated old_materials_block tag block.
     /// </summary>
-    public sealed class OldMaterialsBlock : Block
+    internal sealed class OldMaterialsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OldMaterialsBlock"/> class.

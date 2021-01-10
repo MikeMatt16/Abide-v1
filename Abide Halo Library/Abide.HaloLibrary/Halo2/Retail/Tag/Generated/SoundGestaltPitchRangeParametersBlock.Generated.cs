@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_gestalt_pitch_range_parameters_block tag block.
     /// </summary>
-    public sealed class SoundGestaltPitchRangeParametersBlock : Block
+    internal sealed class SoundGestaltPitchRangeParametersBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundGestaltPitchRangeParametersBlock"/> class.

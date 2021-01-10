@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated contact_point_block tag block.
     /// </summary>
-    public sealed class ContactPointBlock : Block
+    internal sealed class ContactPointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactPointBlock"/> class.

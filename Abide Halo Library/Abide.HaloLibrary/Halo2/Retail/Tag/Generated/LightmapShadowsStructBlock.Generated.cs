@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lightmap_shadows_struct_block tag block.
     /// </summary>
-    public sealed class LightmapShadowsStructBlock : Block
+    internal sealed class LightmapShadowsStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightmapShadowsStructBlock"/> class.

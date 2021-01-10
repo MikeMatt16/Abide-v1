@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated xbox_unknown_animation_block tag block.
     /// </summary>
-    public sealed class XboxUnknownAnimationBlock : Block
+    internal sealed class XboxUnknownAnimationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XboxUnknownAnimationBlock"/> class.

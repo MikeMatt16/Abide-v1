@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated looping_sound_track_block tag block.
     /// </summary>
-    public sealed class LoopingSoundTrackBlock : Block
+    internal sealed class LoopingSoundTrackBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LoopingSoundTrackBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated node_render_leaves_block tag block.
     /// </summary>
-    public sealed class NodeRenderLeavesBlock : Block
+    internal sealed class NodeRenderLeavesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeRenderLeavesBlock"/> class.

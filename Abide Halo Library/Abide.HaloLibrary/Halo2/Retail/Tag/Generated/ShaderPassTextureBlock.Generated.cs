@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated shader_pass_texture_block tag block.
     /// </summary>
-    public sealed class ShaderPassTextureBlock : Block
+    internal sealed class ShaderPassTextureBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShaderPassTextureBlock"/> class.

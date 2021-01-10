@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_dialogue_constants (spk!) tag group.
     /// </summary>
-    public class SoundDialogueConstants : Group
+    internal class SoundDialogueConstants : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundDialogueConstants"/> class.

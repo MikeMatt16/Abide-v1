@@ -26,8 +26,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
 
         private void Click(object obj)
         {
-            Dictionary<HaloTag, ITagGroup> tagDictionary = new Dictionary<HaloTag, ITagGroup>();
-            ITagGroup soundCacheFileGestaltTagGroup = null;
+            Dictionary<HaloTag, Group> tagDictionary = new Dictionary<HaloTag, Group>();
+            Group soundCacheFileGestaltTagGroup = null;
 
             if (SelectedEntry != null)
             {
@@ -114,7 +114,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 }
             }
         }
-        private void FindAllReferences(HaloTag tag, Dictionary<HaloTag, ITagGroup> tags)
+        private void FindAllReferences(HaloTag tag, Dictionary<HaloTag, Group> tags)
         {
             if (!tags.ContainsKey(tag))
             {
@@ -129,14 +129,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 }
             }
         }
-        private void FindAllReferences(ITagGroup tagGroup, Dictionary<HaloTag, ITagGroup> tags)
+        private void FindAllReferences(Group tagGroup, Dictionary<HaloTag, Group> tags)
         {
             foreach (var tagBlock in tagGroup)
             {
                 FindAllReferences(tagBlock, tags);
             }
         }
-        private void FindAllReferences(ITagBlock tagBlock, Dictionary<HaloTag, ITagGroup> tags)
+        private void FindAllReferences(Block tagBlock, Dictionary<HaloTag, Group> tags)
         {
             HaloTag tag;
             foreach (var field in tagBlock)

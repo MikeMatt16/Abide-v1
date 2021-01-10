@@ -10,6 +10,8 @@ namespace Abide.Ifp
     [Serializable]
     public sealed class IfpDocument
     {
+        private IfpNode main;
+
         /// <summary>
         /// Gets and returns the plugin node.
         /// </summary>
@@ -17,8 +19,6 @@ namespace Abide.Ifp
         {
             get { return main; }
         }
-
-        private IfpNode main;
 
         /// <summary>
         /// Initializes a new <see cref="IfpDocument"/> instance.
@@ -28,7 +28,6 @@ namespace Abide.Ifp
             //Setup
             main = new IfpNode();
         }
-
         /// <summary>
         /// Loads the IFP document from the specified URL.
         /// </summary>

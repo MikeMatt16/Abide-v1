@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated extern_reference_block tag block.
     /// </summary>
-    public sealed class ExternReferenceBlock : Block
+    internal sealed class ExternReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternReferenceBlock"/> class.

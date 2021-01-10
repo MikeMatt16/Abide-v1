@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated cloth_links_block tag block.
     /// </summary>
-    public sealed class ClothLinksBlock : Block
+    internal sealed class ClothLinksBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClothLinksBlock"/> class.

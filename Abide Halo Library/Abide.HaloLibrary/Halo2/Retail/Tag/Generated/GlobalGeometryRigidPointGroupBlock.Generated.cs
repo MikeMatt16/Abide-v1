@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_geometry_rigid_point_group_block tag block.
     /// </summary>
-    public sealed class GlobalGeometryRigidPointGroupBlock : Block
+    internal sealed class GlobalGeometryRigidPointGroupBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalGeometryRigidPointGroupBlock"/> class.

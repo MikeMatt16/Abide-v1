@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated triangles_block tag block.
     /// </summary>
-    public sealed class TrianglesBlock : Block
+    internal sealed class TrianglesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TrianglesBlock"/> class.

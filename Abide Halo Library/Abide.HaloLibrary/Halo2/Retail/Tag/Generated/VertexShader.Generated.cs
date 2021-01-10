@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated vertex_shader (vrtx) tag group.
     /// </summary>
-    public class VertexShader : Group
+    internal class VertexShader : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VertexShader"/> class.

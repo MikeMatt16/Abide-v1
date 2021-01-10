@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_pool_block tag block.
     /// </summary>
-    public sealed class AnimationPoolBlock : Block
+    internal sealed class AnimationPoolBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationPoolBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated ai_conversation_line_block tag block.
     /// </summary>
-    public sealed class AiConversationLineBlock : Block
+    internal sealed class AiConversationLineBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AiConversationLineBlock"/> class.

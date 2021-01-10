@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated render_model_permutation_block tag block.
     /// </summary>
-    public sealed class RenderModelPermutationBlock : Block
+    internal sealed class RenderModelPermutationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderModelPermutationBlock"/> class.

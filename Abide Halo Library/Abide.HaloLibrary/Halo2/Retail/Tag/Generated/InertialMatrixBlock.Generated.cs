@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated inertial_matrix_block tag block.
     /// </summary>
-    public sealed class InertialMatrixBlock : Block
+    internal sealed class InertialMatrixBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InertialMatrixBlock"/> class.

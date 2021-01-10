@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_waypoint_block tag block.
     /// </summary>
-    public sealed class HudWaypointBlock : Block
+    internal sealed class HudWaypointBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudWaypointBlock"/> class.

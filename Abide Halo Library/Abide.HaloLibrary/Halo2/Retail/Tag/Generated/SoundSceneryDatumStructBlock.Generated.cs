@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_scenery_datum_struct_block tag block.
     /// </summary>
-    public sealed class SoundSceneryDatumStructBlock : Block
+    internal sealed class SoundSceneryDatumStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundSceneryDatumStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated platform_sound_effect_collection_block tag block.
     /// </summary>
-    public sealed class PlatformSoundEffectCollectionBlock : Block
+    internal sealed class PlatformSoundEffectCollectionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlatformSoundEffectCollectionBlock"/> class.

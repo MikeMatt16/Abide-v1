@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_universal_block tag block.
     /// </summary>
-    public sealed class MultiplayerUniversalBlock : Block
+    internal sealed class MultiplayerUniversalBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerUniversalBlock"/> class.

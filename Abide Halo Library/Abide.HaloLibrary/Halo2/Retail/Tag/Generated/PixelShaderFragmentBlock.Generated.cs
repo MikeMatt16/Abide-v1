@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated pixel_shader_fragment_block tag block.
     /// </summary>
-    public sealed class PixelShaderFragmentBlock : Block
+    internal sealed class PixelShaderFragmentBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PixelShaderFragmentBlock"/> class.

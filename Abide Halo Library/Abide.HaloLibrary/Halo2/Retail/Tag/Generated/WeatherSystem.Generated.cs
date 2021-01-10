@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weather_system (weat) tag group.
     /// </summary>
-    public class WeatherSystem : Group
+    internal class WeatherSystem : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeatherSystem"/> class.

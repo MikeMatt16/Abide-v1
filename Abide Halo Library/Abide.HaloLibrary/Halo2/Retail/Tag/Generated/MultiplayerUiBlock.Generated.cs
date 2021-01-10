@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_ui_block tag block.
     /// </summary>
-    public sealed class MultiplayerUiBlock : Block
+    internal sealed class MultiplayerUiBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerUiBlock"/> class.

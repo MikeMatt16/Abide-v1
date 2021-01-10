@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated lens_flare_color_animation_block tag block.
     /// </summary>
-    public sealed class LensFlareColorAnimationBlock : Block
+    internal sealed class LensFlareColorAnimationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LensFlareColorAnimationBlock"/> class.

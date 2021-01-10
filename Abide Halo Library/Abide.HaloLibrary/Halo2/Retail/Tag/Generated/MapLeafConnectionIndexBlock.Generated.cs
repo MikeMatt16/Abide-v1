@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated map_leaf_connection_index_block tag block.
     /// </summary>
-    public sealed class MapLeafConnectionIndexBlock : Block
+    internal sealed class MapLeafConnectionIndexBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MapLeafConnectionIndexBlock"/> class.

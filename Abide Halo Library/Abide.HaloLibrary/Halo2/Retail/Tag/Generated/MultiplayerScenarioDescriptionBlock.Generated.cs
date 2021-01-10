@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multiplayer_scenario_description_block tag block.
     /// </summary>
-    public sealed class MultiplayerScenarioDescriptionBlock : Block
+    internal sealed class MultiplayerScenarioDescriptionBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerScenarioDescriptionBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated player_block_reference_block tag block.
     /// </summary>
-    public sealed class PlayerBlockReferenceBlock : Block
+    internal sealed class PlayerBlockReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerBlockReferenceBlock"/> class.

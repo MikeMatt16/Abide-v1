@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated animation_transition_destination_block tag block.
     /// </summary>
-    public sealed class AnimationTransitionDestinationBlock : Block
+    internal sealed class AnimationTransitionDestinationBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationTransitionDestinationBlock"/> class.

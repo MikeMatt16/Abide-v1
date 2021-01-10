@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_structure_bsp_reference_block tag block.
     /// </summary>
-    public sealed class ScenarioStructureBspReferenceBlock : Block
+    internal sealed class ScenarioStructureBspReferenceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioStructureBspReferenceBlock"/> class.

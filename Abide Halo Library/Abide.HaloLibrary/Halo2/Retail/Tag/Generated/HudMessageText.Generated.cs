@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated hud_message_text (hmt ) tag group.
     /// </summary>
-    public class HudMessageText : Group
+    internal class HudMessageText : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HudMessageText"/> class.

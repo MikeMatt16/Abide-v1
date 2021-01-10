@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated physics (phys) tag group.
     /// </summary>
-    public class Physics : Group
+    internal class Physics : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Physics"/> class.

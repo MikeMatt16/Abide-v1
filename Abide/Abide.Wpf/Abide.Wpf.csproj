@@ -76,8 +76,13 @@
     <Compile Include="Modules\Editors\Halo2\AbideTagGroupEditor.xaml.cs">
       <DependentUpon>AbideTagGroupEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Editors\Halo2\Beta\Halo2BetaMemoryMap.xaml.cs">
+      <DependentUpon>Halo2BetaMemoryMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\Beta\RemoteHaloMapViewModel.cs" />
     <Compile Include="Modules\Editors\Halo2\TagGroupViewModel.cs" />
     <Compile Include="Modules\Guerilla\Tag\Fields.cs" />
+    <Compile Include="Modules\Operations\HaloMapCompileOperation.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
     <Compile Include="Modules\ProjectTypes\Halo2\Retail\HaloProject.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimationTest.cs" />
@@ -85,6 +90,7 @@
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimatorViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagExtractor.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagImporter.cs" />
+    <Compile Include="Modules\Tools\Halo2\Retail\IfpTag.cs" />
     <Compile Include="Modules\ViewModel\ActionCommand.cs" />
     <Compile Include="Modules\ViewModel\BaseAddOnViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\HaloModel.cs" />
@@ -143,6 +149,8 @@
     <Compile Include="Modules\ViewModel\SolutionViewModel.cs" />
     <Compile Include="Modules\ViewModel\TabItemTemplateSelector.cs" />
     <Compile Include="Modules\ViewModel\AbideViewModel.cs" />
+    <Compile Include="Modules\ViewModel\WindowStateToVisibilityConverter.cs" />
+    <Compile Include="Modules\ViewModel\XboxViewModel.cs" />
     <Compile Include="Modules\Win32\AbideRegistry.cs" />
     <Compile Include="Modules\Win32\CreateParameters.cs" />
     <Compile Include="Modules\Win32\Gdi32.cs" />
@@ -162,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Editors\Halo2\Beta\Halo2BetaMapEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\Beta\Halo2BetaMemoryMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_comments_resource_block tag block.
     /// </summary>
-    public sealed class ScenarioCommentsResourceBlock : Block
+    internal sealed class ScenarioCommentsResourceBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioCommentsResourceBlock"/> class.

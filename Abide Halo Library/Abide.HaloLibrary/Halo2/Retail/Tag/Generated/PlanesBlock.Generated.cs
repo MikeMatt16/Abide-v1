@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated planes_block tag block.
     /// </summary>
-    public sealed class PlanesBlock : Block
+    internal sealed class PlanesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanesBlock"/> class.

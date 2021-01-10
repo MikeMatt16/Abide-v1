@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated global_visibility_bounds_block tag block.
     /// </summary>
-    public sealed class GlobalVisibilityBoundsBlock : Block
+    internal sealed class GlobalVisibilityBoundsBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalVisibilityBoundsBlock"/> class.

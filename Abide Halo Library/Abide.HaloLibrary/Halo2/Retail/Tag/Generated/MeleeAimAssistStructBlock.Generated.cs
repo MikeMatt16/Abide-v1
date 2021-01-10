@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated melee_aim_assist_struct_block tag block.
     /// </summary>
-    public sealed class MeleeAimAssistStructBlock : Block
+    internal sealed class MeleeAimAssistStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MeleeAimAssistStructBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated pixel_shader_combiner_block tag block.
     /// </summary>
-    public sealed class PixelShaderCombinerBlock : Block
+    internal sealed class PixelShaderCombinerBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PixelShaderCombinerBlock"/> class.

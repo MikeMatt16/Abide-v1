@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated xbox_animation_data_block tag block.
     /// </summary>
-    public sealed class XboxAnimationDataBlock : Block
+    internal sealed class XboxAnimationDataBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XboxAnimationDataBlock"/> class.

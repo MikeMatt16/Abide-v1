@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated sound_classes_block tag block.
     /// </summary>
-    public sealed class SoundClassesBlock : Block
+    internal sealed class SoundClassesBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SoundClassesBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated character_firing_pattern_block tag block.
     /// </summary>
-    public sealed class CharacterFiringPatternBlock : Block
+    internal sealed class CharacterFiringPatternBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterFiringPatternBlock"/> class.

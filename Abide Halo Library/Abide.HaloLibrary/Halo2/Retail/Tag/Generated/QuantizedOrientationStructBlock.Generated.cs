@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated quantized_orientation_struct_block tag block.
     /// </summary>
-    public sealed class QuantizedOrientationStructBlock : Block
+    internal sealed class QuantizedOrientationStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QuantizedOrientationStructBlock"/> class.

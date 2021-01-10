@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weather_system_block tag block.
     /// </summary>
-    public sealed class WeatherSystemBlock : Block
+    internal sealed class WeatherSystemBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeatherSystemBlock"/> class.

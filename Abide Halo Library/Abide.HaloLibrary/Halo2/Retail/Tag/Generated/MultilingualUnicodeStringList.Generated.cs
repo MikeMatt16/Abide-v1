@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated multilingual_unicode_string_list (unic) tag group.
     /// </summary>
-    public class MultilingualUnicodeStringList : Group
+    internal class MultilingualUnicodeStringList : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultilingualUnicodeStringList"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated style_block tag block.
     /// </summary>
-    public sealed class StyleBlock : Block
+    internal sealed class StyleBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleBlock"/> class.

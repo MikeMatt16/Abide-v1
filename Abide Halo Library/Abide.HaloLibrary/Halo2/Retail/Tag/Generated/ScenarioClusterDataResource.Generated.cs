@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated scenario_cluster_data_resource (clu*) tag group.
     /// </summary>
-    public class ScenarioClusterDataResource : Group
+    internal class ScenarioClusterDataResource : Group
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioClusterDataResource"/> class.

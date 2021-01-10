@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated order_completion_condition tag block.
     /// </summary>
-    public sealed class OrderCompletionCondition : Block
+    internal sealed class OrderCompletionCondition : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderCompletionCondition"/> class.

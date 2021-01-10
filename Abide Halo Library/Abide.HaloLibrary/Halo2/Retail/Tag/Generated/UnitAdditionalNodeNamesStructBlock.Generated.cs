@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated unit_additional_node_names_struct_block tag block.
     /// </summary>
-    public sealed class UnitAdditionalNodeNamesStructBlock : Block
+    internal sealed class UnitAdditionalNodeNamesStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitAdditionalNodeNamesStructBlock"/> class.

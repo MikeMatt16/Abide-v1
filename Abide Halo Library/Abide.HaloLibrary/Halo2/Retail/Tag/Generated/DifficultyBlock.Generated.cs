@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated difficulty_block tag block.
     /// </summary>
-    public sealed class DifficultyBlock : Block
+    internal sealed class DifficultyBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DifficultyBlock"/> class.

@@ -17,7 +17,7 @@ namespace Abide.HaloLibrary.Halo2.Retail.Tag.Generated
     /// <summary>
     /// Represents the generated weapon_interface_struct_block tag block.
     /// </summary>
-    public sealed class WeaponInterfaceStructBlock : Block
+    internal sealed class WeaponInterfaceStructBlock : Block
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeaponInterfaceStructBlock"/> class.
