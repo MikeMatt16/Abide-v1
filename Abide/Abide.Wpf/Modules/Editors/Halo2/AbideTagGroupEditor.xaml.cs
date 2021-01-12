@@ -1,7 +1,5 @@
 ﻿using Abide.AddOnApi;
 using Abide.AddOnApi.Wpf;
-using Abide.HaloLibrary.Halo2.Retail.Tag;
-using Abide.HaloLibrary.Halo2.Retail.Tag.Generated;
 using Abide.Tag.Cache.Generated;
 using System.IO;
 
@@ -26,11 +24,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2
                 {
                     var abideTag = reader.ReadTag();
                     var groupTag = reader.ReadTag();
-                    _ = reader.ReadInt32();
-                    _ = reader.ReadInt32();
-                    _ = reader.ReadInt32();
-                    _ = reader.ReadInt32();
-                    var tagId = reader.ReadTagId();
 
                     var tagGroup = TagLookup.CreateTagGroup(groupTag);
                     if (tagGroup != null && abideTag == "atag")
@@ -48,8 +41,10 @@ namespace Abide.Wpf.Modules.Editors.Halo2
 
             if (File.Exists(path))
             {
-                TagGroupViewModel model = new TagGroupViewModel();
-                DataContext = model;
+                DataContext = new TagGroupViewModel()
+                {
+                    FilePath = path
+                };
             }
             else
             {

@@ -215,7 +215,7 @@
                 </Popup>
             </Grid>
             <StatusBarItem>
-                <TextBlock Text="{Binding PrimaryOperation.Status, Mode=OneWay, Converter={StaticResource opStatusConverter}}"/>
+                <TextBlock Text="{Binding ProgressBar.Status, Mode=OneWay, Converter={StaticResource opStatusConverter}}"/>
             </StatusBarItem>
             <StatusBarItem/>
             <StatusBarItem HorizontalAlignment="Right">

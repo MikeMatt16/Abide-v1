@@ -32,30 +32,31 @@ namespace Abide.Tag
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly ObjectName name;
-        private object value = null;
+        protected object FieldValue = null;
 
+        public abstract int Size { get; }
         public FieldType Type { get; }
+        public object Value
+        {
+            get => FieldValue;
+            set
+            {
+                if (FieldValue == null)
+                {
+                    FieldValue = value;
+                }
+                else if (FieldValue.GetType() == value.GetType())
+                {
+                    FieldValue = value;
+                }
+            }
+        }
         public string Name => name.Name ?? string.Empty;
         public string Information => name.Information ?? string.Empty;
         public string Details => name.Details ?? string.Empty;
         public bool IsReadOnly => name.IsReadOnly;
         public bool IsBlockName => name.IsBlockName;
-        public abstract int Size
-        {
-            get;
-        }
-        public object Value
-        {
-            get { return value; }
-            set
-            {
-                if (this.value != value)
-                {
-                    this.value = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        
         public long FieldAddress { get; private set; } = 0;
         protected Field(FieldType type, string name)
         {
@@ -63,11 +64,10 @@ namespace Abide.Tag
 
             this.name = new ObjectName(name);
             Type = type;
-            Value = null;
         }
         public override string ToString()
         {
-            return $"{Name} = {Value}";
+            return $"{Name} = {FieldValue}";
         }
         public void Read(BinaryReader reader)
         {
@@ -93,19 +93,19 @@ namespace Abide.Tag
         {
             return name.ToString();
         }
-        public void Dispose()
+        public virtual object GetValue()
         {
-            Dispose(true);
+            return FieldValue;
+        }
+        public virtual bool SetValue(object value)
+        {
+            FieldValue = value;
+            return true;
         }
         protected virtual void OnRead(BinaryReader reader) { }
         protected virtual void OnWrite(BinaryWriter writer) { }
         protected virtual void OnPostWrite(BinaryWriter writer) { }
         protected virtual void OnOverwrite(BinaryWriter writer) { }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (Value is IDisposable disposable) disposable.Dispose();
-            Value = null;
-        }
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             string name = propertyName ?? string.Empty;
@@ -136,8 +136,8 @@ namespace Abide.Tag
         }
         public new String32 Value
         {
-            get => (String32)base.Value;
-            set => base.Value = value;
+            get => (String32)FieldValue;
+            set => FieldValue = value;
         }
         protected override void OnRead(BinaryReader reader)
         {
@@ -155,8 +155,8 @@ namespace Abide.Tag
         public override int Size => 256;
         public new String256 Value
         {
-            get => (String256)base.Value;
-            set => base.Value = value;
+            get => (String256)FieldValue;
+            set => FieldValue = value;
         }
         public LongStringField(string name) : base(FieldType.FieldLongString, name)
         {
@@ -178,8 +178,8 @@ namespace Abide.Tag
         public override int Size => Value.Size;
         public new Block Value
         {
-            get => (Block)base.Value;
-            set => base.Value = value;
+            get => (Block)FieldValue;
+            set => FieldValue = value;
         }
         protected StructField(string name, Block tagBlock) : base(FieldType.FieldStruct, name)
         {
@@ -206,8 +206,8 @@ namespace Abide.Tag
         public long BlockAddress { get; private set; } = -1;
         public new TagBlock Value
         {
-            get => (TagBlock)base.Value;
-            set => base.Value = value;
+            get => (TagBlock)FieldValue;
+            set => FieldValue = value;
         }
         protected BlockField(string name, int maximumElementCount) : base(FieldType.FieldBlock, name)
         {
@@ -382,8 +382,8 @@ namespace Abide.Tag
         public override int Size => 1;
         public new byte Value
         {
-            get => (byte)base.Value;
-            set => base.Value = value;
+            get => (byte)FieldValue;
+            set => FieldValue = value;
         }
         public CharIntegerField(string name) : base(FieldType.FieldCharInteger, name)
         {
@@ -404,10 +404,10 @@ namespace Abide.Tag
     public sealed class ShortIntegerField : Field
     {
         public override int Size => 2;
-        public new short Value
+        public short Value
         {
-            get => (short)base.Value;
-            set => base.Value = value;
+            get => (short)FieldValue;
+            set => FieldValue = value;
         }
         public ShortIntegerField(string name) : base(FieldType.FieldShortInteger, name)
         {
@@ -426,10 +426,10 @@ namespace Abide.Tag
     public sealed class LongIntegerField : Field
     {
         public override int Size => 4;
-        public new int Value
+        public int Value
         {
-            get => (int)base.Value;
-            set => base.Value = value;
+            get => (int)FieldValue;
+            set => FieldValue = value;
         }
         public LongIntegerField(string name) : base(FieldType.FieldLongInteger, name)
         {
@@ -450,8 +450,8 @@ namespace Abide.Tag
         public override int Size => 4;
         public new float Value
         {
-            get => (float)base.Value;
-            set => base.Value = value;
+            get => (float)FieldValue;
+            set => FieldValue = value;
         }
         public AngleField(string name) : base(FieldType.FieldAngle, name)
         {
@@ -470,10 +470,10 @@ namespace Abide.Tag
     public sealed class TagField : Field
     {
         public override int Size => 4;
-        public new TagFourCc Value
+        public TagFourCc Value
         {
-            get => (TagFourCc)base.Value;
-            set => base.Value = value;
+            get => (TagFourCc)FieldValue;
+            set => FieldValue = value;
         }
         public TagField(string name) : base(FieldType.FieldTag, name)
         {
@@ -499,8 +499,8 @@ namespace Abide.Tag
         }
         public new byte Value
         {
-            get => (byte)base.Value;
-            set => base.Value = value;
+            get => (byte)FieldValue;
+            set => FieldValue = value;
         }
         public CharEnumField(string name, params string[] options) : base(FieldType.FieldCharEnum, name, options)
         {
@@ -530,8 +530,8 @@ namespace Abide.Tag
         }
         public new short Value
         {
-            get => (short)base.Value;
-            set => base.Value = value;
+            get => (short)FieldValue;
+            set => FieldValue = value;
         }
         public EnumField(string name, params string[] options) : base(FieldType.FieldEnum, name, options)
         {
@@ -559,10 +559,10 @@ namespace Abide.Tag
             get { return Options[Value]; }
             set { if (Options.Contains(value)) Value = value.Index; }
         }
-        public new int Value
+        public int Value
         {
-            get => (int)base.Value;
-            set => base.Value = value;
+            get => (int)FieldValue;
+            set => FieldValue = value;
         }
         public LongEnumField(string name, params string[] options) : base(FieldType.FieldLongEnum, name, options)
         {
@@ -585,10 +585,10 @@ namespace Abide.Tag
     public sealed class LongFlagsField : BaseFlagsField
     {
         public override int Size => 4;
-        public new int Value
+        public int Value
         {
-            get => (int)base.Value;
-            set => base.Value = value;
+            get => (int)FieldValue;
+            set => FieldValue = value;
         }
         public LongFlagsField(string name, params string[] options) : base(FieldType.FieldLongFlags, name, options)
         {
@@ -631,10 +631,10 @@ namespace Abide.Tag
     public sealed class WordFlagsField : BaseFlagsField
     {
         public override int Size => 2;
-        public new short Value
+        public short Value
         {
-            get => (short)base.Value;
-            set => base.Value = value;
+            get => (short)FieldValue;
+            set => FieldValue = value;
         }
         public WordFlagsField(string name, params string[] options) : base(FieldType.FieldWordFlags, name, options)
         {
@@ -679,8 +679,8 @@ namespace Abide.Tag
         public override int Size => 1;
         public new byte Value
         {
-            get => (byte)base.Value;
-            set => base.Value = value;
+            get => (byte)FieldValue;
+            set => FieldValue = value;
         }
         public ByteFlagsField(string name, params string[] options) : base(FieldType.FieldByteFlags, name, options)
         {
@@ -722,10 +722,10 @@ namespace Abide.Tag
 
     public sealed class Point2dField : Field
     {
-        public new Point2 Value
+        public Point2 Value
         {
-            get => (Point2)base.Value;
-            set => base.Value = value;
+            get => (Point2)FieldValue;
+            set => FieldValue = value;
         }
         public override int Size => 4;
         public Point2dField(string name) : base(FieldType.FieldPoint2D, name)
@@ -745,10 +745,10 @@ namespace Abide.Tag
     public sealed class Rectangle2dField : Field
     {
         public override int Size => 8;
-        public new Rectangle2 Value
+        public Rectangle2 Value
         {
-            get => (Rectangle2)base.Value;
-            set => base.Value = value;
+            get => (Rectangle2)FieldValue;
+            set => FieldValue = value;
         }
         public Rectangle2dField(string name) : base(FieldType.FieldRectangle2D, name)
         {
@@ -767,10 +767,10 @@ namespace Abide.Tag
     public sealed class RgbColorField : Field
     {
         public override int Size => 3;
-        public new ColorRgb Value
+        public ColorRgb Value
         {
-            get => (ColorRgb)base.Value;
-            set => base.Value = value;
+            get => (ColorRgb)FieldValue;
+            set => FieldValue = value;
         }
         public RgbColorField(string name) : base(FieldType.FieldRgbColor, name)
         {
@@ -791,8 +791,8 @@ namespace Abide.Tag
         public override int Size => 4;
         public new ColorArgb Value
         {
-            get => (ColorArgb)base.Value;
-            set => base.Value = value;
+            get => (ColorArgb)FieldValue;
+            set => FieldValue = value;
         }
         public ArgbColorField(string name) : base(FieldType.FieldArgbColor, name)
         {
@@ -811,10 +811,10 @@ namespace Abide.Tag
     public sealed class RealField : Field
     {
         public override int Size => 4;
-        public new float Value
+        public float Value
         {
-            get => (float)base.Value;
-            set => base.Value = value;
+            get => (float)FieldValue;
+            set => FieldValue = value;
         }
         public RealField(string name) : base(FieldType.FieldReal, name)
         {
@@ -833,10 +833,10 @@ namespace Abide.Tag
     public sealed class RealFractionField : Field
     {
         public override int Size => 4;
-        public new float Value
+        public float Value
         {
-            get => (float)base.Value;
-            set => base.Value = value;
+            get => (float)FieldValue;
+            set => FieldValue = value;
         }
         public RealFractionField(string name) : base(FieldType.FieldRealFraction, name)
         {
@@ -855,10 +855,10 @@ namespace Abide.Tag
     public sealed class RealPoint2dField : Field
     {
         public override int Size => 8;
-        public new Point2F Value
+        public Point2F Value
         {
-            get => (Point2F)base.Value;
-            set => base.Value = value;
+            get => (Point2F)FieldValue;
+            set => FieldValue = value;
         }
         public RealPoint2dField(string name) : base(FieldType.FieldRealPoint2D, name)
         {
@@ -877,10 +877,10 @@ namespace Abide.Tag
     public sealed class RealPoint3dField : Field
     {
         public override int Size => 12;
-        public new Point3F Value
+        public Point3F Value
         {
-            get => (Point3F)base.Value;
-            set => base.Value = value;
+            get => (Point3F)FieldValue;
+            set => FieldValue = value;
         }
         public RealPoint3dField(string name) : base(FieldType.FieldRealPoint3D, name)
         {
@@ -899,10 +899,10 @@ namespace Abide.Tag
     public sealed class RealVector2dField : Field
     {
         public override int Size => 8;
-        public new Vector2 Value
+        public Vector2 Value
         {
-            get => (Vector2)base.Value;
-            set => base.Value = value;
+            get => (Vector2)FieldValue;
+            set => FieldValue = value;
         }
         public RealVector2dField(string name) : base(FieldType.FieldRealVector2D, name)
         {
@@ -921,10 +921,10 @@ namespace Abide.Tag
     public sealed class RealVector3dField : Field
     {
         public override int Size => 12;
-        public new Vector3 Value
+        public Vector3 Value
         {
-            get => (Vector3)base.Value;
-            set => base.Value = value;
+            get => (Vector3)FieldValue;
+            set => FieldValue = value;
         }
         public RealVector3dField(string name) : base(FieldType.FieldRealVector3D, name)
         {
@@ -943,10 +943,10 @@ namespace Abide.Tag
     public sealed class QuaternionField : Field
     {
         public override int Size => 16;
-        public new Quaternion Value
+        public Quaternion Value
         {
-            get => (Quaternion)base.Value;
-            set => base.Value = value;
+            get => (Quaternion)FieldValue;
+            set => FieldValue = value;
         }
         public QuaternionField(string name) : base(FieldType.FieldQuaternion, name)
         {
@@ -967,8 +967,8 @@ namespace Abide.Tag
         public override int Size => 8;
         public new Vector2 Value
         {
-            get => (Vector2)base.Value;
-            set => base.Value = value;
+            get => (Vector2)FieldValue;
+            set => FieldValue = value;
         }
         public EulerAngles2dField(string name) : base(FieldType.FieldEulerAngles2D, name)
         {
@@ -989,8 +989,8 @@ namespace Abide.Tag
         public override int Size => 12;
         public new Vector3 Value
         {
-            get => (Vector3)base.Value;
-            set => base.Value = value;
+            get => (Vector3)FieldValue;
+            set => FieldValue = value;
         }
         public EulerAngles3dField(string name) : base(FieldType.FieldEulerAngles3D, name)
         {
@@ -1009,10 +1009,10 @@ namespace Abide.Tag
     public sealed class RealPlane2dField : Field
     {
         public override int Size => 12;
-        public new Vector3 Value
+        public Vector3 Value
         {
-            get => (Vector3)base.Value;
-            set => base.Value = value;
+            get => (Vector3)FieldValue;
+            set => FieldValue = value;
         }
         public RealPlane2dField(string name) : base(FieldType.FieldRealPlane2D, name)
         {
@@ -1031,10 +1031,10 @@ namespace Abide.Tag
     public sealed class RealPlane3dField : Field
     {
         public override int Size => 16;
-        public new Vector4 Value
+        public Vector4 Value
         {
-            get => (Vector4)base.Value;
-            set => base.Value = value;
+            get => (Vector4)FieldValue;
+            set => FieldValue = value;
         }
         public RealPlane3dField(string name) : base(FieldType.FieldRealPlane3D, name)
         {
@@ -1053,10 +1053,10 @@ namespace Abide.Tag
     public sealed class RealRgbColorField : Field
     {
         public override int Size => 12;
-        public new ColorRgbF Value
+        public ColorRgbF Value
         {
-            get => (ColorRgbF)base.Value;
-            set => base.Value = value;
+            get => (ColorRgbF)FieldValue;
+            set => FieldValue = value;
         }
         public RealRgbColorField(string name) : base(FieldType.FieldRealRgbColor, name)
         {
@@ -1075,10 +1075,10 @@ namespace Abide.Tag
     public sealed class RealArgbColorField : Field
     {
         public override int Size => 16;
-        public new ColorArgbF Value
+        public ColorArgbF Value
         {
-            get => (ColorArgbF)base.Value;
-            set => base.Value = value;
+            get => (ColorArgbF)FieldValue;
+            set => FieldValue = value;
         }
         public RealArgbColorField(string name) : base(FieldType.FieldRealArgbColor, name)
         {
@@ -1097,10 +1097,10 @@ namespace Abide.Tag
     public sealed class RealHsvColorField : Field
     {
         public override int Size => 12;
-        public new ColorHsv Value
+        public ColorHsv Value
         {
-            get => (ColorHsv)base.Value;
-            set => base.Value = value;
+            get => (ColorHsv)FieldValue;
+            set => FieldValue = value;
         }
         public RealHsvColorField(string name) : base(FieldType.FieldRealHsvColor, name)
         {
@@ -1119,10 +1119,10 @@ namespace Abide.Tag
     public sealed class RealAhsvColorField : Field
     {
         public override int Size => 16;
-        public new ColorAhsv Value
+        public ColorAhsv Value
         {
-            get => (ColorAhsv)base.Value;
-            set => base.Value = value;
+            get => (ColorAhsv)FieldValue;
+            set => FieldValue = value;
         }
         public RealAhsvColorField(string name) : base(FieldType.FieldRealAhsvColor, name)
         {
@@ -1141,10 +1141,10 @@ namespace Abide.Tag
     public sealed class ShortBoundsField : Field
     {
         public override int Size => 4;
-        public new ShortBounds Value
+        public ShortBounds Value
         {
-            get => (ShortBounds)base.Value;
-            set => base.Value = value;
+            get => (ShortBounds)FieldValue;
+            set => FieldValue = value;
         }
         public ShortBoundsField(string name) : base(FieldType.FieldShortBounds, name)
         {
@@ -1165,8 +1165,8 @@ namespace Abide.Tag
         public override int Size => 8;
         public new FloatBounds Value
         {
-            get => (FloatBounds)base.Value;
-            set => base.Value = value;
+            get => (FloatBounds)FieldValue;
+            set => FieldValue = value;
         }
         public AngleBoundsField(string name) : base(FieldType.FieldAngleBounds, name)
         {
@@ -1187,8 +1187,8 @@ namespace Abide.Tag
         public override int Size => 8;
         public new FloatBounds Value
         {
-            get => (FloatBounds)base.Value;
-            set => base.Value = value;
+            get => (FloatBounds)FieldValue;
+            set => FieldValue = value;
         }
         public RealBoundsField(string name) : base(FieldType.FieldRealBounds, name)
         {
@@ -1207,10 +1207,10 @@ namespace Abide.Tag
     public sealed class RealFractionBoundsField : Field
     {
         public override int Size => 8;
-        public new FloatBounds Value
+        public FloatBounds Value
         {
-            get => (FloatBounds)base.Value;
-            set => base.Value = value;
+            get => (FloatBounds)FieldValue;
+            set => FieldValue = value;
         }
         public RealFractionBoundsField(string name) : base(FieldType.FieldRealFractionBounds, name)
         {
@@ -1232,8 +1232,8 @@ namespace Abide.Tag
         public BlockSearchProcedure<byte> SearchProcedure { get; set; }
         public new byte Value
         {
-            get => (byte)base.Value;
-            set => base.Value = value;
+            get => (byte)FieldValue;
+            set => FieldValue = value;
         }
         public CharBlockIndexField(string name) : base(FieldType.FieldCharBlockIndex1, name)
         {
@@ -1252,10 +1252,10 @@ namespace Abide.Tag
     public sealed class ShortBlockIndexField : Field
     {
         public override int Size => 2;
-        public new short Value
+        public short Value
         {
-            get => (short)base.Value;
-            set => base.Value = value;
+            get => (short)FieldValue;
+            set => FieldValue = value;
         }
         public BlockSearchProcedure<short> SearchProcedure { get; set; }
         public ShortBlockIndexField(string name) : base(FieldType.FieldShortBlockIndex1, name)
@@ -1275,10 +1275,10 @@ namespace Abide.Tag
     public sealed class LongBlockIndexField : Field
     {
         public override int Size => 4;
-        public new int Value
+        public int Value
         {
-            get => (int)base.Value;
-            set => base.Value = value;
+            get => (int)FieldValue;
+            set => FieldValue = value;
         }
         public BlockSearchProcedure<int> SearchProcedure { get; set; }
         public LongBlockIndexField(string name) : base(FieldType.FieldLongBlockIndex1, name)
@@ -1306,8 +1306,8 @@ namespace Abide.Tag
         public long DataAddress { get; private set; }
         public new TagBlock Value
         {
-            get => (TagBlock)base.Value;
-            set => base.Value = value;
+            get => (TagBlock)FieldValue;
+            set => FieldValue = value;
         }
         public DataField(string name, int elementSize, int alignment = 4) : base(FieldType.FieldData, name)
         {
@@ -1376,15 +1376,15 @@ namespace Abide.Tag
         public override int Size => 32;
         public VertexBufferField(string name) : base(FieldType.FieldVertexBuffer, name)
         {
-            Value = new VertexBuffer();
+            FieldValue = new VertexBuffer();
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<VertexBuffer>();
+            FieldValue = reader.Read<VertexBuffer>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(FieldValue);
         }
     }
 
@@ -1392,10 +1392,10 @@ namespace Abide.Tag
     {
         public override int Size => Length;
         public int Length { get; }
-        public new byte[] Value
+        public byte[] Value
         {
-            get => (byte[])base.Value;
-            set => base.Value = value;
+            get => (byte[])FieldValue;
+            set => FieldValue = value;
         }
         public PadField(string name, int length) : base(FieldType.FieldPad, name)
         {
@@ -1420,10 +1420,10 @@ namespace Abide.Tag
     {
         public override int Size => Length;
         public int Length { get; }
-        public new byte[] Value
+        public byte[] Value
         {
-            get => (byte[])base.Value;
-            set => base.Value = value;
+            get => (byte[])FieldValue;
+            set => FieldValue = value;
         }
         public SkipField(string name, int length) : base(FieldType.FieldSkip, name)
         {

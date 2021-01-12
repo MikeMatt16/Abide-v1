@@ -374,7 +374,7 @@ namespace Abide.Guerilla.Wpf
                 decompiling = true;
                 string tagsDirectory = Path.Combine(RegistrySettings.WorkspaceDirectory, "tags");
                 decompiler = new MapDecompiler(openDlg.FileName, tagsDirectory) { Host = this };
-                Status = $"Decompiling {decompiler.Map.Name}...";
+                Status = $"Decompiling {decompiler.map.Name}...";
                 ShowProgressBar = true;
                 Progress = 0d;
 
@@ -434,7 +434,7 @@ namespace Abide.Guerilla.Wpf
         void IDecompileReporter.Complete()
         {
             //Set status
-            Status = $"{decompiler.Map.Name} Decompiled successfully";
+            Status = $"{decompiler.map.Name} Decompiled successfully";
             ShowProgressBar = false;
             Progress = 0d;
 
@@ -447,7 +447,7 @@ namespace Abide.Guerilla.Wpf
         void IDecompileReporter.Fail()
         {
             //Set status
-            Status = $"{decompiler.Map.Name} failed to decompile";
+            Status = $"{decompiler.map.Name} failed to decompile";
             ShowProgressBar = false;
             Progress = 0d;
 

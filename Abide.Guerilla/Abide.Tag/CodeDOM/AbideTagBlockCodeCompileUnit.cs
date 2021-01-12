@@ -543,7 +543,7 @@ namespace Abide.Tag.CodeDom
 
             //Create field value property expression
             CodePropertyReferenceExpression valuePropRef = new CodePropertyReferenceExpression(
-                fieldsIndexerExpression, nameof(Field.Value));
+                fieldsIndexerExpression, "Value");
 
             CodeAssignStatement setStatement = new CodeAssignStatement(valuePropRef, new CodePropertySetValueReferenceExpression());
             CodeMethodReturnStatement returnStatement = null;

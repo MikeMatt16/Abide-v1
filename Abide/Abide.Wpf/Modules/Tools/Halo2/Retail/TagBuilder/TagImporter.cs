@@ -102,10 +102,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                             tag.TagGroup = tagGroupFile.TagGroup;
                             tag.Id = entry.Id;
 
-                            foreach (var offset in tagGroupFile.GetRawOffsets())
+                            foreach (var offset in tagGroupFile.GetResourceAddresses())
                             {
-                                var resource = tagGroupFile.GetRaw(offset);
-                                _ = entry.Resources.AddResource(offset, resource);
+                                var resource = tagGroupFile.GetResource(offset);
+                                _ = entry.Resources.AddResource((int)offset, resource);
                             }
                         }
                     }

@@ -87,6 +87,10 @@ namespace Abide.Tag
         /// <summary>
         /// 
         /// </summary>
+        object Value { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         string Name { get; }
         /// <summary>
         /// 
@@ -111,7 +115,13 @@ namespace Abide.Tag
         /// <summary>
         /// 
         /// </summary>
-        object Value { get; set; }
+        object GetValue();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool SetValue(object value);
     }
 
     /// <summary>

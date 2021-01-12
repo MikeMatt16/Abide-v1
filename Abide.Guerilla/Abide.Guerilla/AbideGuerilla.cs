@@ -229,7 +229,7 @@ namespace Abide.Guerilla
                                 {
                                     switch (field.Type)
                                     {
-                                        case Abide.Tag.Definition.FieldType.FieldBlock:
+                                        case Abide.Tag.FieldType.FieldBlock:
                                             writer.WriteStartElement("struct");
 
                                             writer.WriteStartAttribute("name");
@@ -257,144 +257,144 @@ namespace Abide.Guerilla
                                             writer.WriteEndElement();
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldStruct:
+                                        case Abide.Tag.FieldType.FieldStruct:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldStringId:
-                                        case Abide.Tag.Definition.FieldType.FieldOldStringId:
+                                        case Abide.Tag.FieldType.FieldStringId:
+                                        case Abide.Tag.FieldType.FieldOldStringId:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldString:
+                                        case Abide.Tag.FieldType.FieldString:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldLongString:
+                                        case Abide.Tag.FieldType.FieldLongString:
                                             break;
                                         
-                                        case Abide.Tag.Definition.FieldType.FieldCharInteger:
-                                        case Abide.Tag.Definition.FieldType.FieldCharBlockIndex1:
-                                        case Abide.Tag.Definition.FieldType.FieldCharBlockIndex2:
+                                        case Abide.Tag.FieldType.FieldCharInteger:
+                                        case Abide.Tag.FieldType.FieldCharBlockIndex1:
+                                        case Abide.Tag.FieldType.FieldCharBlockIndex2:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldShortInteger:
-                                        case Abide.Tag.Definition.FieldType.FieldShortBlockIndex1:
-                                        case Abide.Tag.Definition.FieldType.FieldShortBlockIndex2:
+                                        case Abide.Tag.FieldType.FieldShortInteger:
+                                        case Abide.Tag.FieldType.FieldShortBlockIndex1:
+                                        case Abide.Tag.FieldType.FieldShortBlockIndex2:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldLongInteger:
-                                        case Abide.Tag.Definition.FieldType.FieldLongBlockIndex1:
-                                        case Abide.Tag.Definition.FieldType.FieldLongBlockIndex2:
+                                        case Abide.Tag.FieldType.FieldLongInteger:
+                                        case Abide.Tag.FieldType.FieldLongBlockIndex1:
+                                        case Abide.Tag.FieldType.FieldLongBlockIndex2:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldAngle:
-                                        case Abide.Tag.Definition.FieldType.FieldReal:
-                                        case Abide.Tag.Definition.FieldType.FieldRealFraction:
+                                        case Abide.Tag.FieldType.FieldAngle:
+                                        case Abide.Tag.FieldType.FieldReal:
+                                        case Abide.Tag.FieldType.FieldRealFraction:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldTag:
+                                        case Abide.Tag.FieldType.FieldTag:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldTagReference:
+                                        case Abide.Tag.FieldType.FieldTagReference:
                                             break;
                                         
-                                        case Abide.Tag.Definition.FieldType.FieldCharEnum:
+                                        case Abide.Tag.FieldType.FieldCharEnum:
                                             break;
-                                        case Abide.Tag.Definition.FieldType.FieldEnum:
+                                        case Abide.Tag.FieldType.FieldEnum:
                                             break;
-                                        case Abide.Tag.Definition.FieldType.FieldLongEnum:
-                                            break;
-
-                                        case Abide.Tag.Definition.FieldType.FieldLongFlags:
-                                            break;
-                                        case Abide.Tag.Definition.FieldType.FieldWordFlags:
-                                            break;
-                                        case Abide.Tag.Definition.FieldType.FieldByteFlags:
+                                        case Abide.Tag.FieldType.FieldLongEnum:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldPoint2D:
+                                        case Abide.Tag.FieldType.FieldLongFlags:
+                                            break;
+                                        case Abide.Tag.FieldType.FieldWordFlags:
+                                            break;
+                                        case Abide.Tag.FieldType.FieldByteFlags:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRectangle2D:
+                                        case Abide.Tag.FieldType.FieldPoint2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRgbColor:
+                                        case Abide.Tag.FieldType.FieldRectangle2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldArgbColor:
+                                        case Abide.Tag.FieldType.FieldRgbColor:
+                                            break;
+
+                                        case Abide.Tag.FieldType.FieldArgbColor:
                                             break;
                                         
-                                        case Abide.Tag.Definition.FieldType.FieldRealPoint2D:
+                                        case Abide.Tag.FieldType.FieldRealPoint2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealPoint3D:
+                                        case Abide.Tag.FieldType.FieldRealPoint3D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealVector2D:
+                                        case Abide.Tag.FieldType.FieldRealVector2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealVector3D:
+                                        case Abide.Tag.FieldType.FieldRealVector3D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldQuaternion:
+                                        case Abide.Tag.FieldType.FieldQuaternion:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldEulerAngles2D:
+                                        case Abide.Tag.FieldType.FieldEulerAngles2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldEulerAngles3D:
+                                        case Abide.Tag.FieldType.FieldEulerAngles3D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealPlane2D:
+                                        case Abide.Tag.FieldType.FieldRealPlane2D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealPlane3D:
+                                        case Abide.Tag.FieldType.FieldRealPlane3D:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealRgbColor:
+                                        case Abide.Tag.FieldType.FieldRealRgbColor:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealArgbColor:
+                                        case Abide.Tag.FieldType.FieldRealArgbColor:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealHsvColor:
+                                        case Abide.Tag.FieldType.FieldRealHsvColor:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealAhsvColor:
+                                        case Abide.Tag.FieldType.FieldRealAhsvColor:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldShortBounds:
+                                        case Abide.Tag.FieldType.FieldShortBounds:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldAngleBounds:
+                                        case Abide.Tag.FieldType.FieldAngleBounds:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealBounds:
+                                        case Abide.Tag.FieldType.FieldRealBounds:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldRealFractionBounds:
+                                        case Abide.Tag.FieldType.FieldRealFractionBounds:
                                             break;
                                         
 
                                         
-                                        case Abide.Tag.Definition.FieldType.FieldData:
+                                        case Abide.Tag.FieldType.FieldData:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldVertexBuffer:
+                                        case Abide.Tag.FieldType.FieldVertexBuffer:
                                             break;
                                         
-                                        case Abide.Tag.Definition.FieldType.FieldSkip:
-                                        case Abide.Tag.Definition.FieldType.FieldPad:
+                                        case Abide.Tag.FieldType.FieldSkip:
+                                        case Abide.Tag.FieldType.FieldPad:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldTagIndex:
+                                        case Abide.Tag.FieldType.FieldTagIndex:
                                             break;
 
-                                        case Abide.Tag.Definition.FieldType.FieldUselessPad:
+                                        case Abide.Tag.FieldType.FieldUselessPad:
                                             break;
-                                        case Abide.Tag.Definition.FieldType.FieldLongBlockFlags:
+                                        case Abide.Tag.FieldType.FieldLongBlockFlags:
                                             break;
-                                        case Abide.Tag.Definition.FieldType.FieldWordBlockFlags:
+                                        case Abide.Tag.FieldType.FieldWordBlockFlags:
                                             break;
-                                        case Abide.Tag.Definition.FieldType.FieldByteBlockFlags:
+                                        case Abide.Tag.FieldType.FieldByteBlockFlags:
                                             break;
                                     }
 

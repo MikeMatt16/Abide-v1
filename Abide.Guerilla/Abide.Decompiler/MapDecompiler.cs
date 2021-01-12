@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Convert = Abide.Guerilla.Library.Convert;
 
 namespace Abide.Decompiler
@@ -17,21 +18,21 @@ namespace Abide.Decompiler
     {
         private volatile bool isDecompiling = false;
 
-        public HaloMap Map { get; }
+        public HaloMap map { get; private set; }
         public string OutputDirectory { get; }
         public IDecompileReporter Host { get; set; }
         
         public MapDecompiler(HaloMap map, string outputDirectory)
         {
             //Setup
-            Map = map ?? throw new ArgumentNullException(nameof(map));
+            this.map = map ?? throw new ArgumentNullException(nameof(map));
             OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
         }
         public MapDecompiler(string mapFileName, string outputDirectory)
         {
             //Setup
             OutputDirectory = outputDirectory ?? throw new ArgumentNullException(nameof(outputDirectory));
-            Map = new HaloMap(mapFileName);
+            map = new HaloMap(mapFileName);
         }
         public void Start()
         {
@@ -50,122 +51,115 @@ namespace Abide.Decompiler
         public void Dispose()
         {
             //Dispose
-            if (Map != null) Map.Dispose();
+            if (map != null) map.Dispose();
         }
         private void Map_Decompile(object state)
         {
-            Console.WriteLine($"Beginning decompilation of {Map.Name}.");
-            bool success = true;
-
-            // put all of this into a try group (leave out for debugging perposes)
-            ITagGroup guerillaTagGroup, tagGroup, globalsGroup;
-            ITagGroup soundGestaltGroup = null;
+            Console.WriteLine($"Decompiling {map.Name}...");
+            Group globalsGroup;
+            Group soundGestaltGroup = null;
             IndexEntry soundGestalt = null;
-            IndexEntry globals = Map.Globals;
-            using (var tagReader = globals.Data.GetVirtualStream().CreateReader())
+            IndexEntry globals = map.Globals;
+
+            try
             {
-                tagReader.BaseStream.Seek(globals.Address, SeekOrigin.Begin);
-                globalsGroup = TagLookup.CreateTagGroup(globals.Root);
-                globalsGroup.Read(tagReader);
-
-                BlockField soundGlobalsTagBlock = (BlockField)globalsGroup[0][4];
-                if (soundGlobalsTagBlock.BlockList.Count > 0)
+                using (var tagReader = globals.Data.GetVirtualStream().CreateReader())
                 {
-                    TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
-                    soundGestalt = Map.IndexEntries[soundGestaltId];
-                    soundGlobalsTagBlock.BlockList[0].Fields[4].Value = (int)TagId.Null;
-                }
-            }
+                    tagReader.BaseStream.Seek(globals.Address, SeekOrigin.Begin);
+                    globalsGroup = TagLookup.CreateTagGroup(globals.Root);
+                    globalsGroup.Read(tagReader);
 
-            if (soundGestalt != null)
-                using (BinaryReader reader = soundGestalt.Data.GetVirtualStream().CreateReader())
-                {
-                    soundGestaltGroup = TagLookup.CreateTagGroup(soundGestalt.Root);
-                    reader.BaseStream.Seek(soundGestalt.Address, SeekOrigin.Begin);
-                    soundGestaltGroup.Read(reader);
-
-                    Console.WriteLine($"Found {soundGestaltGroup.GroupName} ({soundGestalt.Filename}.{soundGestalt.Root}).");
-                }
-
-            for (int i = 0; i < Map.IndexEntries.Count; i++)
-                if ((tagGroup = TagLookup.CreateTagGroup(Map.IndexEntries[i].Root)) != null)
-                {
-                    using (BinaryReader reader = Map.IndexEntries[i].Data.GetVirtualStream().CreateReader())
+                    BlockField soundGlobalsTagBlock = (BlockField)globalsGroup.TagBlocks[0].Fields[4];
+                    if (soundGlobalsTagBlock.BlockList.Count > 0)
                     {
-                        Console.WriteLine($"Reading cache tag {Map.IndexEntries[i].Filename}.{Map.IndexEntries[i].Root}...");
-                        reader.BaseStream.Seek(Map.IndexEntries[i].Address, SeekOrigin.Begin);
-                        try { tagGroup.Read(reader); }
-                        finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, Map.IndexEntries[i], Map); }
+                        TagId soundGestaltId = (TagId)soundGlobalsTagBlock.BlockList[0].Fields[4].Value;
+                        soundGestalt = map.IndexEntries[soundGestaltId];
+                        soundGlobalsTagBlock.BlockList[0].Fields[4].Value = (int)TagId.Null;
                     }
+                }
 
-                    string localFileName = Path.Combine($"{Map.IndexEntries[i].Filename}.{guerillaTagGroup.GroupName}");
+                if (soundGestalt != null)
+                {
+                    using (BinaryReader reader = soundGestalt.Data.GetVirtualStream().CreateReader())
+                    {
+                        soundGestaltGroup = TagLookup.CreateTagGroup(soundGestalt.Root);
+                        reader.BaseStream.Seek(soundGestalt.Address, SeekOrigin.Begin);
+                        soundGestaltGroup.Read(reader);
+                    }
+                }
+
+                int num = 0;
+                float total = map.IndexEntries.Count;
+                var result = Parallel.ForEach(map.IndexEntries, entry =>
+                {
+                    num++;
+                    Group guerillaTagGroup;
+                    var tagGroup = TagLookup.CreateTagGroup(entry.Root);
+                    var reader = entry.Data.GetVirtualStream().CreateReader();
+                    reader.BaseStream.Seek(entry.Address, SeekOrigin.Begin);
+                    try { tagGroup.Read(reader); }
+                    finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, entry, map); }
+
+                    string localFileName = Path.Combine($"{entry.Filename}.{guerillaTagGroup.GroupName}");
                     string tagGroupFileName = Path.Combine(OutputDirectory, localFileName);
 
                     if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
+                    {
                         Directory.CreateDirectory(Path.GetDirectoryName(tagGroupFileName));
+                    }
 
                     TagGroupHeader header = new TagGroupHeader();
                     using (FileStream fs = new FileStream(tagGroupFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
-                    using (BinaryWriter writer = new BinaryWriter(fs))
-                    using (BinaryReader reader = new BinaryReader(fs))
+                    using (BinaryReader fileReader = new BinaryReader(fs))
+                    using (BinaryWriter fileWriter = new BinaryWriter(fs))
                     {
-                        Console.WriteLine($"Writing guerilla tag {tagGroupFileName}.");
-
                         fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
-                        guerillaTagGroup.Write(writer);
+                        guerillaTagGroup.Write(fileWriter);
 
                         switch (guerillaTagGroup.GroupTag)
                         {
                             case "snd!":
-                                SoundTagGroup_CreateRaws(guerillaTagGroup, soundGestalt, writer, ref header);
+                                SoundTagGroup_CreateResources(guerillaTagGroup, soundGestalt, fileWriter, ref header);
                                 break;
                             case "mode":
-                                RenderModelTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                RenderModelTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "sbsp":
-                                ScenarioStructureBspTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                ScenarioStructureBspTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "ltmp":
-                                ScenarioStructureLightmapTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                ScenarioStructureLightmapTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "weat":
-                                WeatherSystemTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                WeatherSystemTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "DECR":
-                                DecoratorSetTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                DecoratorSetTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "PRTM":
-                                ParticleModelTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                ParticleModelTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "jmad":
-                                AnimationTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                AnimationTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                             case "bitm":
-                                BitmapTagGroup_CreateRaws(guerillaTagGroup, Map.IndexEntries[i], writer, ref header);
+                                BitmapTagGroup_CreateResources(guerillaTagGroup, entry, fileWriter, ref header);
                                 break;
                         }
 
                         header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
                         header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
-                        header.Id = Map.IndexEntries[i].Id.Dword;
+                        header.Id = entry.Id.Dword;
                         header.AbideTag = "atag";
 
                         fs.Seek(0, SeekOrigin.Begin);
-                        writer.Write(header);
+                        fileWriter.Write(header);
+                        Host.Report(num / total);
                     }
-
-                    if (Host != null) Host.Report(i / (float)Map.IndexEntries.Count);
-                }
-
-            // to here
-
-            try
-            {
-                
+                });
             }
             catch
             {
-                success = false;
 #if DEBUG
                 throw;
 #endif
@@ -173,16 +167,13 @@ namespace Abide.Decompiler
             finally
             {
                 GC.Collect();
-                isDecompiling = false;
             }
 
-            if (Host != null)
-            {
-                if (success) Host.Complete();
-                else Host.Fail();
-            }
+            Host.Report(1);
+            Thread.Sleep(500);
+            Host.Complete();
         }
-        private void SoundTagGroup_CreateRaws(ITagGroup tagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void SoundTagGroup_CreateResources(ITagGroup tagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -197,7 +188,7 @@ namespace Abide.Decompiler
 
                         if (entry.Resources.TryGetResource(address, out var resource))
                         {
-                            header.RawsCount++;
+                            header.TagResourceCount++;
                             addresses.Add(address);
                             buffers.Add(resource.GetBuffer());
                         }
@@ -213,28 +204,28 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void RenderModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void RenderModelTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -246,7 +237,7 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -259,28 +250,28 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void ScenarioStructureBspTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void ScenarioStructureBspTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -292,7 +283,7 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -306,7 +297,7 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -319,7 +310,7 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -334,29 +325,29 @@ namespace Abide.Decompiler
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void ScenarioStructureLightmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void ScenarioStructureLightmapTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -370,7 +361,7 @@ namespace Abide.Decompiler
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
@@ -383,7 +374,7 @@ namespace Abide.Decompiler
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
@@ -396,29 +387,29 @@ namespace Abide.Decompiler
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void WeatherSystemTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void WeatherSystemTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -431,28 +422,28 @@ namespace Abide.Decompiler
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void DecoratorSetTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void DecoratorSetTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -462,27 +453,27 @@ namespace Abide.Decompiler
 
             if (entry.Resources.TryGetResource(address, out var resource))
             {
-                header.RawsCount++;
+                header.TagResourceCount++;
                 addresses.Add(address);
                 buffers.Add(resource.GetBuffer());
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void ParticleModelTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void ParticleModelTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -492,27 +483,27 @@ namespace Abide.Decompiler
 
             if (entry.Resources.TryGetResource(address, out var resource))
             {
-                header.RawsCount++;
+                header.TagResourceCount++;
                 addresses.Add(address);
                 buffers.Add(resource.GetBuffer());
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void AnimationTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void AnimationTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -522,28 +513,28 @@ namespace Abide.Decompiler
                 int address = (int)animationData[2].Value;
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }
-        private void BitmapTagGroup_CreateRaws(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
+        private void BitmapTagGroup_CreateResources(ITagGroup guerillaTagGroup, IndexEntry entry, BinaryWriter writer, ref TagGroupHeader header)
         {
             List<long> addresses = new List<long>();
             List<byte[]> buffers = new List<byte[]>();
@@ -558,7 +549,7 @@ namespace Abide.Decompiler
                         int address = reader.ReadInt32();
                         if (entry.Resources.TryGetResource(address, out var resource))
                         {
-                            header.RawsCount++;
+                            header.TagResourceCount++;
                             addresses.Add(address);
                             buffers.Add(resource.GetBuffer());
                         }
@@ -566,18 +557,18 @@ namespace Abide.Decompiler
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write((int)addresses[i]);
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i].Length);
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                     writer.Write(buffers[i]);
             }
         }

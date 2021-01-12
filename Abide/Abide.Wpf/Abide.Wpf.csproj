@@ -81,6 +81,9 @@
     </Compile>
     <Compile Include="Modules\Editors\Halo2\Beta\RemoteHaloMapViewModel.cs" />
     <Compile Include="Modules\Editors\Halo2\TagGroupViewModel.cs" />
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\BasicValueEditor.xaml.cs">
+      <DependentUpon>BasicValueEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Guerilla\Tag\Fields.cs" />
     <Compile Include="Modules\Operations\HaloMapCompileOperation.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
@@ -91,6 +94,9 @@
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagExtractor.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagImporter.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\IfpTag.cs" />
+    <Compile Include="Modules\UI\TagGroupEditorPanel.xaml.cs">
+      <DependentUpon>TagGroupEditorPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ViewModel\ActionCommand.cs" />
     <Compile Include="Modules\ViewModel\BaseAddOnViewModel.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\ModelEditor\HaloModel.cs" />
@@ -181,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\BasicValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Tools\Halo2\Retail\TextureEditor\TextureEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\UI\TagGroupEditorPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

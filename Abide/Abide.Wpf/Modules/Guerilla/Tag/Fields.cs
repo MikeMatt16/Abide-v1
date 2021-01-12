@@ -10,8 +10,8 @@ namespace Abide.Wpf.Modules.Guerilla.Tag
         public sealed override int Size => Encoding.UTF8.GetByteCount(Value) + 1;
         public new string Value
         {
-            get => (string)base.Value;
-            set => base.Value = value;
+            get => (string)FieldValue;
+            set => FieldValue = value;
         }
         protected BaseStringValueField(FieldType type, string name) : base(type, name)
         {

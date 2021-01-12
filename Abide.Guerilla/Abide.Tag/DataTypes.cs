@@ -4,6 +4,7 @@ using Abide.HaloLibrary;
 
 namespace Abide.Tag
 {
+    public struct EmptyStructure { }
     #region Vertex Buffer
     /// <summary>
     /// Represents a vertex buffer.

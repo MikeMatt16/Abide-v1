@@ -25,33 +25,33 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         {
             switch (Field.Type)
             {
-                case Definition.FieldType.FieldCharInteger:
+                case FieldType.FieldCharInteger:
                     byte value8 = 0;
                     try { value8 = byte.Parse(valueTextBox.Text); } catch { }
                     Field.Value = value8;
                     break;
-                case Definition.FieldType.FieldShortInteger:
+                case FieldType.FieldShortInteger:
                     short value16 = 0;
                     try { value16 = short.Parse(valueTextBox.Text); } catch { }
                     Field.Value = value16;
                     break;
-                case Definition.FieldType.FieldLongInteger:
+                case FieldType.FieldLongInteger:
                     int value32 = 0;
                     try { value32 = int.Parse(valueTextBox.Text); } catch { }
                     Field.Value = value32;
                     break;
-                case Definition.FieldType.FieldAngle:
+                case FieldType.FieldAngle:
                     float angle = 0;
                     try { angle = float.Parse(valueTextBox.Text); } catch { }
                     Field.Value = angle;
                     break;
-                case Definition.FieldType.FieldTag:
+                case FieldType.FieldTag:
                     TagFourCc tag = "\0\0\0\0";
                     try { tag = valueTextBox.Text; } catch { }
                     Field.Value = tag;
                     break;
-                case Definition.FieldType.FieldReal:
-                case Definition.FieldType.FieldRealFraction:
+                case FieldType.FieldReal:
+                case FieldType.FieldRealFraction:
                     float real = 0;
                     try { real = float.Parse(valueTextBox.Text); } catch { }
                     Field.Value = real;

@@ -51,7 +51,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
     {
         private readonly List<Field> labelFields = new List<Field>();
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public override string BlockName { get; } = "ifp_tag_block";
         public override int Alignment { get; } = 4;
         public override string DisplayName => GetDisplayName();
@@ -208,7 +207,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         {
             if (e.PropertyName == nameof(Field.Value))
             {
-                PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(nameof(DisplayName)));
+                OnNotifyPropertyChanged(new PropertyChangedEventArgs(nameof(DisplayName)));
             }
         }
 

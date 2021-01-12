@@ -2,16 +2,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 
 namespace Abide.Tag
 {
-    public abstract class Group : ITagGroup, IEnumerable<Block>
+    public abstract class Group : ITagGroup, IEnumerable<Block>, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int TagBlockCount => TagBlocks.Count;
         public abstract string GroupName { get; }
         public abstract TagFourCc GroupTag { get; }
-        public List<Block> TagBlocks { get; } = new List<Block>();
+        public ObservableCollection<Block> TagBlocks { get; } = new ObservableCollection<Block>();
         public long GroupAddress { get; private set; } = 0;
         protected Group() { }
         public IEnumerator<Block> GetEnumerator()

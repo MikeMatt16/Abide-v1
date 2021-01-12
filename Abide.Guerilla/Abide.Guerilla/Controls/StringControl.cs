@@ -23,10 +23,10 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             if (Field != null)
                 switch (Field.Type)
                 {
-                    case Definition.FieldType.FieldString:
+                    case FieldType.FieldString:
                         Field.Value = new String32() { String = stringTextBox.Text };
                         break;
-                    case Definition.FieldType.FieldLongString:
+                    case FieldType.FieldLongString:
                         Field.Value = new String256() { String = stringTextBox.Text };
                         break;
                 }

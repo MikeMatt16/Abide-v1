@@ -21,17 +21,17 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             int selectedValue = -1;
             switch (Field.Type)
             {
-                case Definition.FieldType.FieldCharEnum:
+                case FieldType.FieldCharEnum:
                     foreach (var option in ((CharEnumField)Field).Options)
                         enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
                     selectedValue = (byte)Field.Value;
                     break;
-                case Definition.FieldType.FieldEnum:
+                case FieldType.FieldEnum:
                     foreach(var option in ((EnumField)Field).Options)
                         enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
                     selectedValue = (short)Field.Value;
                     break;
-                case Definition.FieldType.FieldLongEnum:
+                case FieldType.FieldLongEnum:
                     foreach (var option in ((LongEnumField)Field).Options)
                         enumComboBox.Items.Add(new EnumValue(option.Index, option.Name));
                     selectedValue = (int)Field.Value;
@@ -58,17 +58,17 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         {
             switch (Field.Type)
             {
-                case Definition.FieldType.FieldCharEnum:
+                case FieldType.FieldCharEnum:
                     if (enumComboBox.SelectedItem is EnumValue charValue)
                         Field.Value = (byte)charValue.Value;
                     else Field.Value = (byte)enumComboBox.SelectedIndex;
                     break;
-                case Definition.FieldType.FieldEnum:
+                case FieldType.FieldEnum:
                     if (enumComboBox.SelectedItem is EnumValue value)
                         Field.Value = (short)value.Value;
                     else Field.Value = (short)enumComboBox.SelectedIndex;
                     break;
-                case Definition.FieldType.FieldLongEnum:
+                case FieldType.FieldLongEnum:
                     if (enumComboBox.SelectedItem is EnumValue intValue)
                         Field.Value = intValue.Value;
                     else Field.Value = enumComboBox.SelectedIndex;

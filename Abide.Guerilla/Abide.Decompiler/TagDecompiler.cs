@@ -23,7 +23,7 @@ namespace Abide.Decompiler
         private readonly List<TagId> checkedTagIds = new List<TagId>();
         private readonly ResourceManager resourceManager = new ResourceManager();
         private readonly Dictionary<string, TagId> resourceLookup = new Dictionary<string, TagId>();
-        private readonly ITagGroup soundCacheFileGestalt = new SoundCacheFileGestalt();
+        private readonly Group soundCacheFileGestalt = new SoundCacheFileGestalt();
         private CacheResources cacheResources = null;
         private HaloMap mapFile = null;
 
@@ -132,7 +132,7 @@ namespace Abide.Decompiler
                 if(entry != null)
                 {
                     //Read
-                    ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
+                    Group tagGroup = TagLookup.CreateTagGroup(entry.Root);
                     using (var stream = entry.Data.GetVirtualStream())
                     using (var reader = stream.CreateReader())
                     {
@@ -166,7 +166,7 @@ namespace Abide.Decompiler
                 if (entry != null)
                 {
                     //Read
-                    ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
+                    Group tagGroup = TagLookup.CreateTagGroup(entry.Root);
                     using (var stream = entry.Data.GetVirtualStream())
                     using (var reader = stream.CreateReader())
                     {
@@ -194,7 +194,7 @@ namespace Abide.Decompiler
         {
             //Prepare
             IndexEntry entry = mapFile.IndexEntries[resourceLookup[resourceName]];
-            ITagGroup tagGroup = TagLookup.CreateTagGroup(entry.Root);
+            Group tagGroup = TagLookup.CreateTagGroup(entry.Root);
 
             //Read
             using (BinaryReader reader = entry.Data.GetVirtualStream().CreateReader())

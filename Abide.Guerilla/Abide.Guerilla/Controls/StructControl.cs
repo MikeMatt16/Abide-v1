@@ -35,13 +35,13 @@ namespace Abide.Tag.Ui.Guerilla.Controls
             {
                 switch (tagBlock[i].Type)
                 {
-                    case Definition.FieldType.FieldBlock:
+                    case FieldType.FieldBlock:
                         ((BlockControl)controlsFlowLayoutPanel.Controls[i]).Field = (BlockField)tagBlock[i];
                         break;
-                    case Definition.FieldType.FieldStruct:
+                    case FieldType.FieldStruct:
                         ((StructControl)controlsFlowLayoutPanel.Controls[i]).Field = (StructField)tagBlock[i];
                         break;
-                    case Definition.FieldType.FieldExplanation:
+                    case FieldType.FieldExplanation:
                         continue;
                     default:
                         ((GuerillaControl)controlsFlowLayoutPanel.Controls[i]).Field = tagBlock[i];

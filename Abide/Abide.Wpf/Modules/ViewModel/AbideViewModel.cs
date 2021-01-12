@@ -36,7 +36,7 @@ namespace Abide.Wpf.Modules.ViewModel
         public static readonly DependencyProperty WindowTitleProperty =
             DependencyProperty.Register(nameof(WindowTitle), typeof(string), typeof(AbideViewModel), new PropertyMetadata(DefaultWindowTitle));
         public static readonly DependencyProperty PrimaryOperationProperty =
-            DependencyProperty.Register(nameof(PrimaryOperation), typeof(BackgroundOperation), typeof(AbideViewModel));
+            DependencyProperty.Register(nameof(PrimaryOperation), typeof(BackgroundOperation), typeof(AbideViewModel), new PropertyMetadata(PrimaryOperationChanged));
         public static readonly DependencyProperty SelectedFileProperty =
             DependencyProperty.Register(nameof(SelectedFile), typeof(FileItem), typeof(AbideViewModel), new PropertyMetadata(SelectedFilePropretyChanged));
         public static readonly DependencyProperty SelectedXboxProperty =
@@ -122,7 +122,9 @@ namespace Abide.Wpf.Modules.ViewModel
             // xbox.Connect();
             // _ = xbox.SetMemory(new byte[] { 0xff }, 0x0, 0, 1);
             // 
-            OpenFile(@"F:\XBox\Original\Games\Halo 2\Modding\Maps\Retail\ascension.map");
+
+            // OpenFile(@"F:\Users\Mike\Documents\Abide\Guerilla\tags\objects\weapons\rifle\battle_rifle\battle_rifle.weapon");
+            // OpenFile(@"F:\XBox\Original\Games\Halo 2\Modding\Maps\Retail\ascension.map");
         }
         private void NewProject(NewProjectDialog dialog = null)
         {
@@ -371,8 +373,8 @@ namespace Abide.Wpf.Modules.ViewModel
         {
             var time = PrimaryOperation.ElapsedTime;
             PrimaryOperation = null;
+            ProgressBar.ReportStatus(string.Empty);
             ProgressBar.Report(0);
-            _ = MessageBox.Show($"Decompile Complete! Elapsed time: {time}");
         }
         private void DiscoverContinue(Task<Xbox[]> discoverTask)
         {
@@ -457,6 +459,10 @@ namespace Abide.Wpf.Modules.ViewModel
 
         }
         private static void SelectedXboxPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+        private static void PrimaryOperationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
 
         }

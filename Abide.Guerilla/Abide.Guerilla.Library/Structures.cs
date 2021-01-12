@@ -13,7 +13,7 @@ namespace Abide.Guerilla.Library
 
         public TagFourCc AbideTag { get; set; }
         public TagFourCc GroupTag { get; set; }
-        public uint RawsCount { get; set; }
+        public uint TagResourceCount { get; set; }
         public uint RawOffsetsOffset { get; set; }
         public uint RawLengthsOffset { get; set; }
         public uint RawDataOffset { get; set; }

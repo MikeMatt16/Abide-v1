@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
 namespace Abide.Tag
 {
-    public class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>
+    public class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>, INotifyPropertyChanged
     {
-        public List<Field> Fields { get; } = new List<Field>();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Field> Fields { get; } = new ObservableCollection<Field>();
         public int Size => GetBlockSize();
         public int FieldCount => Fields.Count;
         public virtual int Alignment => 4;
@@ -17,6 +21,7 @@ namespace Abide.Tag
         public virtual string DisplayName => string.Empty;
         public long BlockAddress { get; private set; } = 0;
         protected Block() { }
+
         public bool Equals(Block other)
         {
             bool equals = Fields.Count == other.Fields.Count && BlockName == other.BlockName;
@@ -39,7 +44,7 @@ namespace Abide.Tag
                                         if (equals) equals = bf1.BlockList[j].Equals(bf2.BlockList[j]);
                                 break;
                             case FieldType.FieldStruct:
-                                equals &= ((Block)f1.Value).Equals((Block)f2.Value);
+                                equals &= ((Block)f1.GetValue()).Equals((Block)f2.GetValue());
                                 break;
                             case FieldType.FieldPad:
                                 PadField pf1 = (PadField)f1;
@@ -48,8 +53,8 @@ namespace Abide.Tag
                                     if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
                                 break;
                             default:
-                                if (f1.Value == null && f2.Value == null) continue;
-                                else equals &= f1.Value.Equals(f2.Value);
+                                if (f1.GetValue() == null && f2.GetValue() == null) continue;
+                                else equals &= f1.GetValue().Equals(f2.GetValue());
                                 break;
                         }
                 }
@@ -59,7 +64,7 @@ namespace Abide.Tag
         public override string ToString()
         {
             if (Fields.Any(f => f.IsBlockName)) return string.Join(", ",
-                Fields.Where(f => f.IsBlockName).Select(f => f.Value.ToString()).ToArray());
+                Fields.Where(f => f.IsBlockName).Select(f => f.GetValue().ToString()).ToArray());
             return DisplayName;
         }
         public virtual void Initialize() { }
@@ -99,22 +104,16 @@ namespace Abide.Tag
         }
         private int GetBlockSize()
         {
-            int size = 0;
-            Fields.ForEach(f => size += f.Size);
+            int size = Fields.Sum(f => f.Size);
             return size;
         }
         public virtual IEnumerator<Field> GetEnumerator()
         {
             return Fields.GetEnumerator();
         }
-        public void Dispose()
+        protected virtual void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
         {
-            Dispose(true);
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            Fields.ForEach(f => f.Dispose());
-            Fields.Clear();
+            PropertyChanged?.Invoke(this, e);
         }
 
         ITagField ITagBlock.this[int index]

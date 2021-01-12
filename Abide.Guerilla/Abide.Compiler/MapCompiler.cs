@@ -1010,9 +1010,9 @@ namespace Abide.Compiler
             Block soundBlock = sound.TagBlocks[0];
 
             //Transfer raws
-            foreach (int rawOffset in tagGroupFile.GetRawOffsets())
+            foreach (int rawOffset in tagGroupFile.GetResourceAddresses())
             {
-                SoundCacheFileGestaltFile.SetRaw(rawOffset, tagGroupFile.GetRaw(rawOffset));
+                SoundCacheFileGestaltFile.SetResource(rawOffset, tagGroupFile.GetResource(rawOffset));
             }
 
             //Get block fields from sound cache file gestalt
@@ -1083,7 +1083,7 @@ namespace Abide.Compiler
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
-                    ((Block)extraInfo.Fields[1].Value).Fields[6].Value = new StringValue($"i've got a lovely bunch of coconuts.sound_cache_file_gestalt");
+                    ((Block)extraInfo.Fields[1].Value).Fields[6].Value = $"i've got a lovely bunch of coconuts.sound_cache_file_gestalt";
                     foreach (Block block in soundExtraInfo.Fields[1].GetBlockList())
                         soundExtraInfo.Fields[1].GetBlockList().Add(block);
                 }
@@ -1138,7 +1138,7 @@ namespace Abide.Compiler
                             {
                                 chunks.BlockList.Add(soundChunk);
                                 int offset = (int)soundChunk.Fields[0].Value;
-                                if ((offset & 0xc0000000) == 0 && tagGroupFile.GetRaw(offset) == null) System.Diagnostics.Debugger.Break();
+                                if ((offset & 0xc0000000) == 0 && tagGroupFile.GetResource(offset) == null) System.Diagnostics.Debugger.Break();
                             }
                         }
                         else
@@ -1348,7 +1348,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1367,7 +1367,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1390,7 +1390,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1409,7 +1409,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1432,7 +1432,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1451,7 +1451,7 @@ namespace Abide.Compiler
                         if ((rawAddress & LocationMask) == 0)
                         {
                             modified = true;
-                            rawData = tagGroupFile.GetRaw((int)rawAddress);
+                            rawData = tagGroupFile.GetResource((int)rawAddress);
                             tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                             writer.Write((uint)mapFileStream.Position);
                             mapFileWriter.Write(rawData);
@@ -1469,7 +1469,7 @@ namespace Abide.Compiler
                         if ((rawAddress & LocationMask) == 0)
                         {
                             modified = true;
-                            rawData = tagGroupFile.GetRaw((int)rawAddress);
+                            rawData = tagGroupFile.GetResource((int)rawAddress);
                             tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                             writer.Write((uint)mapFileStream.Position);
                             mapFileWriter.Write(rawData);
@@ -1491,7 +1491,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1514,7 +1514,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1533,7 +1533,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1552,7 +1552,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1575,7 +1575,7 @@ namespace Abide.Compiler
                                 if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
-                                    rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                    rawData = tagGroupFile.GetResource((int)rawAddress);
                                     tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                     writer.Write((uint)mapFileStream.Position);
                                     mapFileWriter.Write(rawData);
@@ -1603,7 +1603,7 @@ namespace Abide.Compiler
                                 if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
-                                    rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                    rawData = tagGroupFile.GetResource((int)rawAddress);
                                     tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                     writer.Write((uint)mapFileStream.Position);
                                     mapFileWriter.Write(rawData);
@@ -1622,7 +1622,7 @@ namespace Abide.Compiler
                                 if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
-                                    rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                    rawData = tagGroupFile.GetResource((int)rawAddress);
                                     tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                     writer.Write((uint)mapFileStream.Position);
                                     mapFileWriter.Write(rawData);
@@ -1641,7 +1641,7 @@ namespace Abide.Compiler
                                 if ((rawAddress & LocationMask) == 0)
                                 {
                                     modified = true;
-                                    rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                    rawData = tagGroupFile.GetResource((int)rawAddress);
                                     tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                     writer.Write((uint)mapFileStream.Position);
                                     mapFileWriter.Write(rawData);
@@ -1665,7 +1665,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1679,7 +1679,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1693,7 +1693,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1707,7 +1707,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1721,7 +1721,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1735,7 +1735,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);
@@ -1787,7 +1787,7 @@ namespace Abide.Compiler
                             if ((rawAddress & LocationMask) == 0)
                             {
                                 modified = true;
-                                rawData = tagGroupFile.GetRaw((int)rawAddress);
+                                rawData = tagGroupFile.GetResource((int)rawAddress);
                                 tagStream.Seek(offsetAddress, SeekOrigin.Begin);
                                 writer.Write((uint)mapFileStream.Position);
                                 mapFileWriter.Write(rawData);

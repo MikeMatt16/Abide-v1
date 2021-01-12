@@ -173,7 +173,7 @@ namespace Abide.Wpf.Modules.Operations
 
                         if (entry.Resources.TryGetResource(address, out var resource))
                         {
-                            header.RawsCount++;
+                            header.TagResourceCount++;
                             addresses.Add(address);
                             buffers.Add(resource.GetBuffer());
                         }
@@ -192,28 +192,28 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -231,7 +231,7 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -244,28 +244,28 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -283,7 +283,7 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -297,7 +297,7 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -310,7 +310,7 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
@@ -325,29 +325,29 @@ namespace Abide.Wpf.Modules.Operations
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -367,7 +367,7 @@ namespace Abide.Wpf.Modules.Operations
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
@@ -380,7 +380,7 @@ namespace Abide.Wpf.Modules.Operations
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
@@ -393,29 +393,29 @@ namespace Abide.Wpf.Modules.Operations
 
                     if (entry.Resources.TryGetResource(address, out var resource))
                     {
-                        header.RawsCount++;
+                        header.TagResourceCount++;
                         addresses.Add(address);
                         buffers.Add(resource.GetBuffer());
                     }
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -433,28 +433,28 @@ namespace Abide.Wpf.Modules.Operations
 
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -470,27 +470,27 @@ namespace Abide.Wpf.Modules.Operations
 
             if (entry.Resources.TryGetResource(address, out var resource))
             {
-                header.RawsCount++;
+                header.TagResourceCount++;
                 addresses.Add(address);
                 buffers.Add(resource.GetBuffer());
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -506,27 +506,27 @@ namespace Abide.Wpf.Modules.Operations
 
             if (entry.Resources.TryGetResource(address, out var resource))
             {
-                header.RawsCount++;
+                header.TagResourceCount++;
                 addresses.Add(address);
                 buffers.Add(resource.GetBuffer());
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -542,28 +542,28 @@ namespace Abide.Wpf.Modules.Operations
                 int address = (int)animationData[2].Value;
                 if (entry.Resources.TryGetResource(address, out var resource))
                 {
-                    header.RawsCount++;
+                    header.TagResourceCount++;
                     addresses.Add(address);
                     buffers.Add(resource.GetBuffer());
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }
@@ -584,7 +584,7 @@ namespace Abide.Wpf.Modules.Operations
                         int address = reader.ReadInt32();
                         if (entry.Resources.TryGetResource(address, out var resource))
                         {
-                            header.RawsCount++;
+                            header.TagResourceCount++;
                             addresses.Add(address);
                             buffers.Add(resource.GetBuffer());
                         }
@@ -592,22 +592,22 @@ namespace Abide.Wpf.Modules.Operations
                 }
             }
 
-            if (header.RawsCount > 0)
+            if (header.TagResourceCount > 0)
             {
                 header.RawOffsetsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write((int)addresses[i]);
                 }
 
                 header.RawLengthsOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i].Length);
                 }
 
                 header.RawDataOffset = (uint)writer.BaseStream.Position;
-                for (int i = 0; i < header.RawsCount; i++)
+                for (int i = 0; i < header.TagResourceCount; i++)
                 {
                     writer.Write(buffers[i]);
                 }

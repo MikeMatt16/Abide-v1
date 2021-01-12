@@ -96,7 +96,7 @@
     <Compile Include="SharedResources.cs" />
     <Compile Include="Structures.cs" />
     <Compile Include="Tag.cs" />
-    <Compile Include="TagGroupFile.cs" />
+    <Compile Include="AbideTagGroupFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">

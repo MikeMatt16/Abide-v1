@@ -55,8 +55,8 @@ namespace Abide.Tag.Cache
         }
         public new TagReference Value
         {
-            get => (TagReference)base.Value;
-            set => base.Value = value;
+            get => (TagReference)FieldValue;
+            set => FieldValue = value;
         }
         public TagReferenceField(string name, string groupTag = "") : base(FieldType.FieldTagReference, name)
         {

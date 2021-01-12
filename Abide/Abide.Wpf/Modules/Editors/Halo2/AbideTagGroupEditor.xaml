@@ -1,10 +1,11 @@
-﻿<api:FileEditorControl x:Class="Abide.Wpf.Modules.Editors.Halo2.AbideTagGroupEditor"
+﻿<api:FileEditorControl x:Name="fileEditor" x:Class="Abide.Wpf.Modules.Editors.Halo2.AbideTagGroupEditor"
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                        xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2"
                        xmlns:api="clr-namespace:Abide.AddOnApi.Wpf;assembly=Abide.AddOnApi.Wpf"
+                       xmlns:ui="clr-namespace:Abide.Wpf.Modules.UI"
                        mc:Ignorable="d" 
                        d:DesignHeight="450" d:DesignWidth="800"
                        AddOnName="Abide Tag Group Editor" AddOnDescription="Editor for Abide tag group files."
@@ -12,6 +13,7 @@
     <api:FileEditorControl.DataContext>
         <local:TagGroupViewModel/>
     </api:FileEditorControl.DataContext>
-    <Grid>
-    </Grid>
+    <ScrollViewer>
+        <ui:TagGroupEditorPanel TagGroup="{Binding TagGroup}"/>
+    </ScrollViewer>
 </api:FileEditorControl>
