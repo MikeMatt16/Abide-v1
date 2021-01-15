@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace XbExplorer
@@ -84,9 +85,6 @@ namespace XbExplorer
                 Properties.Settings.Default.XboxNames = new StringCollection();
                 Properties.Settings.Default.Save();
             }
-
-            //Register name answering protocol
-            NameAnsweringProtocol.XboxDiscovered += NameAnsweringProtocol_XboxDiscovered;
 
             //Create theme for menu bar
             mainMenuStrip.Renderer = new XbExplorerMenuStripRenderer();
@@ -295,8 +293,14 @@ namespace XbExplorer
                 xboxItem.SubItems.Add(new ListViewItem.ListViewSubItem() { Tag = null });
 
                 //Check
-                if (IPAddress.TryParse(xboxName, out IPAddress address)) NameAnsweringProtocol.DiscoverAsync(address, 100);
-                else NameAnsweringProtocol.DiscoverAsync(xboxName, 100);
+                if (IPAddress.TryParse(xboxName, out IPAddress address))
+                {
+                    NameAnsweringProtocol.DiscoverAsync(address, 100).ContinueWith(NameAnsweringProtocol_XboxDiscovered);
+                }
+                else
+                {
+                    NameAnsweringProtocol.DiscoverAsync(xboxName, 100).ContinueWith(NameAnsweringProtocol_XboxesDiscovered);
+                }
             }
 
             //End
@@ -728,31 +732,85 @@ namespace XbExplorer
             XbExplorerRoot();
         }
 
-        private void NameAnsweringProtocol_XboxDiscovered(NameAnsweringProtocolEventArgs e)
+        private void NameAnsweringProtocol_XboxDiscovered(Task<Xbox> task)
         {
-            //Invoke
-            if (InvokeRequired) { Invoke(new NameAnsweringProtocolEventHandler(NameAnsweringProtocol_XboxDiscovered), e); return; }
-
-            //Loop through items
-            foreach (ListViewItem xboxItem in mainListView.Items)
-                if (xboxItem.Tag is ItemType type && type == ItemType.XboxItem)
+            Invoke(new Action(() =>
+            {
+                foreach (ListViewItem xboxItem in mainListView.Items)
                 {
-                    //Check
-                    if (IPAddress.TryParse(xboxItem.Text, out IPAddress ipAddress) && e.Result.RemoteEndPoint.Address.Equals(ipAddress))
-                        goto found;
-                    else if (xboxItem.Text == e.Result.Name)
-                        goto found;
-                    continue;
+                    if (xboxItem.Tag is ItemType type && type == ItemType.XboxItem)
+                    {
+                        Xbox xbox = task.Result;
+                        if (IPAddress.TryParse(xboxItem.Text, out IPAddress ipAddress))
+                        {
+                            if (xbox.RemoteEndPoint.Address.Equals(ipAddress))
+                            {
+                                goto found;
+                            }
+                        }
+                        else
+                        {
+                            if (xboxItem.Text == xbox.Name)
+                            {
+                                goto found;
+                            }
+                        }
 
-                found:
-                    //Setup item
-                    xboxItem.ImageIndex = 3;
-                    xboxItem.Text = e.Result.Name;
-                    xboxItem.SubItems[1] = new ListViewItem.ListViewSubItem(xboxItem,
-                        e.Result.RemoteEndPoint.Address.ToString())
-                    { Tag = e.Result.RemoteEndPoint.Address };
-                    ;
+                        continue;
+
+                    found:
+                        xboxItem.ImageIndex = 3;
+                        xboxItem.Text = xbox.Name;
+                        xboxItem.SubItems[1] = new ListViewItem.ListViewSubItem(xboxItem, xbox.RemoteEndPoint.Address.ToString())
+                        {
+                            Tag = xbox.RemoteEndPoint.Address
+                        };
+                    }
                 }
+            }));
+        }
+
+        private void NameAnsweringProtocol_XboxesDiscovered(Task<Xbox[]> task)
+        {
+            Invoke(new Action(() =>
+            {
+                foreach (ListViewItem xboxItem in mainListView.Items)
+                {
+                    var xboxes = task.Result;
+                    if (xboxItem.Tag is ItemType type && type == ItemType.XboxItem)
+                    {
+                        //Check
+                        Xbox xbox;
+                        if (IPAddress.TryParse(xboxItem.Text, out IPAddress ipAddress))
+                        {
+                            xbox = xboxes.FirstOrDefault(x => x.RemoteEndPoint.Address.Equals(ipAddress));
+                            if (xbox != null)
+                            {
+                                goto found;
+                            }
+                        }
+                        else
+                        {
+                            xbox = xboxes.FirstOrDefault(x => x.Name == xboxItem.Text);
+                            if (xbox != null)
+                            {
+                                goto found;
+                            }
+                        }
+
+                        continue;
+
+                    found:
+                        //Setup item
+                        xboxItem.ImageIndex = 3;
+                        xboxItem.Text = xbox.Name;
+                        xboxItem.SubItems[1] = new ListViewItem.ListViewSubItem(xboxItem, xbox.RemoteEndPoint.Address.ToString())
+                        {
+                            Tag = xbox.RemoteEndPoint.Address
+                        };
+                    }
+                }
+            }));
         }
 
         private void formatDriveToolStripMenuItem_Click(object sender, EventArgs e)

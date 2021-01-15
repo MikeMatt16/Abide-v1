@@ -15,7 +15,6 @@
         {
             if (disposing && (components != null))
             {
-                Abide.DebugXbox.NameAnsweringProtocol.XboxDiscovered -= NameAnsweringProtocol_XboxDiscovered;
                 components.Dispose();
             }
             base.Dispose(disposing);

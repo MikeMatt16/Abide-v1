@@ -198,7 +198,7 @@ namespace Abide.DebugXbox
         {
             if (timeout < 1) throw new ArgumentException(nameof(timeout));
 
-            return await Task<Xbox[]>.Run(() =>
+            return await Task.Run(() =>
             {
                 return Discover(timeout);
             });
@@ -215,7 +215,7 @@ namespace Abide.DebugXbox
             if (name.Length == 0) throw new ArgumentException(nameof(name));
             if (timeout < 1) throw new ArgumentException(nameof(timeout));
 
-            return await new Task<Xbox[]>(() =>
+            return await Task.Run(() =>
             {
                 return Discover(name, timeout);
             });
@@ -231,7 +231,7 @@ namespace Abide.DebugXbox
             //Check
             if (timeout < 1) throw new ArgumentException(nameof(timeout));
 
-            return await new Task<Xbox>(() =>
+            return await Task.Run(() =>
             {
                 return Discover(remoteAddress, timeout);
             });
