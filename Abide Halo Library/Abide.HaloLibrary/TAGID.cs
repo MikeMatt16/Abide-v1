@@ -28,20 +28,28 @@ namespace Abide.HaloLibrary
             set { Dword = (uint)value; }
         }
         /// <summary>
-        /// Gets or sets the low 16-bit unsigned integer.
+        /// Gets or sets the absolute index of the tag.
         /// </summary>
-        public ushort LoWord
+        public short Index
         {
-            get { return (ushort)(Dword >> 16 & 0xFFFF); }
-            set { Dword = (Dword & 0xFFFF) | (uint)(value << 16); }
+            get => (short)(Dword & 0xffff);
+            set
+            {
+                ushort salt = (ushort)Salt;
+                Dword = (uint)((salt << 16) | (ushort)value);
+            }
         }
         /// <summary>
-        /// Gets or sets the high 16-bit unsigned integer.
+        /// Gets or sets the salt of the tag.
         /// </summary>
-        public ushort HiWord
+        public short Salt
         {
-            get { return (ushort)(Dword & 0xFFFF); }
-            set { Dword = (Dword & 0xFFFF0000) | value; }
+            get => (short)((Dword & 0xffff0000) >> 16);
+            set
+            {
+                ushort index = (ushort)Index;
+                Dword = (uint)(index | (value << 16));
+            }
         }
         /// <summary>
         /// Gets and returns <see langword="true"/> if the ID is null, otherwise, <see langword="false"/>.
@@ -169,8 +177,8 @@ namespace Abide.HaloLibrary
         public static TagId operator ++(TagId id)
         {
             TagId newId = new TagId(id.Dword);
-            newId.LoWord++;
-            newId.HiWord++;
+            newId.Salt++;
+            newId.Index++;
             return newId;
         }
         /// <summary>
@@ -181,8 +189,8 @@ namespace Abide.HaloLibrary
         public static TagId operator --(TagId id)
         {
             TagId newId = new TagId(id.Dword);
-            newId.LoWord--;
-            newId.HiWord--;
+            newId.Salt--;
+            newId.Index--;
             return newId;
         }
     }

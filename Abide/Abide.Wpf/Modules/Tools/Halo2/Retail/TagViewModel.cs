@@ -5,6 +5,7 @@ using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail
@@ -92,8 +93,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             {
                 foreach (var tagBlock in TagGroup.TagBlocks)
                 {
-                    var model = new TagBlockViewModel(this);
-                    model.TagBlock = tagBlock;
+                    var model = new TagBlockViewModel(this)
+                    {
+                        Map = Map,
+                        Index = TagGroup.TagBlocks.IndexOf(tagBlock),
+                        TagBlock = tagBlock,
+                    };
+
                     Blocks.Add(model);
                 }
 
@@ -115,9 +121,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         private HaloMapFile map = null;
         private Block tagBlock = null;
         private string name, displayName = string.Empty;
+        private int index = -1;
         private int count = 0;
 
-        public TagBlockViewModel Owner { get; }
         public ObservableCollection<TagFieldViewModel> Fields { get; } = new ObservableCollection<TagFieldViewModel>();
         public HaloMapFile Map
         {
@@ -139,6 +145,18 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 if (tagBlock != value)
                 {
                     tagBlock = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int Index
+        {
+            get => index;
+            set
+            {
+                if (index != value)
+                {
+                    index = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -191,26 +209,33 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                     {
                         foreach (var tagField in tagBlock)
                         {
-                            Fields.Add(new TagFieldViewModel(Owner) { Map = map, TagField = tagField });
-                        }
-
-                        foreach (var tagField in tagBlock)
-                        {
-                            if (tagField is CharBlockIndexField)
+                            Fields.Add(new TagFieldViewModel(this)
                             {
-
-                            }
+                                Map = map,
+                                TagField = tagField
+                            });
                         }
 
                         Count = tagBlock.FieldCount;
                         Name = tagBlock.BlockName;
-                        DisplayName = GetName(tagBlock);
+                        DisplayName = $"{index}: {GetName(tagBlock)}";
                     }
                     else
                     {
                         Count = 0;
                         Name = string.Empty;
-                        DisplayName = string.Empty;
+                        DisplayName = $"{index}";
+                    }
+                    break;
+
+                case nameof(Index):
+                    if (tagBlock != null)
+                    {
+                        DisplayName = $"{index}: {GetName(tagBlock)}";
+                    }
+                    else
+                    {
+                        DisplayName = $"{index}";
                     }
                     break;
 
@@ -259,7 +284,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                         return "null";
                     }
 
-                    return $"{tag.TagName}.{tag.GroupTag}";
+                    return $"{tag.TagName}.{tag.Tag}";
 
                 case FieldType.FieldTagIndex:
                     tag = Map?.GetTagById((TagId)field.Value);
@@ -268,7 +293,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                         return "null";
                     }
 
-                    return $"{tag.TagName}.{tag.GroupTag}";
+                    return $"{tag.TagName}.{tag.Tag}";
 
                 default:
                     return field.Value?.ToString() ?? "null";
@@ -292,7 +317,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         private object value = null;
         private ITagField tagField = null;
 
-        public TagBlockViewModel Owner { get; }
         public ObservableCollection<TagBlockViewModel> BlockList { get; } = new ObservableCollection<TagBlockViewModel>();
         public ObservableCollection<TagOptionViewModel> OptionList { get; } = new ObservableCollection<TagOptionViewModel>();
         public TagBlockViewModel Structure
@@ -536,7 +560,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                             case BlockField blockField:
                                 foreach (var tagBlock in blockField.BlockList)
                                 {
-                                    TagBlockViewModel viewModel = new TagBlockViewModel(Owner) { Map = map, TagBlock = tagBlock };
+                                    TagBlockViewModel viewModel = new TagBlockViewModel(this)
+                                    {
+                                        Map = map,
+                                        TagBlock = tagBlock,
+                                        Index = blockField.BlockList.IndexOf(tagBlock)
+                                    };
                                     BlockList.Add(viewModel);
                                 }
                                 IsExpanded = BlockList.Count > 0;
@@ -547,7 +576,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                                 break;
 
                             case StructField structField:
-                                TagBlockViewModel structure = new TagBlockViewModel(Owner) { Map = map, TagBlock = (Block)structField.Value };
+                                TagBlockViewModel structure = new TagBlockViewModel(this)
+                                {
+                                    Map = map,
+                                    TagBlock = structField.Value
+                                };
                                 Structure = structure;
                                 IsExpanded = true;
                                 break;
@@ -562,6 +595,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                             case ExplanationField explanationField:
                                 Explanation = explanationField.Explanation;
                                 break;
+                        }
+
+                        if (tagField.Type == FieldType.FieldCharBlockIndex1 || tagField.Type == FieldType.FieldCharBlockIndex2 ||
+                            tagField.Type == FieldType.FieldLongBlockIndex1 || tagField.Type == FieldType.FieldLongBlockIndex2 ||
+                            tagField.Type == FieldType.FieldShortBlockIndex1 || tagField.Type == FieldType.FieldShortBlockIndex2)
+                        {
+                            TagField = CreateBlockSelectorField();
                         }
                     }
                     else
@@ -583,6 +623,51 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         public override string ToString()
         {
             return tagField?.Name ?? base.ToString();
+        }
+        private ITagField CreateBlockSelectorField()
+        {
+            if (Up is TagBlockViewModel tagBlock)
+            {
+                return new GenericBlockIndexField(tagBlock.TagBlock.BlockName, TagField.Type, tagBlock);
+            }
+
+            return TagField;
+        }
+    }
+
+    public sealed class GenericBlockIndexField : OptionField
+    {
+        private readonly FieldType type;
+
+        public override int Size
+        {
+            get
+            {
+                switch (type)
+                {
+                    case FieldType.FieldCharBlockIndex1:
+                    case FieldType.FieldCharBlockIndex2:
+                        return 1;
+
+                    case FieldType.FieldLongBlockIndex1:
+                    case FieldType.FieldLongBlockIndex2:
+                        return 4;
+
+                    case FieldType.FieldShortBlockIndex2:
+                    case FieldType.FieldShortBlockIndex1:
+                        return 2;
+                }
+
+                throw new NotImplementedException();
+            }
+        }
+        public GenericBlockIndexField(string blockName, FieldType type, TagBlockViewModel tagBlock) : base(type, "Generic Block Index Field")
+        {
+            this.type = type;
+
+            switch (blockName)
+            {
+            }
         }
     }
 

@@ -44,7 +44,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         {
             Tag = tag ?? throw new ArgumentNullException(nameof(tag));
 
-            if (tag.GroupTag != HaloTags.mode)
+            if (tag.Tag != HaloTags.mode)
             {
                 throw new ArgumentException("Specified tag is not a render model.", nameof(tag));
             }

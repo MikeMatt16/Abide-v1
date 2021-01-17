@@ -14,8 +14,8 @@ namespace Abide.HaloLibrary.Halo2.Retail
         private Header header = new Header();
         private Index index = new Index();
         private string[] strings = null;
-        private uint tagDataMemoryAddressTranslator;
-        private uint[] bspTagDataMemoryAddressTranslators;
+        private uint tagDataAddressTranslator;
+        private uint[] bspTagDataAddressTranslators;
 
         public string FileName { get; set; } = string.Empty;
         public string Name
@@ -82,7 +82,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
             if (tag == null) return null;
             TagData tagData = new TagData(tag);
 
-            if (tag.BaseAddress == tagDataMemoryAddressTranslator)
+            if (tag.BaseAddress == tagDataAddressTranslator)
             {
                 long bspLength = header.MapDataLength - (header.TagDataLength + header.IndexLength + Index.Length);
                 tagData.MemoryAddress = index.TagsAddress + header.IndexLength + bspLength;
@@ -94,7 +94,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     return tagData;
                 }
             }
-            else if (bspTagDataMemoryAddressTranslators.Any(t => tag.BaseAddress == t))
+            else if (bspTagDataAddressTranslators.Any(t => tag.BaseAddress == t))
             {
                 var scenario = GetTagById(ScenarioTagId);
                 using (var data = ReadTagData(scenario))
@@ -136,7 +136,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         {
             if (data == null || data.Stream == null || data.Tag == null || data.MemoryAddress < Index.IndexVirtualAddress) return;
 
-            if (data.Tag.BaseAddress == tagDataMemoryAddressTranslator)
+            if (data.Tag.BaseAddress == tagDataAddressTranslator)
             {
                 using (var writer = OpenWrite())
                 {
@@ -144,7 +144,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     writer.Write(data.Stream.ToArray());
                 }
             }
-            else if (bspTagDataMemoryAddressTranslators.Any(t => data.Tag.BaseAddress == t))
+            else if (bspTagDataAddressTranslators.Any(t => data.Tag.BaseAddress == t))
             {
                 var scenario = GetTagById(ScenarioTagId);
                 using (var scenarioData = ReadTagData(scenario))
@@ -208,7 +208,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
                 uint baseAddress = index.TagsAddress + header.IndexLength;
                 uint bspDataLength = header.MapDataLength - (header.TagDataLength + header.IndexLength + Index.Length);
-                tagDataMemoryAddressTranslator = baseAddress + bspDataLength - (header.IndexOffset + header.IndexLength);
+                tagDataAddressTranslator = baseAddress + bspDataLength - (header.IndexOffset + header.IndexLength);
                 HaloTag[] tags = new HaloTag[index.ObjectCount];
 
                 tagDictionary.Clear();
@@ -222,7 +222,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     else tags[i].TagName = tags[i].ToString();
 
                     if (tags[i].MemoryAddress > 0)
-                        tags[i].BaseAddress = tagDataMemoryAddressTranslator;
+                        tags[i].BaseAddress = tagDataAddressTranslator;
 
                     tagDictionary.Add(tags[i].Id.Dword, tags[i]);
                 }
@@ -230,7 +230,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 var scenarioTag = GetTagById(ScenarioTagId);
                 reader.BaseStream.Seek(scenarioTag.FileAddress + 528, SeekOrigin.Begin);
                 var structureBsps = reader.ReadTagBlock();
-                bspTagDataMemoryAddressTranslators = new uint[structureBsps.Count];
+                bspTagDataAddressTranslators = new uint[structureBsps.Count];
                 for (int i = 0; i < structureBsps.Count; i++)
                 {
                     reader.BaseStream.Seek(structureBsps.Offset + (i * 68), scenarioTag.BaseAddress, SeekOrigin.Begin);
@@ -249,8 +249,8 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
                         var structureBspTag = GetTagById(sbspId);
                         structureBspTag.MemoryAddress = sbspHeader.StructureBspOffset;
-                        bspTagDataMemoryAddressTranslators[i] = sbspHeader.StructureBspOffset - (structureBspOffset + StructureBspBlockHeader.Length);
-                        structureBspTag.BaseAddress = bspTagDataMemoryAddressTranslators[i];
+                        bspTagDataAddressTranslators[i] = sbspHeader.StructureBspOffset - (structureBspOffset + StructureBspBlockHeader.Length);
+                        structureBspTag.BaseAddress = bspTagDataAddressTranslators[i];
 
                         if (!ltmpId.IsNull)
                         {
@@ -330,7 +330,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
 
             using (BinaryReader reader = OpenRead())
             {
-                switch (tag.GroupTag)
+                switch (tag.Tag)
                 {
                     case "ugh!":
                         translator = tag.BaseAddress;
@@ -721,7 +721,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         public string TagName { get; internal set; } = string.Empty;
         public uint BaseAddress { get; internal set; }
         public TagId Id => objectEntry.Id;
-        public TagFourCc GroupTag => objectEntry.Tag;
+        public TagFourCc Tag => objectEntry.Tag;
         public long LongLength => objectEntry.Size;
         public long FileAddress => objectEntry.Offset - BaseAddress;
         public int Length
@@ -738,7 +738,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         public override string ToString()
         {
             if (!string.IsNullOrEmpty(TagName))
-                return $"{TagName}.{GroupTag} {Id} Offset: {FileAddress} Size: {Length}";
+                return $"{TagName}.{Tag} {Id} Offset: {FileAddress} Size: {Length}";
             else return $"{Id} Offset: {FileAddress} Size: {Length}";
         }
         internal HaloTag(HaloMapFile owner, BinaryReader reader)

@@ -30,7 +30,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
         {
             Tag = tag ?? throw new ArgumentNullException(nameof(tag));
 
-            if (tag.GroupTag != HaloTags.hlmt)
+            if (tag.Tag != HaloTags.hlmt)
             {
                 throw new ArgumentException("Specified tag is not a model.", nameof(tag));
             }

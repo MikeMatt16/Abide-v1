@@ -643,7 +643,7 @@ namespace Abide.DebugXbox
                     WaitForData(info.FrameBufferSize, 2000);
                     DownloadData(frameBuffer, info.FrameBufferSize);
 
-                    Bitmap bmp = new Bitmap(info.Width, info.Height, PixelFormat.Format32bppRgb);
+                    Bitmap bmp = new Bitmap(info.Width, info.Height, PixelFormat.Format32bppArgb);
                     BitmapData data = null;
                     switch (info.Format)
                     {
@@ -654,11 +654,24 @@ namespace Abide.DebugXbox
                                 data = bmp.LockBits(new Rectangle(0, 0, info.Width, info.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
                                 for (int i = 0; i < info.Width * info.Height; i++)
                                 {
+                                    // bitmap order BGRA
+                                    // xbox order RABG
+
                                     int a = i * 4;
                                     decoded[a + 0] = frameBuffer[a + 2];
                                     decoded[a + 1] = frameBuffer[a + 3];
                                     decoded[a + 2] = frameBuffer[a + 0];
                                     decoded[a + 3] = frameBuffer[a + 1];
+                                }
+
+                                throw new NotImplementedException();
+                                for (int i = 0; i < info.Height; i++)
+                                {
+                                    int r = i * data.Stride;
+                                    for (int x = 0; x < info.Width - 1; x++)
+                                    {
+                                        decoded[x * 4 + r + 1] = frameBuffer[x * 4 + r + 1];
+                                    }
                                 }
 
                                 Marshal.Copy(decoded, 0, data.Scan0, data.Stride * data.Height);

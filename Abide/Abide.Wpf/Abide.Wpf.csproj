@@ -292,6 +292,10 @@
       <Project>{764C6399-3A25-4BDB-B746-8648CEDDD652}</Project>
       <Name>Abide.Tag.Cache</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Abide.Guerilla\Abide.Tag.Guerilla\Abide.Tag.Guerilla.csproj">
+      <Project>{f35897a7-cefe-4ca5-b534-c5c6d232c854}</Project>
+      <Name>Abide.Tag.Guerilla</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Abide.Guerilla\Abide.Tag\Abide.Tag.csproj">
       <Project>{339D8B36-1875-44B0-8F58-2379CBF8E2A8}</Project>
       <Name>Abide.Tag</Name>
@@ -300,7 +304,7 @@
       <Project>{55b8fbad-8570-4371-ba33-62e85351db66}</Project>
       <Name>Abide.Ifp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj">
+    <ProjectReference Include="..\..\Abide Halo Library\Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj">
       <Project>{b3cc2b9a-fdd7-4cbf-a87d-e1732737226e}</Project>
       <Name>Abide.AddOnApi.Wpf</Name>
     </ProjectReference>

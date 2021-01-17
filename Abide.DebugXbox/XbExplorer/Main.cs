@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -1004,8 +1005,8 @@ namespace XbExplorer
                         Directory.CreateDirectory(Properties.Settings.Default.ScreenshotDirectory);
 
                     var now = DateTime.Now;
-                    string filepath = Path.Combine(Properties.Settings.Default.ScreenshotDirectory, $"Screenshot-{now.Month:d2}{now.Day:d2}{now.Year}{now.Hour}{now.Minute}{now.Second}.png");
-                    screenshot.Save(filepath);
+                    string filepath = Path.Combine(Properties.Settings.Default.ScreenshotDirectory, $"Screenshot-{now.Month:d2}{now.Day:d2}{now.Year}{now.Hour}{now.Minute}{now.Second}.bmp");
+                    screenshot.Save(filepath, ImageFormat.Bmp);
                     screenshot.Dispose();
 
                     Process.Start(filepath);

@@ -92,6 +92,10 @@ namespace Abide.AddOnApi.Wpf.Halo2
             GC.SuppressFinalize(this);
         }
         protected virtual void Dispose(bool disposing) { }
+        public void RequestReloadMapFile()
+        {
+            Host.Request(this, "ReloadMapFile", Map.FileName);
+        }
 
         HaloTag IHaloAddOn<HaloMapFile, HaloTag>.SelectedEntry { get { return SelectedEntry; } }
         MapVersion IHaloAddOn<HaloMapFile, HaloTag>.Version { get { return MapVersion.Halo2; } }

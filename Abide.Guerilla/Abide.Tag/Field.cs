@@ -181,9 +181,9 @@ namespace Abide.Tag
             get => (Block)FieldValue;
             set => FieldValue = value;
         }
-        protected StructField(string name, Block tagBlock) : base(FieldType.FieldStruct, name)
+        protected StructField(string name) : base(FieldType.FieldStruct, name)
         {
-            Value = tagBlock;
+            Value = Create();
         }
         protected override void OnRead(BinaryReader reader)
         {
@@ -1446,7 +1446,7 @@ namespace Abide.Tag
 
     public sealed class StructField<T> : StructField where T : Block, new()
     {
-        public StructField(string name) : base(name, new T()) { }
+        public StructField(string name) : base(name) { }
         public override Block Create()
         {
             return new T();

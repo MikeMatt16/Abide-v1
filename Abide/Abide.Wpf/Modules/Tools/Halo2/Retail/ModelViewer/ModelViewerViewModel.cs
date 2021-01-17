@@ -40,7 +40,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
 
         protected override void OnSelectedTagChanged()
         {
-            if (SelectedTag.GroupTag == HaloTags.mode)
+            if (SelectedTag.Tag == HaloTags.mode)
             {
                 RenderModel = new HaloRenderModel(SelectedTag);
                 RenderModel.Load();

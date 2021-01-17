@@ -118,13 +118,24 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         private void Debug()
         {
-            // DebugXbox.Xbox xbox = DebugXbox.NameAnsweringProtocol.Discover(15).First();
-            // xbox.Connect();
-            // _ = xbox.SetMemory(new byte[] { 0xff }, 0x0, 0, 1);
+            // using (var map = new HaloLibrary.Halo2.Retail.HaloMap(@"F:\XBox\Original\Games\Halo 2\Clean Maps\ascension.map"))
+            // using (var writer = File.CreateText(@"F:\map_info.txt"))
+            // {
+            //     writer.Write($"Map Name: ");
+            //     writer.WriteLine(map.Name);
+            //     writer.Write($"Entry Count: ");
+            //     writer.WriteLine(map.IndexEntries.Count);
             // 
-
-            // OpenFile(@"F:\Users\Mike\Documents\Abide\Guerilla\tags\objects\weapons\rifle\battle_rifle\battle_rifle.weapon");
-            // OpenFile(@"F:\XBox\Original\Games\Halo 2\Modding\Maps\Retail\ascension.map");
+            //     for (int i = 0; i < map.IndexEntries.Count; i++)
+            //     {
+            //         writer.Write("0x");
+            //         writer.Write(map.IndexEntries[i].Id.ToString());
+            //         writer.Write(" ");
+            //         writer.Write(map.IndexEntries[i].Filename);
+            //         writer.Write(".");
+            //         writer.WriteLine(map.IndexEntries[i].Root);
+            //     }
+            // }
         }
         private void NewProject(NewProjectDialog dialog = null)
         {
@@ -256,7 +267,14 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         private void CompileMap(object arg)
         {
+#if !DEBUG
             throw new NotImplementedException();
+#endif
+            OpenFileDialog openDlg = new OpenFileDialog() { Filter = "Scenario Files (*.scenario)|*.scenario" };
+            if (openDlg.ShowDialog() ?? false)
+            {
+                CompileMap(openDlg.FileName);
+            }
         }
         private void OpenProject(string path)
         {
@@ -355,21 +373,40 @@ namespace Abide.Wpf.Modules.ViewModel
         private void DecompileMapFile(string path)
         {
             //Check
-            if (!File.Exists(path))
+            if (File.Exists(path))
             {
-                return;
-            }
+                if (PrimaryOperation?.IsRunning ?? false)
+                {
+                    return;
+                }
 
-            if (PrimaryOperation != null && PrimaryOperation.IsRunning)
+                var operation = new HaloMapDecompileOperation(path);
+                operation.Start(DecompileOperationCompleted, ProgressBar);
+                PrimaryOperation = operation;
+            }
+        }
+        private void CompileMap(string path)
+        {
+            if (File.Exists(path))
             {
-                return;
-            }
+                if (PrimaryOperation?.IsRunning ?? false)
+                {
+                    return;
+                }
 
-            var operation = new HaloMapDecompileOperation(path);
-            operation.Start(DecompileOperationCompleted, ProgressBar);
-            PrimaryOperation = operation;
+                var operation = new HaloMapCompileOperation(path);
+                operation.Start(CompileOperationCompleted, ProgressBar);
+                PrimaryOperation = operation;
+            }
         }
         private void DecompileOperationCompleted(object state)
+        {
+            var time = PrimaryOperation.ElapsedTime;
+            PrimaryOperation = null;
+            ProgressBar.ReportStatus(string.Empty);
+            ProgressBar.Report(0);
+        }
+        private void CompileOperationCompleted(object state)
         {
             var time = PrimaryOperation.ElapsedTime;
             PrimaryOperation = null;

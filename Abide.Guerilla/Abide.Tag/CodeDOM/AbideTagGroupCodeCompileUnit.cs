@@ -1,5 +1,6 @@
 ﻿using Abide.HaloLibrary;
 using Abide.Tag.Definition;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
@@ -82,6 +83,7 @@ namespace Abide.Tag.CodeDom
             tagGroupCodeTypeDeclaration.Members.Add(constructor);
 
             //Initialize Blocks
+            int index = 0;
             TagFourCc parent = tagGroup.ParentGroupTag;
             while (parent.Dword != 0)
             {
@@ -90,9 +92,11 @@ namespace Abide.Tag.CodeDom
 
                 //Add Block
                 constructor.Statements.Insert(0, new CodeExpressionStatement(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
-                    new CodeThisReferenceExpression(), nameof(Group.TagBlocks)), nameof(List<ITagBlock>.Add)), new CodeObjectCreateExpression(
+                    new CodeThisReferenceExpression(), nameof(Group.TagBlocks)), nameof(List<Block>.Add)), new CodeObjectCreateExpression(
                         new CodeTypeReference(AbideCodeDomGlobals.GetMemberName(AbideCodeDomGlobals.GetTagBlock(parentGroup.BlockName)))))));
                 constructor.Statements.Insert(0, new CodeCommentStatement($"Add parent {parentGroup.Name} tag block to list."));
+
+                CreateBlockProperty(index++, AbideCodeDomGlobals.GetTagBlock(parentGroup.BlockName));
 
                 //Get parent's parent group
                 parent = parentGroup.ParentGroupTag;
@@ -110,6 +114,13 @@ namespace Abide.Tag.CodeDom
 
             //Add namespace
             Namespaces.Add(generatedCodeNamespace);
+        }
+
+        private void CreateBlockProperty(int index, AbideTagBlock abideTagBlock)
+        {
+            if (abideTagBlock != null)
+            {
+            }
         }
     }
 }

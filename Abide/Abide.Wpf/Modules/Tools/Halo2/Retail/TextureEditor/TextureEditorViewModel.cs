@@ -36,7 +36,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
 
         protected override void OnSelectedTagChanged()
         {
-            if (SelectedTag.GroupTag == HaloTags.bitm)
+            if (SelectedTag.Tag == HaloTags.bitm)
             {
                 CurrentBitmap = new HaloBitmap(SelectedTag);
                 CurrentBitmap.Load();

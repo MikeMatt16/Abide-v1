@@ -35,7 +35,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 using (var tagData = Map.ReadTagData(globals))
                 {
                     _ = tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
-                    var globalsTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(globals.GroupTag);
+                    var globalsTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(globals.Tag);
                     globalsTagGroup.Read(tagData.Stream.CreateReader());
 
                     var soundGlobals = (BlockField)globalsTagGroup.TagBlocks[0].Fields[4];
@@ -45,7 +45,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         var soundCacheFileGestaltId = (TagId)soundGlobalsBlock.Fields[4].Value;
                         var soundCacheFileGestalt = Map.GetTagById(soundCacheFileGestaltId);
                         _ = tagData.Stream.Seek(soundCacheFileGestalt.MemoryAddress, SeekOrigin.Begin);
-                        soundCacheFileGestaltTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(soundCacheFileGestalt.GroupTag);
+                        soundCacheFileGestaltTagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(soundCacheFileGestalt.Tag);
                         soundCacheFileGestaltTagGroup.Read(tagData.Stream.CreateReader());
                     }
                 }
@@ -83,7 +83,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                                 writer.WriteValue(tag.Key.TagName);
                                 writer.WriteEndAttribute();
                                 writer.WriteStartAttribute("GroupTag");
-                                writer.WriteValue(tag.Key.GroupTag);
+                                writer.WriteValue(tag.Key.Tag);
                                 writer.WriteEndAttribute();
                                 writer.WriteEndElement();
                             }
@@ -118,7 +118,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
         {
             if (!tags.ContainsKey(tag))
             {
-                var tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(tag.GroupTag);
+                var tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(tag.Tag);
                 using (var data = Map.ReadTagData(tag))
                 {
                     _ = data.Stream.Seek(tag.MemoryAddress, SeekOrigin.Begin);

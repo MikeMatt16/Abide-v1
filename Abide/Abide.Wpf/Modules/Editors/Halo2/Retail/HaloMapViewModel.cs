@@ -135,45 +135,48 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         {
             TagPathNode rootNode = new TagPathNode();
 
-            if (AbideRegistry.TagViewType == AbideRegistry.TagView.TagPath)
+            if (Map != null)
             {
-                foreach (var tag in GetTags(Map, filter))
+                if (AbideRegistry.TagViewType == AbideRegistry.TagView.TagPath)
                 {
-                    string path = $"{tag.TagName}.{tag.GroupTag}";
-                    string[] parts = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                    TagPathNode currentNode = rootNode;
-
-                    for (int i = 0; i < parts.Length - 1; i++)
+                    foreach (var tag in GetTags(Map, filter))
                     {
-                        if (currentNode.Children.ContainsName(parts[i]))
+                        string path = $"{tag.TagName}.{tag.Tag}";
+                        string[] parts = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                        TagPathNode currentNode = rootNode;
+
+                        for (int i = 0; i < parts.Length - 1; i++)
                         {
-                            currentNode = currentNode.Children[parts[i]];
+                            if (currentNode.Children.ContainsName(parts[i]))
+                            {
+                                currentNode = currentNode.Children[parts[i]];
+                            }
+                            else
+                            {
+                                currentNode = currentNode.Children.Add(parts[i], !IsCollapsed);
+                            }
+                        }
+
+                        _ = currentNode.Children.Add(parts[parts.Length - 1], false, tag);
+                    }
+                }
+                else
+                {
+                    foreach (var tag in GetTags(Map, filter))
+                    {
+                        string path = $"{tag.TagName}.{tag.Tag}";
+                        TagPathNode currentNode;
+                        if (!rootNode.Children.ContainsName(tag.Tag))
+                        {
+                            currentNode = rootNode.Children.Add(tag.Tag);
                         }
                         else
                         {
-                            currentNode = currentNode.Children.Add(parts[i], !IsCollapsed);
+                            currentNode = rootNode.Children[tag.Tag];
                         }
-                    }
 
-                    _ = currentNode.Children.Add(parts[parts.Length - 1], false, tag);
-                }
-            }
-            else
-            {
-                foreach (var tag in GetTags(Map, filter))
-                {
-                    TagPathNode currentNode = rootNode;
-                    string path = $"{tag.TagName}.{tag.GroupTag}";
-                    if (!rootNode.Children.ContainsName(tag.GroupTag))
-                    {
-                        currentNode = rootNode.Children.Add(tag.GroupTag);
+                        _ = currentNode.Children.Add(path, false, tag);
                     }
-                    else
-                    {
-                        currentNode = rootNode.Children[tag.GroupTag];
-                    }
-
-                    _ = currentNode.Children.Add(path, false, tag);
                 }
             }
 
@@ -188,7 +191,7 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
 
             return haloMap.GetTagsEnumerator().Where(e =>
             {
-                string tagName = $"{e.TagName}.{e.GroupTag}";
+                string tagName = $"{e.TagName}.{e.Tag}";
                 foreach (var part in tagName.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (part.StartsWith(filter, StringComparison.OrdinalIgnoreCase))
@@ -279,6 +282,11 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
                 case "GetSelectedTag":
                 case "GetSelectedEntry":
                     return GetValue(SelectedTagProperty);
+
+                case "ReloadMapFile":
+                    System.Diagnostics.Debugger.Break();
+                    Map = HaloMapFile.Load(Map.FileName);
+                    break;
 
                 default:
                     Console.WriteLine("Unknown AddOn request: {0}", request);

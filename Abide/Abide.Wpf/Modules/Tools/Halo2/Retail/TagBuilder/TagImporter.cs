@@ -62,7 +62,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                 using (var tagData = Map.ReadTagData(globals))
                 {
                     _ = tagData.Stream.Seek(globals.MemoryAddress, SeekOrigin.Begin);
-                    var globalsTagGroup = TagLookup.CreateTagGroup(globals.GroupTag);
+                    var globalsTagGroup = TagLookup.CreateTagGroup(globals.Tag);
                     globalsTagGroup.Read(tagData.Stream.CreateReader());
 
                     var soundGlobals = (BlockField)globalsTagGroup.TagBlocks[0].Fields[4];

@@ -122,10 +122,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         {
             if (SelectedTag != null)
             {
-                Group tagGroup = TagLookup.CreateTagGroup(SelectedTag.GroupTag);
-                if (SelectedPluginSet.ContainsTag(SelectedTag.GroupTag))
+                Group tagGroup = TagLookup.CreateTagGroup(SelectedTag.Tag);
+                if (SelectedPluginSet.ContainsTag(SelectedTag.Tag))
                 {
-                    tagGroup = new IfpTagGroup(SelectedPluginSet[SelectedTag.GroupTag], tagGroup.GroupName);
+                    tagGroup = new IfpTagGroup(SelectedPluginSet[SelectedTag.Tag], tagGroup.GroupName);
                 }
 
                 if (tagGroup != null)

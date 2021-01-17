@@ -313,7 +313,6 @@ namespace Abide.Guerilla.Library
             BlockField pitchRanges = (BlockField)soundCacheFileGestaltBlock.Fields[4];
             BlockField permutations = (BlockField)soundCacheFileGestaltBlock.Fields[5];
             BlockField customPlaybacks = (BlockField)soundCacheFileGestaltBlock.Fields[6];
-            BlockField runtimePermutationFlags = (BlockField)soundCacheFileGestaltBlock.Fields[7];
             BlockField chunks = (BlockField)soundCacheFileGestaltBlock.Fields[8];
             BlockField promotions = (BlockField)soundCacheFileGestaltBlock.Fields[9];
             BlockField extraInfos = (BlockField)soundCacheFileGestaltBlock.Fields[10];

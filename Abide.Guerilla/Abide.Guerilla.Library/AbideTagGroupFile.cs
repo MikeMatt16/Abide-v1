@@ -118,11 +118,11 @@ namespace Abide.Guerilla.Library
             
             return new byte[0];
         }
-        public void SetResource(int address, byte[] data)
+        public void SetResource(long address, byte[] data)
         {
-            if (data == null)
+            if (data == null && resources.ContainsKey(address))
             {
-                throw new ArgumentNullException(nameof(data));
+                resources.Remove(address);
             }
 
             if (resources.ContainsKey(address))

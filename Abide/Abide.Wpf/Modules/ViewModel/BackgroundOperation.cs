@@ -16,7 +16,7 @@ namespace Abide.Wpf.Modules.ViewModel
         private static readonly DependencyPropertyKey MaximumPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(Maximum), typeof(int), typeof(BackgroundOperation), new PropertyMetadata(0));
         private static readonly DependencyPropertyKey ProgressVisibilityPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(ProgressVisibility), typeof(Visibility), typeof(BackgroundOperation), new PropertyMetadata(Visibility.Hidden));
+            DependencyProperty.RegisterReadOnly(nameof(ProgressVisibility), typeof(Visibility), typeof(BackgroundOperation), new PropertyMetadata(Visibility.Collapsed));
         public static readonly DependencyProperty StatusProperty = StatusPropertyKey.DependencyProperty;
         public static readonly DependencyProperty ProgressProperty = ProgressPropertyKey.DependencyProperty;
         public static readonly DependencyProperty MaximumProperty = MaximumPropertyKey.DependencyProperty;
@@ -211,7 +211,7 @@ namespace Abide.Wpf.Modules.ViewModel
             public string Status { get; }
             public int Maximum { get; }
 
-            public bool Visible { get; set; } = true;
+            public bool Visible { get; set; } = false;
             public void ReportStatus(string status)
             {
             }

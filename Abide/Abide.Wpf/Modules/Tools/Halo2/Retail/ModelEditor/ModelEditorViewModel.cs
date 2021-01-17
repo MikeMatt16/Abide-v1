@@ -27,7 +27,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelEditor
 
         protected override void OnSelectedTagChanged()
         {
-            if (SelectedTag.GroupTag == HaloTags.hlmt)
+            if (SelectedTag.Tag == HaloTags.hlmt)
             {
                 Model = new HaloModel(SelectedTag);
                 Model.Load();

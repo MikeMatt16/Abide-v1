@@ -55,7 +55,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TextureEditor
         {
             Tag = tag ?? throw new ArgumentNullException(nameof(tag));
 
-            if (tag.GroupTag != HaloTags.bitm)
+            if (tag.Tag != HaloTags.bitm)
             {
                 throw new ArgumentException("Specified tag is not a bitmap.", nameof(tag));
             }

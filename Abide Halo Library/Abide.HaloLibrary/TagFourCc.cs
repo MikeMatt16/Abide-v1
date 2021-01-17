@@ -73,6 +73,19 @@ namespace Abide.HaloLibrary
             this.d = (sbyte)d;
         }
         /// <summary>
+        /// Initializes a new <see cref="TagFourCc"/> instance using the specified 32-bit signed integer.
+        /// </summary>
+        /// <param name="integer"></param>
+        public TagFourCc(int integer)
+        {
+            uint dword = unchecked((uint)integer);
+            uint d = dword & 0xff, c = dword & 0xff00, b = dword & 0xff0000, a = dword & 0xff000000;
+            this.a = (sbyte)(a >> 24);
+            this.b = (sbyte)(b >> 16);
+            this.c = (sbyte)(c >> 8);
+            this.d = (sbyte)d;
+        }
+        /// <summary>
         /// Compares this instance with a specified <see cref="TagFourCc"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified tag.
         /// </summary>
         /// <param name="tag">The tag to compare with this instance.</param>

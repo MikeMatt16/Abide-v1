@@ -37,8 +37,8 @@ namespace Abide.Tag.Cache.Generated
             this.Fields.Add(new AngleBoundsField("angular velocity bounds:degrees per second"));
             this.Fields.Add(new RealBoundsField("radius modifier bounds"));
             this.Fields.Add(new ExplanationField("SCALE MODIFIERS", ""));
-            this.Fields.Add(new LongFlagsField("A scales values:", "velocity", "velocity delta", "velocity cone angle", "angular velocity", "angular velocity delta", "type-specific scale"));
-            this.Fields.Add(new LongFlagsField("B scales values:", "velocity", "velocity delta", "velocity cone angle", "angular velocity", "angular velocity delta", "type-specific scale"));
+            this.Fields.Add(new LongFlagsField("A scales values", "velocity", "velocity delta", "velocity cone angle", "angular velocity", "angular velocity delta", "type-specific scale"));
+            this.Fields.Add(new LongFlagsField("B scales values", "velocity", "velocity delta", "velocity cone angle", "angular velocity", "angular velocity delta", "type-specific scale"));
         }
         /// <summary>
         /// Gets and returns the name of the effect_part_block tag block.

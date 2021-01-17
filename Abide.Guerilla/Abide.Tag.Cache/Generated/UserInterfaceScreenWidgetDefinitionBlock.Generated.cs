@@ -24,7 +24,7 @@ namespace Abide.Tag.Cache.Generated
         /// </summary>
         public UserInterfaceScreenWidgetDefinitionBlock()
         {
-            this.Fields.Add(new ExplanationField("Notes on screen widgets:", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
+            this.Fields.Add(new ExplanationField("Notes on screen widgets", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
   with the origin centered in the display (regardless of display size)
 - for widget component placement, all coordinates you define in the tag specifiy the object's
   placement prior to the application of any animation

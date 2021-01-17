@@ -37,7 +37,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
                 var tag = ViewModel.Map.GetTagById(tagId);
                 if (tag != null)
                 {
-                    return $"{tag.TagName}.{tag.GroupTag}";
+                    return $"{tag.TagName}.{tag.Tag}";
                 }
                 else
                 {

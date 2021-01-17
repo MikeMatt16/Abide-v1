@@ -124,6 +124,9 @@
   <data name="Abide_Splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Abide Splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>This map was compiled on {0} using Abide Compiler. While the Halo 2 modding scene is dead, it still brings me joy to work on these projects. I want to take a moment to thank everyone along the way for their support and putting up with my infinite questions. So special thanks to JacksonCougar, DemonicSandwich, Grimdoomer, Darkshallfall, mr_happy_penguin, XZodia, Xbox 7887, Kornman; without all of you this project could have never existed. Thank you.</value>
+  </data>
   <data name="Glow_Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Glow-Window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

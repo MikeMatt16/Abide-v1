@@ -1,4 +1,5 @@
-﻿using Abide.Tag.Definition;
+﻿using Abide.HaloLibrary;
+using Abide.Tag.Definition;
 using System;
 using System.IO;
 using System.Text;
@@ -42,15 +43,15 @@ namespace Abide.Tag.Guerilla
 
     public sealed class TagReferenceField : NullTerminatedStringField
     {
-        public string GroupTag { get; set; }
-        public TagReferenceField(string name, string groupTag = "") : base(FieldType.FieldTagReference, name)
-        {
-            GroupTag = groupTag;
-            Value = string.Empty;
-        }
+        public TagFourCc GroupTag { get; set; }
         public TagReferenceField(string name, int groupTag = 0) : base(FieldType.FieldTagReference, name)
         {
-            GroupTag = Encoding.UTF8.GetString(BitConverter.GetBytes(groupTag)).Trim('\0');
+            GroupTag = new TagFourCc(groupTag);
+            Value = string.Empty;
+        }
+        public TagReferenceField(string name, string groupTag) : base(FieldType.FieldTagReference, name)
+        {
+            GroupTag = groupTag;
             Value = string.Empty;
         }
     }

@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbideProjectFile.cs" />
+    <Compile Include="AbideTag.cs" />
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="CacheResources.cs" />
     <Compile Include="Conversion.cs" />
     <Compile Include="CommonStrings.cs" />

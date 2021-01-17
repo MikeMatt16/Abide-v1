@@ -193,7 +193,7 @@ namespace Abide.Tag.CodeDom
                         processedFields.AddRange(ProcessTagFields(arrayList, fieldsList[j].Length));
 
                         //Increment
-                        j += (arrayList.Count - 1);
+                        j += arrayList.Count - 1;
                     }
                     else if (fieldsList[j].FieldType != FieldType.FieldArrayEnd || fieldsList[j].FieldType != FieldType.FieldTerminator)
                         processedFields.Add(CloneField(fieldsList[j].Name, fieldsList[j]));  //Add Field
@@ -381,7 +381,6 @@ namespace Abide.Tag.CodeDom
         {
             //Prepare
             List<CodeExpression> expressions = new List<CodeExpression>();
-            CodeExpression fieldCreateExpression = null;
 
             //Loop
             foreach (AbideTagField field in arrayField.Fields)
@@ -394,13 +393,9 @@ namespace Abide.Tag.CodeDom
                 }
                 else
                 {
-                    //Create
-                    fieldCreateExpression = CreateFieldCreateExpression(field);
-
-                    //Add?
+                    CodeExpression fieldCreateExpression = CreateFieldCreateExpression(field);
                     if (fieldCreateExpression != null)
                     {
-                        //Add statement
                         expressions.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
                             new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
                     }

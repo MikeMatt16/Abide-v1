@@ -1,8 +1,5 @@
 ﻿using Abide.HaloLibrary;
 using Abide.Tag;
-using Abide.Tag.Definition;
-using System;
-using System.Text;
 
 namespace Abide.Compiler
 {
@@ -40,7 +37,7 @@ namespace Abide.Compiler
         public static Block GetStruct(this Field field)
         {
             if (field is StructField structField)
-                return (Block)structField.Value;
+                return structField.Value;
             return null;
         }
 
@@ -49,11 +46,11 @@ namespace Abide.Compiler
         /// </summary>
         /// <param name="field">The field to retrieve the group tag of.</param>
         /// <returns>A 32-bit signed integer if the field is of the type <see cref="FieldType.FieldTagReference"/>; otherwise 0.</returns>
-        public static int GetGroupTag(this Field field)
+        public static TagFourCc GetGroupTag(this Field field)
         {
             if (field is Tag.Guerilla.TagReferenceField tagReferenceField)
-                return BitConverter.ToInt32(Encoding.UTF8.GetBytes(tagReferenceField.GroupTag.PadRight(4, '\0')), 0);
-            return 0;
+                return tagReferenceField.GroupTag;
+            return new TagFourCc();
         }
     }
 }

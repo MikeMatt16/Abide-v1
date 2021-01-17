@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
                         "d)\n"));
             this.Fields.Add(new BlockField<SingleAnimationReferenceBlock>("item animations", 7));
             this.Fields.Add(new BlockField<TextBlockReferenceBlock>("text blocks", 64));
-            this.Fields.Add(new ExplanationField("NOTE:", "the bitmap block top-left is actually bottom-left here in list skin land!"));
+            this.Fields.Add(new ExplanationField("NOTE", "the bitmap block top-left is actually bottom-left here in list skin land!"));
             this.Fields.Add(new BlockField<BitmapBlockReferenceBlock>("bitmap blocks", 64));
             this.Fields.Add(new BlockField<HudBlockReferenceBlock>("hud blocks", 64));
             this.Fields.Add(new BlockField<PlayerBlockReferenceBlock>("player blocks", 64));
