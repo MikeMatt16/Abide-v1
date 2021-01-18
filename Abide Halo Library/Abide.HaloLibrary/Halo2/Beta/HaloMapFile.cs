@@ -200,38 +200,11 @@ namespace Abide.HaloLibrary.Halo2.Beta
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HaloTag GetTagById(int id)
-        {
-            return GetTagById(new TagId(id));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public HaloTag GetTagById(uint id)
-        {
-            return GetTagById(new TagId(id));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public string GetStringById(StringId id)
         {
             if (id.Index < strings.Length)
                 return strings[id.Index];
             return null;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public string GetStringById(uint id)
-        {
-            return GetStringById(new StringId(id));
         }
         /// <summary>
         /// 

@@ -1,7 +1,5 @@
-﻿using Abide.HaloLibrary;
-using Abide.Tag;
+﻿using Abide.Tag;
 using Abide.Tag.Guerilla.Generated;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -13,15 +11,11 @@ namespace Abide.Guerilla.Library
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly Dictionary<long, byte[]> resources;
+        private readonly Dictionary<long, byte[]> resources = new Dictionary<long, byte[]>();
 
         public int ResourceCount => resources.Count;
         public Group TagGroup { get; set; }
-        public TagId Id { get; set; }
-        public AbideTagGroupFile()
-        {
-            resources = new Dictionary<long, byte[]>();
-        }
+        public AbideTagGroupFile() { }
         public void Load(string filename)
         {
             Load(File.OpenRead(filename));
@@ -60,7 +54,6 @@ namespace Abide.Guerilla.Library
             }
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TagGroup)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
         }
         public void Save(string filename)
         {
@@ -71,9 +64,8 @@ namespace Abide.Guerilla.Library
             TagGroupHeader header = new TagGroupHeader
             {
                 AbideTag = "atag",
-                GroupTag = TagGroup.GroupTag,
+                GroupTag = TagGroup.Tag,
                 TagResourceCount = (uint)resources.Count,
-                Id = new TagId(Id),
             };
             
             using (BinaryWriter writer = new BinaryWriter(outStream))
@@ -137,7 +129,7 @@ namespace Abide.Guerilla.Library
         }
         public override string ToString()
         {
-            if (TagGroup != null) return $"0x{Id.Dword:X8} {TagGroup.GroupName}";
+            if (TagGroup != null) return $"{TagGroup.Name}";
             else return base.ToString();
         }
     }

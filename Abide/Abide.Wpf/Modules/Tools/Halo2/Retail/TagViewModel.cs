@@ -104,8 +104,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 }
 
                 Count = TagGroup.TagBlockCount;
-                Name = TagGroup.GroupName;
-                GroupTag = TagGroup.GroupTag;
+                Name = TagGroup.Name;
+                GroupTag = TagGroup.Tag;
             }
             else
             {
@@ -597,12 +597,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                                 break;
                         }
 
-                        if (tagField.Type == FieldType.FieldCharBlockIndex1 || tagField.Type == FieldType.FieldCharBlockIndex2 ||
-                            tagField.Type == FieldType.FieldLongBlockIndex1 || tagField.Type == FieldType.FieldLongBlockIndex2 ||
-                            tagField.Type == FieldType.FieldShortBlockIndex1 || tagField.Type == FieldType.FieldShortBlockIndex2)
-                        {
-                            TagField = CreateBlockSelectorField();
-                        }
+                        // if (tagField.Type == FieldType.FieldCharBlockIndex1 || tagField.Type == FieldType.FieldCharBlockIndex2 ||
+                        //     tagField.Type == FieldType.FieldLongBlockIndex1 || tagField.Type == FieldType.FieldLongBlockIndex2 ||
+                        //     tagField.Type == FieldType.FieldShortBlockIndex1 || tagField.Type == FieldType.FieldShortBlockIndex2)
+                        // {
+                        //     TagField = CreateBlockSelectorField();
+                        // }
                     }
                     else
                     {

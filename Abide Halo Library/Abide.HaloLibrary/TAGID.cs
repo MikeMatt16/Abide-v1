@@ -15,41 +15,31 @@ namespace Abide.HaloLibrary
         /// </summary>
         public static readonly TagId Null = new TagId(-1);
 
+        private short index;
+        private short salt;
+
         /// <summary>
         /// Gets and returns the ID as an unsigned 32-bit integer.
         /// </summary>
-        public uint Dword { get; set; }
-        /// <summary>
-        /// Gets and returns the ID as a signed 32-bit integer.
-        /// </summary>
-        public int Id
+        public uint Dword
         {
-            get { return (int)Dword; }
-            set { Dword = (uint)value; }
-        }
-        /// <summary>
-        /// Gets or sets the absolute index of the tag.
-        /// </summary>
-        public short Index
-        {
-            get => (short)(Dword & 0xffff);
-            set
-            {
-                ushort salt = (ushort)Salt;
-                Dword = (uint)((salt << 16) | (ushort)value);
-            }
+            get => (uint)(((ushort)salt << 16) | (ushort)index);
         }
         /// <summary>
         /// Gets or sets the salt of the tag.
         /// </summary>
         public short Salt
         {
-            get => (short)((Dword & 0xffff0000) >> 16);
-            set
-            {
-                ushort index = (ushort)Index;
-                Dword = (uint)(index | (value << 16));
-            }
+            get => salt;
+            set => salt = value;
+        }
+        /// <summary>
+        /// Gets or sets the absolute index of the tag.
+        /// </summary>
+        public short Index
+        {
+            get => index;
+            set => index = value;
         }
         /// <summary>
         /// Gets and returns <see langword="true"/> if the ID is null, otherwise, <see langword="false"/>.
@@ -59,21 +49,29 @@ namespace Abide.HaloLibrary
             get { return Dword == uint.MaxValue; }
         }
 
+        private TagId(int id)
+        {
+            index = (short)(id & 0xffff);
+            salt = (short)(id >> 16);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salt"></param>
+        /// <param name="index"></param>
+        public TagId(int salt, int index)
+        {
+            this.salt = (short)salt;
+            this.index = (short)index;
+        }
         /// <summary>
         /// Initializes a new <see cref="TagId"/> instance using the supplied ID.
         /// </summary>
         /// <param name="id">The 32-bit unsigned integer ID.</param>
         public TagId(uint id)
         {
-            Dword = id;
-        }
-        /// <summary>
-        /// Initializes a new <see cref="TagId"/> instance using the supplied ID.
-        /// </summary>
-        /// <param name="id">The 32-bit signed integer ID.</param>
-        public TagId(int id)
-        {
-            Dword = (uint)id;
+            index = (short)(id & 0xffff);
+            salt = (short)(id >> 16);
         }
         /// <summary>
         /// Compares this instance with a specified <see cref="int"/> object and indicates whether this instance preceds, follows, or appears in the same position as in the sort order as the specified id.
@@ -127,7 +125,23 @@ namespace Abide.HaloLibrary
         /// <returns>true if the value of the <paramref name="id"/> parameter is the same as the value of this instance; otherwise, false.</returns>
         public bool Equals(TagId id)
         {
-            return id.Equals(id.Dword);
+            return salt.Equals(id.salt) && index.Equals(id.Index);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is TagId tagId)
+                return Equals(tagId);
+            else if (obj is int i)
+                return Equals(i);
+            else if (obj is uint u)
+                return Equals(u);
+
+            return base.Equals(obj);
         }
         /// <summary>
         /// Gets a string representation of this instance.
@@ -136,6 +150,14 @@ namespace Abide.HaloLibrary
         public override string ToString()
         {
             return $"{Dword:X8}";
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return salt.GetHashCode() ^ index.GetHashCode();
         }
         /// <summary>
         /// Converts a <see cref="TagId"/> to an unsigned 32-bit integer.
@@ -176,7 +198,7 @@ namespace Abide.HaloLibrary
         /// <returns>A new tag ID value.</returns>
         public static TagId operator ++(TagId id)
         {
-            TagId newId = new TagId(id.Dword);
+            TagId newId = new TagId(id.salt + 1, id.index + 1);
             newId.Salt++;
             newId.Index++;
             return newId;
@@ -192,6 +214,14 @@ namespace Abide.HaloLibrary
             newId.Salt--;
             newId.Index--;
             return newId;
+        }
+        public static bool operator ==(TagId left, TagId right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(TagId left, TagId right)
+        {
+            return !(left == right);
         }
     }
 }

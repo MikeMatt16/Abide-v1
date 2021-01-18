@@ -97,10 +97,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         string directory = Path.GetDirectoryName(saveDlg.FileName);
                         foreach (var tag in tags)
                         {
-                            string tagFileName = Path.Combine(directory, $"{tag.Key.TagName}.{tag.Value.GroupName}");
+                            string tagFileName = Path.Combine(directory, $"{tag.Key.TagName}.{tag.Value.Name}");
                             var file = new Abide.Guerilla.Library.AbideTagGroupFile()
                             {
-                                Id = tag.Key.Id,
                                 TagGroup = Abide.Guerilla.Library.Convert.ToGuerilla(tag.Value, soundCacheFileGestaltTagGroup, selectedEntry, map)
                             };
 

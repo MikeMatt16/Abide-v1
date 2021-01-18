@@ -13,8 +13,8 @@ namespace Abide.Tag
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int TagBlockCount => TagBlocks.Count;
-        public abstract string GroupName { get; }
-        public abstract TagFourCc GroupTag { get; }
+        public abstract string Name { get; }
+        public abstract TagFourCc Tag { get; }
         public ObservableCollection<Block> TagBlocks { get; } = new ObservableCollection<Block>();
         public long GroupAddress { get; private set; } = 0;
         protected Group() { }
@@ -58,15 +58,15 @@ namespace Abide.Tag
         }
         public override string ToString()
         {
-            return GroupName ?? base.ToString();
+            return Name ?? base.ToString();
         }
 
         ITagBlock ITagGroup.this[int index]
         {
             get { return TagBlocks[index]; }
         }
-        string ITagGroup.GroupName => GroupName;
-        TagFourCc ITagGroup.GroupTag => GroupTag;
+        string ITagGroup.Name => Name;
+        TagFourCc ITagGroup.Tag => Tag;
         void IReadable.Read(BinaryReader reader)
         {
             Read(reader);

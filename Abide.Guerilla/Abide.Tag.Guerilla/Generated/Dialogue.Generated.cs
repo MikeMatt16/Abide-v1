@@ -30,7 +30,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the dialogue tag group.
         /// </summary>
-        public override string GroupName
+        public override string Name
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the group tag of the dialogue tag group.
         /// </summary>
-        public override TagFourCc GroupTag
+        public override TagFourCc Tag
         {
             get
             {

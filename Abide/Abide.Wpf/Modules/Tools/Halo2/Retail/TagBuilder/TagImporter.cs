@@ -86,7 +86,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         else
                         {
                             var tagGroup = TagLookup.CreateTagGroup(tag.GroupTag);
-                            tag.FileName = Path.Combine(tagsRoot, $"{tag.TagName}.{tagGroup.GroupName}");
+                            tag.FileName = Path.Combine(tagsRoot, $"{tag.TagName}.{tagGroup.Name}");
 
                             var tagGroupFile = new AbideTagGroupFile();
                             tagGroupFile.Load(tag.FileName);
@@ -182,7 +182,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                     case FieldType.FieldTagReference:
                         if (field.Value is string tagReferenceName)
                         {
-                            var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.GroupName ?? ""}" == tagReferenceName);
+                            var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.Name ?? ""}" == tagReferenceName);
                             tagBlock.Fields[i] = new Tag.Cache.TagReferenceField(field.Name, 0);
                             if (tagRef != null)
                             {
@@ -194,7 +194,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                     case FieldType.FieldTagIndex:
                         if (field.Value is string tagName)
                         {
-                            var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.GroupName ?? ""}" == tagName);
+                            var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.Name ?? ""}" == tagName);
                             tagBlock.Fields[i] = new Tag.Cache.TagIndexField(field.Name);
                             if (tagRef != null)
                             {

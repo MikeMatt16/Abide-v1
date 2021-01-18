@@ -10,7 +10,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
 {
     public sealed class HaloMapFile
     {
-        private Dictionary<uint, HaloTag> tagDictionary = new Dictionary<uint, HaloTag>();
+        private Dictionary<TagId, HaloTag> tagList = new Dictionary<TagId, HaloTag>();
         private Header header = new Header();
         private Index index = new Index();
         private string[] strings = null;
@@ -61,7 +61,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         }
         public int TagCount
         {
-            get => tagDictionary.Count;
+            get => tagList.Count;
         }
 
         public HaloMapFile() { }
@@ -211,7 +211,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                 tagDataAddressTranslator = baseAddress + bspDataLength - (header.IndexOffset + header.IndexLength);
                 HaloTag[] tags = new HaloTag[index.ObjectCount];
 
-                tagDictionary.Clear();
+                tagList.Clear();
                 reader.BaseStream.Seek(index.ObjectsOffset - index.TagsAddress, SeekOrigin.Current);
                 for (int i = 0; i < index.ObjectCount; i++)
                 {
@@ -224,7 +224,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     if (tags[i].MemoryAddress > 0)
                         tags[i].BaseAddress = tagDataAddressTranslator;
 
-                    tagDictionary.Add(tags[i].Id.Dword, tags[i]);
+                    tagList.Add(tags[i].Id, tags[i]);
                 }
 
                 var scenarioTag = GetTagById(ScenarioTagId);
@@ -237,9 +237,9 @@ namespace Abide.HaloLibrary.Halo2.Retail
                     uint structureBspOffset = reader.ReadUInt32();
                     uint size = reader.ReadUInt32();
                     long address = reader.ReadInt64();
-                    _ = reader.Read<TagFourCc>();
+                    _ = reader.ReadTag();
                     TagId sbspId = reader.ReadTagId();
-                    _ = reader.Read<TagFourCc>();
+                    _ = reader.ReadTag();
                     TagId ltmpId = reader.ReadTagId();
 
                     if (!sbspId.IsNull)
@@ -281,27 +281,15 @@ namespace Abide.HaloLibrary.Halo2.Retail
         }
         public HaloTag GetTagById(TagId id)
         {
-            if (tagDictionary.ContainsKey(id.Dword))
-                return tagDictionary[id.Dword];
+            if (tagList.ContainsKey(id.Dword))
+                return tagList[id.Dword];
             return null;
-        }
-        public HaloTag GetTagById(int id)
-        {
-            return GetTagById(new TagId(id));
-        }
-        public HaloTag GetTagById(uint id)
-        {
-            return GetTagById(new TagId(id));
         }
         public string GetStringById(StringId id)
         {
             if (id.Index < strings.Length)
                 return strings[id.Index];
             return null;
-        }
-        public string GetStringById(uint id)
-        {
-            return GetStringById(new StringId(id));
         }
         public bool HasString(string str)
         {
@@ -314,7 +302,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         }
         public IEnumerable<HaloTag> GetTagsEnumerator()
         {
-            return tagDictionary.Values;
+            return tagList.Values;
         }
         public Dictionary<long, byte[]> GetResourcesForTag(TagId id)
         {

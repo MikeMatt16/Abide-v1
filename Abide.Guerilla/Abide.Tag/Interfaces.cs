@@ -22,11 +22,11 @@ namespace Abide.Tag
         /// <summary>
         /// Gets and returns the name of the <see cref="ITagGroup"/>.
         /// </summary>
-        string GroupName { get; }
+        string Name { get; }
         /// <summary>
         /// Gets and returns the group tag of the <see cref="ITagGroup"/>.
         /// </summary>
-        TagFourCc GroupTag { get; }
+        TagFourCc Tag { get; }
     }
 
     /// <summary>

@@ -95,7 +95,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
     public sealed class TagResourceContainer : IEnumerable<HaloMapDataContainer>, IDisposable
     {
         private readonly List<HaloMapDataContainer> resources = new List<HaloMapDataContainer>();
-        private readonly Dictionary<int, int> resourceLookup = new Dictionary<int, int>();
+        private readonly Dictionary<long, int> resourceLookup = new Dictionary<long, int>();
 
         /// <summary>
         /// Gets and returns the number of resources contained within this container.
@@ -113,7 +113,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         /// </summary>
         /// <param name="offset">The offset of the resource.</param>
         /// <returns><see langword="true"/> if this container contains a resource at the given offset; otherwise, <see langword="false"/>.</returns>
-        public bool Contains(int offset)
+        public bool Contains(long offset)
         {
             if (resourceLookup.ContainsKey(offset)) return true;
             return false;
@@ -138,7 +138,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         /// <param name="offset">The offset of the resource.</param>
         /// <param name="data">The <see cref="HaloMapDataContainer"/> that contains the resource at the specified offset.</param>
         /// <returns><see langword="true"/> if this container contains a resource at the given offset; otherwise, <see langword="false"/>.</returns>
-        public bool TryGetResource(int offset, out HaloMapDataContainer data)
+        public bool TryGetResource(long offset, out HaloMapDataContainer data)
         {
             //Setup
             data = null;
@@ -154,7 +154,7 @@ namespace Abide.HaloLibrary.Halo2.Retail
         /// <param name="offset">The offset of the resource.</param>
         /// <param name="data">The resource data.</param>
         /// <returns><see langword="true"/> if the resource was successfully added to the container; otherwise, <see langword="false"/>.</returns>
-        public bool AddResource(int offset, byte[] data)
+        public bool AddResource(long offset, byte[] data)
         {
             //Check
             if (resourceLookup.ContainsKey(offset)) return false;

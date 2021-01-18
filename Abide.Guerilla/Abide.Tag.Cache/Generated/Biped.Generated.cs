@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the biped tag group.
         /// </summary>
-        public override string GroupName
+        public override string Name
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the group tag of the biped tag group.
         /// </summary>
-        public override TagFourCc GroupTag
+        public override TagFourCc Tag
         {
             get
             {

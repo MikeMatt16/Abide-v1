@@ -21,9 +21,9 @@ namespace Abide.Guerilla.Library
             if (cacheTagGroup == null) throw new ArgumentNullException(nameof(cacheTagGroup));
             Group tagGroup;
 
-            if ((tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(cacheTagGroup.GroupTag)) != null)
+            if ((tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(cacheTagGroup.Tag)) != null)
             {
-                switch (tagGroup.GroupName)
+                switch (tagGroup.Name)
                 {
                     case "sound":
                         tagGroup = CacheFileSound_ToGuerilla(cacheTagGroup, soundCacheFileGestalt, map);
@@ -47,7 +47,7 @@ namespace Abide.Guerilla.Library
             }
             else
             {
-                throw new TagException("Unable to lookup tag group of specified type.", new ArgumentException(nameof(ITagGroup.GroupTag)));
+                throw new TagException("Unable to lookup tag group of specified type.", new ArgumentException(nameof(ITagGroup.Tag)));
             }
 
             return tagGroup;
@@ -84,7 +84,7 @@ namespace Abide.Guerilla.Library
                         if (map.IndexEntries.ContainsId(tagReferenceField.Value.Id))
                         {
                             tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceField.Value.Id].Root);
-                            tagPath = $@"{map.IndexEntries[tagReferenceField.Value.Id].Filename}.{tagGroup.GroupName}";
+                            tagPath = $@"{map.IndexEntries[tagReferenceField.Value.Id].Filename}.{tagGroup.Name}";
                             guerilla.Fields[i].Value = tagPath;
                         }
                         break;
@@ -93,7 +93,7 @@ namespace Abide.Guerilla.Library
                         if (map.IndexEntries.ContainsId(tagIndexField.Value))
                         {
                             tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagIndexField.Value].Root);
-                            tagPath = $@"{map.IndexEntries[tagIndexField.Value].Filename}.{tagGroup.GroupName}";
+                            tagPath = $@"{map.IndexEntries[tagIndexField.Value].Filename}.{tagGroup.Name}";
                             guerilla.Fields[i].Value = tagPath;
                         }
                         break;

@@ -256,9 +256,6 @@ namespace Abide.Wpf.Modules.ViewModel
         }
         private void DecompileMap(object arg)
         {
-#if !DEBUG
-            throw new NotImplementedException();
-#endif
             OpenFileDialog openDlg = new OpenFileDialog() { Filter = "Halo 2 Map Files (*.map)|*.map" };
             if (openDlg.ShowDialog() ?? false)
             {

@@ -50,7 +50,7 @@ namespace Abide.Tag.CodeDom
             CodeMemberProperty nameMemberProperty = new CodeMemberProperty()
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                Name = nameof(Group.GroupName),
+                Name = nameof(Group.Name),
                 Type = new CodeTypeReference(typeof(string))
             };
             nameMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagGroup.Name)));
@@ -63,7 +63,7 @@ namespace Abide.Tag.CodeDom
             CodeMemberProperty groupTagMemberProperty = new CodeMemberProperty()
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                Name = nameof(Group.GroupTag),
+                Name = nameof(Group.Tag),
                 Type = new CodeTypeReference(nameof(TagFourCc))
             };
             groupTagMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagGroup.GroupTag.FourCc)));

@@ -14,14 +14,14 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
     {
         private int readWriteOffset = 0;
 
-        public override string GroupName { get; } = "ifp_tag_group";
-        public override TagFourCc GroupTag { get; } = "ifp ";
+        public override string Name { get; } = "ifp_tag_group";
+        public override TagFourCc Tag { get; } = "ifp ";
 
         public IfpTagGroup(IfpDocument ifpDocument)
         {
-            GroupTag = ifpDocument.Plugin.Class;
+            Tag = ifpDocument.Plugin.Class;
 
-            switch (GroupTag)
+            switch (Tag)
             {
                 case "sbsp":    //scenario_structure_bsp
                     if (ifpDocument.Plugin.HeaderSize == 588)
@@ -43,7 +43,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         }
         public IfpTagGroup(IfpDocument ifpDocument, string groupName) : this(ifpDocument)
         {
-            GroupName = groupName;
+            Name = groupName;
         }
     }
 

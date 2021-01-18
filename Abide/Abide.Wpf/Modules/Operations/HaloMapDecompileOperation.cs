@@ -27,6 +27,7 @@ namespace Abide.Wpf.Modules.Operations
         }
         protected override void OnBackground(object state)
         {
+            ReportStatus($"Loading {mapPath}...");
             map = new HaloMap(mapPath);
             ReportStatus($"Decompiling {map.Name}...");
             Group globalsGroup;
@@ -74,7 +75,7 @@ namespace Abide.Wpf.Modules.Operations
                     try { tagGroup.Read(reader); }
                     finally { guerillaTagGroup = Convert.ToGuerilla(tagGroup, soundGestaltGroup, entry, map); }
 
-                    string localFileName = Path.Combine($"{entry.Filename}.{guerillaTagGroup.GroupName}");
+                    string localFileName = Path.Combine($"{entry.Filename}.{guerillaTagGroup.Name}");
                     string tagGroupFileName = Path.Combine(tagsDirectory, localFileName);
 
                     if (!Directory.Exists(Path.GetDirectoryName(tagGroupFileName)))
@@ -90,7 +91,7 @@ namespace Abide.Wpf.Modules.Operations
                         fs.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
                         guerillaTagGroup.Write(fileWriter);
 
-                        switch (guerillaTagGroup.GroupTag)
+                        switch (guerillaTagGroup.Tag)
                         {
                             case "snd!":
                                 SoundTagGroup_CreateRaws(guerillaTagGroup, soundGestalt, fileWriter, ref header);
@@ -122,7 +123,7 @@ namespace Abide.Wpf.Modules.Operations
                         }
 
                         header.Checksum = (uint)TagGroup_CalculateChecksum(guerillaTagGroup);
-                        header.GroupTag = guerillaTagGroup.GroupTag.FourCc;
+                        header.GroupTag = guerillaTagGroup.Tag.FourCc;
                         header.Id = entry.Id.Dword;
                         header.AbideTag = "atag";
 

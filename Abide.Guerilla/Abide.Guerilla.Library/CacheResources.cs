@@ -55,11 +55,11 @@ namespace Abide.Guerilla.Library
                 //Add to lookup
                 tagPathLookup.Add($"{resourceMap.IndexEntries[i].Filename}.{resourceMap.IndexEntries[i].Root}", i);
                 ITagGroup tagGroup = Abide.Tag.Cache.Generated.TagLookup.CreateTagGroup(resourceMap.IndexEntries[i].Root);
-                fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.GroupName}";
+                fileName = $"{resourceMap.IndexEntries[i].Filename}.{tagGroup.Name}";
                 fileNameLookup.Add(fileName, i);
 
                 //Add resource
-                TagGroupFiles.Add(new AbideTagGroupFile() { Id = resourceMap.IndexEntries[i].Id });
+                TagGroupFiles.Add(new AbideTagGroupFile());
                 TagResources.Add(new TagResourceInfo(resourceMap.IndexEntries[i].Filename, resourceMap.IndexEntries[i].Root, resourceMap.IndexEntries[i].Id)
                 { FileName = fileName });
             }
@@ -71,12 +71,10 @@ namespace Abide.Guerilla.Library
             using (var reader = stream.CreateReader())
             {
                 //Goto globals
-                Globals.Id = resourceMap.IndexEntries.First.Id;
                 reader.BaseStream.Seek(resourceMap.IndexEntries.First.Address, SeekOrigin.Begin);
                 Globals.TagGroup.Read(reader);
 
                 //Goto sound cache file gestalt
-                SoundCacheFileGestalt.Id = resourceMap.IndexEntries.Last.Id;
                 reader.BaseStream.Seek(resourceMap.IndexEntries.Last.Address, SeekOrigin.Begin);
                 SoundCacheFileGestalt.TagGroup.Read(reader);
             }
