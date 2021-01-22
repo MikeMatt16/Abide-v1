@@ -99,6 +99,7 @@ namespace Abide.Wpf.Modules.ViewModel
         public ICommand RefreshXboxesCommand { get; }
         public AbideViewModel()
         {
+            ApplicationSettings.GlobalState = this; //declare singleton
             Factory = new EditorAddOnFactory(this);
             Factory.InitializeAddOns();
 

@@ -10,7 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
-        
+        <local:StringToVisibilityConverter x:Key="StringToVisibility"/>
+
         <DataTemplate x:Key="StandardFieldTemplate" DataType="{x:Type tag:Field}">
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -96,7 +97,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ExplanationFieldTemplate" DataType="{x:Type tag:ExplanationField}">
-
+            <Grid Margin="10">
+                <Border Background="{StaticResource BackgroundDark}" BorderBrush="{StaticResource BackgroundLight}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Margin="6" Text="{Binding Name}"/>
+                        <TextBlock Margin="6" Text="{Binding Explanation}" Visibility="{Binding Explanation, Converter={StaticResource StringToVisibility}}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="TagBlockTemplate" DataType="{x:Type tag:Block}">
@@ -132,11 +140,41 @@
             <ve:FlagsValueEditor Field="{Binding}" Width="300"/>
         </DataTemplate>
 
+        <DataTemplate x:Key="TagReferenceFieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:TagReferenceValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Vector4FieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:Vector4ValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Vector3FieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:Vector3ValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Vector2FieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:Vector2ValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Point2FieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:Point2ValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Point3FieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:Point3ValueEditor Field="{Binding}"/>
+        </DataTemplate>
+
         <local:FieldEditorTemplateSelector x:Key="FieldEditorTemplateSelector"
                                            StringEditor="{StaticResource StringFieldEditorTemplate}"
                                            EnumEditor="{StaticResource EnumFieldEditorTemplate}"
                                            FlagsEditor="{StaticResource FlagsFieldEditorTemplate}"
-                                           BoundsEditor="{StaticResource BoundsFieldEditorTemplate}"/>
+                                           BoundsEditor="{StaticResource BoundsFieldEditorTemplate}"
+                                           TagReferenceEditor="{StaticResource TagReferenceFieldEditorTemplate}"
+                                           Vector4Editor="{StaticResource Vector4FieldEditorTemplate}"
+                                           Vector3Editor="{StaticResource Vector3FieldEditorTemplate}"
+                                           Vector2Editor="{StaticResource Vector2FieldEditorTemplate}"
+                                           Point2Editor="{StaticResource Point2FieldEditorTemplate}"
+                                           Point3Editor="{StaticResource Point3FieldEditorTemplate}"/>
     </UserControl.Resources>
 
     <ScrollViewer>

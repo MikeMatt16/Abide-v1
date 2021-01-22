@@ -2,9 +2,11 @@
 using Abide.Tag.Guerilla.Generated;
 using Abide.Wpf.Modules.ViewModel;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Abide.Wpf.Modules.UI
 {
@@ -36,6 +38,27 @@ namespace Abide.Wpf.Modules.UI
 
         private static void TagGroupPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+        }
+    }
+
+    internal sealed class StringToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string str)
+            {
+                if (string.IsNullOrEmpty(str.Trim()))
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -180,6 +203,11 @@ namespace Abide.Wpf.Modules.UI
             {
                 switch (tagField.Type)
                 {
+                    case FieldType.FieldPad:
+                    case FieldType.FieldUselessPad:
+                    case FieldType.FieldSkip:
+                        return new DataTemplate();
+
                     case FieldType.FieldBlock:
                         return BlockFieldTemplate;
                     case FieldType.FieldData:
@@ -203,7 +231,12 @@ namespace Abide.Wpf.Modules.UI
         public DataTemplate EnumEditor { get; set; } = null;
         public DataTemplate FlagsEditor { get; set; } = null;
         public DataTemplate BoundsEditor { get; set; } = null;
-
+        public DataTemplate TagReferenceEditor { get; set; } = null;
+        public DataTemplate Vector4Editor { get; set; } = null;
+        public DataTemplate Vector3Editor { get; set; } = null;
+        public DataTemplate Vector2Editor { get; set; } = null;
+        public DataTemplate Point2Editor { get; set; } = null;
+        public DataTemplate Point3Editor { get; set; } = null;
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -237,32 +270,32 @@ namespace Abide.Wpf.Modules.UI
                         return FlagsEditor;
 
                     case FieldType.FieldPoint2D:
-                        break;
+                    case FieldType.FieldRealPoint2D:
+                        return Point2Editor;
+
                     case FieldType.FieldRectangle2D:
                         break;
                     case FieldType.FieldRgbColor:
                         break;
                     case FieldType.FieldArgbColor:
                         break;
-                    
-                    case FieldType.FieldRealPoint2D:
-                        break;
+
                     case FieldType.FieldRealPoint3D:
-                        break;
+                        return Point3Editor;
+
                     case FieldType.FieldRealVector2D:
-                        break;
-                    case FieldType.FieldRealVector3D:
-                        break;
-                    case FieldType.FieldQuaternion:
-                        break;
                     case FieldType.FieldEulerAngles2D:
-                        break;
-                    case FieldType.FieldEulerAngles3D:
-                        break;
+                        return Vector2Editor;
+
                     case FieldType.FieldRealPlane2D:
-                        break;
+                    case FieldType.FieldRealVector3D:
+                    case FieldType.FieldEulerAngles3D:
+                        return Vector3Editor;
+
+                    case FieldType.FieldQuaternion:
                     case FieldType.FieldRealPlane3D:
-                        break;
+                        return Vector4Editor;
+
                     case FieldType.FieldRealRgbColor:
                         break;
                     case FieldType.FieldRealArgbColor:
@@ -279,7 +312,8 @@ namespace Abide.Wpf.Modules.UI
                         return BoundsEditor;
 
                     case FieldType.FieldTagReference:
-                        break;
+                        return TagReferenceEditor;
+
                     case FieldType.FieldLongBlockFlags:
                         break;
                     case FieldType.FieldWordBlockFlags:

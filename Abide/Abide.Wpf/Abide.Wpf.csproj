@@ -96,6 +96,24 @@
     <Compile Include="Modules\Editors\Halo2\ValueEditors\FlagsValueEditor.xaml.cs">
       <DependentUpon>FlagsValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\Point2ValueEditor.xaml.cs">
+      <DependentUpon>Point2ValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\Point3ValueEditor.xaml.cs">
+      <DependentUpon>Point3ValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\TagReferenceValueEditor.xaml.cs">
+      <DependentUpon>TagReferenceValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\Vector2ValueEditor.xaml.cs">
+      <DependentUpon>Vector2ValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\Vector3ValueEditor.xaml.cs">
+      <DependentUpon>Vector3ValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\Vector4ValueEditor.xaml.cs">
+      <DependentUpon>Vector4ValueEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Operations\HaloMapCompileOperation.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
     <Compile Include="Modules\ProjectTypes\Halo2\Retail\HaloProject.cs" />
@@ -169,6 +187,8 @@
       <DependentUpon>Halo2MapEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Editors\Halo2\Retail\HaloMapViewModel.cs" />
+    <Compile Include="Modules\ViewModel\HistoryModel.cs" />
+    <Compile Include="Modules\ViewModel\ObservableQueue.cs" />
     <Compile Include="Modules\ViewModel\ProjectViewModel.cs" />
     <Compile Include="Modules\ViewModel\SolutionItemViewModel.cs" />
     <Compile Include="Modules\ViewModel\SolutionViewModel.cs" />
@@ -223,6 +243,30 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Editors\Halo2\ValueEditors\FlagsValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\Point2ValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\Point3ValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\TagReferenceValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\Vector2ValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\Vector3ValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\Vector4ValueEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,6 +412,8 @@
   <ItemGroup>
     <Resource Include="Modules\Windows\Resources\Map-Compile.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Modules\Editors\Halo2\ValueEditors\Resources\Warning-Triangle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

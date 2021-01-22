@@ -222,6 +222,9 @@
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ActiveAccentPressed}"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ForegroundDisabled}"/>
+                </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
@@ -436,6 +439,10 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
         </Style>
         
         <Style x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
@@ -1081,6 +1088,9 @@
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource ActiveAccentHighlight}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="TextBlock.Foreground" Value="{StaticResource ForegroundDisabled}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

@@ -1,4 +1,5 @@
 ﻿using Abide.Wpf.Modules.AddOns;
+using Abide.Wpf.Modules.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,10 @@ namespace Abide.Wpf.Modules
     /// </summary>
     public static class ApplicationSettings
     {
+        /// <summary>
+        /// Gets or sets the global application state;
+        /// </summary>
+        public static AbideViewModel GlobalState { get; set; }
         /// <summary>
         /// Gets and returns the list of debug assemblies.
         /// </summary>

@@ -728,23 +728,23 @@ namespace Abide.Wpf.Modules.Operations
             {
                 case Abide.Tag.Guerilla.StringIdField stringIdField:
                     StringIdField cacheStringIdField = new StringIdField(stringIdField.GetName());
-                    if (!string.IsNullOrEmpty(stringIdField.Value))
+                    if (!string.IsNullOrEmpty(stringIdField.String))
                     {
-                        cacheStringIdField.Value = strings[stringIdField.Value];
+                        cacheStringIdField.Value = strings[stringIdField.String];
                     }
                     return cacheStringIdField;
 
                 case Abide.Tag.Guerilla.OldStringIdField oldStringIdField:
                     OldStringIdField cacheOldStringIdField = new OldStringIdField(oldStringIdField.GetName());
-                    if (!string.IsNullOrEmpty(oldStringIdField.Value))
+                    if (!string.IsNullOrEmpty(oldStringIdField.String))
                     {
-                        cacheOldStringIdField.Value = strings[oldStringIdField.Value];
+                        cacheOldStringIdField.Value = strings[oldStringIdField.String];
                     }
                     return cacheOldStringIdField;
 
                 case Abide.Tag.Guerilla.TagReferenceField tagReferenceField:
                     TagReferenceField cacheTagReferenceField = new TagReferenceField(tagReferenceField.GetName(), tagReferenceField.GroupTag);
-                    if (!string.IsNullOrEmpty(tagReferenceField.Value))
+                    if (!string.IsNullOrEmpty(tagReferenceField.String))
                     {
                         var tagReference = cacheTagReferenceField.Reference;
                         tagReference.Id = tagList.First(t => t.TagName == tagReferenceField.Value).Id;
@@ -754,7 +754,7 @@ namespace Abide.Wpf.Modules.Operations
 
                 case Abide.Tag.Guerilla.TagIndexField tagIndexField:
                     TagIndexField cacheTagIndexField = new TagIndexField(tagIndexField.GetName());
-                    if (!string.IsNullOrEmpty(tagIndexField.Value))
+                    if (!string.IsNullOrEmpty(tagIndexField.String))
                     {
                         cacheTagIndexField.Value = tagList.First(t => t.TagName == tagIndexField.Value).Id;
                     }

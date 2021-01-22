@@ -86,7 +86,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
         {
             if (d is BoundsValueEditor editor)
             {
-                editor.propogateChanges = false;
                 if (e.NewValue is Field field)
                 {
                     switch (field.Type)
@@ -95,18 +94,21 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
                         case FieldType.FieldAngleBounds:
                         case FieldType.FieldRealBounds:
                             var floatBounds = (FloatBounds)field.Value;
+                            editor.propogateChanges = false;
                             editor.SetValue(FromProperty, floatBounds.Min.ToString());
+                            editor.propogateChanges = true;
                             editor.SetValue(ToProperty, floatBounds.Max.ToString());
                             break;
 
                         case FieldType.FieldShortBounds:
                             var shortBounds = (ShortBounds)field.Value;
+                            editor.propogateChanges = false;
                             editor.SetValue(FromProperty, shortBounds.Min.ToString());
+                            editor.propogateChanges = true;
                             editor.SetValue(ToProperty, shortBounds.Max.ToString());
                             break;
                     }
                 }
-                editor.propogateChanges = true;
             }
         }
     }

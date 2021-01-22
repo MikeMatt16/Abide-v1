@@ -88,7 +88,10 @@
                         <Separator/>
                         <MenuItem Header="_Exit" Command="{Binding}" InputGestureText="Alt+F4"/>
                     </MenuItem>
-                    <MenuItem Header="_Edit"/>
+                    <MenuItem Header="_Edit">
+                        <MenuItem Header="_Undo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Z"/>
+                        <MenuItem Header="_Redo" Command="{Binding UndoCommand}" InputGestureText="Ctrl+Y"/>
+                    </MenuItem>
                     <MenuItem Header="_Tools">
                         <MenuItem Header="Decompile Map" Command="{Binding DecompileMapCommand}">
                             <MenuItem.Icon>

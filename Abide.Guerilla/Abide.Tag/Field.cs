@@ -33,6 +33,7 @@ namespace Abide.Tag
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly ObjectName name;
+        private object previousValue = null;
         protected object FieldValue = null;
 
         public abstract int Size { get; }
@@ -42,6 +43,7 @@ namespace Abide.Tag
         public string Details => name.Details ?? string.Empty;
         public bool IsReadOnly => name.IsReadOnly;
         public bool IsBlockName => name.IsBlockName;
+        public object PreviousValue => previousValue;
         public long FieldAddress { get; private set; } = 0;
         public Block Owner { get; internal set; } = null;
         public object Value
@@ -51,11 +53,15 @@ namespace Abide.Tag
             {
                 if (FieldValue == null)
                 {
+                    previousValue = FieldValue;
                     FieldValue = value;
+                    NotifyPropertyChanged();
                 }
-                else if (FieldValue.GetType() == value.GetType())
+                else if (!FieldValue.Equals(value))
                 {
+                    previousValue = FieldValue;
                     FieldValue = value;
+                    NotifyPropertyChanged();
                 }
             }
         }
@@ -245,12 +251,14 @@ namespace Abide.Tag
             {
                 if (Value is TagBlock tagBlock)
                 {
-                    if (!tagBlock.Equals(value))
+                    if (tagBlock.Equals(value))
                     {
-                        Value = value;
-                        NotifyPropertyChanged();
+                        return;
                     }
                 }
+
+                Value = value;
+                NotifyPropertyChanged();
             }
         }
         protected BlockField(string name, int maximumElementCount) : base(FieldType.FieldBlock, name)
@@ -261,7 +269,7 @@ namespace Abide.Tag
         protected sealed override void OnRead(BinaryReader reader)
         {
             BlockList.Clear();
-            Handle = reader.Read<TagBlock>();
+            Handle = reader.ReadTagBlock();
             BlockAddress = Handle.Offset;
 
             if (Handle.Count > 0)
@@ -892,23 +900,35 @@ namespace Abide.Tag
 
     public sealed class Point2dField : Field
     {
-        public Point2 Value
+        public Point2 Point
         {
-            get => (Point2)FieldValue;
-            set => FieldValue = value;
+            get => (Point2)Value;
+            set
+            {
+                if (Value is Point2 point)
+                {
+                    if (point.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public override int Size => 4;
         public Point2dField(string name) : base(FieldType.FieldPoint2D, name)
         {
-            Value = Point2.Zero;
+            Point = Point2.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Point2>();
+            Point = reader.Read<Point2>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Point);
         }
     }
 
@@ -1007,8 +1027,20 @@ namespace Abide.Tag
         public override int Size => 8;
         public Point2F Point
         {
-            get => (Point2F)FieldValue;
-            set => FieldValue = value;
+            get => (Point2F)Value;
+            set
+            {
+                if (Value is Point2F point)
+                {
+                    if (point.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealPoint2dField(string name) : base(FieldType.FieldRealPoint2D, name)
         {
@@ -1029,8 +1061,20 @@ namespace Abide.Tag
         public override int Size => 12;
         public Point3F Point
         {
-            get => (Point3F)FieldValue;
-            set => FieldValue = value;
+            get => (Point3F)Value;
+            set
+            {
+                if (Value is Point3F point)
+                {
+                    if (point.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealPoint3dField(string name) : base(FieldType.FieldRealPoint3D, name)
         {
@@ -1115,7 +1159,7 @@ namespace Abide.Tag
     public sealed class EulerAngles2dField : Field
     {
         public override int Size => 8;
-        public new Vector2 Vector
+        public Vector2 Vector
         {
             get => (Vector2)FieldValue;
             set => FieldValue = value;
@@ -1137,7 +1181,7 @@ namespace Abide.Tag
     public sealed class EulerAngles3dField : Field
     {
         public override int Size => 12;
-        public new Vector3 Vector
+        public Vector3 Vector
         {
             get => (Vector3)FieldValue;
             set => FieldValue = value;
@@ -1428,10 +1472,22 @@ namespace Abide.Tag
     {
         public override int Size => 1;
         public BlockSearchProcedure<byte> SearchProcedure { get; set; }
-        public new byte Value
+        public byte SelectedIndex
         {
-            get => (byte)FieldValue;
-            set => FieldValue = value;
+            get => (byte)Value;
+            set
+            {
+                if (Value is byte i)
+                {
+                    if (i.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public CharBlockIndexField(string name) : base(FieldType.FieldCharBlockIndex1, name)
         {
@@ -1450,10 +1506,22 @@ namespace Abide.Tag
     public sealed class ShortBlockIndexField : Field
     {
         public override int Size => 2;
-        public short Value
+        public short SelectedIndex
         {
-            get => (short)FieldValue;
-            set => FieldValue = value;
+            get => (short)Value;
+            set
+            {
+                if (Value is short i)
+                {
+                    if (i.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public BlockSearchProcedure<short> SearchProcedure { get; set; }
         public ShortBlockIndexField(string name) : base(FieldType.FieldShortBlockIndex1, name)
@@ -1473,10 +1541,22 @@ namespace Abide.Tag
     public sealed class LongBlockIndexField : Field
     {
         public override int Size => 4;
-        public int Value
+        public int SelectedIndex
         {
-            get => (int)FieldValue;
-            set => FieldValue = value;
+            get => (int)Value;
+            set
+            {
+                if (Value is int i)
+                {
+                    if (i.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public BlockSearchProcedure<int> SearchProcedure { get; set; }
         public LongBlockIndexField(string name) : base(FieldType.FieldLongBlockIndex1, name)

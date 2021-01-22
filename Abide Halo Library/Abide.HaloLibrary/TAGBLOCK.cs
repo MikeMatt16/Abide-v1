@@ -132,6 +132,15 @@ namespace Abide.HaloLibrary
         {
             return Qword.Equals(other.Qword);
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is TagBlock tagBlock)
+            {
+                return Equals(tagBlock);
+            }
+
+            return false;
+        }
         /// <summary>
         /// Converts the value of this instance to its equivalent string representation.
         /// </summary>

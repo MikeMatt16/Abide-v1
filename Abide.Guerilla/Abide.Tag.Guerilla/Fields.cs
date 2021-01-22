@@ -8,37 +8,46 @@ namespace Abide.Tag.Guerilla
 {
     public class NullTerminatedStringField : Field
     {
-        public sealed override int Size => Encoding.UTF8.GetByteCount(Value) + 1;
-        public new string Value
+        public sealed override int Size => Encoding.UTF8.GetByteCount(String) + 1;
+        public string String
         {
-            get => (string)FieldValue;
-            set => FieldValue = value;
+            get => (string)Value;
+            set
+            {
+                if (Value is string str)
+                {
+                    if (str == value)
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+            }
         }
-        public NullTerminatedStringField(FieldType type, string name) : base(type, name) { }
+
+        public NullTerminatedStringField(FieldType type, string name) : base(type, name)
+        {
+            String = string.Empty;
+        }
         protected sealed override void OnRead(BinaryReader reader)
         {
-            Value = reader.ReadUTF8NullTerminated();
+            String = reader.ReadUTF8NullTerminated();
         }
         protected sealed override void OnWrite(BinaryWriter writer)
         {
-            writer.WriteUTF8NullTerminated(Value?.ToString() ?? string.Empty);
+            writer.WriteUTF8NullTerminated(String);
         }
     }
 
     public sealed class StringIdField : NullTerminatedStringField
     {
-        public StringIdField(string name) : base(FieldType.FieldStringId, name)
-        {
-            Value = string.Empty;
-        }
+        public StringIdField(string name) : base(FieldType.FieldStringId, name) { }
     }
 
     public sealed class OldStringIdField : NullTerminatedStringField
     {
-        public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name)
-        {
-            Value = string.Empty;
-        }
+        public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name) { }
     }
 
     public sealed class TagReferenceField : NullTerminatedStringField
@@ -52,15 +61,11 @@ namespace Abide.Tag.Guerilla
         public TagReferenceField(string name, string groupTag) : base(FieldType.FieldTagReference, name)
         {
             GroupTag = groupTag;
-            Value = string.Empty;
         }
     }
 
     public sealed class TagIndexField : NullTerminatedStringField
     {
-        public TagIndexField(string name) : base(FieldType.FieldTagIndex, name)
-        {
-            Value = string.Empty;
-        }
+        public TagIndexField(string name) : base(FieldType.FieldTagIndex, name) { }
     }
 }

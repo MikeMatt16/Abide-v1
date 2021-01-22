@@ -2,6 +2,7 @@
 using Abide.Tag;
 using Abide.Wpf.Modules.UI;
 using Abide.Wpf.Modules.ViewModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 
@@ -55,7 +56,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2
                 ConvertBlock(tagGroup.TagBlocks[i]);
             }
         }
-
         private static void ConvertBlock(Block block)
         {
             for (int i = 0; i < block.FieldCount; i++)
@@ -69,6 +69,15 @@ namespace Abide.Wpf.Modules.Editors.Halo2
 
                     block.Fields[i] = new SelectableBlockField(blockField);
                 }
+
+                block.Fields[i].PropertyChanged += Field_PropertyChanged;
+            }
+        }
+        private static void Field_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is Field field && e.PropertyName == nameof(Field.Value))
+            {
+
             }
         }
     }
