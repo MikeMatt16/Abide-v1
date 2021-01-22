@@ -73,27 +73,27 @@ namespace Abide.Guerilla.Library
                 switch (cache.Fields[i])
                 {
                     case Abide.Tag.Cache.BaseStringIdField stringField:
-                        if (map.Strings.Count > stringField.Value.Index)
+                        if (map.Strings.Count > stringField.Id.Index)
                         {
-                            string stringId = map.Strings[stringField.Value.Index] ?? string.Empty;
+                            string stringId = map.Strings[stringField.Id.Index] ?? string.Empty;
                             guerilla.Fields[i].Value = stringId;
                         }
                         break;
 
                     case Abide.Tag.Cache.TagReferenceField tagReferenceField:
-                        if (map.IndexEntries.ContainsId(tagReferenceField.Value.Id))
+                        if (map.IndexEntries.ContainsId(tagReferenceField.Reference.Id))
                         {
-                            tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceField.Value.Id].Root);
-                            tagPath = $@"{map.IndexEntries[tagReferenceField.Value.Id].Filename}.{tagGroup.Name}";
+                            tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagReferenceField.Reference.Id].Root);
+                            tagPath = $@"{map.IndexEntries[tagReferenceField.Reference.Id].Filename}.{tagGroup.Name}";
                             guerilla.Fields[i].Value = tagPath;
                         }
                         break;
 
                     case Abide.Tag.Cache.TagIndexField tagIndexField:
-                        if (map.IndexEntries.ContainsId(tagIndexField.Value))
+                        if (map.IndexEntries.ContainsId(tagIndexField.Id))
                         {
-                            tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagIndexField.Value].Root);
-                            tagPath = $@"{map.IndexEntries[tagIndexField.Value].Filename}.{tagGroup.Name}";
+                            tagGroup = Abide.Tag.Guerilla.Generated.TagLookup.CreateTagGroup(map.IndexEntries[tagIndexField.Id].Root);
+                            tagPath = $@"{map.IndexEntries[tagIndexField.Id].Filename}.{tagGroup.Name}";
                             guerilla.Fields[i].Value = tagPath;
                         }
                         break;
@@ -111,7 +111,7 @@ namespace Abide.Guerilla.Library
 
                     case StructField cacheStructField:
                         StructField guerillaStructField = (StructField)guerilla.Fields[i];
-                        TagBlock_ToGuerilla(guerillaStructField.Value, cacheStructField.Value, map);
+                        TagBlock_ToGuerilla(guerillaStructField.Block, cacheStructField.Block, map);
                         break;
 
                     case DataField cacheDataField:
@@ -223,71 +223,70 @@ namespace Abide.Guerilla.Library
             {
                 foreach (string stringId in stringIds)
                 {
-                    ITagBlock stringReferenceBlock = ((BlockField)unicodeStringListBlock[0]).Add(out bool successful);
-                    if (successful)
+                    if (((BlockField)unicodeStringListBlock[0]).Add(out Block stringReferenceBlock))
                     {
-                        stringReferenceBlock[0].Value = stringId;
-                        stringReferenceBlock[1].Value = -1;
-                        stringReferenceBlock[2].Value = -1;
-                        stringReferenceBlock[3].Value = -1;
-                        stringReferenceBlock[4].Value = -1;
-                        stringReferenceBlock[5].Value = -1;
-                        stringReferenceBlock[6].Value = -1;
-                        stringReferenceBlock[7].Value = -1;
-                        stringReferenceBlock[8].Value = -1;
-                        stringReferenceBlock[9].Value = -1;
+                        stringReferenceBlock.Fields[0].Value = stringId;
+                        stringReferenceBlock.Fields[1].Value = -1;
+                        stringReferenceBlock.Fields[2].Value = -1;
+                        stringReferenceBlock.Fields[3].Value = -1;
+                        stringReferenceBlock.Fields[4].Value = -1;
+                        stringReferenceBlock.Fields[5].Value = -1;
+                        stringReferenceBlock.Fields[6].Value = -1;
+                        stringReferenceBlock.Fields[7].Value = -1;
+                        stringReferenceBlock.Fields[8].Value = -1;
+                        stringReferenceBlock.Fields[9].Value = -1;
 
                         if (strings.English.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[1].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[1].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.English.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Japanese.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[2].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[2].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Japanese.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.German.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[3].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[3].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.German.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.French.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[4].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[4].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.French.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Spanish.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[5].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[5].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Spanish.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Spanish.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[5].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[5].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Italian.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Korean.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[6].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[6].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Korean.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Chinese.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[7].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[7].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Chinese.First(s => s.ID == stringId).Value);
                         }
 
                         if (strings.Portuguese.Any(e => e.ID == stringId))
                         {
-                            stringReferenceBlock[8].Value = (int)ms.Position;
+                            stringReferenceBlock.Fields[8].Value = (int)ms.Position;
                             writer.WriteUTF8NullTerminated(strings.Portuguese.First(s => s.ID == stringId).Value);
                         }
                     }
@@ -381,8 +380,7 @@ namespace Abide.Guerilla.Library
                 BlockField soundPitchRanges = (BlockField)soundBlock.Fields[13];
                 for (int i = 0; i < pitchRangeCount; i++)
                 {
-                    Block soundPitchRange = soundPitchRanges.Add(out bool success);
-                    if (success)
+                    if (soundPitchRanges.Add(out Block soundPitchRange))
                     {
                         Block pitchRange = pitchRanges.BlockList[pitchRangeIndex + i];
                         Block importName = importNames.BlockList[(short)pitchRange.Fields[0].Value];

@@ -1,5 +1,4 @@
-﻿using Abide.HaloLibrary.Halo2.Retail;
-using Abide.Wpf.Modules;
+﻿using Abide.Wpf.Modules;
 using Abide.Wpf.Modules.AddOns;
 using Abide.Wpf.Modules.Win32;
 using Abide.Wpf.Modules.Windows;
@@ -80,6 +79,7 @@ namespace Abide.Wpf
             }
 
             AssemblyManager.InitializeAddOnTypes();
+            // MainWindow = new Abide.Wpf.Modules.Windows.Guerilla();
             MainWindow = new MainWindow();
             MainWindow.Show();
         }

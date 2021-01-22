@@ -62,7 +62,7 @@ namespace Abide.Test
                         break;
 
                     case StructField structField:
-                        DiscoverReferences(tagReferences, structField.Value);
+                        DiscoverReferences(tagReferences, structField.Block);
                         break;
                 }
             }

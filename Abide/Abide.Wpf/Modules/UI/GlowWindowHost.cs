@@ -17,149 +17,54 @@ using WpfPoint = System.Windows.Point;
 
 namespace Abide.Wpf.Modules.UI
 {
-    /// <summary>
-    /// Represents a window that will host glowing edges.
-    /// </summary>
     public class GlowWindowHost : Window
     {
         private const string GlowWindowClassName = "AbideGlowWindow";
 
         private static readonly WindowProc glowWindowWndProc = GlowWindow_WindowProc;
         private static readonly Dictionary<IntPtr, GlowWindowHost> hostDictionary = new Dictionary<IntPtr, GlowWindowHost>();
-        private static readonly WindowClassAtom GlowWindowClassAtom;
+        private static readonly WindowClassAtom GlowWindowClassAtom = new WindowClassAtom();
 
         private readonly WindowHandle windowHandle, leftHandle, topHandle, rightHandle, bottomHandle;
-        private VisualBrush opacityMaskBrush = new VisualBrush();
         private GlowTextures glowTextures = new GlowTextures();
         private bool isActive = false;
         private int wmSizeWParam = 0;
 
-        /// <summary>
-        /// Identifies the <see cref="ClientAreaRectangleRequested"/> event.
-        /// </summary>
         public static readonly RoutedEvent ClientAreaRectangleRequestedEvent =
             EventManager.RegisterRoutedEvent("ClientAreaRectangleRequested", RoutingStrategy.Direct, typeof(ClientAreaEventHandler), typeof(GlowWindowHost));
-        /// <summary>
-        /// Identifies the <see cref="NonClientActionProperty"/> attatched property.
-        /// </summary>
+
         public static readonly DependencyProperty NonClientActionProperty =
-            DependencyProperty.RegisterAttached("NonClientAction", typeof(NonClientHitAction), typeof(GlowWindowHost), new PropertyMetadata(NonClientHitAction.Client, NonClientActionPropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="CaptionHeight"/> property.
-        /// </summary>
-        public static readonly DependencyProperty CaptionHeightProperty =
-            DependencyProperty.Register("CaptionHeight", typeof(int), typeof(GlowWindowHost), new PropertyMetadata(32));
-        /// <summary>
-        /// Identifies the <see cref="ActiveGlowColor"/> property.
-        /// </summary>
+            DependencyProperty.RegisterAttached("NonClientAction", typeof(NonClientHitAction), typeof(GlowWindowHost), new PropertyMetadata(NonClientHitAction.Inherit));
+
         public static readonly DependencyProperty ActiveGlowColorProperty =
             DependencyProperty.Register("ActiveGlowColor", typeof(WpfColor), typeof(GlowWindowHost), new PropertyMetadata(WpfColor.FromRgb(0, 122, 204), ActiveGlowColorPropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="InactiveGlowColor"/> property.
-        /// </summary>
         public static readonly DependencyProperty InactiveGlowColorProperty =
             DependencyProperty.Register("InactiveGlowColor", typeof(WpfColor), typeof(GlowWindowHost), new PropertyMetadata(WpfColor.FromRgb(63, 63, 70), InactiveGlowColorPropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="WindowIconImageSource"/> property.
-        /// </summary>
-        public static readonly DependencyProperty WindowIconImageSourceProperty =
-            DependencyProperty.Register("WindowIconImageSource", typeof(ImageSource), typeof(GlowWindowHost), new PropertyMetadata(WindowIconImageSourcePropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="BordersVisible"/> property.
-        /// </summary>
         public static readonly DependencyProperty BorderVisibleProperty =
             DependencyProperty.Register("BordersVisible", typeof(bool), typeof(GlowWindowHost), new PropertyMetadata(true, BordersVisiblePropertyChanged));
-        /// <summary>
-        /// Identifies the <see cref="CurrentIcon"/> property.
-        /// </summary>
-        public static readonly DependencyProperty CurrentIconProperty =
-            DependencyProperty.Register("CurrentIcon", typeof(WpfBrush), typeof(GlowWindowHost));
-        /// <summary>
-        /// Identifies the <see cref="ActiveIcon"/> property.
-        /// </summary>
-        public static readonly DependencyProperty ActiveIconProperty =
-            DependencyProperty.Register("ActiveIcon", typeof(WpfBrush), typeof(GlowWindowHost), new PropertyMetadata(WpfBrushes.White));
-        /// <summary>
-        /// Identifies the <see cref="InactiveIcon"/> property.
-        /// </summary>
-        public static readonly DependencyProperty InactiveIconProperty =
-            DependencyProperty.Register("InactiveIcon", typeof(WpfBrush), typeof(GlowWindowHost), new PropertyMetadata(new SolidColorBrush(WpfColor.FromRgb(129, 129, 131))));
 
-        /// <summary>
-        /// Occurs when the client area rectangle is requested.
-        /// </summary>
         public event ClientAreaEventHandler ClientAreaRectangleRequested
         {
             add { AddHandler(ClientAreaRectangleRequestedEvent, value); }
             remove { RemoveHandler(ClientAreaRectangleRequestedEvent, value); }
         }
-        /// <summary>
-        /// Gets or sets the caption height in pixels.
-        /// </summary>
-        public int CaptionHeight
-        {
-            get => (int)GetValue(CaptionHeightProperty);
-            set => SetValue(CaptionHeightProperty, value);
-        }
-        /// <summary>
-        /// Gets or sets the visibility state of the border.
-        /// </summary>
+
         public bool BordersVisible
         {
             get => (bool)GetValue(BorderVisibleProperty);
             set => SetValue(BorderVisibleProperty, value);
         }
-        /// <summary>
-        /// Gets and returns the current icon brush.
-        /// </summary>
-        public WpfBrush CurrentIcon
-        {
-            get => (WpfBrush)GetValue(CurrentIconProperty);
-            set => SetValue(CurrentIconProperty, value);
-        }
-        /// <summary>
-        /// Gets and returns the current icon brush.
-        /// </summary>
-        public WpfBrush ActiveIcon
-        {
-            get => (WpfBrush)GetValue(ActiveIconProperty);
-            set => SetValue(ActiveIconProperty, value);
-        }
-        /// <summary>
-        /// Gets and returns the current icon brush.
-        /// </summary>
-        public WpfBrush InactiveIcon
-        {
-            get => (WpfBrush)GetValue(InactiveIconProperty);
-            set => SetValue(InactiveIconProperty, value);
-        }
-        /// <summary>
-        /// Gets or sets the window icon image source.
-        /// </summary>
-        public ImageSource WindowIconImageSource
-        {
-            get => (ImageSource)GetValue(WindowIconImageSourceProperty);
-            set => SetValue(WindowIconImageSourceProperty, value);
-        }
-        /// <summary>
-        /// Gets or sets the active glow color of the window.
-        /// </summary>
         public WpfColor ActiveGlowColor
         {
             get => (WpfColor)GetValue(ActiveGlowColorProperty);
             set => SetValue(ActiveGlowColorProperty, value);
         }
-        /// <summary>
-        /// Gets or sets the inactive glow color of the window.
-        /// </summary>
         public WpfColor InactiveGlowColor
         {
             get => (WpfColor)GetValue(InactiveGlowColorProperty);
             set => SetValue(InactiveGlowColorProperty, value);
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GlowWindowHost"/> class.
-        /// </summary>
+
         public GlowWindowHost() : base()
         {
             SnapsToDevicePixels = true;
@@ -172,10 +77,6 @@ namespace Abide.Wpf.Modules.UI
             rightHandle = new WindowHandle();
             bottomHandle = new WindowHandle();
         }
-        /// <summary>
-        /// Raises the <see cref="Window.SourceInitialized"/> event.
-        /// </summary>
-        /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -213,16 +114,11 @@ namespace Abide.Wpf.Modules.UI
                 hWndSource.AddHook(GlowWindowHost_WndProc);
             }
         }
-        /// <summary>
-        /// Raises the <see cref="ClientAreaRectangleRequested"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="ClientAreaEventArgs"/> that contains the event data.</param>
         protected virtual void OnClientAreaRectangleRequested(ClientAreaEventArgs e)
         {
             //Raise event
             RaiseEvent(e);
         }
-
         private void LeftGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
             //Check
@@ -419,10 +315,33 @@ namespace Abide.Wpf.Modules.UI
                         {
                             if (element.GetValue(NonClientActionProperty) is NonClientHitAction action)
                             {
-                                //Set
                                 handled = true;
 
-                                //Handle action
+                                if (action == NonClientHitAction.Inherit)
+                                {
+                                    NonClientHitAction parentAction = action;
+                                    DependencyObject parent = VisualTreeHelper.GetParent(element);
+                                    while (parent != null)
+                                    {
+                                        parentAction = (NonClientHitAction)parent.GetValue(NonClientActionProperty);
+                                        if (parentAction != NonClientHitAction.Inherit)
+                                        {
+                                            break;
+                                        }
+
+                                        parent = VisualTreeHelper.GetParent(parent);
+                                    }
+
+                                    if (parentAction == NonClientHitAction.Inherit)
+                                    {
+                                        action = NonClientHitAction.Client;
+                                    }
+                                    else
+                                    {
+                                        action = parentAction;
+                                    }
+                                }
+
                                 switch (action)
                                 {
                                     case NonClientHitAction.Caption:
@@ -461,10 +380,9 @@ namespace Abide.Wpf.Modules.UI
                         isActive = false;
                     }
 
-                    //Check
                     if (isActive != this.isActive)
                     {
-                        WpfColor color = new WpfColor();
+                        WpfColor color;
                         if (isActive)
                         {
                             color = ActiveGlowColor;
@@ -474,33 +392,48 @@ namespace Abide.Wpf.Modules.UI
                             color = InactiveGlowColor;
                         }
 
-                        //Set icon
-                        CurrentIcon = isActive ? ActiveIcon : InactiveIcon;
-
-                        //Render
                         glowTextures.Render(Color.FromArgb(color.R, color.G, color.B));
 
-                        //Re-draw edges
                         GlowWindow_DrawLayeredWindow(leftHandle.Handle);
                         GlowWindow_DrawLayeredWindow(topHandle.Handle);
                         GlowWindow_DrawLayeredWindow(rightHandle.Handle);
                         GlowWindow_DrawLayeredWindow(bottomHandle.Handle);
 
-                        //Set
                         this.isActive = isActive;
                         InvalidateVisual();
                     }
                     break;
 
                 case WindowMessages.WM_DESTROY:
-                    _ = hostDictionary.Remove(hwnd);    //Unregister
+                    _ = hostDictionary.Remove(hwnd);
                     break;
             }
 
-            //Return
             return IntPtr.Zero;
         }
 
+        static GlowWindowHost()
+        {
+            IntPtr hInstance = Marshal.GetHINSTANCE(typeof(GlowWindowHost).Module);
+            IntPtr wndProc = Marshal.GetFunctionPointerForDelegate(glowWindowWndProc);
+
+            WNDCLASSEX wcex = new WNDCLASSEX()
+            {
+                cbSize = Marshal.SizeOf<WNDCLASSEX>(),
+                lpfnWndProc = wndProc,
+                hInstance = hInstance,
+                lpszClassName = GlowWindowClassName,
+            };
+
+            ushort classAtom = User32.RegisterClassEx(ref wcex);
+            if (classAtom == 0)
+            {
+                throw new InvalidOperationException($"Unable to create \"{GlowWindowClassName}\" class atom.");
+            }
+
+            GlowWindowClassAtom.ClassAtom = classAtom;
+            GlowWindowClassAtom.Lock();
+        }
         private static IntPtr GlowWindow_WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
             //Prepare
@@ -578,7 +511,6 @@ namespace Abide.Wpf.Modules.UI
                     return IntPtr.Zero;
             }
 
-            //Return default window procedure
             return User32.DefWindowProc(hwnd, msg, wParam, lParam);
         }
         private static void GlowWindow_DrawLayeredWindow(IntPtr hwnd)
@@ -720,29 +652,6 @@ namespace Abide.Wpf.Modules.UI
                 host.InvalidateVisual();
             }
         }
-        private static void WindowIconImageSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //Check
-            if (d is GlowWindowHost host)
-            {
-                //Setup
-                DrawingVisual visual = null;
-
-                //Create
-                if (e.NewValue is ImageSource src)
-                {
-                    //Create visual
-                    visual = new DrawingVisual();
-                    using (DrawingContext ctx = visual.RenderOpen())
-                    {
-                        ctx.DrawImage(src, new Rect(0, 0, 26, 26));
-                    }
-
-                    //Set
-                    host.opacityMaskBrush = new VisualBrush(visual);
-                }
-            }
-        }
         private static void ActiveGlowColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //Check
@@ -775,140 +684,38 @@ namespace Abide.Wpf.Modules.UI
                 GlowWindow_DrawLayeredWindow(host.bottomHandle.Handle);
             }
         }
-        private static void NonClientActionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //Check
-            if (d is FrameworkElement element)
-            {
-
-            }
-        }
-        static GlowWindowHost()
-        {
-            //Setup
-            IntPtr hInstance = Marshal.GetHINSTANCE(typeof(GlowWindowHost).Module);
-            IntPtr wndProc = Marshal.GetFunctionPointerForDelegate(glowWindowWndProc);
-            GlowWindowClassAtom = new WindowClassAtom();
-
-            //Create WndClassEx structure
-            WNDCLASSEX wcex = new WNDCLASSEX()
-            {
-                cbSize = Marshal.SizeOf<WNDCLASSEX>(),
-                lpfnWndProc = wndProc,
-                hInstance = hInstance,
-                lpszClassName = GlowWindowClassName,
-            };
-
-            //Register window class
-            ushort classAtom = User32.RegisterClassEx(ref wcex);
-            if (classAtom == 0)
-            {
-                throw new InvalidOperationException($"Unable to create \"{GlowWindowClassName}\" class atom.");
-            }
-
-            GlowWindowClassAtom.ClassAtom = classAtom;
-            GlowWindowClassAtom.Lock();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="action"></param>
         public static void SetNonClientAction(UIElement element, NonClientHitAction action)
         {
             element.SetValue(NonClientActionProperty, action);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
         public static NonClientHitAction GetNonClientAction(UIElement element)
         {
             return (NonClientHitAction)element.GetValue(NonClientActionProperty);
         }
     }
-
-    /// <summary>
-    /// Represents an enumeration containing possible non-client hit result actions.
-    /// </summary>
+    
     public enum NonClientHitAction : int
     {
-        /// <summary>
-        /// Hit client area.
-        /// This is default.
-        /// </summary>
         Client = 0,
-        /// <summary>
-        /// Hit caption.
-        /// </summary>
         Caption = 1,
-        /// <summary>
-        /// Hit icon.
-        /// </summary>
         Icon = 2,
-        /// <summary>
-        /// Hit top resize edge.
-        /// </summary>
         Top = 3,
-        /// <summary>
-        /// Hit left resize edge.
-        /// </summary>
         Left = 4,
-        /// <summary>
-        /// Hit right resize edge.
-        /// </summary>
         Right = 5,
-        /// <summary>
-        /// Hit bottom resize edge.
-        /// </summary>
         Bottom = 6,
-        /// <summary>
-        /// Hit top left resize corner.
-        /// </summary>
         TopLeft = 7,
-        /// <summary>
-        /// Hit top right resize corner.
-        /// </summary>
         TopRight = 8,
-        /// <summary>
-        /// Hit bottom left resize corner.
-        /// </summary>
         BottomLeft = 9,
-        /// <summary>
-        /// Hit bottom right resize corner.
-        /// </summary>
         BottomRight = 10,
+        Inherit= 11,
     };
 
-    /// <summary>
-    /// Represents a method that will handle client area events.
-    /// </summary>
-    /// <param name="sender">The object that triggers the event.</param>
-    /// <param name="e">The <see cref="ClientAreaEventArgs"/> that contains event data.</param>
     public delegate void ClientAreaEventHandler(object sender, ClientAreaEventArgs e);
 
-    /// <summary>
-    /// Represents event data for client area events.
-    /// </summary>
     public sealed class ClientAreaEventArgs : RoutedEventArgs
     {
-        /// <summary>
-        /// Gets and returns the window rectangle.
-        /// </summary>
         public Rectangle WindowRectangle { get; }
-        /// <summary>
-        /// Gets or sets the client rectangle.
-        /// </summary>
         public Rectangle ClientRectangle { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClientAreaEventArgs"/> class
-        /// using the specified window rectangle, routed event, and source object.
-        /// </summary>
-        /// <param name="windowRectangle">The window rectangle.</param>
-        /// <param name="routedEvent">The routed event to raise.</param>
-        /// <param name="source">The source object.</param>
         public ClientAreaEventArgs(Rectangle windowRectangle, RoutedEvent routedEvent, object source) : base(routedEvent, source)
         {
             WindowRectangle = windowRectangle;
@@ -916,35 +723,21 @@ namespace Abide.Wpf.Modules.UI
         }
     }
 
-    /// <summary>
-    /// Represents a window handle.
-    /// </summary>
     public sealed class WindowHandle : Lockable<IntPtr>
     {
-        /// <summary>
-        /// Gets and returns the window handle.
-        /// </summary>
+        public bool IsHandleCreated => Object != IntPtr.Zero;
         public IntPtr Handle
         {
             get => Object;
             set => Object = value;
         }
-        /// <summary>
-        /// Gets and returns <see langword="true"/> if the window's handle was created; otherwise, <see langword="false"/>.
-        /// </summary>
-        public bool IsHandleCreated => Object != IntPtr.Zero;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowHandle"/> class.
-        /// </summary>
+
         public WindowHandle()
         {
             Object = IntPtr.Zero;
         }
     }
 
-    /// <summary>
-    /// Represent a window class atom.
-    /// </summary>
     public sealed class WindowClassAtom : Lockable<ushort>
     {
         private new ushort Object
@@ -953,35 +746,18 @@ namespace Abide.Wpf.Modules.UI
             set => base.Object = value;
         }
 
-        /// <summary>
-        /// Gets and returns <see langword="true"/> if the window class atom is valid; otherwise, <see langword="false"/>.
-        /// </summary>
         public bool IsValid => Object != 0;
-        /// <summary>
-        /// Gets and returns the class atom.
-        /// </summary>
         public ushort ClassAtom
         {
             get => Object;
             set => Object = value;
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowClassAtom"/> class.
-        /// </summary>
+
         public WindowClassAtom()
         {
             Object = 0;
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowClassAtom"/> class using the specified class atom.
-        /// Using this constructor will lock the <see cref="WindowClassAtom"/> instance.
-        /// </summary>
-        /// <param name="classAtom">The class atom.</param>
         public WindowClassAtom(ushort classAtom) : base(classAtom) { }
-        /// <summary>
-        /// Returns a string that represents the current window class atom.
-        /// </summary>
-        /// <returns>A string.</returns>
         public override string ToString()
         {
             //Return
@@ -989,22 +765,11 @@ namespace Abide.Wpf.Modules.UI
         }
     }
 
-    /// <summary>
-    /// Represents a lockable object.
-    /// </summary>
-    /// <typeparam name="T">The object type.</typeparam>
     public abstract class Lockable<T>
     {
         private T obj;
 
-        /// <summary>
-        /// Gets and returns <see langword="true"/> if <see cref="Object"/> is locked; otherwise, <see langword="false"/>.
-        /// </summary>
         public bool IsLocked { get; private set; } = false;
-        /// <summary>
-        /// Gets or sets the object.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"><see cref="IsLocked"/> is true while trying to set.</exception>
         protected T Object
         {
             get => obj;
@@ -1020,9 +785,13 @@ namespace Abide.Wpf.Modules.UI
                 }
             }
         }
-        /// <summary>
-        /// Locks this instance, preventing the <see cref="Object"/> property from being modified.
-        /// </summary>
+
+        protected Lockable() { }
+        protected Lockable(T obj)
+        {
+            this.obj = obj;
+            IsLocked = true;
+        }
         public void Lock()
         {
             if (!IsLocked)
@@ -1030,24 +799,6 @@ namespace Abide.Wpf.Modules.UI
                 IsLocked = true;
             }
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lockable{T}"/> class.
-        /// </summary>
-        public Lockable() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lockable{T}"/> class using the specified object.
-        /// Using this constructor will lock the <see cref="Lockable{T}"/> instance.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        public Lockable(T obj)
-        {
-            this.obj = obj;
-            IsLocked = true;
-        }
-        /// <summary>
-        /// Returns a string representation of this lockable.
-        /// </summary>
-        /// <returns>A string.</returns>
         public override string ToString()
         {
             return $"{obj.ToString()} Locked: {(IsLocked ? "True" : "False")}";

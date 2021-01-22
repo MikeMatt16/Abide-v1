@@ -579,7 +579,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                                 TagBlockViewModel structure = new TagBlockViewModel(this)
                                 {
                                     Map = map,
-                                    TagBlock = structField.Value
+                                    TagBlock = structField.Block
                                 };
                                 Structure = structure;
                                 IsExpanded = true;

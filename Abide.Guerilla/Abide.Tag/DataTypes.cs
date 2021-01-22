@@ -82,7 +82,6 @@ namespace Abide.Tag
     /// </summary>
     public enum VertexAttributeType : short
     {
-#pragma warning disable 1591
         None = 0x0000,
         CoordinateFloat = 0x010C,
         CoordinateCompressed = 0x0206,
@@ -97,9 +96,9 @@ namespace Abide.Tag
         TangentSpaceUnitVectorsFloat = 0x1924,
         TangentSpaceUnitVectorsCompressed = 0x1B0C,
 
-        LightmapUvCoordinateOne = 0x1F08,
+        LightmapUVCoordinateOne = 0x1F08,
         LightmapUVCoordinateOneXbox = 0x1F04,
-        LightmapUvCoordinateTwo = 0x3008,
+        LightmapUVCoordinateTwo = 0x3008,
         LightmapUVCoordinateTwoXbox = 0x3004,
 
         DiffuseColour = 0x350C,
@@ -107,7 +106,6 @@ namespace Abide.Tag
         UnpackedWorldCoordinateData = 0x2120,
         UnpackedTextureCoordinateData = 0x2208,
         UnpackedLightingData = 0x2324,
-#pragma warning restore
     }
     #endregion
     #region Tags
@@ -925,6 +923,15 @@ namespace Abide.Tag
             return Dot(this, vector);
         }
         /// <summary>
+        /// Calculates the cross product of this vector and a supplied vector.
+        /// </summary>
+        /// <param name="vector">The vector to cross multiply with this vector with</param>
+        /// <returns></returns>
+        public Vector3 Cross(Vector3 vector)
+        {
+            return Cross(this, vector);
+        }
+        /// <summary>
         /// Returns a string representation of this vector.
         /// </summary>
         /// <returns>A string.</returns>
@@ -950,6 +957,16 @@ namespace Abide.Tag
         public static float Dot(Vector3 v1, Vector3 v2)
         {
             return v1.I * v2.I + v1.J + v2.J * v1.K * v2.K;
+        }
+        /// <summary>
+        /// Calculates the cross product of two supplied vectors.
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        public static Vector3 Cross(Vector3 v1, Vector3 v2)
+        {
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Multiplies a vector and a scalar. The resulting vector's components will be the product of the vector components and the scalar value.
@@ -1553,6 +1570,14 @@ namespace Abide.Tag
         public override string ToString()
         {
             return String;
+        }
+        public static bool operator ==(String32 s1, String32 s2)
+        {
+            return s1.String == s2.String;
+        }
+        public static bool operator !=(String32 s1, String32 s2)
+        {
+            return s1.String != s2.String;
         }
     }
     /// <summary>
@@ -2351,6 +2376,14 @@ namespace Abide.Tag
         public override string ToString()
         {
             return String;
+        }
+        public static bool operator ==(String256 s1, String256 s2)
+        {
+            return s1.String == s2.String;
+        }
+        public static bool operator !=(String256 s1, String256 s2)
+        {
+            return s1.String != s2.String;
         }
     }
     #endregion

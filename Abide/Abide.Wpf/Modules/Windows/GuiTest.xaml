@@ -1,0 +1,16 @@
+﻿<ui:GlowWindowHost x:Name="glowWindowHost" x:Class="Abide.Wpf.Modules.Windows.GuiTest"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:ui="clr-namespace:Abide.Wpf.Modules.UI"
+                   mc:Ignorable="d"
+                   Title="GuiTest" Height="450" Width="800"
+                   Style="{StaticResource VisualStudioWindow}">
+    <DockPanel>
+        <ui:CaptionBar DockPanel.Dock="Top" Height="32" ImageSource="{Binding Icon, ElementName=glowWindowHost}"/>
+        <TabControl>
+            <ui:FileTabItem Header="Test"/>
+        </TabControl>
+    </DockPanel>
+</ui:GlowWindowHost>

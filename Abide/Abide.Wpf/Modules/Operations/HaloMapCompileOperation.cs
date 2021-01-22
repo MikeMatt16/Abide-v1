@@ -746,7 +746,7 @@ namespace Abide.Wpf.Modules.Operations
                     TagReferenceField cacheTagReferenceField = new TagReferenceField(tagReferenceField.GetName(), tagReferenceField.GroupTag);
                     if (!string.IsNullOrEmpty(tagReferenceField.Value))
                     {
-                        var tagReference = cacheTagReferenceField.Value;
+                        var tagReference = cacheTagReferenceField.Reference;
                         tagReference.Id = tagList.First(t => t.TagName == tagReferenceField.Value).Id;
                         cacheTagReferenceField.Value = tagReference;
                     }
@@ -768,7 +768,7 @@ namespace Abide.Wpf.Modules.Operations
                     return blockField;
 
                 case StructField structField:
-                    TagBlock_ToCache(structField.Value);
+                    TagBlock_ToCache(structField.Block);
                     return structField;
 
                 default: return field;
@@ -837,7 +837,7 @@ namespace Abide.Wpf.Modules.Operations
                             break;
 
                         case StructField structField:
-                            discoverPredictedResources(structField.Value);
+                            discoverPredictedResources(structField.Block);
                             break;
 
                         case TagReferenceField tagReferenceField:
@@ -874,7 +874,7 @@ namespace Abide.Wpf.Modules.Operations
                             break;
 
                         case StructField structField:
-                            discoverPredictedBitmaps(structField.Value);
+                            discoverPredictedBitmaps(structField.Block);
                             break;
 
                         case TagReferenceField tagReferenceField:
@@ -1149,8 +1149,7 @@ namespace Abide.Wpf.Modules.Operations
             if (((BlockField)soundBlock.Fields[14]).BlockList.Count > 0)
             {
                 index = customPlaybacks.BlockList.Count;
-                Block customPlayback = customPlaybacks.Add(out success);
-                if (success)
+                if (customPlaybacks.Add(out Block customPlayback))
                 {
                     cacheFileSoundBlock.Fields[10].Value = (byte)index;
                     customPlayback.Fields[0].Value = ((BlockField)soundBlock.Fields[14]).BlockList[0].Fields[0].Value;
@@ -1164,8 +1163,7 @@ namespace Abide.Wpf.Modules.Operations
             {
                 index = extraInfos.BlockList.Count;
                 Block soundExtraInfo = ((BlockField)soundBlock.Fields[15]).BlockList[0];
-                Block extraInfo = extraInfos.Add(out success);
-                if (success)
+                if (extraInfos.Add(out Block extraInfo))
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
@@ -1182,8 +1180,7 @@ namespace Abide.Wpf.Modules.Operations
             foreach (var soundPitchRange in ((BlockField)soundBlock.Fields[13]).BlockList)
             {
                 index = pitchRanges.BlockList.Count;
-                Block gestaltPitchRange = pitchRanges.Add(out success);
-                if (success)
+                if (pitchRanges.Add(out Block gestaltPitchRange))
                 {
                     //Set pitch range
                     cacheFileSoundBlock.Fields[6].Value = (short)index;
@@ -1202,8 +1199,7 @@ namespace Abide.Wpf.Modules.Operations
                     //Loop
                     foreach (Block soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
                     {
-                        Block gestaltPermutation = permutations.Add(out success);
-                        if (success)
+                        if (permutations.Add(out Block gestaltPermutation))
                         {
                             //Add import name
                             gestaltPermutation.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringId)soundPermutation.Fields[0].Value);
@@ -1265,8 +1261,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                Block gestaltBlock = blockField.Add(out bool success);
-                if (success)
+                if (blockField.Add(out Block gestaltBlock))
                 {
                     gestaltBlock.Fields[0].Value = s1;
                     gestaltBlock.Fields[1].Value = sb1;
@@ -1300,8 +1295,8 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                Block gestaltBlock = blockField.Add(out bool success);
-                if (success) gestaltBlock.Fields[0].Value = stringId;
+                if (blockField.Add(out Block gestaltBlock)) 
+                    gestaltBlock.Fields[0].Value = stringId;
                 else index = -1;
             }
 
@@ -1329,8 +1324,8 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                Block gestaltBlock = blockField.Add(out bool success);
-                if (success) gestaltBlock.Fields[0].Value = structBlock;
+                if (blockField.Add(out Block gestaltBlock))
+                    gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
 
@@ -1358,8 +1353,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                Block gestaltBlock = blockField.Add(out bool success);
-                if (success)
+                if (blockField.Add(out Block gestaltBlock))
                 {
                     gestaltBlock.Fields[0].Value = structBlock;
                     index = (byte)index;
@@ -1391,8 +1385,8 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                Block gestaltBlock = blockField.Add(out bool success);
-                if (success) gestaltBlock.Fields[0].Value = structBlock;
+                if (blockField.Add(out Block gestaltBlock))
+                    gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
 
@@ -1524,8 +1518,8 @@ namespace Abide.Wpf.Modules.Operations
         {
             foreach (var structureBsp in ((BlockField)tagGroupFile.TagGroup.TagBlocks[0].Fields[68]).BlockList)
             {
-                var structureBspId = ((TagReferenceField)structureBsp.Fields[1]).Value.Id;
-                var structureLightmapId = ((TagReferenceField)structureBsp.Fields[2]).Value.Id;
+                var structureBspId = ((TagReferenceField)structureBsp.Fields[1]).Reference.Id;
+                var structureLightmapId = ((TagReferenceField)structureBsp.Fields[2]).Reference.Id;
                 AbideTagGroupFile structureBspFile = null;
                 AbideTagGroupFile structureLightmapFile = null;
 

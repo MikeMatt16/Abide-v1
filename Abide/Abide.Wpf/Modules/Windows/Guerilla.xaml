@@ -1,0 +1,22 @@
+﻿<ui:GlowWindowHost x:Class="Abide.Wpf.Modules.Windows.Guerilla"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:Abide.Wpf.Modules.Windows"
+                   xmlns:ui="clr-namespace:Abide.Wpf.Modules.UI"
+                   mc:Ignorable="d"
+                   Title="Guerilla" Height="450" Width="800"
+                   Style="{StaticResource VisualStudioWindow}">
+    <DockPanel>
+        <ui:CaptionBar DockPanel.Dock="Top" ImageSource="Resources/Abide-Window-Icon.png" Height="30">
+            <Grid>
+                <TextBlock Text="Abide Guerilla" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{StaticResource Foreground}"
+                           Background="{StaticResource BackgroundDark}" Padding="5,3,5,3"/>
+            </Grid>
+        </ui:CaptionBar>
+        <TabControl>
+            <ui:FileTabItem Header="Test"/>
+        </TabControl>
+    </DockPanel>
+</ui:GlowWindowHost>

@@ -9,8 +9,7 @@
                    mc:Ignorable="d"
                    WindowState="Maximized"
                    Title="{Binding WindowTitle}" Height="450" Width="800" 
-                   ActiveGlowColor="{StaticResource ActiveGlow}"
-                   Background="{StaticResource Background}">
+                   Style="{StaticResource VisualStudioWindow}">
     <ui:GlowWindowHost.InputBindings>
         <KeyBinding Command="{Binding OpenCommand}" Key="O" Modifiers="Ctrl"/>
     </ui:GlowWindowHost.InputBindings>
@@ -21,7 +20,7 @@
         <vm:OperationsStatusConverter x:Key="opStatusConverter"/>
         <vm:WindowStateToVisibilityConverter x:Key="windowStateToVisibility"/>
         <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
-        
+
         <DataTemplate x:Key="FileTabItemTemplate" DataType="{x:Type vm:FileItem}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -29,7 +28,7 @@
                     <ColumnDefinition Width="2"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Column="0" Text="{Binding FileName}"/>
                 <Button Grid.Column="2" Command="{Binding CloseFileCommand}">
                     <Button.Style>
@@ -70,30 +69,10 @@
                                           FileTabContentTemplate="{StaticResource FileTabContentTemplate}"/>
     </ui:GlowWindowHost.Resources>
     <DockPanel>
-        <Grid DockPanel.Dock="Top" Height="32" Background="Transparent" ui:GlowWindowHost.NonClientAction="Caption">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="46"/>
-                <ColumnDefinition Width="46"/>
-                <ColumnDefinition Width="46"/>
-            </Grid.ColumnDefinitions>
-            <Rectangle x:Name="IconRectangle" Grid.Column="0" Fill="{Binding CurrentIcon, ElementName=glowWindowHost}" ui:GlowWindowHost.NonClientAction="Icon" Width="24" Height="24">
-                <Rectangle.OpacityMask>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <Image Source="Resources/Abide-Window-Icon.png"/>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Menu Grid.Column="0" VerticalAlignment="Center" ui:GlowWindowHost.NonClientAction="Caption">
+        <ui:CaptionBar DockPanel.Dock="Top" Height="30" ImageSource="Resources/Abide-Window-Icon.png"
+                       IsWindowActive="{Binding ElementName=glowWindowHost, Path=IsActive}">
+            <StackPanel Orientation="Horizontal">
+                <Menu Grid.Column="0" VerticalAlignment="Center" ui:GlowWindowHost.NonClientAction="Client">
                     <MenuItem Header="_File">
                         <MenuItem Header="_New">
                             <MenuItem Header="_Project..." InputGestureText="Ctrl+Shift+N" Command="{Binding NewProjectCommand}"/>
@@ -126,29 +105,9 @@
                 </Menu>
 
                 <TextBlock Grid.Column="1" Text="{Binding Title, ElementName=glowWindowHost}" VerticalAlignment="Center" HorizontalAlignment="Left"
-                       ui:GlowWindowHost.NonClientAction="Caption" TextTrimming="CharacterEllipsis"
-                       Foreground="{StaticResource Foreground}" Margin="4" Padding="6" Background="#252526"/>
-            </Grid>
-            <Button x:Name="MinimizeButton" Style="{StaticResource CaptionButton}" Grid.Column="2" Click="MinimizeButton_Click">
-                <Button.Content>
-                    <Rectangle Width="10" Height="1" Fill="White"/>
-                </Button.Content>
-            </Button>
-            <Button x:Name="MaximizeRestoreButton" Style="{StaticResource CaptionButton}" Grid.Column="3" Click="MaximizeRestoreButton_Click">
-                <Button.Content>
-                    <Rectangle Stroke="White" StrokeThickness="1" Width="10" Height="10"/>
-                </Button.Content>
-            </Button>
-            <Button x:Name="CloseButton" Style="{StaticResource CaptionButton}" Grid.Column="4" Click="CloseButton_Click">
-                <Button.Content>
-                    <Canvas>
-                        <Line Stroke="White" X1="-5" Y1="-5" X2="5" Y2="5"/>
-                        <Line Stroke="White" X1="-5" Y1="5" X2="5" Y2="-5"/>
-                    </Canvas>
-                </Button.Content>
-            </Button>
-        </Grid>
-
+                           TextTrimming="CharacterEllipsis" Foreground="{StaticResource Foreground}" Margin="4" Padding="6" Background="#252526"/>
+            </StackPanel>
+        </ui:CaptionBar>
         <ToolBarPanel DockPanel.Dock="Top">
             <ToolBar>
                 <ComboBox ItemsSource="{Binding Xboxes}" SelectedItem="{Binding SelectedXbox, Mode=TwoWay}">
@@ -161,6 +120,7 @@
                 <Button Content="Refresh" Command="{Binding RefreshXboxesCommand}"/>
             </ToolBar>
         </ToolBarPanel>
+        
         <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource ActiveGlowBrush}" Height="23">
             <StatusBar.Resources>
                 <Style TargetType="TextBlock">
@@ -227,8 +187,26 @@
             </StatusBarItem>
         </StatusBar>
 
-        <TabControl ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"
-                    ItemTemplateSelector="{StaticResource TabItemTemplateSelector}"
-                    ContentTemplateSelector="{StaticResource TabContentTemplateSelector}"/>
+        <Grid ClipToBounds="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TabControl Grid.Row="0" Grid.Column="2"
+                ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"
+                ItemTemplateSelector="{StaticResource TabItemTemplateSelector}"
+                ContentTemplateSelector="{StaticResource TabContentTemplateSelector}"
+                Width="{Binding ElementName=Canvas, Path=ActualWidth}"
+                Height="{Binding ElementName=Canvas, Path=ActualHeight}"/>
+        </Grid>
     </DockPanel>
 </ui:GlowWindowHost>

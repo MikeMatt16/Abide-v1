@@ -150,11 +150,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         break;
 
                     case StructField structField:
-                        FindAllReferences(structField.Value, tags);
+                        FindAllReferences(structField.Block, tags);
                         break;
 
                     case Tag.Cache.TagReferenceField tagReferenceField:
-                        TagReference tagReference = tagReferenceField.Value;
+                        TagReference tagReference = tagReferenceField.Reference;
                         tag = Map.GetTagById(tagReference.Id);
                         if (tag != null)
                         {
@@ -163,7 +163,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         break;
 
                     case Tag.Cache.TagIndexField tagIdField:
-                        TagId tagId = tagIdField.Value;
+                        TagId tagId = tagIdField.Id;
                         tag = Map.GetTagById(tagId);
                         if (tag != null)
                         {

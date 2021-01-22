@@ -112,18 +112,18 @@ namespace Abide.Wpf.Modules.Windows
                 switch (field)
                 {
                     case TagReferenceField tagReferenceField:
-                        if (tagReferenceField.Value.Id != TagId.Null)
+                        if (tagReferenceField.Reference.Id != TagId.Null)
                         {
-                            var model = Tags.FirstOrDefault(t => t.Id == tagReferenceField.Value.Id);
+                            var model = Tags.FirstOrDefault(t => t.Id == tagReferenceField.Reference.Id);
                             if (model == null) System.Diagnostics.Debugger.Break();
                             tag.ReferencedTags.Add(model);
                         }
                         break;
 
                     case TagIndexField tagIndexField:
-                        if (tagIndexField.Value != TagId.Null)
+                        if (tagIndexField.Id != TagId.Null)
                         {
-                            var model = Tags.FirstOrDefault(t => t.Id == tagIndexField.Value);
+                            var model = Tags.FirstOrDefault(t => t.Id == tagIndexField.Id);
                             if (model != null)
                             {
                                 tag.ReferencedTags.Add(model);
@@ -139,7 +139,7 @@ namespace Abide.Wpf.Modules.Windows
                         break;
 
                     case StructField structField:
-                        GetReferencedTags(tag, structField.Value);
+                        GetReferencedTags(tag, structField.Block);
                         break;
                 }
             }

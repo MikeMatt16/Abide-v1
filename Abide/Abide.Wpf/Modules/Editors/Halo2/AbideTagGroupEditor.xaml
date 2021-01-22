@@ -9,11 +9,10 @@
                        mc:Ignorable="d" 
                        d:DesignHeight="450" d:DesignWidth="800"
                        AddOnName="Abide Tag Group Editor" AddOnDescription="Editor for Abide tag group files."
-                       AddOnAuthor="Click16" TypeName="Abide Tag Group Files">
+                       AddOnAuthor="Click16" TypeName="Abide Tag Group Files"
+                       Background="{StaticResource BackgroundDark}">
     <api:FileEditorControl.DataContext>
         <local:TagGroupViewModel/>
     </api:FileEditorControl.DataContext>
-    <ScrollViewer>
-        <ui:TagGroupEditorPanel TagGroup="{Binding TagGroup}"/>
-    </ScrollViewer>
+    <ui:TagGroupEditorPanel TagGroup="{Binding TagGroup}"/>
 </api:FileEditorControl>

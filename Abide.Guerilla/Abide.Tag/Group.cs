@@ -3,15 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 
 namespace Abide.Tag
 {
-    public abstract class Group : ITagGroup, IEnumerable<Block>, INotifyPropertyChanged
+    public abstract class Group : ITagGroup, IEnumerable<Block>
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public int TagBlockCount => TagBlocks.Count;
         public abstract string Name { get; }
         public abstract TagFourCc Tag { get; }
@@ -30,6 +27,7 @@ namespace Abide.Tag
             foreach (var block in TagBlocks)
             {
                 block.Read(reader);
+                block.GroupOwner = this;
             }
         }
         public virtual void Write(BinaryWriter writer)
@@ -58,7 +56,7 @@ namespace Abide.Tag
         }
         public override string ToString()
         {
-            return Name ?? base.ToString();
+            return $"({Tag}) \"{Name}\"";
         }
 
         ITagBlock ITagGroup.this[int index]

@@ -10,29 +10,9 @@
                    Title="Create New Project" Height="450" Width="800"
                    ActiveGlowColor="{StaticResource InaciveGlow}"
                    Background="{StaticResource BackgroundDark}"
-                   Foreground="{StaticResource Foreground}"
                    x:Name="newProjectDialog">
     <DockPanel>
-        <Grid DockPanel.Dock="Top" Height="32" ui:GlowWindowHost.NonClientAction="Caption" Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="46"/>
-                <ColumnDefinition Width="46"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="MaximizeRestoreButton" Style="{StaticResource CaptionButton}" Grid.Column="1">
-                <Button.Content>
-                    <Rectangle Stroke="White" StrokeThickness="1" Width="10" Height="10"/>
-                </Button.Content>
-            </Button>
-            <Button x:Name="CloseButton" Style="{StaticResource CaptionButton}" Grid.Column="2">
-                <Button.Content>
-                    <Canvas>
-                        <Line Stroke="White" X1="-5" Y1="-5" X2="5" Y2="5"/>
-                        <Line Stroke="White" X1="-5" Y1="5" X2="5" Y2="-5"/>
-                    </Canvas>
-                </Button.Content>
-            </Button>
-        </Grid>
+        <ui:CaptionBar DockPanel.Dock="Top" Height="32" ShowIcon="False" CanMinimize="False"/>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>

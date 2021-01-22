@@ -61,22 +61,19 @@ namespace Abide.Tag
             list.Insert(destinationIndex, block);
             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, block));
         }
-        public void Add(Block block)
-        {
-            Add(block, out bool success);
-        }
-        public void Add(Block block, out bool success)
+        public bool Add(Block block)
         {
             if (block == null) throw new ArgumentNullException(nameof(block));
-            
-            success = false;
+
             if (Count < MaximumCount)
             {
-                success = true;
                 list.Add(block);
                 Count = list.Count;
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, block));
+                return true;
             }
+
+            return false;
         }
         public bool Contains(Block block)
         {
@@ -84,10 +81,11 @@ namespace Abide.Tag
         }
         public bool Remove(Block block)
         {
+            int index = list.IndexOf(block);
             if (list.Remove(block))
             {
                 Count = list.Count;
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, block));
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, block, index));
                 return true;
             }
 
@@ -147,6 +145,10 @@ namespace Abide.Tag
         }
 
         bool ICollection<Block>.IsReadOnly => false;
+        void ICollection<Block>.Add(Block item)
+        {
+            _ = Add(item);
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

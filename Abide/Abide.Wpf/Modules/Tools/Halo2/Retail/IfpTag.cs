@@ -14,8 +14,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
     {
         private int readWriteOffset = 0;
 
-        public override string Name { get; } = "ifp_tag_group";
         public override TagFourCc Tag { get; } = "ifp ";
+        public override string Name { get; } = "ifp_tag_group";
 
         public IfpTagGroup(IfpDocument ifpDocument)
         {
@@ -43,6 +43,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         }
         public IfpTagGroup(IfpDocument ifpDocument, string groupName) : this(ifpDocument)
         {
+            if (!string.IsNullOrEmpty(ifpDocument.Plugin.Class))
+            {
+                Tag = ifpDocument.Plugin.Class;
+            }
+            
             Name = groupName;
         }
     }
@@ -339,19 +344,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             node = structIfpNode;
         }
 
-        public override Block Add(out bool success)
-        {
-            if (node.MaxElements > 0 && BlockList.Count >= node.MaxElements)
-            {
-                success = false;
-                return null;
-            }
-
-            var block = Create();
-            BlockList.Add(block, out success);
-            return block;
-        }
-
         public override bool Add(out Block block)
         {
             if (node.MaxElements > 0 && BlockList.Count >= node.MaxElements)
@@ -361,8 +353,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             }
 
             block = Create();
-            BlockList.Add(block, out bool success);
-            return success;
+            return BlockList.Add(block);
         }
 
         public override Block Create()

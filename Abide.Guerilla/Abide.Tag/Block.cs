@@ -20,8 +20,10 @@ namespace Abide.Tag
         public virtual string BlockName => string.Empty;
         public virtual string DisplayName => string.Empty;
         public long BlockAddress { get; private set; } = 0;
-        protected Block() { }
+        public Field FieldOwner { get; internal set; } = null;
+        public Group GroupOwner { get; internal set; } = null;
 
+        protected Block() { }
         public bool Equals(Block other)
         {
             bool equals = Fields.Count == other.Fields.Count && BlockName == other.BlockName;
@@ -76,6 +78,7 @@ namespace Abide.Tag
             foreach (Field field in Fields)
             {
                 field.Read(reader);
+                field.Owner = this;
             }
         }
         public virtual void Write(BinaryWriter writer)

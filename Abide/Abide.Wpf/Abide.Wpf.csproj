@@ -84,7 +84,18 @@
     <Compile Include="Modules\Editors\Halo2\ValueEditors\BasicValueEditor.xaml.cs">
       <DependentUpon>BasicValueEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Guerilla\Tag\Fields.cs" />
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\BoundsValueEditor.xaml.cs">
+      <DependentUpon>BoundsValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\ColorValueEditor.xaml.cs">
+      <DependentUpon>ColorValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\EnumValueEditor.xaml.cs">
+      <DependentUpon>EnumValueEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\FlagsValueEditor.xaml.cs">
+      <DependentUpon>FlagsValueEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Operations\HaloMapCompileOperation.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
     <Compile Include="Modules\ProjectTypes\Halo2\Retail\HaloProject.cs" />
@@ -94,6 +105,14 @@
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagExtractor.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\TagBuilder\TagImporter.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\IfpTag.cs" />
+    <Compile Include="Modules\UI\CaptionBar.cs" />
+    <Compile Include="Modules\UI\CaptionButton.cs" />
+    <Compile Include="Modules\UI\ColorPicker.cs" />
+    <Compile Include="Modules\UI\DockableTabControl.cs" />
+    <Compile Include="Modules\UI\DockableTabItem.cs" />
+    <Compile Include="Modules\UI\DockingPanel.cs" />
+    <Compile Include="Modules\UI\FileTabItem.cs" />
+    <Compile Include="Modules\UI\FloatPanelControl.cs" />
     <Compile Include="Modules\UI\TagGroupEditorPanel.xaml.cs">
       <DependentUpon>TagGroupEditorPanel.xaml</DependentUpon>
     </Compile>
@@ -191,6 +210,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\BoundsValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\ColorValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\EnumValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\FlagsValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Tools\Halo2\Retail\ModelEditor\ModelEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -215,6 +250,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Windows\Guerilla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Windows\GuiTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -222,6 +265,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\Windows\Guerilla.xaml.cs">
+      <DependentUpon>Guerilla.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Windows\GuiTest.xaml.cs">
+      <DependentUpon>GuiTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -260,7 +309,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Resources\Abide Splash.png" />
+    <None Include="Resources\Abide Splash.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\abide-icon.ico" />

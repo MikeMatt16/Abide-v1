@@ -136,6 +136,10 @@ namespace Abide.Wpf.Modules.ViewModel
             //         writer.WriteLine(map.IndexEntries[i].Root);
             //     }
             // }
+
+            OpenFile(@"F:\Users\Mike\Documents\Abide\Guerilla\tags\objects\weapons\rifle\battle_rifle\battle_rifle.weapon");
+            OpenFile(@"F:\Users\Mike\Documents\Abide\Guerilla\tags\scenarios\multi\ascension\ascension.scenario");
+            OpenFile(@"F:\Users\Mike\Documents\Abide\Guerilla\tags\ui\hud\masterchief.new_hud_definition");
         }
         private void NewProject(NewProjectDialog dialog = null)
         {
