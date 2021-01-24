@@ -130,7 +130,7 @@ throttle maximum adjustment angle: maximum angle throttle magnetism will have an
         /// <summary>
         /// Gets and returns the name of the weapon_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

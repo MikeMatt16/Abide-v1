@@ -32,7 +32,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the vertex_shader_constant_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

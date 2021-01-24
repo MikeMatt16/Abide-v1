@@ -30,7 +30,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the character_firing_pattern_properties_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

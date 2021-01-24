@@ -49,6 +49,7 @@ namespace Abide.Wpf.Modules.ViewModel
 
         public ObservableCollection<BackgroundOperation> BackgroundOperations { get; } = new ObservableCollection<BackgroundOperation>();
         public ObservableCollection<XboxViewModel> Xboxes { get; } = new ObservableCollection<XboxViewModel>();
+        public ObservableCollection<HistoryModel> History { get; } = new ObservableCollection<HistoryModel>();
         public FileCollection Files { get; } = new FileCollection();
         public Window MainWindow
         {

@@ -58,7 +58,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the rasterizer_screen_effect_pass_reference_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

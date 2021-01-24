@@ -40,7 +40,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the lens_flare_reflection_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

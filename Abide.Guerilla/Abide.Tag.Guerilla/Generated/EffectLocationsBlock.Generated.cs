@@ -56,7 +56,7 @@ The location of a havok impact.
         /// <summary>
         /// Gets and returns the name of the effect_locations_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

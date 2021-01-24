@@ -50,6 +50,16 @@ namespace Abide.Tag.CodeDom
             createTagGroupMethod1.Comments.Add(new CodeCommentStatement("<param name=\"groupTag\">The group tag.</param>", true));
             tagLookupCodeTypeDeclaration.Members.Add(createTagGroupMethod1);
 
+            //Generate if statements
+            foreach (var tagGroup in AbideCodeDomGlobals.GetTagGroups())
+            {
+                createTagGroupMethod1.Statements.Add(new CodeCommentStatement($" {tagGroup.Name}"));
+                createTagGroupMethod1.Statements.Add(new CodeConditionStatement(new CodeBinaryOperatorExpression(new CodeArgumentReferenceExpression("groupTag"), CodeBinaryOperatorType.ValueEquality,
+                    new CodePrimitiveExpression(tagGroup.GroupTag.FourCc)), new CodeMethodReturnStatement(
+                        new CodeObjectCreateExpression(new CodeTypeReference(AbideCodeDomGlobals.GetMemberName(tagGroup))))));
+            }
+            createTagGroupMethod1.Statements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression()));
+
             //Create Method
             CodeMemberMethod createTagGroupMethod2 = new CodeMemberMethod()
             {
@@ -67,22 +77,36 @@ namespace Abide.Tag.CodeDom
             //Generate if statements
             foreach (var tagGroup in AbideCodeDomGlobals.GetTagGroups())
             {
-                createTagGroupMethod1.Statements.Add(new CodeCommentStatement($" {tagGroup.Name}"));
-                createTagGroupMethod1.Statements.Add(new CodeConditionStatement(new CodeBinaryOperatorExpression(new CodeArgumentReferenceExpression("groupTag"), CodeBinaryOperatorType.ValueEquality,
-                    new CodePrimitiveExpression(tagGroup.GroupTag.FourCc)), new CodeMethodReturnStatement(
-                        new CodeObjectCreateExpression(new CodeTypeReference(AbideCodeDomGlobals.GetMemberName(tagGroup))))));
-            }
-            createTagGroupMethod1.Statements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression()));
-
-            //Generate if statements
-            foreach (var tagGroup in AbideCodeDomGlobals.GetTagGroups())
-            {
                 createTagGroupMethod2.Statements.Add(new CodeCommentStatement($" {tagGroup.Name}"));
                 createTagGroupMethod2.Statements.Add(new CodeConditionStatement(new CodeBinaryOperatorExpression(new CodeArgumentReferenceExpression("tagGroupName"), CodeBinaryOperatorType.ValueEquality,
                     new CodePrimitiveExpression(tagGroup.Name)), new CodeMethodReturnStatement(
                         new CodeObjectCreateExpression(new CodeTypeReference(AbideCodeDomGlobals.GetMemberName(tagGroup))))));
             }
             createTagGroupMethod2.Statements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression()));
+
+            //Create method
+            CodeMemberMethod createTagBlockMethod = new CodeMemberMethod()
+            {
+                Attributes = MemberAttributes.Public | MemberAttributes.Static,
+                Name = "CreateTagBlock",
+                ReturnType = new CodeTypeReference(nameof(Block)),
+            };
+            createTagBlockMethod.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference(typeof(string)), "tagBlockName"));
+            createTagBlockMethod.Comments.Add(new CodeCommentStatement("<summary>", true));
+            createTagBlockMethod.Comments.Add(new CodeCommentStatement($"Returns a <see cref=\"Block\"/> instance based on the supplied tag block name.", true));
+            createTagBlockMethod.Comments.Add(new CodeCommentStatement("</summary>", true));
+            createTagBlockMethod.Comments.Add(new CodeCommentStatement("<param name=\"tagBlockName\">The name of the tag block.</param>", true));
+            tagLookupCodeTypeDeclaration.Members.Add(createTagBlockMethod);
+
+            //Generate if statements
+            foreach (var tagBlock in AbideCodeDomGlobals.GetTagBlocks())
+            {
+                createTagBlockMethod.Statements.Add(new CodeCommentStatement($" {tagBlock.Name}"));
+                createTagBlockMethod.Statements.Add(new CodeConditionStatement(new CodeBinaryOperatorExpression(new CodeArgumentReferenceExpression("tagBlockName"), CodeBinaryOperatorType.ValueEquality,
+                    new CodePrimitiveExpression(tagBlock.Name)), new CodeMethodReturnStatement(
+                        new CodeObjectCreateExpression(new CodeTypeReference(AbideCodeDomGlobals.GetMemberName(tagBlock))))));
+            }
+            createTagBlockMethod.Statements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression()));
 
             //Add type to namespace
             generatedCodeNamespace.Types.Add(tagLookupCodeTypeDeclaration);

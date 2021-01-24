@@ -39,7 +39,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the order_completion_condition tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

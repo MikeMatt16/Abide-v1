@@ -36,7 +36,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the tag_import_file_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -34,7 +34,7 @@ namespace Abide.Tag.Guerilla.Generated
                         "d)\n"));
             this.Fields.Add(new BlockField<SingleAnimationReferenceBlock>("item animations", 7));
             this.Fields.Add(new BlockField<TextBlockReferenceBlock>("text blocks", 64));
-            this.Fields.Add(new ExplanationField("NOTE:", "the bitmap block top-left is actually bottom-left here in list skin land!"));
+            this.Fields.Add(new ExplanationField("NOTE", "the bitmap block top-left is actually bottom-left here in list skin land!"));
             this.Fields.Add(new BlockField<BitmapBlockReferenceBlock>("bitmap blocks", 64));
             this.Fields.Add(new BlockField<HudBlockReferenceBlock>("hud blocks", 64));
             this.Fields.Add(new BlockField<PlayerBlockReferenceBlock>("player blocks", 64));
@@ -42,7 +42,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the user_interface_list_skin_definition_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

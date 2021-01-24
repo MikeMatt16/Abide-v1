@@ -33,7 +33,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the new_hud_definition_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

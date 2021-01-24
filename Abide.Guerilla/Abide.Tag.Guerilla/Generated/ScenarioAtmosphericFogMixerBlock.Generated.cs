@@ -33,7 +33,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the scenario_atmospheric_fog_mixer_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

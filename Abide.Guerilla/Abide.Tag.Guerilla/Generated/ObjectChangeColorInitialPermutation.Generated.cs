@@ -32,7 +32,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the object_change_color_initial_permutation tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

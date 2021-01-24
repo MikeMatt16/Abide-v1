@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the occluder_to_machine_door_mapping tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

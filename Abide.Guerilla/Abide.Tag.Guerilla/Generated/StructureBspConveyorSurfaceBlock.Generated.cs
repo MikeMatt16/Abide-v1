@@ -30,7 +30,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the structure_bsp_conveyor_surface_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -30,7 +30,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the scenario_cluster_sound_environments_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

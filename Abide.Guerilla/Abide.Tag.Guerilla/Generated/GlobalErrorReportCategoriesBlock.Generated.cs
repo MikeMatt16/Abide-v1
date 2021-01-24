@@ -35,7 +35,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the global_error_report_categories_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

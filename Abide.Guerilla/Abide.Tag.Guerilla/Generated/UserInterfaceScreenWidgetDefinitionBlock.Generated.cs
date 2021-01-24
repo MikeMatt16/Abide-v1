@@ -24,7 +24,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public UserInterfaceScreenWidgetDefinitionBlock()
         {
-            this.Fields.Add(new ExplanationField("Notes on screen widgets:", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
+            this.Fields.Add(new ExplanationField("Notes on screen widgets", @"- the widget coordinate system is a left-handed system (+x to the right, +y up, +z into the screen)
   with the origin centered in the display (regardless of display size)
 - for widget component placement, all coordinates you define in the tag specifiy the object's
   placement prior to the application of any animation
@@ -71,7 +71,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the user_interface_screen_widget_definition_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

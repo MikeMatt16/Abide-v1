@@ -30,7 +30,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the scenario_machine_struct_v3_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

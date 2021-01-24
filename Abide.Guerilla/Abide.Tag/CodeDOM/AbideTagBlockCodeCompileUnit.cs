@@ -52,7 +52,7 @@ namespace Abide.Tag.CodeDom
             CodeMemberProperty nameMemberProperty = new CodeMemberProperty()
             {
                 Attributes = MemberAttributes.Public | MemberAttributes.Override,
-                Name = nameof(Block.BlockName),
+                Name = nameof(Block.Name),
                 Type = new CodeTypeReference(typeof(string))
             };
             nameMemberProperty.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(tagBlock.Name)));

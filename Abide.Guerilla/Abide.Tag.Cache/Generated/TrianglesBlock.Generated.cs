@@ -49,7 +49,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the triangles_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

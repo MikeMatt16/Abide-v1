@@ -131,7 +131,7 @@ They are expected to be entered in the following order:
         /// <summary>
         /// Gets and returns the name of the user_interface_shared_globals_definition_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

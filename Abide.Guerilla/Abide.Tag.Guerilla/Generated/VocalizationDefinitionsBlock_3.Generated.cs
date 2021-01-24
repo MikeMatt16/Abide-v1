@@ -60,7 +60,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the vocalization_definitions_block_3 tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

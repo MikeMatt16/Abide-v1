@@ -217,7 +217,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                         }
 
                         Count = tagBlock.FieldCount;
-                        Name = tagBlock.BlockName;
+                        Name = tagBlock.Name;
                         DisplayName = $"{index}: {GetName(tagBlock)}";
                     }
                     else
@@ -628,7 +628,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         {
             if (Up is TagBlockViewModel tagBlock)
             {
-                return new GenericBlockIndexField(tagBlock.TagBlock.BlockName, TagField.Type, tagBlock);
+                return new GenericBlockIndexField(tagBlock.TagBlock.Name, TagField.Type, tagBlock);
             }
 
             return TagField;

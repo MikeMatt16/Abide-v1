@@ -68,7 +68,7 @@ the exponent controls how midrange speeds are interpreted."));
         /// <summary>
         /// Gets and returns the name of the unit_seat_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

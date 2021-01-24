@@ -44,7 +44,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the sound_global_mix_struct_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -33,7 +33,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the particle_property_scalar_struct_new_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -38,7 +38,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the rasterizer_screen_effect_convolution_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

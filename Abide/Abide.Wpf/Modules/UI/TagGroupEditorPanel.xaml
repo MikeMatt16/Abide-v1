@@ -63,6 +63,9 @@
                                                     <Trigger Property="IsPressed" Value="True">
                                                         <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource ActiveAccentPressed}"/>
                                                     </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="ArrowPath" Property="Fill" Value="{StaticResource ForegroundDisabled}"/>
+                                                    </Trigger>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter TargetName="ArrowPath" Property="Data" Value="M 0 0 L 4 4 L 8 0 Z"/>
                                                     </Trigger>
@@ -141,27 +144,31 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TagReferenceFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:TagReferenceValueEditor Field="{Binding}"/>
+            <ve:TagReferenceValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <DataTemplate x:Key="Vector4FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector4ValueEditor Field="{Binding}"/>
+            <ve:Vector4ValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <DataTemplate x:Key="Vector3FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector3ValueEditor Field="{Binding}"/>
+            <ve:Vector3ValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <DataTemplate x:Key="Vector2FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector2ValueEditor Field="{Binding}"/>
+            <ve:Vector2ValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <DataTemplate x:Key="Point2FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Point2ValueEditor Field="{Binding}"/>
+            <ve:Point2ValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <DataTemplate x:Key="Point3FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Point3ValueEditor Field="{Binding}"/>
+            <ve:Point3ValueEditor Field="{Binding}" MinWidth="300"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BlockIndexFieldEditorTemplate" DataType="{x:Type tag:Field}">
+            <ve:BlockIndexValueEditor Field="{Binding}" MinWidth="300"/>
         </DataTemplate>
 
         <local:FieldEditorTemplateSelector x:Key="FieldEditorTemplateSelector"
@@ -174,7 +181,8 @@
                                            Vector3Editor="{StaticResource Vector3FieldEditorTemplate}"
                                            Vector2Editor="{StaticResource Vector2FieldEditorTemplate}"
                                            Point2Editor="{StaticResource Point2FieldEditorTemplate}"
-                                           Point3Editor="{StaticResource Point3FieldEditorTemplate}"/>
+                                           Point3Editor="{StaticResource Point3FieldEditorTemplate}"
+                                           BlockIndexEditor="{StaticResource BlockIndexFieldEditorTemplate}"/>
     </UserControl.Resources>
 
     <ScrollViewer>

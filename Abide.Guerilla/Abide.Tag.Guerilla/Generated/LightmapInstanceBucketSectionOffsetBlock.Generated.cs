@@ -29,7 +29,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the lightmap_instance_bucket_section_offset_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

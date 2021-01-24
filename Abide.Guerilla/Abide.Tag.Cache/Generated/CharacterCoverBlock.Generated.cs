@@ -58,7 +58,7 @@ It is interpolated linearly everywhere in between.
         /// <summary>
         /// Gets and returns the name of the character_cover_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

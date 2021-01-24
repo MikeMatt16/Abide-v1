@@ -35,7 +35,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the shader_postprocess_bitmap_transform_overlay_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

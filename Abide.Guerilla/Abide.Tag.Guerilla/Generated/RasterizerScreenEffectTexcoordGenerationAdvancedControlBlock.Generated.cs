@@ -36,7 +36,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the rasterizer_screen_effect_texcoord_generation_advanced_control_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

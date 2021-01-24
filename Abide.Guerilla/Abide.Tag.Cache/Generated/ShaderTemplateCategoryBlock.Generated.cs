@@ -30,7 +30,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the shader_template_category_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

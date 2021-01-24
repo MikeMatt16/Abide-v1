@@ -1235,5 +1235,4818 @@ namespace Abide.Tag.Cache.Generated
             }
             return null;
         }
+        /// <summary>
+        /// Returns a <see cref="Block"/> instance based on the supplied tag block name.
+        /// </summary>
+        /// <param name="tagBlockName">The name of the tag block.</param>
+        public static Block CreateTagBlock(string tagBlockName)
+        {
+            //  ai_dialogue_globals_block
+            if ((tagBlockName == "ai_dialogue_globals_block"))
+            {
+                return new AiDialogueGlobalsBlock();
+            }
+            //  vocalization_definitions_block_0
+            if ((tagBlockName == "vocalization_definitions_block_0"))
+            {
+                return new VocalizationDefinitionsBlock_0();
+            }
+            //  response_block
+            if ((tagBlockName == "response_block"))
+            {
+                return new ResponseBlock();
+            }
+            //  vocalization_definitions_block_1
+            if ((tagBlockName == "vocalization_definitions_block_1"))
+            {
+                return new VocalizationDefinitionsBlock_1();
+            }
+            //  vocalization_definitions_block_2
+            if ((tagBlockName == "vocalization_definitions_block_2"))
+            {
+                return new VocalizationDefinitionsBlock_2();
+            }
+            //  vocalization_definitions_block_3
+            if ((tagBlockName == "vocalization_definitions_block_3"))
+            {
+                return new VocalizationDefinitionsBlock_3();
+            }
+            //  vocalization_definitions_block_4
+            if ((tagBlockName == "vocalization_definitions_block_4"))
+            {
+                return new VocalizationDefinitionsBlock_4();
+            }
+            //  vocalization_definitions_block_5
+            if ((tagBlockName == "vocalization_definitions_block_5"))
+            {
+                return new VocalizationDefinitionsBlock_5();
+            }
+            //  g_null_block
+            if ((tagBlockName == "g_null_block"))
+            {
+                return new GNullBlock();
+            }
+            //  vocalization_patterns_block
+            if ((tagBlockName == "vocalization_patterns_block"))
+            {
+                return new VocalizationPatternsBlock();
+            }
+            //  dialogue_data_block
+            if ((tagBlockName == "dialogue_data_block"))
+            {
+                return new DialogueDataBlock();
+            }
+            //  involuntary_data_block
+            if ((tagBlockName == "involuntary_data_block"))
+            {
+                return new InvoluntaryDataBlock();
+            }
+            //  ai_mission_dialogue_block
+            if ((tagBlockName == "ai_mission_dialogue_block"))
+            {
+                return new AiMissionDialogueBlock();
+            }
+            //  mission_dialogue_lines_block
+            if ((tagBlockName == "mission_dialogue_lines_block"))
+            {
+                return new MissionDialogueLinesBlock();
+            }
+            //  mission_dialogue_variants_block
+            if ((tagBlockName == "mission_dialogue_variants_block"))
+            {
+                return new MissionDialogueVariantsBlock();
+            }
+            //  antenna_block
+            if ((tagBlockName == "antenna_block"))
+            {
+                return new AntennaBlock();
+            }
+            //  antenna_vertex_block
+            if ((tagBlockName == "antenna_vertex_block"))
+            {
+                return new AntennaVertexBlock();
+            }
+            //  biped_block
+            if ((tagBlockName == "biped_block"))
+            {
+                return new BipedBlock();
+            }
+            //  biped_lock_on_data_struct_block
+            if ((tagBlockName == "biped_lock_on_data_struct_block"))
+            {
+                return new BipedLockOnDataStructBlock();
+            }
+            //  character_physics_struct_block
+            if ((tagBlockName == "character_physics_struct_block"))
+            {
+                return new CharacterPhysicsStructBlock();
+            }
+            //  spheres_block
+            if ((tagBlockName == "spheres_block"))
+            {
+                return new SpheresBlock();
+            }
+            //  pills_block
+            if ((tagBlockName == "pills_block"))
+            {
+                return new PillsBlock();
+            }
+            //  character_physics_ground_struct_block
+            if ((tagBlockName == "character_physics_ground_struct_block"))
+            {
+                return new CharacterPhysicsGroundStructBlock();
+            }
+            //  character_physics_flying_struct_block
+            if ((tagBlockName == "character_physics_flying_struct_block"))
+            {
+                return new CharacterPhysicsFlyingStructBlock();
+            }
+            //  character_physics_dead_struct_block
+            if ((tagBlockName == "character_physics_dead_struct_block"))
+            {
+                return new CharacterPhysicsDeadStructBlock();
+            }
+            //  character_physics_sentinel_struct_block
+            if ((tagBlockName == "character_physics_sentinel_struct_block"))
+            {
+                return new CharacterPhysicsSentinelStructBlock();
+            }
+            //  contact_point_block
+            if ((tagBlockName == "contact_point_block"))
+            {
+                return new ContactPointBlock();
+            }
+            //  bitmap_block
+            if ((tagBlockName == "bitmap_block"))
+            {
+                return new BitmapBlock();
+            }
+            //  bitmap_group_sequence_block
+            if ((tagBlockName == "bitmap_group_sequence_block"))
+            {
+                return new BitmapGroupSequenceBlock();
+            }
+            //  bitmap_group_sprite_block
+            if ((tagBlockName == "bitmap_group_sprite_block"))
+            {
+                return new BitmapGroupSpriteBlock();
+            }
+            //  bitmap_data_block
+            if ((tagBlockName == "bitmap_data_block"))
+            {
+                return new BitmapDataBlock();
+            }
+            //  breakable_surface_block
+            if ((tagBlockName == "breakable_surface_block"))
+            {
+                return new BreakableSurfaceBlock();
+            }
+            //  particle_system_definition_block_new
+            if ((tagBlockName == "particle_system_definition_block_new"))
+            {
+                return new ParticleSystemDefinitionBlockNew();
+            }
+            //  particle_system_emitter_definition_block
+            if ((tagBlockName == "particle_system_emitter_definition_block"))
+            {
+                return new ParticleSystemEmitterDefinitionBlock();
+            }
+            //  particle_property_scalar_struct_new_block
+            if ((tagBlockName == "particle_property_scalar_struct_new_block"))
+            {
+                return new ParticlePropertyScalarStructNewBlock();
+            }
+            //  mapping_function_block
+            if ((tagBlockName == "mapping_function_block"))
+            {
+                return new MappingFunctionBlock();
+            }
+            //  byte_block
+            if ((tagBlockName == "byte_block"))
+            {
+                return new ByteBlock();
+            }
+            //  particle_property_color_struct_new_block
+            if ((tagBlockName == "particle_property_color_struct_new_block"))
+            {
+                return new ParticlePropertyColorStructNewBlock();
+            }
+            //  cache_file_sound_block
+            if ((tagBlockName == "cache_file_sound_block"))
+            {
+                return new CacheFileSoundBlock();
+            }
+            //  camera_track_block
+            if ((tagBlockName == "camera_track_block"))
+            {
+                return new CameraTrackBlock();
+            }
+            //  camera_track_control_point_block
+            if ((tagBlockName == "camera_track_control_point_block"))
+            {
+                return new CameraTrackControlPointBlock();
+            }
+            //  cellular_automata_block
+            if ((tagBlockName == "cellular_automata_block"))
+            {
+                return new CellularAutomataBlock();
+            }
+            //  cellular_automata2d_block
+            if ((tagBlockName == "cellular_automata2d_block"))
+            {
+                return new CellularAutomata2dBlock();
+            }
+            //  rules_block
+            if ((tagBlockName == "rules_block"))
+            {
+                return new RulesBlock();
+            }
+            //  states_block
+            if ((tagBlockName == "states_block"))
+            {
+                return new StatesBlock();
+            }
+            //  character_block
+            if ((tagBlockName == "character_block"))
+            {
+                return new CharacterBlock();
+            }
+            //  character_variants_block
+            if ((tagBlockName == "character_variants_block"))
+            {
+                return new CharacterVariantsBlock();
+            }
+            //  character_general_block
+            if ((tagBlockName == "character_general_block"))
+            {
+                return new CharacterGeneralBlock();
+            }
+            //  character_vitality_block
+            if ((tagBlockName == "character_vitality_block"))
+            {
+                return new CharacterVitalityBlock();
+            }
+            //  character_placement_block
+            if ((tagBlockName == "character_placement_block"))
+            {
+                return new CharacterPlacementBlock();
+            }
+            //  character_perception_block
+            if ((tagBlockName == "character_perception_block"))
+            {
+                return new CharacterPerceptionBlock();
+            }
+            //  character_look_block
+            if ((tagBlockName == "character_look_block"))
+            {
+                return new CharacterLookBlock();
+            }
+            //  character_movement_block
+            if ((tagBlockName == "character_movement_block"))
+            {
+                return new CharacterMovementBlock();
+            }
+            //  character_swarm_block
+            if ((tagBlockName == "character_swarm_block"))
+            {
+                return new CharacterSwarmBlock();
+            }
+            //  character_ready_block
+            if ((tagBlockName == "character_ready_block"))
+            {
+                return new CharacterReadyBlock();
+            }
+            //  character_engage_block
+            if ((tagBlockName == "character_engage_block"))
+            {
+                return new CharacterEngageBlock();
+            }
+            //  character_charge_block
+            if ((tagBlockName == "character_charge_block"))
+            {
+                return new CharacterChargeBlock();
+            }
+            //  character_evasion_block
+            if ((tagBlockName == "character_evasion_block"))
+            {
+                return new CharacterEvasionBlock();
+            }
+            //  character_cover_block
+            if ((tagBlockName == "character_cover_block"))
+            {
+                return new CharacterCoverBlock();
+            }
+            //  character_retreat_block
+            if ((tagBlockName == "character_retreat_block"))
+            {
+                return new CharacterRetreatBlock();
+            }
+            //  character_search_block
+            if ((tagBlockName == "character_search_block"))
+            {
+                return new CharacterSearchBlock();
+            }
+            //  character_presearch_block
+            if ((tagBlockName == "character_presearch_block"))
+            {
+                return new CharacterPresearchBlock();
+            }
+            //  character_idle_block
+            if ((tagBlockName == "character_idle_block"))
+            {
+                return new CharacterIdleBlock();
+            }
+            //  character_vocalization_block
+            if ((tagBlockName == "character_vocalization_block"))
+            {
+                return new CharacterVocalizationBlock();
+            }
+            //  character_boarding_block
+            if ((tagBlockName == "character_boarding_block"))
+            {
+                return new CharacterBoardingBlock();
+            }
+            //  character_boss_block
+            if ((tagBlockName == "character_boss_block"))
+            {
+                return new CharacterBossBlock();
+            }
+            //  character_weapons_block
+            if ((tagBlockName == "character_weapons_block"))
+            {
+                return new CharacterWeaponsBlock();
+            }
+            //  character_firing_pattern_block
+            if ((tagBlockName == "character_firing_pattern_block"))
+            {
+                return new CharacterFiringPatternBlock();
+            }
+            //  character_firing_pattern_properties_block
+            if ((tagBlockName == "character_firing_pattern_properties_block"))
+            {
+                return new CharacterFiringPatternPropertiesBlock();
+            }
+            //  character_grenades_block
+            if ((tagBlockName == "character_grenades_block"))
+            {
+                return new CharacterGrenadesBlock();
+            }
+            //  character_vehicle_block
+            if ((tagBlockName == "character_vehicle_block"))
+            {
+                return new CharacterVehicleBlock();
+            }
+            //  chocolate_mountain_block
+            if ((tagBlockName == "chocolate_mountain_block"))
+            {
+                return new ChocolateMountainBlock();
+            }
+            //  lighting_variables_block
+            if ((tagBlockName == "lighting_variables_block"))
+            {
+                return new LightingVariablesBlock();
+            }
+            //  primary_light_struct_block
+            if ((tagBlockName == "primary_light_struct_block"))
+            {
+                return new PrimaryLightStructBlock();
+            }
+            //  secondary_light_struct_block
+            if ((tagBlockName == "secondary_light_struct_block"))
+            {
+                return new SecondaryLightStructBlock();
+            }
+            //  ambient_light_struct_block
+            if ((tagBlockName == "ambient_light_struct_block"))
+            {
+                return new AmbientLightStructBlock();
+            }
+            //  lightmap_shadows_struct_block
+            if ((tagBlockName == "lightmap_shadows_struct_block"))
+            {
+                return new LightmapShadowsStructBlock();
+            }
+            //  cloth_block
+            if ((tagBlockName == "cloth_block"))
+            {
+                return new ClothBlock();
+            }
+            //  cloth_properties_block
+            if ((tagBlockName == "cloth_properties_block"))
+            {
+                return new ClothPropertiesBlock();
+            }
+            //  cloth_vertices_block
+            if ((tagBlockName == "cloth_vertices_block"))
+            {
+                return new ClothVerticesBlock();
+            }
+            //  cloth_indices_block
+            if ((tagBlockName == "cloth_indices_block"))
+            {
+                return new ClothIndicesBlock();
+            }
+            //  cloth_links_block
+            if ((tagBlockName == "cloth_links_block"))
+            {
+                return new ClothLinksBlock();
+            }
+            //  collision_model_block
+            if ((tagBlockName == "collision_model_block"))
+            {
+                return new CollisionModelBlock();
+            }
+            //  global_tag_import_info_block
+            if ((tagBlockName == "global_tag_import_info_block"))
+            {
+                return new GlobalTagImportInfoBlock();
+            }
+            //  tag_import_file_block
+            if ((tagBlockName == "tag_import_file_block"))
+            {
+                return new TagImportFileBlock();
+            }
+            //  global_error_report_categories_block
+            if ((tagBlockName == "global_error_report_categories_block"))
+            {
+                return new GlobalErrorReportCategoriesBlock();
+            }
+            //  error_reports_block
+            if ((tagBlockName == "error_reports_block"))
+            {
+                return new ErrorReportsBlock();
+            }
+            //  error_report_vertices_block
+            if ((tagBlockName == "error_report_vertices_block"))
+            {
+                return new ErrorReportVerticesBlock();
+            }
+            //  error_report_vectors_block
+            if ((tagBlockName == "error_report_vectors_block"))
+            {
+                return new ErrorReportVectorsBlock();
+            }
+            //  error_report_lines_block
+            if ((tagBlockName == "error_report_lines_block"))
+            {
+                return new ErrorReportLinesBlock();
+            }
+            //  error_report_triangles_block
+            if ((tagBlockName == "error_report_triangles_block"))
+            {
+                return new ErrorReportTrianglesBlock();
+            }
+            //  error_report_quads_block
+            if ((tagBlockName == "error_report_quads_block"))
+            {
+                return new ErrorReportQuadsBlock();
+            }
+            //  error_report_comments_block
+            if ((tagBlockName == "error_report_comments_block"))
+            {
+                return new ErrorReportCommentsBlock();
+            }
+            //  collision_model_material_block
+            if ((tagBlockName == "collision_model_material_block"))
+            {
+                return new CollisionModelMaterialBlock();
+            }
+            //  collision_model_region_block
+            if ((tagBlockName == "collision_model_region_block"))
+            {
+                return new CollisionModelRegionBlock();
+            }
+            //  collision_model_permutation_block
+            if ((tagBlockName == "collision_model_permutation_block"))
+            {
+                return new CollisionModelPermutationBlock();
+            }
+            //  collision_model_bsp_block
+            if ((tagBlockName == "collision_model_bsp_block"))
+            {
+                return new CollisionModelBspBlock();
+            }
+            //  global_collision_bsp_struct_block
+            if ((tagBlockName == "global_collision_bsp_struct_block"))
+            {
+                return new GlobalCollisionBspStructBlock();
+            }
+            //  bsp3d_nodes_block
+            if ((tagBlockName == "bsp3d_nodes_block"))
+            {
+                return new Bsp3dNodesBlock();
+            }
+            //  planes_block
+            if ((tagBlockName == "planes_block"))
+            {
+                return new PlanesBlock();
+            }
+            //  leaves_block
+            if ((tagBlockName == "leaves_block"))
+            {
+                return new LeavesBlock();
+            }
+            //  bsp2d_references_block
+            if ((tagBlockName == "bsp2d_references_block"))
+            {
+                return new Bsp2dReferencesBlock();
+            }
+            //  bsp2d_nodes_block
+            if ((tagBlockName == "bsp2d_nodes_block"))
+            {
+                return new Bsp2dNodesBlock();
+            }
+            //  surfaces_block
+            if ((tagBlockName == "surfaces_block"))
+            {
+                return new SurfacesBlock();
+            }
+            //  edges_block
+            if ((tagBlockName == "edges_block"))
+            {
+                return new EdgesBlock();
+            }
+            //  vertices_block
+            if ((tagBlockName == "vertices_block"))
+            {
+                return new VerticesBlock();
+            }
+            //  collision_bsp_physics_block
+            if ((tagBlockName == "collision_bsp_physics_block"))
+            {
+                return new CollisionBspPhysicsBlock();
+            }
+            //  collision_model_pathfinding_sphere_block
+            if ((tagBlockName == "collision_model_pathfinding_sphere_block"))
+            {
+                return new CollisionModelPathfindingSphereBlock();
+            }
+            //  collision_model_node_block
+            if ((tagBlockName == "collision_model_node_block"))
+            {
+                return new CollisionModelNodeBlock();
+            }
+            //  colony_block
+            if ((tagBlockName == "colony_block"))
+            {
+                return new ColonyBlock();
+            }
+            //  color_table_block
+            if ((tagBlockName == "color_table_block"))
+            {
+                return new ColorTableBlock();
+            }
+            //  color_block
+            if ((tagBlockName == "color_block"))
+            {
+                return new ColorBlock();
+            }
+            //  contrail_block
+            if ((tagBlockName == "contrail_block"))
+            {
+                return new ContrailBlock();
+            }
+            //  contrail_point_states_block
+            if ((tagBlockName == "contrail_point_states_block"))
+            {
+                return new ContrailPointStatesBlock();
+            }
+            //  crate_block
+            if ((tagBlockName == "crate_block"))
+            {
+                return new CrateBlock();
+            }
+            //  creature_block
+            if ((tagBlockName == "creature_block"))
+            {
+                return new CreatureBlock();
+            }
+            //  damage_effect_block
+            if ((tagBlockName == "damage_effect_block"))
+            {
+                return new DamageEffectBlock();
+            }
+            //  damage_outer_cone_angle_struct_block
+            if ((tagBlockName == "damage_outer_cone_angle_struct_block"))
+            {
+                return new DamageOuterConeAngleStructBlock();
+            }
+            //  damage_effect_player_response_block
+            if ((tagBlockName == "damage_effect_player_response_block"))
+            {
+                return new DamageEffectPlayerResponseBlock();
+            }
+            //  screen_flash_definition_struct_block
+            if ((tagBlockName == "screen_flash_definition_struct_block"))
+            {
+                return new ScreenFlashDefinitionStructBlock();
+            }
+            //  vibration_definition_struct_block
+            if ((tagBlockName == "vibration_definition_struct_block"))
+            {
+                return new VibrationDefinitionStructBlock();
+            }
+            //  vibration_frequency_definition_struct_block
+            if ((tagBlockName == "vibration_frequency_definition_struct_block"))
+            {
+                return new VibrationFrequencyDefinitionStructBlock();
+            }
+            //  damage_effect_sound_effect_definition_block
+            if ((tagBlockName == "damage_effect_sound_effect_definition_block"))
+            {
+                return new DamageEffectSoundEffectDefinitionBlock();
+            }
+            //  decal_block
+            if ((tagBlockName == "decal_block"))
+            {
+                return new DecalBlock();
+            }
+            //  decorators_block
+            if ((tagBlockName == "decorators_block"))
+            {
+                return new DecoratorsBlock();
+            }
+            //  decorator_cache_block_block
+            if ((tagBlockName == "decorator_cache_block_block"))
+            {
+                return new DecoratorCacheBlockBlock();
+            }
+            //  global_geometry_block_info_struct_block
+            if ((tagBlockName == "global_geometry_block_info_struct_block"))
+            {
+                return new GlobalGeometryBlockInfoStructBlock();
+            }
+            //  global_geometry_block_resource_block
+            if ((tagBlockName == "global_geometry_block_resource_block"))
+            {
+                return new GlobalGeometryBlockResourceBlock();
+            }
+            //  decorator_cache_block_data_block
+            if ((tagBlockName == "decorator_cache_block_data_block"))
+            {
+                return new DecoratorCacheBlockDataBlock();
+            }
+            //  decorator_placement_block
+            if ((tagBlockName == "decorator_placement_block"))
+            {
+                return new DecoratorPlacementBlock();
+            }
+            //  decal_vertices_block
+            if ((tagBlockName == "decal_vertices_block"))
+            {
+                return new DecalVerticesBlock();
+            }
+            //  indices_block
+            if ((tagBlockName == "indices_block"))
+            {
+                return new IndicesBlock();
+            }
+            //  sprite_vertices_block
+            if ((tagBlockName == "sprite_vertices_block"))
+            {
+                return new SpriteVerticesBlock();
+            }
+            //  decorator_group_block
+            if ((tagBlockName == "decorator_group_block"))
+            {
+                return new DecoratorGroupBlock();
+            }
+            //  decorator_cell_collection_block
+            if ((tagBlockName == "decorator_cell_collection_block"))
+            {
+                return new DecoratorCellCollectionBlock();
+            }
+            //  decorator_projected_decal_block
+            if ((tagBlockName == "decorator_projected_decal_block"))
+            {
+                return new DecoratorProjectedDecalBlock();
+            }
+            //  decorator_set_block
+            if ((tagBlockName == "decorator_set_block"))
+            {
+                return new DecoratorSetBlock();
+            }
+            //  decorator_shader_reference_block
+            if ((tagBlockName == "decorator_shader_reference_block"))
+            {
+                return new DecoratorShaderReferenceBlock();
+            }
+            //  decorator_classes_block
+            if ((tagBlockName == "decorator_classes_block"))
+            {
+                return new DecoratorClassesBlock();
+            }
+            //  decorator_permutations_block
+            if ((tagBlockName == "decorator_permutations_block"))
+            {
+                return new DecoratorPermutationsBlock();
+            }
+            //  decorator_models_block
+            if ((tagBlockName == "decorator_models_block"))
+            {
+                return new DecoratorModelsBlock();
+            }
+            //  decorator_model_vertices_block
+            if ((tagBlockName == "decorator_model_vertices_block"))
+            {
+                return new DecoratorModelVerticesBlock();
+            }
+            //  decorator_model_indices_block
+            if ((tagBlockName == "decorator_model_indices_block"))
+            {
+                return new DecoratorModelIndicesBlock();
+            }
+            //  cached_data_block
+            if ((tagBlockName == "cached_data_block"))
+            {
+                return new CachedDataBlock();
+            }
+            //  detail_object_collection_block
+            if ((tagBlockName == "detail_object_collection_block"))
+            {
+                return new DetailObjectCollectionBlock();
+            }
+            //  detail_object_type_block
+            if ((tagBlockName == "detail_object_type_block"))
+            {
+                return new DetailObjectTypeBlock();
+            }
+            //  device_block
+            if ((tagBlockName == "device_block"))
+            {
+                return new DeviceBlock();
+            }
+            //  device_control_block
+            if ((tagBlockName == "device_control_block"))
+            {
+                return new DeviceControlBlock();
+            }
+            //  device_light_fixture_block
+            if ((tagBlockName == "device_light_fixture_block"))
+            {
+                return new DeviceLightFixtureBlock();
+            }
+            //  device_machine_block
+            if ((tagBlockName == "device_machine_block"))
+            {
+                return new DeviceMachineBlock();
+            }
+            //  dialogue_block
+            if ((tagBlockName == "dialogue_block"))
+            {
+                return new DialogueBlock();
+            }
+            //  sound_references_block
+            if ((tagBlockName == "sound_references_block"))
+            {
+                return new SoundReferencesBlock();
+            }
+            //  effect_block
+            if ((tagBlockName == "effect_block"))
+            {
+                return new EffectBlock();
+            }
+            //  effect_locations_block
+            if ((tagBlockName == "effect_locations_block"))
+            {
+                return new EffectLocationsBlock();
+            }
+            //  effect_event_block
+            if ((tagBlockName == "effect_event_block"))
+            {
+                return new EffectEventBlock();
+            }
+            //  effect_part_block
+            if ((tagBlockName == "effect_part_block"))
+            {
+                return new EffectPartBlock();
+            }
+            //  beam_block
+            if ((tagBlockName == "beam_block"))
+            {
+                return new BeamBlock();
+            }
+            //  color_function_struct_block
+            if ((tagBlockName == "color_function_struct_block"))
+            {
+                return new ColorFunctionStructBlock();
+            }
+            //  scalar_function_struct_block
+            if ((tagBlockName == "scalar_function_struct_block"))
+            {
+                return new ScalarFunctionStructBlock();
+            }
+            //  effect_accelerations_block
+            if ((tagBlockName == "effect_accelerations_block"))
+            {
+                return new EffectAccelerationsBlock();
+            }
+            //  equipment_block
+            if ((tagBlockName == "equipment_block"))
+            {
+                return new EquipmentBlock();
+            }
+            //  garbage_block
+            if ((tagBlockName == "garbage_block"))
+            {
+                return new GarbageBlock();
+            }
+            //  globals_block
+            if ((tagBlockName == "globals_block"))
+            {
+                return new GlobalsBlock();
+            }
+            //  havok_cleanup_resources_block
+            if ((tagBlockName == "havok_cleanup_resources_block"))
+            {
+                return new HavokCleanupResourcesBlock();
+            }
+            //  collision_damage_block
+            if ((tagBlockName == "collision_damage_block"))
+            {
+                return new CollisionDamageBlock();
+            }
+            //  sound_globals_block
+            if ((tagBlockName == "sound_globals_block"))
+            {
+                return new SoundGlobalsBlock();
+            }
+            //  ai_globals_block
+            if ((tagBlockName == "ai_globals_block"))
+            {
+                return new AiGlobalsBlock();
+            }
+            //  ai_globals_gravemind_block
+            if ((tagBlockName == "ai_globals_gravemind_block"))
+            {
+                return new AiGlobalsGravemindBlock();
+            }
+            //  game_globals_damage_block
+            if ((tagBlockName == "game_globals_damage_block"))
+            {
+                return new GameGlobalsDamageBlock();
+            }
+            //  damage_group_block
+            if ((tagBlockName == "damage_group_block"))
+            {
+                return new DamageGroupBlock();
+            }
+            //  armor_modifier_block
+            if ((tagBlockName == "armor_modifier_block"))
+            {
+                return new ArmorModifierBlock();
+            }
+            //  globals_obsolete_sound_block
+            if ((tagBlockName == "globals_obsolete_sound_block"))
+            {
+                return new GlobalsObsoleteSoundBlock();
+            }
+            //  camera_block
+            if ((tagBlockName == "camera_block"))
+            {
+                return new CameraBlock();
+            }
+            //  player_control_block
+            if ((tagBlockName == "player_control_block"))
+            {
+                return new PlayerControlBlock();
+            }
+            //  look_function_block
+            if ((tagBlockName == "look_function_block"))
+            {
+                return new LookFunctionBlock();
+            }
+            //  difficulty_block
+            if ((tagBlockName == "difficulty_block"))
+            {
+                return new DifficultyBlock();
+            }
+            //  grenades_block
+            if ((tagBlockName == "grenades_block"))
+            {
+                return new GrenadesBlock();
+            }
+            //  rasterizer_data_block
+            if ((tagBlockName == "rasterizer_data_block"))
+            {
+                return new RasterizerDataBlock();
+            }
+            //  vertex_shader_reference_block
+            if ((tagBlockName == "vertex_shader_reference_block"))
+            {
+                return new VertexShaderReferenceBlock();
+            }
+            //  interface_tag_references
+            if ((tagBlockName == "interface_tag_references"))
+            {
+                return new InterfaceTagReferences();
+            }
+            //  cheat_weapons_block
+            if ((tagBlockName == "cheat_weapons_block"))
+            {
+                return new CheatWeaponsBlock();
+            }
+            //  cheat_powerups_block
+            if ((tagBlockName == "cheat_powerups_block"))
+            {
+                return new CheatPowerupsBlock();
+            }
+            //  multiplayer_information_block
+            if ((tagBlockName == "multiplayer_information_block"))
+            {
+                return new MultiplayerInformationBlock();
+            }
+            //  vehicles_block
+            if ((tagBlockName == "vehicles_block"))
+            {
+                return new VehiclesBlock();
+            }
+            //  sounds_block
+            if ((tagBlockName == "sounds_block"))
+            {
+                return new SoundsBlock();
+            }
+            //  game_engine_general_event_block
+            if ((tagBlockName == "game_engine_general_event_block"))
+            {
+                return new GameEngineGeneralEventBlock();
+            }
+            //  sound_response_extra_sounds_struct_block
+            if ((tagBlockName == "sound_response_extra_sounds_struct_block"))
+            {
+                return new SoundResponseExtraSoundsStructBlock();
+            }
+            //  sound_response_definition_block
+            if ((tagBlockName == "sound_response_definition_block"))
+            {
+                return new SoundResponseDefinitionBlock();
+            }
+            //  game_engine_slayer_event_block
+            if ((tagBlockName == "game_engine_slayer_event_block"))
+            {
+                return new GameEngineSlayerEventBlock();
+            }
+            //  game_engine_ctf_event_block
+            if ((tagBlockName == "game_engine_ctf_event_block"))
+            {
+                return new GameEngineCtfEventBlock();
+            }
+            //  game_engine_oddball_event_block
+            if ((tagBlockName == "game_engine_oddball_event_block"))
+            {
+                return new GameEngineOddballEventBlock();
+            }
+            //  game_engine_king_event_block
+            if ((tagBlockName == "game_engine_king_event_block"))
+            {
+                return new GameEngineKingEventBlock();
+            }
+            //  player_information_block
+            if ((tagBlockName == "player_information_block"))
+            {
+                return new PlayerInformationBlock();
+            }
+            //  player_representation_block
+            if ((tagBlockName == "player_representation_block"))
+            {
+                return new PlayerRepresentationBlock();
+            }
+            //  falling_damage_block
+            if ((tagBlockName == "falling_damage_block"))
+            {
+                return new FallingDamageBlock();
+            }
+            //  old_materials_block
+            if ((tagBlockName == "old_materials_block"))
+            {
+                return new OldMaterialsBlock();
+            }
+            //  materials_block
+            if ((tagBlockName == "materials_block"))
+            {
+                return new MaterialsBlock();
+            }
+            //  material_physics_properties_struct_block
+            if ((tagBlockName == "material_physics_properties_struct_block"))
+            {
+                return new MaterialPhysicsPropertiesStructBlock();
+            }
+            //  materials_sweeteners_struct_block
+            if ((tagBlockName == "materials_sweeteners_struct_block"))
+            {
+                return new MaterialsSweetenersStructBlock();
+            }
+            //  multiplayer_ui_block
+            if ((tagBlockName == "multiplayer_ui_block"))
+            {
+                return new MultiplayerUiBlock();
+            }
+            //  multiplayer_color_block
+            if ((tagBlockName == "multiplayer_color_block"))
+            {
+                return new MultiplayerColorBlock();
+            }
+            //  runtime_levels_definition_block
+            if ((tagBlockName == "runtime_levels_definition_block"))
+            {
+                return new RuntimeLevelsDefinitionBlock();
+            }
+            //  runtime_campaign_level_block
+            if ((tagBlockName == "runtime_campaign_level_block"))
+            {
+                return new RuntimeCampaignLevelBlock();
+            }
+            //  ui_levels_definition_block
+            if ((tagBlockName == "ui_levels_definition_block"))
+            {
+                return new UiLevelsDefinitionBlock();
+            }
+            //  ui_campaign_block
+            if ((tagBlockName == "ui_campaign_block"))
+            {
+                return new UiCampaignBlock();
+            }
+            //  global_ui_campaign_level_block
+            if ((tagBlockName == "global_ui_campaign_level_block"))
+            {
+                return new GlobalUiCampaignLevelBlock();
+            }
+            //  global_ui_multiplayer_level_block
+            if ((tagBlockName == "global_ui_multiplayer_level_block"))
+            {
+                return new GlobalUiMultiplayerLevelBlock();
+            }
+            //  globals_multilingual_unicode_info_struct_block
+            if ((tagBlockName == "globals_multilingual_unicode_info_struct_block"))
+            {
+                return new GlobalsMultilingualUnicodeInfoStructBlock();
+            }
+            //  grenade_hud_interface_block
+            if ((tagBlockName == "grenade_hud_interface_block"))
+            {
+                return new GrenadeHudInterfaceBlock();
+            }
+            //  global_hud_multitexture_overlay_definition
+            if ((tagBlockName == "global_hud_multitexture_overlay_definition"))
+            {
+                return new GlobalHudMultitextureOverlayDefinition();
+            }
+            //  global_hud_multitexture_overlay_effector_definition
+            if ((tagBlockName == "global_hud_multitexture_overlay_effector_definition"))
+            {
+                return new GlobalHudMultitextureOverlayEffectorDefinition();
+            }
+            //  grenade_hud_overlay_block
+            if ((tagBlockName == "grenade_hud_overlay_block"))
+            {
+                return new GrenadeHudOverlayBlock();
+            }
+            //  grenade_hud_sound_block
+            if ((tagBlockName == "grenade_hud_sound_block"))
+            {
+                return new GrenadeHudSoundBlock();
+            }
+            //  hud_globals_block
+            if ((tagBlockName == "hud_globals_block"))
+            {
+                return new HudGlobalsBlock();
+            }
+            //  hud_button_icon_block
+            if ((tagBlockName == "hud_button_icon_block"))
+            {
+                return new HudButtonIconBlock();
+            }
+            //  hud_globals_waypoint_arrow_block
+            if ((tagBlockName == "hud_globals_waypoint_arrow_block"))
+            {
+                return new HudGlobalsWaypointArrowBlock();
+            }
+            //  global_new_hud_globals_struct_block
+            if ((tagBlockName == "global_new_hud_globals_struct_block"))
+            {
+                return new GlobalNewHudGlobalsStructBlock();
+            }
+            //  hud_dashlights_block
+            if ((tagBlockName == "hud_dashlights_block"))
+            {
+                return new HudDashlightsBlock();
+            }
+            //  hud_waypoint_arrow_block
+            if ((tagBlockName == "hud_waypoint_arrow_block"))
+            {
+                return new HudWaypointArrowBlock();
+            }
+            //  hud_waypoint_block
+            if ((tagBlockName == "hud_waypoint_block"))
+            {
+                return new HudWaypointBlock();
+            }
+            //  new_hud_sound_block
+            if ((tagBlockName == "new_hud_sound_block"))
+            {
+                return new NewHudSoundBlock();
+            }
+            //  player_training_entry_data_block
+            if ((tagBlockName == "player_training_entry_data_block"))
+            {
+                return new PlayerTrainingEntryDataBlock();
+            }
+            //  global_new_hud_globals_constants_struct_block
+            if ((tagBlockName == "global_new_hud_globals_constants_struct_block"))
+            {
+                return new GlobalNewHudGlobalsConstantsStructBlock();
+            }
+            //  hud_message_text_block
+            if ((tagBlockName == "hud_message_text_block"))
+            {
+                return new HudMessageTextBlock();
+            }
+            //  hud_message_elements_block
+            if ((tagBlockName == "hud_message_elements_block"))
+            {
+                return new HudMessageElementsBlock();
+            }
+            //  hud_messages_block
+            if ((tagBlockName == "hud_messages_block"))
+            {
+                return new HudMessagesBlock();
+            }
+            //  hud_number_block
+            if ((tagBlockName == "hud_number_block"))
+            {
+                return new HudNumberBlock();
+            }
+            //  item_block
+            if ((tagBlockName == "item_block"))
+            {
+                return new ItemBlock();
+            }
+            //  predicted_bitmaps_block
+            if ((tagBlockName == "predicted_bitmaps_block"))
+            {
+                return new PredictedBitmapsBlock();
+            }
+            //  item_collection_block
+            if ((tagBlockName == "item_collection_block"))
+            {
+                return new ItemCollectionBlock();
+            }
+            //  item_permutation
+            if ((tagBlockName == "item_permutation"))
+            {
+                return new ItemPermutation();
+            }
+            //  lens_flare_block
+            if ((tagBlockName == "lens_flare_block"))
+            {
+                return new LensFlareBlock();
+            }
+            //  lens_flare_reflection_block
+            if ((tagBlockName == "lens_flare_reflection_block"))
+            {
+                return new LensFlareReflectionBlock();
+            }
+            //  lens_flare_scalar_animation_block
+            if ((tagBlockName == "lens_flare_scalar_animation_block"))
+            {
+                return new LensFlareScalarAnimationBlock();
+            }
+            //  lens_flare_color_animation_block
+            if ((tagBlockName == "lens_flare_color_animation_block"))
+            {
+                return new LensFlareColorAnimationBlock();
+            }
+            //  light_block
+            if ((tagBlockName == "light_block"))
+            {
+                return new LightBlock();
+            }
+            //  light_brightness_animation_block
+            if ((tagBlockName == "light_brightness_animation_block"))
+            {
+                return new LightBrightnessAnimationBlock();
+            }
+            //  light_color_animation_block
+            if ((tagBlockName == "light_color_animation_block"))
+            {
+                return new LightColorAnimationBlock();
+            }
+            //  light_gel_animation_block
+            if ((tagBlockName == "light_gel_animation_block"))
+            {
+                return new LightGelAnimationBlock();
+            }
+            //  light_volume_block
+            if ((tagBlockName == "light_volume_block"))
+            {
+                return new LightVolumeBlock();
+            }
+            //  light_volume_volume_block
+            if ((tagBlockName == "light_volume_volume_block"))
+            {
+                return new LightVolumeVolumeBlock();
+            }
+            //  light_volume_aspect_block
+            if ((tagBlockName == "light_volume_aspect_block"))
+            {
+                return new LightVolumeAspectBlock();
+            }
+            //  light_volume_runtime_offset_block
+            if ((tagBlockName == "light_volume_runtime_offset_block"))
+            {
+                return new LightVolumeRuntimeOffsetBlock();
+            }
+            //  liquid_block
+            if ((tagBlockName == "liquid_block"))
+            {
+                return new LiquidBlock();
+            }
+            //  liquid_arc_block
+            if ((tagBlockName == "liquid_arc_block"))
+            {
+                return new LiquidArcBlock();
+            }
+            //  liquid_core_block
+            if ((tagBlockName == "liquid_core_block"))
+            {
+                return new LiquidCoreBlock();
+            }
+            //  material_effects_block
+            if ((tagBlockName == "material_effects_block"))
+            {
+                return new MaterialEffectsBlock();
+            }
+            //  material_effect_block_v2
+            if ((tagBlockName == "material_effect_block_v2"))
+            {
+                return new MaterialEffectBlockV2();
+            }
+            //  old_material_effect_material_block
+            if ((tagBlockName == "old_material_effect_material_block"))
+            {
+                return new OldMaterialEffectMaterialBlock();
+            }
+            //  material_effect_material_block
+            if ((tagBlockName == "material_effect_material_block"))
+            {
+                return new MaterialEffectMaterialBlock();
+            }
+            //  material_physics_block
+            if ((tagBlockName == "material_physics_block"))
+            {
+                return new MaterialPhysicsBlock();
+            }
+            //  meter_block
+            if ((tagBlockName == "meter_block"))
+            {
+                return new MeterBlock();
+            }
+            //  model_block
+            if ((tagBlockName == "model_block"))
+            {
+                return new ModelBlock();
+            }
+            //  model_variant_block
+            if ((tagBlockName == "model_variant_block"))
+            {
+                return new ModelVariantBlock();
+            }
+            //  model_variant_region_block
+            if ((tagBlockName == "model_variant_region_block"))
+            {
+                return new ModelVariantRegionBlock();
+            }
+            //  model_variant_permutation_block
+            if ((tagBlockName == "model_variant_permutation_block"))
+            {
+                return new ModelVariantPermutationBlock();
+            }
+            //  model_variant_state_block
+            if ((tagBlockName == "model_variant_state_block"))
+            {
+                return new ModelVariantStateBlock();
+            }
+            //  model_variant_object_block
+            if ((tagBlockName == "model_variant_object_block"))
+            {
+                return new ModelVariantObjectBlock();
+            }
+            //  model_material_block
+            if ((tagBlockName == "model_material_block"))
+            {
+                return new ModelMaterialBlock();
+            }
+            //  global_damage_info_block
+            if ((tagBlockName == "global_damage_info_block"))
+            {
+                return new GlobalDamageInfoBlock();
+            }
+            //  global_damage_section_block
+            if ((tagBlockName == "global_damage_section_block"))
+            {
+                return new GlobalDamageSectionBlock();
+            }
+            //  instantaneous_damage_repsonse_block
+            if ((tagBlockName == "instantaneous_damage_repsonse_block"))
+            {
+                return new InstantaneousDamageRepsonseBlock();
+            }
+            //  instantaneous_response_damage_effect_struct_block
+            if ((tagBlockName == "instantaneous_response_damage_effect_struct_block"))
+            {
+                return new InstantaneousResponseDamageEffectStructBlock();
+            }
+            //  instantaneous_response_damage_effect_marker_struct_block
+            if ((tagBlockName == "instantaneous_response_damage_effect_marker_struct_block"))
+            {
+                return new InstantaneousResponseDamageEffectMarkerStructBlock();
+            }
+            //  global_damage_nodes_block
+            if ((tagBlockName == "global_damage_nodes_block"))
+            {
+                return new GlobalDamageNodesBlock();
+            }
+            //  damage_seat_info_block
+            if ((tagBlockName == "damage_seat_info_block"))
+            {
+                return new DamageSeatInfoBlock();
+            }
+            //  damage_constraint_info_block
+            if ((tagBlockName == "damage_constraint_info_block"))
+            {
+                return new DamageConstraintInfoBlock();
+            }
+            //  model_target_block
+            if ((tagBlockName == "model_target_block"))
+            {
+                return new ModelTargetBlock();
+            }
+            //  model_target_lock_on_data_struct_block
+            if ((tagBlockName == "model_target_lock_on_data_struct_block"))
+            {
+                return new ModelTargetLockOnDataStructBlock();
+            }
+            //  model_region_block
+            if ((tagBlockName == "model_region_block"))
+            {
+                return new ModelRegionBlock();
+            }
+            //  model_permutation_block
+            if ((tagBlockName == "model_permutation_block"))
+            {
+                return new ModelPermutationBlock();
+            }
+            //  model_node_block
+            if ((tagBlockName == "model_node_block"))
+            {
+                return new ModelNodeBlock();
+            }
+            //  model_object_data_block
+            if ((tagBlockName == "model_object_data_block"))
+            {
+                return new ModelObjectDataBlock();
+            }
+            //  global_scenario_load_parameters_block
+            if ((tagBlockName == "global_scenario_load_parameters_block"))
+            {
+                return new GlobalScenarioLoadParametersBlock();
+            }
+            //  model_animation_graph_block
+            if ((tagBlockName == "model_animation_graph_block"))
+            {
+                return new ModelAnimationGraphBlock();
+            }
+            //  animation_graph_resources_struct_block
+            if ((tagBlockName == "animation_graph_resources_struct_block"))
+            {
+                return new AnimationGraphResourcesStructBlock();
+            }
+            //  animation_graph_node_block
+            if ((tagBlockName == "animation_graph_node_block"))
+            {
+                return new AnimationGraphNodeBlock();
+            }
+            //  animation_graph_sound_reference_block
+            if ((tagBlockName == "animation_graph_sound_reference_block"))
+            {
+                return new AnimationGraphSoundReferenceBlock();
+            }
+            //  animation_graph_effect_reference_block
+            if ((tagBlockName == "animation_graph_effect_reference_block"))
+            {
+                return new AnimationGraphEffectReferenceBlock();
+            }
+            //  animation_blend_screen_block
+            if ((tagBlockName == "animation_blend_screen_block"))
+            {
+                return new AnimationBlendScreenBlock();
+            }
+            //  animation_aiming_screen_struct_block
+            if ((tagBlockName == "animation_aiming_screen_struct_block"))
+            {
+                return new AnimationAimingScreenStructBlock();
+            }
+            //  animation_pool_block
+            if ((tagBlockName == "animation_pool_block"))
+            {
+                return new AnimationPoolBlock();
+            }
+            //  packed_data_sizes_struct_block
+            if ((tagBlockName == "packed_data_sizes_struct_block"))
+            {
+                return new PackedDataSizesStructBlock();
+            }
+            //  animation_frame_event_block
+            if ((tagBlockName == "animation_frame_event_block"))
+            {
+                return new AnimationFrameEventBlock();
+            }
+            //  animation_sound_event_block
+            if ((tagBlockName == "animation_sound_event_block"))
+            {
+                return new AnimationSoundEventBlock();
+            }
+            //  animation_effect_event_block
+            if ((tagBlockName == "animation_effect_event_block"))
+            {
+                return new AnimationEffectEventBlock();
+            }
+            //  object_space_node_data_block
+            if ((tagBlockName == "object_space_node_data_block"))
+            {
+                return new ObjectSpaceNodeDataBlock();
+            }
+            //  quantized_orientation_struct_block
+            if ((tagBlockName == "quantized_orientation_struct_block"))
+            {
+                return new QuantizedOrientationStructBlock();
+            }
+            //  animation_graph_contents_struct_block
+            if ((tagBlockName == "animation_graph_contents_struct_block"))
+            {
+                return new AnimationGraphContentsStructBlock();
+            }
+            //  animation_mode_block
+            if ((tagBlockName == "animation_mode_block"))
+            {
+                return new AnimationModeBlock();
+            }
+            //  weapon_class_block
+            if ((tagBlockName == "weapon_class_block"))
+            {
+                return new WeaponClassBlock();
+            }
+            //  weapon_type_block
+            if ((tagBlockName == "weapon_type_block"))
+            {
+                return new WeaponTypeBlock();
+            }
+            //  animation_entry_block
+            if ((tagBlockName == "animation_entry_block"))
+            {
+                return new AnimationEntryBlock();
+            }
+            //  animation_index_struct_block
+            if ((tagBlockName == "animation_index_struct_block"))
+            {
+                return new AnimationIndexStructBlock();
+            }
+            //  damage_animation_block
+            if ((tagBlockName == "damage_animation_block"))
+            {
+                return new DamageAnimationBlock();
+            }
+            //  damage_direction_block
+            if ((tagBlockName == "damage_direction_block"))
+            {
+                return new DamageDirectionBlock();
+            }
+            //  damage_region_block
+            if ((tagBlockName == "damage_region_block"))
+            {
+                return new DamageRegionBlock();
+            }
+            //  animation_transition_block
+            if ((tagBlockName == "animation_transition_block"))
+            {
+                return new AnimationTransitionBlock();
+            }
+            //  animation_transition_state_struct_block
+            if ((tagBlockName == "animation_transition_state_struct_block"))
+            {
+                return new AnimationTransitionStateStructBlock();
+            }
+            //  animation_transition_destination_block
+            if ((tagBlockName == "animation_transition_destination_block"))
+            {
+                return new AnimationTransitionDestinationBlock();
+            }
+            //  animation_destination_state_struct_block
+            if ((tagBlockName == "animation_destination_state_struct_block"))
+            {
+                return new AnimationDestinationStateStructBlock();
+            }
+            //  precache_list_block
+            if ((tagBlockName == "precache_list_block"))
+            {
+                return new PrecacheListBlock();
+            }
+            //  animation_ik_block
+            if ((tagBlockName == "animation_ik_block"))
+            {
+                return new AnimationIkBlock();
+            }
+            //  vehicle_suspension_block
+            if ((tagBlockName == "vehicle_suspension_block"))
+            {
+                return new VehicleSuspensionBlock();
+            }
+            //  object_animation_block
+            if ((tagBlockName == "object_animation_block"))
+            {
+                return new ObjectAnimationBlock();
+            }
+            //  model_animation_runtime_data_struct_block
+            if ((tagBlockName == "model_animation_runtime_data_struct_block"))
+            {
+                return new ModelAnimationRuntimeDataStructBlock();
+            }
+            //  inherited_animation_block
+            if ((tagBlockName == "inherited_animation_block"))
+            {
+                return new InheritedAnimationBlock();
+            }
+            //  inherited_animation_node_map_block
+            if ((tagBlockName == "inherited_animation_node_map_block"))
+            {
+                return new InheritedAnimationNodeMapBlock();
+            }
+            //  inherited_animation_node_map_flag_block
+            if ((tagBlockName == "inherited_animation_node_map_flag_block"))
+            {
+                return new InheritedAnimationNodeMapFlagBlock();
+            }
+            //  weapon_class_lookup_block
+            if ((tagBlockName == "weapon_class_lookup_block"))
+            {
+                return new WeaponClassLookupBlock();
+            }
+            //  additional_node_data_block
+            if ((tagBlockName == "additional_node_data_block"))
+            {
+                return new AdditionalNodeDataBlock();
+            }
+            //  xbox_animation_data_block
+            if ((tagBlockName == "xbox_animation_data_block"))
+            {
+                return new XboxAnimationDataBlock();
+            }
+            //  xbox_unknown_animation_block
+            if ((tagBlockName == "xbox_unknown_animation_block"))
+            {
+                return new XboxUnknownAnimationBlock();
+            }
+            //  mouse_cursor_definition_block
+            if ((tagBlockName == "mouse_cursor_definition_block"))
+            {
+                return new MouseCursorDefinitionBlock();
+            }
+            //  mouse_cursor_bitmap_reference_block
+            if ((tagBlockName == "mouse_cursor_bitmap_reference_block"))
+            {
+                return new MouseCursorBitmapReferenceBlock();
+            }
+            //  multilingual_unicode_string_list_block
+            if ((tagBlockName == "multilingual_unicode_string_list_block"))
+            {
+                return new MultilingualUnicodeStringListBlock();
+            }
+            //  multilingual_unicode_string_reference_block
+            if ((tagBlockName == "multilingual_unicode_string_reference_block"))
+            {
+                return new MultilingualUnicodeStringReferenceBlock();
+            }
+            //  multiplayer_globals_block
+            if ((tagBlockName == "multiplayer_globals_block"))
+            {
+                return new MultiplayerGlobalsBlock();
+            }
+            //  multiplayer_universal_block
+            if ((tagBlockName == "multiplayer_universal_block"))
+            {
+                return new MultiplayerUniversalBlock();
+            }
+            //  multiplayer_runtime_block
+            if ((tagBlockName == "multiplayer_runtime_block"))
+            {
+                return new MultiplayerRuntimeBlock();
+            }
+            //  weapons_block
+            if ((tagBlockName == "weapons_block"))
+            {
+                return new WeaponsBlock();
+            }
+            //  grenade_and_powerup_struct_block
+            if ((tagBlockName == "grenade_and_powerup_struct_block"))
+            {
+                return new GrenadeAndPowerupStructBlock();
+            }
+            //  grenade_block
+            if ((tagBlockName == "grenade_block"))
+            {
+                return new GrenadeBlock();
+            }
+            //  powerup_block
+            if ((tagBlockName == "powerup_block"))
+            {
+                return new PowerupBlock();
+            }
+            //  game_engine_flavor_event_block
+            if ((tagBlockName == "game_engine_flavor_event_block"))
+            {
+                return new GameEngineFlavorEventBlock();
+            }
+            //  game_engine_juggernaut_event_block
+            if ((tagBlockName == "game_engine_juggernaut_event_block"))
+            {
+                return new GameEngineJuggernautEventBlock();
+            }
+            //  game_engine_territories_event_block
+            if ((tagBlockName == "game_engine_territories_event_block"))
+            {
+                return new GameEngineTerritoriesEventBlock();
+            }
+            //  game_engine_assault_event_block
+            if ((tagBlockName == "game_engine_assault_event_block"))
+            {
+                return new GameEngineAssaultEventBlock();
+            }
+            //  multiplayer_constants_block
+            if ((tagBlockName == "multiplayer_constants_block"))
+            {
+                return new MultiplayerConstantsBlock();
+            }
+            //  game_engine_status_response_block
+            if ((tagBlockName == "game_engine_status_response_block"))
+            {
+                return new GameEngineStatusResponseBlock();
+            }
+            //  multiplayer_scenario_description_block
+            if ((tagBlockName == "multiplayer_scenario_description_block"))
+            {
+                return new MultiplayerScenarioDescriptionBlock();
+            }
+            //  scenario_description_block
+            if ((tagBlockName == "scenario_description_block"))
+            {
+                return new ScenarioDescriptionBlock();
+            }
+            //  multiplayer_variant_settings_interface_definition_block
+            if ((tagBlockName == "multiplayer_variant_settings_interface_definition_block"))
+            {
+                return new MultiplayerVariantSettingsInterfaceDefinitionBlock();
+            }
+            //  variant_setting_edit_reference_block
+            if ((tagBlockName == "variant_setting_edit_reference_block"))
+            {
+                return new VariantSettingEditReferenceBlock();
+            }
+            //  text_value_pair_block
+            if ((tagBlockName == "text_value_pair_block"))
+            {
+                return new TextValuePairBlock();
+            }
+            //  null_block
+            if ((tagBlockName == "null_block"))
+            {
+                return new NullBlock();
+            }
+            //  g_default_variants_block
+            if ((tagBlockName == "g_default_variants_block"))
+            {
+                return new GDefaultVariantsBlock();
+            }
+            //  g_default_variant_settings_block
+            if ((tagBlockName == "g_default_variant_settings_block"))
+            {
+                return new GDefaultVariantSettingsBlock();
+            }
+            //  create_new_variant_struct_block
+            if ((tagBlockName == "create_new_variant_struct_block"))
+            {
+                return new CreateNewVariantStructBlock();
+            }
+            //  new_hud_definition_block
+            if ((tagBlockName == "new_hud_definition_block"))
+            {
+                return new NewHudDefinitionBlock();
+            }
+            //  hud_bitmap_widgets
+            if ((tagBlockName == "hud_bitmap_widgets"))
+            {
+                return new HudBitmapWidgets();
+            }
+            //  hud_widget_inputs_struct_block
+            if ((tagBlockName == "hud_widget_inputs_struct_block"))
+            {
+                return new HudWidgetInputsStructBlock();
+            }
+            //  hud_widget_state_definition_struct_block
+            if ((tagBlockName == "hud_widget_state_definition_struct_block"))
+            {
+                return new HudWidgetStateDefinitionStructBlock();
+            }
+            //  hud_widget_effect_block
+            if ((tagBlockName == "hud_widget_effect_block"))
+            {
+                return new HudWidgetEffectBlock();
+            }
+            //  hud_widget_effect_function_struct_block
+            if ((tagBlockName == "hud_widget_effect_function_struct_block"))
+            {
+                return new HudWidgetEffectFunctionStructBlock();
+            }
+            //  hud_text_widgets
+            if ((tagBlockName == "hud_text_widgets"))
+            {
+                return new HudTextWidgets();
+            }
+            //  new_hud_dashlight_data_struct_block
+            if ((tagBlockName == "new_hud_dashlight_data_struct_block"))
+            {
+                return new NewHudDashlightDataStructBlock();
+            }
+            //  hud_screen_effect_widgets
+            if ((tagBlockName == "hud_screen_effect_widgets"))
+            {
+                return new HudScreenEffectWidgets();
+            }
+            //  screen_effect_bonus_struct_block
+            if ((tagBlockName == "screen_effect_bonus_struct_block"))
+            {
+                return new ScreenEffectBonusStructBlock();
+            }
+            //  object_block
+            if ((tagBlockName == "object_block"))
+            {
+                return new ObjectBlock();
+            }
+            //  object_ai_properties_block
+            if ((tagBlockName == "object_ai_properties_block"))
+            {
+                return new ObjectAiPropertiesBlock();
+            }
+            //  object_function_block
+            if ((tagBlockName == "object_function_block"))
+            {
+                return new ObjectFunctionBlock();
+            }
+            //  object_attachment_block
+            if ((tagBlockName == "object_attachment_block"))
+            {
+                return new ObjectAttachmentBlock();
+            }
+            //  object_widget_block
+            if ((tagBlockName == "object_widget_block"))
+            {
+                return new ObjectWidgetBlock();
+            }
+            //  old_object_function_block
+            if ((tagBlockName == "old_object_function_block"))
+            {
+                return new OldObjectFunctionBlock();
+            }
+            //  object_change_colors
+            if ((tagBlockName == "object_change_colors"))
+            {
+                return new ObjectChangeColors();
+            }
+            //  object_change_color_initial_permutation
+            if ((tagBlockName == "object_change_color_initial_permutation"))
+            {
+                return new ObjectChangeColorInitialPermutation();
+            }
+            //  object_change_color_function
+            if ((tagBlockName == "object_change_color_function"))
+            {
+                return new ObjectChangeColorFunction();
+            }
+            //  predicted_resource_block
+            if ((tagBlockName == "predicted_resource_block"))
+            {
+                return new PredictedResourceBlock();
+            }
+            //  particle_block
+            if ((tagBlockName == "particle_block"))
+            {
+                return new ParticleBlock();
+            }
+            //  global_shader_parameter_block
+            if ((tagBlockName == "global_shader_parameter_block"))
+            {
+                return new GlobalShaderParameterBlock();
+            }
+            //  shader_animation_property_block
+            if ((tagBlockName == "shader_animation_property_block"))
+            {
+                return new ShaderAnimationPropertyBlock();
+            }
+            //  shader_postprocess_definition_new_block
+            if ((tagBlockName == "shader_postprocess_definition_new_block"))
+            {
+                return new ShaderPostprocessDefinitionNewBlock();
+            }
+            //  shader_postprocess_bitmap_new_block
+            if ((tagBlockName == "shader_postprocess_bitmap_new_block"))
+            {
+                return new ShaderPostprocessBitmapNewBlock();
+            }
+            //  pixel32_block
+            if ((tagBlockName == "pixel32_block"))
+            {
+                return new Pixel32Block();
+            }
+            //  real_vector4d_block
+            if ((tagBlockName == "real_vector4d_block"))
+            {
+                return new RealVector4dBlock();
+            }
+            //  shader_postprocess_level_of_detail_new_block
+            if ((tagBlockName == "shader_postprocess_level_of_detail_new_block"))
+            {
+                return new ShaderPostprocessLevelOfDetailNewBlock();
+            }
+            //  tag_block_index_struct_block
+            if ((tagBlockName == "tag_block_index_struct_block"))
+            {
+                return new TagBlockIndexStructBlock();
+            }
+            //  tag_block_index_block
+            if ((tagBlockName == "tag_block_index_block"))
+            {
+                return new TagBlockIndexBlock();
+            }
+            //  shader_postprocess_implementation_new_block
+            if ((tagBlockName == "shader_postprocess_implementation_new_block"))
+            {
+                return new ShaderPostprocessImplementationNewBlock();
+            }
+            //  shader_postprocess_overlay_new_block
+            if ((tagBlockName == "shader_postprocess_overlay_new_block"))
+            {
+                return new ShaderPostprocessOverlayNewBlock();
+            }
+            //  shader_postprocess_overlay_reference_new_block
+            if ((tagBlockName == "shader_postprocess_overlay_reference_new_block"))
+            {
+                return new ShaderPostprocessOverlayReferenceNewBlock();
+            }
+            //  shader_postprocess_animated_parameter_new_block
+            if ((tagBlockName == "shader_postprocess_animated_parameter_new_block"))
+            {
+                return new ShaderPostprocessAnimatedParameterNewBlock();
+            }
+            //  shader_postprocess_animated_parameter_reference_new_block
+            if ((tagBlockName == "shader_postprocess_animated_parameter_reference_new_block"))
+            {
+                return new ShaderPostprocessAnimatedParameterReferenceNewBlock();
+            }
+            //  shader_postprocess_bitmap_property_block
+            if ((tagBlockName == "shader_postprocess_bitmap_property_block"))
+            {
+                return new ShaderPostprocessBitmapPropertyBlock();
+            }
+            //  shader_postprocess_color_property_block
+            if ((tagBlockName == "shader_postprocess_color_property_block"))
+            {
+                return new ShaderPostprocessColorPropertyBlock();
+            }
+            //  shader_postprocess_value_property_block
+            if ((tagBlockName == "shader_postprocess_value_property_block"))
+            {
+                return new ShaderPostprocessValuePropertyBlock();
+            }
+            //  shader_postprocess_level_of_detail_block
+            if ((tagBlockName == "shader_postprocess_level_of_detail_block"))
+            {
+                return new ShaderPostprocessLevelOfDetailBlock();
+            }
+            //  shader_postprocess_layer_block
+            if ((tagBlockName == "shader_postprocess_layer_block"))
+            {
+                return new ShaderPostprocessLayerBlock();
+            }
+            //  shader_postprocess_pass_block
+            if ((tagBlockName == "shader_postprocess_pass_block"))
+            {
+                return new ShaderPostprocessPassBlock();
+            }
+            //  shader_postprocess_implementation_block
+            if ((tagBlockName == "shader_postprocess_implementation_block"))
+            {
+                return new ShaderPostprocessImplementationBlock();
+            }
+            //  shader_gpu_state_reference_struct_block
+            if ((tagBlockName == "shader_gpu_state_reference_struct_block"))
+            {
+                return new ShaderGpuStateReferenceStructBlock();
+            }
+            //  shader_postprocess_bitmap_block
+            if ((tagBlockName == "shader_postprocess_bitmap_block"))
+            {
+                return new ShaderPostprocessBitmapBlock();
+            }
+            //  shader_postprocess_bitmap_transform_block
+            if ((tagBlockName == "shader_postprocess_bitmap_transform_block"))
+            {
+                return new ShaderPostprocessBitmapTransformBlock();
+            }
+            //  shader_postprocess_value_block
+            if ((tagBlockName == "shader_postprocess_value_block"))
+            {
+                return new ShaderPostprocessValueBlock();
+            }
+            //  shader_postprocess_color_block
+            if ((tagBlockName == "shader_postprocess_color_block"))
+            {
+                return new ShaderPostprocessColorBlock();
+            }
+            //  shader_postprocess_bitmap_transform_overlay_block
+            if ((tagBlockName == "shader_postprocess_bitmap_transform_overlay_block"))
+            {
+                return new ShaderPostprocessBitmapTransformOverlayBlock();
+            }
+            //  shader_postprocess_value_overlay_block
+            if ((tagBlockName == "shader_postprocess_value_overlay_block"))
+            {
+                return new ShaderPostprocessValueOverlayBlock();
+            }
+            //  shader_postprocess_color_overlay_block
+            if ((tagBlockName == "shader_postprocess_color_overlay_block"))
+            {
+                return new ShaderPostprocessColorOverlayBlock();
+            }
+            //  shader_postprocess_vertex_shader_constant_block
+            if ((tagBlockName == "shader_postprocess_vertex_shader_constant_block"))
+            {
+                return new ShaderPostprocessVertexShaderConstantBlock();
+            }
+            //  shader_gpu_state_struct_block
+            if ((tagBlockName == "shader_gpu_state_struct_block"))
+            {
+                return new ShaderGpuStateStructBlock();
+            }
+            //  render_state_block
+            if ((tagBlockName == "render_state_block"))
+            {
+                return new RenderStateBlock();
+            }
+            //  texture_stage_state_block
+            if ((tagBlockName == "texture_stage_state_block"))
+            {
+                return new TextureStageStateBlock();
+            }
+            //  render_state_parameter_block
+            if ((tagBlockName == "render_state_parameter_block"))
+            {
+                return new RenderStateParameterBlock();
+            }
+            //  texture_stage_state_parameter_block
+            if ((tagBlockName == "texture_stage_state_parameter_block"))
+            {
+                return new TextureStageStateParameterBlock();
+            }
+            //  texture_block
+            if ((tagBlockName == "texture_block"))
+            {
+                return new TextureBlock();
+            }
+            //  vertex_shader_constant_block
+            if ((tagBlockName == "vertex_shader_constant_block"))
+            {
+                return new VertexShaderConstantBlock();
+            }
+            //  particle_model_block
+            if ((tagBlockName == "particle_model_block"))
+            {
+                return new ParticleModelBlock();
+            }
+            //  particle_models_block
+            if ((tagBlockName == "particle_models_block"))
+            {
+                return new ParticleModelsBlock();
+            }
+            //  particle_model_vertices_block
+            if ((tagBlockName == "particle_model_vertices_block"))
+            {
+                return new ParticleModelVerticesBlock();
+            }
+            //  particle_model_indices_block
+            if ((tagBlockName == "particle_model_indices_block"))
+            {
+                return new ParticleModelIndicesBlock();
+            }
+            //  particle_physics_block
+            if ((tagBlockName == "particle_physics_block"))
+            {
+                return new ParticlePhysicsBlock();
+            }
+            //  particle_controller
+            if ((tagBlockName == "particle_controller"))
+            {
+                return new ParticleController();
+            }
+            //  particle_controller_parameters
+            if ((tagBlockName == "particle_controller_parameters"))
+            {
+                return new ParticleControllerParameters();
+            }
+            //  patchy_fog_block
+            if ((tagBlockName == "patchy_fog_block"))
+            {
+                return new PatchyFogBlock();
+            }
+            //  physics_block
+            if ((tagBlockName == "physics_block"))
+            {
+                return new PhysicsBlock();
+            }
+            //  inertial_matrix_block
+            if ((tagBlockName == "inertial_matrix_block"))
+            {
+                return new InertialMatrixBlock();
+            }
+            //  powered_mass_point_block
+            if ((tagBlockName == "powered_mass_point_block"))
+            {
+                return new PoweredMassPointBlock();
+            }
+            //  mass_point_block
+            if ((tagBlockName == "mass_point_block"))
+            {
+                return new MassPointBlock();
+            }
+            //  physics_model_block
+            if ((tagBlockName == "physics_model_block"))
+            {
+                return new PhysicsModelBlock();
+            }
+            //  phantom_types_block
+            if ((tagBlockName == "phantom_types_block"))
+            {
+                return new PhantomTypesBlock();
+            }
+            //  physics_model_node_constraint_edge_block
+            if ((tagBlockName == "physics_model_node_constraint_edge_block"))
+            {
+                return new PhysicsModelNodeConstraintEdgeBlock();
+            }
+            //  physics_model_constraint_edge_constraint_block
+            if ((tagBlockName == "physics_model_constraint_edge_constraint_block"))
+            {
+                return new PhysicsModelConstraintEdgeConstraintBlock();
+            }
+            //  rigid_bodies_block
+            if ((tagBlockName == "rigid_bodies_block"))
+            {
+                return new RigidBodiesBlock();
+            }
+            //  physics_model_materials_block
+            if ((tagBlockName == "physics_model_materials_block"))
+            {
+                return new PhysicsModelMaterialsBlock();
+            }
+            //  multi_spheres_block
+            if ((tagBlockName == "multi_spheres_block"))
+            {
+                return new MultiSpheresBlock();
+            }
+            //  boxes_block
+            if ((tagBlockName == "boxes_block"))
+            {
+                return new BoxesBlock();
+            }
+            //  triangles_block
+            if ((tagBlockName == "triangles_block"))
+            {
+                return new TrianglesBlock();
+            }
+            //  polyhedra_block
+            if ((tagBlockName == "polyhedra_block"))
+            {
+                return new PolyhedraBlock();
+            }
+            //  polyhedron_four_vectors_block
+            if ((tagBlockName == "polyhedron_four_vectors_block"))
+            {
+                return new PolyhedronFourVectorsBlock();
+            }
+            //  polyhedron_plane_equations_block
+            if ((tagBlockName == "polyhedron_plane_equations_block"))
+            {
+                return new PolyhedronPlaneEquationsBlock();
+            }
+            //  mass_distributions_block
+            if ((tagBlockName == "mass_distributions_block"))
+            {
+                return new MassDistributionsBlock();
+            }
+            //  lists_block
+            if ((tagBlockName == "lists_block"))
+            {
+                return new ListsBlock();
+            }
+            //  list_shapes_block
+            if ((tagBlockName == "list_shapes_block"))
+            {
+                return new ListShapesBlock();
+            }
+            //  mopps_block
+            if ((tagBlockName == "mopps_block"))
+            {
+                return new MoppsBlock();
+            }
+            //  hinge_constraints_block
+            if ((tagBlockName == "hinge_constraints_block"))
+            {
+                return new HingeConstraintsBlock();
+            }
+            //  constraint_bodies_struct_block
+            if ((tagBlockName == "constraint_bodies_struct_block"))
+            {
+                return new ConstraintBodiesStructBlock();
+            }
+            //  ragdoll_constraints_block
+            if ((tagBlockName == "ragdoll_constraints_block"))
+            {
+                return new RagdollConstraintsBlock();
+            }
+            //  regions_block
+            if ((tagBlockName == "regions_block"))
+            {
+                return new RegionsBlock();
+            }
+            //  permutations_block
+            if ((tagBlockName == "permutations_block"))
+            {
+                return new PermutationsBlock();
+            }
+            //  rigid_body_indices_block
+            if ((tagBlockName == "rigid_body_indices_block"))
+            {
+                return new RigidBodyIndicesBlock();
+            }
+            //  nodes_block
+            if ((tagBlockName == "nodes_block"))
+            {
+                return new NodesBlock();
+            }
+            //  point_to_path_curve_block
+            if ((tagBlockName == "point_to_path_curve_block"))
+            {
+                return new PointToPathCurveBlock();
+            }
+            //  point_to_path_curve_point_block
+            if ((tagBlockName == "point_to_path_curve_point_block"))
+            {
+                return new PointToPathCurvePointBlock();
+            }
+            //  limited_hinge_constraints_block
+            if ((tagBlockName == "limited_hinge_constraints_block"))
+            {
+                return new LimitedHingeConstraintsBlock();
+            }
+            //  ball_and_socket_constraints_block
+            if ((tagBlockName == "ball_and_socket_constraints_block"))
+            {
+                return new BallAndSocketConstraintsBlock();
+            }
+            //  stiff_spring_constraints_block
+            if ((tagBlockName == "stiff_spring_constraints_block"))
+            {
+                return new StiffSpringConstraintsBlock();
+            }
+            //  prismatic_constraints_block
+            if ((tagBlockName == "prismatic_constraints_block"))
+            {
+                return new PrismaticConstraintsBlock();
+            }
+            //  phantoms_block
+            if ((tagBlockName == "phantoms_block"))
+            {
+                return new PhantomsBlock();
+            }
+            //  pixel_shader_block
+            if ((tagBlockName == "pixel_shader_block"))
+            {
+                return new PixelShaderBlock();
+            }
+            //  planar_fog_block
+            if ((tagBlockName == "planar_fog_block"))
+            {
+                return new PlanarFogBlock();
+            }
+            //  planar_fog_patchy_fog_block
+            if ((tagBlockName == "planar_fog_patchy_fog_block"))
+            {
+                return new PlanarFogPatchyFogBlock();
+            }
+            //  point_physics_block
+            if ((tagBlockName == "point_physics_block"))
+            {
+                return new PointPhysicsBlock();
+            }
+            //  projectile_block
+            if ((tagBlockName == "projectile_block"))
+            {
+                return new ProjectileBlock();
+            }
+            //  super_detonation_damage_struct_block
+            if ((tagBlockName == "super_detonation_damage_struct_block"))
+            {
+                return new SuperDetonationDamageStructBlock();
+            }
+            //  angular_velocity_lower_bound_struct_block
+            if ((tagBlockName == "angular_velocity_lower_bound_struct_block"))
+            {
+                return new AngularVelocityLowerBoundStructBlock();
+            }
+            //  projectile_material_response_block
+            if ((tagBlockName == "projectile_material_response_block"))
+            {
+                return new ProjectileMaterialResponseBlock();
+            }
+            //  render_model_block
+            if ((tagBlockName == "render_model_block"))
+            {
+                return new RenderModelBlock();
+            }
+            //  global_geometry_compression_info_block
+            if ((tagBlockName == "global_geometry_compression_info_block"))
+            {
+                return new GlobalGeometryCompressionInfoBlock();
+            }
+            //  render_model_region_block
+            if ((tagBlockName == "render_model_region_block"))
+            {
+                return new RenderModelRegionBlock();
+            }
+            //  render_model_permutation_block
+            if ((tagBlockName == "render_model_permutation_block"))
+            {
+                return new RenderModelPermutationBlock();
+            }
+            //  render_model_section_block
+            if ((tagBlockName == "render_model_section_block"))
+            {
+                return new RenderModelSectionBlock();
+            }
+            //  global_geometry_section_info_struct_block
+            if ((tagBlockName == "global_geometry_section_info_struct_block"))
+            {
+                return new GlobalGeometrySectionInfoStructBlock();
+            }
+            //  render_model_section_data_block
+            if ((tagBlockName == "render_model_section_data_block"))
+            {
+                return new RenderModelSectionDataBlock();
+            }
+            //  global_geometry_section_struct_block
+            if ((tagBlockName == "global_geometry_section_struct_block"))
+            {
+                return new GlobalGeometrySectionStructBlock();
+            }
+            //  global_geometry_part_block_new
+            if ((tagBlockName == "global_geometry_part_block_new"))
+            {
+                return new GlobalGeometryPartBlockNew();
+            }
+            //  global_subparts_block
+            if ((tagBlockName == "global_subparts_block"))
+            {
+                return new GlobalSubpartsBlock();
+            }
+            //  global_visibility_bounds_block
+            if ((tagBlockName == "global_visibility_bounds_block"))
+            {
+                return new GlobalVisibilityBoundsBlock();
+            }
+            //  global_geometry_section_raw_vertex_block
+            if ((tagBlockName == "global_geometry_section_raw_vertex_block"))
+            {
+                return new GlobalGeometrySectionRawVertexBlock();
+            }
+            //  global_geometry_section_strip_index_block
+            if ((tagBlockName == "global_geometry_section_strip_index_block"))
+            {
+                return new GlobalGeometrySectionStripIndexBlock();
+            }
+            //  global_geometry_section_vertex_buffer_block
+            if ((tagBlockName == "global_geometry_section_vertex_buffer_block"))
+            {
+                return new GlobalGeometrySectionVertexBufferBlock();
+            }
+            //  global_geometry_point_data_struct_block
+            if ((tagBlockName == "global_geometry_point_data_struct_block"))
+            {
+                return new GlobalGeometryPointDataStructBlock();
+            }
+            //  global_geometry_raw_point_block
+            if ((tagBlockName == "global_geometry_raw_point_block"))
+            {
+                return new GlobalGeometryRawPointBlock();
+            }
+            //  global_geometry_rigid_point_group_block
+            if ((tagBlockName == "global_geometry_rigid_point_group_block"))
+            {
+                return new GlobalGeometryRigidPointGroupBlock();
+            }
+            //  global_geometry_point_data_index_block
+            if ((tagBlockName == "global_geometry_point_data_index_block"))
+            {
+                return new GlobalGeometryPointDataIndexBlock();
+            }
+            //  render_model_node_map_block
+            if ((tagBlockName == "render_model_node_map_block"))
+            {
+                return new RenderModelNodeMapBlock();
+            }
+            //  render_model_invalid_section_pairs_block
+            if ((tagBlockName == "render_model_invalid_section_pairs_block"))
+            {
+                return new RenderModelInvalidSectionPairsBlock();
+            }
+            //  render_model_section_group_block
+            if ((tagBlockName == "render_model_section_group_block"))
+            {
+                return new RenderModelSectionGroupBlock();
+            }
+            //  render_model_compound_node_block
+            if ((tagBlockName == "render_model_compound_node_block"))
+            {
+                return new RenderModelCompoundNodeBlock();
+            }
+            //  render_model_node_block
+            if ((tagBlockName == "render_model_node_block"))
+            {
+                return new RenderModelNodeBlock();
+            }
+            //  render_model_node_map_block_OLD
+            if ((tagBlockName == "render_model_node_map_block_OLD"))
+            {
+                return new RenderModelNodeMapBlockOLD();
+            }
+            //  render_model_marker_group_block
+            if ((tagBlockName == "render_model_marker_group_block"))
+            {
+                return new RenderModelMarkerGroupBlock();
+            }
+            //  render_model_marker_block
+            if ((tagBlockName == "render_model_marker_block"))
+            {
+                return new RenderModelMarkerBlock();
+            }
+            //  global_geometry_material_block
+            if ((tagBlockName == "global_geometry_material_block"))
+            {
+                return new GlobalGeometryMaterialBlock();
+            }
+            //  global_geometry_material_property_block
+            if ((tagBlockName == "global_geometry_material_property_block"))
+            {
+                return new GlobalGeometryMaterialPropertyBlock();
+            }
+            //  prt_info_block
+            if ((tagBlockName == "prt_info_block"))
+            {
+                return new PrtInfoBlock();
+            }
+            //  prt_lod_info_block
+            if ((tagBlockName == "prt_lod_info_block"))
+            {
+                return new PrtLodInfoBlock();
+            }
+            //  prt_section_info_block
+            if ((tagBlockName == "prt_section_info_block"))
+            {
+                return new PrtSectionInfoBlock();
+            }
+            //  prt_cluster_basis_block
+            if ((tagBlockName == "prt_cluster_basis_block"))
+            {
+                return new PrtClusterBasisBlock();
+            }
+            //  prt_raw_pca_data_block
+            if ((tagBlockName == "prt_raw_pca_data_block"))
+            {
+                return new PrtRawPcaDataBlock();
+            }
+            //  prt_vertex_buffers_block
+            if ((tagBlockName == "prt_vertex_buffers_block"))
+            {
+                return new PrtVertexBuffersBlock();
+            }
+            //  section_render_leaves_block
+            if ((tagBlockName == "section_render_leaves_block"))
+            {
+                return new SectionRenderLeavesBlock();
+            }
+            //  node_render_leaves_block
+            if ((tagBlockName == "node_render_leaves_block"))
+            {
+                return new NodeRenderLeavesBlock();
+            }
+            //  bsp_leaf_block
+            if ((tagBlockName == "bsp_leaf_block"))
+            {
+                return new BspLeafBlock();
+            }
+            //  bsp_surface_reference_block
+            if ((tagBlockName == "bsp_surface_reference_block"))
+            {
+                return new BspSurfaceReferenceBlock();
+            }
+            //  scenario_block
+            if ((tagBlockName == "scenario_block"))
+            {
+                return new ScenarioBlock();
+            }
+            //  scenario_sky_reference_block
+            if ((tagBlockName == "scenario_sky_reference_block"))
+            {
+                return new ScenarioSkyReferenceBlock();
+            }
+            //  scenario_child_scenario_block
+            if ((tagBlockName == "scenario_child_scenario_block"))
+            {
+                return new ScenarioChildScenarioBlock();
+            }
+            //  scenario_function_block
+            if ((tagBlockName == "scenario_function_block"))
+            {
+                return new ScenarioFunctionBlock();
+            }
+            //  editor_comment_block
+            if ((tagBlockName == "editor_comment_block"))
+            {
+                return new EditorCommentBlock();
+            }
+            //  dont_use_me_scenario_environment_object_block
+            if ((tagBlockName == "dont_use_me_scenario_environment_object_block"))
+            {
+                return new DontUseMeScenarioEnvironmentObjectBlock();
+            }
+            //  scenario_object_names_block
+            if ((tagBlockName == "scenario_object_names_block"))
+            {
+                return new ScenarioObjectNamesBlock();
+            }
+            //  scenario_scenery_block
+            if ((tagBlockName == "scenario_scenery_block"))
+            {
+                return new ScenarioSceneryBlock();
+            }
+            //  scenario_object_datum_struct_block
+            if ((tagBlockName == "scenario_object_datum_struct_block"))
+            {
+                return new ScenarioObjectDatumStructBlock();
+            }
+            //  scenario_object_id_struct_block
+            if ((tagBlockName == "scenario_object_id_struct_block"))
+            {
+                return new ScenarioObjectIdStructBlock();
+            }
+            //  scenario_object_permutation_struct_block
+            if ((tagBlockName == "scenario_object_permutation_struct_block"))
+            {
+                return new ScenarioObjectPermutationStructBlock();
+            }
+            //  scenario_scenery_datum_struct_v4_block
+            if ((tagBlockName == "scenario_scenery_datum_struct_v4_block"))
+            {
+                return new ScenarioSceneryDatumStructV4Block();
+            }
+            //  pathfinding_object_index_list_block
+            if ((tagBlockName == "pathfinding_object_index_list_block"))
+            {
+                return new PathfindingObjectIndexListBlock();
+            }
+            //  scenario_scenery_palette_block
+            if ((tagBlockName == "scenario_scenery_palette_block"))
+            {
+                return new ScenarioSceneryPaletteBlock();
+            }
+            //  scenario_biped_block
+            if ((tagBlockName == "scenario_biped_block"))
+            {
+                return new ScenarioBipedBlock();
+            }
+            //  scenario_unit_struct_block
+            if ((tagBlockName == "scenario_unit_struct_block"))
+            {
+                return new ScenarioUnitStructBlock();
+            }
+            //  scenario_biped_palette_block
+            if ((tagBlockName == "scenario_biped_palette_block"))
+            {
+                return new ScenarioBipedPaletteBlock();
+            }
+            //  scenario_vehicle_block
+            if ((tagBlockName == "scenario_vehicle_block"))
+            {
+                return new ScenarioVehicleBlock();
+            }
+            //  scenario_vehicle_palette_block
+            if ((tagBlockName == "scenario_vehicle_palette_block"))
+            {
+                return new ScenarioVehiclePaletteBlock();
+            }
+            //  scenario_equipment_block
+            if ((tagBlockName == "scenario_equipment_block"))
+            {
+                return new ScenarioEquipmentBlock();
+            }
+            //  scenario_equipment_datum_struct_block
+            if ((tagBlockName == "scenario_equipment_datum_struct_block"))
+            {
+                return new ScenarioEquipmentDatumStructBlock();
+            }
+            //  scenario_equipment_palette_block
+            if ((tagBlockName == "scenario_equipment_palette_block"))
+            {
+                return new ScenarioEquipmentPaletteBlock();
+            }
+            //  scenario_weapon_block
+            if ((tagBlockName == "scenario_weapon_block"))
+            {
+                return new ScenarioWeaponBlock();
+            }
+            //  scenario_weapon_datum_struct_block
+            if ((tagBlockName == "scenario_weapon_datum_struct_block"))
+            {
+                return new ScenarioWeaponDatumStructBlock();
+            }
+            //  scenario_weapon_palette_block
+            if ((tagBlockName == "scenario_weapon_palette_block"))
+            {
+                return new ScenarioWeaponPaletteBlock();
+            }
+            //  device_group_block
+            if ((tagBlockName == "device_group_block"))
+            {
+                return new DeviceGroupBlock();
+            }
+            //  scenario_machine_block
+            if ((tagBlockName == "scenario_machine_block"))
+            {
+                return new ScenarioMachineBlock();
+            }
+            //  scenario_device_struct_block
+            if ((tagBlockName == "scenario_device_struct_block"))
+            {
+                return new ScenarioDeviceStructBlock();
+            }
+            //  scenario_machine_struct_v3_block
+            if ((tagBlockName == "scenario_machine_struct_v3_block"))
+            {
+                return new ScenarioMachineStructV3Block();
+            }
+            //  scenario_machine_palette_block
+            if ((tagBlockName == "scenario_machine_palette_block"))
+            {
+                return new ScenarioMachinePaletteBlock();
+            }
+            //  scenario_control_block
+            if ((tagBlockName == "scenario_control_block"))
+            {
+                return new ScenarioControlBlock();
+            }
+            //  scenario_control_struct_block
+            if ((tagBlockName == "scenario_control_struct_block"))
+            {
+                return new ScenarioControlStructBlock();
+            }
+            //  scenario_control_palette_block
+            if ((tagBlockName == "scenario_control_palette_block"))
+            {
+                return new ScenarioControlPaletteBlock();
+            }
+            //  scenario_light_fixture_block
+            if ((tagBlockName == "scenario_light_fixture_block"))
+            {
+                return new ScenarioLightFixtureBlock();
+            }
+            //  scenario_light_fixture_struct_block
+            if ((tagBlockName == "scenario_light_fixture_struct_block"))
+            {
+                return new ScenarioLightFixtureStructBlock();
+            }
+            //  scenario_light_fixture_palette_block
+            if ((tagBlockName == "scenario_light_fixture_palette_block"))
+            {
+                return new ScenarioLightFixturePaletteBlock();
+            }
+            //  scenario_sound_scenery_block
+            if ((tagBlockName == "scenario_sound_scenery_block"))
+            {
+                return new ScenarioSoundSceneryBlock();
+            }
+            //  sound_scenery_datum_struct_block
+            if ((tagBlockName == "sound_scenery_datum_struct_block"))
+            {
+                return new SoundSceneryDatumStructBlock();
+            }
+            //  scenario_sound_scenery_palette_block
+            if ((tagBlockName == "scenario_sound_scenery_palette_block"))
+            {
+                return new ScenarioSoundSceneryPaletteBlock();
+            }
+            //  scenario_light_block
+            if ((tagBlockName == "scenario_light_block"))
+            {
+                return new ScenarioLightBlock();
+            }
+            //  scenario_light_struct_block
+            if ((tagBlockName == "scenario_light_struct_block"))
+            {
+                return new ScenarioLightStructBlock();
+            }
+            //  scenario_light_palette_block
+            if ((tagBlockName == "scenario_light_palette_block"))
+            {
+                return new ScenarioLightPaletteBlock();
+            }
+            //  scenario_profiles_block
+            if ((tagBlockName == "scenario_profiles_block"))
+            {
+                return new ScenarioProfilesBlock();
+            }
+            //  scenario_players_block
+            if ((tagBlockName == "scenario_players_block"))
+            {
+                return new ScenarioPlayersBlock();
+            }
+            //  scenario_trigger_volume_block
+            if ((tagBlockName == "scenario_trigger_volume_block"))
+            {
+                return new ScenarioTriggerVolumeBlock();
+            }
+            //  recorded_animation_block
+            if ((tagBlockName == "recorded_animation_block"))
+            {
+                return new RecordedAnimationBlock();
+            }
+            //  scenario_netpoints_block
+            if ((tagBlockName == "scenario_netpoints_block"))
+            {
+                return new ScenarioNetpointsBlock();
+            }
+            //  scenario_netgame_equipment_block
+            if ((tagBlockName == "scenario_netgame_equipment_block"))
+            {
+                return new ScenarioNetgameEquipmentBlock();
+            }
+            //  scenario_netgame_equipment_orientation_struct_block
+            if ((tagBlockName == "scenario_netgame_equipment_orientation_struct_block"))
+            {
+                return new ScenarioNetgameEquipmentOrientationStructBlock();
+            }
+            //  scenario_starting_equipment_block
+            if ((tagBlockName == "scenario_starting_equipment_block"))
+            {
+                return new ScenarioStartingEquipmentBlock();
+            }
+            //  scenario_bsp_switch_trigger_volume_block
+            if ((tagBlockName == "scenario_bsp_switch_trigger_volume_block"))
+            {
+                return new ScenarioBspSwitchTriggerVolumeBlock();
+            }
+            //  scenario_decals_block
+            if ((tagBlockName == "scenario_decals_block"))
+            {
+                return new ScenarioDecalsBlock();
+            }
+            //  scenario_decal_palette_block
+            if ((tagBlockName == "scenario_decal_palette_block"))
+            {
+                return new ScenarioDecalPaletteBlock();
+            }
+            //  scenario_detail_object_collection_palette_block
+            if ((tagBlockName == "scenario_detail_object_collection_palette_block"))
+            {
+                return new ScenarioDetailObjectCollectionPaletteBlock();
+            }
+            //  style_palette_block
+            if ((tagBlockName == "style_palette_block"))
+            {
+                return new StylePaletteBlock();
+            }
+            //  squad_groups_block
+            if ((tagBlockName == "squad_groups_block"))
+            {
+                return new SquadGroupsBlock();
+            }
+            //  squads_block
+            if ((tagBlockName == "squads_block"))
+            {
+                return new SquadsBlock();
+            }
+            //  actor_starting_locations_block
+            if ((tagBlockName == "actor_starting_locations_block"))
+            {
+                return new ActorStartingLocationsBlock();
+            }
+            //  zone_block
+            if ((tagBlockName == "zone_block"))
+            {
+                return new ZoneBlock();
+            }
+            //  firing_positions_block
+            if ((tagBlockName == "firing_positions_block"))
+            {
+                return new FiringPositionsBlock();
+            }
+            //  areas_block
+            if ((tagBlockName == "areas_block"))
+            {
+                return new AreasBlock();
+            }
+            //  flight_reference_block
+            if ((tagBlockName == "flight_reference_block"))
+            {
+                return new FlightReferenceBlock();
+            }
+            //  ai_scene_block
+            if ((tagBlockName == "ai_scene_block"))
+            {
+                return new AiSceneBlock();
+            }
+            //  ai_scene_trigger_block
+            if ((tagBlockName == "ai_scene_trigger_block"))
+            {
+                return new AiSceneTriggerBlock();
+            }
+            //  trigger_references
+            if ((tagBlockName == "trigger_references"))
+            {
+                return new TriggerReferences();
+            }
+            //  ai_scene_role_block
+            if ((tagBlockName == "ai_scene_role_block"))
+            {
+                return new AiSceneRoleBlock();
+            }
+            //  ai_scene_role_variants_block
+            if ((tagBlockName == "ai_scene_role_variants_block"))
+            {
+                return new AiSceneRoleVariantsBlock();
+            }
+            //  character_palette_block
+            if ((tagBlockName == "character_palette_block"))
+            {
+                return new CharacterPaletteBlock();
+            }
+            //  pathfinding_data_block
+            if ((tagBlockName == "pathfinding_data_block"))
+            {
+                return new PathfindingDataBlock();
+            }
+            //  sector_block
+            if ((tagBlockName == "sector_block"))
+            {
+                return new SectorBlock();
+            }
+            //  sector_link_block
+            if ((tagBlockName == "sector_link_block"))
+            {
+                return new SectorLinkBlock();
+            }
+            //  ref_block
+            if ((tagBlockName == "ref_block"))
+            {
+                return new RefBlock();
+            }
+            //  sector_bsp2d_nodes_block
+            if ((tagBlockName == "sector_bsp2d_nodes_block"))
+            {
+                return new SectorBsp2dNodesBlock();
+            }
+            //  surface_flags_block
+            if ((tagBlockName == "surface_flags_block"))
+            {
+                return new SurfaceFlagsBlock();
+            }
+            //  sector_vertex_block
+            if ((tagBlockName == "sector_vertex_block"))
+            {
+                return new SectorVertexBlock();
+            }
+            //  environment_object_refs
+            if ((tagBlockName == "environment_object_refs"))
+            {
+                return new EnvironmentObjectRefs();
+            }
+            //  environment_object_bsp_refs
+            if ((tagBlockName == "environment_object_bsp_refs"))
+            {
+                return new EnvironmentObjectBspRefs();
+            }
+            //  environment_object_nodes
+            if ((tagBlockName == "environment_object_nodes"))
+            {
+                return new EnvironmentObjectNodes();
+            }
+            //  pathfinding_hints_block
+            if ((tagBlockName == "pathfinding_hints_block"))
+            {
+                return new PathfindingHintsBlock();
+            }
+            //  instanced_geometry_reference_block
+            if ((tagBlockName == "instanced_geometry_reference_block"))
+            {
+                return new InstancedGeometryReferenceBlock();
+            }
+            //  user_hint_block
+            if ((tagBlockName == "user_hint_block"))
+            {
+                return new UserHintBlock();
+            }
+            //  user_hint_point_block
+            if ((tagBlockName == "user_hint_point_block"))
+            {
+                return new UserHintPointBlock();
+            }
+            //  user_hint_ray_block
+            if ((tagBlockName == "user_hint_ray_block"))
+            {
+                return new UserHintRayBlock();
+            }
+            //  user_hint_line_segment_block
+            if ((tagBlockName == "user_hint_line_segment_block"))
+            {
+                return new UserHintLineSegmentBlock();
+            }
+            //  user_hint_parallelogram_block
+            if ((tagBlockName == "user_hint_parallelogram_block"))
+            {
+                return new UserHintParallelogramBlock();
+            }
+            //  user_hint_polygon_block
+            if ((tagBlockName == "user_hint_polygon_block"))
+            {
+                return new UserHintPolygonBlock();
+            }
+            //  user_hint_jump_block
+            if ((tagBlockName == "user_hint_jump_block"))
+            {
+                return new UserHintJumpBlock();
+            }
+            //  user_hint_climb_block
+            if ((tagBlockName == "user_hint_climb_block"))
+            {
+                return new UserHintClimbBlock();
+            }
+            //  user_hint_well_block
+            if ((tagBlockName == "user_hint_well_block"))
+            {
+                return new UserHintWellBlock();
+            }
+            //  user_hint_well_point_block
+            if ((tagBlockName == "user_hint_well_point_block"))
+            {
+                return new UserHintWellPointBlock();
+            }
+            //  user_hint_flight_block
+            if ((tagBlockName == "user_hint_flight_block"))
+            {
+                return new UserHintFlightBlock();
+            }
+            //  user_hint_flight_point_block
+            if ((tagBlockName == "user_hint_flight_point_block"))
+            {
+                return new UserHintFlightPointBlock();
+            }
+            //  ai_animation_reference_block
+            if ((tagBlockName == "ai_animation_reference_block"))
+            {
+                return new AiAnimationReferenceBlock();
+            }
+            //  ai_script_reference_block
+            if ((tagBlockName == "ai_script_reference_block"))
+            {
+                return new AiScriptReferenceBlock();
+            }
+            //  ai_recording_reference_block
+            if ((tagBlockName == "ai_recording_reference_block"))
+            {
+                return new AiRecordingReferenceBlock();
+            }
+            //  ai_conversation_block
+            if ((tagBlockName == "ai_conversation_block"))
+            {
+                return new AiConversationBlock();
+            }
+            //  ai_conversation_participant_block
+            if ((tagBlockName == "ai_conversation_participant_block"))
+            {
+                return new AiConversationParticipantBlock();
+            }
+            //  ai_conversation_line_block
+            if ((tagBlockName == "ai_conversation_line_block"))
+            {
+                return new AiConversationLineBlock();
+            }
+            //  hs_scripts_block
+            if ((tagBlockName == "hs_scripts_block"))
+            {
+                return new HsScriptsBlock();
+            }
+            //  hs_globals_block
+            if ((tagBlockName == "hs_globals_block"))
+            {
+                return new HsGlobalsBlock();
+            }
+            //  hs_references_block
+            if ((tagBlockName == "hs_references_block"))
+            {
+                return new HsReferencesBlock();
+            }
+            //  hs_source_files_block
+            if ((tagBlockName == "hs_source_files_block"))
+            {
+                return new HsSourceFilesBlock();
+            }
+            //  cs_script_data_block
+            if ((tagBlockName == "cs_script_data_block"))
+            {
+                return new CsScriptDataBlock();
+            }
+            //  cs_point_set_block
+            if ((tagBlockName == "cs_point_set_block"))
+            {
+                return new CsPointSetBlock();
+            }
+            //  cs_point_block
+            if ((tagBlockName == "cs_point_block"))
+            {
+                return new CsPointBlock();
+            }
+            //  scenario_cutscene_flag_block
+            if ((tagBlockName == "scenario_cutscene_flag_block"))
+            {
+                return new ScenarioCutsceneFlagBlock();
+            }
+            //  scenario_cutscene_camera_point_block
+            if ((tagBlockName == "scenario_cutscene_camera_point_block"))
+            {
+                return new ScenarioCutsceneCameraPointBlock();
+            }
+            //  scenario_cutscene_title_block
+            if ((tagBlockName == "scenario_cutscene_title_block"))
+            {
+                return new ScenarioCutsceneTitleBlock();
+            }
+            //  scenario_structure_bsp_reference_block
+            if ((tagBlockName == "scenario_structure_bsp_reference_block"))
+            {
+                return new ScenarioStructureBspReferenceBlock();
+            }
+            //  scenario_structure_bsp_info_struct_block
+            if ((tagBlockName == "scenario_structure_bsp_info_struct_block"))
+            {
+                return new ScenarioStructureBspInfoStructBlock();
+            }
+            //  scenario_resources_block
+            if ((tagBlockName == "scenario_resources_block"))
+            {
+                return new ScenarioResourcesBlock();
+            }
+            //  scenario_resource_reference_block
+            if ((tagBlockName == "scenario_resource_reference_block"))
+            {
+                return new ScenarioResourceReferenceBlock();
+            }
+            //  scenario_hs_source_reference_block
+            if ((tagBlockName == "scenario_hs_source_reference_block"))
+            {
+                return new ScenarioHsSourceReferenceBlock();
+            }
+            //  scenario_ai_resource_reference_block
+            if ((tagBlockName == "scenario_ai_resource_reference_block"))
+            {
+                return new ScenarioAiResourceReferenceBlock();
+            }
+            //  old_unused_strucure_physics_block
+            if ((tagBlockName == "old_unused_strucure_physics_block"))
+            {
+                return new OldUnusedStrucurePhysicsBlock();
+            }
+            //  old_unused_object_identifiers_block
+            if ((tagBlockName == "old_unused_object_identifiers_block"))
+            {
+                return new OldUnusedObjectIdentifiersBlock();
+            }
+            //  hs_unit_seat_block
+            if ((tagBlockName == "hs_unit_seat_block"))
+            {
+                return new HsUnitSeatBlock();
+            }
+            //  scenario_kill_trigger_volumes_block
+            if ((tagBlockName == "scenario_kill_trigger_volumes_block"))
+            {
+                return new ScenarioKillTriggerVolumesBlock();
+            }
+            //  syntax_datum_block
+            if ((tagBlockName == "syntax_datum_block"))
+            {
+                return new SyntaxDatumBlock();
+            }
+            //  orders_block
+            if ((tagBlockName == "orders_block"))
+            {
+                return new OrdersBlock();
+            }
+            //  zone_set_block
+            if ((tagBlockName == "zone_set_block"))
+            {
+                return new ZoneSetBlock();
+            }
+            //  secondary_zone_set_block
+            if ((tagBlockName == "secondary_zone_set_block"))
+            {
+                return new SecondaryZoneSetBlock();
+            }
+            //  secondary_set_trigger_block
+            if ((tagBlockName == "secondary_set_trigger_block"))
+            {
+                return new SecondarySetTriggerBlock();
+            }
+            //  special_movement_block
+            if ((tagBlockName == "special_movement_block"))
+            {
+                return new SpecialMovementBlock();
+            }
+            //  order_ending_block
+            if ((tagBlockName == "order_ending_block"))
+            {
+                return new OrderEndingBlock();
+            }
+            //  triggers_block
+            if ((tagBlockName == "triggers_block"))
+            {
+                return new TriggersBlock();
+            }
+            //  order_completion_condition
+            if ((tagBlockName == "order_completion_condition"))
+            {
+                return new OrderCompletionCondition();
+            }
+            //  structure_bsp_background_sound_palette_block
+            if ((tagBlockName == "structure_bsp_background_sound_palette_block"))
+            {
+                return new StructureBspBackgroundSoundPaletteBlock();
+            }
+            //  structure_bsp_sound_environment_palette_block
+            if ((tagBlockName == "structure_bsp_sound_environment_palette_block"))
+            {
+                return new StructureBspSoundEnvironmentPaletteBlock();
+            }
+            //  structure_bsp_weather_palette_block
+            if ((tagBlockName == "structure_bsp_weather_palette_block"))
+            {
+                return new StructureBspWeatherPaletteBlock();
+            }
+            //  scenario_cluster_data_block
+            if ((tagBlockName == "scenario_cluster_data_block"))
+            {
+                return new ScenarioClusterDataBlock();
+            }
+            //  scenario_cluster_background_sounds_block
+            if ((tagBlockName == "scenario_cluster_background_sounds_block"))
+            {
+                return new ScenarioClusterBackgroundSoundsBlock();
+            }
+            //  scenario_cluster_sound_environments_block
+            if ((tagBlockName == "scenario_cluster_sound_environments_block"))
+            {
+                return new ScenarioClusterSoundEnvironmentsBlock();
+            }
+            //  scenario_cluster_points_block
+            if ((tagBlockName == "scenario_cluster_points_block"))
+            {
+                return new ScenarioClusterPointsBlock();
+            }
+            //  scenario_cluster_weather_properties_block
+            if ((tagBlockName == "scenario_cluster_weather_properties_block"))
+            {
+                return new ScenarioClusterWeatherPropertiesBlock();
+            }
+            //  scenario_cluster_atmospheric_fog_properties_block
+            if ((tagBlockName == "scenario_cluster_atmospheric_fog_properties_block"))
+            {
+                return new ScenarioClusterAtmosphericFogPropertiesBlock();
+            }
+            //  scenario_spawn_data_block
+            if ((tagBlockName == "scenario_spawn_data_block"))
+            {
+                return new ScenarioSpawnDataBlock();
+            }
+            //  dynamic_spawn_zone_overload_block
+            if ((tagBlockName == "dynamic_spawn_zone_overload_block"))
+            {
+                return new DynamicSpawnZoneOverloadBlock();
+            }
+            //  static_spawn_zone_block
+            if ((tagBlockName == "static_spawn_zone_block"))
+            {
+                return new StaticSpawnZoneBlock();
+            }
+            //  static_spawn_zone_data_struct_block
+            if ((tagBlockName == "static_spawn_zone_data_struct_block"))
+            {
+                return new StaticSpawnZoneDataStructBlock();
+            }
+            //  scenario_crate_block
+            if ((tagBlockName == "scenario_crate_block"))
+            {
+                return new ScenarioCrateBlock();
+            }
+            //  scenario_crate_palette_block
+            if ((tagBlockName == "scenario_crate_palette_block"))
+            {
+                return new ScenarioCratePaletteBlock();
+            }
+            //  scenario_atmospheric_fog_palette
+            if ((tagBlockName == "scenario_atmospheric_fog_palette"))
+            {
+                return new ScenarioAtmosphericFogPalette();
+            }
+            //  scenario_atmospheric_fog_mixer_block
+            if ((tagBlockName == "scenario_atmospheric_fog_mixer_block"))
+            {
+                return new ScenarioAtmosphericFogMixerBlock();
+            }
+            //  scenario_planar_fog_palette
+            if ((tagBlockName == "scenario_planar_fog_palette"))
+            {
+                return new ScenarioPlanarFogPalette();
+            }
+            //  flock_definition_block
+            if ((tagBlockName == "flock_definition_block"))
+            {
+                return new FlockDefinitionBlock();
+            }
+            //  flock_source_block
+            if ((tagBlockName == "flock_source_block"))
+            {
+                return new FlockSourceBlock();
+            }
+            //  flock_sink_block
+            if ((tagBlockName == "flock_sink_block"))
+            {
+                return new FlockSinkBlock();
+            }
+            //  decorator_placement_definition_block
+            if ((tagBlockName == "decorator_placement_definition_block"))
+            {
+                return new DecoratorPlacementDefinitionBlock();
+            }
+            //  scenario_creature_block
+            if ((tagBlockName == "scenario_creature_block"))
+            {
+                return new ScenarioCreatureBlock();
+            }
+            //  scenario_creature_palette_block
+            if ((tagBlockName == "scenario_creature_palette_block"))
+            {
+                return new ScenarioCreaturePaletteBlock();
+            }
+            //  scenario_decorator_set_palette_entry_block
+            if ((tagBlockName == "scenario_decorator_set_palette_entry_block"))
+            {
+                return new ScenarioDecoratorSetPaletteEntryBlock();
+            }
+            //  scenario_bsp_switch_transition_volume_block
+            if ((tagBlockName == "scenario_bsp_switch_transition_volume_block"))
+            {
+                return new ScenarioBspSwitchTransitionVolumeBlock();
+            }
+            //  scenario_structure_bsp_spherical_harmonic_lighting_block
+            if ((tagBlockName == "scenario_structure_bsp_spherical_harmonic_lighting_block"))
+            {
+                return new ScenarioStructureBspSphericalHarmonicLightingBlock();
+            }
+            //  scenario_spherical_harmonic_lighting_point
+            if ((tagBlockName == "scenario_spherical_harmonic_lighting_point"))
+            {
+                return new ScenarioSphericalHarmonicLightingPoint();
+            }
+            //  g_scenario_editor_folder_block
+            if ((tagBlockName == "g_scenario_editor_folder_block"))
+            {
+                return new GScenarioEditorFolderBlock();
+            }
+            //  scenario_level_data_block
+            if ((tagBlockName == "scenario_level_data_block"))
+            {
+                return new ScenarioLevelDataBlock();
+            }
+            //  ai_scenario_mission_dialogue_block
+            if ((tagBlockName == "ai_scenario_mission_dialogue_block"))
+            {
+                return new AiScenarioMissionDialogueBlock();
+            }
+            //  scenario_interpolator_block
+            if ((tagBlockName == "scenario_interpolator_block"))
+            {
+                return new ScenarioInterpolatorBlock();
+            }
+            //  scenario_screen_effect_reference_block
+            if ((tagBlockName == "scenario_screen_effect_reference_block"))
+            {
+                return new ScenarioScreenEffectReferenceBlock();
+            }
+            //  scenario_simulation_definition_table_block
+            if ((tagBlockName == "scenario_simulation_definition_table_block"))
+            {
+                return new ScenarioSimulationDefinitionTableBlock();
+            }
+            //  scenario_ai_resource_block
+            if ((tagBlockName == "scenario_ai_resource_block"))
+            {
+                return new ScenarioAiResourceBlock();
+            }
+            //  scenario_bipeds_resource_block
+            if ((tagBlockName == "scenario_bipeds_resource_block"))
+            {
+                return new ScenarioBipedsResourceBlock();
+            }
+            //  scenario_cinematics_resource_block
+            if ((tagBlockName == "scenario_cinematics_resource_block"))
+            {
+                return new ScenarioCinematicsResourceBlock();
+            }
+            //  scenario_cluster_data_resource_block
+            if ((tagBlockName == "scenario_cluster_data_resource_block"))
+            {
+                return new ScenarioClusterDataResourceBlock();
+            }
+            //  scenario_comments_resource_block
+            if ((tagBlockName == "scenario_comments_resource_block"))
+            {
+                return new ScenarioCommentsResourceBlock();
+            }
+            //  scenario_creature_resource_block
+            if ((tagBlockName == "scenario_creature_resource_block"))
+            {
+                return new ScenarioCreatureResourceBlock();
+            }
+            //  scenario_decals_resource_block
+            if ((tagBlockName == "scenario_decals_resource_block"))
+            {
+                return new ScenarioDecalsResourceBlock();
+            }
+            //  scenario_decorators_resource_block
+            if ((tagBlockName == "scenario_decorators_resource_block"))
+            {
+                return new ScenarioDecoratorsResourceBlock();
+            }
+            //  scenario_devices_resource_block
+            if ((tagBlockName == "scenario_devices_resource_block"))
+            {
+                return new ScenarioDevicesResourceBlock();
+            }
+            //  scenario_equipment_resource_block
+            if ((tagBlockName == "scenario_equipment_resource_block"))
+            {
+                return new ScenarioEquipmentResourceBlock();
+            }
+            //  scenario_lights_resource_block
+            if ((tagBlockName == "scenario_lights_resource_block"))
+            {
+                return new ScenarioLightsResourceBlock();
+            }
+            //  scenario_scenery_resource_block
+            if ((tagBlockName == "scenario_scenery_resource_block"))
+            {
+                return new ScenarioSceneryResourceBlock();
+            }
+            //  scenario_sound_scenery_resource_block
+            if ((tagBlockName == "scenario_sound_scenery_resource_block"))
+            {
+                return new ScenarioSoundSceneryResourceBlock();
+            }
+            //  scenario_structure_bsp_block
+            if ((tagBlockName == "scenario_structure_bsp_block"))
+            {
+                return new ScenarioStructureBspBlock();
+            }
+            //  structure_collision_materials_block
+            if ((tagBlockName == "structure_collision_materials_block"))
+            {
+                return new StructureCollisionMaterialsBlock();
+            }
+            //  global_collision_bsp_block
+            if ((tagBlockName == "global_collision_bsp_block"))
+            {
+                return new GlobalCollisionBspBlock();
+            }
+            //  UNUSED_structure_bsp_node_block
+            if ((tagBlockName == "UNUSED_structure_bsp_node_block"))
+            {
+                return new UNUSEDStructureBspNodeBlock();
+            }
+            //  structure_bsp_leaf_block
+            if ((tagBlockName == "structure_bsp_leaf_block"))
+            {
+                return new StructureBspLeafBlock();
+            }
+            //  structure_bsp_surface_reference_block
+            if ((tagBlockName == "structure_bsp_surface_reference_block"))
+            {
+                return new StructureBspSurfaceReferenceBlock();
+            }
+            //  structure_bsp_cluster_portal_block
+            if ((tagBlockName == "structure_bsp_cluster_portal_block"))
+            {
+                return new StructureBspClusterPortalBlock();
+            }
+            //  structure_bsp_cluster_portal_vertex_block
+            if ((tagBlockName == "structure_bsp_cluster_portal_vertex_block"))
+            {
+                return new StructureBspClusterPortalVertexBlock();
+            }
+            //  structure_bsp_fog_plane_block
+            if ((tagBlockName == "structure_bsp_fog_plane_block"))
+            {
+                return new StructureBspFogPlaneBlock();
+            }
+            //  structure_bsp_weather_polyhedron_block
+            if ((tagBlockName == "structure_bsp_weather_polyhedron_block"))
+            {
+                return new StructureBspWeatherPolyhedronBlock();
+            }
+            //  structure_bsp_weather_polyhedron_plane_block
+            if ((tagBlockName == "structure_bsp_weather_polyhedron_plane_block"))
+            {
+                return new StructureBspWeatherPolyhedronPlaneBlock();
+            }
+            //  structure_bsp_detail_object_data_block
+            if ((tagBlockName == "structure_bsp_detail_object_data_block"))
+            {
+                return new StructureBspDetailObjectDataBlock();
+            }
+            //  global_detail_object_cells_block
+            if ((tagBlockName == "global_detail_object_cells_block"))
+            {
+                return new GlobalDetailObjectCellsBlock();
+            }
+            //  global_detail_object_block
+            if ((tagBlockName == "global_detail_object_block"))
+            {
+                return new GlobalDetailObjectBlock();
+            }
+            //  global_detail_object_counts_block
+            if ((tagBlockName == "global_detail_object_counts_block"))
+            {
+                return new GlobalDetailObjectCountsBlock();
+            }
+            //  global_z_reference_vector_block
+            if ((tagBlockName == "global_z_reference_vector_block"))
+            {
+                return new GlobalZReferenceVectorBlock();
+            }
+            //  structure_bsp_cluster_block
+            if ((tagBlockName == "structure_bsp_cluster_block"))
+            {
+                return new StructureBspClusterBlock();
+            }
+            //  structure_bsp_cluster_data_block_new
+            if ((tagBlockName == "structure_bsp_cluster_data_block_new"))
+            {
+                return new StructureBspClusterDataBlockNew();
+            }
+            //  structure_bsp_cluster_portal_index_block
+            if ((tagBlockName == "structure_bsp_cluster_portal_index_block"))
+            {
+                return new StructureBspClusterPortalIndexBlock();
+            }
+            //  structure_bsp_cluster_instanced_geometry_index_block
+            if ((tagBlockName == "structure_bsp_cluster_instanced_geometry_index_block"))
+            {
+                return new StructureBspClusterInstancedGeometryIndexBlock();
+            }
+            //  structure_bsp_sky_owner_cluster_block
+            if ((tagBlockName == "structure_bsp_sky_owner_cluster_block"))
+            {
+                return new StructureBspSkyOwnerClusterBlock();
+            }
+            //  structure_bsp_conveyor_surface_block
+            if ((tagBlockName == "structure_bsp_conveyor_surface_block"))
+            {
+                return new StructureBspConveyorSurfaceBlock();
+            }
+            //  structure_bsp_breakable_surface_block
+            if ((tagBlockName == "structure_bsp_breakable_surface_block"))
+            {
+                return new StructureBspBreakableSurfaceBlock();
+            }
+            //  structure_bsp_pathfinding_edges_block
+            if ((tagBlockName == "structure_bsp_pathfinding_edges_block"))
+            {
+                return new StructureBspPathfindingEdgesBlock();
+            }
+            //  structure_bsp_marker_block
+            if ((tagBlockName == "structure_bsp_marker_block"))
+            {
+                return new StructureBspMarkerBlock();
+            }
+            //  structure_bsp_runtime_decal_block
+            if ((tagBlockName == "structure_bsp_runtime_decal_block"))
+            {
+                return new StructureBspRuntimeDecalBlock();
+            }
+            //  structure_bsp_environment_object_palette_block
+            if ((tagBlockName == "structure_bsp_environment_object_palette_block"))
+            {
+                return new StructureBspEnvironmentObjectPaletteBlock();
+            }
+            //  structure_bsp_environment_object_block
+            if ((tagBlockName == "structure_bsp_environment_object_block"))
+            {
+                return new StructureBspEnvironmentObjectBlock();
+            }
+            //  structure_bsp_lightmap_data_block
+            if ((tagBlockName == "structure_bsp_lightmap_data_block"))
+            {
+                return new StructureBspLightmapDataBlock();
+            }
+            //  global_map_leaf_block
+            if ((tagBlockName == "global_map_leaf_block"))
+            {
+                return new GlobalMapLeafBlock();
+            }
+            //  map_leaf_face_block
+            if ((tagBlockName == "map_leaf_face_block"))
+            {
+                return new MapLeafFaceBlock();
+            }
+            //  map_leaf_face_vertex_block
+            if ((tagBlockName == "map_leaf_face_vertex_block"))
+            {
+                return new MapLeafFaceVertexBlock();
+            }
+            //  map_leaf_connection_index_block
+            if ((tagBlockName == "map_leaf_connection_index_block"))
+            {
+                return new MapLeafConnectionIndexBlock();
+            }
+            //  global_leaf_connection_block
+            if ((tagBlockName == "global_leaf_connection_block"))
+            {
+                return new GlobalLeafConnectionBlock();
+            }
+            //  leaf_connection_vertex_block
+            if ((tagBlockName == "leaf_connection_vertex_block"))
+            {
+                return new LeafConnectionVertexBlock();
+            }
+            //  structure_bsp_precomputed_lighting_block
+            if ((tagBlockName == "structure_bsp_precomputed_lighting_block"))
+            {
+                return new StructureBspPrecomputedLightingBlock();
+            }
+            //  visibility_struct_block
+            if ((tagBlockName == "visibility_struct_block"))
+            {
+                return new VisibilityStructBlock();
+            }
+            //  structure_bsp_instanced_geometry_definition_block
+            if ((tagBlockName == "structure_bsp_instanced_geometry_definition_block"))
+            {
+                return new StructureBspInstancedGeometryDefinitionBlock();
+            }
+            //  structure_instanced_geometry_render_info_struct_block
+            if ((tagBlockName == "structure_instanced_geometry_render_info_struct_block"))
+            {
+                return new StructureInstancedGeometryRenderInfoStructBlock();
+            }
+            //  structure_bsp_instanced_geometry_instances_block
+            if ((tagBlockName == "structure_bsp_instanced_geometry_instances_block"))
+            {
+                return new StructureBspInstancedGeometryInstancesBlock();
+            }
+            //  structure_bsp_sound_cluster_block
+            if ((tagBlockName == "structure_bsp_sound_cluster_block"))
+            {
+                return new StructureBspSoundClusterBlock();
+            }
+            //  structure_sound_cluster_portal_designators
+            if ((tagBlockName == "structure_sound_cluster_portal_designators"))
+            {
+                return new StructureSoundClusterPortalDesignators();
+            }
+            //  structure_sound_cluster_interior_cluster_indices
+            if ((tagBlockName == "structure_sound_cluster_interior_cluster_indices"))
+            {
+                return new StructureSoundClusterInteriorClusterIndices();
+            }
+            //  transparent_planes_block
+            if ((tagBlockName == "transparent_planes_block"))
+            {
+                return new TransparentPlanesBlock();
+            }
+            //  structure_bsp_debug_info_block
+            if ((tagBlockName == "structure_bsp_debug_info_block"))
+            {
+                return new StructureBspDebugInfoBlock();
+            }
+            //  structure_bsp_cluster_debug_info_block
+            if ((tagBlockName == "structure_bsp_cluster_debug_info_block"))
+            {
+                return new StructureBspClusterDebugInfoBlock();
+            }
+            //  structure_bsp_debug_info_render_line_block
+            if ((tagBlockName == "structure_bsp_debug_info_render_line_block"))
+            {
+                return new StructureBspDebugInfoRenderLineBlock();
+            }
+            //  structure_bsp_debug_info_indices_block
+            if ((tagBlockName == "structure_bsp_debug_info_indices_block"))
+            {
+                return new StructureBspDebugInfoIndicesBlock();
+            }
+            //  structure_bsp_fog_plane_debug_info_block
+            if ((tagBlockName == "structure_bsp_fog_plane_debug_info_block"))
+            {
+                return new StructureBspFogPlaneDebugInfoBlock();
+            }
+            //  structure_bsp_fog_zone_debug_info_block
+            if ((tagBlockName == "structure_bsp_fog_zone_debug_info_block"))
+            {
+                return new StructureBspFogZoneDebugInfoBlock();
+            }
+            //  global_structure_physics_struct_block
+            if ((tagBlockName == "global_structure_physics_struct_block"))
+            {
+                return new GlobalStructurePhysicsStructBlock();
+            }
+            //  breakable_surface_key_table_block
+            if ((tagBlockName == "breakable_surface_key_table_block"))
+            {
+                return new BreakableSurfaceKeyTableBlock();
+            }
+            //  global_water_definitions_block
+            if ((tagBlockName == "global_water_definitions_block"))
+            {
+                return new GlobalWaterDefinitionsBlock();
+            }
+            //  water_geometry_section_block
+            if ((tagBlockName == "water_geometry_section_block"))
+            {
+                return new WaterGeometrySectionBlock();
+            }
+            //  structure_portal_device_mapping_block
+            if ((tagBlockName == "structure_portal_device_mapping_block"))
+            {
+                return new StructurePortalDeviceMappingBlock();
+            }
+            //  structure_device_portal_association_block
+            if ((tagBlockName == "structure_device_portal_association_block"))
+            {
+                return new StructureDevicePortalAssociationBlock();
+            }
+            //  game_portal_to_portal_mapping_block
+            if ((tagBlockName == "game_portal_to_portal_mapping_block"))
+            {
+                return new GamePortalToPortalMappingBlock();
+            }
+            //  structure_bsp_audibility_block
+            if ((tagBlockName == "structure_bsp_audibility_block"))
+            {
+                return new StructureBspAudibilityBlock();
+            }
+            //  door_encoded_pas_block
+            if ((tagBlockName == "door_encoded_pas_block"))
+            {
+                return new DoorEncodedPasBlock();
+            }
+            //  cluster_door_portal_encoded_pas_block
+            if ((tagBlockName == "cluster_door_portal_encoded_pas_block"))
+            {
+                return new ClusterDoorPortalEncodedPasBlock();
+            }
+            //  ai_deafening_encoded_pas_block
+            if ((tagBlockName == "ai_deafening_encoded_pas_block"))
+            {
+                return new AiDeafeningEncodedPasBlock();
+            }
+            //  encoded_cluster_distances_block
+            if ((tagBlockName == "encoded_cluster_distances_block"))
+            {
+                return new EncodedClusterDistancesBlock();
+            }
+            //  occluder_to_machine_door_mapping
+            if ((tagBlockName == "occluder_to_machine_door_mapping"))
+            {
+                return new OccluderToMachineDoorMapping();
+            }
+            //  structure_bsp_fake_lightprobes_block
+            if ((tagBlockName == "structure_bsp_fake_lightprobes_block"))
+            {
+                return new StructureBspFakeLightprobesBlock();
+            }
+            //  render_lighting_struct_block
+            if ((tagBlockName == "render_lighting_struct_block"))
+            {
+                return new RenderLightingStructBlock();
+            }
+            //  scenario_structure_lighting_resource_block
+            if ((tagBlockName == "scenario_structure_lighting_resource_block"))
+            {
+                return new ScenarioStructureLightingResourceBlock();
+            }
+            //  scenario_structure_lightmap_block
+            if ((tagBlockName == "scenario_structure_lightmap_block"))
+            {
+                return new ScenarioStructureLightmapBlock();
+            }
+            //  structure_lightmap_group_block
+            if ((tagBlockName == "structure_lightmap_group_block"))
+            {
+                return new StructureLightmapGroupBlock();
+            }
+            //  structure_lightmap_palette_color_block
+            if ((tagBlockName == "structure_lightmap_palette_color_block"))
+            {
+                return new StructureLightmapPaletteColorBlock();
+            }
+            //  lightmap_geometry_section_block
+            if ((tagBlockName == "lightmap_geometry_section_block"))
+            {
+                return new LightmapGeometrySectionBlock();
+            }
+            //  lightmap_geometry_section_cache_data_block
+            if ((tagBlockName == "lightmap_geometry_section_cache_data_block"))
+            {
+                return new LightmapGeometrySectionCacheDataBlock();
+            }
+            //  lightmap_geometry_render_info_block
+            if ((tagBlockName == "lightmap_geometry_render_info_block"))
+            {
+                return new LightmapGeometryRenderInfoBlock();
+            }
+            //  structure_lightmap_lighting_environment_block
+            if ((tagBlockName == "structure_lightmap_lighting_environment_block"))
+            {
+                return new StructureLightmapLightingEnvironmentBlock();
+            }
+            //  lightmap_vertex_buffer_bucket_block
+            if ((tagBlockName == "lightmap_vertex_buffer_bucket_block"))
+            {
+                return new LightmapVertexBufferBucketBlock();
+            }
+            //  lightmap_bucket_raw_vertex_block
+            if ((tagBlockName == "lightmap_bucket_raw_vertex_block"))
+            {
+                return new LightmapBucketRawVertexBlock();
+            }
+            //  lightmap_vertex_buffer_bucket_cache_data_block
+            if ((tagBlockName == "lightmap_vertex_buffer_bucket_cache_data_block"))
+            {
+                return new LightmapVertexBufferBucketCacheDataBlock();
+            }
+            //  lightmap_instance_bucket_reference_block
+            if ((tagBlockName == "lightmap_instance_bucket_reference_block"))
+            {
+                return new LightmapInstanceBucketReferenceBlock();
+            }
+            //  lightmap_instance_bucket_section_offset_block
+            if ((tagBlockName == "lightmap_instance_bucket_section_offset_block"))
+            {
+                return new LightmapInstanceBucketSectionOffsetBlock();
+            }
+            //  lightmap_scenery_object_info_block
+            if ((tagBlockName == "lightmap_scenery_object_info_block"))
+            {
+                return new LightmapSceneryObjectInfoBlock();
+            }
+            //  scenario_trigger_volumes_resource_block
+            if ((tagBlockName == "scenario_trigger_volumes_resource_block"))
+            {
+                return new ScenarioTriggerVolumesResourceBlock();
+            }
+            //  scenario_vehicles_resource_block
+            if ((tagBlockName == "scenario_vehicles_resource_block"))
+            {
+                return new ScenarioVehiclesResourceBlock();
+            }
+            //  scenario_weapons_resource_block
+            if ((tagBlockName == "scenario_weapons_resource_block"))
+            {
+                return new ScenarioWeaponsResourceBlock();
+            }
+            //  scenery_block
+            if ((tagBlockName == "scenery_block"))
+            {
+                return new SceneryBlock();
+            }
+            //  screen_effect_block
+            if ((tagBlockName == "screen_effect_block"))
+            {
+                return new ScreenEffectBlock();
+            }
+            //  rasterizer_screen_effect_pass_reference_block
+            if ((tagBlockName == "rasterizer_screen_effect_pass_reference_block"))
+            {
+                return new RasterizerScreenEffectPassReferenceBlock();
+            }
+            //  rasterizer_screen_effect_texcoord_generation_advanced_control_block
+            if ((tagBlockName == "rasterizer_screen_effect_texcoord_generation_advanced_control_block"))
+            {
+                return new RasterizerScreenEffectTexcoordGenerationAdvancedControlBlock();
+            }
+            //  rasterizer_screen_effect_convolution_block
+            if ((tagBlockName == "rasterizer_screen_effect_convolution_block"))
+            {
+                return new RasterizerScreenEffectConvolutionBlock();
+            }
+            //  shader_block
+            if ((tagBlockName == "shader_block"))
+            {
+                return new ShaderBlock();
+            }
+            //  shader_properties_block
+            if ((tagBlockName == "shader_properties_block"))
+            {
+                return new ShaderPropertiesBlock();
+            }
+            //  shader_light_response_block
+            if ((tagBlockName == "shader_light_response_block"))
+            {
+                return new ShaderLightResponseBlock();
+            }
+            //  shader_template_category_block
+            if ((tagBlockName == "shader_template_category_block"))
+            {
+                return new ShaderTemplateCategoryBlock();
+            }
+            //  shader_template_parameter_block
+            if ((tagBlockName == "shader_template_parameter_block"))
+            {
+                return new ShaderTemplateParameterBlock();
+            }
+            //  shader_template_level_of_detail_block
+            if ((tagBlockName == "shader_template_level_of_detail_block"))
+            {
+                return new ShaderTemplateLevelOfDetailBlock();
+            }
+            //  shader_template_pass_reference_block
+            if ((tagBlockName == "shader_template_pass_reference_block"))
+            {
+                return new ShaderTemplatePassReferenceBlock();
+            }
+            //  shader_pass_block
+            if ((tagBlockName == "shader_pass_block"))
+            {
+                return new ShaderPassBlock();
+            }
+            //  shader_pass_parameter_block
+            if ((tagBlockName == "shader_pass_parameter_block"))
+            {
+                return new ShaderPassParameterBlock();
+            }
+            //  shader_pass_implementation_block
+            if ((tagBlockName == "shader_pass_implementation_block"))
+            {
+                return new ShaderPassImplementationBlock();
+            }
+            //  shader_pass_texture_block
+            if ((tagBlockName == "shader_pass_texture_block"))
+            {
+                return new ShaderPassTextureBlock();
+            }
+            //  shader_texture_state_address_state_block
+            if ((tagBlockName == "shader_texture_state_address_state_block"))
+            {
+                return new ShaderTextureStateAddressStateBlock();
+            }
+            //  shader_texture_state_filter_state_block
+            if ((tagBlockName == "shader_texture_state_filter_state_block"))
+            {
+                return new ShaderTextureStateFilterStateBlock();
+            }
+            //  shader_texture_state_kill_state_block
+            if ((tagBlockName == "shader_texture_state_kill_state_block"))
+            {
+                return new ShaderTextureStateKillStateBlock();
+            }
+            //  shader_texture_state_misc_state_block
+            if ((tagBlockName == "shader_texture_state_misc_state_block"))
+            {
+                return new ShaderTextureStateMiscStateBlock();
+            }
+            //  shader_texture_state_constant_block
+            if ((tagBlockName == "shader_texture_state_constant_block"))
+            {
+                return new ShaderTextureStateConstantBlock();
+            }
+            //  shader_pass_vertex_shader_constant_block
+            if ((tagBlockName == "shader_pass_vertex_shader_constant_block"))
+            {
+                return new ShaderPassVertexShaderConstantBlock();
+            }
+            //  shader_state_channels_state_block
+            if ((tagBlockName == "shader_state_channels_state_block"))
+            {
+                return new ShaderStateChannelsStateBlock();
+            }
+            //  shader_state_alpha_blend_state_block
+            if ((tagBlockName == "shader_state_alpha_blend_state_block"))
+            {
+                return new ShaderStateAlphaBlendStateBlock();
+            }
+            //  shader_state_alpha_test_state_block
+            if ((tagBlockName == "shader_state_alpha_test_state_block"))
+            {
+                return new ShaderStateAlphaTestStateBlock();
+            }
+            //  shader_state_depth_state_block
+            if ((tagBlockName == "shader_state_depth_state_block"))
+            {
+                return new ShaderStateDepthStateBlock();
+            }
+            //  shader_state_cull_state_block
+            if ((tagBlockName == "shader_state_cull_state_block"))
+            {
+                return new ShaderStateCullStateBlock();
+            }
+            //  shader_state_fill_state_block
+            if ((tagBlockName == "shader_state_fill_state_block"))
+            {
+                return new ShaderStateFillStateBlock();
+            }
+            //  shader_state_misc_state_block
+            if ((tagBlockName == "shader_state_misc_state_block"))
+            {
+                return new ShaderStateMiscStateBlock();
+            }
+            //  shader_state_constant_block
+            if ((tagBlockName == "shader_state_constant_block"))
+            {
+                return new ShaderStateConstantBlock();
+            }
+            //  shader_pass_postprocess_definition_new_block
+            if ((tagBlockName == "shader_pass_postprocess_definition_new_block"))
+            {
+                return new ShaderPassPostprocessDefinitionNewBlock();
+            }
+            //  shader_pass_postprocess_implementation_new_block
+            if ((tagBlockName == "shader_pass_postprocess_implementation_new_block"))
+            {
+                return new ShaderPassPostprocessImplementationNewBlock();
+            }
+            //  shader_pass_postprocess_texture_new_block
+            if ((tagBlockName == "shader_pass_postprocess_texture_new_block"))
+            {
+                return new ShaderPassPostprocessTextureNewBlock();
+            }
+            //  shader_pass_postprocess_texture_state_block
+            if ((tagBlockName == "shader_pass_postprocess_texture_state_block"))
+            {
+                return new ShaderPassPostprocessTextureStateBlock();
+            }
+            //  pixel_shader_fragment_block
+            if ((tagBlockName == "pixel_shader_fragment_block"))
+            {
+                return new PixelShaderFragmentBlock();
+            }
+            //  pixel_shader_permutation_new_block
+            if ((tagBlockName == "pixel_shader_permutation_new_block"))
+            {
+                return new PixelShaderPermutationNewBlock();
+            }
+            //  pixel_shader_combiner_block
+            if ((tagBlockName == "pixel_shader_combiner_block"))
+            {
+                return new PixelShaderCombinerBlock();
+            }
+            //  shader_pass_postprocess_extern_new_block
+            if ((tagBlockName == "shader_pass_postprocess_extern_new_block"))
+            {
+                return new ShaderPassPostprocessExternNewBlock();
+            }
+            //  shader_pass_postprocess_constant_new_block
+            if ((tagBlockName == "shader_pass_postprocess_constant_new_block"))
+            {
+                return new ShaderPassPostprocessConstantNewBlock();
+            }
+            //  shader_pass_postprocess_constant_info_new_block
+            if ((tagBlockName == "shader_pass_postprocess_constant_info_new_block"))
+            {
+                return new ShaderPassPostprocessConstantInfoNewBlock();
+            }
+            //  shader_pass_postprocess_implementation_block
+            if ((tagBlockName == "shader_pass_postprocess_implementation_block"))
+            {
+                return new ShaderPassPostprocessImplementationBlock();
+            }
+            //  extern_reference_block
+            if ((tagBlockName == "extern_reference_block"))
+            {
+                return new ExternReferenceBlock();
+            }
+            //  pixel_shader_permutation_block
+            if ((tagBlockName == "pixel_shader_permutation_block"))
+            {
+                return new PixelShaderPermutationBlock();
+            }
+            //  pixel_shader_constant_block
+            if ((tagBlockName == "pixel_shader_constant_block"))
+            {
+                return new PixelShaderConstantBlock();
+            }
+            //  shader_template_block
+            if ((tagBlockName == "shader_template_block"))
+            {
+                return new ShaderTemplateBlock();
+            }
+            //  shader_template_property_block
+            if ((tagBlockName == "shader_template_property_block"))
+            {
+                return new ShaderTemplatePropertyBlock();
+            }
+            //  shader_template_runtime_external_light_response_index_block
+            if ((tagBlockName == "shader_template_runtime_external_light_response_index_block"))
+            {
+                return new ShaderTemplateRuntimeExternalLightResponseIndexBlock();
+            }
+            //  shader_template_postprocess_definition_new_block
+            if ((tagBlockName == "shader_template_postprocess_definition_new_block"))
+            {
+                return new ShaderTemplatePostprocessDefinitionNewBlock();
+            }
+            //  shader_template_postprocess_level_of_detail_new_block
+            if ((tagBlockName == "shader_template_postprocess_level_of_detail_new_block"))
+            {
+                return new ShaderTemplatePostprocessLevelOfDetailNewBlock();
+            }
+            //  shader_template_postprocess_pass_new_block
+            if ((tagBlockName == "shader_template_postprocess_pass_new_block"))
+            {
+                return new ShaderTemplatePostprocessPassNewBlock();
+            }
+            //  shader_template_postprocess_implementation_new_block
+            if ((tagBlockName == "shader_template_postprocess_implementation_new_block"))
+            {
+                return new ShaderTemplatePostprocessImplementationNewBlock();
+            }
+            //  shader_template_postprocess_remapping_new_block
+            if ((tagBlockName == "shader_template_postprocess_remapping_new_block"))
+            {
+                return new ShaderTemplatePostprocessRemappingNewBlock();
+            }
+            //  sky_block
+            if ((tagBlockName == "sky_block"))
+            {
+                return new SkyBlock();
+            }
+            //  sky_cubemap_block
+            if ((tagBlockName == "sky_cubemap_block"))
+            {
+                return new SkyCubemapBlock();
+            }
+            //  sky_atmospheric_fog_block
+            if ((tagBlockName == "sky_atmospheric_fog_block"))
+            {
+                return new SkyAtmosphericFogBlock();
+            }
+            //  sky_fog_block
+            if ((tagBlockName == "sky_fog_block"))
+            {
+                return new SkyFogBlock();
+            }
+            //  sky_patchy_fog_block
+            if ((tagBlockName == "sky_patchy_fog_block"))
+            {
+                return new SkyPatchyFogBlock();
+            }
+            //  sky_light_block
+            if ((tagBlockName == "sky_light_block"))
+            {
+                return new SkyLightBlock();
+            }
+            //  sky_light_fog_block
+            if ((tagBlockName == "sky_light_fog_block"))
+            {
+                return new SkyLightFogBlock();
+            }
+            //  sky_radiosity_light_block
+            if ((tagBlockName == "sky_radiosity_light_block"))
+            {
+                return new SkyRadiosityLightBlock();
+            }
+            //  sky_shader_function_block
+            if ((tagBlockName == "sky_shader_function_block"))
+            {
+                return new SkyShaderFunctionBlock();
+            }
+            //  sky_animation_block
+            if ((tagBlockName == "sky_animation_block"))
+            {
+                return new SkyAnimationBlock();
+            }
+            //  sound_cache_file_gestalt_block
+            if ((tagBlockName == "sound_cache_file_gestalt_block"))
+            {
+                return new SoundCacheFileGestaltBlock();
+            }
+            //  sound_gestalt_playback_block
+            if ((tagBlockName == "sound_gestalt_playback_block"))
+            {
+                return new SoundGestaltPlaybackBlock();
+            }
+            //  sound_playback_parameters_struct_block
+            if ((tagBlockName == "sound_playback_parameters_struct_block"))
+            {
+                return new SoundPlaybackParametersStructBlock();
+            }
+            //  sound_gestalt_scale_block
+            if ((tagBlockName == "sound_gestalt_scale_block"))
+            {
+                return new SoundGestaltScaleBlock();
+            }
+            //  sound_scale_modifiers_struct_block
+            if ((tagBlockName == "sound_scale_modifiers_struct_block"))
+            {
+                return new SoundScaleModifiersStructBlock();
+            }
+            //  sound_gestalt_import_names_block
+            if ((tagBlockName == "sound_gestalt_import_names_block"))
+            {
+                return new SoundGestaltImportNamesBlock();
+            }
+            //  sound_gestalt_pitch_range_parameters_block
+            if ((tagBlockName == "sound_gestalt_pitch_range_parameters_block"))
+            {
+                return new SoundGestaltPitchRangeParametersBlock();
+            }
+            //  sound_gestalt_pitch_ranges_block
+            if ((tagBlockName == "sound_gestalt_pitch_ranges_block"))
+            {
+                return new SoundGestaltPitchRangesBlock();
+            }
+            //  sound_gestalt_permutations_block
+            if ((tagBlockName == "sound_gestalt_permutations_block"))
+            {
+                return new SoundGestaltPermutationsBlock();
+            }
+            //  sound_gestalt_custom_playback_block
+            if ((tagBlockName == "sound_gestalt_custom_playback_block"))
+            {
+                return new SoundGestaltCustomPlaybackBlock();
+            }
+            //  simple_platform_sound_playback_struct_block
+            if ((tagBlockName == "simple_platform_sound_playback_struct_block"))
+            {
+                return new SimplePlatformSoundPlaybackStructBlock();
+            }
+            //  platform_sound_override_mixbins_block
+            if ((tagBlockName == "platform_sound_override_mixbins_block"))
+            {
+                return new PlatformSoundOverrideMixbinsBlock();
+            }
+            //  platform_sound_filter_block
+            if ((tagBlockName == "platform_sound_filter_block"))
+            {
+                return new PlatformSoundFilterBlock();
+            }
+            //  sound_playback_parameter_definition_block
+            if ((tagBlockName == "sound_playback_parameter_definition_block"))
+            {
+                return new SoundPlaybackParameterDefinitionBlock();
+            }
+            //  platform_sound_pitch_lfo_block
+            if ((tagBlockName == "platform_sound_pitch_lfo_block"))
+            {
+                return new PlatformSoundPitchLfoBlock();
+            }
+            //  platform_sound_filter_lfo_block
+            if ((tagBlockName == "platform_sound_filter_lfo_block"))
+            {
+                return new PlatformSoundFilterLfoBlock();
+            }
+            //  sound_effect_playback_block
+            if ((tagBlockName == "sound_effect_playback_block"))
+            {
+                return new SoundEffectPlaybackBlock();
+            }
+            //  sound_effect_struct_definition_block
+            if ((tagBlockName == "sound_effect_struct_definition_block"))
+            {
+                return new SoundEffectStructDefinitionBlock();
+            }
+            //  sound_effect_component_block
+            if ((tagBlockName == "sound_effect_component_block"))
+            {
+                return new SoundEffectComponentBlock();
+            }
+            //  sound_effect_overrides_block
+            if ((tagBlockName == "sound_effect_overrides_block"))
+            {
+                return new SoundEffectOverridesBlock();
+            }
+            //  sound_effect_override_parameters_block
+            if ((tagBlockName == "sound_effect_override_parameters_block"))
+            {
+                return new SoundEffectOverrideParametersBlock();
+            }
+            //  platform_sound_effect_collection_block
+            if ((tagBlockName == "platform_sound_effect_collection_block"))
+            {
+                return new PlatformSoundEffectCollectionBlock();
+            }
+            //  platform_sound_effect_block
+            if ((tagBlockName == "platform_sound_effect_block"))
+            {
+                return new PlatformSoundEffectBlock();
+            }
+            //  platform_sound_effect_function_block
+            if ((tagBlockName == "platform_sound_effect_function_block"))
+            {
+                return new PlatformSoundEffectFunctionBlock();
+            }
+            //  platform_sound_effect_constant_block
+            if ((tagBlockName == "platform_sound_effect_constant_block"))
+            {
+                return new PlatformSoundEffectConstantBlock();
+            }
+            //  platform_sound_effect_override_descriptor_block
+            if ((tagBlockName == "platform_sound_effect_override_descriptor_block"))
+            {
+                return new PlatformSoundEffectOverrideDescriptorBlock();
+            }
+            //  sound_gestalt_runtime_permutation_bit_vector_block
+            if ((tagBlockName == "sound_gestalt_runtime_permutation_bit_vector_block"))
+            {
+                return new SoundGestaltRuntimePermutationBitVectorBlock();
+            }
+            //  sound_permutation_chunk_block
+            if ((tagBlockName == "sound_permutation_chunk_block"))
+            {
+                return new SoundPermutationChunkBlock();
+            }
+            //  sound_gestalt_promotions_block
+            if ((tagBlockName == "sound_gestalt_promotions_block"))
+            {
+                return new SoundGestaltPromotionsBlock();
+            }
+            //  sound_promotion_parameters_struct_block
+            if ((tagBlockName == "sound_promotion_parameters_struct_block"))
+            {
+                return new SoundPromotionParametersStructBlock();
+            }
+            //  sound_promotion_rule_block
+            if ((tagBlockName == "sound_promotion_rule_block"))
+            {
+                return new SoundPromotionRuleBlock();
+            }
+            //  sound_promotion_runtime_timer_block
+            if ((tagBlockName == "sound_promotion_runtime_timer_block"))
+            {
+                return new SoundPromotionRuntimeTimerBlock();
+            }
+            //  sound_gestalt_extra_info_block
+            if ((tagBlockName == "sound_gestalt_extra_info_block"))
+            {
+                return new SoundGestaltExtraInfoBlock();
+            }
+            //  sound_encoded_dialogue_section_block
+            if ((tagBlockName == "sound_encoded_dialogue_section_block"))
+            {
+                return new SoundEncodedDialogueSectionBlock();
+            }
+            //  sound_permutation_dialogue_info_block
+            if ((tagBlockName == "sound_permutation_dialogue_info_block"))
+            {
+                return new SoundPermutationDialogueInfoBlock();
+            }
+            //  sound_classes_block
+            if ((tagBlockName == "sound_classes_block"))
+            {
+                return new SoundClassesBlock();
+            }
+            //  sound_class_block
+            if ((tagBlockName == "sound_class_block"))
+            {
+                return new SoundClassBlock();
+            }
+            //  sound_dialogue_constants_block
+            if ((tagBlockName == "sound_dialogue_constants_block"))
+            {
+                return new SoundDialogueConstantsBlock();
+            }
+            //  sound_effect_collection_block
+            if ((tagBlockName == "sound_effect_collection_block"))
+            {
+                return new SoundEffectCollectionBlock();
+            }
+            //  platform_sound_playback_block
+            if ((tagBlockName == "platform_sound_playback_block"))
+            {
+                return new PlatformSoundPlaybackBlock();
+            }
+            //  platform_sound_playback_struct_block
+            if ((tagBlockName == "platform_sound_playback_struct_block"))
+            {
+                return new PlatformSoundPlaybackStructBlock();
+            }
+            //  sound_effect_template_block
+            if ((tagBlockName == "sound_effect_template_block"))
+            {
+                return new SoundEffectTemplateBlock();
+            }
+            //  sound_effect_templates_block
+            if ((tagBlockName == "sound_effect_templates_block"))
+            {
+                return new SoundEffectTemplatesBlock();
+            }
+            //  sound_effect_template_parameter_block
+            if ((tagBlockName == "sound_effect_template_parameter_block"))
+            {
+                return new SoundEffectTemplateParameterBlock();
+            }
+            //  sound_effect_template_additional_sound_input_block
+            if ((tagBlockName == "sound_effect_template_additional_sound_input_block"))
+            {
+                return new SoundEffectTemplateAdditionalSoundInputBlock();
+            }
+            //  platform_sound_effect_template_collection_block
+            if ((tagBlockName == "platform_sound_effect_template_collection_block"))
+            {
+                return new PlatformSoundEffectTemplateCollectionBlock();
+            }
+            //  platform_sound_effect_template_block
+            if ((tagBlockName == "platform_sound_effect_template_block"))
+            {
+                return new PlatformSoundEffectTemplateBlock();
+            }
+            //  platform_sound_effect_template_component_block
+            if ((tagBlockName == "platform_sound_effect_template_component_block"))
+            {
+                return new PlatformSoundEffectTemplateComponentBlock();
+            }
+            //  sound_environment_block
+            if ((tagBlockName == "sound_environment_block"))
+            {
+                return new SoundEnvironmentBlock();
+            }
+            //  sound_looping_block
+            if ((tagBlockName == "sound_looping_block"))
+            {
+                return new SoundLoopingBlock();
+            }
+            //  looping_sound_track_block
+            if ((tagBlockName == "looping_sound_track_block"))
+            {
+                return new LoopingSoundTrackBlock();
+            }
+            //  looping_sound_detail_block
+            if ((tagBlockName == "looping_sound_detail_block"))
+            {
+                return new LoopingSoundDetailBlock();
+            }
+            //  sound_mix_block
+            if ((tagBlockName == "sound_mix_block"))
+            {
+                return new SoundMixBlock();
+            }
+            //  sound_global_mix_struct_block
+            if ((tagBlockName == "sound_global_mix_struct_block"))
+            {
+                return new SoundGlobalMixStructBlock();
+            }
+            //  sound_scenery_block
+            if ((tagBlockName == "sound_scenery_block"))
+            {
+                return new SoundSceneryBlock();
+            }
+            //  stereo_system_block
+            if ((tagBlockName == "stereo_system_block"))
+            {
+                return new StereoSystemBlock();
+            }
+            //  style_block
+            if ((tagBlockName == "style_block"))
+            {
+                return new StyleBlock();
+            }
+            //  behavior_names_block
+            if ((tagBlockName == "behavior_names_block"))
+            {
+                return new BehaviorNamesBlock();
+            }
+            //  text_value_pair_definition_block
+            if ((tagBlockName == "text_value_pair_definition_block"))
+            {
+                return new TextValuePairDefinitionBlock();
+            }
+            //  text_value_pair_reference_block
+            if ((tagBlockName == "text_value_pair_reference_block"))
+            {
+                return new TextValuePairReferenceBlock();
+            }
+            //  unit_block
+            if ((tagBlockName == "unit_block"))
+            {
+                return new UnitBlock();
+            }
+            //  unit_camera_struct_block
+            if ((tagBlockName == "unit_camera_struct_block"))
+            {
+                return new UnitCameraStructBlock();
+            }
+            //  unit_camera_track_block
+            if ((tagBlockName == "unit_camera_track_block"))
+            {
+                return new UnitCameraTrackBlock();
+            }
+            //  unit_seat_acceleration_struct_block
+            if ((tagBlockName == "unit_seat_acceleration_struct_block"))
+            {
+                return new UnitSeatAccelerationStructBlock();
+            }
+            //  unit_additional_node_names_struct_block
+            if ((tagBlockName == "unit_additional_node_names_struct_block"))
+            {
+                return new UnitAdditionalNodeNamesStructBlock();
+            }
+            //  unit_boarding_melee_struct_block
+            if ((tagBlockName == "unit_boarding_melee_struct_block"))
+            {
+                return new UnitBoardingMeleeStructBlock();
+            }
+            //  unit_postures_block
+            if ((tagBlockName == "unit_postures_block"))
+            {
+                return new UnitPosturesBlock();
+            }
+            //  unit_hud_reference_block
+            if ((tagBlockName == "unit_hud_reference_block"))
+            {
+                return new UnitHudReferenceBlock();
+            }
+            //  dialogue_variant_block
+            if ((tagBlockName == "dialogue_variant_block"))
+            {
+                return new DialogueVariantBlock();
+            }
+            //  powered_seat_block
+            if ((tagBlockName == "powered_seat_block"))
+            {
+                return new PoweredSeatBlock();
+            }
+            //  unit_weapon_block
+            if ((tagBlockName == "unit_weapon_block"))
+            {
+                return new UnitWeaponBlock();
+            }
+            //  unit_seat_block
+            if ((tagBlockName == "unit_seat_block"))
+            {
+                return new UnitSeatBlock();
+            }
+            //  unit_boost_struct_block
+            if ((tagBlockName == "unit_boost_struct_block"))
+            {
+                return new UnitBoostStructBlock();
+            }
+            //  unit_lipsync_scales_struct_block
+            if ((tagBlockName == "unit_lipsync_scales_struct_block"))
+            {
+                return new UnitLipsyncScalesStructBlock();
+            }
+            //  unit_hud_interface_block
+            if ((tagBlockName == "unit_hud_interface_block"))
+            {
+                return new UnitHudInterfaceBlock();
+            }
+            //  unit_hud_auxilary_overlay_block
+            if ((tagBlockName == "unit_hud_auxilary_overlay_block"))
+            {
+                return new UnitHudAuxilaryOverlayBlock();
+            }
+            //  unit_hud_sound_block
+            if ((tagBlockName == "unit_hud_sound_block"))
+            {
+                return new UnitHudSoundBlock();
+            }
+            //  unit_hud_auxilary_panel_block
+            if ((tagBlockName == "unit_hud_auxilary_panel_block"))
+            {
+                return new UnitHudAuxilaryPanelBlock();
+            }
+            //  user_interface_globals_definition_block
+            if ((tagBlockName == "user_interface_globals_definition_block"))
+            {
+                return new UserInterfaceGlobalsDefinitionBlock();
+            }
+            //  user_interface_widget_reference_block
+            if ((tagBlockName == "user_interface_widget_reference_block"))
+            {
+                return new UserInterfaceWidgetReferenceBlock();
+            }
+            //  user_interface_list_skin_definition_block
+            if ((tagBlockName == "user_interface_list_skin_definition_block"))
+            {
+                return new UserInterfaceListSkinDefinitionBlock();
+            }
+            //  single_animation_reference_block
+            if ((tagBlockName == "single_animation_reference_block"))
+            {
+                return new SingleAnimationReferenceBlock();
+            }
+            //  screen_animation_keyframe_reference_block
+            if ((tagBlockName == "screen_animation_keyframe_reference_block"))
+            {
+                return new ScreenAnimationKeyframeReferenceBlock();
+            }
+            //  text_block_reference_block
+            if ((tagBlockName == "text_block_reference_block"))
+            {
+                return new TextBlockReferenceBlock();
+            }
+            //  bitmap_block_reference_block
+            if ((tagBlockName == "bitmap_block_reference_block"))
+            {
+                return new BitmapBlockReferenceBlock();
+            }
+            //  hud_block_reference_block
+            if ((tagBlockName == "hud_block_reference_block"))
+            {
+                return new HudBlockReferenceBlock();
+            }
+            //  player_block_reference_block
+            if ((tagBlockName == "player_block_reference_block"))
+            {
+                return new PlayerBlockReferenceBlock();
+            }
+            //  user_interface_screen_widget_definition_block
+            if ((tagBlockName == "user_interface_screen_widget_definition_block"))
+            {
+                return new UserInterfaceScreenWidgetDefinitionBlock();
+            }
+            //  window_pane_reference_block
+            if ((tagBlockName == "window_pane_reference_block"))
+            {
+                return new WindowPaneReferenceBlock();
+            }
+            //  button_widget_reference_block
+            if ((tagBlockName == "button_widget_reference_block"))
+            {
+                return new ButtonWidgetReferenceBlock();
+            }
+            //  list_reference_block
+            if ((tagBlockName == "list_reference_block"))
+            {
+                return new ListReferenceBlock();
+            }
+            //  s_text_value_pair_reference_block_UNUSED
+            if ((tagBlockName == "s_text_value_pair_reference_block_UNUSED"))
+            {
+                return new STextValuePairReferenceBlockUNUSED();
+            }
+            //  table_view_list_reference_block
+            if ((tagBlockName == "table_view_list_reference_block"))
+            {
+                return new TableViewListReferenceBlock();
+            }
+            //  table_view_list_row_reference_block
+            if ((tagBlockName == "table_view_list_row_reference_block"))
+            {
+                return new TableViewListRowReferenceBlock();
+            }
+            //  table_view_list_item_reference_block
+            if ((tagBlockName == "table_view_list_item_reference_block"))
+            {
+                return new TableViewListItemReferenceBlock();
+            }
+            //  ui_model_scene_reference_block
+            if ((tagBlockName == "ui_model_scene_reference_block"))
+            {
+                return new UiModelSceneReferenceBlock();
+            }
+            //  ui_object_reference_block
+            if ((tagBlockName == "ui_object_reference_block"))
+            {
+                return new UiObjectReferenceBlock();
+            }
+            //  ui_light_reference_block
+            if ((tagBlockName == "ui_light_reference_block"))
+            {
+                return new UiLightReferenceBlock();
+            }
+            //  s_text_value_pair_blocks_block_UNUSED
+            if ((tagBlockName == "s_text_value_pair_blocks_block_UNUSED"))
+            {
+                return new STextValuePairBlocksBlockUNUSED();
+            }
+            //  local_string_id_list_section_reference_block
+            if ((tagBlockName == "local_string_id_list_section_reference_block"))
+            {
+                return new LocalStringIdListSectionReferenceBlock();
+            }
+            //  local_string_id_list_string_reference_block
+            if ((tagBlockName == "local_string_id_list_string_reference_block"))
+            {
+                return new LocalStringIdListStringReferenceBlock();
+            }
+            //  local_bitmap_reference_block
+            if ((tagBlockName == "local_bitmap_reference_block"))
+            {
+                return new LocalBitmapReferenceBlock();
+            }
+            //  user_interface_shared_globals_definition_block
+            if ((tagBlockName == "user_interface_shared_globals_definition_block"))
+            {
+                return new UserInterfaceSharedGlobalsDefinitionBlock();
+            }
+            //  ui_error_category_block
+            if ((tagBlockName == "ui_error_category_block"))
+            {
+                return new UiErrorCategoryBlock();
+            }
+            //  ui_error_block
+            if ((tagBlockName == "ui_error_block"))
+            {
+                return new UiErrorBlock();
+            }
+            //  animation_reference_block
+            if ((tagBlockName == "animation_reference_block"))
+            {
+                return new AnimationReferenceBlock();
+            }
+            //  shape_group_reference_block
+            if ((tagBlockName == "shape_group_reference_block"))
+            {
+                return new ShapeGroupReferenceBlock();
+            }
+            //  shape_block_reference_block
+            if ((tagBlockName == "shape_block_reference_block"))
+            {
+                return new ShapeBlockReferenceBlock();
+            }
+            //  point_block_reference_block
+            if ((tagBlockName == "point_block_reference_block"))
+            {
+                return new PointBlockReferenceBlock();
+            }
+            //  persistent_background_animation_block
+            if ((tagBlockName == "persistent_background_animation_block"))
+            {
+                return new PersistentBackgroundAnimationBlock();
+            }
+            //  background_animation_keyframe_reference_block
+            if ((tagBlockName == "background_animation_keyframe_reference_block"))
+            {
+                return new BackgroundAnimationKeyframeReferenceBlock();
+            }
+            //  list_skin_reference_block
+            if ((tagBlockName == "list_skin_reference_block"))
+            {
+                return new ListSkinReferenceBlock();
+            }
+            //  skill_to_rank_mapping_block
+            if ((tagBlockName == "skill_to_rank_mapping_block"))
+            {
+                return new SkillToRankMappingBlock();
+            }
+            //  vehicle_block
+            if ((tagBlockName == "vehicle_block"))
+            {
+                return new VehicleBlock();
+            }
+            //  gear_block
+            if ((tagBlockName == "gear_block"))
+            {
+                return new GearBlock();
+            }
+            //  torque_curve_struct_block
+            if ((tagBlockName == "torque_curve_struct_block"))
+            {
+                return new TorqueCurveStructBlock();
+            }
+            //  havok_vehicle_physics_struct_block
+            if ((tagBlockName == "havok_vehicle_physics_struct_block"))
+            {
+                return new HavokVehiclePhysicsStructBlock();
+            }
+            //  anti_gravity_point_definition_block
+            if ((tagBlockName == "anti_gravity_point_definition_block"))
+            {
+                return new AntiGravityPointDefinitionBlock();
+            }
+            //  friction_point_definition_block
+            if ((tagBlockName == "friction_point_definition_block"))
+            {
+                return new FrictionPointDefinitionBlock();
+            }
+            //  vehicle_phantom_shape_block
+            if ((tagBlockName == "vehicle_phantom_shape_block"))
+            {
+                return new VehiclePhantomShapeBlock();
+            }
+            //  vehicle_collection_block
+            if ((tagBlockName == "vehicle_collection_block"))
+            {
+                return new VehicleCollectionBlock();
+            }
+            //  vehicle_permutation
+            if ((tagBlockName == "vehicle_permutation"))
+            {
+                return new VehiclePermutation();
+            }
+            //  vertex_shader_block
+            if ((tagBlockName == "vertex_shader_block"))
+            {
+                return new VertexShaderBlock();
+            }
+            //  vertex_shader_classification_block
+            if ((tagBlockName == "vertex_shader_classification_block"))
+            {
+                return new VertexShaderClassificationBlock();
+            }
+            //  weapon_block
+            if ((tagBlockName == "weapon_block"))
+            {
+                return new WeaponBlock();
+            }
+            //  melee_aim_assist_struct_block
+            if ((tagBlockName == "melee_aim_assist_struct_block"))
+            {
+                return new MeleeAimAssistStructBlock();
+            }
+            //  melee_damage_parameters_struct_block
+            if ((tagBlockName == "melee_damage_parameters_struct_block"))
+            {
+                return new MeleeDamageParametersStructBlock();
+            }
+            //  aim_assist_struct_block
+            if ((tagBlockName == "aim_assist_struct_block"))
+            {
+                return new AimAssistStructBlock();
+            }
+            //  weapon_tracking_struct_block
+            if ((tagBlockName == "weapon_tracking_struct_block"))
+            {
+                return new WeaponTrackingStructBlock();
+            }
+            //  weapon_interface_struct_block
+            if ((tagBlockName == "weapon_interface_struct_block"))
+            {
+                return new WeaponInterfaceStructBlock();
+            }
+            //  weapon_shared_interface_struct_block
+            if ((tagBlockName == "weapon_shared_interface_struct_block"))
+            {
+                return new WeaponSharedInterfaceStructBlock();
+            }
+            //  weapon_first_person_interface_block
+            if ((tagBlockName == "weapon_first_person_interface_block"))
+            {
+                return new WeaponFirstPersonInterfaceBlock();
+            }
+            //  magazines
+            if ((tagBlockName == "magazines"))
+            {
+                return new Magazines();
+            }
+            //  magazine_objects
+            if ((tagBlockName == "magazine_objects"))
+            {
+                return new MagazineObjects();
+            }
+            //  weapon_triggers
+            if ((tagBlockName == "weapon_triggers"))
+            {
+                return new WeaponTriggers();
+            }
+            //  weapon_trigger_autofire_struct_block
+            if ((tagBlockName == "weapon_trigger_autofire_struct_block"))
+            {
+                return new WeaponTriggerAutofireStructBlock();
+            }
+            //  weapon_trigger_charging_struct_block
+            if ((tagBlockName == "weapon_trigger_charging_struct_block"))
+            {
+                return new WeaponTriggerChargingStructBlock();
+            }
+            //  weapon_barrels
+            if ((tagBlockName == "weapon_barrels"))
+            {
+                return new WeaponBarrels();
+            }
+            //  weapon_barrel_damage_effect_struct_block
+            if ((tagBlockName == "weapon_barrel_damage_effect_struct_block"))
+            {
+                return new WeaponBarrelDamageEffectStructBlock();
+            }
+            //  barrel_firing_effect_block
+            if ((tagBlockName == "barrel_firing_effect_block"))
+            {
+                return new BarrelFiringEffectBlock();
+            }
+            //  weapon_hud_interface_block
+            if ((tagBlockName == "weapon_hud_interface_block"))
+            {
+                return new WeaponHudInterfaceBlock();
+            }
+            //  weapon_hud_static_block
+            if ((tagBlockName == "weapon_hud_static_block"))
+            {
+                return new WeaponHudStaticBlock();
+            }
+            //  weapon_hud_meter_block
+            if ((tagBlockName == "weapon_hud_meter_block"))
+            {
+                return new WeaponHudMeterBlock();
+            }
+            //  weapon_hud_number_block
+            if ((tagBlockName == "weapon_hud_number_block"))
+            {
+                return new WeaponHudNumberBlock();
+            }
+            //  weapon_hud_crosshair_block
+            if ((tagBlockName == "weapon_hud_crosshair_block"))
+            {
+                return new WeaponHudCrosshairBlock();
+            }
+            //  weapon_hud_crosshair_item_block
+            if ((tagBlockName == "weapon_hud_crosshair_item_block"))
+            {
+                return new WeaponHudCrosshairItemBlock();
+            }
+            //  weapon_hud_overlays_block
+            if ((tagBlockName == "weapon_hud_overlays_block"))
+            {
+                return new WeaponHudOverlaysBlock();
+            }
+            //  weapon_hud_overlay_block
+            if ((tagBlockName == "weapon_hud_overlay_block"))
+            {
+                return new WeaponHudOverlayBlock();
+            }
+            //  global_hud_screen_effect_definition
+            if ((tagBlockName == "global_hud_screen_effect_definition"))
+            {
+                return new GlobalHudScreenEffectDefinition();
+            }
+            //  weather_system_block
+            if ((tagBlockName == "weather_system_block"))
+            {
+                return new WeatherSystemBlock();
+            }
+            //  global_particle_system_lite_block
+            if ((tagBlockName == "global_particle_system_lite_block"))
+            {
+                return new GlobalParticleSystemLiteBlock();
+            }
+            //  particle_system_lite_data_block
+            if ((tagBlockName == "particle_system_lite_data_block"))
+            {
+                return new ParticleSystemLiteDataBlock();
+            }
+            //  particles_render_data_block
+            if ((tagBlockName == "particles_render_data_block"))
+            {
+                return new ParticlesRenderDataBlock();
+            }
+            //  particles_update_data_block
+            if ((tagBlockName == "particles_update_data_block"))
+            {
+                return new ParticlesUpdateDataBlock();
+            }
+            //  global_weather_background_plate_block
+            if ((tagBlockName == "global_weather_background_plate_block"))
+            {
+                return new GlobalWeatherBackgroundPlateBlock();
+            }
+            //  global_wind_model_struct_block
+            if ((tagBlockName == "global_wind_model_struct_block"))
+            {
+                return new GlobalWindModelStructBlock();
+            }
+            //  gloal_wind_primitives_block
+            if ((tagBlockName == "gloal_wind_primitives_block"))
+            {
+                return new GloalWindPrimitivesBlock();
+            }
+            //  wind_block
+            if ((tagBlockName == "wind_block"))
+            {
+                return new WindBlock();
+            }
+            return null;
+        }
     }
 }

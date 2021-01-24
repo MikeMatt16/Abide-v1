@@ -32,7 +32,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the shader_state_alpha_test_state_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

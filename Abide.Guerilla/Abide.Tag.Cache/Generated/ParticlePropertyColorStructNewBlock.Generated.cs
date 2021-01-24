@@ -33,7 +33,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the particle_property_color_struct_new_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

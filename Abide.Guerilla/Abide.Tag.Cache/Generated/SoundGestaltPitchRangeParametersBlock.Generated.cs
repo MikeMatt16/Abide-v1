@@ -32,7 +32,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the sound_gestalt_pitch_range_parameters_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -58,7 +58,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the boxes_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

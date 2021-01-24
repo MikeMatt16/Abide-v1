@@ -30,7 +30,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the global_map_leaf_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

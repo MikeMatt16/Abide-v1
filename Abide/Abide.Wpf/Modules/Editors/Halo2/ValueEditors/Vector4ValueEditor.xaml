@@ -1,9 +1,10 @@
-﻿<UserControl x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.Vector4ValueEditor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d">
+﻿<local:ValueEditorBase x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.Vector4ValueEditor"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
+                       mc:Ignorable="d">
     <Grid MinWidth="300">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -25,4 +26,4 @@
         <TextBlock Grid.Column="6" Text="w:" Margin="6,0,6,0" VerticalAlignment="Center"/>
         <TextBox Grid.Column="7" Text="{Binding ElementName=userControl, Path=W, Mode=TwoWay}"/>
     </Grid>
-</UserControl>
+</local:ValueEditorBase>

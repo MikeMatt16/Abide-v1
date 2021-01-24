@@ -1,17 +1,17 @@
-﻿<UserControl x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.FlagsValueEditor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             d:DesignWidth="300" d:DesignHeight="300">
+﻿<local:ValueEditorBase x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.FlagsValueEditor"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
+                       mc:Ignorable="d" MinWidth="300">
     <Border BorderThickness="1,1,0,1" Background="{StaticResource Background}"
             BorderBrush="{StaticResource BackgroundLight}">
         <ScrollViewer MinHeight="50" MaxHeight="200">
             <ItemsControl Margin="2" ItemsSource="{Binding ElementName=userControl, Path=Options}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Background="Transparent" ToolTip="{Binding BaseOption.Information}">
                             <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding BaseOption.Name}" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -20,4 +20,4 @@
             </ItemsControl>
         </ScrollViewer>
     </Border>
-</UserControl>
+</local:ValueEditorBase>

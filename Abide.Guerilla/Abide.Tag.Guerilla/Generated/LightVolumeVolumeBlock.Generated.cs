@@ -64,7 +64,7 @@ The output of this function is fed into the range-input of the functions above."
         /// <summary>
         /// Gets and returns the name of the light_volume_volume_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

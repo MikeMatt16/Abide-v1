@@ -237,6 +237,7 @@ namespace Abide.Wpf.Modules.UI
         public DataTemplate Vector2Editor { get; set; } = null;
         public DataTemplate Point2Editor { get; set; } = null;
         public DataTemplate Point3Editor { get; set; } = null;
+        public DataTemplate BlockIndexEditor { get; set; } = null;
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -320,18 +321,15 @@ namespace Abide.Wpf.Modules.UI
                         break;
                     case FieldType.FieldByteBlockFlags:
                         break;
+
                     case FieldType.FieldCharBlockIndex1:
-                        break;
                     case FieldType.FieldCharBlockIndex2:
-                        break;
                     case FieldType.FieldShortBlockIndex1:
-                        break;
                     case FieldType.FieldShortBlockIndex2:
-                        break;
                     case FieldType.FieldLongBlockIndex1:
-                        break;
                     case FieldType.FieldLongBlockIndex2:
-                        break;
+                        return BlockIndexEditor;
+
                     case FieldType.FieldVertexBuffer:
                         break;
                     case FieldType.FieldTagIndex:

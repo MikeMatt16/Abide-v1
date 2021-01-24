@@ -24,7 +24,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// </summary>
         public MouseCursorDefinitionBlock()
         {
-            this.Fields.Add(new ExplanationField("Mouse Cursor Bitmaps:", "0 - Normal mouse cursor\n1 - Busy mouse cursor\n2 - Hover mouse cursor\n3 - Text sel" +
+            this.Fields.Add(new ExplanationField("Mouse Cursor Bitmaps", "0 - Normal mouse cursor\n1 - Busy mouse cursor\n2 - Hover mouse cursor\n3 - Text sel" +
                         "ect mouse cursor\n"));
             this.Fields.Add(new BlockField<MouseCursorBitmapReferenceBlock>("mouse cursor bitmaps", 4));
             this.Fields.Add(new RealField("animation speed (fps)"));
@@ -32,7 +32,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the mouse_cursor_definition_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

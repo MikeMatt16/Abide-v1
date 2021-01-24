@@ -1,11 +1,10 @@
-﻿<UserControl x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.EnumValueEditor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
-             mc:Ignorable="d"
-             Focusable="False">
+﻿<local:ValueEditorBase x:Name="userControl" x:Class="Abide.Wpf.Modules.Editors.Halo2.ValueEditors.EnumValueEditor"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
+                       mc:Ignorable="d" MinWidth="300">
     <ComboBox ItemsSource="{Binding ElementName=userControl, Path=Options}"
               SelectedItem="{Binding ElementName=userControl, Path=SelectedOption, Mode=TwoWay}">
         <ComboBox.ItemTemplate>
@@ -14,4 +13,4 @@
             </DataTemplate>
         </ComboBox.ItemTemplate>
     </ComboBox>
-</UserControl>
+</local:ValueEditorBase>

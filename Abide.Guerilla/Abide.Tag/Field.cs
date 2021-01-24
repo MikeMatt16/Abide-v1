@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Abide.Tag
 {
@@ -16,54 +17,59 @@ namespace Abide.Tag
 
     public sealed class Option
     {
-        private readonly ObjectName name;
-        public string Name => name.Name ?? string.Empty;
-        public string Information => name.Information ?? string.Empty;
-        public string Details => name.Details ?? string.Empty;
-        public int Index { get; }
+        private readonly ObjectName objectName = new ObjectName(string.Empty);
+        private readonly Block blockReference;
+
+        public string Name => objectName.Name ?? string.Empty;
+        public string Information => objectName.Information ?? string.Empty;
+        public string Details => objectName.Details ?? string.Empty;
+        public int Index { get; set; }
         public Option(string name, int index)
         {
-            this.name = new ObjectName(name ?? string.Empty);
+            objectName = new ObjectName(name ?? string.Empty);
             Index = index;
+        }
+        public Option(Block block, int index)
+        {
+            blockReference = block ?? throw new ArgumentNullException(nameof(block));
+            Index = index;
+        }
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder($"{Index}:");
+            if (objectName != null)
+            {
+                builder.Append(' ');
+                builder.Append(objectName.Name);
+            }
+            else if (blockReference != null)
+            {
+                builder.Append(' ');
+                builder.Append(blockReference.DisplayName);
+            }
+
+            return builder.ToString();
         }
     }
 
-    public abstract class Field : ITagField, INotifyPropertyChanged
+    public abstract class Field : TagObject, ITagField
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private readonly ObjectName name;
         private object previousValue = null;
-        protected object FieldValue = null;
 
         public abstract int Size { get; }
         public FieldType Type { get; }
-        public string Name => name.Name ?? string.Empty;
+        public override string Name => name.Name ?? string.Empty;
         public string Information => name.Information ?? string.Empty;
         public string Details => name.Details ?? string.Empty;
         public bool IsReadOnly => name.IsReadOnly;
         public bool IsBlockName => name.IsBlockName;
         public object PreviousValue => previousValue;
         public long FieldAddress { get; private set; } = 0;
-        public Block Owner { get; internal set; } = null;
         public object Value
         {
-            get => FieldValue;
-            set
-            {
-                if (FieldValue == null)
-                {
-                    previousValue = FieldValue;
-                    FieldValue = value;
-                    NotifyPropertyChanged();
-                }
-                else if (!FieldValue.Equals(value))
-                {
-                    previousValue = FieldValue;
-                    FieldValue = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            get => GetProperty();
+            set => SetProperty(value);
         }
 
         protected Field(FieldType type, string name)
@@ -75,7 +81,7 @@ namespace Abide.Tag
         }
         public override string ToString()
         {
-            return $"{Name} = {FieldValue}";
+            return $"{Name} = {Value}";
         }
         public void Read(BinaryReader reader)
         {
@@ -103,22 +109,21 @@ namespace Abide.Tag
         }
         public virtual object GetValue()
         {
-            return FieldValue;
+            return Value;
+        }
+        public virtual string GetValueString()
+        {
+            return Value?.ToString() ?? string.Empty;
         }
         public virtual bool SetValue(object value)
         {
-            FieldValue = value;
+            Value = value;
             return true;
         }
         protected virtual void OnRead(BinaryReader reader) { }
         protected virtual void OnWrite(BinaryWriter writer) { }
         protected virtual void OnPostWrite(BinaryWriter writer) { }
         protected virtual void OnOverwrite(BinaryWriter writer) { }
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            string name = propertyName ?? string.Empty;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 
     public sealed class ExplanationField : Field
@@ -138,10 +143,6 @@ namespace Abide.Tag
     public sealed class StringField : Field
     {
         public override int Size => 32;
-        public StringField(string name) : base(FieldType.FieldString, name)
-        {
-            Value = new String32();
-        }
         public String32 String
         {
             get => (String32)Value;
@@ -149,22 +150,27 @@ namespace Abide.Tag
             {
                 if (Value is String32 str)
                 {
-                    if (str != value)
+                    if (str.String == value.String)
                     {
-                        Value = value;
-                        NotifyPropertyChanged();
+                        return;
                     }
                 }
+
+                Value = value;
+                NotifyPropertyChanged();
             }
+        }
+        public StringField(string name) : base(FieldType.FieldString, name)
+        {
+            String = new String32();
         }
         protected override void OnRead(BinaryReader reader)
         {
-            base.OnRead(reader);
-            Value = reader.Read<String32>();
+            String = reader.Read<String32>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(String);
         }
     }
 
@@ -174,30 +180,31 @@ namespace Abide.Tag
         public String256 String
         {
             get => (String256)Value;
-            set 
+            set
             {
                 if (Value is String256 str)
                 {
-                    if (str != value)
+                    if (str.String == value.String)
                     {
-                        Value = value;
-                        NotifyPropertyChanged();
+                        return;
                     }
                 }
+
+                Value = value;
+                NotifyPropertyChanged();
             }
         }
         public LongStringField(string name) : base(FieldType.FieldLongString, name)
         {
-            Value = new String256();
+            String = new String256();
         }
         protected override void OnRead(BinaryReader reader)
         {
-            base.OnRead(reader);
-            Value = reader.Read<String256>();
+            String = reader.Read<String256>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(String);
         }
     }
 
@@ -209,9 +216,9 @@ namespace Abide.Tag
             get => (Block)Value;
             set
             {
-                if (FieldValue != value)
+                if (Value != value)
                 {
-                    FieldValue = value;
+                    Value = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -222,7 +229,7 @@ namespace Abide.Tag
 
             if (Block != null)
             {
-                Block.FieldOwner = this;
+                Block.Owner = this;
             }
         }
         protected override void OnRead(BinaryReader reader)
@@ -261,10 +268,16 @@ namespace Abide.Tag
                 NotifyPropertyChanged();
             }
         }
+        public Block SelectedBlock
+        {
+            get => GetProperty() as Block;
+            set => SetProperty(value);
+        }
         protected BlockField(string name, int maximumElementCount) : base(FieldType.FieldBlock, name)
         {
             Value = TagBlock.Zero;
             BlockList = new BlockList(maximumElementCount);
+            SelectedBlock = null;
         }
         protected sealed override void OnRead(BinaryReader reader)
         {
@@ -282,7 +295,7 @@ namespace Abide.Tag
                     if (Add(out Block block))
                     {
                         block.Read(reader);
-                        block.FieldOwner = this;
+                        block.Owner = this;
                     }
                 }
 
@@ -398,10 +411,6 @@ namespace Abide.Tag
             for (int i = 0; i < options.Length; i++)
                 Options.Add(new Option(options[i], i));
         }
-        public string[] GetOptions()
-        {
-            return Options.Select(o => o.Name).ToArray();
-        }
     }
 
     public abstract class BaseFlagsField : OptionField
@@ -417,8 +426,127 @@ namespace Abide.Tag
 
     public abstract class BaseEnumField : OptionField
     {
-        public abstract Option Option { get; set; }
+        public abstract Option SelectedOption { get; set; }
         protected BaseEnumField(FieldType type, string name, params string[] options) : base(type, name, options) { }
+        public override string GetValueString()
+        {
+            if (SelectedOption != null)
+            {
+                return SelectedOption.Name;
+            }
+
+            return base.ToString();
+        }
+    }
+
+    public abstract class BaseBlockIndexField : BaseEnumField
+    {
+        public string Instructions
+        {
+            get => GetProperty<string>();
+            set => SetProperty(value);
+        }
+        protected BaseBlockIndexField(FieldType type, string name) : base(type, name)
+        {
+            Instructions = string.Empty;
+        }
+        protected override void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Instructions))
+            {
+                OnInstructionsPropertyChanged(e);
+            }
+
+            base.OnNotifyPropertyChanged(e);
+        }
+        protected virtual void OnInstructionsPropertyChanged(PropertyChangedEventArgs e)
+        {
+            TagObject obj = this;
+            var ex = new FormatException();
+            using (StringReader reader = new StringReader(Instructions ?? string.Empty))
+            {
+                string token;
+                while (reader.Peek() != -1)
+                {
+                    token = ReadToken(reader);
+
+                    switch (token.ToUpper())
+                    {
+                        case "U":
+                            if (obj.Owner != null)
+                            {
+                                obj = obj.Owner;
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                            break;
+
+                        case "F":
+                            if (reader.Peek() != -1)
+                            {
+                                var indexToken = ReadToken(reader);
+                                if (int.TryParse(indexToken, out int i) && obj is Block)
+                                {
+                                    obj = ((Block)obj).Fields[i];
+                                }
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                            break;
+
+                        case "BL":
+                            if (obj is BlockField blockField)
+                            {
+                                for (int j = 0; j < blockField.BlockList.Count; j++)
+                                {
+                                    var block = blockField.BlockList[j];
+                                    Options.Add(new Option(block, j));
+                                }
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                            break;
+
+                        default:
+                            throw ex;
+                    }
+                }
+            }
+        }
+
+        private string ReadToken(TextReader reader)
+        {
+            StringBuilder tokenBuilder = new StringBuilder();
+
+            SkipWhitespace(reader);
+            while (reader.Peek() != -1)
+            {
+                char peekChar = (char)reader.Peek();
+                if (!char.IsWhiteSpace(peekChar))
+                {
+                    tokenBuilder.Append((char)reader.Read());
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return tokenBuilder.ToString();
+        }
+        private void SkipWhitespace(TextReader reader)
+        {
+            while (reader.Peek() != -1 && char.IsWhiteSpace((char)reader.Peek()))
+            {
+                _ = reader.Read();
+            }
+        }
     }
 
     public abstract class NumberField<T> : Field where T : struct, IComparable, IComparable<T>, IEquatable<T>
@@ -573,7 +701,7 @@ namespace Abide.Tag
     public sealed class CharEnumField : BaseEnumField
     {
         public override int Size => 1;
-        public override Option Option
+        public override Option SelectedOption
         {
             get => Options[SelectedIndex];
             set
@@ -623,7 +751,7 @@ namespace Abide.Tag
     public sealed class EnumField : BaseEnumField
     {
         public override int Size => 2;
-        public override Option Option
+        public override Option SelectedOption
         {
             get => Options[SelectedIndex];
             set
@@ -673,7 +801,7 @@ namespace Abide.Tag
     public sealed class LongEnumField : BaseEnumField
     {
         public override int Size => 4;
-        public override Option Option
+        public override Option SelectedOption
         {
             get => Options[SelectedIndex];
             set
@@ -935,10 +1063,22 @@ namespace Abide.Tag
     public sealed class Rectangle2dField : Field
     {
         public override int Size => 8;
-        public Rectangle2 Value
+        public Rectangle2 Rectangle
         {
-            get => (Rectangle2)FieldValue;
-            set => FieldValue = value;
+            get => (Rectangle2)Value;
+            set
+            {
+                if (Value is Rectangle2 rectangle)
+                {
+                    if (rectangle.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public Rectangle2dField(string name) : base(FieldType.FieldRectangle2D, name)
         {
@@ -1078,15 +1218,15 @@ namespace Abide.Tag
         }
         public RealPoint3dField(string name) : base(FieldType.FieldRealPoint3D, name)
         {
-            Value = Point3F.Zero;
+            Point = Point3F.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Point3F>();
+            Point = reader.Read<Point3F>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Point);
         }
     }
 
@@ -1095,20 +1235,32 @@ namespace Abide.Tag
         public override int Size => 8;
         public Vector2 Vector
         {
-            get => (Vector2)FieldValue;
-            set => FieldValue = value;
+            get => (Vector2)Value;
+            set
+            {
+                if (Value is Vector2 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealVector2dField(string name) : base(FieldType.FieldRealVector2D, name)
         {
-            Value = Vector2.Zero;
+            Vector = Vector2.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector2>();
+            Vector = reader.Read<Vector2>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1117,20 +1269,32 @@ namespace Abide.Tag
         public override int Size => 12;
         public Vector3 Vector
         {
-            get => (Vector3)FieldValue;
-            set => FieldValue = value;
+            get => (Vector3)Value;
+            set
+            {
+                if (Value is Vector3 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealVector3dField(string name) : base(FieldType.FieldRealVector3D, name)
         {
-            Value = Vector3.Zero;
+            Vector = Vector3.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector3>();
+            Vector = reader.Read<Vector3>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1139,20 +1303,32 @@ namespace Abide.Tag
         public override int Size => 16;
         public Quaternion Quaternion
         {
-            get => (Quaternion)FieldValue;
-            set => FieldValue = value;
+            get => (Quaternion)Value;
+            set
+            {
+                if (Value is Quaternion quaternion)
+                {
+                    if (quaternion.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public QuaternionField(string name) : base(FieldType.FieldQuaternion, name)
         {
-            Value = Quaternion.Zero;
+            Quaternion = Quaternion.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Quaternion>();
+            Quaternion = reader.Read<Quaternion>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Quaternion);
         }
     }
 
@@ -1161,20 +1337,32 @@ namespace Abide.Tag
         public override int Size => 8;
         public Vector2 Vector
         {
-            get => (Vector2)FieldValue;
-            set => FieldValue = value;
+            get => (Vector2)Value;
+            set
+            {
+                if (Value is Vector2 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public EulerAngles2dField(string name) : base(FieldType.FieldEulerAngles2D, name)
         {
-            Value = Vector2.Zero;
+            Vector = Vector2.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector2>();
+            Vector = reader.Read<Vector2>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1183,20 +1371,32 @@ namespace Abide.Tag
         public override int Size => 12;
         public Vector3 Vector
         {
-            get => (Vector3)FieldValue;
-            set => FieldValue = value;
+            get => (Vector3)Value;
+            set
+            {
+                if (Value is Vector3 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public EulerAngles3dField(string name) : base(FieldType.FieldEulerAngles3D, name)
         {
-            Value = Vector3.Zero;
+            Vector = Vector3.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector3>();
+            Vector = reader.Read<Vector3>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1205,20 +1405,32 @@ namespace Abide.Tag
         public override int Size => 12;
         public Vector3 Vector
         {
-            get => (Vector3)FieldValue;
-            set => FieldValue = value;
+            get => (Vector3)Value;
+            set
+            {
+                if (Value is Vector3 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealPlane2dField(string name) : base(FieldType.FieldRealPlane2D, name)
         {
-            Value = Vector3.Zero;
+            Vector = Vector3.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector3>();
+            Vector = reader.Read<Vector3>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1227,20 +1439,32 @@ namespace Abide.Tag
         public override int Size => 16;
         public Vector4 Vector
         {
-            get => (Vector4)FieldValue;
-            set => FieldValue = value;
+            get => (Vector4)Value;
+            set
+            {
+                if (Value is Vector4 vector)
+                {
+                    if (vector.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealPlane3dField(string name) : base(FieldType.FieldRealPlane3D, name)
         {
-            Value = Vector4.Zero;
+            Vector = Vector4.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<Vector4>();
+            Vector = reader.Read<Vector4>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Vector);
         }
     }
 
@@ -1249,20 +1473,32 @@ namespace Abide.Tag
         public override int Size => 12;
         public ColorRgbF Color
         {
-            get => (ColorRgbF)FieldValue;
-            set => FieldValue = value;
+            get => (ColorRgbF)Value;
+            set
+            {
+                if (Value is ColorRgbF color)
+                {
+                    if (color.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealRgbColorField(string name) : base(FieldType.FieldRealRgbColor, name)
         {
-            Value = ColorRgbF.Zero;
+            Color = ColorRgbF.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<ColorRgbF>();
+            Color = reader.Read<ColorRgbF>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Color);
         }
     }
 
@@ -1271,20 +1507,32 @@ namespace Abide.Tag
         public override int Size => 16;
         public ColorArgbF Color
         {
-            get => (ColorArgbF)FieldValue;
-            set => FieldValue = value;
+            get => (ColorArgbF)Value;
+            set
+            {
+                if (Value is ColorArgbF color)
+                {
+                    if (color.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealArgbColorField(string name) : base(FieldType.FieldRealArgbColor, name)
         {
-            Value = ColorArgbF.Zero;
+            Color = ColorArgbF.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.Read<ColorArgbF>();
+            Color = reader.Read<ColorArgbF>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Color);
         }
     }
 
@@ -1293,8 +1541,20 @@ namespace Abide.Tag
         public override int Size => 12;
         public ColorHsv Color
         {
-            get => (ColorHsv)FieldValue;
-            set => FieldValue = value;
+            get => (ColorHsv)Value;
+            set
+            {
+                if (Value is ColorHsv color)
+                {
+                    if (color.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealHsvColorField(string name) : base(FieldType.FieldRealHsvColor, name)
         {
@@ -1315,8 +1575,20 @@ namespace Abide.Tag
         public override int Size => 16;
         public ColorAhsv Color
         {
-            get => (ColorAhsv)FieldValue;
-            set => FieldValue = value;
+            get => (ColorAhsv)Value;
+            set
+            {
+                if (Value is ColorAhsv color)
+                {
+                    if (color.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public RealAhsvColorField(string name) : base(FieldType.FieldRealAhsvColor, name)
         {
@@ -1366,9 +1638,9 @@ namespace Abide.Tag
         }
     }
 
-    public sealed class AngleBoundsField : Field
+    public abstract class FloatBoundsField : Field
     {
-        public override int Size => 8;
+        public sealed override int Size => 8;
         public FloatBounds Bounds
         {
             get => (FloatBounds)Value;
@@ -1386,98 +1658,53 @@ namespace Abide.Tag
                 NotifyPropertyChanged();
             }
         }
+        protected FloatBoundsField(FieldType type, string name) : base(type, name)
+        {
+            Value = FloatBounds.Zero;
+        }
+        protected sealed override void OnRead(BinaryReader reader)
+        {
+            Value = reader.Read<FloatBounds>();
+        }
+        protected sealed override void OnWrite(BinaryWriter writer)
+        {
+            writer.Write(Value);
+        }
+    }
+
+    public sealed class AngleBoundsField : FloatBoundsField
+    {
         public AngleBoundsField(string name) : base(FieldType.FieldAngleBounds, name)
         {
             Value = FloatBounds.Zero;
         }
-        protected override void OnRead(BinaryReader reader)
-        {
-            Value = reader.Read<FloatBounds>();
-        }
-        protected override void OnWrite(BinaryWriter writer)
-        {
-            writer.Write(Value);
-        }
     }
 
-    public sealed class RealBoundsField : Field
+    public sealed class RealBoundsField : FloatBoundsField
     {
-        public override int Size => 8;
-        public FloatBounds Bounds
-        {
-            get => (FloatBounds)Value;
-            set
-            {
-                if (Value is FloatBounds bounds)
-                {
-                    if (bounds.Equals(value))
-                    {
-                        return;
-                    }
-                }
-
-                Value = value;
-                NotifyPropertyChanged();
-            }
-        }
         public RealBoundsField(string name) : base(FieldType.FieldRealBounds, name)
         {
             Value = FloatBounds.Zero;
         }
-        protected override void OnRead(BinaryReader reader)
-        {
-            Value = reader.Read<FloatBounds>();
-        }
-        protected override void OnWrite(BinaryWriter writer)
-        {
-            writer.Write(Value);
-        }
     }
 
-    public sealed class RealFractionBoundsField : Field
+    public sealed class RealFractionBoundsField : FloatBoundsField
     {
-        public override int Size => 8;
-        public FloatBounds Bounds
-        {
-            get => (FloatBounds)Value;
-            set
-            {
-                if (Value is FloatBounds bounds)
-                {
-                    if (bounds.Equals(value))
-                    {
-                        return;
-                    }
-                }
-
-                Value = value;
-                NotifyPropertyChanged();
-            }
-        }
         public RealFractionBoundsField(string name) : base(FieldType.FieldRealFractionBounds, name)
         {
             Value = FloatBounds.Zero;
         }
-        protected override void OnRead(BinaryReader reader)
-        {
-            Value = reader.Read<FloatBounds>();
-        }
-        protected override void OnWrite(BinaryWriter writer)
-        {
-            writer.Write(Value);
-        }
     }
 
-    public sealed class CharBlockIndexField : Field
+    public sealed class CharBlockIndexField : BaseBlockIndexField
     {
         public override int Size => 1;
-        public BlockSearchProcedure<byte> SearchProcedure { get; set; }
-        public byte SelectedIndex
+        public sbyte BlockIndex
         {
-            get => (byte)Value;
+            get => (sbyte)Value;
             set
             {
-                if (Value is byte i)
+                if (Value is sbyte i)
                 {
                     if (i.Equals(value))
                     {
@@ -1489,24 +1716,39 @@ namespace Abide.Tag
                 NotifyPropertyChanged();
             }
         }
+        public override Option SelectedOption
+        {
+            get => Options.ElementAtOrDefault(BlockIndex + 1);
+            set
+            {
+                if (Options.Contains(value))
+                {
+                    int index = Options.IndexOf(value);
+                    BlockIndex = (sbyte)index;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public BlockSearchProcedure<short> SearchProcedure { get; set; }
         public CharBlockIndexField(string name) : base(FieldType.FieldCharBlockIndex1, name)
         {
-            Value = byte.MaxValue;
+            BlockIndex = -1;
+            Options.Add(new Option("Null", -1));
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.ReadByte();
+            BlockIndex = reader.ReadSByte();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(BlockIndex);
         }
     }
 
-    public sealed class ShortBlockIndexField : Field
+    public sealed class ShortBlockIndexField : BaseBlockIndexField
     {
         public override int Size => 2;
-        public short SelectedIndex
+        public short BlockIndex
         {
             get => (short)Value;
             set
@@ -1523,25 +1765,39 @@ namespace Abide.Tag
                 NotifyPropertyChanged();
             }
         }
+        public override Option SelectedOption
+        {
+            get => Options.ElementAtOrDefault(BlockIndex + 1);
+            set
+            {
+                if (Options.Contains(value))
+                {
+                    int index = Options.IndexOf(value);
+                    BlockIndex = (short)index;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public BlockSearchProcedure<short> SearchProcedure { get; set; }
         public ShortBlockIndexField(string name) : base(FieldType.FieldShortBlockIndex1, name)
         {
-            Value = -1;
+            BlockIndex = -1;
+            Options.Add(new Option("Null", -1));
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.ReadInt16();
+            BlockIndex = reader.ReadInt16();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(BlockIndex);
         }
     }
 
-    public sealed class LongBlockIndexField : Field
+    public sealed class LongBlockIndexField : BaseBlockIndexField
     {
         public override int Size => 4;
-        public int SelectedIndex
+        public int BlockIndex
         {
             get => (int)Value;
             set
@@ -1558,18 +1814,32 @@ namespace Abide.Tag
                 NotifyPropertyChanged();
             }
         }
-        public BlockSearchProcedure<int> SearchProcedure { get; set; }
+        public override Option SelectedOption
+        {
+            get => Options.ElementAtOrDefault(BlockIndex + 1);
+            set
+            {
+                if (Options.Contains(value))
+                {
+                    int index = Options.IndexOf(value);
+                    BlockIndex = (int)index;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public BlockSearchProcedure<short> SearchProcedure { get; set; }
         public LongBlockIndexField(string name) : base(FieldType.FieldLongBlockIndex1, name)
         {
-            Value = -1;
+            BlockIndex = -1;
+            Options.Add(new Option("Null", -1));
         }
         protected override void OnRead(BinaryReader reader)
         {
-            Value = reader.ReadInt32();
+            BlockIndex = reader.ReadInt32();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(BlockIndex);
         }
     }
 
@@ -1582,29 +1852,41 @@ namespace Abide.Tag
         public int Alignment { get; }
         public int ElementSize { get; }
         public long DataAddress { get; private set; }
-        public new TagBlock Value
+        public TagBlock Handle
         {
-            get => (TagBlock)FieldValue;
-            set => FieldValue = value;
+            get => (TagBlock)Value;
+            set
+            {
+                if (Value is TagBlock tagBlock)
+                {
+                    if (tagBlock.Equals(value))
+                    {
+                        return;
+                    }
+                }
+
+                Value = value;
+                NotifyPropertyChanged();
+            }
         }
         public DataField(string name, int elementSize, int alignment = 4) : base(FieldType.FieldData, name)
         {
             ElementSize = elementSize;
             Alignment = alignment;
-            Value = TagBlock.Zero;
+            Handle = TagBlock.Zero;
         }
         protected override void OnRead(BinaryReader reader)
         {
             buffer = new byte[0];
             Value = reader.Read<TagBlock>();
 
-            if (Value.Count > 0)
+            if (Handle.Count > 0)
             {
-                if (Value.Offset == 0) System.Diagnostics.Debugger.Break();
+                if (Handle.Offset == 0) System.Diagnostics.Debugger.Break();
 
                 long pos = reader.BaseStream.Position;
-                reader.BaseStream.Seek(Value.Offset, SeekOrigin.Begin);
-                buffer = reader.ReadBytes((int)(ElementSize * Value.Count));
+                reader.BaseStream.Seek(Handle.Offset, SeekOrigin.Begin);
+                buffer = reader.ReadBytes((int)(ElementSize * Handle.Count));
                 reader.BaseStream.Position = pos;
             }
         }
@@ -1625,6 +1907,7 @@ namespace Abide.Tag
                 writer.Write(buffer);
             }
 
+            Handle = tagBlock;
             long pos = writer.BaseStream.Position;
             writer.BaseStream.Position = FieldAddress;
             writer.Write(tagBlock);
@@ -1635,7 +1918,7 @@ namespace Abide.Tag
         {
             if (BufferLength > 0)
             {
-                writer.BaseStream.Seek(Value.Offset, SeekOrigin.Begin);
+                writer.BaseStream.Seek(Handle.Offset, SeekOrigin.Begin);
                 writer.Write(buffer);
             }
         }
@@ -1654,15 +1937,15 @@ namespace Abide.Tag
         public override int Size => 32;
         public VertexBufferField(string name) : base(FieldType.FieldVertexBuffer, name)
         {
-            FieldValue = new VertexBuffer();
+            Value = new VertexBuffer();
         }
         protected override void OnRead(BinaryReader reader)
         {
-            FieldValue = reader.Read<VertexBuffer>();
+            Value = reader.Read<VertexBuffer>();
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(FieldValue);
+            writer.Write<VertexBuffer>(Value);
         }
     }
 
@@ -1670,10 +1953,9 @@ namespace Abide.Tag
     {
         public override int Size => Length;
         public int Length { get; }
-        public byte[] Value
+        public byte[] Data
         {
-            get => (byte[])FieldValue;
-            set => FieldValue = value;
+            get => (byte[])Value;
         }
         public PadField(string name, int length) : base(FieldType.FieldPad, name)
         {
@@ -1690,7 +1972,7 @@ namespace Abide.Tag
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Data);
         }
     }
 
@@ -1698,10 +1980,9 @@ namespace Abide.Tag
     {
         public override int Size => Length;
         public int Length { get; }
-        public byte[] Value
+        public byte[] Data
         {
-            get => (byte[])FieldValue;
-            set => FieldValue = value;
+            get => (byte[])Value;
         }
         public SkipField(string name, int length) : base(FieldType.FieldSkip, name)
         {
@@ -1718,7 +1999,7 @@ namespace Abide.Tag
         }
         protected override void OnWrite(BinaryWriter writer)
         {
-            writer.Write(Value);
+            writer.Write(Data);
         }
     }
 

@@ -19,34 +19,17 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
     /// <summary>
     /// Interaction logic for ColorValueEditor.xaml
     /// </summary>
-    public partial class ColorValueEditor : UserControl
+    public partial class ColorValueEditor : ValueEditorBase
     {
-        public static readonly DependencyProperty FieldProperty =
-            DependencyProperty.Register(nameof(Field), typeof(Field), typeof(ColorValueEditor), new PropertyMetadata(FieldPropertyChanged));
-
-        public Field Field
-        {
-            get => (Field)GetValue(FieldProperty);
-            set => SetValue(FieldProperty, value);
-        }
-
         public ColorValueEditor()
         {
             InitializeComponent();
         }
-
-        private static void FieldPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected override void OnFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (d is ColorValueEditor editor)
+            switch (e.NewValue)
             {
-                if (e.NewValue is Field field)
-                {
-                    // todo implement
-                    switch (editor.Field.Type)
-                    {
-
-                    }
-                }
+                // todo add cases for color fields (e.g. ColorRgbField)
             }
         }
     }

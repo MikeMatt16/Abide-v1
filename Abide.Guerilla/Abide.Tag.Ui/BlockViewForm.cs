@@ -46,7 +46,7 @@ namespace Abide.Tag.Ui
             if (m_TagGroup != null)
             {
                 //Setup
-                Text = m_TagGroup.GroupName;
+                Text = m_TagGroup.Name;
 
                 //Read
                 using (var reader = m_Entry.TagData.CreateReader())

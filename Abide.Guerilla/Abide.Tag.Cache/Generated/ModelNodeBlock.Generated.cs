@@ -40,7 +40,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the model_node_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

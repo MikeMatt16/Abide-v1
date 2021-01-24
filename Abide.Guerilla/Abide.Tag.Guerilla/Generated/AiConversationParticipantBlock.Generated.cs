@@ -37,7 +37,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the ai_conversation_participant_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

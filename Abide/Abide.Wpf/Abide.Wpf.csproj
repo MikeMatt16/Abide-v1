@@ -84,6 +84,9 @@
     <Compile Include="Modules\Editors\Halo2\ValueEditors\BasicValueEditor.xaml.cs">
       <DependentUpon>BasicValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\BlockIndexValueEditor.xaml.cs">
+      <DependentUpon>BlockIndexValueEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Editors\Halo2\ValueEditors\BoundsValueEditor.xaml.cs">
       <DependentUpon>BoundsValueEditor.xaml</DependentUpon>
     </Compile>
@@ -105,6 +108,7 @@
     <Compile Include="Modules\Editors\Halo2\ValueEditors\TagReferenceValueEditor.xaml.cs">
       <DependentUpon>TagReferenceValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Editors\Halo2\ValueEditors\ValueEditorBase.cs" />
     <Compile Include="Modules\Editors\Halo2\ValueEditors\Vector2ValueEditor.xaml.cs">
       <DependentUpon>Vector2ValueEditor.xaml</DependentUpon>
     </Compile>
@@ -227,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Editors\Halo2\ValueEditors\BasicValueEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Editors\Halo2\ValueEditors\BlockIndexValueEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

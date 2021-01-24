@@ -25,23 +25,18 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
     /// <summary>
     /// Interaction logic for TagReferenceEditor.xaml
     /// </summary>
-    public partial class TagReferenceValueEditor : UserControl
+    public partial class TagReferenceValueEditor : ValueEditorBase
     {
         private static readonly DependencyPropertyKey IsInvalidPropertyKey =
             DependencyProperty.RegisterReadOnly(nameof(IsInvalid), typeof(bool), typeof(TagReferenceValueEditor), new PropertyMetadata(false));
         private static string TagsDirectory => Path.Combine(RegistrySettings.WorkspaceDirectory, "tags");
 
-        public static readonly DependencyProperty FieldProperty =
-            DependencyProperty.Register(nameof(Field), typeof(TagReferenceField), typeof(TagReferenceValueEditor), new PropertyMetadata(FieldPropertyChanged));
         public static readonly DependencyProperty FilePathProperty =
             DependencyProperty.Register(nameof(FilePath), typeof(string), typeof(TagReferenceValueEditor), new PropertyMetadata(FilePathPropertyChanged));
         public static readonly DependencyProperty IsInvalidProperty = IsInvalidPropertyKey.DependencyProperty;
 
-        public TagReferenceField Field
-        {
-            get => (TagReferenceField)GetValue(FieldProperty);
-            set => SetValue(FieldProperty, value);
-        }
+        private TagReferenceField referenceField;
+
         public string FilePath
         {
             get => (string)GetValue(FilePathProperty);
@@ -78,29 +73,27 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
                 }
             }
         }
-        private static void FieldPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected override void OnFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (d is TagReferenceValueEditor editor)
+            if (e.NewValue is TagReferenceField field)
             {
-                if (e.NewValue is TagReferenceField field)
+                referenceField = field;
+                string filePath = Path.Combine(TagsDirectory, field.String);
+                if (File.Exists(filePath))
                 {
-                    string filePath = Path.Combine(TagsDirectory, field.String);
-                    if (File.Exists(filePath))
-                    {
-                        editor.FilePath = filePath;
-                    }
+                    FilePath = filePath;
                 }
             }
         }
         private static void FilePathPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TagReferenceValueEditor editor)
+            if (d is TagReferenceValueEditor editor && editor.PropogateChanges)
             {
                 if (e.NewValue is string filePath)
                 {
                     if (File.Exists(filePath) && filePath.StartsWith(TagsDirectory))
                     {
-                        editor.Field.String = filePath.Substring(TagsDirectory.Length + 1);
+                        editor.referenceField.String = filePath.Substring(TagsDirectory.Length + 1);
                     }
 
                     if (File.Exists(filePath) || string.IsNullOrEmpty(filePath))

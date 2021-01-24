@@ -47,7 +47,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the scenario_ai_resource_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

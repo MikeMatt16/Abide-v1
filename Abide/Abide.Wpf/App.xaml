@@ -91,6 +91,9 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ActiveAccent}"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource ForegroundDisabled}"/>
+                            </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource ActiveAccentPressed}"/>
                             </Trigger>

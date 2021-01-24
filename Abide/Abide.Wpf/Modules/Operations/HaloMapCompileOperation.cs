@@ -790,7 +790,7 @@ namespace Abide.Wpf.Modules.Operations
             foreach (var tagBlock in tag.File.TagGroup.TagBlocks)
             {
                 IEnumerable<Tag> resources;
-                switch (tagBlock.BlockName)
+                switch (tagBlock.Name)
                 {
                     case "object_block":
                         var predictedResources = (BlockField)tagBlock.Fields[37];
@@ -1031,7 +1031,7 @@ namespace Abide.Wpf.Modules.Operations
 
             //Process tag
             tag.File.TagGroup = new MultilingualUnicodeStringList();
-            byte[] padding = ((PadField)tag.File.TagGroup.TagBlocks[0].Fields[2]).Value;
+            byte[] padding = ((PadField)tag.File.TagGroup.TagBlocks[0].Fields[2]).Data;
             using (MemoryStream ms = new MemoryStream(padding))
             using (BinaryWriter writer = new BinaryWriter(ms))
             {
@@ -1436,7 +1436,7 @@ namespace Abide.Wpf.Modules.Operations
                             PadField pf2 = (PadField)f2;
                             for (int j = 0; j < pf1.Length; j++)
                             {
-                                if (pf1.Value[j] != pf2.Value[j])
+                                if (pf1.Data[j] != pf2.Data[j])
                                 {
                                     return false;
                                 }
@@ -1448,7 +1448,7 @@ namespace Abide.Wpf.Modules.Operations
                             SkipField sf2 = (SkipField)f2;
                             for (int j = 0; j < sf1.Length; j++)
                             {
-                                if (sf1.Value[j] != sf2.Value[j])
+                                if (sf1.Data[j] != sf2.Data[j])
                                 {
                                     return false;
                                 }
@@ -1697,34 +1697,34 @@ namespace Abide.Wpf.Modules.Operations
                 SkipField sizesSkip = (SkipField)bitmapData.Fields[14];
                 byte[] data, length;
 
-                long offset = BitConverter.ToUInt32(offsetsSkip.Value, 0);
+                long offset = BitConverter.ToUInt32(offsetsSkip.Data, 0);
                 var resource = tagGroupFile.GetResource(offset);
                 if (resource.Length > 0)
                 {
                     data = BitConverter.GetBytes((int)stream.Align(512, 0));
                     length = BitConverter.GetBytes(resource.Length);
-                    Array.Copy(data, 0, offsetsSkip.Value, 0, 4);
-                    Array.Copy(length, 0, sizesSkip.Value, 0, 4);
+                    Array.Copy(data, 0, offsetsSkip.Data, 0, 4);
+                    Array.Copy(length, 0, sizesSkip.Data, 0, 4);
                     stream.Write(resource, 0, resource.Length);
                 }
-                offset = BitConverter.ToUInt32(offsetsSkip.Value, 4);
+                offset = BitConverter.ToUInt32(offsetsSkip.Data, 4);
                 resource = tagGroupFile.GetResource(offset);
                 if (resource.Length > 0)
                 {
                     data = BitConverter.GetBytes((int)stream.Align(512, 0));
                     length = BitConverter.GetBytes(resource.Length);
-                    Array.Copy(data, 0, offsetsSkip.Value, 4, 4);
-                    Array.Copy(length, 0, sizesSkip.Value, 4, 4);
+                    Array.Copy(data, 0, offsetsSkip.Data, 4, 4);
+                    Array.Copy(length, 0, sizesSkip.Data, 4, 4);
                     stream.Write(resource, 0, resource.Length);
                 }
-                offset = BitConverter.ToUInt32(offsetsSkip.Value, 8);
+                offset = BitConverter.ToUInt32(offsetsSkip.Data, 8);
                 resource = tagGroupFile.GetResource(offset);
                 if (resource.Length > 0)
                 {
                     data = BitConverter.GetBytes((int)stream.Align(512, 0));
                     length = BitConverter.GetBytes(resource.Length);
-                    Array.Copy(data, 0, offsetsSkip.Value, 8, 4);
-                    Array.Copy(length, 0, sizesSkip.Value, 8, 4);
+                    Array.Copy(data, 0, offsetsSkip.Data, 8, 4);
+                    Array.Copy(length, 0, sizesSkip.Data, 8, 4);
                     stream.Write(resource, 0, resource.Length);
                 }
             }

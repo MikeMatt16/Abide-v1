@@ -46,7 +46,7 @@ In the above equations C and A represent the color and alpha of the screen flash
         /// <summary>
         /// Gets and returns the name of the damage_effect_player_response_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

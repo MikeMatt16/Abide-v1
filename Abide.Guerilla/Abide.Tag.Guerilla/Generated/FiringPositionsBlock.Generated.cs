@@ -37,7 +37,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the firing_positions_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

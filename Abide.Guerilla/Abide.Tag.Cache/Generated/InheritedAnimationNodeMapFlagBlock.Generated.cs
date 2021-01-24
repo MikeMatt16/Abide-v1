@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the inherited_animation_node_map_flag_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

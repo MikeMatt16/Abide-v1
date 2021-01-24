@@ -7,11 +7,11 @@ using System.IO;
 
 namespace Abide.Tag
 {
-    public abstract class Group : ITagGroup, IEnumerable<Block>
+    public abstract class Group : TagObject, ITagGroup, IEnumerable<Block>
     {
         public int TagBlockCount => TagBlocks.Count;
-        public abstract string Name { get; }
-        public abstract TagFourCc Tag { get; }
+        public override string Name => string.Empty;
+        public virtual TagFourCc Tag => new TagFourCc();
         public ObservableCollection<Block> TagBlocks { get; } = new ObservableCollection<Block>();
         public long GroupAddress { get; private set; } = 0;
         protected Group() { }
@@ -26,8 +26,8 @@ namespace Abide.Tag
 
             foreach (var block in TagBlocks)
             {
+                block.Owner = this;
                 block.Read(reader);
-                block.GroupOwner = this;
             }
         }
         public virtual void Write(BinaryWriter writer)

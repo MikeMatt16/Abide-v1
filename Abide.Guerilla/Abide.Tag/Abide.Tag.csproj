@@ -30,7 +30,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Abide.Tag.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -106,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagCache.cs" />
     <Compile Include="TagException.cs" />
+    <Compile Include="TagObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">

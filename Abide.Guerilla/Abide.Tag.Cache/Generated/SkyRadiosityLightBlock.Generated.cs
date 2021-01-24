@@ -25,7 +25,7 @@ namespace Abide.Tag.Cache.Generated
         public SkyRadiosityLightBlock()
         {
             this.Fields.Add(new LongFlagsField("Flags", "Affects Exteriors", "Affects Interiors", "Direct Illumination in Lightmaps", "Indirect Illumination in Lightmaps"));
-            this.Fields.Add(new RealRgbColorField("Color:#Light color."));
+            this.Fields.Add(new RealRgbColorField("Color#Light color."));
             this.Fields.Add(new RealField("Power:[0,+inf]#Light power from 0 to infinity."));
             this.Fields.Add(new RealField("Test Distance:world units#Length of the ray for shadow testing."));
             this.Fields.Add(new PadField("", 12));
@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the sky_radiosity_light_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

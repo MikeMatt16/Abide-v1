@@ -58,7 +58,7 @@ for example if the burst origin angle and the burst return angle were both zero,
         /// <summary>
         /// Gets and returns the name of the character_firing_pattern_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

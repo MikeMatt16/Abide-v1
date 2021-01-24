@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the local_string_id_list_string_reference_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

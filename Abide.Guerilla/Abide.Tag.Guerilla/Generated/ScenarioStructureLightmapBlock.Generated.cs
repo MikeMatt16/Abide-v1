@@ -76,7 +76,7 @@ LIGHTPROBE INTERPOLATION OVERIDE(speed): overide the default sampling behavior")
         /// <summary>
         /// Gets and returns the name of the scenario_structure_lightmap_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

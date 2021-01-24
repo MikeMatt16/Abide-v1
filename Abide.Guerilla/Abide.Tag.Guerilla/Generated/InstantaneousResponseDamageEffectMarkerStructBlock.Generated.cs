@@ -29,7 +29,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the instantaneous_response_damage_effect_marker_struct_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

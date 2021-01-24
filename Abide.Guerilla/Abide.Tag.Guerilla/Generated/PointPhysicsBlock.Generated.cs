@@ -57,7 +57,7 @@ gold       19.3
         /// <summary>
         /// Gets and returns the name of the point_physics_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

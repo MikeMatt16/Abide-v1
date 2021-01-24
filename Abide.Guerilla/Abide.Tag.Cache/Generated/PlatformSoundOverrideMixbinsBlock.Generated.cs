@@ -30,7 +30,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the platform_sound_override_mixbins_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

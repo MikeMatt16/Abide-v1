@@ -35,7 +35,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the screen_flash_definition_struct_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

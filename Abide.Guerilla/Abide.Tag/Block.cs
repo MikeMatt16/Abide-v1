@@ -8,25 +8,21 @@ using System.Linq;
 
 namespace Abide.Tag
 {
-    public class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>, INotifyPropertyChanged
+    public class Block : TagObject, ITagBlock, IEnumerable<Field>, IEquatable<Block>
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ObservableCollection<Field> Fields { get; } = new ObservableCollection<Field>();
         public int Size => GetBlockSize();
         public int FieldCount => Fields.Count;
         public virtual int Alignment => 4;
         public virtual int MaximumElementCount => 0;
-        public virtual string BlockName => string.Empty;
+        public override string Name => string.Empty;
         public virtual string DisplayName => string.Empty;
         public long BlockAddress { get; private set; } = 0;
-        public Field FieldOwner { get; internal set; } = null;
-        public Group GroupOwner { get; internal set; } = null;
 
         protected Block() { }
         public bool Equals(Block other)
         {
-            bool equals = Fields.Count == other.Fields.Count && BlockName == other.BlockName;
+            bool equals = Fields.Count == other.Fields.Count && Name == other.Name;
 
             if (equals)
                 for (int i = 0; i < Fields.Count; i++)
@@ -66,7 +62,7 @@ namespace Abide.Tag
         public override string ToString()
         {
             if (Fields.Any(f => f.IsBlockName)) return string.Join(", ",
-                Fields.Where(f => f.IsBlockName).Select(f => f.GetValue().ToString()).ToArray());
+                Fields.Where(f => f.IsBlockName).Select(f => f.GetValueString()).ToArray());
             return DisplayName;
         }
         public virtual void Initialize() { }
@@ -77,8 +73,8 @@ namespace Abide.Tag
 
             foreach (Field field in Fields)
             {
-                field.Read(reader);
                 field.Owner = this;
+                field.Read(reader);
             }
         }
         public virtual void Write(BinaryWriter writer)
@@ -114,10 +110,6 @@ namespace Abide.Tag
         {
             return Fields.GetEnumerator();
         }
-        protected virtual void OnNotifyPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
 
         ITagField ITagBlock.this[int index]
         {
@@ -126,7 +118,7 @@ namespace Abide.Tag
         int ITagBlock.Size => Size;
         int ITagBlock.MaximumElementCount => MaximumElementCount;
         int ITagBlock.Alignment => Alignment;
-        string ITagBlock.BlockName => BlockName;
+        string ITagBlock.BlockName => Name;
         string ITagBlock.DisplayName => DisplayName;
         void ITagBlock.Initialize()
         {

@@ -32,7 +32,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the texture_stage_state_parameter_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

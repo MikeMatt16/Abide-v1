@@ -37,7 +37,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the player_block_reference_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -97,7 +97,7 @@ damage direction, they get kick away from the damage epicenter."));
         /// <summary>
         /// Gets and returns the name of the damage_effect_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

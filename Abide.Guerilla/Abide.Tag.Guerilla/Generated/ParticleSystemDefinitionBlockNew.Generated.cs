@@ -44,7 +44,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the particle_system_definition_block_new tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

@@ -33,7 +33,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the structure_bsp_sound_environment_palette_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

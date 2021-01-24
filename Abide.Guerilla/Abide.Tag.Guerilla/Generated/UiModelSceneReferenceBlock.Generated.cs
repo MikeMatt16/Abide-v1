@@ -47,7 +47,7 @@ gets applied to the camera) will always be consisitent."));
         /// <summary>
         /// Gets and returns the name of the ui_model_scene_reference_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

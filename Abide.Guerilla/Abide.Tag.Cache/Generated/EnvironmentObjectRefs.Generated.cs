@@ -34,7 +34,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the environment_object_refs tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

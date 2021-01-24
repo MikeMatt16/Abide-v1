@@ -51,7 +51,7 @@ for stereo sounds:
         /// <summary>
         /// Gets and returns the name of the platform_sound_filter_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

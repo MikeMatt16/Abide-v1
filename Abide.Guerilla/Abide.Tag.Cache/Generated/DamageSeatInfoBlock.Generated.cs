@@ -33,7 +33,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the damage_seat_info_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

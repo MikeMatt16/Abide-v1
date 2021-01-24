@@ -68,7 +68,7 @@ Crosshairs can be attached to one of four different states:
         /// <summary>
         /// Gets and returns the name of the weapon_hud_interface_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

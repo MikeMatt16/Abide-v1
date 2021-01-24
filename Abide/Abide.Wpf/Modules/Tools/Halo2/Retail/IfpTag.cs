@@ -56,7 +56,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
     {
         private readonly List<Field> labelFields = new List<Field>();
 
-        public override string BlockName { get; } = "ifp_tag_block";
+        public override string Name { get; } = "ifp_tag_block";
         public override int Alignment { get; } = 4;
         public override string DisplayName => GetDisplayName();
 
@@ -300,7 +300,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 return string.Join(" ", labelFields.Select(f => GetFieldValueString(f)));
             }
 
-            return BlockName;
+            return Name;
         }
 
         private string GetFieldValueString(Field field)

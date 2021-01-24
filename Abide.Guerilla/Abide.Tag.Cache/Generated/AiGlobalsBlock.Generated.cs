@@ -71,7 +71,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the ai_globals_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

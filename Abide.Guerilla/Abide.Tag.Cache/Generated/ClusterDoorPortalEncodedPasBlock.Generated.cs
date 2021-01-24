@@ -29,7 +29,7 @@ namespace Abide.Tag.Cache.Generated
         /// <summary>
         /// Gets and returns the name of the cluster_door_portal_encoded_pas_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

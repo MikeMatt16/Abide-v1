@@ -34,7 +34,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the global_geometry_block_resource_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

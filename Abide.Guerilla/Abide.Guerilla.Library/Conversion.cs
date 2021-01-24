@@ -55,7 +55,7 @@ namespace Abide.Guerilla.Library
 
         private static void TagBlock_ToGuerilla(Block guerilla, Block cache, HaloMap map)
         {
-            if (guerilla.BlockName != cache.BlockName)
+            if (guerilla.Name != cache.Name)
             {
                 return;
             }

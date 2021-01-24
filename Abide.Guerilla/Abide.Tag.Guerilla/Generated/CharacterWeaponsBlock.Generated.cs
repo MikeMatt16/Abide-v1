@@ -92,7 +92,7 @@ between, all the values are linearly interpolated"));
         /// <summary>
         /// Gets and returns the name of the character_weapons_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

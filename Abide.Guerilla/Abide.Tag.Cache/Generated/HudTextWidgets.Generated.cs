@@ -55,7 +55,7 @@ force 3-digit number: same as above, but with 3 digits instead of 2
         /// <summary>
         /// Gets and returns the name of the hud_text_widgets tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

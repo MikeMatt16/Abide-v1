@@ -140,7 +140,7 @@ of the LOD reduction distances.
         /// <summary>
         /// Gets and returns the name of the model_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {

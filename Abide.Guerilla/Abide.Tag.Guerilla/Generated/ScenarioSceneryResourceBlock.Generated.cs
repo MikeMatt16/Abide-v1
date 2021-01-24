@@ -38,7 +38,7 @@ namespace Abide.Tag.Guerilla.Generated
         /// <summary>
         /// Gets and returns the name of the scenario_scenery_resource_block tag block.
         /// </summary>
-        public override string BlockName
+        public override string Name
         {
             get
             {
