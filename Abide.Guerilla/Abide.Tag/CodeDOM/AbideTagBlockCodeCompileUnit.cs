@@ -15,7 +15,7 @@ namespace Abide.Tag.CodeDom
     {
         private readonly CodeTypeDeclaration tagGroupCodeTypeDeclaration;
         private List<string> fieldNames = new List<string>();
-        private int currentFieldIndex = -1;
+        // private int currentFieldIndex = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagBlockCodeCompileUnit"/> class.
@@ -127,8 +127,7 @@ namespace Abide.Tag.CodeDom
                         constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
                             new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldExpression));
 
-                        //Create property
-                        CreateFieldProperty(++currentFieldIndex, field);
+                        // CreateFieldProperty(++currentFieldIndex, field);
                     }
                 }
                 else
@@ -143,8 +142,7 @@ namespace Abide.Tag.CodeDom
                         constructor.Statements.Add(new CodeMethodInvokeExpression(new CodeMethodReferenceExpression(new CodePropertyReferenceExpression(
                             new CodeThisReferenceExpression(), nameof(Block.Fields)), nameof(List<Field>.Add)), fieldCreateExpression));
 
-                        //Create property
-                        CreateFieldProperty(++currentFieldIndex, field);
+                        // CreateFieldProperty(++currentFieldIndex, field);
                     }
                 }
             }
@@ -408,8 +406,6 @@ namespace Abide.Tag.CodeDom
 
         private void CreateFieldProperty(int index, AbideTagField field)
         {
-            return;
-
             if (field == null) throw new ArgumentNullException(nameof(field));
             if (string.IsNullOrEmpty(field.Name))
                 return;

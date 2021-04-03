@@ -9,9 +9,8 @@ namespace Abide.Wpf.Modules.ViewModel
     public sealed class ActionCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-
-        public Action<object> ExecuteAction { get; set; } = null;
-        public Func<object, bool> CanExecuteFunction { get; set; } = null;
+        public Action<object> ExecuteAction { get; } = null;
+        public Func<object, bool> CanExecuteFunction { get; } = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionCommand"/> class.
@@ -35,7 +34,6 @@ namespace Abide.Wpf.Modules.ViewModel
             ExecuteAction = executeAction;
             CanExecuteFunction = canExecuteFunction;
         }
-
         public void Execute(object parameter = null)
         {
             ExecuteAction?.Invoke(parameter);
@@ -43,6 +41,10 @@ namespace Abide.Wpf.Modules.ViewModel
         public bool CanExecute(object parameter = null)
         {
             return CanExecuteFunction?.Invoke(parameter) ?? ExecuteAction != null;
+        }
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

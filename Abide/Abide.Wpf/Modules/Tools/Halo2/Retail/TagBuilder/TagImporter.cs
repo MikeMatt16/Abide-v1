@@ -174,7 +174,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                             }
 
                             var stringIndex = map.Strings.IndexOf(strValue);
-                            tagBlock.Fields[i] = new Tag.Cache.StringIdField(field.Name);
+                            tagBlock.Fields[i] = new Abide.Tag.Cache.StringIdField(field.Name);
                             tagBlock.Fields[i].Value = id;
                         }
                         break;
@@ -182,11 +182,12 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                     case FieldType.FieldTagReference:
                         if (field.Value is string tagReferenceName)
                         {
+                            
                             var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.Name ?? ""}" == tagReferenceName);
-                            tagBlock.Fields[i] = new Tag.Cache.TagReferenceField(field.Name, 0);
+                            tagBlock.Fields[i] = new Abide.Tag.Cache.TagReferenceField(field.Name, 0);
                             if (tagRef != null)
                             {
-                                tagBlock.Fields[i].Value = new Tag.TagReference() { Tag = tagRef.GroupTag, Id = tagRef.Id };
+                                tagBlock.Fields[i].Value = new Abide.Tag.TagReference() { Tag = tagRef.GroupTag, Id = tagRef.Id };
                             }
                         }
                         break;
@@ -195,7 +196,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagBuilder
                         if (field.Value is string tagName)
                         {
                             var tagRef = tags.FirstOrDefault(t => $"{t.TagName}.{t.TagGroup?.Name ?? ""}" == tagName);
-                            tagBlock.Fields[i] = new Tag.Cache.TagIndexField(field.Name);
+                            tagBlock.Fields[i] = new Abide.Tag.Cache.TagIndexField(field.Name);
                             if (tagRef != null)
                             {
                                 tagBlock.Fields[i].Value = tagRef.Id;

@@ -3,6 +3,7 @@ using Abide.HaloLibrary.Halo2.Retail;
 using Abide.Ifp;
 using Abide.Tag;
 using Abide.Tag.Cache.Generated;
+using Abide.Wpf.Modules.Tag;
 using Abide.Wpf.Modules.ViewModel;
 using Abide.Wpf.Modules.Win32;
 using Abide.Wpf.Properties;
@@ -18,7 +19,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
     public sealed class TagEditorViewModel : BaseAddOnViewModel
     {
         private static readonly DependencyPropertyKey TagGroupPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(TagGroup), typeof(TagGroupViewModel), typeof(TagEditorViewModel), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(TagGroup), typeof(AbideTagGroup), typeof(TagEditorViewModel), new PropertyMetadata());
 
         public static readonly DependencyProperty SelectedPluginSetProperty =
             DependencyProperty.Register(nameof(SelectedPluginSet), typeof(PluginSet), typeof(TagEditorViewModel), new PropertyMetadata(SelectedPluginSetChanged));
@@ -28,6 +29,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
         public static readonly DependencyProperty TagGroupProperty =
             TagGroupPropertyKey.DependencyProperty;
 
+        private TagContext tagContext = null;
         private TagData tagData = null;
 
         public ObservableCollection<PluginSet> PluginSets { get; } = new ObservableCollection<PluginSet>();
@@ -36,9 +38,9 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             get => (PluginSet)GetValue(SelectedPluginSetProperty);
             set => SetValue(SelectedPluginSetProperty, value);
         }
-        public TagGroupViewModel TagGroup
+        public AbideTagGroup TagGroup
         {
-            get => (TagGroupViewModel)GetValue(TagGroupProperty);
+            get => (AbideTagGroup)GetValue(TagGroupProperty);
             private set => SetValue(TagGroupPropertyKey, value);
         }
         public Xbox Xbox
@@ -96,7 +98,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             using (var stream = Xbox.MemoryStream)
             using (BinaryWriter writer = new BinaryWriter(stream))
             {
-                TagGroup.TagGroup.Overwrite(writer);
+                // TagGroup.TagGroup.Overwrite(writer);
             }
         }
 
@@ -106,7 +108,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
             {
                 using (var writer = tagData.Stream.CreateWriter())
                 {
-                    TagGroup.TagGroup.Overwrite(writer);
+                    // TagGroup.TagGroup.Overwrite(writer);
                 }
 
                 Map.OverwriteTagData(tagData);
@@ -116,7 +118,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
 
         protected override void OnMapChange()
         {
-            TagGroup = new TagGroupViewModel(Map);
+            tagContext = new HaloMapTagContext(Map);
         }
         protected override void OnSelectedTagChanged()
         {
@@ -154,7 +156,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
                     }
                 }
 
-                TagGroup.SetTagGroup(tagGroup);
+                TagGroup = new AbideTagGroup(tagGroup, tagContext);
             }
         }
 
@@ -169,6 +171,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
                 {
                     Group tagGroup;
                     var group = tagEditor.TagGroup;
+                    var context = tagEditor.tagContext;
                     var document = pluginSet[group.GroupTag];
                     if (document != null)
                     {
@@ -201,7 +204,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.TagEditor
                             }
                         }
 
-                        group.SetTagGroup(tagGroup);
+                        tagEditor.TagGroup = new AbideTagGroup(tagGroup, context);
                     }
                 }
             }

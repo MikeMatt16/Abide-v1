@@ -1,6 +1,4 @@
-﻿using Abide.HaloLibrary;
-using Abide.Tag;
-using Abide.Wpf.Modules.ViewModel;
+﻿using Abide.Tag;
 using System.Windows;
 
 namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
@@ -33,61 +31,16 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
             {
                 if (e.NewValue is string value)
                 {
-                    HistoryModel change = new HistoryModel("Value changed", null);
-                    switch (editor.Field.Type)
+                    switch (editor.Field)
                     {
-                        case FieldType.FieldTag:
-                            System.Diagnostics.Debugger.Break();
-                            editor.Field.Value = new TagFourCc(value.ToString());
-                            ApplicationSettings.GlobalState.History.Add(change);
+                        case BaseStringField stringField:
+                            stringField.String = value;
                             break;
 
-                        case FieldType.FieldString:
-                            editor.Field.Value = new String32() { String = value.ToString() };
-                            break;
-
-                        case FieldType.FieldLongString:
-                            System.Diagnostics.Debugger.Break();
-                            editor.Field.Value = new String256() { String = value.ToString() };
-                            break;
-
-                        case FieldType.FieldStringId:
-                        case FieldType.FieldOldStringId:
-                            System.Diagnostics.Debugger.Break();
-                            editor.Field.Value = value.ToString();
-                            break;
-
-                        case FieldType.FieldCharInteger:
-                            if (byte.TryParse(value.ToString(), out byte b))
+                        case NumericField numericField:
+                            if (double.TryParse(value, out double num))
                             {
-                                System.Diagnostics.Debugger.Break();
-                                editor.Field.Value = b;
-                            }
-                            break;
-
-                        case FieldType.FieldShortInteger:
-                            if (short.TryParse(value.ToString(), out short s))
-                            {
-                                System.Diagnostics.Debugger.Break();
-                                editor.Field.Value = s;
-                            }
-                            break;
-
-                        case FieldType.FieldLongInteger:
-                            if (int.TryParse(value.ToString(), out int i))
-                            {
-                                System.Diagnostics.Debugger.Break();
-                                editor.Field.Value = i;
-                            }
-                            break;
-
-                        case FieldType.FieldReal:
-                        case FieldType.FieldAngle:
-                        case FieldType.FieldRealFraction:
-                            if (float.TryParse(value.ToString(), out float f))
-                            {
-                                System.Diagnostics.Debugger.Break();
-                                editor.Field.Value = f;
+                                numericField.Number = num;
                             }
                             break;
                     }

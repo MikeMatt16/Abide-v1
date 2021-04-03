@@ -12,7 +12,15 @@ namespace Abide.Tag
             }
 
             byte[] padding = CreatePadding(stream.Position, alignment, paddingByte);
-            stream.Write(padding, 0, padding.Length);
+            if (stream.CanSeek)
+            {
+                return stream.Seek(padding.Length, SeekOrigin.Current);
+            }
+            else if (stream.CanWrite)
+            {
+                stream.Write(padding, 0, padding.Length);
+            }
+
             return stream.Position;
         }
         private static byte[] CreatePadding(long position, int alignment, byte paddingByte)

@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockList.cs" />
     <Compile Include="CodeDOM\AbideCodeDomGlobals.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagCache.cs" />
     <Compile Include="TagException.cs" />
-    <Compile Include="TagObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abide Halo Library\Abide.HaloLibrary\Abide.HaloLibrary.csproj">

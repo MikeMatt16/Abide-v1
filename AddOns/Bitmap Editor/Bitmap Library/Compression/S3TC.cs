@@ -1,531 +1,404 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Bitmap_Library.Compression
 {
     public static class S3TC
     {
-        public static void DecompressDxt1(ref byte[] data, byte[] raw, Size size)
+        public static unsafe void DecompressDxt1(byte[] data, byte[] raw, Size size)
         {
-            //Prepare
-            DXT1TEXEL block = new DXT1TEXEL();
-            int x, y, cx, cy, dIndex, lw = size.Width * 4;
-            byte[] bgra = new byte[4];
-            
-            //Gather Data
+            Dxt1Texel block = new Dxt1Texel();
+            int x, y, tX, tY, dIndex, lw = size.Width * 4;
+
             int hChunks = size.Width / 4;
             if (hChunks < 1)
                 hChunks = 1;
 
-            unsafe
-            {
-                for (int i = 0; i < size.Width * size.Height / 16; i++)
-                    fixed (byte* memBlock = &raw[i * Marshal.SizeOf(block)])
+            int blockSize = Marshal.SizeOf(block);
+            for (int i = 0; i < size.Width * size.Height / 16; i++)
+                fixed (byte* memBlock = &raw[i * blockSize])
+                {
+                    block = *(Dxt1Texel*)memBlock;
+
+                    tX = i % hChunks;
+                    tY = i / hChunks;
+
+                    var pixels = block.GetPixels().Select(c => new byte[] { c.B, c.G, c.R, c.A }).ToArray();
+                    for (int j = 0; j < pixels.Length; j++)
                     {
-                        //Get Texel
-                        DXT1TEXEL* texPtr = (DXT1TEXEL*)memBlock;
-                        block = (*texPtr);
+                        x = j % 4;
+                        y = j / 4;
+                        dIndex = (tX * 16) + (tY * hChunks * 64) + (x * 4) + (y * lw);
 
-                        //Get X and Y
-                        cx = i % hChunks;
-                        cy = i / hChunks;
-
-                        //Loop
-                        for (int j = 0; j < 16; j++)
-                        {
-                            x = j % 4;
-                            y = j / 4;
-                            bgra = block.c[block.ColorTable[j]].ToBGRA();
-                            if (block.Color3Alpha && block.ColorTable[j] == 3)
-                                bgra[3] = 0;
-                            dIndex = (cx * 16) + (cy * hChunks * (64)) + (x * 4) + (y * lw);
-                            Array.Copy(bgra, 0, data, dIndex, 4);
-                        }
+                        fixed (byte* dest = &data[dIndex]) { *dest = pixels[j][0]; }
+                        fixed (byte* dest = &data[dIndex + 1]) { *dest = pixels[j][1]; }
+                        fixed (byte* dest = &data[dIndex + 2]) { *dest = pixels[j][2]; }
+                        fixed (byte* dest = &data[dIndex + 3]) { *dest = pixels[j][3]; }
                     }
-            }
+                }
         }
 
-        public static void DecompressDxt3(ref byte[] data, byte[] raw, Size size)
+        public static unsafe void DecompressDxt3(byte[] data, byte[] raw, Size size)
         {
-            //Prepare
-            DXT3TEXEL block = new DXT3TEXEL();
+            Dxt3Texel block = new Dxt3Texel();
+            int x, y, tX, tY, dIndex, lw = size.Width * 4;
+
+            int hChunks = size.Width / 4;
+            if (hChunks < 1)
+                hChunks = 1;
+
+            int blockSize = Marshal.SizeOf(block);
+            for (int i = 0; i < size.Width * size.Height / 16; i++)
+                fixed (byte* memBlock = &raw[i * blockSize])
+                {
+                    block = *(Dxt3Texel*)memBlock;
+
+                    tX = i % hChunks;
+                    tY = i / hChunks;
+
+                    var pixels = block.GetPixels().Select(c => new byte[] { c.B, c.G, c.R, c.A }).ToArray();
+                    for (int j = 0; j < pixels.Length; j++)
+                    {
+                        x = j % 4;
+                        y = j / 4;
+                        dIndex = (tX * 16) + (tY * hChunks * 16 * 4) + (x * 4) + (y * lw);
+
+                        fixed (byte* dest = &data[dIndex]) { *dest = pixels[j][0]; }
+                        fixed (byte* dest = &data[dIndex + 1]) { *dest = pixels[j][1]; }
+                        fixed (byte* dest = &data[dIndex + 2]) { *dest = pixels[j][2]; }
+                        fixed (byte* dest = &data[dIndex + 3]) { *dest = pixels[j][3]; }
+                    }
+                }
+        }
+
+        public static unsafe void DecompressDxt5(byte[] data, byte[] raw, Size size)
+        {
+            Dxt5Texel block = new Dxt5Texel();
+            int x, y, cx, cy, dIndex, lw = size.Width * 4;
+
+            int hChunks = size.Width / 4;
+            if (hChunks < 1)
+                hChunks = 1;
+
+            int blockSize = Marshal.SizeOf(block);
+            for (int i = 0; i < size.Width * size.Height / 16; i++)
+                fixed (byte* memBlock = &raw[i * blockSize])
+                {
+                    block = *(Dxt5Texel*)memBlock;
+
+                    cx = i % hChunks;
+                    cy = i / hChunks;
+
+                    var pixels = block.GetPixels().Select(c => new byte[] { c.B, c.G, c.R, c.A }).ToArray();
+                    for (int j = 0; j < 16; j++)
+                    {
+                        x = j % 4;
+                        y = j / 4;
+                        dIndex = (cx * 16) + (cy * hChunks * 16 * 4) + (x * 4) + (y * lw);
+
+                        fixed (byte* dest = &data[dIndex]) { *dest = pixels[j][0]; }
+                        fixed (byte* dest = &data[dIndex + 1]) { *dest = pixels[j][1]; }
+                        fixed (byte* dest = &data[dIndex + 2]) { *dest = pixels[j][2]; }
+                        fixed (byte* dest = &data[dIndex + 3]) { *dest = pixels[j][3]; }
+                    }
+                }
+        }
+
+        public static unsafe void DecompressAti2(byte[] data, byte[] raw, Size size)
+        {
+            Ati2Texel block = new Ati2Texel();
             int x, y, cx, cy, dIndex, lw = size.Width * 4;
             byte[] bgra;
 
-            //Gather Data
             int hChunks = size.Width / 4;
             if (hChunks < 1)
                 hChunks = 1;
 
-            unsafe
-            {
-                for (int i = 0; i < size.Width * size.Height / 16; i++)
-                    fixed (byte* memBlock = &raw[i * Marshal.SizeOf(block)])
+            int blockSize = Marshal.SizeOf(block);
+            for (int i = 0; i < size.Width * size.Height / 16; i++)
+                fixed (byte* memBlock = &raw[i * blockSize])
+                {
+                    block = *(Ati2Texel*)memBlock;
+
+                    cx = i % hChunks;
+                    cy = i / hChunks;
+
+                    for (int j = 0; j < 16; j++)
                     {
-                        //Get Texel
-                        DXT3TEXEL* texPtr = (DXT3TEXEL*)memBlock;
-                        block = (*texPtr);
+                        x = j % 4;
+                        y = j / 4;
+                        bgra = block.c[block.ColorTable[j]].ToBGRA(255);
+                        dIndex = (cx * 16) + (cy * hChunks * 16 * 4) + (x * 4) + (y * lw);
 
-                        //Get X and Y
-                        cx = i % hChunks;
-                        cy = i / hChunks;
-
-                        //Loop
-                        for (int j = 0; j < 16; j++)
-                        {
-                            x = j % 4;
-                            y = j / 4;
-                            bgra = block.c[block.ColorTable[j]].ToBGRA(block.Alpha[j]);
-                            dIndex = (cx * 16) + (cy * hChunks * (16 * 4)) + (x * 4) + (y * lw);
-                            Array.Copy(bgra, 0, data, dIndex, 4);
-                        }
+                        fixed (byte* dest = &data[dIndex]) { *dest = bgra[0]; }
+                        fixed (byte* dest = &data[dIndex + 1]) { *dest = bgra[1]; }
+                        fixed (byte* dest = &data[dIndex + 2]) { *dest = bgra[2]; }
+                        fixed (byte* dest = &data[dIndex + 3]) { *dest = bgra[3]; }
                     }
-            }
-        }
-
-        public static void DecompressDxt5(ref byte[] data, byte[] raw, Size size)
-        {
-            //Prepare
-            DXT5TEXEL block = new DXT5TEXEL();
-            int x, y, cx, cy, dIndex, lw = size.Width * 4;
-            byte[] bgra;
-
-            //Gather Data
-            int hChunks = size.Width / 4;
-            if (hChunks < 1)
-                hChunks = 1;
-
-            unsafe
-            {
-                for (int i = 0; i < size.Width * size.Height / 16; i++)
-                    fixed (byte* memBlock = &raw[i * Marshal.SizeOf(block)])
-                    {
-                        //Get Texel
-                        DXT5TEXEL* texPtr = (DXT5TEXEL*)memBlock;
-                        block = (*texPtr);
-
-                        //Get X and Y
-                        cx = i % hChunks;
-                        cy = i / hChunks;
-
-                        //Loop
-                        for (int j = 0; j < 16; j++)
-                        {
-                            x = j % 4;
-                            y = j / 4;
-                            bgra = block.c[block.ColorTable[j]].ToBGRA(block.a[block.AlphaTable[j]]);
-                            dIndex = (cx * 16) + (cy * hChunks * (16 * 4)) + (x * 4) + (y * lw);
-                            Array.Copy(bgra, 0, data, dIndex, 4);
-                        }
-                    }
-            }
-        }
-
-        public static void DecompressAti2(ref byte[] data, byte[] raw, Size size)
-        {
-            //Prepare
-            ATI2TEXEL block = new ATI2TEXEL();
-            int x, y, cx, cy, dIndex, lw = size.Width * 4;
-            byte[] bgra;
-
-            //Gather Data
-            int hChunks = size.Width / 4;
-            if (hChunks < 1)
-                hChunks = 1;
-
-            unsafe
-            {
-                for (int i = 0; i < size.Width * size.Height / 16; i++)
-                    fixed (byte* memBlock = &raw[i * Marshal.SizeOf(block)])
-                    {
-                        //Get Texel
-                        ATI2TEXEL* texPtr = (ATI2TEXEL*)memBlock;
-                        block = (*texPtr);
-
-                        //Get X and Y
-                        cx = i % hChunks;
-                        cy = i / hChunks;
-
-                        //Loop
-                        for (int j = 0; j < 16; j++)
-                        {
-                            x = j % 4;
-                            y = j / 4;
-                            bgra = block.c[block.ColorTable[j]].ToBGRA(255);
-                            dIndex = (cx * 16) + (cy * hChunks * (16 * 4)) + (x * 4) + (y * lw);
-                            Array.Copy(bgra, 0, data, dIndex, 4);
-                        }
-                    }
-            }
+                }
         }
     }
-    
+
     /// <summary>
-    /// Represents one 64-bit texel in a DXT 1 compressed texture.
+    /// Represents a 64-bit DXT 1 compressed texel element.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct DXT1TEXEL : IEquatable<DXT1TEXEL>, IComparable<DXT1TEXEL>, IEquatable<ulong>, IComparable<ulong>
+    public struct Dxt1Texel : IEquatable<Dxt1Texel>
     {
-        public static readonly DXT1TEXEL Zero = new DXT1TEXEL(0);
+        public static readonly Dxt1Texel Zero = new Dxt1Texel();
+        
+        private ulong texel;
 
-        public R5G6B5[] c
-        {
-            get
-            {
-                R5G6B5[] c = new R5G6B5[4];
-                Color32F[] c32 = new Color32F[4];
-                ushort c0 = (ushort)(value & 0xFFFF);
-                ushort c1 = (ushort)((value >> 16) & 0xFFFF);
-                c32[0] = Color32F.From16BitColor(c0);
-                c32[1] = Color32F.From16BitColor(c1);
-                
-                if (c0 > c1)
-                {
-                    c32[2] = c32[0].Interpolate(c32[1], 3, 2);
-                    c32[3] = c32[1].Interpolate(c32[0], 3, 2);
-                }
-                else
-                {
-                    c32[2] = c32[0].Interpolate(c32[1], 2, 1);
-                    c32[3] = Color32F.Zero;
-                }
-
-                for (int i = 0; i < 4; i++)
-                    c[i] = c32[i].To16BitColor();
-
-                return c;
-            }
-        }
         public bool Color3Alpha
         {
-            get { return c[0] <= c[1]; }
+            get { return (ushort)(texel & 0xFFFF) > (ushort)((texel >> 16) & 0xFFFF); }
         }
-        public byte[] ColorTable
+
+        public override bool Equals(object obj)
         {
-            get
+            if (obj is Dxt1Texel texel)
             {
-                byte[] t = new byte[16];
-                uint lut = (uint)(value >> 32);
-                for (int i = 0; i < 16; i++)
-                {
-                    t[i] = (byte)(lut & 0x3);
-                    lut >>= 2;
-                }
-                return t;
+                return Equals(texel);
             }
+
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return texel.GetHashCode();
+        }
+        public bool Equals(Dxt1Texel other)
+        {
+            return texel.Equals(other.texel);
+        }
+        public Color[] GetPixels()
+        {
+            Color32F[] colorTable = new Color32F[4];
+            ushort c0 = (ushort)(texel & 0xFFFF);
+            ushort c1 = (ushort)((texel >> 16) & 0xFFFF);
+            colorTable[0] = Color32F.From16BitColor(c0);
+            colorTable[1] = Color32F.From16BitColor(c1);
+
+            if (c0 > c1)
+            {
+                colorTable[2] = colorTable[0].Interpolate(colorTable[1], 3, 2);
+                colorTable[3] = colorTable[1].Interpolate(colorTable[0], 3, 2);
+            }
+            else
+            {
+                colorTable[2] = colorTable[0].Interpolate(colorTable[1], 2, 1);
+                colorTable[3] = Color32F.Zero;
+            }
+
+            Color[] pixels = new Color[16];
+            uint lut = (uint)(texel >> 32);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = colorTable[(int)(lut & 0x3)].ToColor();
+                lut >>= 2;
+            }
+
+            return pixels;
+        }
+        public byte[] GetBits()
+        {
+            return BitConverter.GetBytes(texel);
         }
 
-        private ulong value;
-
-        public DXT1TEXEL(ulong value)
+        public static Dxt1Texel FromTexel(ulong texel)
         {
-            this.value = value;
+            return new Dxt1Texel() { texel = texel };
         }
-
-        public int CompareTo(DXT1TEXEL other)
+        public static explicit operator Dxt1Texel(ulong value)
         {
-            return value.CompareTo(other.value);
+            return new Dxt1Texel() { texel = value };
         }
-        public int CompareTo(ulong other)
+        public static explicit operator ulong(Dxt1Texel value)
         {
-            return value.CompareTo(other);
+            return value.texel;
         }
-        public bool Equals(DXT1TEXEL other)
+        public static bool operator ==(Dxt1Texel left, Dxt1Texel right)
         {
-            return value.Equals(other.value);
+            return left.Equals(right);
         }
-        public bool Equals(ulong other)
+        public static bool operator !=(Dxt1Texel left, Dxt1Texel right)
         {
-            return value.Equals(other);
-        }
-
-        public static implicit operator DXT1TEXEL(ulong value)
-        {
-            return new DXT1TEXEL(value);
-        }
-        public static implicit operator ulong(DXT1TEXEL value)
-        {
-            return value.value;
+            return !(left == right);
         }
     }
 
     /// <summary>
-    /// Represents one 128-bit texel in a DXT 3 compressed texture.
+    /// Represents a 128-bit DXT 3 compressed texel element
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct DXT3TEXEL : IEquatable<DXT3TEXEL>, IComparable<DXT3TEXEL>, IEquatable<byte[]>, IComparable<byte[]>
+    public struct Dxt3Texel : IEquatable<Dxt3Texel>
     {
-        public static readonly DXT3TEXEL Zero = new DXT3TEXEL(0, 0);
-
-        public R5G6B5[] c
-        {
-            get
-            {
-                R5G6B5[] c = new R5G6B5[4];
-                ushort c0 = (ushort)(high & 0xFFFF);
-                ushort c1 = (ushort)((high >> 16) & 0xFFFF);
-                Color32F[] c32 = new Color32F[4];
-                c32[0] = Color32F.From16BitColor(c0);
-                c32[1] = Color32F.From16BitColor(c1);
-                c32[2] = c32[0].GradientTwoOne(c32[1]);
-                c32[3] = c32[1].GradientTwoOne(c32[0]);
-                for (int i = 0; i < 4; i++)
-                    c[i] = c32[i].To16BitColor();
-                return c;
-            }
-        }
-        public byte[] ColorTable
-        {
-            get
-            {
-                byte[] t = new byte[16];
-                uint lut = (uint)(high >> 32);
-                for (int i = 0; i < 16; i++)
-                {
-                    t[i] = (byte)(lut & 0x3);
-                    lut >>= 2;
-                }
-                return t;
-            }
-        }
-        public byte[] Alpha
-        {
-            get
-            {
-                byte[] t = new byte[16];
-                ulong lut = low;
-                for (int i = 0; i < 16; i++)
-                {
-                    t[i] = (byte)((lut & 0xF) * 0x11);
-                    lut >>= 4;
-                }
-                return t;
-            }
-        }
+        public static readonly Dxt3Texel Zero = new Dxt3Texel();
 
         private ulong low, high;
 
-        public DXT3TEXEL(byte[] value)
-        {
-            //Convert
-            if (value.Length >= 16)
-            {
-                low = BitConverter.ToUInt64(value, 0);
-                high = BitConverter.ToUInt64(value, 8);
-            }
-            else
-            {
-                //Zero
-                low = 0;
-                high = 0;
-            }
-        }
-        public DXT3TEXEL(ulong low, ulong high)
-        {
-            this.low = low;
-            this.high = high;
-        }
-        
-        public int CompareTo(DXT3TEXEL other)
-        {
-            int compare = 0;
-            compare += low.CompareTo(other.low);
-            compare += high.CompareTo(other.high);
-            return compare;
-        }
-        public int CompareTo(byte[] other)
-        {
-            int compare = 0;
-            compare += low.CompareTo(BitConverter.ToUInt64(other, 0));
-            compare += high.CompareTo(BitConverter.ToUInt64(other, 8));
-            return compare;
-        }
-        public bool Equals(DXT3TEXEL other)
+        public bool Equals(Dxt3Texel other)
         {
             return low.Equals(other.low) && high.Equals(other.high);
         }
-        public bool Equals(byte[] other)
+        public override bool Equals(object obj)
         {
-            return low.Equals(BitConverter.ToUInt64(other, 0)) && high.Equals(BitConverter.ToUInt64(other, 8));
-        }
-        public byte[] ToByteArray()
-        {
-            byte[] texel = new byte[16];
-            using (MemoryStream ms = new MemoryStream(texel))
+            if (obj is Dxt3Texel texel)
             {
-                ms.Write(BitConverter.GetBytes(low), 0, 8);
-                ms.Write(BitConverter.GetBytes(high), 8, 8);
+                return Equals(texel);
             }
-            return texel;
+
+            return base.Equals(obj);
         }
-        public static implicit operator DXT3TEXEL(byte[] value)
+        public override int GetHashCode()
         {
-            if (value.Length >= 16)
-                return new DXT3TEXEL(value);
-            else
-                throw new ArgumentException("value is not long enough.");
+            return low.GetHashCode() ^ high.GetHashCode();
         }
-        public static implicit operator byte[] (DXT3TEXEL value)
+        public Color[] GetPixels()
         {
-            byte[] b = new byte[16];
-            Array.Copy(BitConverter.GetBytes(value.low), 0, b, 0, 8);
-            Array.Copy(BitConverter.GetBytes(value.high), 0, b, 8, 8);
-            return b;
+            ushort c0 = (ushort)(high & 0xFFFF);
+            ushort c1 = (ushort)((high >> 16) & 0xFFFF);
+            Color32F[] colorTable = new Color32F[4];
+            colorTable[0] = Color32F.From16BitColor(c0);
+            colorTable[1] = Color32F.From16BitColor(c1);
+            colorTable[2] = colorTable[0].GradientTwoOne(colorTable[1]);
+            colorTable[3] = colorTable[1].GradientTwoOne(colorTable[0]);
+
+            byte[] alphaTable = new byte[16];
+            ulong lut = low;
+            for (int i = 0; i < 16; i++)
+            {
+                alphaTable[i] = (byte)((lut & 0xF) * 0x11);
+                lut >>= 4;
+            }
+
+            Color[] t = new Color[16];
+            lut = high >> 32;
+            for (int i = 0; i < 16; i++)
+            {
+                int j = (int)(lut & 0x3);
+                t[i] = Color.FromArgb(alphaTable[j], colorTable[j].ToColor());
+                lut >>= 2;
+            }
+
+            return t;
+        }
+        public byte[] GetBits()
+        {
+            return BitConverter.GetBytes(low).Union(BitConverter.GetBytes(high)).ToArray();
+        }
+
+        public static Dxt3Texel FromTexel(ulong low, ulong high)
+        {
+            return new Dxt3Texel() { low = low, high = high };
+        }
+        public static bool operator ==(Dxt3Texel left, Dxt3Texel right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(Dxt3Texel left, Dxt3Texel right)
+        {
+            return !(left == right);
         }
     }
 
     /// <summary>
-    /// Represents one 128-bit texel in a DXT 5 compressed texture.
+    /// Represents a 128-bit DXT 5 compressed texel element
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct DXT5TEXEL : IEquatable<DXT5TEXEL>, IComparable<DXT5TEXEL>, IEquatable<byte[]>, IComparable<byte[]>
+    public struct Dxt5Texel : IEquatable<Dxt5Texel>
     {
-        public static readonly DXT5TEXEL Zero = new DXT5TEXEL(0, 0);
-
-        public R5G6B5[] c
-        {
-            get
-            {
-                R5G6B5[] c = new R5G6B5[4];
-                ushort c0 = (ushort)(high & 0xFFFF);
-                ushort c1 = (ushort)((high >> 16) & 0xFFFF);
-                Color32F[] c32 = new Color32F[4];
-                c32[0] = Color32F.From16BitColor(c0);
-                c32[1] = Color32F.From16BitColor(c1);
-                c32[2] = c32[0].GradientTwoOne(c32[1]);
-                c32[3] = c32[1].GradientTwoOne(c32[0]);
-                for (int i = 0; i < 4; i++)
-                    c[i] = c32[i].To16BitColor();
-                return c;
-            }
-        }
-        public byte[] ColorTable
-        {
-            get
-            {
-                byte[] t = new byte[16];
-                uint lut = (uint)(high >> 32);
-                for (int i = 0; i < 16; i++)
-                {
-                    t[i] = (byte)(lut & 0x3);
-                    lut >>= 2;
-                }
-                return t;
-            }
-        }
-        public byte[] a
-        {
-            get
-            {
-                byte[] a = new byte[16];
-                a[0] = (byte)(low & 0xFF);
-                a[1] = (byte)((low >> 8) & 0xFF);
-                if (a[0] > a[1])
-                {
-                    a[2] = (byte)((6 * a[0] + 1 * a[1]) / 7);
-                    a[3] = (byte)((5 * a[0] + 2 * a[1]) / 7);
-                    a[4] = (byte)((4 * a[0] + 3 * a[1]) / 7);
-                    a[5] = (byte)((3 * a[0] + 4 * a[1]) / 7);
-                    a[6] = (byte)((2 * a[0] + 5 * a[1]) / 7);
-                    a[7] = (byte)((1 * a[0] + 6 * a[1]) / 7);
-                }
-                else
-                {
-                    a[2] = (byte)((4 * a[0] + 1 * a[1]) / 5);
-                    a[3] = (byte)((3 * a[0] + 2 * a[1]) / 5);
-                    a[4] = (byte)((2 * a[0] + 3 * a[1]) / 5);
-                    a[5] = (byte)((1 * a[0] + 4 * a[1]) / 5);
-                    a[6] = 0x0;
-                    a[7] = 0xFF;
-                }
-                return a;
-            }
-        }
-        public byte[] AlphaTable
-        {
-            get
-            {
-                byte[] t = new byte[16];
-                ulong lut = low >> 16;
-                for (int i = 0; i < 16; i++)
-                {
-                    t[i] = (byte)(lut & 0x7);
-                    lut >>= 3;
-                }
-                return t;
-            }
-        }
+        public static readonly Dxt5Texel Zero = new Dxt5Texel();
 
         private ulong low, high;
 
-        public DXT5TEXEL(byte[] value)
-        {
-            //Convert
-            if (value.Length >= 16)
-            {
-                low = BitConverter.ToUInt64(value, 0);
-                high = BitConverter.ToUInt64(value, 8);
-            }
-            else
-            {
-                //Zero
-                low = 0;
-                high = 0;
-            }
-        }
-        public DXT5TEXEL(ulong low, ulong high)
-        {
-            this.low = low;
-            this.high = high;
-        }
-
-        public int CompareTo(DXT5TEXEL other)
-        {
-            int compare = 0;
-            compare += low.CompareTo(other.low);
-            compare += high.CompareTo(other.high);
-            return compare;
-        }
-        public int CompareTo(byte[] other)
-        {
-            int compare = 0;
-            compare += low.CompareTo(BitConverter.ToUInt64(other, 0));
-            compare += high.CompareTo(BitConverter.ToUInt64(other, 8));
-            return compare;
-        }
-        public bool Equals(DXT5TEXEL other)
+        public bool Equals(Dxt5Texel other)
         {
             return low.Equals(other.low) && high.Equals(other.high);
         }
-        public bool Equals(byte[] other)
+        public override bool Equals(object obj)
         {
-            return low.Equals(BitConverter.ToUInt64(other, 0)) && high.Equals(BitConverter.ToUInt64(other, 8));
+            if (obj is Dxt5Texel texel)
+            {
+                return Equals(texel);
+            }
+
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return low.GetHashCode() ^ high.GetHashCode();
+        }
+        public Color[] GetPixels()
+        {
+            ushort c0 = (ushort)(high & 0xFFFF);
+            ushort c1 = (ushort)((high >> 16) & 0xFFFF);
+            Color32F[] colorTable = new Color32F[4];
+            colorTable[0] = Color32F.From16BitColor(c0);
+            colorTable[1] = Color32F.From16BitColor(c1);
+            colorTable[2] = colorTable[0].GradientTwoOne(colorTable[1]);
+            colorTable[3] = colorTable[1].GradientTwoOne(colorTable[0]);
+
+            byte[] alphaTable = new byte[16];
+            alphaTable[0] = (byte)(low & 0xFF);
+            alphaTable[1] = (byte)((low >> 8) & 0xFF);
+            if (alphaTable[0] > alphaTable[1])
+            {
+                alphaTable[2] = (byte)((6 * alphaTable[0] + 1 * alphaTable[1]) / 7);
+                alphaTable[3] = (byte)((5 * alphaTable[0] + 2 * alphaTable[1]) / 7);
+                alphaTable[4] = (byte)((4 * alphaTable[0] + 3 * alphaTable[1]) / 7);
+                alphaTable[5] = (byte)((3 * alphaTable[0] + 4 * alphaTable[1]) / 7);
+                alphaTable[6] = (byte)((2 * alphaTable[0] + 5 * alphaTable[1]) / 7);
+                alphaTable[7] = (byte)((1 * alphaTable[0] + 6 * alphaTable[1]) / 7);
+            }
+            else
+            {
+                alphaTable[2] = (byte)((4 * alphaTable[0] + 1 * alphaTable[1]) / 5);
+                alphaTable[3] = (byte)((3 * alphaTable[0] + 2 * alphaTable[1]) / 5);
+                alphaTable[4] = (byte)((2 * alphaTable[0] + 3 * alphaTable[1]) / 5);
+                alphaTable[5] = (byte)((1 * alphaTable[0] + 4 * alphaTable[1]) / 5);
+                alphaTable[6] = 0x0;
+                alphaTable[7] = 0xFF;
+            }
+
+            Color[] t = new Color[16];
+            ulong lut = high >> 32;
+            for (int i = 0; i < 16; i++)
+            {
+                int j = (int)(lut & 0x3);
+                t[i] = Color.FromArgb(alphaTable[j], colorTable[j].ToColor());
+                lut >>= 2;
+            }
+
+            return t;
+        }
+        public byte[] GetBits()
+        {
+            return BitConverter.GetBytes(low).Union(BitConverter.GetBytes(high)).ToArray();
         }
 
-        public static implicit operator DXT5TEXEL(byte[] value)
+        public static Dxt5Texel FromTexel(ulong low, ulong high)
         {
-            if (value.Length >= 16)
-                return new DXT5TEXEL(value);
-            else
-                throw new ArgumentException("value is not long enough.");
+            return new Dxt5Texel() { low = low, high = high };
         }
-        public static implicit operator byte[] (DXT5TEXEL value)
+        public static bool operator ==(Dxt5Texel left, Dxt5Texel right)
         {
-            byte[] b = new byte[16];
-            Array.Copy(BitConverter.GetBytes(value.low), 0, b, 0, 8);
-            Array.Copy(BitConverter.GetBytes(value.high), 0, b, 8, 8);
-            return b;
+            return left.Equals(right);
+        }
+        public static bool operator !=(Dxt5Texel left, Dxt5Texel right)
+        {
+            return !(left == right);
         }
     }
 
     /// <summary>
-    /// Represents one 128-bit texel in a 3Dc compressed texture.
+    /// Represents a 128-bit texel in a 3Dc compressed texture.
     /// </summary>
-    public struct ATI2TEXEL : IEquatable<ATI2TEXEL>, IComparable<ATI2TEXEL>, IEquatable<byte[]>, IComparable<byte[]>
+    public struct Ati2Texel : IEquatable<Ati2Texel>
     {
-        public static readonly ATI2TEXEL Zero = new ATI2TEXEL(0, 0);
+        public static readonly Ati2Texel Zero = new Ati2Texel(0, 0);
 
         public R5G6B5[] c
         {
@@ -561,9 +434,10 @@ namespace Bitmap_Library.Compression
             }
         }
 
-        private ulong low, high;
+        private readonly ulong low;
+        private readonly ulong high;
 
-        public ATI2TEXEL(byte[] value)
+        public Ati2Texel(byte[] value)
         {
             //Convert
             if (value.Length >= 16)
@@ -578,13 +452,13 @@ namespace Bitmap_Library.Compression
                 high = 0;
             }
         }
-        public ATI2TEXEL(ulong low, ulong high)
+        public Ati2Texel(ulong low, ulong high)
         {
             this.low = low;
             this.high = high;
         }
 
-        public int CompareTo(ATI2TEXEL other)
+        public int CompareTo(Ati2Texel other)
         {
             int compare = 0;
             compare += low.CompareTo(other.low);
@@ -598,7 +472,7 @@ namespace Bitmap_Library.Compression
             compare += high.CompareTo(BitConverter.ToUInt64(other, 8));
             return compare;
         }
-        public bool Equals(ATI2TEXEL other)
+        public bool Equals(Ati2Texel other)
         {
             return low.Equals(other.low) && high.Equals(other.high);
         }
@@ -607,14 +481,14 @@ namespace Bitmap_Library.Compression
             return low.Equals(BitConverter.ToUInt64(other, 0)) && high.Equals(BitConverter.ToUInt64(other, 8));
         }
 
-        public static implicit operator ATI2TEXEL(byte[] value)
+        public static implicit operator Ati2Texel(byte[] value)
         {
             if (value.Length >= 16)
-                return new ATI2TEXEL(value);
+                return new Ati2Texel(value);
             else
                 throw new ArgumentException("value is not long enough.");
         }
-        public static implicit operator byte[] (ATI2TEXEL value)
+        public static implicit operator byte[](Ati2Texel value)
         {
             byte[] b = new byte[16];
             Array.Copy(BitConverter.GetBytes(value.low), 0, b, 0, 8);

@@ -102,7 +102,7 @@ namespace Abide.Guerilla.Library
                         BlockField guerillaBlockField = (BlockField)guerilla.Fields[i];
                         for (int j = 0; j < cacheBlockField.BlockList.Count; j++)
                         {
-                            if (guerillaBlockField.Add(out Block guerillaBlock))
+                            if (guerillaBlockField.AddNew(out Block guerillaBlock))
                             {
                                 TagBlock_ToGuerilla(guerillaBlock, cacheBlockField.BlockList[j], map);
                             }
@@ -148,7 +148,7 @@ namespace Abide.Guerilla.Library
 
                 foreach (Block cacheBitmapSequenceBlock in cacheSequences.BlockList)
                 {
-                    if (sequences.Add(out Block bitmapSequenceBlock))
+                    if (sequences.AddNew(out Block bitmapSequenceBlock))
                     {
                         TagBlock_ToGuerilla(bitmapSequenceBlock, cacheBitmapSequenceBlock, map);
                     }
@@ -156,7 +156,7 @@ namespace Abide.Guerilla.Library
 
                 foreach (Block cacheBitmapDataBlock in cacheBitmaps.BlockList)
                 {
-                    if (bitmaps.Add(out Block bitmapDataBlock))
+                    if (bitmaps.AddNew(out Block bitmapDataBlock))
                     {
                         TagBlock_ToGuerilla(bitmapDataBlock, cacheBitmapDataBlock, map);
                     }
@@ -223,7 +223,7 @@ namespace Abide.Guerilla.Library
             {
                 foreach (string stringId in stringIds)
                 {
-                    if (((BlockField)unicodeStringListBlock[0]).Add(out Block stringReferenceBlock))
+                    if (((BlockField)unicodeStringListBlock[0]).AddNew(out Block stringReferenceBlock))
                     {
                         stringReferenceBlock.Fields[0].Value = stringId;
                         stringReferenceBlock.Fields[1].Value = -1;
@@ -350,7 +350,7 @@ namespace Abide.Guerilla.Library
             if ((byte)cacheFileSoundBlock.Fields[10].Value != nullByteIndex)    // custom playback byte index
             {
                 BlockField platformParameters = (BlockField)soundBlock.Fields[14];
-                if (platformParameters.Add(out Block soundPlatformPlaybackBlock))
+                if (platformParameters.AddNew(out Block soundPlatformPlaybackBlock))
                 {
                     Block customPlayback = customPlaybacks.BlockList[(byte)cacheFileSoundBlock.Fields[10].Value];
                     soundPlatformPlaybackBlock.Fields[0].Value = customPlayback.Fields[0].Value;    //playback definition
@@ -360,7 +360,7 @@ namespace Abide.Guerilla.Library
             if ((short)cacheFileSoundBlock.Fields[11].Value != nullShortIndex)  // extra infos
             {
                 BlockField unnamed = (BlockField)soundBlock.Fields[15];
-                if (unnamed.Add(out Block extraInfo))
+                if (unnamed.AddNew(out Block extraInfo))
                 {
                     //Get encoded permutation section
                     Block soundGestaltExtraInfo = extraInfos.BlockList[(short)cacheFileSoundBlock.Fields[11].Value];
@@ -380,7 +380,7 @@ namespace Abide.Guerilla.Library
                 BlockField soundPitchRanges = (BlockField)soundBlock.Fields[13];
                 for (int i = 0; i < pitchRangeCount; i++)
                 {
-                    if (soundPitchRanges.Add(out Block soundPitchRange))
+                    if (soundPitchRanges.AddNew(out Block soundPitchRange))
                     {
                         Block pitchRange = pitchRanges.BlockList[pitchRangeIndex + i];
                         Block importName = importNames.BlockList[(short)pitchRange.Fields[0].Value];
@@ -399,7 +399,7 @@ namespace Abide.Guerilla.Library
                             BlockField soundPermutations = (BlockField)soundPitchRange.Fields[7];
                             for (int j = 0; j < permutationCount; j++)
                             {
-                                if (soundPermutations.Add(out Block soundPermutation))
+                                if (soundPermutations.AddNew(out Block soundPermutation))
                                 {
                                     Block permutation = permutations.BlockList[permutationIndex + j];
                                     importName = importNames.BlockList[(short)permutation.Fields[0].Value];

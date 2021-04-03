@@ -83,7 +83,7 @@ namespace Abide.Tag.Ui.Guerilla.Controls
         private void flagsListBox_MouseHover(object sender, EventArgs e)
         {
             Point clientPoint = flagsListBox.PointToClient(MousePosition);
-            ObjectName name = null;
+            ObjectName name = new ObjectName();
             for (int i = 0; i < flagsListBox.Items.Count; i++)
             {
                 name = new ObjectName(options[i]);

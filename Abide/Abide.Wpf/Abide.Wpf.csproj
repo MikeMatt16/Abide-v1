@@ -118,9 +118,16 @@
     <Compile Include="Modules\Editors\Halo2\ValueEditors\Vector4ValueEditor.xaml.cs">
       <DependentUpon>Vector4ValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Halo2\Helper.cs" />
     <Compile Include="Modules\Operations\HaloMapCompileOperation.cs" />
     <Compile Include="Modules\Operations\HaloMapDecompileOperation.cs" />
     <Compile Include="Modules\ProjectTypes\Halo2\Retail\HaloProject.cs" />
+    <Compile Include="Modules\Tag\AbideTagBlock.cs" />
+    <Compile Include="Modules\Tag\AbideTagField.cs" />
+    <Compile Include="Modules\Tag\AbideTagGroup.cs" />
+    <Compile Include="Modules\Tag\TagBlockList.cs" />
+    <Compile Include="Modules\Tag\TagContext.cs" />
+    <Compile Include="Modules\Tag\AbideTagObject.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimationTest.cs" />
     <Compile Include="Modules\AddOns\HaloAddOnFactory.cs" />
     <Compile Include="Modules\Tools\Halo2\Retail\Animator\AnimatorViewModel.cs" />
@@ -133,6 +140,7 @@
     <Compile Include="Modules\UI\DockableTabControl.cs" />
     <Compile Include="Modules\UI\DockableTabItem.cs" />
     <Compile Include="Modules\UI\DockingPanel.cs" />
+    <Compile Include="Modules\UI\DropDownButton.cs" />
     <Compile Include="Modules\UI\FileTabItem.cs" />
     <Compile Include="Modules\UI\FloatPanelControl.cs" />
     <Compile Include="Modules\UI\TagGroupEditorPanel.xaml.cs">
@@ -204,6 +212,7 @@
     <Compile Include="Modules\Win32\CreateParameters.cs" />
     <Compile Include="Modules\Win32\Gdi32.cs" />
     <Compile Include="Modules\Win32\User32.cs" />
+    <Compile Include="Modules\Win32\Uxtheme.cs" />
     <Compile Include="Modules\Win32\Win32Window.cs" />
     <Compile Include="Modules\Win32\WinUser.cs" />
     <Page Include="Modules\Dialogs\ChooseEditorDialog.xaml">
@@ -361,13 +370,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Abide Splash.png" />
+    <Resource Include="Resources\Abide Splash.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\abide-icon.ico" />
+    <Resource Include="Resources\abide-icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Glow-Window.png" />
+    <Resource Include="Resources\Glow-Window.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Modules\Windows\Resources\Abide-Window-Icon.png" />
@@ -408,6 +417,10 @@
     <ProjectReference Include="..\..\Abide Halo Library\Abide.AddOnApi.Wpf\Abide.AddOnApi.Wpf.csproj">
       <Project>{b3cc2b9a-fdd7-4cbf-a87d-e1732737226e}</Project>
       <Name>Abide.AddOnApi.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abide.Renderer\Abide.Renderer.csproj">
+      <Project>{29fcd854-de57-4b22-81e0-17c17f3f8fa9}</Project>
+      <Name>Abide.Renderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Abide.Wpf.Ui\Abide.Wpf.Ui.csproj">
       <Project>{2f92e201-9c1a-441e-ae2d-894def96a8ba}</Project>

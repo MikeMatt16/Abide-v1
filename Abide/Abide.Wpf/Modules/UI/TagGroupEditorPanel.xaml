@@ -4,30 +4,115 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Abide.Wpf.Modules.UI"
-             xmlns:tag="clr-namespace:Abide.Tag;assembly=Abide.Tag"
-             xmlns:ve="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
+             xmlns:tag="clr-namespace:Abide.Wpf.Modules.Tag"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
         <local:StringToVisibilityConverter x:Key="StringToVisibility"/>
 
-        <DataTemplate x:Key="StandardFieldTemplate" DataType="{x:Type tag:Field}">
+        <DataTemplate x:Key="StringFieldTemplate" DataType="{x:Type tag:StringValueField}">
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="250" Width="Auto"/>
-                    <ColumnDefinition MinWidth="300"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                <ContentPresenter Grid.Column="1" ContentTemplateSelector="{DynamicResource FieldEditorTemplateSelector}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Column="0" MinWidth="250" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <TextBox Grid.Column="1" MinWidth="300" Text="{Binding StringValue, Mode=TwoWay}"/>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="StructFieldTemplate" DataType="{x:Type tag:StructField}">
-            <ContentPresenter ContentTemplate="{DynamicResource TagBlockTemplate}" Content="{Binding Block}"/>
+        <DataTemplate x:Key="BoundsFieldTemplate" DataType="{x:Type tag:StringBoundsValueField}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" MinWidth="250" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Grid Grid.Column="1" MinWidth="300">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding LowerValue, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="1" Margin="6,0,6,0" Text="to" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="2" Text="{Binding UpperValue, Mode=TwoWay}"/>
+                </Grid>
+            </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="BlockFieldTemplate" DataType="{x:Type local:SelectableBlockField}">
+        <DataTemplate x:Key="EnumFieldTemplate" DataType="{x:Type tag:EnumValueField}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="250"/>
+                <ComboBox Grid.Column="1" MinWidth="300" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemsSource="{Binding Options}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BlockIndexFieldTemplate" DataType="{x:Type tag:BlockIndexValueField}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="250"/>
+                <ComboBox Grid.Column="1" MinWidth="300" SelectedItem="{Binding SelectedOption, Mode=TwoWay}" ItemsSource="{Binding Options}"
+                          IsReadOnly="{Binding IsReadOnly}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="FlagsFieldTemplate" DataType="{x:Type tag:FlagsValueField}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Margin="8,2,4,4" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="250"/>
+                <Border Grid.Column="1" Grid.RowSpan="2" MinHeight="50" MaxHeight="200" MinWidth="300" BorderThickness="1"
+                        Background="{StaticResource Background}" BorderBrush="{StaticResource BackgroundLight}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Options}" Margin="2">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Background="Transparent">
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center"
+                                                  VerticalContentAlignment="Center" HorizontalAlignment="Stretch">
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </CheckBox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StructFieldTemplate" DataType="{x:Type tag:StructValueField}">
+            <ContentPresenter Content="{Binding Structure}" ContentTemplate="{DynamicResource TagBlockTemplate}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TagBlockFieldTemplate" DataType="{x:Type tag:TagBlockValueField}">
             <Border Margin="2" BorderThickness="1" Background="{StaticResource Background}" 
                     BorderBrush="{StaticResource BackgroundLight}">
                 <Grid>
@@ -77,112 +162,45 @@
                             </ToggleButton.Style>
                         </ToggleButton>
                         <TextBlock Grid.Column="1" Margin="4" Text="{Binding Name}" VerticalAlignment="Center"/>
-                        <ComboBox Grid.Column="2" Margin="4" VerticalAlignment="Center" ItemsSource="{Binding BlockList}" 
-                                  SelectedItem="{Binding SelectedBlock, Mode=TwoWay}" IsEnabled="{Binding Enabled}"/>
+                        <ComboBox Grid.Column="2" Margin="4" VerticalAlignment="Center" ItemsSource="{Binding TagBlockList}" 
+                                  SelectedItem="{Binding SelectedTagBlock, Mode=TwoWay}" IsEnabled="{Binding Enabled}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
                         <StackPanel Grid.Column="3" Margin="4" Orientation="Horizontal">
-                            <Button Margin="4,0,0,0" Command="{Binding AddCommand}" Content="Add"/>
-                            <Button Margin="4,0,0,0" Command="{Binding DeleteCommand}" Content="Delete"/>
-                            <Button Margin="4,0,0,0" Command="{Binding DeleteAllCommand}" Content="Delete All"/>
+                            <Button Margin="4,0,0,0" Command="{Binding AddBlockCommand}" Content="Add"/>
+                            <Button Margin="4,0,0,0" Command="{Binding RemoveBlockCommand}" Content="Delete"/>
+                            <Button Margin="4,0,0,0" Command="{Binding ClearCommand}" Content="Clear"/>
+                            <Button Margin="4,0,0,0" Command="{Binding CopyCommand}" Content="Copy"/>
+                            <Button Margin="4,0,0,0" Command="{Binding CopyAllCommand}" Content="Copy All"/>
+                            <Button Margin="4,0,0,0" Command="{Binding PasteCommand}" Content="Paste"/>
                         </StackPanel>
                     </Grid>
                     <Border Grid.Row="1" BorderThickness="1" Background="{StaticResource BackgroundDark}"
                             BorderBrush="{StaticResource BackgroundLight}" Margin="30,0,6,6"
                             Visibility="{Binding ElementName=ExpandCollapseButton, Path=IsChecked, Converter={StaticResource BooleanToVisibility}}">
-                        <ContentPresenter ContentTemplate="{DynamicResource TagBlockTemplate}" Content="{Binding SelectedBlock}"/>
+                        <ContentPresenter ContentTemplate="{DynamicResource TagBlockTemplate}" Content="{Binding SelectedTagBlock}"/>
                     </Border>
                 </Grid>
             </Border>
         </DataTemplate>
 
-        <DataTemplate x:Key="DataFieldTemplate" DataType="{x:Type tag:DataField}">
+        <local:FieldEditorTemplateSelector x:Key="FieldTemplateSelector"
+                                           BlockEditor="{StaticResource TagBlockFieldTemplate}"
+                                           StructEditor="{StaticResource StructFieldTemplate}"
+                                           StringEditor="{StaticResource StringFieldTemplate}"
+                                           BoundsEditor="{StaticResource BoundsFieldTemplate}"
+                                           EnumEditor="{StaticResource EnumFieldTemplate}"
+                                           BlockIndexEditor="{StaticResource BlockIndexFieldTemplate}"
+                                           FlagsEditor="{StaticResource FlagsFieldTemplate}"/>
 
+        <DataTemplate x:Key="TagBlockTemplate" DataType="{x:Type tag:AbideTagBlock}">
+            <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{DynamicResource FieldTemplateSelector}"/>
         </DataTemplate>
-
-        <DataTemplate x:Key="ExplanationFieldTemplate" DataType="{x:Type tag:ExplanationField}">
-            <Grid Margin="10">
-                <Border Background="{StaticResource BackgroundDark}" BorderBrush="{StaticResource BackgroundLight}" BorderThickness="1">
-                    <StackPanel>
-                        <TextBlock Margin="6" Text="{Binding Name}"/>
-                        <TextBlock Margin="6" Text="{Binding Explanation}" Visibility="{Binding Explanation, Converter={StaticResource StringToVisibility}}"/>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="TagBlockTemplate" DataType="{x:Type tag:Block}">
-            <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{DynamicResource FieldTemplateSelector}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-
-        <local:FieldTemplateSelector x:Key="FieldTemplateSelector"
-                                     StandardFieldTemplate="{StaticResource StandardFieldTemplate}"
-                                     BlockFieldTemplate="{StaticResource BlockFieldTemplate}"
-                                     StructFieldTemplate="{StaticResource StructFieldTemplate}"
-                                     DataFieldTemplate="{StaticResource DataFieldTemplate}"
-                                     ExplanationFieldTemplate="{StaticResource ExplanationFieldTemplate}"/>
-
-        <DataTemplate x:Key="StringFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:BasicValueEditor Field="{Binding}" Width="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="EnumFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:EnumValueEditor Field="{Binding}" Width="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="BoundsFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:BoundsValueEditor Field="{Binding}" Width="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="FlagsFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:FlagsValueEditor Field="{Binding}" Width="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="TagReferenceFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:TagReferenceValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Vector4FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector4ValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Vector3FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector3ValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Vector2FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Vector2ValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Point2FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Point2ValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Point3FieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:Point3ValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="BlockIndexFieldEditorTemplate" DataType="{x:Type tag:Field}">
-            <ve:BlockIndexValueEditor Field="{Binding}" MinWidth="300"/>
-        </DataTemplate>
-
-        <local:FieldEditorTemplateSelector x:Key="FieldEditorTemplateSelector"
-                                           StringEditor="{StaticResource StringFieldEditorTemplate}"
-                                           EnumEditor="{StaticResource EnumFieldEditorTemplate}"
-                                           FlagsEditor="{StaticResource FlagsFieldEditorTemplate}"
-                                           BoundsEditor="{StaticResource BoundsFieldEditorTemplate}"
-                                           TagReferenceEditor="{StaticResource TagReferenceFieldEditorTemplate}"
-                                           Vector4Editor="{StaticResource Vector4FieldEditorTemplate}"
-                                           Vector3Editor="{StaticResource Vector3FieldEditorTemplate}"
-                                           Vector2Editor="{StaticResource Vector2FieldEditorTemplate}"
-                                           Point2Editor="{StaticResource Point2FieldEditorTemplate}"
-                                           Point3Editor="{StaticResource Point3FieldEditorTemplate}"
-                                           BlockIndexEditor="{StaticResource BlockIndexFieldEditorTemplate}"/>
     </UserControl.Resources>
 
     <ScrollViewer>

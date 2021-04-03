@@ -129,8 +129,32 @@ namespace Abide.Wpf.Modules.Editors.Halo2.Retail
         {
             haloMap.Load();
             Map = haloMap;
+
+#if DEBUG
+            Debug();
+#endif
         }
 
+        private void Debug()
+        {
+            var models = Map.GetTagsEnumerator()
+                .Where(t => t.TagName.Contains(@"smg") && t.Tag == "mode");
+
+            var model = models.FirstOrDefault();
+            if (model != null)
+            {
+                var parts = $"{model.TagName}.{model.Tag}".Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                var collection = TagPathNodes;
+
+                int lastIndex = parts.Length - 1;
+                for (int i = 0; i < lastIndex; i++)
+                {
+                    collection = collection[parts[i]].Children;
+                }
+
+                SelectedNode = collection[parts[lastIndex]];
+            }
+        }
         private TagPathNode.TagPathNodeCollection CreateTagTree(string filter = "")
         {
             TagPathNode rootNode = new TagPathNode();

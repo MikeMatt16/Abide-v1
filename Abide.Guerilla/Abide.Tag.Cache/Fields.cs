@@ -3,27 +3,16 @@ using System.IO;
 
 namespace Abide.Tag.Cache
 {
-    public class BaseStringIdField : Field
+    public abstract class BaseStringIdField : Field
     {
         public sealed override int Size => 4;
         public StringId Id
         {
             get => (StringId)Value;
-            set
-            {
-                if (Value is StringId id)
-                {
-                    if (id.Equals(value))
-                    {
-                        return;
-                    }
-                }
-
-                Value = value;
-                NotifyPropertyChanged();
-            }
+            set => Value = value;
         }
-        public BaseStringIdField(FieldType type, string name) : base(type, name)
+
+        protected BaseStringIdField(FieldType type, string name) : base(type, name)
         {
             Id = StringId.Zero;
         }
@@ -40,11 +29,19 @@ namespace Abide.Tag.Cache
     public sealed class StringIdField : BaseStringIdField
     {
         public StringIdField(string name) : base(FieldType.FieldStringId, name) { }
+        protected sealed override Field CloneField()
+        {
+            return new StringIdField(GetName());
+        }
     }
 
     public sealed class OldStringIdField : BaseStringIdField
     {
         public OldStringIdField(string name) : base(FieldType.FieldOldStringId, name) { }
+        protected sealed override Field CloneField()
+        {
+            return new OldStringIdField(GetName());
+        }
     }
 
     public sealed class TagReferenceField : Field
@@ -55,20 +52,9 @@ namespace Abide.Tag.Cache
         public TagReference Reference
         {
             get => (TagReference)Value;
-            set
-            {
-                if (Value is TagReference reference)
-                {
-                    if (reference.Equals(value))
-                    {
-                        return;
-                    }
-                }
-
-                Value = value;
-                NotifyPropertyChanged();
-            }
+            set => Value = value;
         }
+
         public TagReferenceField(string name, int groupTag = 0) : base(FieldType.FieldTagReference, name)
         {
             GroupTag = new TagFourCc(groupTag);
@@ -87,6 +73,10 @@ namespace Abide.Tag.Cache
         {
             writer.Write(Reference);
         }
+        protected override Field CloneField()
+        {
+            return new TagReferenceField(GetName(), GroupTag.FourCc);
+        }
     }
 
     public sealed class TagIndexField : Field
@@ -95,20 +85,9 @@ namespace Abide.Tag.Cache
         public TagId Id
         {
             get => (TagId)Value;
-            set
-            {
-                if (Value is TagId reference)
-                {
-                    if (reference.Equals(value))
-                    {
-                        return;
-                    }
-                }
-
-                Value = value;
-                NotifyPropertyChanged();
-            }
+            set => Value = value;
         }
+
         public TagIndexField(string name) : base(FieldType.FieldTagIndex, name)
         {
             Value = TagId.Null;
@@ -120,6 +99,10 @@ namespace Abide.Tag.Cache
         protected override void OnWrite(BinaryWriter writer)
         {
             writer.Write(Id);
+        }
+        protected override Field CloneField()
+        {
+            return new TagIndexField(GetName());
         }
     }
 }

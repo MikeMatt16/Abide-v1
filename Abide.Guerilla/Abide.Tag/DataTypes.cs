@@ -1,23 +1,28 @@
-﻿using System;
+﻿using Abide.HaloLibrary;
+using System;
 using System.Runtime.InteropServices;
-using Abide.HaloLibrary;
 
 namespace Abide.Tag
 {
-    public struct EmptyStructure { }
     #region Vertex Buffer
     /// <summary>
     /// Represents a vertex buffer.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct VertexBuffer
+    public struct VertexBuffer : IEquatable<VertexBuffer>
     {
-        /// <summary>
-        /// Gets or sets the vertex attribute type.
-        /// </summary>
-        public VertexAttributeType Type { get; }
+        private byte b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29, b30, b31;
 
-        private byte b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24, b25, b26, b27, b28, b29;
+        public byte Type
+        {
+            get => b0;
+            set => b0 = value;
+        }
+        public byte Stride
+        {
+            get => b1;
+            set => b1 = value;
+        }
 
         /// <summary>
         /// Returns the vertex buffer.
@@ -76,175 +81,197 @@ namespace Abide.Tag
             b28 = buffer[28];
             b29 = buffer[29];
         }
+        public bool Equals(VertexBuffer other)
+        {
+            return b0 == other.b0 && b1 == other.b1 && b2 == other.b2 && b3 == other.b3 && b4 == other.b4 && b5 == other.b5 && b6 == other.b6 &&
+                b7 == other.b7 && b8 == other.b8 && b9 == other.b9 && b10 == other.b10 && b11 == other.b11 && b12 == other.b12 && b13 == other.b13 &&
+                b14 == other.b14 && b15 == other.b15 && b16 == other.b16 && b17 == other.b17 && b18 == other.b18 && b19 == other.b19 && b20 == other.b20 &&
+                b21 == other.b21 && b22 == other.b22 && b23 == other.b23 && b24 == other.b24 && b25 == other.b25 && b26 == other.b26 && b27 == other.b27 &&
+                b28 == other.b28 && b29 == other.b29;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is VertexBuffer vb)
+            {
+                return Equals(vb);
+            }
+
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return b0.GetHashCode() ^ b1.GetHashCode() ^ b2.GetHashCode() ^ b3.GetHashCode() ^ b4.GetHashCode() ^ b5.GetHashCode() ^ b6.GetHashCode() ^ 
+                b7.GetHashCode() ^ b8.GetHashCode() ^ b9.GetHashCode() ^ b10.GetHashCode() ^ b11.GetHashCode() ^ b12.GetHashCode() ^ b13.GetHashCode() ^ 
+                b14.GetHashCode() ^ b15.GetHashCode() ^ b16.GetHashCode() ^ b17.GetHashCode() ^ b18.GetHashCode() ^ b19.GetHashCode() ^ b20.GetHashCode() ^ 
+                b21.GetHashCode() ^ b22.GetHashCode() ^ b23.GetHashCode() ^ b24.GetHashCode() ^ b25.GetHashCode() ^ b26.GetHashCode() ^ b27.GetHashCode() ^ 
+                b28.GetHashCode() ^ b29.GetHashCode();
+        }
+
+        public static bool operator ==(VertexBuffer left, VertexBuffer right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(VertexBuffer left, VertexBuffer right)
+        {
+            return !(left == right);
+        }
     }
     /// <summary>
     /// Represents an enumeration containing vertex attribute types.
     /// </summary>
     public enum VertexAttributeType : short
     {
-        None = 0x0000,
-        CoordinateFloat = 0x010C,
-        CoordinateCompressed = 0x0206,
-        CoordinateWithSingleNode = 0x0408,
-        CoordinateWithDoubleNode = 0x060C,
-        CoordinateWithTripleNode = 0x080C,
+        None = 0x0,
+        PositionUncompressed = 0x01,
+        PositionCompressed = 0x02,
+        CoordinateWithSingleNode = 0x04,
+        CoordinateWithDoubleNode = 0x06,
+        CoordinateWithTripleNode = 0x08,
 
-        TextureCoordinateFloatPc = 0x1708,
-        TextureCoordinateFloat = 0x1808,
-        TextureCoordinateCompressed = 0x1904,
+        TextureCoordinateFloatPc = 0x17,
+        TextureCoordinateFloat = 0x18,
+        TextureCoordinateCompressed = 0x19,
 
-        TangentSpaceUnitVectorsFloat = 0x1924,
-        TangentSpaceUnitVectorsCompressed = 0x1B0C,
+        TangentSpaceUnitVectorsFloat = 0x19,
+        TangentSpaceUnitVectorsCompressed = 0x1B,
 
-        LightmapUVCoordinateOne = 0x1F08,
-        LightmapUVCoordinateOneXbox = 0x1F04,
-        LightmapUVCoordinateTwo = 0x3008,
-        LightmapUVCoordinateTwoXbox = 0x3004,
+        LightmapUVCoordinateOne = 0x1F,
+        LightmapUVCoordinateTwo = 0x30,
 
-        DiffuseColour = 0x350C,
+        DiffuseColour = 0x35,
 
-        UnpackedWorldCoordinateData = 0x2120,
-        UnpackedTextureCoordinateData = 0x2208,
-        UnpackedLightingData = 0x2324,
+        UnpackedWorldCoordinateData = 0x21,
+        UnpackedTextureCoordinateData = 0x22,
+        UnpackedLightingData = 0x23,
     }
     #endregion
     #region Tags
-    /// <summary>
-    /// Represents a tag reference.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
     public struct TagReference : IEquatable<TagReference>
     {
-        /// <summary>
-        /// Represents a null tag reference.
-        /// This value is read-only.
-        /// </summary>
         public static readonly TagReference Null = new TagReference() { Tag = "null", Id = TagId.Null };
-        /// <summary>
-        /// Gets or sets the tag group.
-        /// </summary>
         public TagFourCc Tag { get; set; }
-        /// <summary>
-        /// Gets or sets the tag ID.
-        /// </summary>
         public TagId Id { get; set; }
 
-        /// <summary>
-        /// Determines whether this instance and another specified <see cref="TagReference"/> have the same value.
-        /// </summary>
-        /// <param name="reference">The object to compare with the current instance.</param>
-        /// <returns><see langword="true"/> if this tag reference and <paramref name="reference"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(TagReference reference)
         {
             return Tag.Equals(reference.Tag) && Id.Equals(reference.Id);
         }
-        /// <summary>
-        /// Gets a string representation of this tag reference.
-        /// </summary>
-        /// <returns>A string.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is TagReference reference)
+            {
+                return Equals(reference);
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             return $"{Tag} {Id}";
         }
+        public override int GetHashCode()
+        {
+            return Tag.GetHashCode() ^ Id.GetHashCode();
+        }
+
+        public static bool operator ==(TagReference left, TagReference right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(TagReference left, TagReference right)
+        {
+            return !(left == right);
+        }
     }
     #endregion
     #region Bounds
-    /// <summary>
-    /// Represents a short boundaries value.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
     public struct ShortBounds : IEquatable<ShortBounds>
     {
-        /// <summary>
-        /// Represents a zero-value bounds.
-        /// This value is read-only.
-        /// </summary>
         public static readonly ShortBounds Zero = new ShortBounds(0, 0);
 
-        /// <summary>
-        /// Gets or sets the minimum value in the boundaries.
-        /// </summary>
         public short Min { get; }
-        /// <summary>
-        /// Gets or sets the maximum value in the boundaries.
-        /// </summary>
         public short Max { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ShortBounds"/> structure.
-        /// </summary>
-        /// <param name="min">The minumum value.</param>
-        /// <param name="max">The maximum value.</param>
         public ShortBounds(short min, short max)
         {
             Min = min;
             Max = max;
         }
-        /// <summary>
-        /// Returns a value indicating whether this bounds and a specified <see cref="ShortBounds"/> represent the same value.
-        /// </summary>
-        /// <param name="bounds">The other color.</param>
-        /// <returns><see langword="true"/> if the this bounds and <paramref name="bounds"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(ShortBounds bounds)
         {
             return Min.Equals(bounds.Min) && Max.Equals(bounds.Max);
         }
-        /// <summary>
-        /// Gets and returns a string representation if this bounds value.
-        /// </summary>
-        /// <returns>A string.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is ShortBounds bounds)
+            {
+                return Equals(bounds);
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             return $"{Min} - {Max}";
         }
+        public override int GetHashCode()
+        {
+            return Min.GetHashCode() ^ Max.GetHashCode();
+        }
+
+        public static bool operator ==(ShortBounds left, ShortBounds right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(ShortBounds left, ShortBounds right)
+        {
+            return !(left == right);
+        }
     }
-    /// <summary>
-    /// Represents a floating point boundaries value.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
     public struct FloatBounds : IEquatable<FloatBounds>
     {
-        /// <summary>
-        /// Represents a zero-value bounds.
-        /// This value is read-only.
-        /// </summary>
         public static readonly FloatBounds Zero = new FloatBounds(0, 0);
 
-        /// <summary>
-        /// Gets or sets the minimum value in the boundaries.
-        /// </summary>
         public float Min { get; }
-        /// <summary>
-        /// Gets or sets the maximum value in the boundaries.
-        /// </summary>
         public float Max { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FloatBounds"/> structure.
-        /// </summary>
-        /// <param name="min">The minumum value.</param>
-        /// <param name="max">The maximum value.</param>
         public FloatBounds(float min, float max)
         {
             Min = min;
             Max = max;
         }
-        /// <summary>
-        /// Returns a value indicating whether this bounds and a specified <see cref="FloatBounds"/> represent the same value.
-        /// </summary>
-        /// <param name="bounds">The other color.</param>
-        /// <returns><see langword="true"/> if the this bounds and <paramref name="bounds"/> are equal; otherwise <see langword="false"/>.</returns>
         public bool Equals(FloatBounds bounds)
         {
             return Min.Equals(bounds.Min) && Max.Equals(bounds.Max);
         }
-        /// <summary>
-        /// Gets and returns a string representation if this bounds value.
-        /// </summary>
-        /// <returns>A string.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is FloatBounds bounds)
+            {
+                return Equals(bounds);
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             return $"{Min} - {Max}";
+        }
+        public override int GetHashCode()
+        {
+            return Min.GetHashCode() ^ Max.GetHashCode();
+        }
+
+        public static bool operator ==(FloatBounds left, FloatBounds right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(FloatBounds left, FloatBounds right)
+        {
+            return !(left == right);
         }
     }
     #endregion
@@ -1446,15 +1473,42 @@ namespace Abide.Tag
     }
     #endregion
     #region Strings
-    /// <summary>
-    /// Represents a 32-byte length string.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential), Serializable]
     public struct String32
     {
-        /// <summary>
-        /// Gets or sets the string value.
-        /// </summary>
+        private byte string0;
+        private byte string1;
+        private byte string2;
+        private byte string3;
+        private byte string4;
+        private byte string5;
+        private byte string6;
+        private byte string7;
+        private byte string8;
+        private byte string9;
+        private byte string10;
+        private byte string11;
+        private byte string12;
+        private byte string13;
+        private byte string14;
+        private byte string15;
+        private byte string16;
+        private byte string17;
+        private byte string18;
+        private byte string19;
+        private byte string20;
+        private byte string21;
+        private byte string22;
+        private byte string23;
+        private byte string24;
+        private byte string25;
+        private byte string26;
+        private byte string27;
+        private byte string28;
+        private byte string29;
+        private byte string30;
+        private byte string31;
+
         public string String
         {
             get
@@ -1531,6 +1585,45 @@ namespace Abide.Tag
                 string31 = buffer[31];
             }
         }
+
+        public override string ToString()
+        {
+            return String;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is String32 str)
+            {
+                return str.String == String;
+            }
+
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return String.GetHashCode();
+        }
+        public static bool operator ==(String32 s1, String32 s2)
+        {
+            return s1.String == s2.String;
+        }
+        public static bool operator !=(String32 s1, String32 s2)
+        {
+            return s1.String != s2.String;
+        }
+        public static explicit operator string(String32 str)
+        {
+            return str.String;
+        }
+        public static explicit operator String32(string str)
+        {
+            return new String32() { String = str };
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential), Serializable]
+    public struct String256
+    {
         private byte string0;
         private byte string1;
         private byte string2;
@@ -1563,32 +1656,231 @@ namespace Abide.Tag
         private byte string29;
         private byte string30;
         private byte string31;
-        /// <summary>
-        /// Returns the string value.
-        /// </summary>
-        /// <returns>A string.</returns>
-        public override string ToString()
-        {
-            return String;
-        }
-        public static bool operator ==(String32 s1, String32 s2)
-        {
-            return s1.String == s2.String;
-        }
-        public static bool operator !=(String32 s1, String32 s2)
-        {
-            return s1.String != s2.String;
-        }
-    }
-    /// <summary>
-    /// Represents a 256-byte length string.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential), Serializable]
-    public struct String256
-    {
-        /// <summary>
-        /// Gets or sets the string value.
-        /// </summary>
+        private byte string32;
+        private byte string33;
+        private byte string34;
+        private byte string35;
+        private byte string36;
+        private byte string37;
+        private byte string38;
+        private byte string39;
+        private byte string40;
+        private byte string41;
+        private byte string42;
+        private byte string43;
+        private byte string44;
+        private byte string45;
+        private byte string46;
+        private byte string47;
+        private byte string48;
+        private byte string49;
+        private byte string50;
+        private byte string51;
+        private byte string52;
+        private byte string53;
+        private byte string54;
+        private byte string55;
+        private byte string56;
+        private byte string57;
+        private byte string58;
+        private byte string59;
+        private byte string60;
+        private byte string61;
+        private byte string62;
+        private byte string63;
+        private byte string64;
+        private byte string65;
+        private byte string66;
+        private byte string67;
+        private byte string68;
+        private byte string69;
+        private byte string70;
+        private byte string71;
+        private byte string72;
+        private byte string73;
+        private byte string74;
+        private byte string75;
+        private byte string76;
+        private byte string77;
+        private byte string78;
+        private byte string79;
+        private byte string80;
+        private byte string81;
+        private byte string82;
+        private byte string83;
+        private byte string84;
+        private byte string85;
+        private byte string86;
+        private byte string87;
+        private byte string88;
+        private byte string89;
+        private byte string90;
+        private byte string91;
+        private byte string92;
+        private byte string93;
+        private byte string94;
+        private byte string95;
+        private byte string96;
+        private byte string97;
+        private byte string98;
+        private byte string99;
+        private byte string100;
+        private byte string101;
+        private byte string102;
+        private byte string103;
+        private byte string104;
+        private byte string105;
+        private byte string106;
+        private byte string107;
+        private byte string108;
+        private byte string109;
+        private byte string110;
+        private byte string111;
+        private byte string112;
+        private byte string113;
+        private byte string114;
+        private byte string115;
+        private byte string116;
+        private byte string117;
+        private byte string118;
+        private byte string119;
+        private byte string120;
+        private byte string121;
+        private byte string122;
+        private byte string123;
+        private byte string124;
+        private byte string125;
+        private byte string126;
+        private byte string127;
+        private byte string128;
+        private byte string129;
+        private byte string130;
+        private byte string131;
+        private byte string132;
+        private byte string133;
+        private byte string134;
+        private byte string135;
+        private byte string136;
+        private byte string137;
+        private byte string138;
+        private byte string139;
+        private byte string140;
+        private byte string141;
+        private byte string142;
+        private byte string143;
+        private byte string144;
+        private byte string145;
+        private byte string146;
+        private byte string147;
+        private byte string148;
+        private byte string149;
+        private byte string150;
+        private byte string151;
+        private byte string152;
+        private byte string153;
+        private byte string154;
+        private byte string155;
+        private byte string156;
+        private byte string157;
+        private byte string158;
+        private byte string159;
+        private byte string160;
+        private byte string161;
+        private byte string162;
+        private byte string163;
+        private byte string164;
+        private byte string165;
+        private byte string166;
+        private byte string167;
+        private byte string168;
+        private byte string169;
+        private byte string170;
+        private byte string171;
+        private byte string172;
+        private byte string173;
+        private byte string174;
+        private byte string175;
+        private byte string176;
+        private byte string177;
+        private byte string178;
+        private byte string179;
+        private byte string180;
+        private byte string181;
+        private byte string182;
+        private byte string183;
+        private byte string184;
+        private byte string185;
+        private byte string186;
+        private byte string187;
+        private byte string188;
+        private byte string189;
+        private byte string190;
+        private byte string191;
+        private byte string192;
+        private byte string193;
+        private byte string194;
+        private byte string195;
+        private byte string196;
+        private byte string197;
+        private byte string198;
+        private byte string199;
+        private byte string200;
+        private byte string201;
+        private byte string202;
+        private byte string203;
+        private byte string204;
+        private byte string205;
+        private byte string206;
+        private byte string207;
+        private byte string208;
+        private byte string209;
+        private byte string210;
+        private byte string211;
+        private byte string212;
+        private byte string213;
+        private byte string214;
+        private byte string215;
+        private byte string216;
+        private byte string217;
+        private byte string218;
+        private byte string219;
+        private byte string220;
+        private byte string221;
+        private byte string222;
+        private byte string223;
+        private byte string224;
+        private byte string225;
+        private byte string226;
+        private byte string227;
+        private byte string228;
+        private byte string229;
+        private byte string230;
+        private byte string231;
+        private byte string232;
+        private byte string233;
+        private byte string234;
+        private byte string235;
+        private byte string236;
+        private byte string237;
+        private byte string238;
+        private byte string239;
+        private byte string240;
+        private byte string241;
+        private byte string242;
+        private byte string243;
+        private byte string244;
+        private byte string245;
+        private byte string246;
+        private byte string247;
+        private byte string248;
+        private byte string249;
+        private byte string250;
+        private byte string251;
+        private byte string252;
+        private byte string253;
+        private byte string254;
+        private byte string255;
+
         public string String
         {
             get
@@ -2113,269 +2405,23 @@ namespace Abide.Tag
                 string255 = buffer[255];
             }
         }
-        private byte string0;
-        private byte string1;
-        private byte string2;
-        private byte string3;
-        private byte string4;
-        private byte string5;
-        private byte string6;
-        private byte string7;
-        private byte string8;
-        private byte string9;
-        private byte string10;
-        private byte string11;
-        private byte string12;
-        private byte string13;
-        private byte string14;
-        private byte string15;
-        private byte string16;
-        private byte string17;
-        private byte string18;
-        private byte string19;
-        private byte string20;
-        private byte string21;
-        private byte string22;
-        private byte string23;
-        private byte string24;
-        private byte string25;
-        private byte string26;
-        private byte string27;
-        private byte string28;
-        private byte string29;
-        private byte string30;
-        private byte string31;
-        private byte string32;
-        private byte string33;
-        private byte string34;
-        private byte string35;
-        private byte string36;
-        private byte string37;
-        private byte string38;
-        private byte string39;
-        private byte string40;
-        private byte string41;
-        private byte string42;
-        private byte string43;
-        private byte string44;
-        private byte string45;
-        private byte string46;
-        private byte string47;
-        private byte string48;
-        private byte string49;
-        private byte string50;
-        private byte string51;
-        private byte string52;
-        private byte string53;
-        private byte string54;
-        private byte string55;
-        private byte string56;
-        private byte string57;
-        private byte string58;
-        private byte string59;
-        private byte string60;
-        private byte string61;
-        private byte string62;
-        private byte string63;
-        private byte string64;
-        private byte string65;
-        private byte string66;
-        private byte string67;
-        private byte string68;
-        private byte string69;
-        private byte string70;
-        private byte string71;
-        private byte string72;
-        private byte string73;
-        private byte string74;
-        private byte string75;
-        private byte string76;
-        private byte string77;
-        private byte string78;
-        private byte string79;
-        private byte string80;
-        private byte string81;
-        private byte string82;
-        private byte string83;
-        private byte string84;
-        private byte string85;
-        private byte string86;
-        private byte string87;
-        private byte string88;
-        private byte string89;
-        private byte string90;
-        private byte string91;
-        private byte string92;
-        private byte string93;
-        private byte string94;
-        private byte string95;
-        private byte string96;
-        private byte string97;
-        private byte string98;
-        private byte string99;
-        private byte string100;
-        private byte string101;
-        private byte string102;
-        private byte string103;
-        private byte string104;
-        private byte string105;
-        private byte string106;
-        private byte string107;
-        private byte string108;
-        private byte string109;
-        private byte string110;
-        private byte string111;
-        private byte string112;
-        private byte string113;
-        private byte string114;
-        private byte string115;
-        private byte string116;
-        private byte string117;
-        private byte string118;
-        private byte string119;
-        private byte string120;
-        private byte string121;
-        private byte string122;
-        private byte string123;
-        private byte string124;
-        private byte string125;
-        private byte string126;
-        private byte string127;
-        private byte string128;
-        private byte string129;
-        private byte string130;
-        private byte string131;
-        private byte string132;
-        private byte string133;
-        private byte string134;
-        private byte string135;
-        private byte string136;
-        private byte string137;
-        private byte string138;
-        private byte string139;
-        private byte string140;
-        private byte string141;
-        private byte string142;
-        private byte string143;
-        private byte string144;
-        private byte string145;
-        private byte string146;
-        private byte string147;
-        private byte string148;
-        private byte string149;
-        private byte string150;
-        private byte string151;
-        private byte string152;
-        private byte string153;
-        private byte string154;
-        private byte string155;
-        private byte string156;
-        private byte string157;
-        private byte string158;
-        private byte string159;
-        private byte string160;
-        private byte string161;
-        private byte string162;
-        private byte string163;
-        private byte string164;
-        private byte string165;
-        private byte string166;
-        private byte string167;
-        private byte string168;
-        private byte string169;
-        private byte string170;
-        private byte string171;
-        private byte string172;
-        private byte string173;
-        private byte string174;
-        private byte string175;
-        private byte string176;
-        private byte string177;
-        private byte string178;
-        private byte string179;
-        private byte string180;
-        private byte string181;
-        private byte string182;
-        private byte string183;
-        private byte string184;
-        private byte string185;
-        private byte string186;
-        private byte string187;
-        private byte string188;
-        private byte string189;
-        private byte string190;
-        private byte string191;
-        private byte string192;
-        private byte string193;
-        private byte string194;
-        private byte string195;
-        private byte string196;
-        private byte string197;
-        private byte string198;
-        private byte string199;
-        private byte string200;
-        private byte string201;
-        private byte string202;
-        private byte string203;
-        private byte string204;
-        private byte string205;
-        private byte string206;
-        private byte string207;
-        private byte string208;
-        private byte string209;
-        private byte string210;
-        private byte string211;
-        private byte string212;
-        private byte string213;
-        private byte string214;
-        private byte string215;
-        private byte string216;
-        private byte string217;
-        private byte string218;
-        private byte string219;
-        private byte string220;
-        private byte string221;
-        private byte string222;
-        private byte string223;
-        private byte string224;
-        private byte string225;
-        private byte string226;
-        private byte string227;
-        private byte string228;
-        private byte string229;
-        private byte string230;
-        private byte string231;
-        private byte string232;
-        private byte string233;
-        private byte string234;
-        private byte string235;
-        private byte string236;
-        private byte string237;
-        private byte string238;
-        private byte string239;
-        private byte string240;
-        private byte string241;
-        private byte string242;
-        private byte string243;
-        private byte string244;
-        private byte string245;
-        private byte string246;
-        private byte string247;
-        private byte string248;
-        private byte string249;
-        private byte string250;
-        private byte string251;
-        private byte string252;
-        private byte string253;
-        private byte string254;
-        private byte string255;
-        /// <summary>
-        /// Returns the string value.
-        /// </summary>
-        /// <returns>A string.</returns>
+
         public override string ToString()
         {
             return String;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is String256 str)
+            {
+                return str.String == String;
+            }
+
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return String.GetHashCode();
         }
         public static bool operator ==(String256 s1, String256 s2)
         {
@@ -2385,6 +2431,16 @@ namespace Abide.Tag
         {
             return s1.String != s2.String;
         }
+        public static explicit operator string(String256 str)
+        {
+            return str.String;
+        }
+        public static explicit operator String256(string str)
+        {
+            return new String256() { String = str };
+        }
     }
     #endregion
+
+    public struct EmptyStructure { }
 }

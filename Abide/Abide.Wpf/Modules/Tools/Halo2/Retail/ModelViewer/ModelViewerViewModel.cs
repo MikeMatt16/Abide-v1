@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
 {
@@ -12,7 +13,20 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
     {
         private HaloRenderModel model = null;
         private RenderModelContainer selectedContainer = null;
+        private Transform modelTransform = Transform.Identity;
 
+        public Transform ModelTransform
+        {
+            get=>modelTransform;
+            set
+            {
+                if (modelTransform!= value)
+                {
+                    modelTransform = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public RenderModelContainer SelectedContainer
         {
             get => selectedContainer;

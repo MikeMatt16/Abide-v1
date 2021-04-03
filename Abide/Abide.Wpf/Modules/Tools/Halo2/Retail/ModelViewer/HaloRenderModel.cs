@@ -7,6 +7,7 @@ using Abide.Tag;
 using Abide.Tag.Cache.Generated;
 using Abide.Wpf.Modules.ViewModel;
 using Abide.Wpf.Modules.Win32;
+using Abide.Wpf.Modules.Halo2;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
     public sealed class HaloRenderModel : BaseViewModel
     {
         private EntityModel[] entityModels = null;
+        private ParsedModel[] models = null;
         private RegionInformation[] regions = null;
         private CompressionInfo compressionInfo = new CompressionInfo();
         private Dictionary<long, byte[]> resources = new Dictionary<long, byte[]>();
@@ -102,23 +104,25 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                     }
                 }
 
-                BlockField sectionsBlock = (BlockField)renderModelTagGroup.TagBlocks[0].Fields[7];
-                entityModels = new EntityModel[sectionsBlock.BlockList.Count];
-                for (int i = 0; i < sectionsBlock.BlockList.Count; i++)
+                BlockField sections = (BlockField)renderModelTagGroup.TagBlocks[0].Fields[7];
+                entityModels = new EntityModel[sections.BlockList.Count];
+                models = new ParsedModel[sections.BlockList.Count];
+                for (int i = 0; i < sections.BlockList.Count; i++)
                 {
-                    Block section = sectionsBlock.BlockList[i];
-                    Block geometryBlockInfo = (Block)section.Fields[6].Value;
-                    TagBlock sectionsTagBlock = (TagBlock)sectionsBlock.Value;
+                    Block sectionBlock = sections.BlockList[i];
+                    Block geometryBlockInfo = (Block)sectionBlock.Fields[6].Value;
+                    TagBlock sectionsTagBlock = sections.Handle;
 
                     int offset = (int)geometryBlockInfo.Fields[1].Value;
                     int size = (int)geometryBlockInfo.Fields[2].Value;
 
                     if (!resources.ContainsKey(offset) && offset != -1)
                     {
-                        resources.Add(offset, ReadExternalData(offset, size));
+                        resources.Add(offset, Helper.ReadExternalData(offset, size));
                     }
 
-                    entityModels[i] = new EntityModel(data, sectionsTagBlock.Offset + (i * section.Size), compressionInfo, resources[offset]);
+                    entityModels[i] = new EntityModel(data, sectionsTagBlock.Offset + (i * sectionBlock.Size), compressionInfo, resources[offset]);
+                    models[i] = new ParsedModel(sectionBlock, compressionInfo, resources[offset]);
                 }
             }
         }
@@ -205,55 +209,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                 }
             }
         }
-
-        private static byte[] ReadExternalData(long offset, int length)
-        {
-            long location = ((uint)offset) >> 30;
-            long address = ((uint)offset) & 0x3FFFFFFF;
-            byte[] data = null;
-
-            switch (location)
-            {
-                case 1:
-                    if (File.Exists(AbideRegistry.Halo2Mainmenu))
-                    {
-                        using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Mainmenu))
-                        {
-                            _ = fs.Seek(address, SeekOrigin.Begin);
-                            data = new byte[length];
-                            _ = fs.Read(data, 0, length);
-                        }
-                    }
-
-                    break;
-                case 2:
-                    if (File.Exists(AbideRegistry.Halo2Shared))
-                    {
-                        using (FileStream fs = File.OpenRead(AbideRegistry.Halo2Shared))
-                        {
-                            _ = fs.Seek(address, SeekOrigin.Begin);
-                            data = new byte[length];
-                            _ = fs.Read(data, 0, length);
-                        }
-                    }
-
-                    break;
-                case 3:
-                    if (File.Exists(AbideRegistry.Halo2SpShared))
-                    {
-                        using (FileStream fs = File.OpenRead(AbideRegistry.Halo2SpShared))
-                        {
-                            _ = fs.Seek(address, SeekOrigin.Begin);
-                            data = new byte[length];
-                            _ = fs.Read(data, 0, length);
-                        }
-                    }
-
-                    break;
-            }
-
-            return data;
-        }
+        
         private static short[] DecompressIndices(short[] indices, int start, int count)
         {
             bool dir = false;
@@ -371,6 +327,235 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             }
 
             return meshGeometry;
+        }
+    }
+
+    public class ParsedModel
+    {
+        private readonly int vertexCount, triangleCount, classification, compressionFlags;
+        private readonly List<byte[]> vertexBuffers = new List<byte[]>();
+        private readonly Block sectionDataBlock = null;
+        private readonly BlockField partsBlock = null;
+        private readonly BlockField subpartsBlock = null;
+        private readonly BlockField visibilityBoundsBlock = null;
+        private readonly BlockField rawVerticesBlock = null;
+        private readonly BlockField stripIndiciesBlock = null;
+        private readonly DataField visiblityMoppCodeBlock = null;
+        private readonly BlockField moppReorderTableBlock = null;
+        private readonly BlockField vertexBuffersBlock = null;
+        private readonly BlockField rawPointsBlock = null;
+        private readonly DataField runtimePointData = null;
+        private readonly BlockField rigidPointGroupsBlock = null;
+        private readonly BlockField vertexPointIndicesBlock = null;
+        private readonly BlockField nodeMapBlock = null;
+
+        public ParsedModel(Block sectionBlock, CompressionInfo compressionInfo, byte[] raw)
+        {
+            if (sectionBlock.Name == "render_model_section_block")  // sanity check
+            {
+                var sectionInfo = (Block)sectionBlock.Fields[2].Value;
+                vertexCount = (short)sectionInfo.Fields[1].Value;
+                triangleCount = (short)sectionInfo.Fields[2].Value;
+                classification = (short)sectionInfo.Fields[12].Value;
+                compressionFlags = (short)sectionInfo.Fields[13].Value;
+
+                var blockInfo = (Block)sectionBlock.Fields[6].Value;
+                var resources = (BlockField)blockInfo.Fields[5];
+
+                using (var rawStream = new MemoryStream(raw, false))
+                using (var reader = new BinaryReader(rawStream))
+                {
+                    var headerFourCc = new string(reader.ReadChars(4));
+                    if (headerFourCc != "hklb") System.Diagnostics.Debugger.Break();
+
+                    var resourcesSize = reader.ReadInt32();
+                    var headerSize = (int)blockInfo.Fields[3].Value;
+                    var resourcesStart = rawStream.Seek(headerSize, SeekOrigin.Current);
+
+                    sectionDataBlock = ((BlockField)sectionBlock.Fields[5]).Create();    // create a section data block
+                    var geometrySectionBlock = (Block)sectionDataBlock.Fields[0].Value;
+                    var pointDataBlock = (Block)sectionDataBlock.Fields[1].Value;
+
+                    partsBlock = (BlockField)geometrySectionBlock.Fields[0];            // offset 0
+                    subpartsBlock = (BlockField)geometrySectionBlock.Fields[1];         // offset 8
+                    visibilityBoundsBlock = (BlockField)geometrySectionBlock.Fields[2]; // offset 16
+                    rawVerticesBlock = (BlockField)geometrySectionBlock.Fields[3];      // offset 24
+                    stripIndiciesBlock = (BlockField)geometrySectionBlock.Fields[4];    // offset 32
+                    visiblityMoppCodeBlock = (DataField)geometrySectionBlock.Fields[5]; // offset 40
+                    moppReorderTableBlock = (BlockField)geometrySectionBlock.Fields[6]; // offset 48
+                    vertexBuffersBlock = (BlockField)geometrySectionBlock.Fields[7];    // offset 56
+                    rawPointsBlock = (BlockField)pointDataBlock.Fields[0];              // offset 68
+                    runtimePointData = (DataField)pointDataBlock.Fields[1];             // offset 76
+                    rigidPointGroupsBlock = (BlockField)pointDataBlock.Fields[2];       // offset 84
+                    vertexPointIndicesBlock = (BlockField)pointDataBlock.Fields[3];     // offset 92
+                    nodeMapBlock = (BlockField)sectionDataBlock.Fields[2];              // offset 100
+
+                    for (int i = 0; i < resources.BlockList.Count; i++)
+                    {
+                        var resource = resources.BlockList[i];
+                        int type = (byte)resource.Fields[0].Value;
+                        int primaryLocator = (short)resource.Fields[2].Value;
+                        int secondaryLocator = (short)resource.Fields[3].Value;
+                        int size = (int)resource.Fields[4].Value;
+                        int offset = (int)resource.Fields[5].Value;
+
+                        var resourceOffset = rawStream.Position;
+                        var resourceFourCc = new string(reader.ReadChars(4));
+                        if (resourceFourCc != "crsr") System.Diagnostics.Debugger.Break();
+
+                        switch (type)
+                        {
+                            case 0: // Tag block
+                            case 1: // Tag data
+                                int count = size / secondaryLocator;
+
+                                if (type == 0)
+                                {
+                                    for (int j = 0; j < count; j++)
+                                    {
+                                        Block tagBlock = null;
+                                        switch (primaryLocator)
+                                        {
+                                            case 0: // parts offset
+                                                partsBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 8: // subparts offset
+                                                subpartsBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 16:    // visibility bounds offset
+                                                visibilityBoundsBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 24:    // raw vertices offset
+                                                rawVerticesBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 32:    // strip indicies offset
+                                                stripIndiciesBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 48:    // mopp reorder table
+                                                moppReorderTableBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 56:    // vertex buffers offset
+                                                vertexBuffersBlock.AddNew(out tagBlock);
+                                                vertexBuffers.Add(null);
+                                                break;
+
+                                            case 68:    // raw points offset
+                                                rawPointsBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 84:    // rigid point groups offset
+                                                rigidPointGroupsBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 92:    // vertex-point indices offset
+                                                vertexPointIndicesBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            case 100:   // node map offset
+                                                nodeMapBlock.AddNew(out tagBlock);
+                                                break;
+
+                                            default:
+                                                System.Diagnostics.Debugger.Break();
+                                                continue;
+                                        }
+
+                                        if (tagBlock != null)
+                                        {
+                                            tagBlock.Read(reader);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    System.Diagnostics.Debugger.Break();
+
+                                    switch (primaryLocator)
+                                    {
+                                        case 40:    // visibility mopp code offset
+                                            visiblityMoppCodeBlock.SetBuffer(reader.ReadBytes(size));
+                                            break;
+
+                                        case 76:    // runtime point data offset
+                                            runtimePointData.SetBuffer(reader.ReadBytes(size));
+                                            break;
+
+                                        default:
+                                            System.Diagnostics.Debugger.Break();
+                                            break;
+                                    }
+                                }
+                                break;
+
+                            case 2: // Vertex buffer
+                                var vertexBuffer = (VertexBuffer)vertexBuffersBlock.BlockList[secondaryLocator].Fields[0].Value;
+                                vertexBuffers[secondaryLocator] = reader.ReadBytes(vertexCount * vertexBuffer.Stride);
+                                break;
+
+                            default:
+                                System.Diagnostics.Debugger.Break();
+                                break;
+                        }
+
+                        rawStream.Align(4);     // apparently the stream must be aligned to 4 bytes
+                    }
+
+                    var footerFourCc = new string(reader.ReadChars(4));
+                    if (footerFourCc != "fklb") System.Diagnostics.Debugger.Break();
+                }
+
+                var vertices = new List<Vector3>();
+                var texCoords = new List<Vector2>();
+                var triangles = new List<ushort>();
+
+                var vertexBufferValues = vertexBuffersBlock.BlockList.Select(b => (VertexBuffer)b.Fields[0].Value).ToArray();
+                for (int i = 0; i < vertexBufferValues.Length; i++)
+                {
+                    var vertexBuffer = vertexBuffers[i];
+                    var vb = vertexBufferValues[i];
+
+                    using (var stream = new MemoryStream(vertexBuffer, false))
+                    using (var reader = new BinaryReader(stream))
+                    {
+                        var type = (XboxVertexBufferType)vb.Type;
+
+                        for (int j = 0; j < vertexCount; j++)
+                        {
+                            switch (type)
+                            {
+                                case XboxVertexBufferType.PositionBoned1_Compressed:
+                                    PackedVector3 vertexPosition = reader.Read<PackedVector3>();
+                                    byte weight = reader.ReadByte();
+
+                                    vertices.Add(new Vector3(
+                                        compressionInfo.Inflate(Component.PositionX, vertexPosition.X),
+                                        compressionInfo.Inflate(Component.PositionY, vertexPosition.Y),
+                                        compressionInfo.Inflate(Component.PositionZ, vertexPosition.Z)));
+                                    break;
+
+                                case XboxVertexBufferType.Texcoord_Compressed:
+                                    PackedVector2 texcoordPosition = reader.Read<PackedVector2>();
+                                    texCoords.Add(new Vector2(
+                                        compressionInfo.Inflate(Component.TexcoordX, texcoordPosition.X),
+                                        compressionInfo.Inflate(Component.TexcoordY, texcoordPosition.Y)));
+                                    break;
+
+                                case XboxVertexBufferType.NormalBinormalTangent_Compressed:
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -541,7 +726,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
                 {
                     Vector2 tempuv = new Vector2();
                     BR.BaseStream.Position = HeaderSize + RawDataChunkInfo[uvchunk].Offset + (RawDataChunkInfo[uvchunk].ChunkSize * x);
-                    NormalVector2 normalVector = BR.Read<NormalVector2>();
+                    PackedVector2 normalVector = BR.Read<PackedVector2>();
 
                     // if (tempuv.X > 1) { tempuv.X = tempuv.X - 1; }
                     // else
@@ -704,6 +889,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         }
     }
 
+    public struct R11G11B10Float
+    {
+        private int value;
+    }
+
     public struct CompressionInfo
     {
         private const float shortConst = short.MaxValue;
@@ -716,7 +906,22 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         public FloatBounds TexcoordY { get; set; }
         public FloatBounds SecondaryTexcoordX { get; set; }
         public FloatBounds SecondaryTexcoordY { get; set; }
+        public override bool Equals(object obj)
+        {
+            if (obj is CompressionInfo other)
+            {
+                return other.PositionX == PositionX && other.PositionY == PositionY &&
+                    other.PositionZ == other.PositionZ && other.TexcoordX == TexcoordX &&
+                    other.TexcoordY == other.TexcoordY && other.SecondaryTexcoordX == SecondaryTexcoordX &&
+                    other.SecondaryTexcoordY == SecondaryTexcoordY;
+            }
 
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
         public float Inflate(Component component, float value)
         {
             FloatBounds bounds;
@@ -783,20 +988,29 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
 
             return bounds.Min + (value / (bounds.Max - bounds.Min));
         }
+
+        public static bool operator ==(CompressionInfo left, CompressionInfo right)
+        {
+            return left.Equals(right);
+        }
+        public static bool operator !=(CompressionInfo left, CompressionInfo right)
+        {
+            return !(left == right);
+        }
     }
 
-    public struct Normal16 : IComparable<Normal16>, IEquatable<Normal16>
+    public struct Packed16 : IComparable<Packed16>, IEquatable<Packed16>
     {
         public const float MinValue = -1f;
         public const float MaxValue = 1f;
 
         private short value;
 
-        private Normal16(short value)
+        private Packed16(short value)
         {
             this.value = value;
         }
-        private Normal16(float value)
+        private Packed16(float value)
         {
             if (value < -1f)
             {
@@ -811,11 +1025,11 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             this.value = (short)Math.Floor(value * (short.MaxValue / 2f));
         }
 
-        public int CompareTo(Normal16 value)
+        public int CompareTo(Packed16 value)
         {
             return this.value.CompareTo(value.value);
         }
-        public bool Equals(Normal16 value)
+        public bool Equals(Packed16 value)
         {
             return this.value.Equals(value.value);
         }
@@ -824,28 +1038,29 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             return (Math.Abs(value) / (float)(value < 0 ? short.MinValue : short.MaxValue)).ToString();
         }
 
-        public static implicit operator Normal16(float value)
+        public static implicit operator Packed16(float value)
         {
-            return new Normal16(value);
+            return new Packed16(value);
         }
-        public static explicit operator Normal16(short value)
+        public static explicit operator Packed16(short value)
         {
-            return new Normal16(value);
+            return new Packed16(value);
         }
-        public static implicit operator float(Normal16 value)
+        public static implicit operator float(Packed16 value)
         {
-            return Math.Abs(value.value) / (float)(value.value < 0 ? short.MinValue : short.MaxValue);
+            double v = value.value;
+            return (float)(Math.Abs(v) / (v < 0 ? short.MinValue : short.MaxValue));
         }
-        public static explicit operator short(Normal16 value)
+        public static explicit operator short(Packed16 value)
         {
             return value.value;
         }
     }
 
-    public struct NormalVector3
+    public struct PackedVector3
     {
-        public static readonly NormalVector3 Zero = new NormalVector3(0f, 0f, 0f);
-        private Normal16 x, y, z;
+        public static readonly PackedVector3 Zero = new PackedVector3(0f, 0f, 0f);
+        private Packed16 x, y, z;
 
         public float X
         {
@@ -864,7 +1079,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         }
 
 
-        public NormalVector3(float x, float y, float z)
+        public PackedVector3(float x, float y, float z)
         {
             //Check
             if (x < -1f || x > 1)
@@ -896,16 +1111,16 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             return $"({x}, {y}, {z})";
         }
 
-        public static implicit operator Vector3(NormalVector3 vector)
+        public static implicit operator Vector3(PackedVector3 vector)
         {
             return new Vector3(vector.x, vector.y, vector.z);
         }
     }
 
-    public struct NormalVector2
+    public struct PackedVector2
     {
-        public static readonly NormalVector2 Zero = new NormalVector2(0f, 0f);
-        private Normal16 x, y;
+        public static readonly PackedVector2 Zero = new PackedVector2(0f, 0f);
+        private Packed16 x, y;
 
         public float X
         {
@@ -918,7 +1133,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             set => y = value;
         }
 
-        public NormalVector2(float x, float y)
+        public PackedVector2(float x, float y)
         {
             //Check
             if (x < -1f || x > 1)
@@ -952,7 +1167,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         {
             return $"({x}, {y})";
         }
-        public static implicit operator Vector2(NormalVector2 vector)
+        public static implicit operator Vector2(PackedVector2 vector)
         {
             return new Vector2(vector.x, vector.y);
         }
@@ -970,6 +1185,100 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
         TexcoordY,
         SecondaryTexcoordX,
         SecondaryTexcoordY,
+    }
+
+    public enum XboxVertexBufferType : byte
+    {
+        /// <summary>
+        /// POSITION - Vector3
+        /// </summary>
+        Position_Uncompressed = 1,
+        /// <summary>
+        /// POSITION - Custom packing into 3 shorts
+        /// </summary>
+        Position_Compressed = 2,
+
+        /// <summary>
+        /// POSITION/BLENDINDICES - Custom packing into 3 shorts + 1 bone index
+        /// </summary>
+        PositionBoned1_Compressed = 4,
+
+        /// <summary>
+        /// POSITION/BLENDINDICES/BLENDWEIGHT - Custom packing into 3 shorts + (2 bytes padding?) + 2 bone index (bytes) + 2 weights (ubyte)
+        /// </summary>
+        PositionSkinned2Wt_Compressed = 6,
+
+        /// <summary>
+        /// POSITION/BLENDINDICES/BLENDWEIGHT - Custom packing into 3 shorts + 3 bone index + 3 weights
+        /// </summary>
+        PositionSkinned3Wt_Compressed = 8,
+
+        /// <summary>
+        /// TEXCOORD0 - Vector2
+        /// </summary>
+        Texcoord_Uncompressed = 0x18,
+        /// <summary>
+        /// TEXCOORD0 - Custom packing into 2 shorts
+        /// </summary>
+        Texcoord_Compressed = 0x19,
+        /// <summary>
+        /// NORMAL/BINORMAL/TANGENT - 3x Vector3
+        /// </summary>
+        NormalBinormalTangent_Uncompressed = 0x1A,
+        /// <summary>
+        /// NORMAL/BINORMAL/TANGENT - 3x R11G11B10_Float
+        /// </summary>
+        NormalBinormalTangent_Compressed = 0x1B,
+
+        /// <summary>
+        /// TEXCOORD1 - Vector2
+        /// </summary>
+        SecondaryTexcoord_Uncompressed = 0x1E,
+        /// <summary>
+        /// TEXCOORD1 - Custom packing into 2 shorts
+        /// </summary>
+        SecondaryTexcoord_Compressed = 0x1F,
+
+        /// <summary>
+        /// COLOR - R8G8B8
+        /// </summary>
+        PrimaryLightmapColor_UByte3 = 0x2F,
+        /// <summary>
+        /// POSITION - R11G11B10_Float
+        /// </summary>
+        IncidentRadiosity_Compressed = 0x30,
+    }
+
+    public enum PcVertexBufferType : byte
+    {
+        /// <summary>
+        /// POSITION - Vector3
+        /// </summary>
+        Position_Uncompressed = 1,
+
+        /// <summary>
+        /// TEXCOORD0 - Vector2
+        /// </summary>
+        Texcoord_Uncompressed = 0x17,
+
+        /// <summary>
+        /// NORMAL/BINORMAL/TANGENT - 3x Vector3
+        /// </summary>
+        NormalBinormalTangent_Uncompressed = 0x19,
+
+        /// <summary>
+        /// TEXCOORD1 - Vector2
+        /// </summary>
+        SecondaryTexcoord_Uncompressed = 0x1D,
+
+        /// <summary>
+        /// COLOR - A8R8G8B8
+        /// </summary>
+        PrimaryLightmapColor_UByte4 = 0x2E,
+        /// <summary>
+        /// POSITION - Vector3
+        /// </summary>
+        IncidentRadiosity_Uncompressed = 0x2F,
     }
 
     public class SectionInformation

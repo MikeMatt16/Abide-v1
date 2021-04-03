@@ -52,12 +52,13 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         }
     }
 
-    public sealed class IfpTagBlock : Block, INotifyPropertyChanged
+    public sealed class IfpTagBlock : Block
     {
         private readonly List<Field> labelFields = new List<Field>();
+        private readonly int alignment = 4;
 
-        public override string Name { get; } = "ifp_tag_block";
-        public override int Alignment { get; } = 4;
+        public override string Name => "ifp_tag_block";
+        public override int Alignment => alignment;
         public override string DisplayName => GetDisplayName();
 
         public IfpTagBlock(IfpNode ifpNode)
@@ -75,15 +76,15 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             AnalyzeFieldSet(ifpNode.Nodes, size);
 
             int offset = 0, previousOffset = 0;
-            Field field = null;
-
-            if(ifpNode.Alignment > 0)
+            if (ifpNode.Alignment > 0)
             {
-                Alignment = ifpNode.Alignment;
+                alignment = ifpNode.Alignment;
             }
 
+            bool skipId = false;
             foreach (var node in ifpNode.Nodes)
             {
+                Field field = null;
                 if (node.FieldOffset >= offset)
                 {
                     offset = node.FieldOffset;
@@ -93,76 +94,93 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                     continue;
                 }
 
-                switch (node.Type)
+                if (node.Type == IfpNodeType.Tag)
                 {
-                    case IfpNodeType.TagBlock:
-                        field = new IfpBlockField(node);
-                        break;
+                    int nodeIndex = ifpNode.Nodes.IndexOf(node);
+                    if (ifpNode.Nodes.Count > nodeIndex && ifpNode.Nodes[nodeIndex + 1].Type == IfpNodeType.TagId)
+                    {
+                        skipId = true;
+                        continue;
+                    }
+                }
+                else if (node.Type == IfpNodeType.TagId && skipId)
+                {
+                    skipId = false;
+                    field = new TagReferenceField(node.Name);
+                }
+                else
+                {
+                    switch (node.Type)
+                    {
+                        case IfpNodeType.TagBlock:
+                            field = new IfpBlockField(node);
+                            break;
 
-                    case IfpNodeType.UnusedArray:
-                        field = new PadField(node.Name, node.Length);
-                        break;
+                        case IfpNodeType.UnusedArray:
+                            field = new PadField(node.Name, node.Length);
+                            break;
 
-                    case IfpNodeType.Byte:
-                    case IfpNodeType.SignedByte:
-                        field = new CharIntegerField(node.Name);
-                        break;
+                        case IfpNodeType.Byte:
+                        case IfpNodeType.SignedByte:
+                            field = new CharIntegerField(node.Name);
+                            break;
 
-                    case IfpNodeType.Short:
-                    case IfpNodeType.UnsignedShort:
-                        field = new ShortIntegerField(node.Name);
-                        break;
+                        case IfpNodeType.Short:
+                        case IfpNodeType.UnsignedShort:
+                            field = new ShortIntegerField(node.Name);
+                            break;
 
-                    case IfpNodeType.Int:
-                    case IfpNodeType.UnsignedInt:
-                        field = new LongIntegerField(node.Name);
-                        break;
+                        case IfpNodeType.Int:
+                        case IfpNodeType.UnsignedInt:
+                            field = new LongIntegerField(node.Name);
+                            break;
 
-                    case IfpNodeType.Single:
-                        field = new RealField(node.Name);
-                        break;
+                        case IfpNodeType.Single:
+                            field = new RealField(node.Name);
+                            break;
 
-                    case IfpNodeType.Enumerator8:
-                        field = new CharEnumField(node.Name);
-                        break;
-                    case IfpNodeType.Enumerator16:
-                        field = new EnumField(node.Name);
-                        break;
-                    case IfpNodeType.Enumerator32:
-                        field = new LongEnumField(node.Name);
-                        break;
-                    case IfpNodeType.Bitfield8:
-                        field = new ByteFlagsField(node.Name);
-                        break;
-                    case IfpNodeType.Bitfield16:
-                        field = new WordFlagsField(node.Name);
-                        break;
-                    case IfpNodeType.Bitfield32:
-                        field = new LongFlagsField(node.Name);
-                        break;
+                        case IfpNodeType.Enumerator8:
+                            field = new CharEnumField(node.Name);
+                            break;
+                        case IfpNodeType.Enumerator16:
+                            field = new EnumField(node.Name);
+                            break;
+                        case IfpNodeType.Enumerator32:
+                            field = new LongEnumField(node.Name);
+                            break;
+                        case IfpNodeType.Bitfield8:
+                            field = new ByteFlagsField(node.Name);
+                            break;
+                        case IfpNodeType.Bitfield16:
+                            field = new WordFlagsField(node.Name);
+                            break;
+                        case IfpNodeType.Bitfield32:
+                            field = new LongFlagsField(node.Name);
+                            break;
 
-                    case IfpNodeType.String32:
-                        field = new StringField(node.Name);
-                        break;
+                        case IfpNodeType.String32:
+                            field = new StringField(node.Name);
+                            break;
 
-                    case IfpNodeType.String64:
-                        break;
-                    case IfpNodeType.Unicode128:
-                        break;
-                    case IfpNodeType.Unicode256:
-                        break;
+                        case IfpNodeType.String64:
+                            break;
+                        case IfpNodeType.Unicode128:
+                            break;
+                        case IfpNodeType.Unicode256:
+                            break;
 
-                    case IfpNodeType.Tag:
-                        field = new TagField(node.Name);
-                        break;
+                        case IfpNodeType.Tag:
+                            field = new TagField(node.Name);
+                            break;
 
-                    case IfpNodeType.TagId:
-                        field = new TagIndexField(node.Name);
-                        break;
+                        case IfpNodeType.TagId:
+                            field = new TagIndexField(node.Name);
+                            break;
 
-                    case IfpNodeType.StringId:
-                        field = new StringIdField(node.Name);
-                        break;
+                        case IfpNodeType.StringId:
+                            field = new StringIdField(node.Name);
+                            break;
+                    }
                 }
 
                 if (field != null)
@@ -202,17 +220,8 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 var labelFields = Fields.Where(f => f.Name.Equals(ifpNode.Label, StringComparison.OrdinalIgnoreCase));
                 foreach (var labelField in labelFields)
                 {
-                    labelField.PropertyChanged += LabelField_PropertyChanged;
                     this.labelFields.Add(labelField);
                 }
-            }
-        }
-
-        private void LabelField_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Field.Value))
-            {
-                OnNotifyPropertyChanged(new PropertyChangedEventArgs(nameof(DisplayName)));
             }
         }
 
@@ -302,7 +311,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
 
             return Name;
         }
-
         private string GetFieldValueString(Field field)
         {
             switch (field)
@@ -337,28 +345,28 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
     {
         private readonly IfpNode node = null;
 
-        public override int Size => 8;
-
         public IfpBlockField(IfpNode structIfpNode) : base(structIfpNode.Name, ushort.MaxValue)
         {
             node = structIfpNode;
         }
-
-        public override bool Add(out Block block)
-        {
-            if (node.MaxElements > 0 && BlockList.Count >= node.MaxElements)
-            {
-                block = null;
-                return false;
-            }
-
-            block = Create();
-            return BlockList.Add(block);
-        }
-
         public override Block Create()
         {
             return new IfpTagBlock(node);
+        }
+        protected override Field CloneField()
+        {
+            var f = new IfpBlockField(node);
+
+            foreach (var block in BlockList)
+            {
+                if (!f.BlockList.Add((Block)block.Clone()))
+                {
+                    Console.WriteLine("Unable to add block to cloned block field.");
+                    break;
+                }
+            }
+
+            return f;
         }
     }
 }

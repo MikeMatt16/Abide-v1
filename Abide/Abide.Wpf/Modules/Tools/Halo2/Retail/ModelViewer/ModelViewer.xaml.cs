@@ -72,8 +72,19 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer
             Point mousePosition = e.GetPosition(viewport);
             var delta = previousMousePosition - mousePosition;
 
-            if (isMouseCaptured && viewport.Camera is PerspectiveCamera camera)
+            if (delta.LengthSquared > 0)
             {
+                hRadians -= delta.X;
+                vRadians += delta.Y;
+
+                if (vRadians > 89)
+                {
+                    vRadians = 89;
+                }
+                else if (vRadians < -89)
+                {
+                    vRadians = -89;
+                }
             }
 
             previousMousePosition = mousePosition;

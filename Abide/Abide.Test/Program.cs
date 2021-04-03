@@ -38,14 +38,15 @@ namespace Abide.Test
                 switch (field)
                 {
                     case TagReferenceField tagReferenceField:
-                        if (!string.IsNullOrEmpty(tagReferenceField.Value))
+                        var tagString = tagReferenceField.String;
+                        if (!string.IsNullOrEmpty(tagString))
                         {
-                            if (!tagReferences.Contains(tagReferenceField.Value))
+                            if (!tagReferences.Contains(tagString))
                             {
-                                string fileName = Path.Combine(TagsDirectory, tagReferenceField.Value);
+                                string fileName = Path.Combine(TagsDirectory, tagString);
                                 if (File.Exists(fileName))
                                 {
-                                    tagReferences.Add(tagReferenceField.Value);
+                                    tagReferences.Add(tagString);
                                     var file = new AbideTagGroupFile();
                                     file.Load(fileName);
                                     DiscoverReferences(tagReferences, file.TagGroup);

@@ -8,7 +8,7 @@ namespace Abide.Tag.Definition
     /// <summary>
     /// Represents an Abide field set definition.
     /// </summary>
-    public sealed class AbideFieldSet : IList<AbideTagField>, IEnumerable<AbideTagField>, ICloneable
+    public sealed class AbideFieldSet : IList<AbideTagField>, ICloneable
     {
         private readonly List<AbideTagField> fieldList;
 

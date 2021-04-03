@@ -32,7 +32,7 @@ namespace Abide.Guerilla.Library
             {
                 TagGroupHeader header = reader.Read<TagGroupHeader>();
                 inStream.Seek(TagGroupHeader.Size, SeekOrigin.Begin);
-                if ((TagGroup = TagLookup.CreateTagGroup(header.GroupTag.FourCc)) != null)
+                if ((TagGroup = TagLookup.CreateTagGroup(header.GroupTag)) != null)
                         TagGroup.Read(reader);
 
                 if(header.TagResourceCount > 0)

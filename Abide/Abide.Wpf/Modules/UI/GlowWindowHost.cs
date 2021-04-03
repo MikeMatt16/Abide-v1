@@ -112,12 +112,21 @@ namespace Abide.Wpf.Modules.UI
 
                 //Add WndProc hook
                 hWndSource.AddHook(GlowWindowHost_WndProc);
+                GetThemeMargins();
             }
         }
         protected virtual void OnClientAreaRectangleRequested(ClientAreaEventArgs e)
         {
             //Raise event
             RaiseEvent(e);
+        }
+        private void GetThemeMargins()
+        {
+            if (Uxtheme.IsThemeActive())
+            {
+                // #define TMT_WIDTH	2416
+                // #define TMT_HEIGHT	2417
+            }
         }
         private void LeftGlow_SizePos(IntPtr hwnd, RECT wndRect)
         {
@@ -406,6 +415,12 @@ namespace Abide.Wpf.Modules.UI
 
                 case WindowMessages.WM_DESTROY:
                     _ = hostDictionary.Remove(hwnd);
+                    break;
+
+                case (WindowMessages)0x031A:    //wm_themechanged
+                    System.Diagnostics.Debugger.Break();    // this is unlikely to occur but we'll break here so we can see what's goin' on
+                    GetThemeMargins();
+                    User32.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0004 | 0x0010 | 0x0020 | 0x0400);
                     break;
             }
 

@@ -1,6 +1,9 @@
 ﻿using Abide.Tag;
+using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
 {
@@ -31,7 +34,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
             {
                 indexField = field;
                 NotifyPropertyChanged(nameof(Options));
-                SelectedOption = indexField.SelectedOption;
             }
         }
 
@@ -42,7 +44,6 @@ namespace Abide.Wpf.Modules.Editors.Halo2.ValueEditors
                 if (e.NewValue is Option option)
                 {
                     System.Diagnostics.Debugger.Break();
-                    editor.indexField.SelectedOption = option;
                 }
             }
         }

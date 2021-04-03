@@ -5,9 +5,9 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.ValueEditors"
                        mc:Ignorable="d" MinWidth="300">
-    <Border BorderThickness="1,1,0,1" Background="{StaticResource Background}"
+    <Border BorderThickness="1" Background="{StaticResource Background}"
             BorderBrush="{StaticResource BackgroundLight}">
-        <ScrollViewer MinHeight="50" MaxHeight="200">
+        <ScrollViewer MinHeight="50" MaxHeight="200" VerticalScrollBarVisibility="Auto">
             <ItemsControl Margin="2" ItemsSource="{Binding ElementName=userControl, Path=Options}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

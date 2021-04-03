@@ -159,7 +159,7 @@ namespace Abide.Tag.Definition
         private string blockName, structName, explanation;
         private int alignment, maximumSize, elementSize, length, groupTag;
         private AbideTagBlock referencedBlock = null;
-        private ObjectName fieldName = null;
+        private ObjectName fieldName;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="AbideTagField"/> class.
@@ -330,64 +330,95 @@ namespace Abide.Tag.Definition
         }
     }
 
-    /// <summary>
-    /// Represents a field name.
-    /// </summary>
-    public sealed class ObjectName
+    public struct ObjectName
     {
         private static readonly char[] breakChars = { ':', '#', '^', '*' };
         private string name, details, information;
 
-        /// <summary>
-        /// Gets or sets the field name.
-        /// </summary>
         public string Name
         {
             get { return name ?? string.Empty; }
             set { name = value ?? string.Empty; }
         }
-        /// <summary>
-        /// Gets or sets the field details.
-        /// </summary>
         public string Details
         {
             get { if (string.IsNullOrEmpty(details)) return null; return details?.Substring(1) ?? null; }
             set { details = value != null ? $":{value}" : null; }
         }
-        /// <summary>
-        /// Gets or sets the field information
-        /// </summary>
         public string Information
         {
             get { if (string.IsNullOrEmpty(information)) return null; return information?.Substring(1) ?? null; }
             set { information = value != null ? $"#{value}" : null; }
         }
-        /// <summary>
-        /// Gets or sets a boolean that determines whether the value of this field will name it's tag block.
-        /// </summary>
         public bool IsBlockName { get; set; }
-        /// <summary>
-        /// Gets or sets a boolean that determines whether this value is read-only.
-        /// </summary>
         public bool IsReadOnly { get; set; }
         
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectName"/> class.
-        /// </summary>
-        /// <param name="name">The field name string.</param>
-        public ObjectName(string name)
+        public ObjectName(string str)
         {
-            name = name ?? string.Empty;
-            this.name = GetName(name);
-            details = GetDetails(name);
-            information = GetInformation(name);
-            IsBlockName = GetIsBlockName(name);
-            IsReadOnly = GetIsReadonly(name);
+            name = GetName(str);
+            details = GetDetails(str);
+            information = GetInformation(str);
+            IsBlockName = GetIsBlockName(str);
+            IsReadOnly = GetIsReadonly(str);
         }
-        /// <summary>
-        /// Gets and returns a the field name as a string.
-        /// </summary>
-        /// <returns>A field name string.</returns>
+        private static string GetName(string name)
+        {
+            int startIndex = 0;
+            if (startIndex < 0) return null;
+            else if (startIndex >= name.Length) return null;
+
+            int endIndex = name.IndexOfAny(breakChars, startIndex);
+            int length;
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
+        }
+        private static string GetDetails(string name)
+        {
+            int startIndex = name.IndexOf(':');
+            if (startIndex < 0) return null;
+            else if (startIndex >= name.Length) return null;
+
+            int endIndex = name.IndexOfAny(breakChars, startIndex + 1);
+            int length;
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
+        }
+        private static string GetInformation(string name)
+        {
+            int startIndex = name.IndexOf('#');
+            if (startIndex < 0) return null;
+            else if (startIndex >= name.Length) return null;
+
+            int endIndex = name.IndexOfAny(breakChars, startIndex + 1);
+            int length;
+            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
+            return name.Substring(startIndex, length);
+        }
+        private static bool GetIsBlockName(string name)
+        {
+            return name.Contains("^");
+        }
+        private static bool GetIsReadonly(string name)
+        {
+            return name.Contains("*");
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is ObjectName objName)
+            {
+                if (name.Equals(objName.name) && details.Equals(objName.details) && information.Equals(objName.information) &&
+                    IsBlockName.Equals(objName.IsBlockName) && IsReadOnly.Equals(objName.IsReadOnly))
+                {
+                    return true;
+                }
+            }
+            else if (obj is string str)
+            {
+                return Equals(new ObjectName(str));
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             var name = $"{Name}{(IsReadOnly ? "*" : string.Empty)}{(IsBlockName ? "^" : string.Empty)}";
@@ -401,49 +432,18 @@ namespace Abide.Tag.Definition
             }
             return name;
         }
-        private string GetName(string name)
+        public override int GetHashCode()
         {
-            int startIndex = 0, endIndex = 0;
-            int length = 0;
-
-            if (startIndex < 0) return null;
-            else if (startIndex >= name.Length) return null;
-
-            endIndex = name.IndexOfAny(breakChars, startIndex);
-            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
-            return name.Substring(startIndex, length);
+            return name.GetHashCode() ^ details.GetHashCode() ^ information.GetHashCode() ^ IsBlockName.GetHashCode() ^ IsReadOnly.GetHashCode();
         }
-        private string GetDetails(string name)
+
+        public static bool operator ==(ObjectName left, ObjectName right)
         {
-            int startIndex = name.IndexOf(':'), endIndex = 0;
-            int length = 0;
-
-            if (startIndex < 0) return null;
-            else if (startIndex >= name.Length) return null;
-
-            endIndex = name.IndexOfAny(breakChars, startIndex + 1);
-            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
-            return name.Substring(startIndex, length);
+            return left.Equals(right);
         }
-        private string GetInformation(string name)
+        public static bool operator !=(ObjectName left, ObjectName right)
         {
-            int startIndex = name.IndexOf('#'), endIndex = 0;
-            int length = 0;
-
-            if (startIndex < 0) return null;
-            else if (startIndex >= name.Length) return null;
-
-            endIndex = name.IndexOfAny(breakChars, startIndex + 1);
-            if (endIndex < 0) length = name.Length - startIndex; else length = endIndex - startIndex;
-            return name.Substring(startIndex, length);
-        }
-        private bool GetIsBlockName(string name)
-        {
-            return name.Contains("^");
-        }
-        private bool GetIsReadonly(string name)
-        {
-            return name.Contains("*");
+            return !(left == right);
         }
     }
 }

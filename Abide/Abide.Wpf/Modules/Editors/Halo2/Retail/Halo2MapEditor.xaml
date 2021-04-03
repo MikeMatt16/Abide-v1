@@ -6,7 +6,7 @@
                        xmlns:local="clr-namespace:Abide.Wpf.Modules.Editors.Halo2.Retail"
                        xmlns:wpf="clr-namespace:Abide.AddOnApi.Wpf;assembly=Abide.AddOnApi.Wpf"
                        xmlns:h2="clr-namespace:Abide.AddOnApi.Wpf.Halo2;assembly=Abide.AddOnApi.Wpf"
-                       xmlns:vm="clr-namespace:Abide.Wpf.Modules.ViewModel"
+                       xmlns:vm="clr-namespace:Abide.Wpf.Modules.ViewModel" xmlns:ui="clr-namespace:Abide.Wpf.Modules.UI"
                        mc:Ignorable="d" 
                        d:DesignHeight="450" d:DesignWidth="800"
                        Extension="*.map" TypeName="Halo 2 Map Files"
@@ -41,6 +41,13 @@
         <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="{StaticResource Background}"/>
         <DockPanel Grid.Column="2" Background="{StaticResource Background}">
             <ToolBar DockPanel.Dock="Top">
+                <ui:DropDownButton Header="Tools" ItemsSource="{Binding ToolList}">
+                    <ui:DropDownButton.ItemTemplate>
+                        <DataTemplate>
+                            <Button Margin="2" DataContext="{Binding}" Content="{Binding Name}" HorizontalContentAlignment="Left" ToolTip="{Binding Description}" Click="ToolMenuItem_Click"/>
+                        </DataTemplate>
+                    </ui:DropDownButton.ItemTemplate>
+                </ui:DropDownButton>
                 <Menu>
                     <MenuItem Header="_Tools" ItemsSource="{Binding ToolList}">
                         <MenuItem.ItemContainerStyle>

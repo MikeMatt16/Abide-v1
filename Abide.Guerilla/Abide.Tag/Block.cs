@@ -2,24 +2,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
 namespace Abide.Tag
 {
-    public class Block : TagObject, ITagBlock, IEnumerable<Field>, IEquatable<Block>
+    public class Block : ITagBlock, IEnumerable<Field>, IEquatable<Block>
     {
+        private string name = string.Empty;
+        private string displayName = string.Empty;
+        private int alignment = 4;
+        private int maximumElementCount = 0;
+
         public ObservableCollection<Field> Fields { get; } = new ObservableCollection<Field>();
+        public long BlockAddress { get; private set; } = 0;
         public int Size => GetBlockSize();
         public int FieldCount => Fields.Count;
-        public virtual int Alignment => 4;
-        public virtual int MaximumElementCount => 0;
-        public override string Name => string.Empty;
-        public virtual string DisplayName => string.Empty;
-        public long BlockAddress { get; private set; } = 0;
+        public virtual int Alignment
+        {
+            get => alignment;
+            private set => alignment = value;
+        }
+        public virtual int MaximumElementCount
+        {
+            get => maximumElementCount;
+            private set => maximumElementCount = value;
+        }
+        public virtual string Name
+        {
+            get => name;
+            private set => name = value;
+        }
+        public virtual string DisplayName
+        {
+            get => displayName;
+            private set => displayName = value;
+        }
+        public string Label
+        {
+            get => GetLabel();
+        }
 
         protected Block() { }
+        public object Clone()
+        {
+            Block b = new Block()
+            {
+                name = Name,
+                displayName = DisplayName,
+                alignment = Alignment,
+                maximumElementCount = MaximumElementCount,
+                BlockAddress = BlockAddress,
+            };
+
+            foreach (var field in Fields)
+            {
+                b.Fields.Add((Field)field.Clone());
+            }
+
+            return b;
+        }
         public bool Equals(Block other)
         {
             bool equals = Fields.Count == other.Fields.Count && Name == other.Name;
@@ -48,7 +90,7 @@ namespace Abide.Tag
                                 PadField pf1 = (PadField)f1;
                                 PadField pf2 = (PadField)f2;
                                 for (int j = 0; j < pf1.Length; j++)
-                                    if (equals) equals &= ((byte[])pf1.Value)[j] == ((byte[])pf2.Value)[j];
+                                    if (equals) equals &= pf1.Data[j] == pf2.Data[j];
                                 break;
                             default:
                                 if (f1.GetValue() == null && f2.GetValue() == null) continue;
@@ -61,8 +103,6 @@ namespace Abide.Tag
         }
         public override string ToString()
         {
-            if (Fields.Any(f => f.IsBlockName)) return string.Join(", ",
-                Fields.Where(f => f.IsBlockName).Select(f => f.GetValueString()).ToArray());
             return DisplayName;
         }
         public virtual void Initialize() { }
@@ -73,7 +113,6 @@ namespace Abide.Tag
 
             foreach (Field field in Fields)
             {
-                field.Owner = this;
                 field.Read(reader);
             }
         }
@@ -101,6 +140,17 @@ namespace Abide.Tag
                 field.PostWrite(writer);
             }
         }
+        protected virtual string GetLabel()
+        {
+            if (Fields.Any(f => f.IsBlockName))
+            {
+                return string.Join(", ", Fields
+                    .Where(f => f.IsBlockName)
+                    .Select(f => f.GetValueString()));
+            }
+
+            return DisplayName;
+        }
         private int GetBlockSize()
         {
             int size = Fields.Sum(f => f.Size);
@@ -113,7 +163,16 @@ namespace Abide.Tag
 
         ITagField ITagBlock.this[int index]
         {
-            get { return Fields[index]; }
+            get => Fields[index];
+            set
+            {
+                if (value is Field field)
+                {
+                    Fields[index] = field;
+                }
+
+                throw new ArgumentException("Invalid field.", nameof(value));
+            }
         }
         int ITagBlock.Size => Size;
         int ITagBlock.MaximumElementCount => MaximumElementCount;
@@ -123,10 +182,6 @@ namespace Abide.Tag
         void ITagBlock.Initialize()
         {
             Initialize();
-        }
-        void ITagBlock.PostWrite(BinaryWriter writer)
-        {
-            PostWrite(writer ?? throw new ArgumentNullException(nameof(writer)));
         }
         void IReadable.Read(BinaryReader reader)
         {

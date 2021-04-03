@@ -35,61 +35,10 @@ namespace Abide.Tag.Ui
         }
 
         private Dictionary<IndexEntry, Form> tagForms = new Dictionary<IndexEntry, Form>();
-        private MapFile map = new MapFile();
 
         public AbideGuerilla()
         {
             InitializeComponent();
-        }
-
-        private void MapFile_BuildTreeView(MapFile mapFile)
-        {
-            //Begin
-            tagsTreeView.BeginUpdate();
-            tagsTreeView.TreeViewNodeSorter = new TagNodeSorter();
-
-            //Clear
-            tagsTreeView.Nodes.Clear();
-
-            //Prepare
-            string[] parts = null;
-            TreeNodeCollection currentCollection = null;
-            TreeNode currentNode = null;
-
-            //Loop
-            foreach (IndexEntry tag in mapFile.IndexEntries)
-            {
-                //Setup
-                currentNode = null;
-                currentCollection = tagsTreeView.Nodes;
-
-                //Break
-                parts = tag.Filename.Split('\\');
-
-                //Loop
-                for (int i = 0; i < parts.Length - 1; i++)
-                {
-                    //Create?
-                    if (!currentCollection.ContainsKey(parts[i]))
-                        currentNode = currentCollection.Add(parts[i]);
-                    else currentNode = currentCollection[parts[i]];
-
-                    //Set Name
-                    currentNode.Name = currentNode.Text = parts[i];
-                    currentCollection = currentNode.Nodes;
-                }
-
-                //Prepare
-                currentNode = currentCollection.Add(parts[parts.Length - 1]);
-                currentNode.Name = currentNode.Text = $"{parts[parts.Length - 1]}.{tag.Root}";
-                currentNode.Tag = tag;
-            }
-
-            //Sort
-            tagsTreeView.Sort();
-
-            //End
-            tagsTreeView.EndUpdate();
         }
 
         private void Tag_Selected(IndexEntry tag)
@@ -99,11 +48,11 @@ namespace Abide.Tag.Ui
             { tagForms[tag].BringToFront(); return; }
 
             //Create
-            Guerilla.TagForm tagForm = new Guerilla.TagForm(map, tag) { MdiParent = this };
-            tagForm.FormClosed += TagForm_FormClosed;
+            // Guerilla.TagForm tagForm = new Guerilla.TagForm(map, tag) { MdiParent = this };
+            // tagForm.FormClosed += TagForm_FormClosed;
 
             //Show
-            tagForm.Show();
+            // tagForm.Show();
         }
 
         private void TagForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -135,14 +84,7 @@ namespace Abide.Tag.Ui
                 //Show
                 if (openDlg.ShowDialog() == DialogResult.OK)
                 {
-                    //Close
-                    map.Close();
-
-                    //Load
-                    map.Load(openDlg.FileName);
-
-                    //Build tree view
-                    MapFile_BuildTreeView(map);
+                    MessageBox.Show("Not implemented");
                 }
             }
         }

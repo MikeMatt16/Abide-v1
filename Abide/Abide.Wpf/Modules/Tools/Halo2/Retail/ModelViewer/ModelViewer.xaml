@@ -5,6 +5,7 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                 xmlns:h2="clr-namespace:Abide.AddOnApi.Wpf.Halo2;assembly=Abide.AddOnApi.Wpf"
                 xmlns:local="clr-namespace:Abide.Wpf.Modules.Tools.Halo2.Retail.ModelViewer"
+                xmlns:tk="glcontrol"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
                 AddOnName="Model Viewer"
@@ -74,7 +75,7 @@
                 <Viewport3D.Children>
                     <ModelVisual3D>
                         <ModelVisual3D.Content>
-                            <Model3DGroup>
+                            <Model3DGroup Transform="{Binding ModelTransform}">
                                 <DirectionalLight Color="#FF808080" Direction="2.5,5,2.5"/>
                                 <GeometryModel3D Geometry="{Binding SelectedContainer.Mesh}">
                                     <GeometryModel3D.Material>

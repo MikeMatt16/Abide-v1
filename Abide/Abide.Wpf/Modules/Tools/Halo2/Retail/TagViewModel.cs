@@ -315,7 +315,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         private bool isExpanded = false;
         private int size = 0;
         private object value = null;
-        private ITagField tagField = null;
+        private Field tagField = null;
 
         public ObservableCollection<TagBlockViewModel> BlockList { get; } = new ObservableCollection<TagBlockViewModel>();
         public ObservableCollection<TagOptionViewModel> OptionList { get; } = new ObservableCollection<TagOptionViewModel>();
@@ -343,7 +343,7 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
                 }
             }
         }
-        public ITagField TagField
+        public Field TagField
         {
             get => tagField;
             set
@@ -624,15 +624,6 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
         {
             return tagField?.Name ?? base.ToString();
         }
-        private ITagField CreateBlockSelectorField()
-        {
-            if (Up is TagBlockViewModel tagBlock)
-            {
-                return new GenericBlockIndexField(tagBlock.TagBlock.Name, TagField.Type, tagBlock);
-            }
-
-            return TagField;
-        }
     }
 
     public sealed class GenericBlockIndexField : OptionField
@@ -668,6 +659,10 @@ namespace Abide.Wpf.Modules.Tools.Halo2.Retail
             switch (blockName)
             {
             }
+        }
+        protected override Field CloneField()
+        {
+            throw new NotImplementedException();
         }
     }
 

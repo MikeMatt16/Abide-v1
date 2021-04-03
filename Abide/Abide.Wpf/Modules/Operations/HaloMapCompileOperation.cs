@@ -609,14 +609,14 @@ namespace Abide.Wpf.Modules.Operations
         {
             var tagGroup = SoundCacheFileGestaltFile.TagGroup = new SoundCacheFileGestalt();
             soundCacheFileGestaltTag = new Tag($"i've got a lovely bunch of coconuts.sound_cache_file_gestalt") { File = SoundCacheFileGestaltFile };
-            if (((BlockField)tagGroup.TagBlocks[0].Fields[0]).Add(out Block playbackTagBlock))
+            if (((BlockField)tagGroup.TagBlocks[0].Fields[0]).AddNew(out Block playbackTagBlock))
             {
                 Block playbackParametersStructBlock = (Block)playbackTagBlock.Fields[0].Value;
                 playbackParametersStructBlock.Fields[9].Value = (float)Math.PI;
                 playbackParametersStructBlock.Fields[10].Value = (float)Math.PI;
             }
 
-            if (((BlockField)tagGroup.TagBlocks[0].Fields[1]).Add(out Block scaleTagBlock))
+            if (((BlockField)tagGroup.TagBlocks[0].Fields[1]).AddNew(out Block scaleTagBlock))
             {
                 Block scaleModifiersStructBlock = (Block)scaleTagBlock.Fields[0].Value;
                 scaleModifiersStructBlock.Fields[3].Value = new FloatBounds(1f, 1f);
@@ -624,7 +624,7 @@ namespace Abide.Wpf.Modules.Operations
 
             for (int i = 0; i < 686; i++)
             {
-                if (((BlockField)tagGroup.TagBlocks[0].Fields[7]).Add(out Block runtimePermutationBitVector))
+                if (((BlockField)tagGroup.TagBlocks[0].Fields[7]).AddNew(out Block runtimePermutationBitVector))
                     runtimePermutationBitVector.Fields[0].Value = (byte)0;
             }
 
@@ -747,7 +747,16 @@ namespace Abide.Wpf.Modules.Operations
                     if (!string.IsNullOrEmpty(tagReferenceField.String))
                     {
                         var tagReference = cacheTagReferenceField.Reference;
-                        tagReference.Id = tagList.First(t => t.TagName == tagReferenceField.Value).Id;
+                        var match = tagList.FirstOrDefault(t => t.TagName == tagReferenceField.String);
+                        if (match != null)
+                        {
+                            tagReference.Id = match.Id;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unable to find referenced tag.");
+                        }
+
                         cacheTagReferenceField.Value = tagReference;
                     }
                     return cacheTagReferenceField;
@@ -756,7 +765,15 @@ namespace Abide.Wpf.Modules.Operations
                     TagIndexField cacheTagIndexField = new TagIndexField(tagIndexField.GetName());
                     if (!string.IsNullOrEmpty(tagIndexField.String))
                     {
-                        cacheTagIndexField.Value = tagList.First(t => t.TagName == tagIndexField.Value).Id;
+                        var match = tagList.FirstOrDefault(t => t.TagName == tagIndexField.String);
+                        if (match != null)
+                        {
+                            cacheTagIndexField.Value = match.Id;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unable to find referenced tag.");
+                        }
                     }
                     return cacheTagIndexField;
 
@@ -809,7 +826,7 @@ namespace Abide.Wpf.Modules.Operations
                         scenarioSimulationDefinitions.BlockList.Clear();
                         foreach (var reference in GetScenarioSimulationDefinitionTable(tag))
                         {
-                            if (scenarioSimulationDefinitions.Add(out Block block))
+                            if (scenarioSimulationDefinitions.AddNew(out Block block))
                             {
                                 block.Fields[0] = new TagIndexField(string.Empty);
                                 block.Fields[0].Value = reference.Id;
@@ -1149,7 +1166,7 @@ namespace Abide.Wpf.Modules.Operations
             if (((BlockField)soundBlock.Fields[14]).BlockList.Count > 0)
             {
                 index = customPlaybacks.BlockList.Count;
-                if (customPlaybacks.Add(out Block customPlayback))
+                if (customPlaybacks.AddNew(out Block customPlayback))
                 {
                     cacheFileSoundBlock.Fields[10].Value = (byte)index;
                     customPlayback.Fields[0].Value = ((BlockField)soundBlock.Fields[14]).BlockList[0].Fields[0].Value;
@@ -1163,7 +1180,7 @@ namespace Abide.Wpf.Modules.Operations
             {
                 index = extraInfos.BlockList.Count;
                 Block soundExtraInfo = ((BlockField)soundBlock.Fields[15]).BlockList[0];
-                if (extraInfos.Add(out Block extraInfo))
+                if (extraInfos.AddNew(out Block extraInfo))
                 {
                     cacheFileSoundBlock.Fields[11].Value = (short)index;
                     extraInfo.Fields[1].Value = soundExtraInfo.Fields[2].Value;
@@ -1180,7 +1197,7 @@ namespace Abide.Wpf.Modules.Operations
             foreach (var soundPitchRange in ((BlockField)soundBlock.Fields[13]).BlockList)
             {
                 index = pitchRanges.BlockList.Count;
-                if (pitchRanges.Add(out Block gestaltPitchRange))
+                if (pitchRanges.AddNew(out Block gestaltPitchRange))
                 {
                     //Set pitch range
                     cacheFileSoundBlock.Fields[6].Value = (short)index;
@@ -1199,7 +1216,7 @@ namespace Abide.Wpf.Modules.Operations
                     //Loop
                     foreach (Block soundPermutation in ((BlockField)soundPitchRange.Fields[7]).BlockList)
                     {
-                        if (permutations.Add(out Block gestaltPermutation))
+                        if (permutations.AddNew(out Block gestaltPermutation))
                         {
                             //Add import name
                             gestaltPermutation.Fields[0].Value = (short)SoundGestalt_FindImportNameIndex((StringId)soundPermutation.Fields[0].Value);
@@ -1261,7 +1278,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                if (blockField.Add(out Block gestaltBlock))
+                if (blockField.AddNew(out Block gestaltBlock))
                 {
                     gestaltBlock.Fields[0].Value = s1;
                     gestaltBlock.Fields[1].Value = sb1;
@@ -1295,7 +1312,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                if (blockField.Add(out Block gestaltBlock)) 
+                if (blockField.AddNew(out Block gestaltBlock)) 
                     gestaltBlock.Fields[0].Value = stringId;
                 else index = -1;
             }
@@ -1324,7 +1341,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                if (blockField.Add(out Block gestaltBlock))
+                if (blockField.AddNew(out Block gestaltBlock))
                     gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
@@ -1353,7 +1370,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                if (blockField.Add(out Block gestaltBlock))
+                if (blockField.AddNew(out Block gestaltBlock))
                 {
                     gestaltBlock.Fields[0].Value = structBlock;
                     index = (byte)index;
@@ -1385,7 +1402,7 @@ namespace Abide.Wpf.Modules.Operations
             if (index == -1)
             {
                 index = blockField.BlockList.Count;
-                if (blockField.Add(out Block gestaltBlock))
+                if (blockField.AddNew(out Block gestaltBlock))
                     gestaltBlock.Fields[0].Value = structBlock;
                 else index = -1;
             }
